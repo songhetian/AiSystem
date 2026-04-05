@@ -1,0 +1,30 @@
+const helpText = [
+  'AiSystem 常用命令：',
+  '',
+  'docker:base      启动基础容器（mysql / redis / minio / qdrant）',
+  'docker:app       启动应用容器（backend / frontend）',
+  'docker:all       构建并启动全部容器',
+  'docker:down      停止并移除 compose 服务',
+  'docker:logs:be   查看 backend 日志',
+  'docker:logs:fe   查看 frontend 日志',
+  '',
+  'backend:build    构建后端',
+  'frontend:build   构建前端',
+  '',
+  'db:push:local    使用 .env 中的数据库连接执行 Prisma db push，只同步表结构',
+  'db:seed:local    使用 .env 中的数据库连接执行 Prisma seed，写入初始化数据',
+  'schema:import    将 schema.sql 导入到 .env 指定的 MySQL 数据库',
+  'seed:import      将 seed.sql 导入到 .env 指定的 MySQL 数据库',
+  'db:init:sql      先导入 schema.sql，再导入 seed.sql',
+  'schema:tip       打印 schema.sql / seed.sql 的导入说明',
+  '',
+  '端口说明：',
+  '修改 .env 中的 PORT / FRONTEND_PORT 即可调整前后端端口。',
+  '如使用 docker compose，还可修改 MYSQL_PORT / REDIS_PORT / MINIO_API_PORT / MINIO_CONSOLE_PORT / QDRANT_PORT / QDRANT_GRPC_PORT。',
+  '',
+  '初始化建议：',
+  '优先使用 db:push:local + db:seed:local。',
+  '如果 Prisma 在当前环境不可用，可退回到 db:init:sql。'
+];
+
+console.log(helpText.join('\n'));

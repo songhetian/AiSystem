@@ -1,0 +1,859 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// 系统用户表，存储登录账号与基础归属信息。
+model sys_user {
+  /// 用户主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 登录用户名，系统内唯一。
+  username String @unique
+  /// 登录密码，建议存储哈希值。
+  password String
+  /// 用户姓名或显示名称。
+  name String
+  /// 手机号。
+  phone String?
+  /// 邮箱地址。
+  email String?
+  /// 用户状态，1 为启用，0 为禁用。
+  status Int @default(1)
+  /// 最近一次登录时间。
+  last_login_time DateTime?
+  /// 所属平台 ID。
+  platform_id String?
+  /// 所属部门 ID。
+  dept_id String?
+  /// 所属店铺 ID。
+  shop_id String?
+  /// 用户关联的角色列表。
+  roles sys_user_role[]
+}
+
+/// 系统角色表，定义权限角色。
+model sys_role {
+  /// 角色主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 角色名称。
+  role_name String
+  /// 角色编码，系统内唯一。
+  role_code String @unique
+  /// 角色描述。
+  description String?
+  /// 角色状态，1 为启用，0 为禁用。
+  status Int @default(1)
+  /// 关联的用户角色关系。
+  users sys_user_role[]
+  /// 关联的菜单权限关系。
+  menus sys_role_menu[]
+  /// 关联的按钮权限关系。
+  buttons sys_role_button[]
+}
+
+/// 系统菜单表，定义导航、目录与页面权限节点。
+model sys_menu {
+  /// 菜单主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 菜单名称。
+  menu_name String
+  /// 菜单编码，系统内唯一。
+  menu_code String @unique
+  /// 父级菜单 ID，空表示顶级菜单。
+  parent_id String?
+  /// 菜单图标标识。
+  icon String?
+  /// 前端路由地址，系统内唯一。
+  route String? @unique
+  /// 排序值，越小越靠前。
+  sort Int @default(0)
+  /// 菜单类型。
+  type Int
+  /// 菜单状态，1 为启用，0 为禁用。
+  status Int @default(1)
+  /// 菜单下的按钮列表。
+  buttons sys_button[]
+  /// 菜单关联的角色权限关系。
+  roles sys_role_menu[]
+}
+
+/// 系统按钮表，定义页面按钮级权限。
+model sys_button {
+  /// 按钮主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 按钮名称。
+  button_name String
+  /// 按钮编码，系统内唯一。
+  button_code String @unique
+  /// 所属菜单 ID。
+  menu_id String
+  /// 按钮状态，1 为启用，0 为禁用。
+  status Int @default(1)
+  /// 所属菜单。
+  menu sys_menu @relation(fields: [menu_id], references: [id])
+  /// 按钮关联的角色权限关系。
+  roles sys_role_button[]
+}
+
+/// 用户与角色的关联关系表。
+model sys_user_role {
+  /// 关联主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 用户 ID。
+  user_id String
+  /// 角色 ID。
+  role_id String
+  /// 关联的用户。
+  user sys_user @relation(fields: [user_id], references: [id])
+  /// 关联的角色。
+  role sys_role @relation(fields: [role_id], references: [id])
+
+  /// 同一用户与角色只允许绑定一次。
+  @@unique([user_id, role_id])
+}
+
+/// 角色与菜单的关联关系表。
+model sys_role_menu {
+  /// 关联主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 角色 ID。
+  role_id String
+  /// 菜单 ID。
+  menu_id String
+  /// 关联的角色。
+  role sys_role @relation(fields: [role_id], references: [id])
+  /// 关联的菜单。
+  menu sys_menu @relation(fields: [menu_id], references: [id])
+
+  /// 同一角色与菜单只允许绑定一次。
+  @@unique([role_id, menu_id])
+}
+
+/// 角色与按钮的关联关系表。
+model sys_role_button {
+  /// 关联主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 角色 ID。
+  role_id String
+  /// 按钮 ID。
+  button_id String
+  /// 关联的角色。
+  role sys_role @relation(fields: [role_id], references: [id])
+  /// 关联的按钮。
+  button sys_button @relation(fields: [button_id], references: [id])
+
+  /// 同一角色与按钮只允许绑定一次。
+  @@unique([role_id, button_id])
+}
+
+/// 接口权限表，定义 API 与可访问角色的映射。
+model sys_api_permission {
+  /// 接口权限主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 接口路径，系统内唯一。
+  api_path String @unique
+  /// 请求方法，如 GET、POST。
+  request_method String
+  /// 接口名称。
+  api_name String
+  /// 可访问角色 ID 列表，JSON 数组。
+  role_ids Json
+  /// 接口状态，1 为启用，0 为禁用。
+  status Int @default(1)
+  /// 所属平台 ID。
+  platform_id String?
+  /// 所属部门 ID。
+  dept_id String?
+  /// 所属店铺 ID。
+  shop_id String?
+}
+
+/// 平台表，用于管理多平台主体。
+model biz_platform {
+  /// 平台主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 平台名称。
+  name String
+  /// 平台编码，系统内唯一。
+  code String @unique
+  /// 平台描述。
+  description String?
+  /// 平台状态，1 为启用，0 为禁用。
+  status Int @default(1)
+  /// 平台负责人用户 ID。
+  owner_id String?
+}
+
+/// 部门表，用于组织架构管理。
+model biz_department {
+  /// 部门主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 部门名称。
+  name String
+  /// 部门编码，系统内唯一。
+  code String @unique
+  /// 父级部门 ID，空表示顶级部门。
+  parent_id String?
+  /// 排序值，越小越靠前。
+  sort Int @default(0)
+  /// 部门状态，1 为启用，0 为禁用。
+  status Int @default(1)
+  /// 所属平台 ID。
+  platform_id String?
+  /// 部门负责人用户 ID。
+  owner_id String?
+}
+
+/// 店铺表，管理平台下的门店或经营主体。
+model biz_shop {
+  /// 店铺主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 店铺名称。
+  name String
+  /// 店铺编码，系统内唯一。
+  code String @unique
+  /// 店铺类型。
+  type Int @default(1)
+  /// 店铺地址。
+  address String?
+  /// 店铺联系电话。
+  phone String?
+  /// 店铺头像或门店图片地址。
+  avatar String?
+  /// 店铺描述。
+  description String?
+  /// 所属平台 ID。
+  platform_id String
+  /// 所属部门 ID。
+  department_id String
+  /// 店铺负责人用户 ID。
+  owner_id String?
+  /// 店铺状态，1 为启用，0 为禁用。
+  status Int @default(1)
+}
+
+/// 岗位表，定义部门下的岗位信息。
+model hr_position {
+  /// 岗位主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 岗位名称。
+  name String
+  /// 岗位编码，系统内唯一。
+  code String @unique
+  /// 岗位描述。
+  description String?
+  /// 所属部门 ID。
+  department_id String
+  /// 岗位级别。
+  level Int?
+  /// 岗位序列或职级序列。
+  sequence String?
+  /// 所属平台 ID。
+  platform_id String?
+}
+
+/// 员工表，记录人事档案与入职信息。
+model hr_employee {
+  /// 员工主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 员工姓名。
+  name String
+  /// 性别。
+  gender Int?
+  /// 年龄。
+  age Int?
+  /// 手机号。
+  phone String?
+  /// 邮箱地址。
+  email String?
+  /// 员工编号，系统内唯一。
+  employee_no String? @unique
+  /// 工号，系统内唯一。
+  job_no String? @unique
+  /// 所属部门 ID。
+  department_id String?
+  /// 所属岗位 ID。
+  position_id String?
+  /// 关联用户 ID，系统内唯一。
+  user_id String? @unique
+  /// 上级员工 ID。
+  manager_employee_id String?
+  /// 所属平台 ID。
+  platform_id String?
+  /// 员工状态，1 为在职，0 为停用或离职。
+  status Int @default(1)
+  /// 入职日期。
+  join_date DateTime?
+  /// 转正日期。
+  regularization_date DateTime?
+  /// 合同到期时间。
+  contract_expire_time DateTime?
+  /// 身份证正面文件地址。
+  id_card_front_file String?
+  /// 身份证反面文件地址。
+  id_card_back_file String?
+  /// 紧急联系人姓名。
+  emergency_contact_name String?
+  /// 紧急联系人电话。
+  emergency_contact_phone String?
+  /// 户籍信息。
+  household_registration String?
+  /// 政治面貌。
+  political_status String?
+  /// 学历。
+  education String?
+  /// 毕业院校。
+  graduate_school String?
+  /// 专业。
+  major String?
+  /// 社保基数。
+  social_security_base Decimal? @db.Decimal(10, 2)
+  /// 社保缴纳城市。
+  social_security_city String?
+}
+
+/// 考勤规则表，定义上下班规则与阈值。
+model attendance_rule {
+  /// 规则主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 规则名称。
+  name String
+  /// 上班时间，建议格式 HH:mm。
+  on_duty_time String
+  /// 下班时间，建议格式 HH:mm。
+  off_duty_time String
+  /// 迟到阈值，单位分钟。
+  late_threshold Int @default(0)
+  /// 早退阈值，单位分钟。
+  early_threshold Int @default(0)
+  /// 旷工阈值，单位分钟。
+  absenteeism_threshold Int @default(0)
+  /// 规则状态，1 为启用，0 为禁用。
+  status Int @default(1)
+  /// 所属平台 ID。
+  platform_id String?
+  /// 所属部门 ID。
+  dept_id String?
+}
+
+/// 排班表，定义员工某天的班次安排。
+model attendance_schedule {
+  /// 排班主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 员工 ID。
+  employee_id String
+  /// 排班日期。
+  schedule_date DateTime
+  /// 班次名称。
+  shift_name String
+  /// 所属平台 ID。
+  platform_id String?
+  /// 所属部门 ID。
+  dept_id String?
+
+  /// 员工与排班日期组合索引。
+  @@index([employee_id, schedule_date])
+}
+
+/// 考勤记录表，记录员工打卡与出勤结果。
+model attendance_record {
+  /// 考勤记录主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 员工 ID。
+  employee_id String
+  /// 考勤日期。
+  attendance_date DateTime
+  /// 关联排班 ID。
+  schedule_id String?
+  /// 班次名称。
+  shift_name String?
+  /// 计划上班时间，建议格式 HH:mm。
+  scheduled_on_duty_time String?
+  /// 计划下班时间，建议格式 HH:mm。
+  scheduled_off_duty_time String?
+  /// 实际上班打卡时间。
+  actual_on_duty_time DateTime?
+  /// 实际下班打卡时间。
+  actual_off_duty_time DateTime?
+  /// 上班打卡地点。
+  on_duty_location String?
+  /// 下班打卡地点。
+  off_duty_location String?
+  /// 上班出勤状态。
+  on_duty_status Int @default(0)
+  /// 下班出勤状态。
+  off_duty_status Int @default(0)
+  /// 工作时长，单位分钟。
+  work_duration_minutes Int?
+  /// 异常类型。
+  exception_type String?
+  /// 备注。
+  remark String?
+  /// 所属平台 ID。
+  platform_id String?
+  /// 所属部门 ID。
+  dept_id String?
+
+  /// 员工与考勤日期组合索引。
+  @@index([employee_id, attendance_date])
+}
+
+/// 请假单表，记录员工请假申请与审批。
+model attendance_leave {
+  /// 请假单主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 请假单号，系统内唯一。
+  leave_no String @unique
+  /// 员工 ID。
+  employee_id String
+  /// 请假类型。
+  leave_type String
+  /// 请假开始时间。
+  start_time DateTime
+  /// 请假结束时间。
+  end_time DateTime
+  /// 请假时长，单位小时。
+  duration_hours Decimal? @db.Decimal(10, 2)
+  /// 请假原因。
+  reason String?
+  /// 审批状态。
+  approval_status Int @default(0)
+  /// 审批人 ID。
+  approved_by String?
+  /// 审批时间。
+  approved_time DateTime?
+  /// 所属平台 ID。
+  platform_id String?
+  /// 所属部门 ID。
+  dept_id String?
+  /// 是否同步考勤记录，0 否 1 是。
+  sync_attendance Int @default(0)
+  /// 是否同步排班，0 否 1 是。
+  sync_schedule Int @default(0)
+  /// 附件地址列表，JSON 数组。
+  approval_request_id String?
+  approval_request_no String?
+  attachment_urls Json?
+
+  /// 员工与请假开始时间组合索引。
+  @@index([employee_id, start_time])
+  /// 审批状态与请假开始时间组合索引。
+  @@index([approval_status, start_time])
+  @@index([approval_request_id])
+}
+
+/// 加班单表，记录员工加班申请与审批。
+model attendance_overtime {
+  /// 加班单主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 加班单号，系统内唯一。
+  overtime_no String @unique
+  /// 员工 ID。
+  employee_id String
+  /// 加班开始时间。
+  start_time DateTime
+  /// 加班结束时间。
+  end_time DateTime
+  /// 加班时长，单位小时。
+  duration_hours Decimal? @db.Decimal(10, 2)
+  /// 加班原因。
+  reason String?
+  /// 审批状态。
+  approval_status Int @default(0)
+  /// 审批人 ID。
+  approved_by String?
+  /// 审批时间。
+  approved_time DateTime?
+  /// 所属平台 ID。
+  platform_id String?
+  /// 所属部门 ID。
+  dept_id String?
+  /// 是否同步考勤记录，0 否 1 是。
+  sync_attendance Int @default(0)
+  /// 是否同步排班，0 否 1 是。
+  sync_schedule Int @default(0)
+  /// 附件地址列表，JSON 数组。
+  approval_request_id String?
+  approval_request_no String?
+  attachment_urls Json?
+
+  /// 员工与加班开始时间组合索引。
+  @@index([employee_id, start_time])
+  /// 审批状态与加班开始时间组合索引。
+  @@index([approval_status, start_time])
+  @@index([approval_request_id])
+}
+
+/// 补卡单表，记录员工补卡申请与审批。
+model attendance_patch_card {
+  /// 补卡单主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 补卡单号，系统内唯一。
+  patch_no String @unique
+  /// 员工 ID。
+  employee_id String
+  /// 补卡日期。
+  patch_date DateTime
+  /// 补卡类型。
+  patch_type String
+  /// 目标补卡时间。
+  target_time DateTime
+  /// 补卡原因。
+  reason String?
+  /// 审批状态。
+  approval_status Int @default(0)
+  /// 审批人 ID。
+  approved_by String?
+  /// 审批时间。
+  approved_time DateTime?
+  /// 所属平台 ID。
+  platform_id String?
+  /// 所属部门 ID。
+  dept_id String?
+  /// 是否同步考勤记录，0 否 1 是。
+  sync_attendance Int @default(0)
+  /// 附件地址列表，JSON 数组。
+  approval_request_id String?
+  approval_request_no String?
+  attachment_urls Json?
+
+  /// 员工与补卡日期组合索引。
+  @@index([employee_id, patch_date])
+  /// 审批状态与补卡日期组合索引。
+  @@index([approval_status, patch_date])
+  @@index([approval_request_id])
+}
+
+/// 调班单表，记录班次调整申请与结果。
+model attendance_schedule_change {
+  /// 调班单主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 调班单号，系统内唯一。
+  change_no String @unique
+  /// 员工 ID。
+  employee_id String
+  /// 调班日期。
+  change_date DateTime
+  /// 调整前班次名称。
+  before_shift_name String?
+  /// 调整后班次名称。
+  after_shift_name String?
+  /// 调班类型。
+  change_type String
+  /// 调班原因。
+  reason String?
+  /// 操作人 ID。
+  operator_id String?
+  /// 通知状态。
+  notify_status Int @default(0)
+  /// 所属平台 ID。
+  platform_id String?
+  /// 所属部门 ID。
+  dept_id String?
+
+  /// 员工与调班日期组合索引。
+  @@index([employee_id, change_date])
+  /// 通知状态与调班日期组合索引。
+  @@index([notify_status, change_date])
+}
+
+/// 登录日志表，记录用户登录结果与终端信息。
+model approval_template {
+  id              String   @id
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  name            String
+  type            String
+  platform_name   String
+  department_name String
+  status          String
+  description     String?  @db.Text
+  updated_at      String
+  nodes           Json
+
+  @@index([status, update_time])
+}
+
+model approval_request {
+  id                    String   @id
+  create_time           DateTime @default(now())
+  update_time           DateTime @updatedAt
+  is_deleted            Int      @default(0)
+  request_no            String   @unique
+  template_id           String
+  template_name         String
+  biz_type              String?
+  biz_id                String?
+  type                  String
+  applicant_id          String
+  applicant_name        String
+  current_approver_id   String?
+  current_approver_name String?
+  status                String
+  amount                Decimal? @db.Decimal(10, 2)
+  platform_name         String
+  department_name       String
+  summary               String   @db.Text
+  created_at            String
+  updated_at            String
+  progress              Json
+
+  @@index([status, update_time])
+  @@index([applicant_id, update_time])
+  @@index([current_approver_id, update_time])
+  @@unique([biz_type, biz_id])
+}
+
+model approval_event {
+  id                  String   @id @default(cuid())
+  create_time         DateTime @default(now())
+  update_time         DateTime @updatedAt
+  is_deleted          Int      @default(0)
+  request_id          String
+  request_no          String
+  biz_type            String?
+  biz_id              String?
+  event_type          String
+  event_source        String
+  request_status_from String?
+  request_status_to   String?
+  biz_status_from     Int?
+  biz_status_to       Int?
+  operator_id         String?
+  operator_name       String?
+  dedup_key           String?  @unique
+  external_event_id   String?
+  payload             Json?
+
+  @@index([request_id, create_time])
+  @@index([request_no, create_time])
+  @@index([event_type, create_time])
+  @@index([event_source, create_time])
+  @@index([biz_type, biz_id, create_time])
+  @@index([external_event_id])
+}
+
+model sys_message {
+  id            String   @id @default(cuid())
+  create_time   DateTime @default(now())
+  update_time   DateTime @updatedAt
+  is_deleted    Int      @default(0)
+  recipient_id  String
+  title         String
+  content       String   @db.Text
+  message_type  String
+  biz_type      String?
+  biz_id        String?
+  route         String?
+  read_status   Int      @default(0)
+  read_time     DateTime?
+  sender_id     String?
+  sender_name   String?
+  payload       Json?
+
+  @@index([recipient_id, read_status, create_time])
+  @@index([message_type, create_time])
+  @@index([biz_type, biz_id, create_time])
+}
+
+model sys_login_log {
+  /// 日志主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 用户 ID。
+  user_id String?
+  /// 登录用户名。
+  username String
+  /// 登录 IP。
+  login_ip String?
+  /// 用户代理。
+  user_agent String? @db.VarChar(512)
+  /// 登录状态，1 为成功，0 为失败。
+  login_status Int @default(1)
+  /// 登录结果说明。
+  login_message String?
+  /// 所属平台 ID。
+  platform_id String?
+  /// 所属部门 ID。
+  dept_id String?
+  /// 所属店铺 ID。
+  shop_id String?
+
+  /// 用户名与创建时间组合索引。
+  @@index([username, create_time])
+  /// 登录状态与创建时间组合索引。
+  @@index([login_status, create_time])
+}
+
+/// 操作日志表，记录接口级操作行为。
+model sys_operation_log {
+  /// 日志主键 ID。
+  id String @id @default(cuid())
+  /// 创建时间。
+  create_time DateTime @default(now())
+  /// 更新时间。
+  update_time DateTime @updatedAt
+  /// 逻辑删除标记，0 为未删除，1 为已删除。
+  is_deleted Int @default(0)
+  /// 用户 ID。
+  user_id String?
+  /// 操作用户名。
+  username String?
+  /// 请求方法。
+  request_method String
+  /// 接口路径。
+  api_path String
+  /// 权限编码或接口名称。
+  api_name String?
+  /// 操作模块。
+  operation_module String?
+  /// 请求 IP。
+  request_ip String?
+  /// 用户代理。
+  user_agent String? @db.VarChar(512)
+  /// 操作状态，1 为成功，0 为失败。
+  operation_status Int @default(1)
+  /// 操作结果说明。
+  operation_message String?
+  /// 请求参数摘要。
+  request_params Json?
+  /// 响应摘要。
+  response_summary Json?
+  /// 所属平台 ID。
+  platform_id String?
+  /// 所属部门 ID。
+  dept_id String?
+  /// 所属店铺 ID。
+  shop_id String?
+
+  /// 用户与创建时间组合索引。
+  @@index([user_id, create_time])
+  /// 操作模块与创建时间组合索引。
+  @@index([operation_module, create_time])
+  /// 操作状态与创建时间组合索引。
+  @@index([operation_status, create_time])
+}

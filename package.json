@@ -1,0 +1,50 @@
+{
+  "name": "aisystem-root",
+  "private": true,
+  "version": "0.1.0",
+  "description": "AiSystem 根目录辅助脚本",
+  "scripts": {
+    "help": "node scripts/help.js",
+    "docker:base": "docker compose up -d mysql redis minio qdrant",
+    "docker:app": "docker compose up -d backend frontend",
+    "docker:all": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:logs:be": "docker compose logs -f backend",
+    "docker:logs:fe": "docker compose logs -f frontend",
+    "backend:build": "npm --prefix backend run build",
+    "frontend:build": "npm --prefix frontend run build",
+    "db:push:local": "node scripts/run-backend-task.js db:push",
+    "db:seed:local": "node scripts/run-backend-task.js db:seed",
+    "db:backfill:attendance-approval:local": "node scripts/run-backend-task.js db:backfill:attendance-approval",
+    "schema:import": "node scripts/import-schema.js",
+    "seed:import": "node scripts/import-seed.js",
+    "db:init:sql": "node scripts/init-sql.js",
+    "schema:tip": "node scripts/schema-tip.js"
+  },
+  "scripts_zh_CN": {
+    "help": "输出根目录常用命令说明，包含 Docker、本地建表、Prisma Seed、SQL 导入等提示。",
+    "docker:base": "启动基础依赖容器，包括 MySQL、Redis、MinIO、Qdrant。",
+    "docker:app": "启动业务容器，包括 backend 和 frontend。",
+    "docker:all": "构建并启动全部容器，适合首次启动或镜像变更后使用。",
+    "docker:down": "停止并移除当前 docker compose 管理的服务。",
+    "docker:logs:be": "持续查看 backend 容器日志，便于排查接口或启动问题。",
+    "docker:logs:fe": "持续查看 frontend 容器日志，便于排查页面或构建问题。",
+    "backend:build": "执行后端构建，验证 NestJS/TypeScript 是否可以正常编译。",
+    "frontend:build": "执行前端构建，验证 Umi/React 页面是否可以正常打包。",
+    "db:push:local": "读取 .env 中的本地数据库连接，执行 Prisma db push，只同步表结构，不写入初始化数据。",
+    "db:seed:local": "读取 .env 中的本地数据库连接，执行 Prisma seed，写入管理员、菜单、按钮、权限等初始化数据。",
+    "schema:import": "在 Prisma 不稳定或不可用时，将 schema.sql 结构脚本直接导入到 .env 指定的 MySQL 数据库。",
+    "seed:import": "将根目录 seed.sql 初始化数据脚本导入到 .env 指定的 MySQL 数据库。",
+    "db:init:sql": "先导入 schema.sql 再导入 seed.sql，适合完全走 SQL 方式初始化数据库。",
+    "schema:tip": "输出 schema.sql 与 seed.sql 的中文导入说明、连接读取规则和推荐执行顺序。"
+  },
+  "notes": {
+    "zh-CN": [
+      "所有根目录脚本均兼容 Windows、Linux、macOS，不依赖 PowerShell。",
+      "端口、数据库连接等参数统一从根目录 .env 读取；如未配置，将回退到 .env.example 中的默认约定。",
+      "本地 Prisma 建表和 Seed 优先读取 LOCAL_DATABASE_URL；未设置时回退到 DATABASE_URL。",
+      "db:push:local 只负责同步表结构，不会写入种子数据；初始化数据请执行 db:seed:local 或 seed:import。",
+      "schema.sql 与 seed.sql 不再写死数据库名，导入时会根据 .env 中的数据库连接自动建库并执行。"
+    ]
+  }
+}

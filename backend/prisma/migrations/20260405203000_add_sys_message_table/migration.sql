@@ -1,0 +1,22 @@
+CREATE TABLE `sys_message` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL,
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `recipient_id` varchar(191) NOT NULL,
+  `title` varchar(191) NOT NULL,
+  `content` text NOT NULL,
+  `message_type` varchar(191) NOT NULL,
+  `biz_type` varchar(191) NULL,
+  `biz_id` varchar(191) NULL,
+  `route` varchar(191) NULL,
+  `read_status` int NOT NULL DEFAULT 0,
+  `read_time` datetime(3) NULL,
+  `sender_id` varchar(191) NULL,
+  `sender_name` varchar(191) NULL,
+  `payload` json NULL,
+  INDEX `sys_message_recipient_id_read_status_create_time_idx`(`recipient_id`, `read_status`, `create_time`),
+  INDEX `sys_message_message_type_create_time_idx`(`message_type`, `create_time`),
+  INDEX `sys_message_biz_type_biz_id_create_time_idx`(`biz_type`, `biz_id`, `create_time`),
+  PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

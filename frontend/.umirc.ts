@@ -1,0 +1,33 @@
+import { defineConfig } from 'umi';
+
+export default defineConfig({
+  npmClient: 'npm',
+  esbuildMinifyIIFE: true,
+  routes: [
+    { path: '/login', component: '@/pages/login' },
+    {
+      path: '/',
+      component: '@/layouts/BasicLayout',
+      routes: [
+        { path: '/', redirect: '/system/users' },
+        { path: '/system/users', component: '@/pages/system/users' },
+        { path: '/system/roles', component: '@/pages/system/roles' },
+        { path: '/system/menus', component: '@/pages/system/menus' },
+        { path: '/system/buttons', component: '@/pages/system/buttons' },
+        { path: '/system/apis', component: '@/pages/system/apis' },
+        { path: '/system/platforms', component: '@/pages/system/platforms' },
+        { path: '/system/departments', component: '@/pages/system/departments' },
+        { path: '/system/shops', component: '@/pages/system/shops' },
+        { path: '/system/logs', component: '@/pages/system/logs' },
+        { path: '/org/departments', component: '@/pages/personnel/departments' },
+        { path: '/org/positions', component: '@/pages/personnel/positions' },
+        { path: '/org/employees', component: '@/pages/personnel/employees' },
+        { path: '/attendance/schedules', component: '@/pages/attendance/schedules' },
+        { path: '/attendance/requests', component: '@/pages/attendance/requests' }
+      ]
+    }
+  ],
+  alias: {
+    '@': '/src'
+  }
+});
