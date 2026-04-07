@@ -1,10 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { RealtimeService } from '../../../common/services/realtime.service';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { QuerySystemMessagesDto } from '../dto/query-system-messages.dto';
 
 @Injectable()
 export class SystemMessagesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly realtimeService: RealtimeService
+  ) {}
 
   private get messageDelegate() {
     return (this.prisma as any).sys_message;
@@ -29,6 +33,18 @@ export class SystemMessagesService {
     });
   }
 
+  async stats(userId: string) {
+    const unreadCount = await this.messageDelegate.count({
+      where: {
+        is_deleted: 0,
+        recipient_id: userId,
+        read_status: 0
+      }
+    });
+
+    return { unreadCount };
+  }
+
   async markRead(userId: string, id: string) {
     const current = await this.messageDelegate.findFirst({
       where: { id, recipient_id: userId, is_deleted: 0 }
@@ -42,13 +58,20 @@ export class SystemMessagesService {
       return current;
     }
 
-    return this.messageDelegate.update({
+    const updated = await this.messageDelegate.update({
       where: { id },
       data: {
         read_status: 1,
         read_time: new Date()
       }
     });
+
+    this.realtimeService.emitToUser(userId, 'system-message.changed', {
+      action: 'read',
+      messageId: id
+    });
+
+    return updated;
   }
 
   async markAllRead(userId: string) {
@@ -62,6 +85,11 @@ export class SystemMessagesService {
         read_status: 1,
         read_time: new Date()
       }
+    });
+
+    this.realtimeService.emitToUser(userId, 'system-message.changed', {
+      action: 'read-all',
+      updated: result.count
     });
 
     return { updated: result.count };

@@ -7,6 +7,8 @@ import { SystemModule } from './modules/system/system.module';
 import { PersonnelModule } from './modules/personnel/personnel.module';
 import { AttendanceModule } from './modules/attendance/attendance.module';
 import { ApprovalModule } from './modules/approval/approval.module';
+import { ServiceModule } from './modules/service/service.module';
+import { KnowledgeModule } from './modules/knowledge/knowledge.module';
 
 @Module({
   imports: [
@@ -17,7 +19,9 @@ import { ApprovalModule } from './modules/approval/approval.module';
     SystemModule,
     PersonnelModule,
     AttendanceModule,
-    ApprovalModule
+    ApprovalModule,
+    ServiceModule,
+    KnowledgeModule
   ]
 })
 export class AppModule {}

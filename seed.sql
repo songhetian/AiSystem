@@ -49,7 +49,14 @@ INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_code`, `route`, `sort`, `type`,
 ('seed-menu-attendance-request', 'Attendance Requests', 'attendance:request', '/attendance/requests', 13, 1, 1, 0),
 ('seed-menu-approval-process', 'Approval Process', 'approval:process', '/approval/process', 14, 1, 1, 0),
 ('seed-menu-approval-request', 'Approval Center', 'approval:request', '/approval/requests', 15, 1, 1, 0),
-('seed-menu-system-message', 'Messages', 'system:message', '/system/messages', 16, 1, 1, 0)
+('seed-menu-system-message', 'Messages', 'system:message', '/system/messages', 16, 1, 1, 0),
+('seed-menu-service-session', 'AI Quality', 'service:session', '/service/sessions', 17, 1, 1, 0),
+('seed-menu-service-quality-rule', 'Quality Rules', 'service:quality-rule', '/service/quality-rules', 18, 1, 1, 0),
+('seed-menu-service-sensitive-term', 'Sensitive Terms', 'service:sensitive-term', '/service/sensitive-terms', 19, 1, 1, 0),
+('seed-menu-knowledge-category', 'Knowledge Categories', 'knowledge:category', '/knowledge/categories', 20, 1, 1, 0),
+('seed-menu-knowledge-faq-candidate', 'FAQ Candidates', 'knowledge:faq-candidate', '/knowledge/faq-candidates', 21, 1, 1, 0),
+('seed-menu-knowledge-article', 'Knowledge Articles', 'knowledge:article', '/knowledge/articles', 22, 1, 1, 0),
+('seed-menu-knowledge-tag', 'Knowledge Tags', 'knowledge:tag', '/knowledge/tags', 23, 1, 1, 0)
 ON DUPLICATE KEY UPDATE
   `menu_name` = VALUES(`menu_name`),
   `route` = VALUES(`route`),
@@ -85,7 +92,26 @@ INSERT INTO `sys_button` (`id`, `button_name`, `button_code`, `menu_id`, `status
 ('seed-button-approval-request-reject', 'Reject Request', 'approval:request:reject', 'seed-menu-approval-request', 1, 0),
 ('seed-button-approval-request-transfer', 'Transfer Request', 'approval:request:transfer', 'seed-menu-approval-request', 1, 0),
 ('seed-button-system-message-list', 'View Messages', 'system:message:list', 'seed-menu-system-message', 1, 0),
-('seed-button-system-message-read', 'Read Messages', 'system:message:read', 'seed-menu-system-message', 1, 0)
+('seed-button-system-message-read', 'Read Messages', 'system:message:read', 'seed-menu-system-message', 1, 0),
+('seed-button-service-session-list', 'View AI Quality Sessions', 'service:session:list', 'seed-menu-service-session', 1, 0),
+('seed-button-service-quality-analyze', 'Analyze AI Quality Session', 'service:quality:analyze', 'seed-menu-service-session', 1, 0),
+('seed-button-service-dashboard-view', 'View AI Quality Overview', 'service:dashboard:view', 'seed-menu-service-session', 1, 0),
+('seed-button-service-quality-rule-list', 'View Quality Rules', 'service:quality-rule:list', 'seed-menu-service-quality-rule', 1, 0),
+('seed-button-service-quality-rule-create', 'Create Quality Rule', 'service:quality-rule:create', 'seed-menu-service-quality-rule', 1, 0),
+('seed-button-service-quality-rule-update', 'Update Quality Rule', 'service:quality-rule:update', 'seed-menu-service-quality-rule', 1, 0),
+('seed-button-service-sensitive-term-list', 'View Sensitive Terms', 'service:sensitive-term:list', 'seed-menu-service-sensitive-term', 1, 0),
+('seed-button-service-sensitive-term-create', 'Create Sensitive Term', 'service:sensitive-term:create', 'seed-menu-service-sensitive-term', 1, 0),
+('seed-button-service-sensitive-term-update', 'Update Sensitive Term', 'service:sensitive-term:update', 'seed-menu-service-sensitive-term', 1, 0),
+('seed-button-knowledge-category-list', 'View Knowledge Categories', 'knowledge:category:list', 'seed-menu-knowledge-category', 1, 0),
+('seed-button-knowledge-category-create', 'Create Knowledge Category', 'knowledge:category:create', 'seed-menu-knowledge-category', 1, 0),
+('seed-button-knowledge-category-update', 'Update Knowledge Category', 'knowledge:category:update', 'seed-menu-knowledge-category', 1, 0),
+('seed-button-knowledge-faq-candidate-list', 'View FAQ Candidates', 'knowledge:faq-candidate:list', 'seed-menu-knowledge-faq-candidate', 1, 0),
+('seed-button-knowledge-article-list', 'View Knowledge Articles', 'knowledge:article:list', 'seed-menu-knowledge-article', 1, 0),
+('seed-button-knowledge-article-create', 'Create Knowledge Article', 'knowledge:article:create', 'seed-menu-knowledge-article', 1, 0),
+('seed-button-knowledge-article-update', 'Update Knowledge Article', 'knowledge:article:update', 'seed-menu-knowledge-article', 1, 0),
+('seed-button-knowledge-tag-list', 'View Knowledge Tags', 'knowledge:tag:list', 'seed-menu-knowledge-tag', 1, 0),
+('seed-button-knowledge-tag-create', 'Create Knowledge Tag', 'knowledge:tag:create', 'seed-menu-knowledge-tag', 1, 0),
+('seed-button-knowledge-tag-update', 'Update Knowledge Tag', 'knowledge:tag:update', 'seed-menu-knowledge-tag', 1, 0)
 ON DUPLICATE KEY UPDATE
   `button_name` = VALUES(`button_name`),
   `menu_id` = VALUES(`menu_id`),
@@ -304,6 +330,295 @@ ON DUPLICATE KEY UPDATE
   `sender_name` = VALUES(`sender_name`),
   `is_deleted` = VALUES(`is_deleted`);
 
+INSERT INTO `biz_shop` (`id`, `name`, `code`, `type`, `platform_id`, `department_id`, `status`, `is_deleted`)
+VALUES ('seed-shop-customer-service', 'Service Demo Shop', 'SHOP-CS-001', 1, 'seed-platform-main', 'seed-department-customer-service', 1, 0)
+ON DUPLICATE KEY UPDATE
+  `name` = VALUES(`name`),
+  `type` = VALUES(`type`),
+  `platform_id` = VALUES(`platform_id`),
+  `department_id` = VALUES(`department_id`),
+  `status` = VALUES(`status`),
+  `is_deleted` = VALUES(`is_deleted`);
+
+INSERT INTO `service_quality_rule` (
+  `id`, `rule_name`, `rule_type`, `description`, `deduct_score`, `pass_threshold`,
+  `trigger_keywords`, `response_timeout_sec`, `enabled`, `sort`,
+  `platform_id`, `dept_id`, `shop_id`, `created_by`, `is_deleted`
+)
+VALUES
+('seed-service-quality-rule-1', 'First Response Timeout', 'response_timeout', 'First response must be within 120 seconds', 10, 80, JSON_ARRAY(), 120, 1, 100, 'seed-platform-main', 'seed-department-customer-service', 'seed-shop-customer-service', 'seed-user-admin', 0),
+('seed-service-quality-rule-2', 'Forbidden Phrase', 'forbidden_phrase', 'Avoid shirking or hostile phrasing', 15, 80, JSON_ARRAY('推词', '不归我管'), NULL, 1, 90, 'seed-platform-main', 'seed-department-customer-service', 'seed-shop-customer-service', 'seed-user-admin', 0)
+ON DUPLICATE KEY UPDATE
+  `rule_name` = VALUES(`rule_name`),
+  `rule_type` = VALUES(`rule_type`),
+  `description` = VALUES(`description`),
+  `deduct_score` = VALUES(`deduct_score`),
+  `pass_threshold` = VALUES(`pass_threshold`),
+  `trigger_keywords` = VALUES(`trigger_keywords`),
+  `response_timeout_sec` = VALUES(`response_timeout_sec`),
+  `enabled` = VALUES(`enabled`),
+  `sort` = VALUES(`sort`),
+  `platform_id` = VALUES(`platform_id`),
+  `dept_id` = VALUES(`dept_id`),
+  `shop_id` = VALUES(`shop_id`),
+  `created_by` = VALUES(`created_by`),
+  `is_deleted` = VALUES(`is_deleted`);
+
+INSERT INTO `service_sensitive_term` (
+  `id`, `term`, `category`, `severity`, `enabled`, `replace_text`, `description`,
+  `platform_id`, `dept_id`, `shop_id`, `created_by`, `is_deleted`
+)
+VALUES
+('seed-service-sensitive-term-1', '推词', 'shirking', 3, 1, '我帮你确认一下', 'Customer service shirking phrase', 'seed-platform-main', 'seed-department-customer-service', 'seed-shop-customer-service', 'seed-user-admin', 0)
+ON DUPLICATE KEY UPDATE
+  `category` = VALUES(`category`),
+  `severity` = VALUES(`severity`),
+  `enabled` = VALUES(`enabled`),
+  `replace_text` = VALUES(`replace_text`),
+  `description` = VALUES(`description`),
+  `created_by` = VALUES(`created_by`),
+  `is_deleted` = VALUES(`is_deleted`);
+
+INSERT INTO `service_session` (
+  `id`, `session_no`, `customer_id`, `customer_nickname`, `customer_satisfaction`,
+  `agent_user_id`, `agent_name`, `group_name`,
+  `platform_id`, `dept_id`, `shop_id`, `status`, `transfer_status`,
+  `started_at`, `ended_at`, `first_response_at`, `last_message_at`, `response_duration_sec`,
+  `tags`, `remark`, `is_deleted`
+)
+VALUES
+('seed-service-session-1', 'SESSION-001', 'seed-customer-1', 'Xiao Wang', 2, 'seed-user-admin', 'System Admin', 'Default Group', 'seed-platform-main', 'seed-department-customer-service', 'seed-shop-customer-service', 'closed', 'none', '2026-04-01 09:00:00', '2026-04-01 09:20:00', '2026-04-01 09:05:00', '2026-04-01 09:18:00', 180, JSON_ARRAY('new_customer', 'price_question'), 'AI demo session', 0)
+ON DUPLICATE KEY UPDATE
+  `customer_nickname` = VALUES(`customer_nickname`),
+  `customer_satisfaction` = VALUES(`customer_satisfaction`),
+  `agent_user_id` = VALUES(`agent_user_id`),
+  `agent_name` = VALUES(`agent_name`),
+  `group_name` = VALUES(`group_name`),
+  `platform_id` = VALUES(`platform_id`),
+  `dept_id` = VALUES(`dept_id`),
+  `shop_id` = VALUES(`shop_id`),
+  `status` = VALUES(`status`),
+  `transfer_status` = VALUES(`transfer_status`),
+  `started_at` = VALUES(`started_at`),
+  `ended_at` = VALUES(`ended_at`),
+  `first_response_at` = VALUES(`first_response_at`),
+  `last_message_at` = VALUES(`last_message_at`),
+  `response_duration_sec` = VALUES(`response_duration_sec`),
+  `tags` = VALUES(`tags`),
+  `remark` = VALUES(`remark`),
+  `is_deleted` = VALUES(`is_deleted`);
+
+INSERT INTO `service_session_message` (
+  `id`, `session_id`, `session_no`, `sender_type`, `sender_id`, `sender_name`, `message_type`,
+  `content`, `attachments`, `sent_at`, `platform_id`, `dept_id`, `shop_id`, `is_deleted`
+)
+VALUES
+('seed-service-message-1', 'seed-service-session-1', 'SESSION-001', 'customer', NULL, 'Xiao Wang', 'text', '你家这个价格还能优惠吗？', NULL, '2026-04-01 09:00:00', 'seed-platform-main', 'seed-department-customer-service', 'seed-shop-customer-service', 0),
+('seed-service-message-2', 'seed-service-session-1', 'SESSION-001', 'agent', 'seed-user-admin', 'System Admin', 'text', '这个我先帮你看看，不过这不归我管，你再等等。', NULL, '2026-04-01 09:05:00', 'seed-platform-main', 'seed-department-customer-service', 'seed-shop-customer-service', 0)
+ON DUPLICATE KEY UPDATE
+  `content` = VALUES(`content`),
+  `sent_at` = VALUES(`sent_at`),
+  `platform_id` = VALUES(`platform_id`),
+  `dept_id` = VALUES(`dept_id`),
+  `shop_id` = VALUES(`shop_id`),
+  `is_deleted` = VALUES(`is_deleted`);
+
+INSERT INTO `service_satisfaction` (
+  `id`, `session_id`, `session_no`, `rating`, `label`, `content`, `customer_id`,
+  `platform_id`, `dept_id`, `shop_id`, `created_at_text`, `is_deleted`
+)
+VALUES
+('seed-service-satisfaction-1', 'seed-service-session-1', 'SESSION-001', 2, 'Negative', '回复慢，而且话术不太好。', 'seed-customer-1', 'seed-platform-main', 'seed-department-customer-service', 'seed-shop-customer-service', '2026-04-01 09:21:00', 0)
+ON DUPLICATE KEY UPDATE
+  `rating` = VALUES(`rating`),
+  `label` = VALUES(`label`),
+  `content` = VALUES(`content`),
+  `platform_id` = VALUES(`platform_id`),
+  `dept_id` = VALUES(`dept_id`),
+  `shop_id` = VALUES(`shop_id`),
+  `created_at_text` = VALUES(`created_at_text`),
+  `is_deleted` = VALUES(`is_deleted`);
+
+INSERT INTO `service_session_analysis` (
+  `id`, `session_id`, `session_no`, `platform_id`, `dept_id`, `shop_id`,
+  `triggered_by`, `triggered_by_user_id`, `quality_score`, `quality_passed`,
+  `loss_risk_level`, `loss_risk_score`, `customer_sentiment`,
+  `response_timeout_count`, `sensitive_hit_count`, `faq_hit_count`,
+  `top_faqs`, `sensitive_hits`, `triggered_rule_ids`, `summary`, `suggestions`,
+  `analyzed_at`, `is_deleted`
+)
+VALUES (
+  'seed-service-analysis-1', 'seed-service-session-1', 'SESSION-001',
+  'seed-platform-main', 'seed-department-customer-service', 'seed-shop-customer-service',
+  'seed', 'seed-user-admin', 65, 0,
+  'high', 82, 'negative',
+  1, 1, 2,
+  JSON_ARRAY(
+    JSON_OBJECT('question', 'Can this product price be discounted?', 'count', 6),
+    JSON_OBJECT('question', 'When will the order be shipped?', 'count', 4)
+  ),
+  JSON_ARRAY(
+    JSON_OBJECT(
+      'term', 'not my responsibility',
+      'message', 'Let me take a look, but that is not my responsibility right now. Please wait a little longer.',
+      'severity', 3
+    )
+  ),
+  JSON_ARRAY('seed-service-quality-rule-1', 'seed-service-quality-rule-2'),
+  'The session had a slow first response, negative wording and a high loss risk.',
+  JSON_ARRAY('Respond within 120 seconds.', 'Avoid shirking phrases.', 'Use the FAQ answer for discount policy.'),
+  '2026-04-01 09:22:00', 0
+)
+ON DUPLICATE KEY UPDATE
+  `quality_score` = VALUES(`quality_score`),
+  `quality_passed` = VALUES(`quality_passed`),
+  `loss_risk_level` = VALUES(`loss_risk_level`),
+  `loss_risk_score` = VALUES(`loss_risk_score`),
+  `customer_sentiment` = VALUES(`customer_sentiment`),
+  `response_timeout_count` = VALUES(`response_timeout_count`),
+  `sensitive_hit_count` = VALUES(`sensitive_hit_count`),
+  `faq_hit_count` = VALUES(`faq_hit_count`),
+  `top_faqs` = VALUES(`top_faqs`),
+  `sensitive_hits` = VALUES(`sensitive_hits`),
+  `triggered_rule_ids` = VALUES(`triggered_rule_ids`),
+  `summary` = VALUES(`summary`),
+  `suggestions` = VALUES(`suggestions`),
+  `analyzed_at` = VALUES(`analyzed_at`),
+  `is_deleted` = VALUES(`is_deleted`);
+
+INSERT INTO `service_quality_record` (
+  `id`, `session_id`, `analysis_id`, `session_no`, `inspector_id`, `inspector_name`,
+  `inspection_mode`, `score`, `passed`, `violations`, `deduct_details`, `comment`,
+  `platform_id`, `dept_id`, `shop_id`, `rectification_status`, `rectification_note`,
+  `inspected_at`, `is_deleted`
+)
+VALUES (
+  'seed-service-quality-record-1', 'seed-service-session-1', 'seed-service-analysis-1', 'SESSION-001',
+  'seed-user-admin', 'System Admin',
+  'auto', 65, 0, JSON_ARRAY('response_timeout', 'forbidden_phrase'),
+  JSON_ARRAY(
+    JSON_OBJECT('rule_name', 'First Response Timeout', 'deduct_score', 10),
+    JSON_OBJECT('rule_name', 'Forbidden Phrase', 'deduct_score', 15)
+  ),
+  'Follow up training required.',
+  'seed-platform-main', 'seed-department-customer-service', 'seed-shop-customer-service',
+  'pending', 'Review service script and FAQ answer usage.',
+  '2026-04-01 09:23:00', 0
+)
+ON DUPLICATE KEY UPDATE
+  `analysis_id` = VALUES(`analysis_id`),
+  `score` = VALUES(`score`),
+  `passed` = VALUES(`passed`),
+  `violations` = VALUES(`violations`),
+  `deduct_details` = VALUES(`deduct_details`),
+  `comment` = VALUES(`comment`),
+  `rectification_status` = VALUES(`rectification_status`),
+  `rectification_note` = VALUES(`rectification_note`),
+  `inspected_at` = VALUES(`inspected_at`),
+  `is_deleted` = VALUES(`is_deleted`);
+
+INSERT INTO `knowledge_category` (
+  `id`, `category_name`, `category_code`, `parent_id`, `level`, `sort`, `enabled`,
+  `description`, `platform_id`, `dept_id`, `shop_id`, `is_deleted`
+)
+VALUES (
+  'seed-knowledge-category-1',
+  'Sales FAQ',
+  'sales-faq',
+  NULL,
+  1,
+  10,
+  1,
+  'High-frequency sales and discount questions',
+  'seed-platform-main',
+  'seed-department-customer-service',
+  'seed-shop-customer-service',
+  0
+)
+ON DUPLICATE KEY UPDATE
+  `category_name` = VALUES(`category_name`),
+  `sort` = VALUES(`sort`),
+  `enabled` = VALUES(`enabled`),
+  `description` = VALUES(`description`),
+  `is_deleted` = VALUES(`is_deleted`);
+
+INSERT INTO `knowledge_tag` (
+  `id`, `tag_name`, `tag_code`, `source_type`, `color`, `sort`,
+  `platform_id`, `dept_id`, `shop_id`, `created_by`, `is_deleted`
+)
+VALUES
+(
+  'seed-knowledge-tag-1',
+  '质检通过',
+  'quality-pass',
+  'service_quality',
+  'green',
+  10,
+  'seed-platform-main',
+  'seed-department-customer-service',
+  'seed-shop-customer-service',
+  'seed-user-admin',
+  0
+),
+(
+  'seed-knowledge-tag-2',
+  '服务案例',
+  'service-case',
+  'service_case',
+  'purple',
+  20,
+  'seed-platform-main',
+  'seed-department-customer-service',
+  'seed-shop-customer-service',
+  'seed-user-admin',
+  0
+)
+ON DUPLICATE KEY UPDATE
+  `tag_code` = VALUES(`tag_code`),
+  `source_type` = VALUES(`source_type`),
+  `color` = VALUES(`color`),
+  `sort` = VALUES(`sort`),
+  `is_deleted` = VALUES(`is_deleted`);
+
+INSERT INTO `knowledge_article` (
+  `id`, `title`, `content`, `category_id`, `category_name`, `status`, `author_id`, `author_name`,
+  `source_type`, `source_ref`, `keyword`, `platform_id`, `dept_id`, `shop_id`,
+  `published_at`, `is_deleted`
+)
+VALUES (
+  'seed-knowledge-article-1',
+  'Discount Policy FAQ',
+  'Discounts depend on campaign eligibility, product margin and customer segment. Confirm the active promotion before replying.',
+  'seed-knowledge-category-1',
+  'Sales FAQ',
+  'published',
+  'seed-user-admin',
+  'System Admin',
+  'service_faq',
+  'seed-service-session-1',
+  'Can this product price be discounted?',
+  'seed-platform-main',
+  'seed-department-customer-service',
+  'seed-shop-customer-service',
+  '2026-04-01 10:00:00',
+  0
+)
+ON DUPLICATE KEY UPDATE
+  `content` = VALUES(`content`),
+  `category_id` = VALUES(`category_id`),
+  `category_name` = VALUES(`category_name`),
+  `status` = VALUES(`status`),
+  `author_id` = VALUES(`author_id`),
+  `author_name` = VALUES(`author_name`),
+  `source_type` = VALUES(`source_type`),
+  `source_ref` = VALUES(`source_ref`),
+  `keyword` = VALUES(`keyword`),
+  `platform_id` = VALUES(`platform_id`),
+  `dept_id` = VALUES(`dept_id`),
+  `shop_id` = VALUES(`shop_id`),
+  `published_at` = VALUES(`published_at`),
+  `is_deleted` = VALUES(`is_deleted`);
+
 INSERT INTO `sys_user_role` (`id`, `user_id`, `role_id`)
 SELECT 'seed-user-role-admin', u.`id`, r.`id`
 FROM `sys_user` u
@@ -332,7 +647,14 @@ JOIN `sys_menu` m ON m.`menu_code` IN (
   'attendance:request',
   'approval:process',
   'approval:request',
-  'system:message'
+  'system:message',
+  'service:session',
+  'service:quality-rule',
+  'service:sensitive-term',
+  'knowledge:category',
+  'knowledge:faq-candidate',
+  'knowledge:article',
+  'knowledge:tag'
 )
 WHERE r.`role_code` = 'super_admin'
   AND NOT EXISTS (
@@ -369,7 +691,26 @@ JOIN `sys_button` b ON b.`button_code` IN (
   'approval:request:reject',
   'approval:request:transfer',
   'system:message:list',
-  'system:message:read'
+  'system:message:read',
+  'service:session:list',
+  'service:quality:analyze',
+  'service:dashboard:view',
+  'service:quality-rule:list',
+  'service:quality-rule:create',
+  'service:quality-rule:update',
+  'service:sensitive-term:list',
+  'service:sensitive-term:create',
+  'service:sensitive-term:update',
+  'knowledge:category:list',
+  'knowledge:category:create',
+  'knowledge:category:update',
+  'knowledge:faq-candidate:list',
+  'knowledge:article:list',
+  'knowledge:article:create',
+  'knowledge:article:update',
+  'knowledge:tag:list',
+  'knowledge:tag:create',
+  'knowledge:tag:update'
 )
 WHERE r.`role_code` = 'super_admin'
   AND NOT EXISTS (

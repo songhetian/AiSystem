@@ -4,7 +4,7 @@
 import React from 'react';
 
 export async function getRoutes() {
-  const routes = {"1":{"path":"/login","id":"1"},"2":{"path":"/","id":"2"},"3":{"path":"/","redirect":"/system/users","parentId":"2","id":"3"},"4":{"path":"/system/users","parentId":"2","id":"4"},"5":{"path":"/system/roles","parentId":"2","id":"5"},"6":{"path":"/system/menus","parentId":"2","id":"6"},"7":{"path":"/system/buttons","parentId":"2","id":"7"},"8":{"path":"/system/apis","parentId":"2","id":"8"},"9":{"path":"/system/platforms","parentId":"2","id":"9"},"10":{"path":"/system/departments","parentId":"2","id":"10"},"11":{"path":"/system/shops","parentId":"2","id":"11"},"12":{"path":"/system/logs","parentId":"2","id":"12"},"13":{"path":"/org/departments","parentId":"2","id":"13"},"14":{"path":"/org/positions","parentId":"2","id":"14"},"15":{"path":"/org/employees","parentId":"2","id":"15"},"16":{"path":"/attendance/schedules","parentId":"2","id":"16"},"17":{"path":"/attendance/requests","parentId":"2","id":"17"}} as const;
+  const routes = {"1":{"path":"/login","id":"1"},"2":{"path":"/","id":"2"},"3":{"path":"/","redirect":"/system/users","parentId":"2","id":"3"},"4":{"path":"/system/users","parentId":"2","id":"4"},"5":{"path":"/system/roles","parentId":"2","id":"5"},"6":{"path":"/system/menus","parentId":"2","id":"6"},"7":{"path":"/system/buttons","parentId":"2","id":"7"},"8":{"path":"/system/apis","parentId":"2","id":"8"},"9":{"path":"/system/platforms","parentId":"2","id":"9"},"10":{"path":"/system/departments","parentId":"2","id":"10"},"11":{"path":"/system/shops","parentId":"2","id":"11"},"12":{"path":"/system/logs","parentId":"2","id":"12"},"13":{"path":"/org/departments","parentId":"2","id":"13"},"14":{"path":"/org/positions","parentId":"2","id":"14"},"15":{"path":"/org/employees","parentId":"2","id":"15"},"16":{"path":"/attendance/schedules","parentId":"2","id":"16"},"17":{"path":"/attendance/requests","parentId":"2","id":"17"},"18":{"path":"/approval/process","parentId":"2","id":"18"},"19":{"path":"/approval/requests","parentId":"2","id":"19"},"20":{"path":"/system/messages","parentId":"2","id":"20"},"21":{"path":"/service/sessions","parentId":"2","id":"21"},"22":{"path":"/service/sessions/:id","parentId":"2","id":"22"},"23":{"path":"/service/quality-rules","parentId":"2","id":"23"},"24":{"path":"/service/sensitive-terms","parentId":"2","id":"24"},"25":{"path":"/knowledge/faq-candidates","parentId":"2","id":"25"},"26":{"path":"/knowledge/articles","parentId":"2","id":"26"},"27":{"path":"/knowledge/articles/:id","parentId":"2","id":"27"},"28":{"path":"/knowledge/categories","parentId":"2","id":"28"},"29":{"path":"/knowledge/tags","parentId":"2","id":"29"}} as const;
   return {
     routes,
     routeComponents: {
@@ -25,6 +25,18 @@ export async function getRoutes() {
 '15': React.lazy(() => import(/* webpackChunkName: "p__personnel__employees__index" */'@/pages/personnel/employees/index.tsx')),
 '16': React.lazy(() => import(/* webpackChunkName: "p__attendance__schedules__index" */'@/pages/attendance/schedules/index.tsx')),
 '17': React.lazy(() => import(/* webpackChunkName: "p__attendance__requests__index" */'@/pages/attendance/requests/index.tsx')),
+'18': React.lazy(() => import(/* webpackChunkName: "p__approval__process__index" */'@/pages/approval/process/index.tsx')),
+'19': React.lazy(() => import(/* webpackChunkName: "p__approval__requests__index" */'@/pages/approval/requests/index.tsx')),
+'20': React.lazy(() => import(/* webpackChunkName: "p__system__messages__index" */'@/pages/system/messages/index.tsx')),
+'21': React.lazy(() => import(/* webpackChunkName: "p__service__sessions__index" */'@/pages/service/sessions/index.tsx')),
+'22': React.lazy(() => import(/* webpackChunkName: "p__service__sessions__id" */'@/pages/service/sessions/[id].tsx')),
+'23': React.lazy(() => import(/* webpackChunkName: "p__service__quality-rules__index" */'@/pages/service/quality-rules/index.tsx')),
+'24': React.lazy(() => import(/* webpackChunkName: "p__service__sensitive-terms__index" */'@/pages/service/sensitive-terms/index.tsx')),
+'25': React.lazy(() => import(/* webpackChunkName: "p__knowledge__faq-candidates__index" */'@/pages/knowledge/faq-candidates/index.tsx')),
+'26': React.lazy(() => import(/* webpackChunkName: "p__knowledge__articles__index" */'@/pages/knowledge/articles/index.tsx')),
+'27': React.lazy(() => import(/* webpackChunkName: "p__knowledge__articles__id" */'@/pages/knowledge/articles/[id].tsx')),
+'28': React.lazy(() => import(/* webpackChunkName: "p__knowledge__categories__index" */'@/pages/knowledge/categories/index.tsx')),
+'29': React.lazy(() => import(/* webpackChunkName: "p__knowledge__tags__index" */'@/pages/knowledge/tags/index.tsx')),
 },
   };
 }

@@ -3,7 +3,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { ProColumns } from '@ant-design/pro-components';
 import { Button, Card, Descriptions, Drawer, Form, Input, Select, Segmented, Space, Tag, Typography, message } from 'antd';
 import { useLocation, useNavigate } from 'umi';
-import { approvalApi, type ApprovalPerson, type ApprovalRequestRecord } from '@/api/approval';
+import {
+  approvalApi,
+  type ApprovalPerson,
+  type ApprovalRequestRecord,
+  type ApprovalRequestStats
+} from '@/api/approval';
 import { BaseModal } from '@/components/common/BaseModal';
 import { Permission } from '@/components/permission/Permission';
 import { BaseTable } from '@/components/table/BaseTable';
@@ -56,7 +61,10 @@ export default function ApprovalRequestsPage() {
     queryKey: ['approval-requests', view, keyword],
     queryFn: () => approvalApi.listRequests({ view, keyword: keyword || undefined })
   });
-
+  const { data: stats } = useQuery<ApprovalRequestStats>({
+    queryKey: ['approval-request-stats'],
+    queryFn: approvalApi.requestStats
+  });
   const { data: people = [] } = useQuery<ApprovalPerson[]>({
     queryKey: ['approval-request-people'],
     queryFn: approvalApi.listPeople
@@ -90,13 +98,18 @@ export default function ApprovalRequestsPage() {
 
   const refresh = async () => {
     await queryClient.invalidateQueries({ queryKey: ['approval-requests'] });
+    await queryClient.invalidateQueries({ queryKey: ['approval-request-stats'] });
   };
 
   const approveMutation = useMutation({
     mutationFn: ({ id, comment }: { id: string; comment?: string }) =>
-      approvalApi.approveRequest(id, { comment }, {
-        idempotencyKey: actionKeyRef.current ?? (actionKeyRef.current = createIdempotencyKey(`approval-approve-${id}`))
-      }),
+      approvalApi.approveRequest(
+        id,
+        { comment },
+        {
+          idempotencyKey: actionKeyRef.current ?? (actionKeyRef.current = createIdempotencyKey(`approval-approve-${id}`))
+        }
+      ),
     onSuccess: async () => {
       message.success('审批已通过');
       setActionType(undefined);
@@ -112,9 +125,13 @@ export default function ApprovalRequestsPage() {
 
   const rejectMutation = useMutation({
     mutationFn: ({ id, comment }: { id: string; comment?: string }) =>
-      approvalApi.rejectRequest(id, { comment }, {
-        idempotencyKey: actionKeyRef.current ?? (actionKeyRef.current = createIdempotencyKey(`approval-reject-${id}`))
-      }),
+      approvalApi.rejectRequest(
+        id,
+        { comment },
+        {
+          idempotencyKey: actionKeyRef.current ?? (actionKeyRef.current = createIdempotencyKey(`approval-reject-${id}`))
+        }
+      ),
     onSuccess: async () => {
       message.success('审批已驳回');
       setActionType(undefined);
@@ -130,9 +147,13 @@ export default function ApprovalRequestsPage() {
 
   const transferMutation = useMutation({
     mutationFn: ({ id, assigneeId, comment }: { id: string; assigneeId: string; comment?: string }) =>
-      approvalApi.transferRequest(id, { assigneeId, comment }, {
-        idempotencyKey: actionKeyRef.current ?? (actionKeyRef.current = createIdempotencyKey(`approval-transfer-${id}`))
-      }),
+      approvalApi.transferRequest(
+        id,
+        { assigneeId, comment },
+        {
+          idempotencyKey: actionKeyRef.current ?? (actionKeyRef.current = createIdempotencyKey(`approval-transfer-${id}`))
+        }
+      ),
     onSuccess: async () => {
       message.success('审批已转审');
       setActionType(undefined);
@@ -248,10 +269,10 @@ export default function ApprovalRequestsPage() {
               });
             }}
             options={[
-              { label: '全部', value: 'all' },
-              { label: '我的审批', value: 'my' },
-              { label: '待我审批', value: 'pending' },
-              { label: '已处理', value: 'processed' }
+              { label: `全部${stats ? ` (${stats.allCount})` : ''}`, value: 'all' },
+              { label: `我的审批${stats ? ` (${stats.myCount})` : ''}`, value: 'my' },
+              { label: `待我审批${stats ? ` (${stats.pendingCount})` : ''}`, value: 'pending' },
+              { label: `已处理${stats ? ` (${stats.processedCount})` : ''}`, value: 'processed' }
             ]}
           />
         </Space>
@@ -259,14 +280,7 @@ export default function ApprovalRequestsPage() {
     >
       <BaseTable<ApprovalRequestRecord> rowKey="id" columns={columns} dataSource={data} loading={isLoading} />
 
-      <Drawer
-        title="审批详情"
-        open={Boolean(detail)}
-        width={720}
-        onClose={() => {
-          setDetail(null);
-        }}
-      >
+      <Drawer title="审批详情" open={Boolean(detail)} width={720} onClose={() => setDetail(null)}>
         {detail ? (
           <Space direction="vertical" size={16} style={{ display: 'flex' }}>
             <Descriptions column={2} bordered size="small">

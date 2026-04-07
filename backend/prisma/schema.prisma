@@ -2,6 +2,255 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model service_session {
+  id                    String   @id @default(cuid())
+  create_time           DateTime @default(now())
+  update_time           DateTime @updatedAt
+  is_deleted            Int      @default(0)
+  session_no            String   @unique
+  customer_id           String?
+  customer_nickname     String?
+  customer_satisfaction Int?
+  agent_user_id         String?
+  agent_name            String?
+  group_name            String?
+  platform_id           String
+  dept_id               String
+  shop_id               String?
+  status                String   @default("pending")
+  transfer_status       String   @default("none")
+  started_at            DateTime
+  ended_at              DateTime?
+  first_response_at     DateTime?
+  last_message_at       DateTime?
+  response_duration_sec Int?
+  tags                  Json?
+  remark                String?  @db.Text
+  messages              service_session_message[]
+  analyses              service_session_analysis[]
+  quality_records       service_quality_record[]
+  satisfaction_records  service_satisfaction[]
+
+  @@index([platform_id, dept_id, shop_id, status])
+  @@index([agent_user_id, started_at])
+  @@index([started_at, ended_at])
+}
+
+model service_session_message {
+  id           String   @id @default(cuid())
+  create_time  DateTime @default(now())
+  update_time  DateTime @updatedAt
+  is_deleted   Int      @default(0)
+  session_id   String
+  session_no   String
+  sender_type  String
+  sender_id    String?
+  sender_name  String?
+  message_type String   @default("text")
+  content      String   @db.Text
+  attachments  Json?
+  sent_at      DateTime
+  platform_id  String
+  dept_id      String
+  shop_id      String?
+  session      service_session @relation(fields: [session_id], references: [id])
+
+  @@index([session_id, sent_at])
+  @@index([platform_id, dept_id, shop_id, sent_at])
+}
+
+model service_quality_rule {
+  id                   String   @id @default(cuid())
+  create_time          DateTime @default(now())
+  update_time          DateTime @updatedAt
+  is_deleted           Int      @default(0)
+  rule_name            String
+  rule_type            String
+  description          String?  @db.Text
+  deduct_score         Int      @default(0)
+  pass_threshold       Int      @default(0)
+  trigger_keywords     Json?
+  response_timeout_sec Int?
+  enabled              Int      @default(1)
+  sort                 Int      @default(0)
+  platform_id          String
+  dept_id              String
+  shop_id              String?
+  created_by           String?
+
+  @@index([platform_id, dept_id, shop_id, enabled, sort])
+  @@index([rule_type, enabled])
+}
+
+model service_sensitive_term {
+  id           String   @id @default(cuid())
+  create_time  DateTime @default(now())
+  update_time  DateTime @updatedAt
+  is_deleted   Int      @default(0)
+  term         String
+  category     String
+  severity     Int      @default(1)
+  enabled      Int      @default(1)
+  replace_text String?
+  description  String?  @db.Text
+  platform_id  String
+  dept_id      String
+  shop_id      String?
+  created_by   String?
+
+  @@unique([term, platform_id, dept_id, shop_id])
+  @@index([platform_id, dept_id, shop_id, enabled])
+}
+
+model service_session_analysis {
+  id                     String   @id @default(cuid())
+  create_time            DateTime @default(now())
+  update_time            DateTime @updatedAt
+  is_deleted             Int      @default(0)
+  session_id             String
+  session_no             String
+  platform_id            String
+  dept_id                String
+  shop_id                String?
+  triggered_by           String   @default("system")
+  triggered_by_user_id   String?
+  quality_score          Int      @default(100)
+  quality_passed         Int      @default(1)
+  loss_risk_level        String   @default("low")
+  loss_risk_score        Int      @default(0)
+  customer_sentiment     String   @default("neutral")
+  response_timeout_count Int      @default(0)
+  sensitive_hit_count    Int      @default(0)
+  faq_hit_count          Int      @default(0)
+  top_faqs               Json?
+  sensitive_hits         Json?
+  triggered_rule_ids     Json?
+  summary                String?  @db.Text
+  suggestions            Json?
+  analyzed_at            DateTime @default(now())
+  session                service_session @relation(fields: [session_id], references: [id])
+
+  @@index([session_id, analyzed_at])
+  @@index([platform_id, dept_id, shop_id, analyzed_at])
+  @@index([quality_passed, loss_risk_level, analyzed_at])
+}
+
+model service_quality_record {
+  id                   String   @id @default(cuid())
+  create_time          DateTime @default(now())
+  update_time          DateTime @updatedAt
+  is_deleted           Int      @default(0)
+  session_id           String
+  analysis_id          String?
+  session_no           String
+  inspector_id         String?
+  inspector_name       String?
+  inspection_mode      String   @default("auto")
+  score                Int      @default(100)
+  passed               Int      @default(1)
+  violations           Json?
+  deduct_details       Json?
+  comment              String?  @db.Text
+  platform_id          String
+  dept_id              String
+  shop_id              String?
+  rectification_status String   @default("not_required")
+  rectification_note   String?  @db.Text
+  inspected_at         DateTime @default(now())
+  session              service_session @relation(fields: [session_id], references: [id])
+
+  @@index([session_id, inspected_at])
+  @@index([platform_id, dept_id, shop_id, passed, inspected_at])
+}
+
+model service_satisfaction {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  session_id      String
+  session_no      String
+  rating          Int
+  label           String
+  content         String?  @db.Text
+  customer_id     String?
+  platform_id     String
+  dept_id         String
+  shop_id         String?
+  created_at_text String?
+  session         service_session @relation(fields: [session_id], references: [id])
+
+  @@index([session_id, rating])
+  @@index([platform_id, dept_id, shop_id, rating, create_time])
+}
+
+model knowledge_article {
+  id            String   @id @default(cuid())
+  create_time   DateTime @default(now())
+  update_time   DateTime @updatedAt
+  is_deleted    Int      @default(0)
+  title         String
+  content       String   @db.Text
+  category_id   String?
+  category_name String?
+  status        String   @default("draft")
+  author_id     String?
+  author_name   String?
+  source_type   String?
+  source_ref    String?
+  keyword       String?
+  platform_id   String
+  dept_id       String
+  shop_id       String?
+  published_at  DateTime?
+
+  @@index([platform_id, dept_id, shop_id, status])
+  @@index([category_id, status])
+  @@index([keyword, status])
+  @@index([source_type, source_ref])
+}
+
+model knowledge_category {
+  id          String   @id @default(cuid())
+  create_time DateTime @default(now())
+  update_time DateTime @updatedAt
+  is_deleted  Int      @default(0)
+  category_name String
+  category_code String
+  parent_id   String?
+  level       Int      @default(1)
+  sort        Int      @default(0)
+  enabled     Int      @default(1)
+  description String?  @db.Text
+  platform_id String
+  dept_id     String
+  shop_id     String?
+
+  @@unique([category_code, platform_id, dept_id, shop_id])
+  @@index([platform_id, dept_id, shop_id, enabled, sort])
+  @@index([parent_id, sort])
+}
+
+model knowledge_tag {
+  id          String   @id @default(cuid())
+  create_time DateTime @default(now())
+  update_time DateTime @updatedAt
+  is_deleted  Int      @default(0)
+  tag_name    String
+  tag_code    String
+  source_type String?
+  color       String?
+  sort        Int      @default(0)
+  platform_id String
+  dept_id     String
+  shop_id     String?
+  created_by  String?
+
+  @@unique([tag_name, platform_id, dept_id, shop_id])
+  @@index([platform_id, dept_id, shop_id, source_type, sort])
+  @@index([tag_code, source_type])
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")

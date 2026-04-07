@@ -394,10 +394,10 @@ export default function ApprovalProcessPage() {
                     containers={personContainers}
                     onChange={async (containers) => {
                       const approvers = (containers.find((container) => container.id === 'approvers')?.items ?? []).map(
-                        ({ source, ...person }) => person
+                        ({ source: _source, ...person }) => person
                       );
                       const copies = (containers.find((container) => container.id === 'copies')?.items ?? []).map(
-                        ({ source, ...person }) => person
+                        ({ source: _source, ...person }) => person
                       );
 
                       await updateTemplate((template) => ({

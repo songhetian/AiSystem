@@ -1,0 +1,246 @@
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 247, 252, 0.92));
+  color: #17304d;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.trigger:hover {
+  color: #0f172a;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(240, 245, 251, 0.96));
+}
+
+.drawerTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(23, 48, 77, 0.5);
+}
+
+.heading {
+  font-size: 22px;
+  font-weight: 700;
+  color: #10233c;
+}
+
+.meta {
+  font-size: 13px;
+  color: rgba(23, 48, 77, 0.62);
+}
+
+.summaryRow {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.summaryCard {
+  border-radius: 16px;
+  padding: 14px;
+  background:
+    radial-gradient(circle at top right, var(--accent-soft), transparent 42%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.98), rgba(246, 248, 252, 0.94));
+  border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.approval {
+  --accent: #ca8a04;
+  --accent-soft: rgba(202, 138, 4, 0.16);
+}
+
+.success {
+  --accent: #15803d;
+  --accent-soft: rgba(21, 128, 61, 0.14);
+}
+
+.warning {
+  --accent: #c2410c;
+  --accent-soft: rgba(194, 65, 12, 0.14);
+}
+
+.schedule {
+  --accent: #0f766e;
+  --accent-soft: rgba(15, 118, 110, 0.14);
+}
+
+.system {
+  --accent: #1d4ed8;
+  --accent-soft: rgba(29, 78, 216, 0.14);
+}
+
+.summaryLabel {
+  font-size: 12px;
+  color: rgba(23, 48, 77, 0.62);
+}
+
+.summaryValue {
+  margin-top: 4px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #10233c;
+}
+
+.filterRow {
+  margin-top: 16px;
+}
+
+.searchRow {
+  margin-top: 12px;
+}
+
+.toggleRow {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.list {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: calc(100vh - 280px);
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.channel {
+  border-radius: 18px;
+  padding: 14px;
+  background:
+    radial-gradient(circle at top right, var(--accent-soft), transparent 38%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.98), rgba(246, 248, 252, 0.94));
+  border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.channelTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.channelLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.channelTitle {
+  margin-top: 2px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #12283f;
+}
+
+.channelCount {
+  color: var(--accent) !important;
+  background: color-mix(in srgb, var(--accent) 10%, white) !important;
+}
+
+.snippetList {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.snippetCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.snippet {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+}
+
+.snippet:hover {
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.snippetTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #17304d;
+}
+
+.snippetContent {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: rgba(23, 48, 77, 0.62);
+}
+
+.snippetMeta {
+  margin-top: 6px;
+  font-size: 11px;
+  color: rgba(23, 48, 77, 0.46);
+}
+
+.metaTags {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.metaTag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 10%, white);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.quickActions {
+  display: inline-flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.channelFooter {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.empty {
+  margin-top: 28px;
+}

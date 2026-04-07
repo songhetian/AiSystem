@@ -63,6 +63,13 @@ export interface ApprovalRequestRecord {
   progress: ApprovalProgressRecord[];
 }
 
+export interface ApprovalRequestStats {
+  allCount: number;
+  myCount: number;
+  pendingCount: number;
+  processedCount: number;
+}
+
 interface MutationRequestOptions {
   idempotencyKey?: string;
 }
@@ -84,6 +91,7 @@ export const approvalApi = {
   saveTemplate: (template: ApprovalTemplate) => request.patch(`/approval/templates/${template.id}`, template),
   listRequests: (params?: { view?: 'all' | 'my' | 'pending' | 'processed'; keyword?: string }) =>
     request.get('/approval/requests', { params }),
+  requestStats: () => request.get('/approval/requests/stats'),
   approveRequest: (id: string, payload?: { comment?: string }, options?: MutationRequestOptions) =>
     request.post(`/approval/requests/${id}/approve`, payload ?? {}, withIdempotencyKey(options?.idempotencyKey)),
   rejectRequest: (id: string, payload?: { comment?: string }, options?: MutationRequestOptions) =>

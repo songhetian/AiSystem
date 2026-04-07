@@ -40,6 +40,12 @@ export class ApprovalController {
     return this.approvalService.listRequests(user?.sub, query);
   }
 
+  @Get('requests/stats')
+  @Permission('approval:request:list')
+  stats(@CurrentUser() user: CurrentUserPayload) {
+    return this.approvalService.stats(user?.sub);
+  }
+
   @Post('requests/:id/approve')
   @Permission('approval:request:approve')
   approveRequest(@CurrentUser() user: CurrentUserPayload, @Param('id') id: string, @Body() dto: ApprovalActionDto) {

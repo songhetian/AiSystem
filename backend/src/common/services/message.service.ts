@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
+import { RealtimeService } from './realtime.service';
 
 type PrismaWriteClient = PrismaService | Prisma.TransactionClient | PrismaClient;
 
@@ -19,11 +20,14 @@ interface SendMessageInput {
 
 @Injectable()
 export class MessageService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly realtimeService: RealtimeService
+  ) {}
 
   async send(input: SendMessageInput, client?: PrismaWriteClient) {
     const delegate = (client ?? this.prisma) as any;
-    return delegate.sys_message.create({
+    const message = await delegate.sys_message.create({
       data: {
         recipient_id: input.recipientId,
         title: input.title,
@@ -37,5 +41,16 @@ export class MessageService {
         payload: input.payload as Prisma.InputJsonValue | undefined
       }
     });
+
+    this.realtimeService.emitToUser(input.recipientId, 'system-message.changed', {
+      action: 'created',
+      messageId: message.id,
+      messageType: input.messageType,
+      bizType: input.bizType,
+      bizId: input.bizId,
+      route: input.route
+    });
+
+    return message;
   }
 }

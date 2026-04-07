@@ -23,7 +23,19 @@ export default defineConfig({
         { path: '/org/positions', component: '@/pages/personnel/positions' },
         { path: '/org/employees', component: '@/pages/personnel/employees' },
         { path: '/attendance/schedules', component: '@/pages/attendance/schedules' },
-        { path: '/attendance/requests', component: '@/pages/attendance/requests' }
+        { path: '/attendance/requests', component: '@/pages/attendance/requests' },
+        { path: '/approval/process', component: '@/pages/approval/process' },
+        { path: '/approval/requests', component: '@/pages/approval/requests' },
+        { path: '/system/messages', component: '@/pages/system/messages' },
+        { path: '/service/sessions', component: '@/pages/service/sessions' },
+        { path: '/service/sessions/:id', component: '@/pages/service/sessions/[id]' },
+        { path: '/service/quality-rules', component: '@/pages/service/quality-rules' },
+        { path: '/service/sensitive-terms', component: '@/pages/service/sensitive-terms' },
+        { path: '/knowledge/faq-candidates', component: '@/pages/knowledge/faq-candidates' },
+        { path: '/knowledge/articles', component: '@/pages/knowledge/articles' },
+        { path: '/knowledge/articles/:id', component: '@/pages/knowledge/articles/[id]' },
+        { path: '/knowledge/categories', component: '@/pages/knowledge/categories' },
+        { path: '/knowledge/tags', component: '@/pages/knowledge/tags' }
       ]
     }
   ],

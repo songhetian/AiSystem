@@ -8,11 +8,12 @@ interface BaseModalProps {
   onCancel: () => void;
   children: ReactNode;
   confirmLoading?: boolean;
+  width?: number;
 }
 
-export function BaseModal({ open, title, onOk, onCancel, children, confirmLoading }: BaseModalProps) {
+export function BaseModal({ open, title, onOk, onCancel, children, confirmLoading, width = 640 }: BaseModalProps) {
   return (
-    <Modal open={open} title={title} onOk={onOk} onCancel={onCancel} confirmLoading={confirmLoading} width={640}>
+    <Modal open={open} title={title} onOk={onOk} onCancel={onCancel} confirmLoading={confirmLoading} width={width}>
       {children}
     </Modal>
   );

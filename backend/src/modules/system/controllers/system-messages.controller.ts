@@ -14,6 +14,12 @@ export class SystemMessagesController {
     return this.systemMessagesService.list(user.sub, query);
   }
 
+  @Get('stats')
+  @Permission('system:message:list')
+  stats(@CurrentUser() user: CurrentUserPayload) {
+    return this.systemMessagesService.stats(user.sub);
+  }
+
   @Patch(':id/read')
   @Permission('system:message:read')
   markRead(@CurrentUser() user: CurrentUserPayload, @Param('id') id: string) {

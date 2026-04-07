@@ -80,6 +80,47 @@ export interface QueryMessagesPayload {
   read_status?: number;
 }
 
+export interface MessageStats {
+  unreadCount: number;
+}
+
+export interface SystemMessagePayload {
+  requestId?: string;
+  requestNo?: string;
+  bizType?: string;
+  bizId?: string;
+  bizNo?: string;
+  comment?: string;
+  changeId?: string;
+  changeNo?: string;
+  changeDate?: string;
+  leaveId?: string;
+  leaveNo?: string;
+  leaveType?: string;
+  startTime?: string;
+  endTime?: string;
+  employeeId?: string;
+  employeeName?: string;
+  beforeShiftName?: string | null;
+  afterShiftName?: string | null;
+  affectedSchedules?: number;
+  affectedRecords?: number;
+  [key: string]: unknown;
+}
+
+export interface SystemMessageRecord {
+  id: string;
+  title: string;
+  content: string;
+  message_type: string;
+  route?: string;
+  read_status: number;
+  read_time?: string;
+  create_time: string;
+  sender_name?: string;
+  payload?: SystemMessagePayload;
+}
+
 export const systemApi = {
   listUsers: () => request.get('/system/users'),
   createUser: (payload: CreateUserPayload) => request.post('/system/users', payload),
@@ -123,6 +164,7 @@ export const systemApi = {
   listLoginLogs: (params?: QueryLogsPayload) => request.get('/system/logs/login', { params }),
   listOperationLogs: (params?: QueryLogsPayload) => request.get('/system/logs/operation', { params }),
   listMessages: (params?: QueryMessagesPayload) => request.get('/system/messages', { params }),
+  messageStats: () => request.get('/system/messages/stats'),
   markMessageRead: (id: string) => request.patch(`/system/messages/${id}/read`),
   markAllMessagesRead: () => request.patch('/system/messages/read-all'),
   assignUserRoles: (payload: { user_id: string; role_ids: string[] }) =>

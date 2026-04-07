@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { MessageService } from '../../../common/services/message.service';
+import { RealtimeService } from '../../../common/services/realtime.service';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { ApprovalActionDto } from '../dto/approval-action.dto';
 import { QueryApprovalRequestsDto } from '../dto/query-approval-requests.dto';
@@ -286,7 +287,8 @@ const defaultRequests: ApprovalRequestRecord[] = [
 export class ApprovalService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly realtimeService: RealtimeService
   ) {}
 
   private get templateDelegate() {
@@ -380,10 +382,7 @@ export class ApprovalService {
               route: `/approval/requests?view=pending&requestNo=${encodeURIComponent(record.requestNo)}`,
               senderId: input.applicantId,
               senderName: input.applicantName,
-              payload: {
-                requestId: record.id,
-                requestNo: record.requestNo
-              }
+              payload: this.buildApprovalMessagePayload(record)
             },
             tx
           );
@@ -519,6 +518,22 @@ export class ApprovalService {
     return items.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   }
 
+  async stats(userId: string | undefined) {
+    const [allItems, myItems, pendingItems, processedItems] = await Promise.all([
+      this.listRequests(userId, {}),
+      this.listRequests(userId, { view: 'my' }),
+      this.listRequests(userId, { view: 'pending' }),
+      this.listRequests(userId, { view: 'processed' })
+    ]);
+
+    return {
+      allCount: allItems.length,
+      myCount: myItems.length,
+      pendingCount: pendingItems.length,
+      processedCount: processedItems.length
+    };
+  }
+
   async approveRequest(userId: string | undefined, id: string, dto: ApprovalActionDto) {
     return this.updateRequestByAction(userId, id, 'approved', dto);
   }
@@ -608,16 +623,20 @@ export class ApprovalService {
           route: `/approval/requests?view=pending&requestNo=${encodeURIComponent(request.requestNo)}`,
           senderId: actor.id,
           senderName: actor.name,
-          payload: {
-            requestId: request.id,
-            requestNo: request.requestNo,
+          payload: this.buildApprovalMessagePayload(request, {
             comment: dto.comment
-          }
+          })
         },
         tx
       );
 
       return updated;
+    });
+
+    this.emitApprovalChanged([actor.id, assignee.id, previousApproverId, request.applicantId], {
+      action: 'transferred',
+      requestId: request.id,
+      requestNo: request.requestNo
     });
 
     return this.toRequest(saved);
@@ -871,6 +890,8 @@ export class ApprovalService {
         }
       });
     }
+
+    await this.notifyLeaveSyncClosedLoop(tx, request, leave, operatorId, operatorName, affectedSchedules, affectedRecords, comment);
   }
 
   private async syncApprovedOvertimeArtifacts(
@@ -1299,11 +1320,9 @@ export class ApprovalService {
           route: `/approval/requests?view=my&requestNo=${encodeURIComponent(request.requestNo)}`,
           senderId: actor.id,
           senderName: actor.name,
-          payload: {
-            requestId: request.id,
-            requestNo: request.requestNo,
+          payload: this.buildApprovalMessagePayload(request, {
             comment: dto.comment
-          }
+          })
         },
         tx
       );
@@ -1311,7 +1330,111 @@ export class ApprovalService {
       return updated;
     });
 
+    this.emitApprovalChanged([actor.id, request.applicantId], {
+      action,
+      requestId: request.id,
+      requestNo: request.requestNo
+    });
+
     return this.toRequest(saved);
+  }
+
+  private emitApprovalChanged(userIds: Array<string | undefined>, payload: Record<string, unknown>) {
+    for (const userId of new Set(userIds.filter((item): item is string => Boolean(item)))) {
+      this.realtimeService.emitToUser(userId, 'approval-request.changed', payload);
+    }
+  }
+
+  private buildApprovalMessagePayload(
+    request: Pick<ApprovalRequestRecord, 'id' | 'requestNo' | 'bizType' | 'bizId'>,
+    extra: Record<string, unknown> = {}
+  ) {
+    return {
+      requestId: request.id,
+      requestNo: request.requestNo,
+      bizType: request.bizType,
+      bizId: request.bizId,
+      ...extra
+    };
+  }
+
+  private async notifyLeaveSyncClosedLoop(
+    tx: Prisma.TransactionClient,
+    request: ApprovalRequestRecord,
+    leave: {
+      id: string;
+      employee_id: string;
+      leave_no: string;
+      leave_type: string;
+      start_time: Date;
+      end_time: Date;
+      platform_id: string | null;
+      dept_id: string | null;
+    },
+    operatorId: string,
+    operatorName: string | undefined,
+    affectedSchedules: number,
+    affectedRecords: number,
+    comment?: string
+  ) {
+    if (affectedSchedules <= 0 && affectedRecords <= 0) {
+      return;
+    }
+
+    const employee = await this.prisma.hr_employee.findUnique({
+      where: { id: leave.employee_id },
+      select: {
+        id: true,
+        name: true,
+        user_id: true
+      }
+    });
+
+    const recipients = new Set<string>([request.applicantId, operatorId]);
+    if (employee?.user_id) {
+      recipients.add(employee.user_id);
+    }
+
+    const details = [
+      affectedSchedules > 0 ? `排班清理 ${affectedSchedules} 天` : undefined,
+      affectedRecords > 0 ? `考勤回填 ${affectedRecords} 天` : undefined
+    ]
+      .filter(Boolean)
+      .join('，');
+
+    for (const recipientId of recipients) {
+      await this.messageService.send(
+        {
+          recipientId,
+          title: '请假联动已完成',
+          content: `${employee?.name ?? request.applicantName} 的请假单 ${leave.leave_no} 已完成${details}。`,
+          messageType: 'leave_sync_completed',
+          bizType: 'attendance_leave',
+          bizId: leave.id,
+          route: `/attendance/requests?approvalRequestNo=${encodeURIComponent(request.requestNo)}`,
+          senderId: operatorId,
+          senderName: operatorName,
+          payload: this.buildApprovalMessagePayload(request, {
+            leaveId: leave.id,
+            leaveNo: leave.leave_no,
+            leaveType: leave.leave_type,
+            startTime: leave.start_time.toISOString(),
+            endTime: leave.end_time.toISOString(),
+            affectedSchedules,
+            affectedRecords,
+            comment
+          })
+        },
+        tx
+      );
+    }
+
+    this.emitApprovalChanged([request.applicantId, operatorId, employee?.user_id ?? undefined], {
+      action: 'leave-sync-completed',
+      requestId: request.id,
+      requestNo: request.requestNo,
+      bizId: leave.id
+    });
   }
 
   private async createApprovalEvent(tx: Prisma.TransactionClient, input: ApprovalEventInput) {

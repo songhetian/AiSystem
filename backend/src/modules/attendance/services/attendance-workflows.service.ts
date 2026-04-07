@@ -179,6 +179,27 @@ export class AttendanceWorkflowsService {
     return (this.prisma as any)[WORKFLOW_CONFIG[type].delegate];
   }
 
+  private buildScheduleChangePayload(
+    employee: any,
+    change: {
+      id: string;
+      change_no: string;
+      change_date: Date;
+      before_shift_name?: string | null;
+      after_shift_name?: string | null;
+    }
+  ) {
+    return {
+      changeId: change.id,
+      changeNo: change.change_no,
+      changeDate: change.change_date.toISOString(),
+      employeeId: employee.id,
+      employeeName: employee.name,
+      beforeShiftName: change.before_shift_name,
+      afterShiftName: change.after_shift_name
+    };
+  }
+
   private async notifyScheduleChange(
     actorUserId: string,
     employee: any,
@@ -210,12 +231,7 @@ export class AttendanceWorkflowsService {
         bizId: change.id,
         route: '/attendance/requests',
         senderId: actorUserId,
-        payload: {
-          employeeId: employee.id,
-          employeeName: employee.name,
-          beforeShiftName: change.before_shift_name,
-          afterShiftName: change.after_shift_name
-        }
+        payload: this.buildScheduleChangePayload(employee, change)
       });
     }
 
@@ -844,12 +860,7 @@ export class AttendanceWorkflowsService {
       bizId: created.id,
       route: '/attendance/requests',
       senderId: userId,
-      payload: {
-        employeeId: employee.id,
-        employeeName: employee.name,
-        beforeShiftName: created.before_shift_name,
-        afterShiftName: created.after_shift_name
-      }
+      payload: this.buildScheduleChangePayload(employee, created)
     });
 
     if (employee.user_id && employee.user_id !== (dto.operator_id ?? userId)) {
