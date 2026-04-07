@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { CurrentUser, type CurrentUserPayload } from '../../../common/current-user.decorator';
+import { Permission } from '../../../common/permission.decorator';
 import { ScopeService } from '../../../common/services/scope.service';
 import { PrismaService } from '../../../prisma/prisma.service';
 
@@ -11,6 +12,7 @@ export class PersonnelDepartmentsController {
   ) {}
 
   @Get()
+  @Permission('personnel:department:list')
   async findAll(@CurrentUser() user: CurrentUserPayload) {
     const scope = await this.scopeService.resolveAccess(user.sub);
 

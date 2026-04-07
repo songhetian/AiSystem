@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { ProColumns } from '@ant-design/pro-components';
-import { Button, Card, DatePicker, Form, Image, Input, InputNumber, message, Popconfirm, Select, Space, Typography } from 'antd';
+import { Button, Card, DatePicker, Form, Image, Input, InputNumber, message, Popconfirm, Select, Space, Tag, Typography } from 'antd';
 import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
 import dayjs from 'dayjs';
 import { personnelApi } from '@/api/personnel';
@@ -9,6 +9,7 @@ import { systemApi } from '@/api/system';
 import { BaseModal } from '@/components/common/BaseModal';
 import { BaseUpload } from '@/components/common/BaseUpload';
 import { BaseTable } from '@/components/table/BaseTable';
+import { Permission } from '@/components/permission/Permission';
 
 const { Title } = Typography;
 
@@ -39,20 +40,12 @@ interface PositionRecord {
   name: string;
 }
 
-const baseColumns: ProColumns<EmployeeRecord>[] = [
-  { title: '姓名', dataIndex: 'name' },
-  { title: '手机号', dataIndex: 'phone' },
-  { title: '邮箱', dataIndex: 'email' },
-  { title: '员工编号', dataIndex: 'employee_no' },
-  { title: '工号', dataIndex: 'job_no' },
-  { title: '状态', dataIndex: 'status', render: (_, record) => (record.status === 1 ? '在职' : '离职/禁用') }
-];
-
 export default function EmployeesPage() {
   const [open, setOpen] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
   const [editing, setEditing] = useState<EmployeeRecord | null>(null);
   const [uploadTarget, setUploadTarget] = useState<EmployeeRecord | null>(null);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [frontFileList, setFrontFileList] = useState<UploadFile[]>([]);
   const [backFileList, setBackFileList] = useState<UploadFile[]>([]);
   const [previewUrls, setPreviewUrls] = useState<{ front: string | null; back: string | null }>({ front: null, back: null });
@@ -61,15 +54,24 @@ export default function EmployeesPage() {
 
   const { data = [], isLoading } = useQuery<EmployeeRecord[]>({
     queryKey: ['personnel-employees'],
-    queryFn: personnelApi.listEmployees
+    queryFn: async () => {
+      const res = await personnelApi.listEmployees();
+      return Array.isArray(res) ? res : [];
+    }
   });
   const { data: departments = [] } = useQuery<DepartmentRecord[]>({
     queryKey: ['system-department-options'],
-    queryFn: systemApi.listDepartments
+    queryFn: async () => {
+      const res = await systemApi.listDepartments();
+      return Array.isArray(res) ? res : [];
+    }
   });
   const { data: positions = [] } = useQuery<PositionRecord[]>({
     queryKey: ['personnel-position-options'],
-    queryFn: personnelApi.listPositions
+    queryFn: async () => {
+      const res = await personnelApi.listPositions();
+      return Array.isArray(res) ? res : [];
+    }
   });
 
   useEffect(() => {
@@ -86,7 +88,11 @@ export default function EmployeesPage() {
     }
   }, [uploadTarget, uploadOpen]);
 
-  const refresh = () => queryClient.invalidateQueries({ queryKey: ['personnel-employees'] });
+  const refresh = async () => {
+    setSelectedIds([]);
+    await queryClient.invalidateQueries({ queryKey: ['personnel-employees'] });
+  };
+
   const createMutation = useMutation({
     mutationFn: personnelApi.createEmployee,
     onSuccess: async () => {
@@ -95,6 +101,7 @@ export default function EmployeesPage() {
       await refresh();
     }
   });
+
   const updateMutation = useMutation({
     mutationFn: ({ id, payload }: { id: string; payload: Record<string, unknown> }) => personnelApi.updateEmployee(id, payload),
     onSuccess: async () => {
@@ -104,7 +111,14 @@ export default function EmployeesPage() {
       await refresh();
     }
   });
+
   const deleteMutation = useMutation({ mutationFn: personnelApi.deleteEmployee, onSuccess: refresh });
+
+  const batchStatusMutation = useMutation({
+    mutationFn: personnelApi.batchUpdateEmployeeStatus,
+    onSuccess: refresh
+  });
+
   const uploadMutation = useMutation({
     mutationFn: ({ id, side, file }: { id: string; side: 'front' | 'back'; file: File }) => personnelApi.uploadEmployeeIdCard(id, side, file),
     onSuccess: async () => {
@@ -133,45 +147,63 @@ export default function EmployeesPage() {
   };
 
   const columns: ProColumns<EmployeeRecord>[] = [
-    ...baseColumns,
+    { title: '姓名', dataIndex: 'name' },
+    { title: '手机号', dataIndex: 'phone' },
+    { title: '员工编号', dataIndex: 'employee_no' },
+    { title: '工号', dataIndex: 'job_no' },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      render: (status: number) => (
+        <Tag color={status === 1 ? 'success' : 'error'}>
+          {status === 1 ? '在职' : '离职/禁用'}
+        </Tag>
+      )
+    },
     {
       title: '证件',
       render: (_, record) => (
-        <Button
-          type="link"
-          onClick={() => {
-            setUploadTarget(record);
-            setFrontFileList([]);
-            setBackFileList([]);
-            setUploadOpen(true);
-          }}
-        >
-          上传身份证
-        </Button>
+        <Permission code="personnel:employee:id-card-view">
+          <Button
+            type="link"
+            onClick={() => {
+              setUploadTarget(record);
+              setFrontFileList([]);
+              setBackFileList([]);
+              setUploadOpen(true);
+            }}
+          >
+            证件管理
+          </Button>
+        </Permission>
       )
     },
     {
       title: '操作',
       render: (_, record) => (
         <Space>
-          <Button
-            type="link"
-            onClick={() => {
-              setEditing(record);
-              form.setFieldsValue({
-                ...record,
-                join_date: record.join_date ? dayjs(record.join_date) : undefined
-              });
-              setOpen(true);
-            }}
-          >
-            编辑
-          </Button>
-          <Popconfirm title="确认删除该员工？" onConfirm={() => deleteMutation.mutate(record.id)}>
-            <Button type="link" danger>
-              删除
+          <Permission code="personnel:employee:update">
+            <Button
+              type="link"
+              onClick={() => {
+                setEditing(record);
+                form.setFieldsValue({
+                  ...record,
+                  join_date: record.join_date ? dayjs(record.join_date) : undefined
+                });
+                setOpen(true);
+              }}
+            >
+              编辑
             </Button>
-          </Popconfirm>
+          </Permission>
+          <Permission code="personnel:employee:delete">
+            <Popconfirm title="确认删除该员工？" onConfirm={() => deleteMutation.mutate(record.id)}>
+              <Button type="link" danger>
+                删除
+              </Button>
+            </Popconfirm>
+          </Permission>
         </Space>
       )
     }
@@ -181,9 +213,21 @@ export default function EmployeesPage() {
     <Card
       title="员工管理"
       extra={
-        <Button type="primary" onClick={() => setOpen(true)}>
-          新增员工
-        </Button>
+        <Space>
+          <Permission code="personnel:employee:batch-status">
+            <Button disabled={selectedIds.length === 0} onClick={() => batchStatusMutation.mutate({ ids: selectedIds, status: 1 })}>
+              批量在职
+            </Button>
+            <Button disabled={selectedIds.length === 0} onClick={() => batchStatusMutation.mutate({ ids: selectedIds, status: 0 })}>
+              批量离职
+            </Button>
+          </Permission>
+          <Permission code="personnel:employee:create">
+            <Button type="primary" onClick={() => setOpen(true)}>
+              新增员工
+            </Button>
+          </Permission>
+        </Space>
       }
     >
       <BaseTable<EmployeeRecord>
@@ -191,6 +235,10 @@ export default function EmployeesPage() {
         columns={columns}
         dataSource={data}
         loading={isLoading}
+        rowSelection={{
+          selectedRowKeys: selectedIds,
+          onChange: (keys) => setSelectedIds(keys as string[])
+        }}
       />
       <BaseModal
         open={open}
@@ -239,10 +287,10 @@ export default function EmployeesPage() {
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item label="所属部门" name="department_id">
-            <Select allowClear options={departments.map((item) => ({ label: item.name, value: item.id }))} />
+            <Select allowClear options={departments.map((item: any) => ({ label: item.name, value: item.id }))} />
           </Form.Item>
           <Form.Item label="岗位" name="position_id">
-            <Select allowClear options={positions.map((item) => ({ label: item.name, value: item.id }))} />
+            <Select allowClear options={positions.map((item: any) => ({ label: item.name, value: item.id }))} />
           </Form.Item>
           <Form.Item label="入职日期" name="join_date">
             <DatePicker style={{ width: '100%' }} />
@@ -272,13 +320,15 @@ export default function EmployeesPage() {
                 <Image src={previewUrls.front} alt="身份证正面" style={{ maxHeight: 200, borderRadius: 8 }} />
               </div>
             )}
-            <BaseUpload
-              description="上传/更换身份证正面，JPG/PNG，最大 10MB"
-              fileList={frontFileList}
-              maxCount={1}
-              customRequest={uploadRequest('front')}
-              onChange={({ fileList }) => setFrontFileList(fileList)}
-            />
+            <Permission code="personnel:employee:id-card-upload">
+              <BaseUpload
+                description="上传/更换身份证正面，JPG/PNG，最大 10MB"
+                fileList={frontFileList}
+                maxCount={1}
+                customRequest={uploadRequest('front')}
+                onChange={({ fileList }) => setFrontFileList(fileList)}
+              />
+            </Permission>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <Title level={5}>身份证反面</Title>
@@ -287,13 +337,15 @@ export default function EmployeesPage() {
                 <Image src={previewUrls.back} alt="身份证反面" style={{ maxHeight: 200, borderRadius: 8 }} />
               </div>
             )}
-            <BaseUpload
-              description="上传/更换身份证反面，JPG/PNG，最大 10MB"
-              fileList={backFileList}
-              maxCount={1}
-              customRequest={uploadRequest('back')}
-              onChange={({ fileList }) => setBackFileList(fileList)}
-            />
+            <Permission code="personnel:employee:id-card-upload">
+              <BaseUpload
+                description="上传/更换身份证反面，JPG/PNG，最大 10MB"
+                fileList={backFileList}
+                maxCount={1}
+                customRequest={uploadRequest('back')}
+                onChange={({ fileList }) => setBackFileList(fileList)}
+              />
+            </Permission>
           </div>
         </Space>
       </BaseModal>

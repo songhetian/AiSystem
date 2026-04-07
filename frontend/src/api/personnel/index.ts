@@ -9,6 +9,7 @@ export const personnelApi = {
   listEmployees: () => request.get('/personnel/employees'),
   createEmployee: (payload: Record<string, unknown>) => request.post('/personnel/employees', payload),
   updateEmployee: (id: string, payload: Record<string, unknown>) => request.patch(`/personnel/employees/${id}`, payload),
+  batchUpdateEmployeeStatus: (payload: { ids: string[]; status: number }) => request.patch('/personnel/employees/batch/status', payload),
   deleteEmployee: (id: string) => request.delete(`/personnel/employees/${id}`),
   uploadEmployeeIdCard: (id: string, side: 'front' | 'back', file: File) => {
     const formData = new FormData();
