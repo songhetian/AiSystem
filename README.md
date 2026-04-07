@@ -17,6 +17,14 @@
 - `docker-compose.yml`：本地容器编排
 - `.env.example`：环境变量模板
 
+## 常用命令
+
+- `npm run install:all`：一键安装根目录、backend 和 frontend 的所有依赖项。
+- `npm run help`：输出根目录常用命令说明，包含 Docker、本地建表、Prisma Seed、SQL 导入等提示。
+- `npm run docker:all`：一键构建并启动全部容器。
+- `npm run db:init:sql`：通过 SQL 方式快速初始化数据库。
+- `npm run prisma:seed`：默认初始化管理员账号：`admin`，密码：`Admin123456`。
+
 ## 当前阶段
 
 当前已完成：

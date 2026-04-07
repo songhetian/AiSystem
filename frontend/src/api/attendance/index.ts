@@ -127,6 +127,8 @@ export const attendanceApi = {
   exportSchedules: (params?: Record<string, string>) => request.get('/attendance/schedules/export', { params }),
   downloadTemplate: () => request.get('/attendance/schedules/template'),
   listRecords: (params?: AttendanceWorkflowQuery) => request.get('/attendance/records', { params }),
+  getStatistics: (params: { month: string; dept_id?: string }) => request.get('/attendance/records/statistics', { params }),
+  reCalculate: (id: string) => request.post(`/attendance/records/${id}/recalculate`),
   listLeaves: (params?: AttendanceWorkflowQuery) => request.get('/attendance/leaves', { params }),
   createLeave: (payload: AttendanceLeavePayload, options?: MutationRequestOptions) =>
     request.post('/attendance/leaves', payload, withIdempotencyKey(options?.idempotencyKey)),

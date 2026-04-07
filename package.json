@@ -5,6 +5,7 @@
   "description": "AiSystem 根目录辅助脚本",
   "scripts": {
     "help": "node scripts/help.js",
+    "install:all": "npm install && npm --prefix backend install && npm --prefix frontend install",
     "docker:base": "docker compose up -d mysql redis minio qdrant",
     "docker:app": "docker compose up -d backend frontend",
     "docker:all": "docker compose up -d --build",
@@ -23,6 +24,7 @@
   },
   "scripts_zh_CN": {
     "help": "输出根目录常用命令说明，包含 Docker、本地建表、Prisma Seed、SQL 导入等提示。",
+    "install:all": "安装根目录、backend 和 frontend 的所有依赖项。",
     "docker:base": "启动基础依赖容器，包括 MySQL、Redis、MinIO、Qdrant。",
     "docker:app": "启动业务容器，包括 backend 和 frontend。",
     "docker:all": "构建并启动全部容器，适合首次启动或镜像变更后使用。",

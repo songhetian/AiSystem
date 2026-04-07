@@ -478,7 +478,7 @@ model biz_platform {
   /// 平台编码，系统内唯一。
   code String @unique
   /// 平台描述。
-  description String?
+  description String? @db.Text
   /// 平台状态，1 为启用，0 为禁用。
   status Int @default(1)
   /// 平台负责人用户 ID。
@@ -525,16 +525,16 @@ model biz_shop {
   name String
   /// 店铺编码，系统内唯一。
   code String @unique
-  /// 店铺类型。
+  /// 店铺类型，1为线上，2为线下。
   type Int @default(1)
   /// 店铺地址。
-  address String?
+  address String? @db.Text
   /// 店铺联系电话。
   phone String?
   /// 店铺头像或门店图片地址。
   avatar String?
   /// 店铺描述。
-  description String?
+  description String? @db.Text
   /// 所属平台 ID。
   platform_id String
   /// 所属部门 ID。
@@ -543,6 +543,8 @@ model biz_shop {
   owner_id String?
   /// 店铺状态，1 为启用，0 为禁用。
   status Int @default(1)
+
+  @@index([platform_id, department_id, status])
 }
 
 /// 岗位表，定义部门下的岗位信息。

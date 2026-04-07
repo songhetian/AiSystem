@@ -1,4 +1,4 @@
-﻿import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { ScopeService } from '../../../common/services/scope.service';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { QueryKnowledgeArticlesDto } from '../dto/query-knowledge-articles.dto';
@@ -326,6 +326,94 @@ export class KnowledgeService {
       ),
       orderBy: [{ sort: 'asc' }, { create_time: 'asc' }]
     });
+  }
+
+  async getAiTagSuggestions(userId: string) {
+    const scope = await this.scopeService.resolveAccess(userId);
+
+    // 拉取 AI 分析数据
+    const analyses = await (this.prisma as any).service_session_analysis.findMany({
+      where: this.scopeService.applyScope(
+        scope,
+        { is_deleted: 0 },
+        { platform: 'platform_id', department: 'dept_id', shop: 'shop_id' }
+      ),
+      select: { top_faqs: true, platform_id: true, dept_id: true, shop_id: true },
+      orderBy: { analyzed_at: 'desc' },
+      take: 500
+    });
+
+    // 统计高频词频次
+    const freqMap = new Map<string, number>();
+    for (const analysis of analyses) {
+      const faqs = (Array.isArray(analysis.top_faqs) ? analysis.top_faqs : []) as Array<{ question?: string; count?: number }>;
+      for (const faq of faqs) {
+        const word = String(faq.question ?? '').trim();
+        if (!word) continue;
+        freqMap.set(word, (freqMap.get(word) ?? 0) + Number(faq.count ?? 1));
+      }
+    }
+
+    if (freqMap.size === 0) {
+      return [];
+    }
+
+    // 拉取已有标签，用于去重
+    const existingTags = await (this.prisma as any).knowledge_tag.findMany({
+      where: this.scopeService.applyScope(
+        scope,
+        { is_deleted: 0 },
+        { platform: 'platform_id', department: 'dept_id', shop: 'shop_id' }
+      ),
+      select: { tag_name: true }
+    });
+    const existingNames = new Set<string>(existingTags.map((t: any) => String(t.tag_name).trim()));
+
+    // 返回未命中的建议，按频次降序
+    return [...freqMap.entries()]
+      .filter(([word]) => !existingNames.has(word))
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 50)
+      .map(([word, count]) => ({
+        suggested_name: word,
+        hit_count: count
+      }));
+  }
+
+  async getAiTagSuggestionsWithImpact(userId: string) {
+    return this.getAiTagSuggestions(userId);
+  }
+
+  async batchCreateTags(userId: string, tagNames: string[]) {
+    const scope = await this.scopeService.resolveAccess(userId);
+    const resolved = this.resolveWriteScope(scope, undefined, undefined, undefined);
+
+    const results: Array<{ tag_name: string; success: boolean; error?: string }> = [];
+
+    for (const tagName of tagNames) {
+      const name = tagName.trim();
+      if (!name) continue;
+
+      try {
+        await (this.prisma as any).knowledge_tag.create({
+          data: {
+            tag_name: name,
+            tag_code: this.buildTagCode(name),
+            source_type: 'service_faq',
+            sort: 0,
+            platform_id: resolved.platform_id,
+            dept_id: resolved.dept_id,
+            shop_id: resolved.shop_id,
+            created_by: userId
+          }
+        });
+        results.push({ tag_name: name, success: true });
+      } catch {
+        results.push({ tag_name: name, success: false, error: '标签名称已存在或写入失败' });
+      }
+    }
+
+    return results;
   }
 
   async getTagImpact(userId: string, id: string) {

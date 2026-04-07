@@ -56,6 +56,18 @@ export class KnowledgeController {
     return this.knowledgeService.getTagImpact(user.sub, id);
   }
 
+  @Get('tags/ai-suggestions')
+  @Permission('knowledge:tag:list')
+  getAiTagSuggestions(@CurrentUser() user: CurrentUserPayload) {
+    return this.knowledgeService.getAiTagSuggestions(user.sub);
+  }
+
+  @Post('tags/batch-create')
+  @Permission('knowledge:tag:create')
+  batchCreateTags(@CurrentUser() user: CurrentUserPayload, @Body() body: { tag_names: string[] }) {
+    return this.knowledgeService.batchCreateTags(user.sub, body.tag_names ?? []);
+  }
+
   @Post('tags')
   @Permission('knowledge:tag:create')
   createTag(@CurrentUser() user: CurrentUserPayload, @Body() dto: SaveKnowledgeTagDto) {

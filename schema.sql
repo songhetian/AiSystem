@@ -127,18 +127,18 @@ CREATE TABLE IF NOT EXISTS `sys_api_permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='鎺ュ彛鏉冮檺琛紝瀹氫箟 API 涓庡彲璁块棶瑙掕壊鐨勬槧灏?;
 
 CREATE TABLE IF NOT EXISTS `biz_platform` (
-  `id` varchar(191) NOT NULL COMMENT '骞冲彴涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '閫昏緫鍒犻櫎鏍囪锛? 鏈垹闄わ紝1 宸插垹闄?,
-  `name` varchar(191) NOT NULL COMMENT '骞冲彴鍚嶇О',
-  `code` varchar(191) NOT NULL COMMENT '骞冲彴缂栫爜锛岀郴缁熷唴鍞竴',
-  `description` varchar(191) DEFAULT NULL COMMENT '骞冲彴鎻忚堪',
-  `status` int NOT NULL DEFAULT 1 COMMENT '骞冲彴鐘舵€侊紝1 鍚敤锛? 绂佺敤',
-  `owner_id` varchar(191) DEFAULT NULL COMMENT '骞冲彴璐熻矗浜虹敤鎴?ID',
+  `id` varchar(191) NOT NULL COMMENT '平台主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记，0 未删除，1 已删除',
+  `name` varchar(191) NOT NULL COMMENT '平台名称',
+  `code` varchar(191) NOT NULL COMMENT '平台编码，系统内唯一',
+  `description` text DEFAULT NULL COMMENT '平台描述',
+  `status` int NOT NULL DEFAULT 1 COMMENT '平台状态，1 启用，0 禁用',
+  `owner_id` varchar(191) DEFAULT NULL COMMENT '平台负责人用户 ID',
   PRIMARY KEY (`id`),
   UNIQUE KEY `biz_platform_code_key` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='骞冲彴琛紝鐢ㄤ簬绠＄悊澶氬钩鍙颁富浣?;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='平台表，用于管理多平台主体';
 
 CREATE TABLE IF NOT EXISTS `biz_department` (
   `id` varchar(191) NOT NULL COMMENT '閮ㄩ棬涓婚敭 ID',
@@ -157,24 +157,25 @@ CREATE TABLE IF NOT EXISTS `biz_department` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='閮ㄩ棬琛紝鐢ㄤ簬缁勭粐鏋舵瀯绠＄悊';
 
 CREATE TABLE IF NOT EXISTS `biz_shop` (
-  `id` varchar(191) NOT NULL COMMENT '搴楅摵涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '閫昏緫鍒犻櫎鏍囪锛? 鏈垹闄わ紝1 宸插垹闄?,
-  `name` varchar(191) NOT NULL COMMENT '搴楅摵鍚嶇О',
-  `code` varchar(191) NOT NULL COMMENT '搴楅摵缂栫爜锛岀郴缁熷唴鍞竴',
-  `type` int NOT NULL DEFAULT 1 COMMENT '搴楅摵绫诲瀷',
-  `address` varchar(191) DEFAULT NULL COMMENT '搴楅摵鍦板潃',
-  `phone` varchar(191) DEFAULT NULL COMMENT '搴楅摵鑱旂郴鐢佃瘽',
-  `avatar` varchar(191) DEFAULT NULL COMMENT '搴楅摵澶村儚鎴栭棬搴楀浘鐗囧湴鍧€',
-  `description` varchar(191) DEFAULT NULL COMMENT '搴楅摵鎻忚堪',
-  `platform_id` varchar(191) NOT NULL COMMENT '鎵€灞炲钩鍙?ID',
-  `department_id` varchar(191) NOT NULL COMMENT '鎵€灞為儴闂?ID',
-  `owner_id` varchar(191) DEFAULT NULL COMMENT '搴楅摵璐熻矗浜虹敤鎴?ID',
-  `status` int NOT NULL DEFAULT 1 COMMENT '搴楅摵鐘舵€侊紝1 鍚敤锛? 绂佺敤',
+  `id` varchar(191) NOT NULL COMMENT '店铺主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记，0 未删除，1 已删除',
+  `name` varchar(191) NOT NULL COMMENT '店铺名称',
+  `code` varchar(191) NOT NULL COMMENT '店铺编码，系统内唯一',
+  `type` int NOT NULL DEFAULT 1 COMMENT '店铺类型，1为线上，2为线下',
+  `address` text DEFAULT NULL COMMENT '店铺地址',
+  `phone` varchar(191) DEFAULT NULL COMMENT '店铺联系电话',
+  `avatar` varchar(191) DEFAULT NULL COMMENT '店铺头像或门店图片地址',
+  `description` text DEFAULT NULL COMMENT '店铺描述',
+  `platform_id` varchar(191) NOT NULL COMMENT '所属平台 ID',
+  `department_id` varchar(191) NOT NULL COMMENT '所属部门 ID',
+  `owner_id` varchar(191) DEFAULT NULL COMMENT '店铺负责人用户 ID',
+  `status` int NOT NULL DEFAULT 1 COMMENT '店铺状态，1 启用，0 禁用',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `biz_shop_code_key` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='搴楅摵琛紝绠＄悊骞冲彴涓嬬殑闂ㄥ簵鎴栫粡钀ヤ富浣?;
+  UNIQUE KEY `biz_shop_code_key` (`code`),
+  KEY `biz_shop_platform_dept_status_idx` (`platform_id`, `department_id`, `status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='店铺表，管理平台下的门店或经营主体';
 
 CREATE TABLE IF NOT EXISTS `hr_position` (
   `id` varchar(191) NOT NULL COMMENT '宀椾綅涓婚敭 ID',

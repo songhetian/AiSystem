@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import { request } from "@/utils/request";
 
 export interface KnowledgeArticle {
   id: string;
@@ -27,6 +27,7 @@ export interface KnowledgeFaqCandidate {
   latest_analyzed_at: string;
   source_ref?: string;
   already_archived: boolean;
+  [key: string]: unknown;
 }
 
 export interface SaveKnowledgeArticlePayload {
@@ -69,6 +70,7 @@ export interface KnowledgeTag {
   platform_id: string;
   dept_id: string;
   shop_id?: string;
+  [key: string]: unknown;
 }
 
 export interface KnowledgeTagImpact {
@@ -87,6 +89,17 @@ export interface MergeKnowledgeTagPayload {
   target_tag_id: string;
 }
 
+export interface KnowledgeAiTagSuggestion {
+  suggested_name: string;
+  hit_count: number;
+}
+
+export interface BatchCreateTagsResult {
+  tag_name: string;
+  success: boolean;
+  error?: string;
+}
+
 export interface SaveKnowledgeCategoryPayload {
   category_name: string;
   category_code: string;
@@ -101,22 +114,47 @@ export interface SaveKnowledgeCategoryPayload {
 }
 
 export const knowledgeApi = {
-  listArticles: (params?: { keyword?: string; status?: string; category_id?: string; source_type?: string }) =>
-    request.get('/knowledge/articles', { params }),
+  listArticles: (params?: {
+    keyword?: string;
+    status?: string;
+    category_id?: string;
+    source_type?: string;
+  }) => request.get("/knowledge/articles", { params }),
   getArticle: (id: string) => request.get(`/knowledge/articles/${id}`),
-  listTags: (params?: { keyword?: string; source_type?: string; enabled?: string }) => request.get('/knowledge/tags', { params }),
+  listTags: (params?: {
+    keyword?: string;
+    source_type?: string;
+    enabled?: string;
+  }) => request.get("/knowledge/tags", { params }),
   getTagImpact: (id: string) => request.get(`/knowledge/tags/${id}/impact`),
-  createTag: (payload: Partial<KnowledgeTag> & { tag_name: string }) => request.post('/knowledge/tags', payload),
-  updateTag: (id: string, payload: Partial<KnowledgeTag> & { tag_name: string }) => request.put(`/knowledge/tags/${id}`, payload),
-  mergeTag: (id: string, payload: MergeKnowledgeTagPayload) => request.post(`/knowledge/tags/${id}/merge`, payload),
+  createTag: (payload: Partial<KnowledgeTag> & { tag_name: string }) =>
+    request.post("/knowledge/tags", payload),
+  updateTag: (
+    id: string,
+    payload: Partial<KnowledgeTag> & { tag_name: string },
+  ) => request.put(`/knowledge/tags/${id}`, payload),
+  mergeTag: (id: string, payload: MergeKnowledgeTagPayload) =>
+    request.post(`/knowledge/tags/${id}/merge`, payload),
   enableTag: (id: string) => request.post(`/knowledge/tags/${id}/enable`),
   disableTag: (id: string) => request.post(`/knowledge/tags/${id}/disable`),
-  createArticle: (payload: SaveKnowledgeArticlePayload) => request.post('/knowledge/articles', payload),
-  updateArticle: (id: string, payload: SaveKnowledgeArticlePayload) => request.put(`/knowledge/articles/${id}`, payload),
-  listFaqCandidates: () => request.get('/knowledge/faq-candidates'),
-  listCategories: (params?: { keyword?: string; enabled?: string }) => request.get('/knowledge/categories', { params }),
-  createCategory: (payload: SaveKnowledgeCategoryPayload) => request.post('/knowledge/categories', payload),
-  updateCategory: (id: string, payload: SaveKnowledgeCategoryPayload) => request.put(`/knowledge/categories/${id}`, payload),
-  enableCategory: (id: string) => request.post(`/knowledge/categories/${id}/enable`),
-  disableCategory: (id: string) => request.post(`/knowledge/categories/${id}/disable`)
+  getAiTagSuggestions: (): Promise<KnowledgeAiTagSuggestion[]> =>
+    request.get("/knowledge/tags/ai-suggestions"),
+  batchCreateTags: (tagNames: string[]): Promise<BatchCreateTagsResult[]> =>
+    request.post("/knowledge/tags/batch-create", { tag_names: tagNames }),
+  createArticle: (payload: SaveKnowledgeArticlePayload) =>
+    request.post("/knowledge/articles", payload),
+  updateArticle: (id: string, payload: SaveKnowledgeArticlePayload) =>
+    request.put(`/knowledge/articles/${id}`, payload),
+  listFaqCandidates: (): Promise<KnowledgeFaqCandidate[]> =>
+    request.get("/knowledge/faq-candidates"),
+  listCategories: (params?: { keyword?: string; enabled?: string }) =>
+    request.get("/knowledge/categories", { params }),
+  createCategory: (payload: SaveKnowledgeCategoryPayload) =>
+    request.post("/knowledge/categories", payload),
+  updateCategory: (id: string, payload: SaveKnowledgeCategoryPayload) =>
+    request.put(`/knowledge/categories/${id}`, payload),
+  enableCategory: (id: string) =>
+    request.post(`/knowledge/categories/${id}/enable`),
+  disableCategory: (id: string) =>
+    request.post(`/knowledge/categories/${id}/disable`),
 };

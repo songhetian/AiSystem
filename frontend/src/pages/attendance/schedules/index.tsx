@@ -1,7 +1,18 @@
 import { useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-  Alert,
+  DndContext,
+  useDraggable,
+  useDroppable,
+  DragOverlay,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+  type DragStartEvent,
+} from '@dnd-kit/core';
+import { CSS } from '@dnd-kit/utilities';
+import {
   Button,
   Card,
   Col,
@@ -11,21 +22,21 @@ import {
   Form,
   Input,
   InputNumber,
-  message,
   Modal,
   Row,
-  Segmented,
   Select,
   Space,
   Statistic,
   Table,
   Tag,
   Typography,
-  Upload
+  Upload,
+  message
 } from 'antd';
-import type { UploadProps } from 'antd';
+import { PlusOutlined, SearchOutlined, ReloadOutlined, InboxOutlined } from '@ant-design/icons';
 import { attendanceApi } from '@/api/attendance';
 
+const { Text, Title } = Typography;
 const { RangePicker } = DatePicker;
 
 interface ShiftRecord {
@@ -37,605 +48,387 @@ interface ShiftRecord {
   early_threshold: number;
   absenteeism_threshold: number;
   status: number;
-  usage_count?: number;
 }
 
 interface ScheduleRow {
   employee_id: string;
   employee_name: string;
-  employee_no?: string;
+  employee_no: string;
   department_name: string;
   schedules: Array<{
     date: string;
     schedule_id?: string;
-    shift_name?: string | null;
-    shift_id?: string | null;
-    on_duty_time?: string | null;
-    off_duty_time?: string | null;
+    shift_id?: string;
+    shift_name?: string;
+    on_duty_time?: string;
+    off_duty_time?: string;
   }>;
 }
 
-interface DashboardData {
-  range: {
-    start_date: string;
-    end_date: string;
-  };
+interface ScheduleData {
+  days: Array<{ key: string; label: string; weekday: string }>;
+  rows: ScheduleRow[];
+  shifts: ShiftRecord[];
   summary: {
     employee_count: number;
     shift_count: number;
     scheduled_count: number;
     rest_count: number;
   };
-  days: Array<{
-    key: string;
-    label: string;
-    weekday: string;
-  }>;
-  shifts: ShiftRecord[];
-  rows: ScheduleRow[];
 }
 
-function downloadTextFile(filename: string, content: string) {
-  const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement('a');
-  anchor.href = url;
-  anchor.download = filename;
-  anchor.click();
-  URL.revokeObjectURL(url);
-}
+// Draggable Shift Card Component
+const DraggableShiftCard = ({ shift, onDelete, onEdit }: { shift: ShiftRecord; onDelete: (id: string) => void; onEdit: (shift: ShiftRecord) => void }) => {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+    id: `shift-${shift.id}`,
+    data: { type: 'shift', shift },
+  });
 
-function startOfWeek(date: Date) {
-  const value = new Date(date);
-  const day = value.getDay();
-  const delta = day === 0 ? -6 : 1 - day;
-  value.setDate(value.getDate() + delta);
-  value.setHours(0, 0, 0, 0);
-  return value;
-}
+  const style = {
+    transform: transform ? CSS.Translate.toString(transform) : undefined,
+    opacity: isDragging ? 0.5 : 1,
+    cursor: 'grab',
+    zIndex: isDragging ? 1000 : 1,
+  };
 
-function addDays(date: Date, days: number) {
-  const value = new Date(date);
-  value.setDate(value.getDate() + days);
-  return value;
-}
+  return (
+    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+      <Card size="small" styles={{ body: { padding: 12 } }} style={{ background: '#f8fafc', borderColor: '#64748b' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+          <div>
+            <Title level={5} style={{ margin: 0, fontSize: 14 }} className="font-bold text-slate-900">
+              {shift.name}
+            </Title>
+            <Text className="text-slate-500" style={{ fontSize: 12 }}>
+              {shift.on_duty_time} - {shift.off_duty_time}
+            </Text>
+          </div>
+          <Tag color={shift.status === 1 ? 'success' : 'default'} className="font-bold">
+            {shift.status === 1 ? '启用' : '禁用'}
+          </Tag>
+        </div>
+        <Descriptions
+          column={1}
+          size="small"
+          style={{ marginTop: 8 }}
+          items={[
+            { key: 'late', label: <span className="text-slate-500">迟到</span>, children: <span className="font-bold">{shift.late_threshold}分</span> },
+            { key: 'early', label: <span className="text-slate-500">早退</span>, children: <span className="font-bold">{shift.early_threshold}分</span> },
+          ]}
+        />
+        <Space style={{ marginTop: 8 }}>
+          <Button type="link" size="small" className="font-bold p-0" onClick={(e) => { e.stopPropagation(); onEdit(shift); }}>编辑</Button>
+          <Button type="link" size="small" danger className="font-bold p-0" onClick={(e) => { e.stopPropagation(); onDelete(shift.id); }}>删除</Button>
+        </Space>
+      </Card>
+    </div>
+  );
+};
 
-function formatDate(date: Date) {
-  const year = date.getFullYear();
-  const month = `${date.getMonth() + 1}`.padStart(2, '0');
-  const day = `${date.getDate()}`.padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
+// Droppable Schedule Cell Component
+const DroppableScheduleCell = ({
+  dayKey,
+  employeeId,
+  schedule,
+  onClick,
+}: {
+  dayKey: string;
+  employeeId: string;
+  schedule?: ScheduleRow['schedules'][0];
+  onClick: () => void;
+}) => {
+  const { setNodeRef, isOver } = useDroppable({
+    id: `cell-${employeeId}-${dayKey}`,
+    data: { employeeId, date: dayKey },
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      onClick={onClick}
+      style={{
+        width: '100%',
+        minHeight: 70,
+        textAlign: 'left',
+        background: isOver ? '#e6f4ff' : (schedule?.shift_name ? '#f0f9ff' : '#ffffff'),
+        border: `1px solid ${isOver ? '#1677ff' : '#64748b'}`,
+        borderRadius: 8,
+        padding: '8px 10px',
+        cursor: 'pointer',
+        transition: 'all 0.2s',
+      }}
+    >
+      {schedule?.shift_name ? (
+        <>
+          <Tag color="blue" className="font-bold mb-1" style={{ maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {schedule.shift_name}
+          </Tag>
+          <div className="font-black text-slate-900" style={{ fontSize: 11 }}>
+            {schedule.on_duty_time}-{schedule.off_duty_time}
+          </div>
+        </>
+      ) : (
+        <div className="text-slate-400 italic" style={{ fontSize: 12 }}>空班</div>
+      )}
+    </div>
+  );
+};
 
 export default function AttendanceSchedulesPage() {
   const queryClient = useQueryClient();
-  const todayWeek = useMemo(() => {
-    const start = startOfWeek(new Date());
-    return {
-      start_date: formatDate(start),
-      end_date: formatDate(addDays(start, 6))
-    };
-  }, []);
-  const [filters, setFilters] = useState(todayWeek);
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
+  
   const [keyword, setKeyword] = useState('');
+  const [filters, setFilters] = useState({ start_date: '', end_date: '' });
+  const [activeShift, setActiveShift] = useState<ShiftRecord | null>(null);
   const [shiftOpen, setShiftOpen] = useState(false);
+  const [editingShift, setEditingShift] = useState<ShiftRecord | null>(null);
   const [assignOpen, setAssignOpen] = useState(false);
   const [quickAssignOpen, setQuickAssignOpen] = useState(false);
-  const [editingShift, setEditingShift] = useState<ShiftRecord | null>(null);
-  const [activeCell, setActiveCell] = useState<{
-    employee_id: string;
-    employee_name: string;
-    department_name: string;
-    date: string;
-    schedule_id?: string;
-    shift_name?: string | null;
-  } | null>(null);
+  const [activeCell, setActiveCell] = useState<any>(null);
+
   const [shiftForm] = Form.useForm();
   const [assignForm] = Form.useForm();
   const [quickAssignForm] = Form.useForm();
 
-  const { data, isLoading } = useQuery<DashboardData>({
-    queryKey: ['attendance-dashboard', filters, keyword],
-    queryFn: () => attendanceApi.getDashboard(keyword ? { ...filters, keyword } : filters)
+  // 1. 数据查询
+  const { data, isLoading } = useQuery<ScheduleData>({
+    queryKey: ['attendance-schedules', keyword, filters],
+    queryFn: () => attendanceApi.listSchedules({ keyword, ...filters })
   });
 
-  const refresh = async () => {
-    await queryClient.invalidateQueries({ queryKey: ['attendance-dashboard'] });
-  };
+  const refresh = () => queryClient.invalidateQueries({ queryKey: ['attendance-schedules'] });
+
+  // 2. 变更操作
+  const assignMutation = useMutation({
+    mutationFn: attendanceApi.assignSchedules,
+    onSuccess: () => {
+      setAssignOpen(false);
+      setQuickAssignOpen(false);
+      message.success('排班成功');
+      refresh();
+    }
+  });
 
   const createShiftMutation = useMutation({
     mutationFn: attendanceApi.createShift,
-    onSuccess: async () => {
-      message.success('Shift saved');
-      setShiftOpen(false);
-      setEditingShift(null);
-      shiftForm.resetFields();
-      await refresh();
-    }
+    onSuccess: () => { setShiftOpen(false); message.success('创建成功'); refresh(); }
   });
 
   const updateShiftMutation = useMutation({
-    mutationFn: ({ id, payload }: { id: string; payload: Partial<ShiftRecord> }) => attendanceApi.updateShift(id, payload),
-    onSuccess: async () => {
-      message.success('Shift updated');
-      setShiftOpen(false);
-      setEditingShift(null);
-      shiftForm.resetFields();
-      await refresh();
-    }
+    mutationFn: ({ id, payload }: { id: string; payload: any }) => attendanceApi.updateShift(id, payload),
+    onSuccess: () => { setShiftOpen(false); message.success('更新成功'); refresh(); }
   });
 
   const deleteShiftMutation = useMutation({
     mutationFn: attendanceApi.deleteShift,
-    onSuccess: async () => {
-      message.success('Shift removed');
-      await refresh();
-    }
-  });
-
-  const assignMutation = useMutation({
-    mutationFn: attendanceApi.saveSchedule,
-    onSuccess: async () => {
-      message.success('Schedule saved');
-      setAssignOpen(false);
-      assignForm.resetFields();
-      setQuickAssignOpen(false);
-      quickAssignForm.resetFields();
-      setActiveCell(null);
-      await refresh();
-    }
+    onSuccess: () => { message.success('已删除'); refresh(); }
   });
 
   const deleteScheduleMutation = useMutation({
     mutationFn: attendanceApi.deleteSchedule,
-    onSuccess: async () => {
-      message.success('Schedule cleared');
-      setQuickAssignOpen(false);
-      quickAssignForm.resetFields();
-      setActiveCell(null);
-      await refresh();
-    }
+    onSuccess: () => { setQuickAssignOpen(false); message.success('已清空'); refresh(); }
   });
 
   const importMutation = useMutation({
-    mutationFn: attendanceApi.importSchedules,
-    onSuccess: async (result: { imported: number; failed: number; errors: string[] }) => {
-      if (result.failed > 0) {
-        Modal.warning({
-          title: `Import finished. Success ${result.imported}, failed ${result.failed}`,
-          content: (
-            <div style={{ maxHeight: 240, overflow: 'auto' }}>
-              {result.errors.map((item) => (
-                <div key={item}>{item}</div>
-              ))}
-            </div>
-          )
-        });
-      } else {
-        message.success(`Imported ${result.imported} rows`);
-      }
-      await refresh();
-    }
+    mutationFn: (file: any) => attendanceApi.importSchedules(file),
+    onSuccess: () => { message.success('导入成功'); refresh(); }
   });
 
-  const shiftOptions =
-    data?.shifts.map((item) => ({
-      label: `${item.name} ${item.on_duty_time}-${item.off_duty_time}`,
-      value: item.id
-    })) ?? [];
-
-  const uploadProps: UploadProps = {
-    accept: '.csv',
-    showUploadList: false,
-    beforeUpload: async (file) => {
-      const text = await file.text();
-      const rows = text
-        .split(/\r?\n/)
-        .map((line) => line.trim())
-        .filter(Boolean)
-        .slice(1)
-        .map((line) => {
-          const [employee_no, employee_name, department_name, schedule_date, shift_name] = line.split(',');
-          return {
-            employee_no,
-            employee_name,
-            department_name,
-            schedule_date,
-            shift_name
-          };
-        })
-        .filter((item) => item.schedule_date && item.shift_name);
-
-      if (rows.length === 0) {
-        message.error('File is empty or not using the template');
-        return Upload.LIST_IGNORE;
-      }
-
-      importMutation.mutate({ rows });
-      return Upload.LIST_IGNORE;
-    }
-  };
+  const shiftOptions = useMemo(() => (data?.shifts ?? []).map(s => ({ label: s.name, value: s.id })), [data?.shifts]);
 
   const columns = [
     {
-      title: 'Employee',
+      title: '员工信息',
       dataIndex: 'employee_name',
       fixed: 'left' as const,
-      width: 200,
-      render: (_: unknown, record: ScheduleRow) => (
+      width: 180,
+      render: (_: any, record: ScheduleRow) => (
         <div>
-          <div style={{ fontWeight: 600 }}>{record.employee_name}</div>
-          <Typography.Text type="secondary">
-            {record.employee_no || 'No employee no'} / {record.department_name}
-          </Typography.Text>
+          <div className="font-bold text-slate-900">{record.employee_name}</div>
+          <Text className="text-slate-500" style={{ fontSize: 12 }}>
+            {record.employee_no || '--'} / {record.department_name}
+          </Text>
         </div>
       )
     },
     ...(data?.days.map((day, index) => ({
       title: (
-        <div>
-          <div>{day.label}</div>
-          <Typography.Text type="secondary">{day.weekday}</Typography.Text>
+        <div style={{ textAlign: 'center' }}>
+          <div className="font-bold text-slate-900">{day.label}</div>
+          <Text className="text-slate-500" style={{ fontSize: 12 }}>{day.weekday}</Text>
         </div>
       ),
       key: day.key,
-      width: 168,
-      render: (_: unknown, record: ScheduleRow) => {
+      width: 150,
+      render: (_: any, record: ScheduleRow) => {
         const schedule = record.schedules[index];
         return (
-          <button
-            type="button"
+          <DroppableScheduleCell
+            dayKey={day.key}
+            employeeId={record.employee_id}
+            schedule={schedule}
             onClick={() => {
               setActiveCell({
                 employee_id: record.employee_id,
                 employee_name: record.employee_name,
-                department_name: record.department_name,
                 date: schedule?.date ?? day.key,
                 schedule_id: schedule?.schedule_id,
-                shift_name: schedule?.shift_name
+                shift_id: schedule?.shift_id
               });
-              quickAssignForm.setFieldsValue({ shift_id: schedule?.shift_id ?? undefined });
+              quickAssignForm.setFieldsValue({ shift_id: schedule?.shift_id });
               setQuickAssignOpen(true);
             }}
-            style={{
-              width: '100%',
-              textAlign: 'left',
-              background: schedule?.shift_name ? '#eff6ff' : '#f8fafc',
-              border: '1px solid #d0d5dd',
-              borderRadius: 14,
-              padding: '10px 12px',
-              cursor: 'pointer'
-            }}
-          >
-            {schedule?.shift_name ? (
-              <>
-                <Tag color="blue" style={{ marginBottom: 6 }}>
-                  {schedule.shift_name}
-                </Tag>
-                <div style={{ fontSize: 12, color: '#667085' }}>
-                  {schedule.on_duty_time}-{schedule.off_duty_time}
-                </div>
-              </>
-            ) : (
-              <Typography.Text type="secondary">Click to assign</Typography.Text>
-            )}
-          </button>
+          />
         );
       }
     })) ?? [])
   ];
 
+  const handleDragStart = (event: DragStartEvent) => {
+    const { active } = event;
+    const shift = active.data.current?.shift;
+    if (shift) setActiveShift(shift);
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    setActiveShift(null);
+    const { active, over } = event;
+    if (!over) return;
+
+    const shiftId = active.id.toString().replace('shift-', '');
+    const { employeeId, date } = over.data.current as { employeeId: string; date: string };
+
+    if (employeeId && date) {
+      assignMutation.mutate({
+        shift_id: shiftId,
+        items: [{ employee_id: employeeId, schedule_date: date }]
+      });
+    }
+  };
+
   return (
-    <Space direction="vertical" size={16} style={{ display: 'flex' }}>
-      <Card
-        title="Shift and Schedule Management"
-        extra={
-          <Space wrap>
-            <Input.Search
-              allowClear
-              placeholder="Search employee / employee no"
-              style={{ width: 260 }}
-              onSearch={(value) => setKeyword(value.trim())}
-              onChange={(event) => {
-                if (!event.target.value) {
-                  setKeyword('');
-                }
-              }}
-            />
-            <RangePicker
-              onChange={(values) => {
-                if (!values?.[0] || !values[1]) return;
-                setFilters({
-                  start_date: values[0].format('YYYY-MM-DD'),
-                  end_date: values[1].format('YYYY-MM-DD')
-                });
-              }}
-            />
-            <Button
-              onClick={async () => {
-                const result = await attendanceApi.downloadTemplate();
-                downloadTextFile(result.filename, result.content);
-              }}
-            >
-              Template
-            </Button>
-            <Upload {...uploadProps}>
-              <Button loading={importMutation.isPending}>Import</Button>
-            </Upload>
-            <Button
-              onClick={async () => {
-                const result = await attendanceApi.exportSchedules(filters);
-                downloadTextFile(result.filename, result.content);
-              }}
-            >
-              Export
-            </Button>
-            <Button type="primary" onClick={() => setAssignOpen(true)}>
-              Batch Assign
-            </Button>
-          </Space>
-        }
-      >
-        <Row gutter={[16, 16]}>
+    <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+      <Space direction="vertical" size={16} className="w-full">
+        {/* 顶部控制台 */}
+        <Card bordered={false} className="shadow-sm">
+          <Form layout="inline" className="flex flex-wrap items-center gap-4">
+            <Form.Item className="flex-grow min-w-[200px] mb-0">
+              <Input.Search
+                allowClear
+                placeholder="搜索员工姓名/工号"
+                className="h-[44px]"
+                onSearch={setKeyword}
+              />
+            </Form.Item>
+            <Form.Item className="mb-0">
+              <RangePicker
+                className="h-[44px]"
+                onChange={(vals) => setFilters({
+                  start_date: vals?.[0]?.format('YYYY-MM-DD') ?? '',
+                  end_date: vals?.[1]?.format('YYYY-MM-DD') ?? ''
+                })}
+              />
+            </Form.Item>
+            <Form.Item className="mb-0">
+              <Space>
+                <Upload
+                  showUploadList={false}
+                  beforeUpload={(file) => { importMutation.mutate(file); return false; }}
+                >
+                  <Button icon={<InboxOutlined />} className="h-[44px] font-bold">导入排班</Button>
+                </Upload>
+                <Button type="primary" icon={<PlusOutlined />} onClick={() => setAssignOpen(true)} className="h-[44px] font-bold">
+                  批量排班
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
+          
+          <Row gutter={[24, 24]} className="mt-6">
+            <Col span={6}>
+              <Statistic title={<span className="font-bold text-slate-500">员工总数</span>} value={data?.summary.employee_count ?? 0} valueStyle={{ color: '#0f172a', fontWeight: 900 }} />
+            </Col>
+            <Col span={6}>
+              <Statistic title={<span className="font-bold text-slate-500">定义班次</span>} value={data?.summary.shift_count ?? 0} valueStyle={{ color: '#0f172a', fontWeight: 900 }} />
+            </Col>
+            <Col span={6}>
+              <Statistic title={<span className="font-bold text-slate-500">已排班次</span>} value={data?.summary.scheduled_count ?? 0} valueStyle={{ color: '#1677ff', fontWeight: 900 }} />
+            </Col>
+            <Col span={6}>
+              <Statistic title={<span className="font-bold text-slate-500">剩余格数</span>} value={data?.summary.rest_count ?? 0} valueStyle={{ color: '#64748b', fontWeight: 900 }} />
+            </Col>
+          </Row>
+        </Card>
+
+        {/* 主体区域 */}
+        <Row gutter={16}>
           <Col span={6}>
-            <Statistic title="Employees" value={data?.summary.employee_count ?? 0} />
+            <Card title={<span className="font-black text-slate-900">班次库</span>} extra={<Button size="small" type="primary" onClick={() => { setEditingShift(null); shiftForm.resetFields(); setShiftOpen(true); }}>新增</Button>}>
+              <div className="space-y-3">
+                {data?.shifts.map(shift => (
+                  <DraggableShiftCard key={shift.id} shift={shift} onEdit={(s) => { setEditingShift(s); shiftForm.setFieldsValue(s); setShiftOpen(true); }} onDelete={id => deleteShiftMutation.mutate(id)} />
+                ))}
+                {data?.shifts.length === 0 && <Empty description="暂无班次" />}
+              </div>
+            </Card>
           </Col>
-          <Col span={6}>
-            <Statistic title="Shifts" value={data?.summary.shift_count ?? 0} />
-          </Col>
-          <Col span={6}>
-            <Statistic title="Assigned" value={data?.summary.scheduled_count ?? 0} />
-          </Col>
-          <Col span={6}>
-            <Statistic title="Rest Cells" value={data?.summary.rest_count ?? 0} />
+          <Col span={18}>
+            <Card title={<span className="font-black text-slate-900">排班视图 (周)</span>} styles={{ body: { padding: 0 } }}>
+              <Table
+                rowKey="employee_id"
+                columns={columns}
+                dataSource={data?.rows ?? []}
+                loading={isLoading}
+                pagination={false}
+                scroll={{ x: 'max-content' }}
+                bordered
+              />
+            </Card>
           </Col>
         </Row>
-      </Card>
 
-      <Row gutter={[16, 16]}>
-        <Col xs={24} xl={8}>
-          <Card
-            title="Shift Library"
-            extra={
-              <Button
-                type="primary"
-                onClick={() => {
-                  setEditingShift(null);
-                  shiftForm.resetFields();
-                  setShiftOpen(true);
-                }}
-              >
-                New Shift
-              </Button>
-            }
-          >
-            <Space direction="vertical" size={12} style={{ display: 'flex' }}>
-              {(data?.shifts ?? []).map((shift) => (
-                <Card key={shift.id} size="small" styles={{ body: { padding: 16 } }} style={{ background: '#f8fafc', borderColor: '#d0d5dd' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
-                    <div>
-                      <Typography.Title level={5} style={{ margin: 0 }}>
-                        {shift.name}
-                      </Typography.Title>
-                      <Typography.Text type="secondary">
-                        {shift.on_duty_time} - {shift.off_duty_time}
-                      </Typography.Text>
-                    </div>
-                    <Tag color={shift.status === 1 ? 'success' : 'default'}>{shift.status === 1 ? 'Enabled' : 'Disabled'}</Tag>
-                  </div>
-                  <Descriptions
-                    column={1}
-                    size="small"
-                    style={{ marginTop: 12 }}
-                    items={[
-                      { key: 'late', label: 'Late Threshold', children: `${shift.late_threshold} min` },
-                      { key: 'early', label: 'Early Leave', children: `${shift.early_threshold} min` },
-                      { key: 'use', label: 'Usage Count', children: `${shift.usage_count ?? 0}` }
-                    ]}
-                  />
-                  <Space>
-                    <Button
-                      type="link"
-                      onClick={() => {
-                        setEditingShift(shift);
-                        shiftForm.setFieldsValue(shift);
-                        setShiftOpen(true);
-                      }}
-                    >
-                      Edit
-                    </Button>
-                    <Button type="link" danger onClick={() => deleteShiftMutation.mutate(shift.id)}>
-                      Delete
-                    </Button>
-                  </Space>
-                </Card>
-              ))}
-              {!data?.shifts?.length ? <Empty description="No shifts yet. Create Morning / Mid / Night first." /> : null}
-            </Space>
-          </Card>
-        </Col>
+        {/* 拖拽叠加层 */}
+        <DragOverlay>
+          {activeShift && (
+            <Card size="small" style={{ width: 180, opacity: 0.8, background: '#1677ff', borderColor: '#1677ff' }}>
+              <Text className="text-white font-bold">{activeShift.name}</Text>
+              <div className="text-white text-xs">{activeShift.on_duty_time}-{activeShift.off_duty_time}</div>
+            </Card>
+          )}
+        </DragOverlay>
 
-        <Col xs={24} xl={16}>
-          <Card
-            title="Weekly Schedule View"
-            extra={
-              <Space>
-                <Segmented
-                  options={[
-                    { label: 'Week Grid', value: 'week' },
-                    { label: 'Quick Assign', value: 'quick' }
-                  ]}
-                  value="week"
-                />
-                <Typography.Text type="secondary">Click a cell to assign or clear a shift</Typography.Text>
-              </Space>
-            }
-          >
-            {!data?.rows?.length ? (
-              <Empty description="No employees available in the selected range" />
-            ) : (
-              <Table rowKey="employee_id" columns={columns} dataSource={data.rows} loading={isLoading} pagination={false} scroll={{ x: 1200 }} size="small" />
-            )}
-          </Card>
-        </Col>
-      </Row>
+        {/* 弹窗 */}
+        <Modal open={shiftOpen} title={editingShift ? '编辑班次' : '新增班次'} onCancel={() => setShiftOpen(false)} onOk={() => shiftForm.submit()}>
+          <Form form={shiftForm} layout="vertical" onFinish={v => editingShift ? updateShiftMutation.mutate({ id: editingShift.id, payload: v }) : createShiftMutation.mutate(v)}>
+            <Form.Item label="名称" name="name" rules={[{ required: true }]}><Input /></Form.Item>
+            <Row gutter={12}>
+              <Col span={12}><Form.Item label="上班" name="on_duty_time" rules={[{ required: true }]}><Input placeholder="09:00" /></Form.Item></Col>
+              <Col span={12}><Form.Item label="下班" name="off_duty_time" rules={[{ required: true }]}><Input placeholder="18:00" /></Form.Item></Col>
+            </Row>
+            <Row gutter={12}>
+              <Col span={8}><Form.Item label="迟到(分)" name="late_threshold"><InputNumber className="w-full" min={0} /></Form.Item></Col>
+              <Col span={8}><Form.Item label="早退(分)" name="early_threshold"><InputNumber className="w-full" min={0} /></Form.Item></Col>
+              <Col span={8}><Form.Item label="旷工(分)" name="absenteeism_threshold"><InputNumber className="w-full" min={0} /></Form.Item></Col>
+            </Row>
+          </Form>
+        </Modal>
 
-      <Card title="Notes">
-        <Alert type="info" showIcon message="Supports shift rules, weekly schedule view, batch assignment, CSV import, and CSV export." />
-      </Card>
+        <Modal open={assignOpen} title="批量排班" onCancel={() => setAssignOpen(false)} onOk={() => assignForm.submit()}>
+          <Form form={assignForm} layout="vertical" onFinish={v => assignMutation.mutate({ shift_id: v.shift_id, items: v.employee_ids.flatMap((eId: string) => v.dates.map((d: string) => ({ employee_id: eId, schedule_date: d }))) })}>
+            <Form.Item label="班次" name="shift_id" rules={[{ required: true }]}><Select options={shiftOptions} /></Form.Item>
+            <Form.Item label="员工" name="employee_ids" rules={[{ required: true }]}><Select mode="multiple" options={data?.rows.map(r => ({ label: r.employee_name, value: r.employee_id }))} /></Form.Item>
+            <Form.Item label="日期" name="dates" rules={[{ required: true }]}><Select mode="multiple" options={data?.days.map(d => ({ label: d.label, value: d.key }))} /></Form.Item>
+          </Form>
+        </Modal>
 
-      <Modal
-        open={shiftOpen}
-        title={editingShift ? 'Edit Shift' : 'New Shift'}
-        onCancel={() => {
-          setShiftOpen(false);
-          setEditingShift(null);
-          shiftForm.resetFields();
-        }}
-        onOk={() => shiftForm.submit()}
-      >
-        <Form
-          form={shiftForm}
-          layout="vertical"
-          initialValues={{ status: 1, late_threshold: 10, early_threshold: 10, absenteeism_threshold: 120 }}
-          onFinish={(values) => {
-            if (editingShift) {
-              updateShiftMutation.mutate({ id: editingShift.id, payload: values });
-            } else {
-              createShiftMutation.mutate(values);
-            }
-          }}
-        >
-          <Form.Item label="Shift Name" name="name" rules={[{ required: true }]}>
-            <Input placeholder="Morning Shift / Night Shift / Support Duty" />
-          </Form.Item>
-          <Row gutter={12}>
-            <Col span={12}>
-              <Form.Item label="On Duty" name="on_duty_time" rules={[{ required: true }]}>
-                <Input placeholder="09:00" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item label="Off Duty" name="off_duty_time" rules={[{ required: true }]}>
-                <Input placeholder="18:00" />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={12}>
-            <Col span={8}>
-              <Form.Item label="Late Threshold" name="late_threshold">
-                <InputNumber min={0} max={240} style={{ width: '100%' }} />
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item label="Early Leave" name="early_threshold">
-                <InputNumber min={0} max={240} style={{ width: '100%' }} />
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item label="Absence Threshold" name="absenteeism_threshold">
-                <InputNumber min={0} max={1440} style={{ width: '100%' }} />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Form.Item label="Status" name="status">
-            <Select options={[{ label: 'Enabled', value: 1 }, { label: 'Disabled', value: 0 }]} />
-          </Form.Item>
-        </Form>
-      </Modal>
-
-      <Modal
-        open={assignOpen}
-        title="Batch Assign"
-        onCancel={() => {
-          setAssignOpen(false);
-          assignForm.resetFields();
-        }}
-        onOk={() => assignForm.submit()}
-      >
-        <Form
-          form={assignForm}
-          layout="vertical"
-          onFinish={(values) => {
-            const employeeIds = values.employee_ids ?? [];
-            const dates = values.schedule_dates ?? [];
-            assignMutation.mutate({
-              shift_id: values.shift_id,
-              items: employeeIds.flatMap((employeeId: string) =>
-                dates.map((schedule_date: string) => ({
-                  employee_id: employeeId,
-                  schedule_date
-                }))
-              )
-            });
-          }}
-        >
-          <Form.Item label="Shift" name="shift_id">
-            <Select allowClear placeholder="Clear schedule when no shift is selected" options={shiftOptions} />
-          </Form.Item>
-          <Form.Item label="Employees" name="employee_ids" rules={[{ required: true }]}>
-            <Select
-              mode="multiple"
-              options={(data?.rows ?? []).map((item) => ({
-                label: `${item.employee_name} / ${item.department_name}`,
-                value: item.employee_id
-              }))}
-            />
-          </Form.Item>
-          <Form.Item label="Dates" name="schedule_dates" rules={[{ required: true }]}>
-            <Select
-              mode="multiple"
-              options={(data?.days ?? []).map((item) => ({
-                label: `${item.label} ${item.weekday}`,
-                value: item.key
-              }))}
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-
-      <Modal
-        open={quickAssignOpen}
-        title="Quick Assign"
-        onCancel={() => {
-          setQuickAssignOpen(false);
-          setActiveCell(null);
-          quickAssignForm.resetFields();
-        }}
-        onOk={() => quickAssignForm.submit()}
-      >
-        <Typography.Paragraph type="secondary" style={{ marginBottom: 16 }}>
-          {activeCell ? `${activeCell.employee_name} / ${activeCell.department_name} / ${activeCell.date}` : ''}
-        </Typography.Paragraph>
-        <Form
-          form={quickAssignForm}
-          layout="vertical"
-          onFinish={(values) => {
-            if (!activeCell) {
-              return;
-            }
-
-            assignMutation.mutate({
-              shift_id: values.shift_id,
-              items: [
-                {
-                  employee_id: activeCell.employee_id,
-                  schedule_date: activeCell.date
-                }
-              ]
-            });
-          }}
-        >
-          <Form.Item label="Shift" name="shift_id">
-            <Select allowClear placeholder="Choose a shift or leave empty to clear" options={shiftOptions} />
-          </Form.Item>
-        </Form>
-        {activeCell?.schedule_id ? (
-          <Button danger onClick={() => deleteScheduleMutation.mutate(activeCell.schedule_id!)}>
-            Clear Current Schedule
-          </Button>
-        ) : null}
-      </Modal>
-    </Space>
+        <Modal open={quickAssignOpen} title="快捷操作" onCancel={() => setQuickAssignOpen(false)} onOk={() => quickAssignForm.submit()}>
+          <Form form={quickAssignForm} layout="vertical" onFinish={v => assignMutation.mutate({ shift_id: v.shift_id, items: [{ employee_id: activeCell.employee_id, schedule_date: activeCell.date }] })}>
+             <Form.Item label="更换班次" name="shift_id"><Select allowClear options={shiftOptions} /></Form.Item>
+          </Form>
+          {activeCell?.schedule_id && <Button block danger onClick={() => deleteScheduleMutation.mutate(activeCell.schedule_id)}>清空该格</Button>}
+        </Modal>
+      </Space>
+    </DndContext>
   );
 }
