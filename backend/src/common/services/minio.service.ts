@@ -40,4 +40,16 @@ export class MinioService implements OnModuleInit {
       throw new InternalServerErrorException(`文件上传失败: ${String(error)}`);
     }
   }
+
+  async getPresignedUrl(objectName: string, expiry = 3600) {
+    try {
+      // Return local-friendly URL if it's already a full URL (though usually it's just the path)
+      if (objectName.startsWith('http')) {
+        return objectName;
+      }
+      return await this.client.presignedGetObject(this.bucket, objectName, expiry);
+    } catch (error) {
+      throw new InternalServerErrorException(`生成预览链接失败: ${String(error)}`);
+    }
+  }
 }

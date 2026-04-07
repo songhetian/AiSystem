@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CurrentUser, type CurrentUserPayload } from '../../../common/current-user.decorator';
 import { Permission } from '../../../common/permission.decorator';
+import { BatchUpdateDepartmentStatusDto } from '../dto/batch-update-department-status.dto';
 import { CreateDepartmentDto } from '../dto/create-department.dto';
 import { UpdateDepartmentDto } from '../dto/update-department.dto';
 import { SystemDepartmentsService } from '../services/system-departments.service';
@@ -25,6 +26,12 @@ export class SystemDepartmentsController {
   @Permission('system:department:create')
   create(@CurrentUser() user: CurrentUserPayload, @Body() dto: CreateDepartmentDto) {
     return this.systemDepartmentsService.create(user.sub, dto);
+  }
+
+  @Patch('batch/status')
+  @Permission('system:department:batch-status')
+  batchUpdateStatus(@CurrentUser() user: CurrentUserPayload, @Body() dto: BatchUpdateDepartmentStatusDto) {
+    return this.systemDepartmentsService.batchUpdateStatus(user.sub, dto.ids, dto.status);
   }
 
   @Patch(':id')

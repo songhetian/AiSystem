@@ -37,6 +37,7 @@ interface DepartmentRecord {
 export default function SystemShopsPage() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<ShopRecord | null>(null);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [filterForm] = Form.useForm();
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
@@ -66,7 +67,10 @@ export default function SystemShopsPage() {
     }
   });
 
-  const refresh = () => queryClient.invalidateQueries({ queryKey: ['system-shops'] });
+  const refresh = async () => {
+    setSelectedIds([]);
+    await queryClient.invalidateQueries({ queryKey: ['system-shops'] });
+  };
 
   // 2. 变更操作
   const createMutation = useMutation({
@@ -90,6 +94,11 @@ export default function SystemShopsPage() {
 
   const deleteMutation = useMutation({
     mutationFn: systemApi.deleteShop,
+    onSuccess: refresh
+  });
+
+  const batchStatusMutation = useMutation({
+    mutationFn: systemApi.batchUpdateShopStatus,
     onSuccess: refresh
   });
 
@@ -186,9 +195,27 @@ export default function SystemShopsPage() {
               <Button icon={<ReloadOutlined />} onClick={() => filterForm.resetFields()} className="h-[44px] border-slate-500 font-bold">
                 重置
               </Button>
-              <Button type="primary" icon={<PlusOutlined />} onClick={() => setOpen(true)} className="h-[44px] font-bold">
-                新增店铺
-              </Button>
+              <Permission code="system:shop:batch-status">
+                <Button 
+                  disabled={selectedIds.length === 0} 
+                  onClick={() => batchStatusMutation.mutate({ ids: selectedIds, status: 1 })}
+                  className="h-[44px] font-bold"
+                >
+                  批量启用
+                </Button>
+                <Button 
+                  disabled={selectedIds.length === 0} 
+                  onClick={() => batchStatusMutation.mutate({ ids: selectedIds, status: 0 })}
+                  className="h-[44px] font-bold"
+                >
+                  批量禁用
+                </Button>
+              </Permission>
+              <Permission code="system:shop:create">
+                <Button type="primary" icon={<PlusOutlined />} onClick={() => setOpen(true)} className="h-[44px] font-bold">
+                  新增店铺
+                </Button>
+              </Permission>
             </Space>
           </Form.Item>
         </Form>
@@ -202,6 +229,10 @@ export default function SystemShopsPage() {
           loading={isLoading}
           rowKey="id"
           pagination={{ pageSize: 10 }}
+          rowSelection={{
+            selectedRowKeys: selectedIds,
+            onChange: (keys) => setSelectedIds(keys as string[])
+          }}
         />
       </Card>
 

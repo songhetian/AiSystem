@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, Card, Form, Input, InputNumber, Popconfirm, Select, Space, Tree } from 'antd';
 import type { DataNode } from 'antd/es/tree';
-import { systemApi } from '@/api/system';
+import { systemApi, type CreateDepartmentPayload } from '@/api/system';
 import { BaseModal } from '@/components/common/BaseModal';
+import { Permission } from '@/components/permission/Permission';
 
 interface DepartmentNode {
   id: string;
@@ -24,26 +25,34 @@ interface PlatformRecord {
 export default function SystemDepartmentsPage() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<DepartmentNode | null>(null);
+  const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
+
   const { data: departments = [], isLoading } = useQuery<DepartmentNode[]>({
     queryKey: ['system-departments-tree'],
     queryFn: systemApi.listDepartmentTree
   });
+
   const { data: platforms = [] } = useQuery<PlatformRecord[]>({
     queryKey: ['system-platform-options'],
     queryFn: systemApi.listPlatforms
   });
 
-  const refresh = () => queryClient.invalidateQueries({ queryKey: ['system-departments-tree'] });
+  const refresh = async () => {
+    setCheckedKeys([]);
+    await queryClient.invalidateQueries({ queryKey: ['system-departments-tree'] });
+  };
+
   const createMutation = useMutation({
-    mutationFn: systemApi.createDepartment,
+    mutationFn: (payload: CreateDepartmentPayload) => systemApi.createDepartment(payload),
     onSuccess: async () => {
       setOpen(false);
       form.resetFields();
       await refresh();
     }
   });
+
   const updateMutation = useMutation({
     mutationFn: ({ id, payload }: { id: string; payload: Record<string, unknown> }) => systemApi.updateDepartment(id, payload),
     onSuccess: async () => {
@@ -53,19 +62,59 @@ export default function SystemDepartmentsPage() {
       await refresh();
     }
   });
-  const deleteMutation = useMutation({ mutationFn: systemApi.deleteDepartment, onSuccess: refresh });
+
+  const deleteMutation = useMutation({
+    mutationFn: systemApi.deleteDepartment,
+    onSuccess: refresh
+  });
+
+  const batchStatusMutation = useMutation({
+    mutationFn: systemApi.batchUpdateDepartmentStatus,
+    onSuccess: refresh
+  });
+
+  const onEdit = (item: DepartmentNode) => {
+    setEditing(item);
+    form.setFieldsValue(item);
+    setOpen(true);
+  };
 
   return (
     <Card
       title="部门管理"
       loading={isLoading}
       extra={
-        <Button type="primary" onClick={() => setOpen(true)}>
-          新增部门
-        </Button>
+        <Space>
+          <Permission code="system:department:batch-status">
+            <Button 
+              disabled={checkedKeys.length === 0} 
+              onClick={() => batchStatusMutation.mutate({ ids: checkedKeys, status: 1 })}
+            >
+              批量启用
+            </Button>
+            <Button 
+              disabled={checkedKeys.length === 0} 
+              onClick={() => batchStatusMutation.mutate({ ids: checkedKeys, status: 0 })}
+            >
+              批量禁用
+            </Button>
+          </Permission>
+          <Permission code="system:department:create">
+            <Button type="primary" onClick={() => setOpen(true)}>
+              新增部门
+            </Button>
+          </Permission>
+        </Space>
       }
     >
-      <Tree defaultExpandAll treeData={buildDepartmentTree(departments, setEditing, deleteMutation.mutate)} />
+      <Tree
+        checkable
+        defaultExpandAll
+        checkedKeys={checkedKeys}
+        onCheck={(keys) => setCheckedKeys(keys as string[])}
+        treeData={buildDepartmentTree(departments, onEdit, deleteMutation.mutate)}
+      />
+
       <BaseModal
         open={open}
         title={editing ? '编辑部门' : '新增部门'}
@@ -105,23 +154,31 @@ export default function SystemDepartmentsPage() {
   );
 }
 
-function buildDepartmentTree(items: DepartmentNode[], setEditing: (item: DepartmentNode) => void, onDelete: (id: string) => void): DataNode[] {
+function buildDepartmentTree(
+  items: DepartmentNode[], 
+  onEdit: (item: DepartmentNode) => void, 
+  onDelete: (id: string) => void
+): DataNode[] {
   return items.map((item) => ({
     key: item.id,
     title: (
       <Space>
-        <span>{item.name}</span>
-        <Button type="link" size="small" onClick={() => setEditing(item)}>
-          编辑
-        </Button>
-        <Popconfirm title="确认删除该部门？" onConfirm={() => onDelete(item.id)}>
-          <Button type="link" size="small" danger>
-            删除
+        <span>{item.name} {item.status === 0 && <span style={{ color: '#ff4d4f' }}>(禁用)</span>}</span>
+        <Permission code="system:department:update">
+          <Button type="link" size="small" onClick={() => onEdit(item)}>
+            编辑
           </Button>
-        </Popconfirm>
+        </Permission>
+        <Permission code="system:department:delete">
+          <Popconfirm title="确认删除该部门？" onConfirm={() => onDelete(item.id)}>
+            <Button type="link" size="small" danger>
+              删除
+            </Button>
+          </Popconfirm>
+        </Permission>
       </Space>
     ),
-    children: buildDepartmentTree(item.children ?? [], setEditing, onDelete)
+    children: buildDepartmentTree(item.children ?? [], onEdit, onDelete)
   }));
 }
 

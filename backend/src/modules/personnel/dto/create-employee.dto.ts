@@ -1,4 +1,4 @@
-import { IsDateString, IsEmail, IsInt, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsDateString, IsEmail, IsInt, IsOptional, IsString } from 'class-validator';
 
 export class CreateEmployeeDto {
   @IsString()
@@ -59,4 +59,9 @@ export class CreateEmployeeDto {
   @IsOptional()
   @IsDateString()
   contract_expire_time?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  role_ids?: string[];
 }

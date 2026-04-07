@@ -18,5 +18,7 @@ export const personnelApi = {
         'Content-Type': 'multipart/form-data'
       }
     });
-  }
+  },
+  getEmployeeIdCardUrl: (id: string, side: 'front' | 'back'): Promise<{ url: string | null }> =>
+    request.get(`/personnel/employees/${id}/id-card/${side}`)
 };

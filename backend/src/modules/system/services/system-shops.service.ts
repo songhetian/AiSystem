@@ -59,6 +59,24 @@ export class SystemShopsService {
     });
   }
 
+  async batchUpdateStatus(userId: string, ids: string[], status: number) {
+    const scope = await this.scopeService.resolveAccess(userId);
+    // Batch update requires careful scope check. For simplicity, we ensure access to each shop's platform/dept.
+    // However, updateMany is tricky with complex scopes. We'll use a simpler approach or a multi-step update.
+    // For now, let's just ensure the user has access to at least the current scopes of the target IDs.
+    
+    return this.prisma.biz_shop.updateMany({
+      where: this.scopeService.applyScope(scope, {
+        id: { in: ids },
+        is_deleted: 0
+      }, {
+        platform: 'platform_id',
+        department: 'department_id'
+      }),
+      data: { status }
+    });
+  }
+
   async remove(userId: string, id: string) {
     const scope = await this.scopeService.resolveAccess(userId);
     const current = await this.prisma.biz_shop.findUnique({ where: { id } });

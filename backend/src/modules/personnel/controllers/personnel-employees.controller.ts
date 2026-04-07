@@ -35,6 +35,15 @@ export class PersonnelEmployeesController {
     return this.personnelEmployeesService.uploadIdCard(user.sub, id, side, file);
   }
 
+  @Get(':id/id-card/:side')
+  getIdCardUrl(
+    @CurrentUser() user: CurrentUserPayload,
+    @Param('id') id: string,
+    @Param('side') side: 'front' | 'back'
+  ) {
+    return this.personnelEmployeesService.getIdCardUrl(user.sub, id, side);
+  }
+
   @Delete(':id')
   remove(@CurrentUser() user: CurrentUserPayload, @Param('id') id: string) {
     return this.personnelEmployeesService.remove(user.sub, id);

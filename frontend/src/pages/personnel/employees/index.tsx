@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { ProColumns } from '@ant-design/pro-components';
-import { Button, Card, DatePicker, Form, Input, InputNumber, message, Popconfirm, Select, Space } from 'antd';
+import { Button, Card, DatePicker, Form, Image, Input, InputNumber, message, Popconfirm, Select, Space, Typography } from 'antd';
 import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
 import dayjs from 'dayjs';
 import { personnelApi } from '@/api/personnel';
@@ -9,6 +9,8 @@ import { systemApi } from '@/api/system';
 import { BaseModal } from '@/components/common/BaseModal';
 import { BaseUpload } from '@/components/common/BaseUpload';
 import { BaseTable } from '@/components/table/BaseTable';
+
+const { Title } = Typography;
 
 interface EmployeeRecord {
   id: string;
@@ -37,7 +39,7 @@ interface PositionRecord {
   name: string;
 }
 
-const columns: ProColumns<EmployeeRecord>[] = [
+const baseColumns: ProColumns<EmployeeRecord>[] = [
   { title: '姓名', dataIndex: 'name' },
   { title: '手机号', dataIndex: 'phone' },
   { title: '邮箱', dataIndex: 'email' },
@@ -53,8 +55,10 @@ export default function EmployeesPage() {
   const [uploadTarget, setUploadTarget] = useState<EmployeeRecord | null>(null);
   const [frontFileList, setFrontFileList] = useState<UploadFile[]>([]);
   const [backFileList, setBackFileList] = useState<UploadFile[]>([]);
+  const [previewUrls, setPreviewUrls] = useState<{ front: string | null; back: string | null }>({ front: null, back: null });
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
+
   const { data = [], isLoading } = useQuery<EmployeeRecord[]>({
     queryKey: ['personnel-employees'],
     queryFn: personnelApi.listEmployees
@@ -67,6 +71,20 @@ export default function EmployeesPage() {
     queryKey: ['personnel-position-options'],
     queryFn: personnelApi.listPositions
   });
+
+  useEffect(() => {
+    if (uploadTarget && uploadOpen) {
+      Promise.all([
+        personnelApi.getEmployeeIdCardUrl(uploadTarget.id, 'front'),
+        personnelApi.getEmployeeIdCardUrl(uploadTarget.id, 'back')
+      ]).then(([frontRes, backRes]) => {
+        setPreviewUrls({
+          front: frontRes.url,
+          back: backRes.url
+        });
+      });
+    }
+  }, [uploadTarget, uploadOpen]);
 
   const refresh = () => queryClient.invalidateQueries({ queryKey: ['personnel-employees'] });
   const createMutation = useMutation({
@@ -107,10 +125,57 @@ export default function EmployeesPage() {
         file: options.file
       });
       options.onSuccess?.({}, options.file);
+      const res = await personnelApi.getEmployeeIdCardUrl(uploadTarget.id, side);
+      setPreviewUrls(prev => ({ ...prev, [side]: res.url }));
     } catch (error) {
       options.onError?.(error as Error);
     }
   };
+
+  const columns: ProColumns<EmployeeRecord>[] = [
+    ...baseColumns,
+    {
+      title: '证件',
+      render: (_, record) => (
+        <Button
+          type="link"
+          onClick={() => {
+            setUploadTarget(record);
+            setFrontFileList([]);
+            setBackFileList([]);
+            setUploadOpen(true);
+          }}
+        >
+          上传身份证
+        </Button>
+      )
+    },
+    {
+      title: '操作',
+      render: (_, record) => (
+        <Space>
+          <Button
+            type="link"
+            onClick={() => {
+              setEditing(record);
+              form.setFieldsValue({
+                ...record,
+                join_date: record.join_date ? dayjs(record.join_date) : undefined
+              });
+              setOpen(true);
+            }}
+          >
+            编辑
+          </Button>
+          <Popconfirm title="确认删除该员工？" onConfirm={() => deleteMutation.mutate(record.id)}>
+            <Button type="link" danger>
+              删除
+            </Button>
+          </Popconfirm>
+        </Space>
+      )
+    }
+  ];
 
   return (
     <Card
@@ -123,50 +188,7 @@ export default function EmployeesPage() {
     >
       <BaseTable<EmployeeRecord>
         rowKey="id"
-        columns={[
-          ...columns,
-          {
-            title: '证件',
-            render: (_, record) => (
-              <Button
-                type="link"
-                onClick={() => {
-                  setUploadTarget(record);
-                  setFrontFileList([]);
-                  setBackFileList([]);
-                  setUploadOpen(true);
-                }}
-              >
-                上传身份证
-              </Button>
-            )
-          },
-          {
-            title: '操作',
-            render: (_, record) => (
-              <Space>
-                <Button
-                  type="link"
-                  onClick={() => {
-                    setEditing(record);
-                    form.setFieldsValue({
-                      ...record,
-                      join_date: record.join_date ? dayjs(record.join_date) : undefined
-                    });
-                    setOpen(true);
-                  }}
-                >
-                  编辑
-                </Button>
-                <Popconfirm title="确认删除该员工？" onConfirm={() => deleteMutation.mutate(record.id)}>
-                  <Button type="link" danger>
-                    删除
-                  </Button>
-                </Popconfirm>
-              </Space>
-            )
-          }
-        ]}
+        columns={columns}
         dataSource={data}
         loading={isLoading}
       />
@@ -232,30 +254,47 @@ export default function EmployeesPage() {
       </BaseModal>
       <BaseModal
         open={uploadOpen}
-        title={uploadTarget ? `上传身份证 - ${uploadTarget.name}` : '上传身份证'}
+        title={uploadTarget ? `证件管理 - ${uploadTarget.name}` : '证件管理'}
         onCancel={() => {
           setUploadOpen(false);
           setUploadTarget(null);
           setFrontFileList([]);
           setBackFileList([]);
+          setPreviewUrls({ front: null, back: null });
         }}
         onOk={() => setUploadOpen(false)}
       >
-        <Space direction="vertical" style={{ width: '100%' }}>
-          <BaseUpload
-            description="上传身份证正面，JPG/PNG，最大 10MB"
-            fileList={frontFileList}
-            maxCount={1}
-            customRequest={uploadRequest('front')}
-            onChange={({ fileList }) => setFrontFileList(fileList)}
-          />
-          <BaseUpload
-            description="上传身份证反面，JPG/PNG，最大 10MB"
-            fileList={backFileList}
-            maxCount={1}
-            customRequest={uploadRequest('back')}
-            onChange={({ fileList }) => setBackFileList(fileList)}
-          />
+        <Space direction="vertical" style={{ width: '100%' }} size="large">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <Title level={5}>身份证正面</Title>
+            {previewUrls.front && (
+              <div style={{ marginBottom: 12 }}>
+                <Image src={previewUrls.front} alt="身份证正面" style={{ maxHeight: 200, borderRadius: 8 }} />
+              </div>
+            )}
+            <BaseUpload
+              description="上传/更换身份证正面，JPG/PNG，最大 10MB"
+              fileList={frontFileList}
+              maxCount={1}
+              customRequest={uploadRequest('front')}
+              onChange={({ fileList }) => setFrontFileList(fileList)}
+            />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <Title level={5}>身份证反面</Title>
+            {previewUrls.back && (
+              <div style={{ marginBottom: 12 }}>
+                <Image src={previewUrls.back} alt="身份证反面" style={{ maxHeight: 200, borderRadius: 8 }} />
+              </div>
+            )}
+            <BaseUpload
+              description="上传/更换身份证反面，JPG/PNG，最大 10MB"
+              fileList={backFileList}
+              maxCount={1}
+              customRequest={uploadRequest('back')}
+              onChange={({ fileList }) => setBackFileList(fileList)}
+            />
+          </div>
         </Space>
       </BaseModal>
     </Card>

@@ -45,6 +45,19 @@ export class SystemPlatformsService {
     });
   }
 
+  async batchUpdateStatus(userId: string, ids: string[], status: number) {
+    const scope = await this.scopeService.resolveAccess(userId);
+    this.scopeService.assertSuperAdmin(scope, '只有超级管理员可以维护平台');
+
+    return this.prisma.biz_platform.updateMany({
+      where: {
+        id: { in: ids },
+        is_deleted: 0
+      },
+      data: { status }
+    });
+  }
+
   async remove(userId: string, id: string) {
     const scope = await this.scopeService.resolveAccess(userId);
     this.scopeService.assertSuperAdmin(scope, '只有超级管理员可以维护平台');

@@ -4,6 +4,7 @@ import type { ProColumns } from '@ant-design/pro-components';
 import { Button, Card, Form, Input, Popconfirm, Select, Space } from 'antd';
 import { systemApi } from '@/api/system';
 import { BaseModal } from '@/components/common/BaseModal';
+import { Permission } from '@/components/permission/Permission';
 import { BaseTable } from '@/components/table/BaseTable';
 
 interface PlatformRecord {
@@ -14,7 +15,7 @@ interface PlatformRecord {
   status: number;
 }
 
-const columns: ProColumns<PlatformRecord>[] = [
+const baseColumns: ProColumns<PlatformRecord>[] = [
   { title: '平台名称', dataIndex: 'name' },
   { title: '平台编码', dataIndex: 'code' },
   { title: '描述', dataIndex: 'description' },
@@ -24,6 +25,7 @@ const columns: ProColumns<PlatformRecord>[] = [
 export default function SystemPlatformsPage() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<PlatformRecord | null>(null);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
   const { data = [], isLoading } = useQuery<PlatformRecord[]>({
@@ -31,7 +33,10 @@ export default function SystemPlatformsPage() {
     queryFn: systemApi.listPlatforms
   });
 
-  const refresh = () => queryClient.invalidateQueries({ queryKey: ['system-platforms'] });
+  const refresh = async () => {
+    setSelectedIds([]);
+    await queryClient.invalidateQueries({ queryKey: ['system-platforms'] });
+  };
   const createMutation = useMutation({
     mutationFn: systemApi.createPlatform,
     onSuccess: async () => {
@@ -50,45 +55,71 @@ export default function SystemPlatformsPage() {
     }
   });
   const deleteMutation = useMutation({ mutationFn: systemApi.deletePlatform, onSuccess: refresh });
+  const batchStatusMutation = useMutation({
+    mutationFn: systemApi.batchUpdatePlatformStatus,
+    onSuccess: refresh
+  });
+
+  const columns: ProColumns<PlatformRecord>[] = [
+    ...baseColumns,
+    {
+      title: '操作',
+      render: (_, record) => (
+        <Space>
+          <Permission code="system:platform:update">
+            <Button
+              type="link"
+              onClick={() => {
+                setEditing(record);
+                form.setFieldsValue(record);
+                setOpen(true);
+              }}
+            >
+              编辑
+            </Button>
+          </Permission>
+          <Permission code="system:platform:delete">
+            <Popconfirm title="确认删除该平台？" onConfirm={() => deleteMutation.mutate(record.id)}>
+              <Button type="link" danger>
+                删除
+              </Button>
+            </Popconfirm>
+          </Permission>
+        </Space>
+      )
+    }
+  ];
 
   return (
     <Card
       title="平台管理"
       extra={
-        <Button type="primary" onClick={() => setOpen(true)}>
-          新增平台
-        </Button>
+        <Space>
+          <Permission code="system:platform:batch-status">
+            <Button disabled={selectedIds.length === 0} onClick={() => batchStatusMutation.mutate({ ids: selectedIds, status: 1 })}>
+              批量启用
+            </Button>
+            <Button disabled={selectedIds.length === 0} onClick={() => batchStatusMutation.mutate({ ids: selectedIds, status: 0 })}>
+              批量禁用
+            </Button>
+          </Permission>
+          <Permission code="system:platform:create">
+            <Button type="primary" onClick={() => setOpen(true)}>
+              新增平台
+            </Button>
+          </Permission>
+        </Space>
       }
     >
       <BaseTable<PlatformRecord>
         rowKey="id"
-        columns={[
-          ...columns,
-          {
-            title: '操作',
-            render: (_, record) => (
-              <Space>
-                <Button
-                  type="link"
-                  onClick={() => {
-                    setEditing(record);
-                    form.setFieldsValue(record);
-                    setOpen(true);
-                  }}
-                >
-                  编辑
-                </Button>
-                <Popconfirm title="确认删除该平台？" onConfirm={() => deleteMutation.mutate(record.id)}>
-                  <Button type="link" danger>
-                    删除
-                  </Button>
-                </Popconfirm>
-              </Space>
-            )
-          }
-        ]}
+        columns={columns}
         dataSource={data}
         loading={isLoading}
+        rowSelection={{
+          selectedRowKeys: selectedIds,
+          onChange: (keys) => setSelectedIds(keys as string[])
+        }}
       />
       <BaseModal
         open={open}

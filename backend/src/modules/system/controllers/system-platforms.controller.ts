@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CurrentUser, type CurrentUserPayload } from '../../../common/current-user.decorator';
 import { Permission } from '../../../common/permission.decorator';
+import { BatchUpdatePlatformStatusDto } from '../dto/batch-update-platform-status.dto';
 import { CreatePlatformDto } from '../dto/create-platform.dto';
 import { UpdatePlatformDto } from '../dto/update-platform.dto';
 import { SystemPlatformsService } from '../services/system-platforms.service';
@@ -25,6 +26,12 @@ export class SystemPlatformsController {
   @Permission('system:platform:update')
   update(@CurrentUser() user: CurrentUserPayload, @Param('id') id: string, @Body() dto: UpdatePlatformDto) {
     return this.systemPlatformsService.update(user.sub, id, dto);
+  }
+
+  @Patch('batch/status')
+  @Permission('system:platform:batch-status')
+  batchUpdateStatus(@CurrentUser() user: CurrentUserPayload, @Body() dto: BatchUpdatePlatformStatusDto) {
+    return this.systemPlatformsService.batchUpdateStatus(user.sub, dto.ids, dto.status);
   }
 
   @Delete(':id')

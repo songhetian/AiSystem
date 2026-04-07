@@ -73,6 +73,16 @@ export class SystemDepartmentsService {
     });
   }
 
+  async batchUpdateStatus(userId: string, ids: string[], status: number) {
+    const scope = await this.scopeService.resolveAccess(userId);
+    this.scopeService.assertSuperAdmin(scope, '只有超级管理员可以批量修改部门状态');
+
+    return this.prisma.biz_department.updateMany({
+      where: { id: { in: ids } },
+      data: { status }
+    });
+  }
+
   async remove(userId: string, id: string) {
     const scope = await this.scopeService.resolveAccess(userId);
     const current = await this.prisma.biz_department.findUnique({ where: { id } });

@@ -112,4 +112,27 @@ export class PersonnelEmployeesService {
       data: side === 'front' ? { id_card_front_file: uploadResult.objectName } : { id_card_back_file: uploadResult.objectName }
     });
   }
+
+  async getIdCardUrl(userId: string, id: string, side: 'front' | 'back') {
+    const scope = await this.scopeService.resolveAccess(userId);
+
+    const employee = await this.prisma.hr_employee.findUnique({
+      where: { id }
+    });
+
+    if (!employee) {
+      throw new BadRequestException('员工不存在');
+    }
+
+    this.scopeService.assertPlatformAccess(scope, employee.platform_id);
+    this.scopeService.assertDepartmentAccess(scope, employee.department_id);
+
+    const objectName = side === 'front' ? employee.id_card_front_file : employee.id_card_back_file;
+    if (!objectName) {
+      return { url: null };
+    }
+
+    const url = await this.minioService.getPresignedUrl(objectName);
+    return { url };
+  }
 }
