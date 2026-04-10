@@ -9,13 +9,12 @@ export class MaintenanceGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    // 如果是超级管理员，允许绕过维护模式
-    if (user?.roles?.some((r: any) => r.role_code === 'super_admin')) {
+    if (user?.roles?.some((role: any) => role.role_code === 'super_admin')) {
       return true;
     }
 
-    const config = await this.prisma.sys_config.findUnique({
-      where: { config_key: 'maintenance_mode' }
+    const config = await (this.prisma as any).sys_config?.findUnique?.({
+      where: { config_key: 'maintenance_mode' },
     });
 
     if (config?.config_value === 'true') {

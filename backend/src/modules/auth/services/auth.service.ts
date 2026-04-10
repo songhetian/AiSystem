@@ -5,27 +5,32 @@ import { RedisService } from '../../../common/services/redis.service';
 import { comparePassword } from '../../../common/utils/password.util';
 import { PrismaService } from '../../../prisma/prisma.service';
 
+interface LoginContext {
+  ip?: string;
+  userAgent?: string;
+}
+
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
     private readonly auditLogService: AuditLogService,
-    private readonly redisService: RedisService
+    private readonly redisService: RedisService,
   ) {}
 
-  async login(dto: any, ip?: string, userAgent?: string) {
+  async login(dto: any, context: LoginContext = {}) {
     const user = await this.prisma.sys_user.findUnique({
-      where: { username: dto.username }
+      where: { username: dto.username },
     });
 
     if (!user || user.is_deleted === 1) {
       await this.auditLogService.logLogin({
         username: dto.username,
-        login_ip: ip,
-        user_agent: userAgent,
+        login_ip: context.ip,
+        user_agent: context.userAgent,
         login_status: 0,
-        login_message: '用户不存在'
+        login_message: '用户不存在',
       });
       throw new UnauthorizedException('用户名或密码错误');
     }
@@ -34,10 +39,10 @@ export class AuthService {
       await this.auditLogService.logLogin({
         user_id: user.id,
         username: user.username,
-        login_ip: ip,
-        user_agent: userAgent,
+        login_ip: context.ip,
+        user_agent: context.userAgent,
         login_status: 0,
-        login_message: '账号已被禁用'
+        login_message: '账号已被禁用',
       });
       throw new UnauthorizedException('账号已被禁用');
     }
@@ -47,10 +52,10 @@ export class AuthService {
       await this.auditLogService.logLogin({
         user_id: user.id,
         username: user.username,
-        login_ip: ip,
-        user_agent: userAgent,
+        login_ip: context.ip,
+        user_agent: context.userAgent,
         login_status: 0,
-        login_message: '密码错误'
+        login_message: '密码错误',
       });
       throw new UnauthorizedException('用户名或密码错误');
     }
@@ -60,27 +65,26 @@ export class AuthService {
       username: user.username,
       platform_id: user.platform_id,
       dept_id: user.dept_id,
-      shop_id: user.shop_id
+      shop_id: user.shop_id,
     });
 
     await this.auditLogService.logLogin({
       user_id: user.id,
       username: user.username,
-      login_ip: ip,
-      user_agent: userAgent,
+      login_ip: context.ip,
+      user_agent: context.userAgent,
       login_status: 1,
-      login_message: '登录成功'
+      login_message: '登录成功',
     });
 
     return {
       accessToken,
-      user: await this.me(user.id)
+      user: await this.me(user.id),
     };
   }
 
   async logout(token: string) {
     if (!token) return;
-    // 将 Token 加入黑名单，有效期 24 小时 (略大于默认过期时间)
     await this.redisService.set(`blacklist:token:${token}`, '1', 24 * 60 * 60);
     return { success: true };
   }
@@ -88,11 +92,6 @@ export class AuthService {
   async me(id: string) {
     const user = await this.prisma.sys_user.findUnique({
       where: { id },
-      include: {
-        dept: true,
-        platform: true,
-        shop: true
-      }
     });
 
     if (!user) {
@@ -105,24 +104,24 @@ export class AuthService {
         role: {
           include: {
             menus: { include: { menu: true } },
-            buttons: { include: { button: true } }
-          }
-        }
-      }
+            buttons: { include: { button: true } },
+          },
+        },
+      },
     });
 
-    const menusMap = new Map();
-    const buttonsMap = new Map();
+    const menusMap = new Map<string, any>();
+    const buttonsMap = new Map<string, string>();
 
-    userRoles.forEach((ur) => {
-      ur.role.menus.forEach((rm) => {
-        if (rm.menu.is_deleted === 0 && rm.menu.status === 1) {
-          menusMap.set(rm.menu.id, rm.menu);
+    userRoles.forEach((userRole: any) => {
+      userRole.role.menus.forEach((roleMenu: any) => {
+        if (roleMenu.menu.is_deleted === 0 && roleMenu.menu.status === 1) {
+          menusMap.set(roleMenu.menu.id, roleMenu.menu);
         }
       });
-      ur.role.buttons.forEach((rb) => {
-        if (rb.button.is_deleted === 0 && rb.button.status === 1) {
-          buttonsMap.set(rb.button.id, rb.button.button_code);
+      userRole.role.buttons.forEach((roleButton: any) => {
+        if (roleButton.button.is_deleted === 0 && roleButton.button.status === 1) {
+          buttonsMap.set(roleButton.button.id, roleButton.button.button_code);
         }
       });
     });
@@ -131,13 +130,13 @@ export class AuthService {
       id: user.id,
       username: user.username,
       name: user.name,
-      avatar: user.avatar,
+      avatar: null,
       platform_id: user.platform_id,
       dept_id: user.dept_id,
       shop_id: user.shop_id,
-      roles: userRoles.map((item) => item.role),
-      menus: Array.from(menusMap.values()).sort((a, b) => a.sort - b.sort),
-      buttons: Array.from(buttonsMap.values())
+      roles: userRoles.map((item: any) => item.role),
+      menus: Array.from(menusMap.values()).sort((a: any, b: any) => Number(a.sort ?? 0) - Number(b.sort ?? 0)),
+      buttons: Array.from(buttonsMap.values()),
     };
   }
 }

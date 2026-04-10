@@ -64,7 +64,7 @@ export class SystemApisService {
     });
 
     // 按 5 分钟间隔聚合数据
-    const timeline = [];
+    const timeline: Array<{ time: string; total: number; success: number; failed: number }> = [];
     const now = Date.now();
     for (let i = 11; i >= 0; i--) {
       const time = new Date(now - i * 5 * 60 * 1000);

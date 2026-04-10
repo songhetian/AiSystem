@@ -1,62 +1,73 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { BusinessLockService } from '../../../common/services/business-lock.service';
-import { MessageService } from '../../../common/services/message.service';
 import { RealtimeService } from '../../../common/services/realtime.service';
-import { ScopeService, type AccessScope } from '../../../common/services/scope.service';
+import { ScopeService } from '../../../common/services/scope.service';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { AnalyzeServiceSessionDto } from '../dto/analyze-service-session.dto';
-import { ArchiveServiceCaseDto } from '../dto/archive-service-case.dto';
-import { GenerateServiceCaseDraftDto } from '../dto/generate-service-case-draft.dto';
-import { QueryServiceSessionsDto } from '../dto/query-service-sessions.dto';
-import { SaveServiceQualityRuleDto } from '../dto/save-service-quality-rule.dto';
-import { SaveServiceSensitiveTermDto } from '../dto/save-service-sensitive-term.dto';
 
 @Injectable()
 export class ServiceService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly scopeService: ScopeService,
-    private readonly messageService: MessageService,
     private readonly businessLockService: BusinessLockService,
-    private readonly realtimeService: RealtimeService
+    private readonly realtimeService: RealtimeService,
   ) {}
 
-  async listSessions(userId: string, query: QueryServiceSessionsDto) {
+  async listSessions(userId: string, query: any) {
     const scope = await this.scopeService.resolveAccess(userId);
-    const sessionDelegate = (this.prisma as any).service_session;
-
-    return sessionDelegate.findMany({
+    return (this.prisma as any).service_session.findMany({
       where: this.scopeService.applyScope(scope, { is_deleted: 0 }, { platform: 'platform_id' }),
-      orderBy: { started_at: 'desc' }
+      orderBy: { started_at: 'desc' },
     });
   }
 
-  async getSession(userId: string, id: string) {
-    const scope = await this.scopeService.resolveAccess(userId);
-    const session = await (this.prisma as any).service_session.findUnique({ where: { id } });
-    if (!session) throw new NotFoundException('会话不存在');
-    return session;
-  }
-
-  async analyzeSession(userId: string, id: string, dto: AnalyzeServiceSessionDto) {
+  async analyzeSession(userId: string, id: string) {
     return this.businessLockService.runExclusive(`service-session:analyze:${id}`, 30, async () => {
-      const session = await (this.prisma as any).service_session.findUnique({ where: { id } });
+      const session = await (this.prisma as any).service_session.findUnique({ 
+        where: { id },
+        include: { messages: { where: { is_deleted: 0 }, orderBy: { sent_at: 'asc' } } }
+      });
       if (!session) throw new NotFoundException('会话不存在');
 
-      const analysis = {
-        qualityScore: Math.floor(Math.random() * 40) + 60,
-        qualityPassed: true,
-        lossRiskLevel: Math.random() > 0.7 ? 'high' : 'low',
-        customerSentiment: 'neutral',
-        suggestions: ['提高响应速度', '使用标准话术']
-      };
+      // 1. 获取质检规则和敏感词
+      const [rules, terms] = await Promise.all([
+        (this.prisma as any).service_quality_rule.findMany({ where: { platform_id: session.platform_id, enabled: 1 } }),
+        (this.prisma as any).service_sensitive_term.findMany({ where: { platform_id: session.platform_id, enabled: 1 } }),
+      ]);
 
-      const faqKeywords = ['如何重置密码', '退换货政策', '发票申请流程', '入职材料清单', '系统维护时间'];
-      const topFaqs = Array.from({ length: 2 }, () => ({
-        question: faqKeywords[Math.floor(Math.random() * faqKeywords.length)],
-        count: Math.floor(Math.random() * 5) + 1
-      }));
+      const messages = session.messages || [];
+      const content = messages.map((m: any) => m.content).join('\n');
+
+      // 2. 真实分析逻辑
+      let score = 100;
+      const violations = [];
+      const sensitiveHits = [];
+
+      // 敏感词检测
+      for (const term of terms) {
+        if (content.includes(term.term)) {
+          score -= (term.severity * 5);
+          sensitiveHits.push({ term: term.term, category: term.category });
+        }
+      }
+
+      // 规则检测 (简单关键词/响应时间示例)
+      for (const rule of rules) {
+        if (rule.rule_type === 'keyword_negative') {
+          const keywords = Array.isArray(rule.trigger_keywords) ? rule.trigger_keywords : [];
+          for (const kw of keywords) {
+            if (content.includes(kw)) {
+              score -= rule.deduct_score;
+              violations.push(rule.rule_name);
+            }
+          }
+        }
+      }
+
+      // 3. 情感分析模拟 (基于关键词)
+      const negativeWords = ['生气', '投诉', '差劲', '等了很久', '没解决'];
+      const sentimentScore = negativeWords.filter(w => content.includes(w)).length;
+      const sentiment = sentimentScore > 2 ? 'negative' : sentimentScore > 0 ? 'neutral' : 'positive';
 
       const created = await (this.prisma as any).service_session_analysis.create({
         data: {
@@ -64,39 +75,39 @@ export class ServiceService {
           session_no: session.session_no,
           platform_id: session.platform_id,
           dept_id: session.dept_id,
-          triggered_by: 'system',
-          quality_score: analysis.qualityScore,
-          quality_passed: analysis.qualityPassed ? 1 : 0,
-          loss_risk_level: analysis.lossRiskLevel,
-          loss_risk_score: 80,
-          customer_sentiment: analysis.customerSentiment,
-          suggestions: analysis.suggestions as any,
-          top_faqs: topFaqs as any,
-          analyzed_at: new Date()
-        }
+          quality_score: Math.max(0, score),
+          quality_passed: score >= 60 ? 1 : 0,
+          loss_risk_level: score < 50 ? 'high' : 'low',
+          customer_sentiment: sentiment,
+          sensitive_hits: sensitiveHits as any,
+          suggestions: score < 80 ? ['需加强服务话术培训', '注意响应及时性'] : ['表现良好'],
+          analyzed_at: new Date(),
+        },
       });
-
-      if (analysis.lossRiskLevel === 'high' && session.agent_user_id) {
-        this.realtimeService.emitToUser(session.agent_user_id, 'ai_quality_alert', {
-          type: 'HIGH_LOSS_RISK',
-          sessionNo: session.session_no,
-          level: 'CRITICAL'
-        });
-      }
 
       return created;
     });
   }
 
-  // 补全所有缺失的方法以修复 Controller 报错
-  async generateCaseDraft(userId: string, id: string, dto: any) { return { id }; }
-  async archiveCase(userId: string, id: string, dto: any) { return { id }; }
-  async listQualityRules(userId: string) { return []; }
-  async createQualityRule(userId: string, dto: any) { return {}; }
-  async updateQualityRule(userId: string, id: string, dto: any) { return {}; }
-  async toggleQualityRule(userId: string, id: string, status: number) { return {}; }
-  async listSensitiveTerms(userId: string) { return []; }
-  async createSensitiveTerm(userId: string, dto: any) { return {}; }
-  async updateSensitiveTerm(userId: string, id: string, dto: any) { return {}; }
-  async getAiOverview(userId: string, query: any) { return {}; }
+  // 补全规则管理接口
+  async listQualityRules(userId: string) {
+    const scope = await this.scopeService.resolveAccess(userId);
+    return (this.prisma as any).service_quality_rule.findMany({
+      where: this.scopeService.applyScope(scope, { is_deleted: 0 }, { platform: 'platform_id' })
+    });
+  }
+
+  async createQualityRule(userId: string, dto: any) {
+    const scope = await this.scopeService.resolveAccess(userId);
+    return (this.prisma as any).service_quality_rule.create({
+      data: { ...dto, platform_id: scope.platform_id, dept_id: scope.dept_id }
+    });
+  }
+
+  async listSensitiveTerms(userId: string) {
+    const scope = await this.scopeService.resolveAccess(userId);
+    return (this.prisma as any).service_sensitive_term.findMany({
+      where: this.scopeService.applyScope(scope, { is_deleted: 0 }, { platform: 'platform_id' })
+    });
+  }
 }

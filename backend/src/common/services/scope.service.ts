@@ -24,18 +24,18 @@ export class ScopeService {
       this.prisma.sys_user.findUnique({ where: { id: userId } }),
       this.prisma.sys_user_role.findMany({
         where: { user_id: userId },
-        include: { role: true }
-      })
+        include: { role: true },
+      }),
     ]);
 
-    const roleCodes = userRoles.map((item) => item.role.role_code);
+    const roleCodes = userRoles.map((item: any) => item.role.role_code);
 
     return {
       isSuperAdmin: roleCodes.includes('super_admin'),
       user_id: userId,
       platform_id: user?.platform_id,
       dept_id: user?.dept_id,
-      shop_id: user?.shop_id
+      shop_id: user?.shop_id,
     };
   }
 
@@ -51,15 +51,20 @@ export class ScopeService {
     return this.applyScope(scope, where, {
       platform: 'platform_id',
       department: 'department_id',
-      shop: 'shop_id'
+      shop: 'shop_id',
     });
   }
 
+  applyScope<T extends Record<string, unknown>>(scope: AccessScope, where: T, fields: ScopeFieldMap): T;
+  applyScope<T extends Record<string, unknown>>(where: T, scope: AccessScope, fields: ScopeFieldMap): T;
   applyScope<T extends Record<string, unknown>>(
-    scope: AccessScope,
-    where: T = {} as T,
-    fields: ScopeFieldMap
+    scopeOrWhere: AccessScope | T,
+    whereOrScope: T | AccessScope,
+    fields: ScopeFieldMap,
   ): T {
+    const scope = this.isScope(scopeOrWhere) ? scopeOrWhere : (whereOrScope as AccessScope);
+    const where = this.isScope(scopeOrWhere) ? (whereOrScope as T) : (scopeOrWhere as T);
+
     if (scope.isSuperAdmin) {
       return where;
     }
@@ -68,11 +73,11 @@ export class ScopeService {
       ...where,
       ...(fields.platform && scope.platform_id ? { [fields.platform]: scope.platform_id } : {}),
       ...(fields.department && scope.dept_id ? { [fields.department]: scope.dept_id } : {}),
-      ...(fields.shop && scope.shop_id ? { [fields.shop]: scope.shop_id } : {})
+      ...(fields.shop && scope.shop_id ? { [fields.shop]: scope.shop_id } : {}),
     };
   }
 
-  assertSuperAdmin(scope: AccessScope, message = '当前账号无权限执行该操作') {
+  assertSuperAdmin(scope: AccessScope, message = '当前账号无权执行该操作') {
     if (!scope.isSuperAdmin) {
       throw new ForbiddenException(message);
     }
@@ -84,11 +89,7 @@ export class ScopeService {
     }
   }
 
-  assertDepartmentAccess(
-    scope: AccessScope,
-    departmentId?: string | null,
-    message = '无权操作当前部门数据'
-  ) {
+  assertDepartmentAccess(scope: AccessScope, departmentId?: string | null, message = '无权操作当前部门数据') {
     if (!scope.isSuperAdmin && scope.dept_id && scope.dept_id !== departmentId) {
       throw new ForbiddenException(message);
     }
@@ -98,5 +99,9 @@ export class ScopeService {
     if (!scope.isSuperAdmin && scope.shop_id && scope.shop_id !== shopId) {
       throw new ForbiddenException(message);
     }
+  }
+
+  private isScope(value: unknown): value is AccessScope {
+    return Boolean(value && typeof value === 'object' && 'isSuperAdmin' in value);
   }
 }

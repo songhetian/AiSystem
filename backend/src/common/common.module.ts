@@ -2,16 +2,17 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { RealtimeGateway } from './gateways/realtime.gateway';
-import { BusinessLockService } from './services/business-lock.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { PermissionGuard } from './guards/permission.guard';
 import { ThrottlerGuard } from './guards/throttler.guard';
 import { IdempotencyInterceptor } from './interceptors/idempotency.interceptor';
-import { PermissionGuard } from './guards/permission.guard';
 import { OperationLogInterceptor } from './interceptors/operation-log.interceptor';
 import { AuditLogService } from './services/audit-log.service';
+import { BusinessLockService } from './services/business-lock.service';
+import { CacheSubscriber } from './services/cache-subscriber.service';
 import { IdempotencyService } from './services/idempotency.service';
-import { MinioService } from './services/minio.service';
 import { MessageService } from './services/message.service';
+import { MinioService } from './services/minio.service';
 import { RealtimeService } from './services/realtime.service';
 import { RedisService } from './services/redis.service';
 import { ScopeService } from './services/scope.service';
@@ -20,8 +21,8 @@ import { VectorService } from './services/vector.service';
 @Module({
   imports: [
     JwtModule.register({
-      secret: process.env.JWT_SECRET ?? 'changeme'
-    })
+      secret: process.env.JWT_SECRET ?? 'changeme',
+    }),
   ],
   providers: [
     MinioService,
@@ -37,24 +38,24 @@ import { VectorService } from './services/vector.service';
     VectorService,
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard
+      useClass: ThrottlerGuard,
     },
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard
+      useClass: JwtAuthGuard,
     },
     {
       provide: APP_GUARD,
-      useClass: PermissionGuard
+      useClass: PermissionGuard,
     },
     {
       provide: APP_INTERCEPTOR,
-      useClass: IdempotencyInterceptor
+      useClass: IdempotencyInterceptor,
     },
     {
       provide: APP_INTERCEPTOR,
-      useClass: OperationLogInterceptor
-    }
+      useClass: OperationLogInterceptor,
+    },
   ],
   exports: [
     MinioService,
@@ -66,7 +67,13 @@ import { VectorService } from './services/vector.service';
     RedisService,
     CacheSubscriber,
     IdempotencyService,
-    VectorService
-  ]
+    VectorService,
+    SnowflakeService,
+  ],
+})
+export class CommonModule {}
+e,
+    VectorService,
+  ],
 })
 export class CommonModule {}

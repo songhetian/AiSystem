@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException, Logger } from '@nestjs/common';
+import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { ScopeService } from '../../../common/services/scope.service';
 import { RedisService } from '../../../common/services/redis.service';
 import { PrismaService } from '../../../prisma/prisma.service';
@@ -40,8 +40,8 @@ export class AttendanceSchedulesService implements IAttendanceSchedulesService {
     const scope = await this.scopeService.resolveAccess(userId);
     const startDate = normalizeDate(query.start_date ?? new Date());
     const endDate = normalizeDate(query.end_date ?? new Date(startDate.getTime() + 6 * 86400000));
-    const page = Number(query.current || 1);
-    const pageSize = Number(query.pageSize || 50);
+    const page = Number((query as any).current || 1);
+    const pageSize = Number((query as any).pageSize || 50);
 
     const cacheKey = `attendance:dashboard:${scope.platform_id}:${query.dept_id || 'all'}:${formatDate(startDate)}:${formatDate(endDate)}:p${page}`;
     const cached = await this.redisService.get(cacheKey);
@@ -81,7 +81,7 @@ export class AttendanceSchedulesService implements IAttendanceSchedulesService {
     const shiftMap = new Map(shifts.map(s => [s.name, s]));
     const scheduleMap = new Map(schedules.map(s => [`${s.employee_id}:${formatDate(s.schedule_date)}`, s]));
 
-    const days = [];
+    const days: Array<{ key: string; label: string; weekday: string }> = [];
     const weekdayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const cursor = new Date(startDate);
     while (cursor <= endDate) {
@@ -129,26 +129,24 @@ export class AttendanceSchedulesService implements IAttendanceSchedulesService {
       if (!shift) throw new NotFoundException('班次不存在');
     }
 
-    const results = await this.prisma.$transaction(
-      dto.items.map(item => {
-        const d = normalizeDate(item.schedule_date);
-        return this.prisma.attendance_schedule.deleteMany({ where: { employee_id: item.employee_id, schedule_date: d } })
-          .then(() => {
-            if (shift) {
-              return this.prisma.attendance_schedule.create({
-                data: {
-                  employee_id: item.employee_id,
-                  schedule_date: d,
-                  shift_name: shift.name,
-                  platform_id: scope.platform_id,
-                  dept_id: scope.dept_id
-                }
-              });
-            }
-          });
-      })
-    );
-    return { success: true, affected: results.length };
+    let affected = 0;
+    for (const item of dto.items) {
+      const d = normalizeDate(item.schedule_date);
+      await this.prisma.attendance_schedule.deleteMany({ where: { employee_id: item.employee_id, schedule_date: d } });
+      if (shift) {
+        await this.prisma.attendance_schedule.create({
+          data: {
+            employee_id: item.employee_id,
+            schedule_date: d,
+            shift_name: shift.name,
+            platform_id: scope.platform_id,
+            dept_id: scope.dept_id,
+          },
+        });
+        affected += 1;
+      }
+    }
+    return { success: true, affected };
   }
 
   async removeSchedule(userId: string, id: string) {
@@ -159,7 +157,7 @@ export class AttendanceSchedulesService implements IAttendanceSchedulesService {
     return this.prisma.attendance_schedule.createMany({ data: dto.rows });
   }
 
-  async exportSchedules(userId: string, query: any) {
+  async exportSchedules(_userId: string, _query: any) {
     return this.prisma.attendance_schedule.findMany({ where: { is_deleted: 0 } });
   }
 
@@ -172,6 +170,33 @@ export class AttendanceSchedulesService implements IAttendanceSchedulesService {
     return this.prisma.attendance_rule.findMany({
       where: this.scopeService.applyScope(scope, { is_deleted: 0 }, { platform: 'platform_id', department: 'dept_id' }),
       orderBy: { on_duty_time: 'asc' }
+    });
+  }
+
+  async createShift(userId: string, dto: CreateShiftDto) {
+    const scope = await this.scopeService.resolveAccess(userId);
+    return this.prisma.attendance_rule.create({
+      data: {
+        ...dto,
+        platform_id: scope.platform_id,
+        dept_id: scope.dept_id,
+      },
+    });
+  }
+
+  async updateShift(userId: string, id: string, dto: UpdateShiftDto) {
+    await this.scopeService.resolveAccess(userId);
+    return this.prisma.attendance_rule.update({
+      where: { id },
+      data: dto,
+    });
+  }
+
+  async removeShift(userId: string, id: string) {
+    await this.scopeService.resolveAccess(userId);
+    return this.prisma.attendance_rule.update({
+      where: { id },
+      data: { is_deleted: 1 },
     });
   }
 }

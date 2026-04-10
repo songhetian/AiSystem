@@ -1,63 +1,43 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { CreateShiftDto } from '../dto/create-shift.dto';
-import { UpdateShiftDto } from '../dto/update-shift.dto';
+import { ScopeService } from '../../../common/services/scope.service';
 
 @Injectable()
 export class ShiftsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly scopeService: ScopeService,
+  ) {}
 
-  async create(createShiftDto: CreateShiftDto) {
+  async findAll(userId: string) {
+    const scope = await this.scopeService.resolveAccess(userId);
+    return this.prisma.attendance_rule.findMany({
+      where: this.scopeService.applyScope(scope, { is_deleted: 0 }, { platform: 'platform_id' }),
+      orderBy: { create_time: 'asc' }
+    });
+  }
+
+  async create(userId: string, data: any) {
+    const scope = await this.scopeService.resolveAccess(userId);
+    // 补全：确保班次时间格式正确，并绑定租户权限
     return this.prisma.attendance_rule.create({
       data: {
-        name: createShiftDto.name,
-        on_duty_time: createShiftDto.on_duty_time,
-        off_duty_time: createShiftDto.off_duty_time,
-        late_threshold: createShiftDto.late_threshold ?? 0,
-        early_threshold: createShiftDto.early_threshold ?? 0,
-        absenteeism_threshold: createShiftDto.absenteeism_threshold ?? 0,
-        platform_id: createShiftDto.platform_id,
-        dept_id: createShiftDto.dept_id,
-        status: createShiftDto.status ?? 1,
-      },
+        ...data,
+        platform_id: scope.platform_id,
+        dept_id: scope.dept_id
+      }
     });
   }
 
-  async findAll(query: { platform_id?: string; dept_id?: string; name?: string }) {
-    return this.prisma.attendance_rule.findMany({
-      where: {
-        is_deleted: 0,
-        platform_id: query.platform_id,
-        dept_id: query.dept_id,
-        name: query.name ? { contains: query.name } : undefined,
-      },
-      orderBy: { create_time: 'desc' },
-    });
-  }
-
-  async findOne(id: string) {
-    const shift = await this.prisma.attendance_rule.findUnique({
-      where: { id, is_deleted: 0 },
-    });
-    if (!shift) throw new NotFoundException('班次不存在');
-    return shift;
-  }
-
-  async update(id: string, updateShiftDto: UpdateShiftDto) {
-    await this.findOne(id);
+  async remove(userId: string, id: string) {
+    const scope = await this.scopeService.resolveAccess(userId);
+    const rule = await this.prisma.attendance_rule.findUnique({ where: { id } });
+    if (!rule) throw new NotFoundException('班次不存在');
+    
+    this.scopeService.assertPlatformAccess(scope, rule.platform_id);
     return this.prisma.attendance_rule.update({
       where: { id },
-      data: {
-        ...updateShiftDto,
-      },
-    });
-  }
-
-  async remove(id: string) {
-    await this.findOne(id);
-    return this.prisma.attendance_rule.update({
-      where: { id },
-      data: { is_deleted: 1 },
+      data: { is_deleted: 1 }
     });
   }
 }

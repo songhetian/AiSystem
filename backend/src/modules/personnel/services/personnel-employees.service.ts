@@ -32,8 +32,7 @@ export class PersonnelEmployeesService {
     this.scopeService.assertPlatformAccess(scope, platformId);
     this.scopeService.assertDepartmentAccess(scope, departmentId);
 
-    return this.prisma.hr_employee.create({
-      data: {
+    return this.prisma.createWithId('hr_employee', {
         ...dto,
         department_id: departmentId,
         platform_id: platformId,
