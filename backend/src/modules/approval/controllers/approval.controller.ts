@@ -1,10 +1,10 @@
-import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { CurrentUser, type CurrentUserPayload } from '../../../common/current-user.decorator';
 import { Permission } from '../../../common/permission.decorator';
-import { ApprovalService } from '../services/approval.service';
-import { SaveApprovalTemplateDto } from '../dto/save-approval-template.dto';
-import { QueryApprovalRequestsDto } from '../dto/query-approval-requests.dto';
 import { ApprovalActionDto } from '../dto/approval-action.dto';
+import { QueryApprovalRequestsDto } from '../dto/query-approval-requests.dto';
+import { SaveApprovalTemplateDto } from '../dto/save-approval-template.dto';
+import { ApprovalService } from '../services/approval.service';
 
 @Controller('approval')
 export class ApprovalController {
@@ -22,10 +22,22 @@ export class ApprovalController {
     return this.approvalService.getTemplate(user?.sub, id);
   }
 
+  @Post('templates')
+  @Permission('approval:process:update')
+  createTemplate(@CurrentUser() user: CurrentUserPayload, @Body() dto: SaveApprovalTemplateDto) {
+    return this.approvalService.createTemplate(user?.sub, dto);
+  }
+
   @Patch('templates/:id')
   @Permission('approval:process:update')
   saveTemplate(@CurrentUser() user: CurrentUserPayload, @Param('id') id: string, @Body() dto: SaveApprovalTemplateDto) {
     return this.approvalService.saveTemplate(user?.sub, id, dto);
+  }
+
+  @Delete('templates/:id')
+  @Permission('approval:process:update')
+  deleteTemplate(@CurrentUser() user: CurrentUserPayload, @Param('id') id: string) {
+    return this.approvalService.deleteTemplate(user?.sub, id);
   }
 
   @Get('people')

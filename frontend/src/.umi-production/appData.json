@@ -44,7 +44,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -57,7 +57,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 7
+        "register": 11
       },
       "enableBy": "register"
     },
@@ -74,7 +74,7 @@
             0
           ]
         },
-        "register": 3
+        "register": 6
       },
       "enableBy": "register"
     },
@@ -88,10 +88,10 @@
       "time": {
         "hooks": {
           "onStart": [
-            3
+            5
           ]
         },
-        "register": 2
+        "register": 5
       },
       "enableBy": "register"
     },
@@ -105,10 +105,10 @@
       "time": {
         "hooks": {
           "modifyRoutes": [
-            0
+            1
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -135,10 +135,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            290
+            448
           ]
         },
-        "register": 24
+        "register": 28
       },
       "enableBy": "register"
     },
@@ -151,7 +151,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -168,10 +168,10 @@
             0
           ],
           "onCheck": [
-            0
+            1
           ]
         },
-        "register": 1
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -185,7 +185,7 @@
       "time": {
         "hooks": {
           "onCheck": [
-            1
+            0
           ]
         },
         "register": 1
@@ -218,7 +218,7 @@
             0
           ]
         },
-        "register": 7
+        "register": 12
       },
       "enableBy": "register"
     },
@@ -230,7 +230,7 @@
       "enableBy": "register",
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       }
     },
     "virtual: config-styles": {
@@ -1113,7 +1113,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 89
+        "register": 102
       },
       "enableBy": "register"
     },
@@ -1126,7 +1126,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 42
+        "register": 68
       },
       "enableBy": "config"
     },
@@ -1139,7 +1139,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 12
+        "register": 16
       },
       "enableBy": "config"
     },
@@ -1182,7 +1182,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1195,7 +1195,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 35
+        "register": 41
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mpa/mpa": {
@@ -1207,7 +1207,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1262,7 +1262,7 @@
             1
           ]
         },
-        "register": 4
+        "register": 2
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/polyfill/publicPathPolyfill": {
@@ -1300,7 +1300,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1326,7 +1326,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1339,7 +1339,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 9
       },
       "enableBy": "register"
     },
@@ -1365,7 +1365,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/ssr/ssr": {
@@ -1403,7 +1403,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 6
       },
       "enableBy": "register"
     },
@@ -1429,7 +1429,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1442,7 +1442,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 5
+        "register": 10
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/monorepo/redirect": {
@@ -1467,7 +1467,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/clickToComponent/clickToComponent": {
@@ -1479,7 +1479,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/legacy/legacy": {
@@ -1504,7 +1504,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1517,7 +1517,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/swc/swc": {
@@ -1546,7 +1546,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 5
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mako/mako": {
@@ -1571,7 +1571,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 6
+        "register": 5
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/hmrGuardian/hmrGuardian": {
@@ -1583,7 +1583,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 4
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/routePreloadOnLoad/routePreloadOnLoad": {
@@ -1595,7 +1595,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 31
+        "register": 36
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/forget/forget": {
@@ -1607,7 +1607,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1620,7 +1620,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1633,7 +1633,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 5
+        "register": 8
       },
       "enableBy": "register"
     },
@@ -1646,7 +1646,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 43
+        "register": 59
       },
       "enableBy": "register"
     },
@@ -1659,7 +1659,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 44
+        "register": 70
       }
     },
     "./node_modules/@umijs/preset-umi/dist/commands/help": {
@@ -1671,7 +1671,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1697,7 +1697,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1710,7 +1710,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1736,7 +1736,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1801,7 +1801,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1879,7 +1879,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1892,7 +1892,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1905,7 +1905,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 28
+        "register": 30
       },
       "enableBy": "register"
     },
@@ -1918,7 +1918,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -1931,7 +1931,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 10
       },
       "enableBy": "register"
     },
@@ -1944,7 +1944,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     }
@@ -2504,7 +2504,7 @@
       "parentId": "3",
       "id": "19",
       "absPath": "/attendance/records",
-      "__content": "import React, { useRef } from 'react';\r\nimport { Button, message, Space, DatePicker, Input } from 'antd';\r\nimport { SyncOutlined } from '@ant-design/icons';\r\nimport BaseTable from '@/components/table/BaseTable';\r\nimport ActionGroup from '@/components/common/ActionGroup';\r\nimport StatusTag from '@/components/common/StatusTag';\r\nimport Permission from '@/components/permission/Permission';\r\nimport { attendanceApi } from '@/api/attendance';\r\nimport dayjs from 'dayjs';\r\n\r\nconst { RangePicker } = DatePicker;\r\n\r\nconst AttendanceRecords: React.FC = () => {\r\n  const tableRef = useRef<any>();\r\n\r\n  const getStatusType = (status: number) => {\r\n    switch (status) {\r\n      case 1: return 'enabled'; // 正常\r\n      case 2: return 'warning'; // 迟到\r\n      case 3: return 'warning'; // 早退\r\n      case 4: return 'error'; // 旷工\r\n      case 5: return 'error'; // 漏打卡\r\n      default: return 'default';\r\n    }\r\n  };\r\n\r\n  const getStatusText = (status: number) => {\r\n    const map: any = { 1: '正常', 2: '迟到', 3: '早退', 4: '旷工', 5: '漏打卡' };\r\n    return map[status] || '未知';\r\n  };\r\n\r\n  const columns = [\r\n    {\r\n      title: '员工',\r\n      dataIndex: 'employee_name',\r\n      key: 'employee_name',\r\n      className: 'font-bold text-slate-900',\r\n    },\r\n    {\r\n      title: '工号',\r\n      dataIndex: 'employee_no',\r\n      key: 'employee_no',\r\n      className: 'text-slate-600',\r\n    },\r\n    {\r\n      title: '日期',\r\n      dataIndex: 'attendance_date',\r\n      key: 'attendance_date',\r\n      render: (val: string) => <span className=\"text-slate-900\">{dayjs(val).format('YYYY-MM-DD')}</span>,\r\n    },\r\n    {\r\n      title: '班次',\r\n      dataIndex: 'shift_name',\r\n      key: 'shift_name',\r\n      render: (val: string) => val ? <StatusTag color=\"blue\" text={val} /> : '--',\r\n    },\r\n    {\r\n      title: '上班打卡',\r\n      key: 'on_duty',\r\n      render: (_: any, record: any) => (\r\n        <Space direction=\"vertical\" size={0}>\r\n          <div className=\"text-slate-900 font-medium\">\r\n            {record.actual_on_duty_time ? dayjs(record.actual_on_duty_time).format('HH:mm:ss') : '未打卡'}\r\n          </div>\r\n          <StatusTag \r\n            status={getStatusType(record.on_duty_status)} \r\n            text={`[上班] ${getStatusText(record.on_duty_status)}`} \r\n          />\r\n        </Space>\r\n      ),\r\n    },\r\n    {\r\n      title: '下班打卡',\r\n      key: 'off_duty',\r\n      render: (_: any, record: any) => (\r\n        <Space direction=\"vertical\" size={0}>\r\n          <div className=\"text-slate-900 font-medium\">\r\n            {record.actual_off_duty_time ? dayjs(record.actual_off_duty_time).format('HH:mm:ss') : '未打卡'}\r\n          </div>\r\n          <StatusTag \r\n            status={getStatusType(record.off_duty_status)} \r\n            text={`[下班] ${getStatusText(record.off_duty_status)}`} \r\n          />\r\n        </Space>\r\n      ),\r\n    },\r\n    {\r\n      title: '异常说明',\r\n      dataIndex: 'exception_type',\r\n      key: 'exception_type',\r\n      className: 'text-rose-600 font-medium',\r\n    },\r\n    {\r\n      title: '操作',\r\n      key: 'action',\r\n      fixed: 'right',\r\n      width: 120,\r\n      render: (_: any, record: any) => (\r\n        <ActionGroup\r\n          actions={[\r\n            {\r\n              key: 'recalc',\r\n              label: '重新计算',\r\n              permission: 'attendance:records:update',\r\n              onClick: async () => {\r\n                try {\r\n                  await attendanceApi.reCalculate?.(record.id);\r\n                  message.success('计算成功');\r\n                  tableRef.current?.reload();\r\n                } catch (e) {\r\n                  message.error('计算失败');\r\n                }\r\n              },\r\n            },\r\n          ]}\r\n        />\r\n      ),\r\n    },\r\n  ];\r\n\r\n  return (\r\n    <div className=\"leixi-page-container\">\r\n      <div className=\"flex items-center gap-4 mb-4 bg-white p-4 rounded shadow-sm\">\r\n        <div className=\"flex-grow\">\r\n          <RangePicker \r\n            key=\"range\"\r\n            style={{ width: '100%', height: '44px' }}\r\n            className=\"leixi-filter-border\"\r\n            onChange={(dates, dateStrings) => {\r\n              tableRef.current?.setParams({ dateRange: dateStrings });\r\n              tableRef.current?.reload();\r\n            }}\r\n          />\r\n        </div>\r\n        <Input.Search \r\n          key=\"search\"\r\n          placeholder=\"搜索员工姓名/工号\"\r\n          onSearch={(val) => {\r\n            tableRef.current?.setParams({ keyword: val });\r\n            tableRef.current?.reload();\r\n          }}\r\n          style={{ width: 250, height: '44px' }}\r\n          className=\"leixi-filter-border\"\r\n        />\r\n      </div>\r\n\r\n      <BaseTable\r\n        ref={tableRef}\r\n        columns={columns.map(col => ({\r\n            ...col,\r\n            className: col.className ? `${col.className} leixi-text-main` : 'leixi-text-main'\r\n        }))}\r\n        request={async (params: any) => {\r\n          const res = await attendanceApi.listRecords({\r\n            keyword: params.keyword,\r\n            start_date: params.dateRange?.[0],\r\n            end_date: params.dateRange?.[1],\r\n            current: params.current,\r\n            pageSize: params.pageSize\r\n          });\r\n          return {\r\n            data: res.data,\r\n            total: res.total,\r\n            success: true,\r\n          };\r\n        }}\r\n      />\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default AttendanceRecords;\r\n",
+      "__content": "import React, { useRef } from 'react';\r\nimport { DatePicker, Input, message, Space } from 'antd';\r\nimport BaseTable from '@/components/table/BaseTable';\r\nimport ActionGroup from '@/components/common/ActionGroup';\r\nimport StatusTag from '@/components/common/StatusTag';\r\nimport { attendanceApi } from '@/api/attendance';\r\nimport { LeixiLoading } from '@/components/common/LeixiLoading';\r\nimport dayjs from 'dayjs';\r\n\r\nconst { RangePicker } = DatePicker;\r\n\r\nconst AttendanceRecords: React.FC = () => {\r\n  const tableRef = useRef<any>();\r\n\r\n  const getStatusType = (status: number) => {\r\n    switch (status) {\r\n      case 1: return 'enabled';\r\n      case 2: return 'warning';\r\n      case 3: return 'warning';\r\n      case 4: return 'error';\r\n      case 5: return 'error';\r\n      default: return 'default';\r\n    }\r\n  };\r\n\r\n  const getStatusText = (status: number) => {\r\n    const map: any = { 1: '正常', 2: '迟到', 3: '早退', 4: '旷工', 5: '漏打卡' };\r\n    return map[status] || '未知';\r\n  };\r\n\r\n  const columns = [\r\n    {\r\n      title: '员工',\r\n      dataIndex: 'employee_name',\r\n      key: 'employee_name',\r\n      className: 'font-bold text-slate-900',\r\n    },\r\n    {\r\n      title: '工号',\r\n      dataIndex: 'employee_no',\r\n      key: 'employee_no',\r\n      className: 'text-slate-600',\r\n    },\r\n    {\r\n      title: '日期',\r\n      dataIndex: 'attendance_date',\r\n      key: 'attendance_date',\r\n      render: (val: string) => <span className=\"text-slate-900\">{dayjs(val).format('YYYY-MM-DD')}</span>,\r\n    },\r\n    {\r\n      title: '班次',\r\n      dataIndex: 'shift_name',\r\n      key: 'shift_name',\r\n      render: (val: string) => val ? <StatusTag color=\"blue\" text={val} /> : '--',\r\n    },\r\n    {\r\n      title: '上班打卡',\r\n      key: 'on_duty',\r\n      render: (_: any, record: any) => (\r\n        <Space direction=\"vertical\" size={0}>\r\n          <div className=\"text-slate-900 font-medium\">\r\n            {record.actual_on_duty_time ? dayjs(record.actual_on_duty_time).format('HH:mm:ss') : '未打卡'}\r\n          </div>\r\n          <StatusTag \r\n            status={getStatusType(record.on_duty_status)} \r\n            text={`[上班] ${getStatusText(record.on_duty_status)}`} \r\n          />\r\n        </Space>\r\n      ),\r\n    },\r\n    {\r\n      title: '下班打卡',\r\n      key: 'off_duty',\r\n      render: (_: any, record: any) => (\r\n        <Space direction=\"vertical\" size={0}>\r\n          <div className=\"text-slate-900 font-medium\">\r\n            {record.actual_off_duty_time ? dayjs(record.actual_off_duty_time).format('HH:mm:ss') : '未打卡'}\r\n          </div>\r\n          <StatusTag \r\n            status={getStatusType(record.off_duty_status)} \r\n            text={`[下班] ${getStatusText(record.off_duty_status)}`} \r\n          />\r\n        </Space>\r\n      ),\r\n    },\r\n    {\r\n      title: '异常说明',\r\n      dataIndex: 'exception_type',\r\n      key: 'exception_type',\r\n      className: 'text-rose-600 font-medium',\r\n    },\r\n    {\r\n      title: '操作',\r\n      key: 'action',\r\n      fixed: 'right',\r\n      width: 120,\r\n      render: (_: any, record: any) => (\r\n        <ActionGroup\r\n          actions={[\r\n            {\r\n              key: 'recalc',\r\n              label: '重新计算',\r\n              permission: 'attendance:records:update',\r\n              onClick: async () => {\r\n                try {\r\n                  await attendanceApi.reCalculate?.(record.id);\r\n                  message.success('计算成功');\r\n                  tableRef.current?.reload();\r\n                } catch (e) {\r\n                  message.error('计算失败');\r\n                }\r\n              },\r\n            },\r\n          ]}\r\n        />\r\n      ),\r\n    },\r\n  ];\r\n\r\n  return (\r\n    <div className=\"leixi-page-container\">\r\n      <div className=\"flex items-center gap-4 mb-4 bg-white p-4 rounded shadow-sm\">\r\n        <div className=\"flex-grow\">\r\n          <RangePicker \r\n            key=\"range\"\r\n            style={{ width: '100%', height: '44px' }}\r\n            className=\"leixi-filter-border\"\r\n            onChange={(dates, dateStrings) => {\r\n              tableRef.current?.setParams({ dateRange: dateStrings });\r\n              tableRef.current?.reload();\r\n            }}\r\n          />\r\n        </div>\r\n        <Input.Search \r\n          key=\"search\"\r\n          placeholder=\"搜索员工姓名/工号\"\r\n          onSearch={(val) => {\r\n            tableRef.current?.setParams({ keyword: val });\r\n            tableRef.current?.reload();\r\n          }}\r\n          style={{ width: 250, height: '44px' }}\r\n          className=\"leixi-filter-border\"\r\n        />\r\n      </div>\r\n\r\n      <BaseTable\r\n        ref={tableRef}\r\n        columns={columns.map(col => ({\r\n            ...col,\r\n            className: col.className ? `${col.className} leixi-text-main` : 'leixi-text-main'\r\n        }))}\r\n        loading={{\r\n          indicator: <LeixiLoading tip=\"正在扫描全域考勤大数据...\" />\r\n        }}\r\n        request={async (params: any) => {\r\n          const res = await attendanceApi.listRecords({\r\n            keyword: params.keyword,\r\n            start_date: params.dateRange?.[0],\r\n            end_date: params.dateRange?.[1],\r\n            current: params.current,\r\n            pageSize: params.pageSize\r\n          });\r\n          return {\r\n            data: res.data,\r\n            total: res.total,\r\n            success: true,\r\n          };\r\n        }}\r\n      />\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default AttendanceRecords;\r\n",
       "__isJSFile": true,
       "__absFile": "E:/code/AiSystem/frontend/src/pages/attendance/records/index.tsx"
     },
@@ -2534,7 +2534,7 @@
       "parentId": "3",
       "id": "22",
       "absPath": "/approval/process",
-      "__content": "import { useState } from 'react';\r\nimport { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';\r\nimport type { ProColumns } from '@ant-design/pro-components';\r\nimport { Button, Card, Form, Input, Select, Space, Typography, Tag, Badge, Tooltip, Modal, message } from 'antd';\r\nimport { PlusOutlined, SearchOutlined, ReloadOutlined, EditOutlined, ArrowLeftOutlined } from '@ant-design/icons';\r\nimport { approvalApi, type ApprovalTemplate } from '@/api/approval';\r\nimport { BaseTable } from '@/components/table/BaseTable';\r\nimport { ActionGroup } from '@/components/common/ActionGroup';\r\nimport { Permission } from '@/components/permission/Permission';\r\nimport { WorkflowEditor } from './components/WorkflowEditor';\r\n\r\nconst { Text } = Typography;\r\n\r\nexport default function ApprovalProcessPage() {\r\n  const [filterForm] = Form.useForm();\r\n  const [editingTemplate, setEditingTemplate] = useState<ApprovalTemplate | null>(null);\r\n  const queryClient = useQueryClient();\r\n\r\n  const { data: templates = [], isLoading } = useQuery({\r\n    queryKey: ['approval-templates'],\r\n    queryFn: approvalApi.listTemplates\r\n  });\r\n\r\n  const refresh = () => queryClient.invalidateQueries({ queryKey: ['approval-templates'] });\r\n\r\n  const deleteMutation = useMutation({\r\n    mutationFn: approvalApi.deleteTemplate,\r\n    onSuccess: refresh\r\n  });\r\n\r\n  const saveMutation = useMutation({\r\n    mutationFn: (nodes: any[]) => approvalApi.saveTemplate({ ...editingTemplate, nodes }),\r\n    onSuccess: () => {\r\n      message.success('流程已成功发布');\r\n      setEditingTemplate(null);\r\n      refresh();\r\n    }\r\n  });\r\n\r\n  // 如果处于编辑模式，显示编辑器\r\n  if (editingTemplate) {\r\n    return (\r\n      <div className=\"p-4\">\r\n        <Button \r\n          icon={<ArrowLeftOutlined />} \r\n          onClick={() => setEditingTemplate(null)}\r\n          className=\"mb-4 font-bold\"\r\n        >\r\n          返回模板列表\r\n        </Button>\r\n        <WorkflowEditor \r\n          template={editingTemplate} \r\n          onSave={(nodes) => saveMutation.mutate(nodes)}\r\n          loading={saveMutation.isPending}\r\n        />\r\n      </div>\r\n    );\r\n  }\r\n\r\n  const columns: ProColumns<ApprovalTemplate>[] = [\r\n    {\r\n      title: '模板名称',\r\n      dataIndex: 'name',\r\n      render: (text, record) => (\r\n        <Space direction=\"vertical\" size={0}>\r\n          <Text className=\"font-black text-slate-900\">{text}</Text>\r\n          <Text className=\"text-slate-500 text-xs\">{record.description}</Text>\r\n        </Space>\r\n      )\r\n    },\r\n    {\r\n      title: '审批类型',\r\n      dataIndex: 'type',\r\n      render: (type) => <Tag className=\"font-bold border-slate-300\">{type}</Tag>\r\n    },\r\n    {\r\n      title: '适用范围',\r\n      dataIndex: 'platformName',\r\n      render: (_, record) => (\r\n        <div className=\"flex flex-col\">\r\n          <Text className=\"text-slate-600 text-xs\">{record.platformName}</Text>\r\n          <Text className=\"text-slate-900 font-bold\">{record.departmentName}</Text>\r\n        </div>\r\n      )\r\n    },\r\n    {\r\n      title: '流程节点',\r\n      dataIndex: 'nodes',\r\n      render: (_, record) => (\r\n        <Space size={4}>\r\n          {(record.nodes || []).map((node, idx) => (\r\n            <span key={node.id} className=\"flex items-center\">\r\n              <Badge \r\n                count={idx + 1} \r\n                size=\"small\" \r\n                style={{ backgroundColor: '#64748b', transform: 'scale(0.8)' }} \r\n              />\r\n              <Text className=\"text-xs ml-1 font-bold text-slate-600\">{node.name}</Text>\r\n              {idx < record.nodes.length - 1 && <span className=\"mx-1 text-slate-300\">→</span>}\r\n            </span>\r\n          ))}\r\n        </Space>\r\n      )\r\n    },\r\n    {\r\n      title: '状态',\r\n      dataIndex: 'status',\r\n      render: (status) => (\r\n        <Tag color={status === 'enabled' ? 'success' : 'default'} className=\"font-black border-2\">\r\n          {status === 'enabled' ? '启用中' : '已禁用'}\r\n        </Tag>\r\n      )\r\n    },\r\n    {\r\n      title: '操作',\r\n      valueType: 'option',\r\n      width: 200,\r\n      render: (_, record) => (\r\n        <Space>\r\n          <Permission code=\"approval:process:update\">\r\n            <Button \r\n              type=\"link\" \r\n              size=\"small\" \r\n              icon={<EditOutlined />} \r\n              className=\"font-bold text-slate-900\"\r\n              onClick={() => setEditingTemplate(record)}\r\n            >\r\n              配置流程\r\n            </Button>\r\n          </Permission>\r\n          <ActionGroup\r\n            onDelete={() => deleteMutation.mutate(record.id)}\r\n            deletePermission=\"approval:process:delete\"\r\n          />\r\n        </Space>\r\n      )\r\n    }\r\n  ];\r\n\r\n  return (\r\n    <div className=\"p-4 space-y-4\">\r\n      {/* 搜索筛选区 - 单行全铺满自适应布局 */}\r\n      <Card bordered={false} className=\"shadow-sm\">\r\n        <Form\r\n          form={filterForm}\r\n          layout=\"inline\"\r\n          className=\"flex flex-wrap items-center gap-4\"\r\n        >\r\n          <Form.Item name=\"name\" className=\"flex-grow min-w-[200px] mb-0\">\r\n            <Input prefix={<SearchOutlined />} placeholder=\"搜索模板名称\" className=\"h-[44px]\" />\r\n          </Form.Item>\r\n          <Form.Item name=\"type\" className=\"flex-grow min-w-[150px] mb-0\">\r\n            <Select placeholder=\"审批类型\" className=\"h-[44px]\" options={[{ label: '请假', value: '请假' }, { label: '加班', value: '加班' }, { label: '报销', value: '报销' }]} allowClear />\r\n          </Form.Item>\r\n          <Form.Item name=\"status\" className=\"min-w-[120px] mb-0\">\r\n            <Select placeholder=\"状态\" className=\"h-[44px]\" options={[{ label: '启用', value: 'enabled' }, { label: '禁用', value: 'disabled' }]} allowClear />\r\n          </Form.Item>\r\n          <Form.Item className=\"mb-0\">\r\n            <Space size={8}>\r\n              <Button icon={<ReloadOutlined />} onClick={() => filterForm.resetFields()} className=\"h-[44px] border-slate-500 font-bold\">\r\n                重置\r\n              </Button>\r\n              <Button type=\"primary\" icon={<PlusOutlined />} className=\"h-[44px] font-bold\">\r\n                创建模板\r\n              </Button>\r\n            </Space>\r\n          </Form.Item>\r\n        </Form>\r\n      </Card>\r\n\r\n      {/* 数据表格区 */}\r\n      <Card bordered={false} className=\"shadow-sm\">\r\n        <BaseTable<ApprovalTemplate>\r\n          columns={columns}\r\n          dataSource={templates}\r\n          loading={isLoading}\r\n          rowKey=\"id\"\r\n        />\r\n      </Card>\r\n    </div>\r\n  );\r\n}\r\n",
+      "__content": "import { useMemo, useState } from 'react';\nimport { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';\nimport type { ProColumns } from '@ant-design/pro-components';\nimport { ArrowLeftOutlined, EditOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';\nimport { Badge, Button, Card, Form, Input, Modal, Select, Space, Tag, Typography, message } from 'antd';\nimport { approvalApi, type ApprovalNode, type ApprovalPerson, type ApprovalTemplate } from '@/api/approval';\nimport { BaseModal } from '@/components/common/BaseModal';\nimport { ActionGroup } from '@/components/common/ActionGroup';\nimport { Permission } from '@/components/permission/Permission';\nimport { BaseTable } from '@/components/table/BaseTable';\nimport { WorkflowEditor } from './components/WorkflowEditor';\n\nconst { Text } = Typography;\n\nfunction createDefaultNodes(): ApprovalNode[] {\n  return [\n    { id: 'start', name: '开始', type: 'start', timeoutHours: 0, approvers: [], copies: [] },\n    { id: `approval-${Date.now()}`, name: '一级审批', type: 'approval', timeoutHours: 24, approvers: [], copies: [] },\n    { id: 'end', name: '结束', type: 'end', timeoutHours: 0, approvers: [], copies: [] },\n  ];\n}\n\nexport default function ApprovalProcessPage() {\n  const [filterForm] = Form.useForm();\n  const [createForm] = Form.useForm();\n  const [editingTemplate, setEditingTemplate] = useState<ApprovalTemplate | null>(null);\n  const [createOpen, setCreateOpen] = useState(false);\n  const queryClient = useQueryClient();\n\n  const { data: templates = [], isLoading } = useQuery({\n    queryKey: ['approval-templates'],\n    queryFn: approvalApi.listTemplates,\n  });\n\n  const { data: people = [] } = useQuery<ApprovalPerson[]>({\n    queryKey: ['approval-people'],\n    queryFn: approvalApi.listPeople,\n  });\n\n  const filters = Form.useWatch([], filterForm) as { name?: string; type?: string; status?: string } | undefined;\n\n  const filteredTemplates = useMemo(() => {\n    return templates.filter((item) => {\n      if (filters?.name && !item.name.toLowerCase().includes(filters.name.toLowerCase())) {\n        return false;\n      }\n      if (filters?.type && item.type !== filters.type) {\n        return false;\n      }\n      if (filters?.status && item.status !== filters.status) {\n        return false;\n      }\n      return true;\n    });\n  }, [filters?.name, filters?.status, filters?.type, templates]);\n\n  const refresh = () => queryClient.invalidateQueries({ queryKey: ['approval-templates'] });\n\n  const deleteMutation = useMutation({\n    mutationFn: approvalApi.deleteTemplate,\n    onSuccess: async () => {\n      message.success('模板已删除');\n      await refresh();\n    },\n  });\n\n  const createMutation = useMutation({\n    mutationFn: approvalApi.createTemplate,\n    onSuccess: async (template) => {\n      message.success('模板已创建');\n      setCreateOpen(false);\n      createForm.resetFields();\n      setEditingTemplate(template);\n      await refresh();\n    },\n  });\n\n  const saveMutation = useMutation({\n    mutationFn: (payload: { id: string; data: ApprovalTemplate }) => approvalApi.saveTemplate(payload.id, payload.data),\n    onSuccess: async () => {\n      message.success('流程已保存');\n      setEditingTemplate(null);\n      await refresh();\n    },\n  });\n\n  if (editingTemplate) {\n    return (\n      <div className=\"p-4\">\n        <Button icon={<ArrowLeftOutlined />} onClick={() => setEditingTemplate(null)} className=\"mb-4 font-bold\">\n          返回模板列表\n        </Button>\n        <WorkflowEditor\n          template={editingTemplate}\n          people={people}\n          onSave={(nodes) =>\n            saveMutation.mutate({\n              id: editingTemplate.id,\n              data: {\n                ...editingTemplate,\n                nodes,\n                updatedAt: new Date().toISOString(),\n              },\n            })\n          }\n          loading={saveMutation.isPending}\n        />\n      </div>\n    );\n  }\n\n  const columns: ProColumns<ApprovalTemplate>[] = [\n    {\n      title: '模板名称',\n      dataIndex: 'name',\n      render: (text, record) => (\n        <Space direction=\"vertical\" size={0}>\n          <Text className=\"font-black text-slate-900\">{text}</Text>\n          <Text className=\"text-xs text-slate-500\">{record.description || '-'}</Text>\n        </Space>\n      ),\n    },\n    {\n      title: '审批类型',\n      dataIndex: 'type',\n      render: (type) => <Tag className=\"border-slate-300 font-bold\">{type}</Tag>,\n    },\n    {\n      title: '适用范围',\n      dataIndex: 'platformName',\n      render: (_, record) => (\n        <div className=\"flex flex-col\">\n          <Text className=\"text-xs text-slate-600\">{record.platformName}</Text>\n          <Text className=\"font-bold text-slate-900\">{record.departmentName}</Text>\n        </div>\n      ),\n    },\n    {\n      title: '流程节点',\n      dataIndex: 'nodes',\n      render: (_, record) => (\n        <Space size={4} wrap>\n          {(record.nodes || []).map((node, idx) => (\n            <span key={node.id} className=\"flex items-center\">\n              <Badge count={idx + 1} size=\"small\" style={{ backgroundColor: '#64748b', transform: 'scale(0.8)' }} />\n              <Text className=\"ml-1 text-xs font-bold text-slate-600\">{node.name}</Text>\n              {idx < record.nodes.length - 1 ? <span className=\"mx-1 text-slate-300\">→</span> : null}\n            </span>\n          ))}\n        </Space>\n      ),\n    },\n    {\n      title: '状态',\n      dataIndex: 'status',\n      render: (status) => (\n        <Tag color={status === 'enabled' ? 'success' : 'default'} className=\"border-2 font-black\">\n          {status === 'enabled' ? '启用中' : '已禁用'}\n        </Tag>\n      ),\n    },\n    {\n      title: '操作',\n      valueType: 'option',\n      width: 220,\n      render: (_, record) => (\n        <Space>\n          <Permission code=\"approval:process:update\">\n            <Button type=\"link\" size=\"small\" icon={<EditOutlined />} className=\"font-bold text-slate-900\" onClick={() => setEditingTemplate(record)}>\n              配置流程\n            </Button>\n          </Permission>\n          <ActionGroup onDelete={() => deleteMutation.mutate(record.id)} deletePermission=\"approval:process:update\" />\n        </Space>\n      ),\n    },\n  ];\n\n  return (\n    <div className=\"space-y-4 p-4\">\n      <Card bordered={false} className=\"shadow-sm\">\n        <Form form={filterForm} layout=\"inline\" className=\"flex flex-wrap items-center gap-4\">\n          <Form.Item name=\"name\" className=\"mb-0 min-w-[200px] flex-grow\">\n            <Input prefix={<SearchOutlined />} placeholder=\"搜索模板名称\" className=\"h-[44px]\" />\n          </Form.Item>\n          <Form.Item name=\"type\" className=\"mb-0 min-w-[150px]\">\n            <Select\n              placeholder=\"审批类型\"\n              className=\"h-[44px]\"\n              options={[\n                { label: '请假', value: '请假' },\n                { label: '加班', value: '加班' },\n                { label: '报销', value: '报销' },\n              ]}\n              allowClear\n            />\n          </Form.Item>\n          <Form.Item name=\"status\" className=\"mb-0 min-w-[120px]\">\n            <Select\n              placeholder=\"状态\"\n              className=\"h-[44px]\"\n              options={[\n                { label: '启用', value: 'enabled' },\n                { label: '禁用', value: 'disabled' },\n              ]}\n              allowClear\n            />\n          </Form.Item>\n          <Form.Item className=\"mb-0\">\n            <Space size={8}>\n              <Button icon={<ReloadOutlined />} onClick={() => filterForm.resetFields()} className=\"h-[44px] border-slate-500 font-bold\">\n                重置\n              </Button>\n              <Permission code=\"approval:process:update\">\n                <Button type=\"primary\" icon={<PlusOutlined />} className=\"h-[44px] font-bold\" onClick={() => setCreateOpen(true)}>\n                  创建模板\n                </Button>\n              </Permission>\n            </Space>\n          </Form.Item>\n        </Form>\n      </Card>\n\n      <Card bordered={false} className=\"shadow-sm\">\n        <BaseTable<ApprovalTemplate> columns={columns} dataSource={filteredTemplates} loading={isLoading} rowKey=\"id\" />\n      </Card>\n\n      <BaseModal\n        open={createOpen}\n        title=\"创建审批模板\"\n        onCancel={() => {\n          setCreateOpen(false);\n          createForm.resetFields();\n        }}\n        onOk={() => createForm.submit()}\n        confirmLoading={createMutation.isPending}\n      >\n        <Form\n          form={createForm}\n          layout=\"vertical\"\n          initialValues={{ status: 'enabled', type: '请假' }}\n          onFinish={(values) =>\n            createMutation.mutate({\n              id: `tpl-${Date.now()}`,\n              name: values.name,\n              type: values.type,\n              platformName: values.platformName,\n              departmentName: values.departmentName,\n              status: values.status,\n              description: values.description || '',\n              updatedAt: new Date().toISOString(),\n              nodes: createDefaultNodes(),\n            })\n          }\n        >\n          <Form.Item label=\"模板名称\" name=\"name\" rules={[{ required: true, message: '请输入模板名称' }]}>\n            <Input />\n          </Form.Item>\n          <Form.Item label=\"审批类型\" name=\"type\" rules={[{ required: true, message: '请选择审批类型' }]}>\n            <Select\n              options={[\n                { label: '请假', value: '请假' },\n                { label: '加班', value: '加班' },\n                { label: '报销', value: '报销' },\n              ]}\n            />\n          </Form.Item>\n          <Form.Item label=\"平台名称\" name=\"platformName\" rules={[{ required: true, message: '请输入平台名称' }]}>\n            <Input />\n          </Form.Item>\n          <Form.Item label=\"部门名称\" name=\"departmentName\" rules={[{ required: true, message: '请输入部门名称' }]}>\n            <Input />\n          </Form.Item>\n          <Form.Item label=\"状态\" name=\"status\">\n            <Select\n              options={[\n                { label: '启用', value: 'enabled' },\n                { label: '禁用', value: 'disabled' },\n              ]}\n            />\n          </Form.Item>\n          <Form.Item label=\"描述\" name=\"description\">\n            <Input.TextArea rows={3} />\n          </Form.Item>\n        </Form>\n      </BaseModal>\n    </div>\n  );\n}\n",
       "__isJSFile": true,
       "__absFile": "E:/code/AiSystem/frontend/src/pages/approval/process/index.tsx"
     },
@@ -2544,7 +2544,7 @@
       "parentId": "3",
       "id": "23",
       "absPath": "/approval/requests",
-      "__content": "import { useState } from 'react';\r\nimport { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';\r\nimport type { ProColumns } from '@ant-design/pro-components';\r\nimport { Button, Card, Form, Input, Select, Space, Typography, Tag, Tabs, message, Badge } from 'antd';\r\nimport { CheckCircleOutlined, CloseCircleOutlined, SwapOutlined, SearchOutlined, ReloadOutlined } from '@ant-design/icons';\r\nimport { approvalApi, type ApprovalRequest } from '@/api/approval';\r\nimport { BaseTable } from '@/components/table/BaseTable';\r\nimport { BaseModal } from '@/components/common/BaseModal';\r\n\r\nconst { Text, Title } = Typography;\r\n\r\nexport default function ApprovalCenterPage() {\r\n  const [activeTab, setActiveTab] = useState('pending');\r\n  const [open, setOpen] = useState(false);\r\n  const [selectedReq, setSelectedReq] = useState<ApprovalRequest | null>(null);\r\n  const [action, setAction] = useState<'approved' | 'rejected' | 'transferred'>('approved');\r\n  const [form] = Form.useForm();\r\n  \r\n  const queryClient = useQueryClient();\r\n\r\n  // 1. 数据查询\r\n  const { data: requests = [], isLoading } = useQuery({\r\n    queryKey: ['approval-requests', activeTab],\r\n    queryFn: () => {\r\n      if (activeTab === 'pending') return approvalApi.listPendingApprovals();\r\n      if (activeTab === 'done') return approvalApi.listDoneApprovals();\r\n      return approvalApi.listMyRequests();\r\n    }\r\n  });\r\n\r\n  const refresh = () => queryClient.invalidateQueries({ queryKey: ['approval-requests'] });\r\n\r\n  // 2. 审批动作\r\n  const actionMutation = useMutation({\r\n    mutationFn: ({ id, payload }: { id: string; payload: any }) => approvalApi.takeAction(id, payload),\r\n    onSuccess: () => {\r\n      message.success('操作成功');\r\n      setOpen(false);\r\n      form.resetFields();\r\n      refresh();\r\n    }\r\n  });\r\n\r\n  const columns: ProColumns<ApprovalRequest>[] = [\r\n    {\r\n      title: '审批单信息',\r\n      dataIndex: 'requestNo',\r\n      render: (text, record) => (\r\n        <Space direction=\"vertical\" size={0}>\r\n          <Text className=\"font-black text-slate-900\">{text}</Text>\r\n          <Text className=\"text-slate-500 text-xs\">{record.templateName}</Text>\r\n        </Space>\r\n      )\r\n    },\r\n    {\r\n      title: '申请人',\r\n      dataIndex: 'applicantName',\r\n      render: (text, record) => (\r\n        <div className=\"flex flex-col\">\r\n          <Text className=\"text-slate-900 font-bold\">{text}</Text>\r\n          <Text className=\"text-slate-500 text-xs\">{record.departmentName}</Text>\r\n        </div>\r\n      )\r\n    },\r\n    {\r\n      title: '审批摘要',\r\n      dataIndex: 'summary',\r\n      render: (text) => <Text className=\"text-slate-600 max-w-[300px]\" ellipsis>{text}</Text>\r\n    },\r\n    {\r\n      title: '金额',\r\n      dataIndex: 'amount',\r\n      render: (val) => val ? <Text className=\"font-black text-red-600\">￥{Number(val).toFixed(2)}</Text> : '-'\r\n    },\r\n    {\r\n      title: '状态',\r\n      dataIndex: 'status',\r\n      render: (status) => {\r\n        const config: any = {\r\n          pending: { color: 'processing', text: '审批中', icon: <ReloadOutlined spin /> },\r\n          approved: { color: 'success', text: '已通过', icon: <CheckCircleOutlined /> },\r\n          rejected: { color: 'error', text: '已驳回', icon: <CloseCircleOutlined /> },\r\n          transferred: { color: 'warning', text: '已转办', icon: <SwapOutlined /> }\r\n        };\r\n        const item = config[status] || config.pending;\r\n        return <Tag color={item.color} icon={item.icon} className=\"font-black border-2\">{item.text}</Tag>;\r\n      }\r\n    },\r\n    {\r\n      title: '申请时间',\r\n      dataIndex: 'createdAt',\r\n      className: 'text-slate-500 text-xs'\r\n    },\r\n    {\r\n      title: '操作',\r\n      valueType: 'option',\r\n      render: (_, record) => {\r\n        if (activeTab !== 'pending') return <Button type=\"link\" size=\"small\">查看详情</Button>;\r\n        return (\r\n          <Space>\r\n            <Button \r\n              type=\"primary\" \r\n              size=\"small\" \r\n              className=\"bg-green-600 hover:bg-green-500 border-none font-bold\"\r\n              onClick={() => {\r\n                setSelectedReq(record);\r\n                setAction('approved');\r\n                setOpen(true);\r\n              }}\r\n            >\r\n              通过\r\n            </Button>\r\n            <Button \r\n              danger \r\n              size=\"small\" \r\n              className=\"font-bold\"\r\n              onClick={() => {\r\n                setSelectedReq(record);\r\n                setAction('rejected');\r\n                setOpen(true);\r\n              }}\r\n            >\r\n              驳回\r\n            </Button>\r\n          </Space>\r\n        );\r\n      }\r\n    }\r\n  ];\r\n\r\n  return (\r\n    <div className=\"leixi-page-container\">\r\n      <Card bordered={false} styles={{ body: { padding: '16px 24px' } }} className=\"shadow-sm mb-4\">\r\n        <Tabs \r\n          activeKey={activeTab} \r\n          onChange={setActiveTab}\r\n          className=\"font-black text-slate-900\"\r\n          size=\"large\"\r\n          items={[\r\n            { key: 'pending', label: <Badge count={activeTab === 'pending' ? requests.length : 0} offset={[15, 0]}><span className=\"px-4\">待我审批</span></Badge> },\r\n            { key: 'done', label: <span className=\"px-4\">已审批</span> },\r\n            { key: 'my', label: <span className=\"px-4\">我发起的</span> }\r\n          ]}\r\n        />\r\n      </Card>\r\n\r\n      <Card bordered={false} className=\"shadow-sm\">\r\n        <BaseTable<ApprovalRequest>\r\n          columns={columns.map(col => ({\r\n              ...col,\r\n              className: col.className ? `${col.className} leixi-text-main` : 'leixi-text-main'\r\n          }))}\r\n          dataSource={requests}\r\n          loading={isLoading}\r\n          rowKey=\"id\"\r\n        />\r\n      </Card>\r\n\r\n      {/* 审批操作弹窗 */}\r\n      <BaseModal\r\n        open={open}\r\n        title={\r\n          <Space>\r\n            <Title level={5} className=\"m-0 font-black\">\r\n              {action === 'approved' ? '通过审批' : '驳回申请'}\r\n            </Title>\r\n            <Text className=\"text-slate-400 font-normal\">[{selectedReq?.requestNo}]</Text>\r\n          </Space>\r\n        }\r\n        onCancel={() => setOpen(false)}\r\n        onOk={() => form.submit()}\r\n        confirmLoading={actionMutation.isPending}\r\n      >\r\n        <Form form={form} layout=\"vertical\" onFinish={(v) => actionMutation.mutate({ id: selectedReq!.id, payload: { action, ...v } })}>\r\n          <div className=\"bg-slate-50 p-4 rounded-lg border border-slate-200 mb-4\">\r\n            <Text className=\"text-slate-500 block mb-1\">申请人: <span className=\"text-slate-900 font-bold\">{selectedReq?.applicantName}</span></Text>\r\n            <Text className=\"text-slate-500 block\">摘要: <span className=\"text-slate-900\">{selectedReq?.summary}</span></Text>\r\n          </div>\r\n          \r\n          <Form.Item label={<span className=\"font-bold text-slate-900\">审批意见</span>} name=\"comment\" rules={[{ required: action === 'rejected', message: '驳回必须填写意见' }]}>\r\n            <Input.TextArea rows={4} placeholder={action === 'approved' ? '请输入审批意见(选填)' : '请输入驳回原因(必填)'} className=\"font-medium\" />\r\n          </Form.Item>\r\n        </Form>\r\n      </BaseModal>\r\n    </div>\r\n  );\r\n}\r\n",
+      "__content": "import { useState } from 'react';\r\nimport { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';\r\nimport type { ProColumns } from '@ant-design/pro-components';\r\nimport { Button, Card, Form, Input, Select, Space, Typography, Tag, Tabs, message, Badge } from 'antd';\r\nimport { CheckCircleOutlined, CloseCircleOutlined, SwapOutlined, ReloadOutlined } from '@ant-design/icons';\r\nimport { approvalApi, type ApprovalRequest } from '@/api/approval';\r\nimport { BaseTable } from '@/components/table/BaseTable';\r\nimport { BaseModal } from '@/components/common/BaseModal';\r\nimport { LeixiLoading } from '@/components/common/LeixiLoading';\r\n\r\nconst { Text, Title } = Typography;\r\n\r\nexport default function ApprovalCenterPage() {\r\n  const [activeTab, setActiveTab] = useState('pending');\r\n  const [open, setOpen] = useState(false);\r\n  const [selectedReq, setSelectedReq] = useState<ApprovalRequest | null>(null);\r\n  const [action, setAction] = useState<'approved' | 'rejected' | 'transferred'>('approved');\r\n  const [form] = Form.useForm();\r\n  \r\n  const queryClient = useQueryClient();\r\n\r\n  const { data: requests = [], isLoading } = useQuery({\r\n    queryKey: ['approval-requests', activeTab],\r\n    queryFn: () => {\r\n      if (activeTab === 'pending') return approvalApi.listPendingApprovals();\r\n      if (activeTab === 'done') return approvalApi.listDoneApprovals();\r\n      return approvalApi.listMyRequests();\r\n    }\r\n  });\r\n\r\n  const refresh = () => queryClient.invalidateQueries({ queryKey: ['approval-requests'] });\r\n\r\n  const actionMutation = useMutation({\n    mutationFn: ({ id, payload }: { id: string; payload: any }) => {\n      if (payload.action === 'approved') {\n        return approvalApi.approveRequest(id, { comment: payload.comment });\n      }\n      if (payload.action === 'rejected') {\n        return approvalApi.rejectRequest(id, { comment: payload.comment });\n      }\n      return approvalApi.transferRequest(id, { comment: payload.comment, assigneeId: payload.assigneeId });\n    },\n    onSuccess: () => {\r\n      message.success('操作成功');\r\n      setOpen(false);\r\n      form.resetFields();\r\n      refresh();\r\n    }\r\n  });\r\n\r\n  const columns: ProColumns<ApprovalRequest>[] = [\r\n    {\r\n      title: '审批单信息',\r\n      dataIndex: 'requestNo',\r\n      render: (text, record) => (\r\n        <Space direction=\"vertical\" size={0}>\r\n          <Text className=\"font-black text-slate-900\">{text}</Text>\r\n          <Text className=\"text-slate-500 text-xs\">{record.templateName}</Text>\r\n        </Space>\r\n      )\r\n    },\r\n    {\r\n      title: '状态',\r\n      dataIndex: 'status',\r\n      render: (status) => {\r\n        const config: any = {\r\n          pending: { color: 'processing', text: '审批中', icon: <ReloadOutlined spin /> },\r\n          approved: { color: 'success', text: '已通过', icon: <CheckCircleOutlined /> },\r\n          rejected: { color: 'error', text: '已驳回', icon: <CloseCircleOutlined /> }\r\n        };\r\n        const item = config[status] || config.pending;\r\n        return <Tag color={item.color} icon={item.icon} className=\"font-black border-2\">{item.text}</Tag>;\r\n      }\r\n    }\r\n  ];\r\n\r\n  return (\r\n    <div className=\"leixi-page-container\">\r\n      <Card bordered={false} styles={{ body: { padding: '16px 24px' } }} className=\"shadow-sm mb-4\">\r\n        <Tabs \r\n          activeKey={activeTab} \r\n          onChange={setActiveTab}\r\n          className=\"font-black text-slate-900\"\r\n          size=\"large\"\r\n          items={[\r\n            { key: 'pending', label: <Badge count={activeTab === 'pending' ? requests.length : 0} offset={[15, 0]}><span className=\"px-4\">待我审批</span></Badge> },\r\n            { key: 'done', label: <span className=\"px-4\">已审批</span> },\r\n            { key: 'my', label: <span className=\"px-4\">我发起的</span> }\r\n          ]}\r\n        />\r\n      </Card>\r\n\r\n      <Card bordered={false} className=\"shadow-sm\">\r\n        <BaseTable<ApprovalRequest>\r\n          columns={columns.map(col => ({\r\n              ...col,\r\n              className: col.className ? `${col.className} leixi-text-main` : 'leixi-text-main'\r\n          }))}\r\n          dataSource={requests}\r\n          loading={{\r\n            spinning: isLoading,\r\n            indicator: <LeixiLoading tip=\"正在同步审批流水...\" />\r\n          }}\r\n          rowKey=\"id\"\r\n        />\r\n      </Card>\r\n\r\n      <BaseModal\r\n        open={open}\r\n        title={<Title level={5} className=\"m-0 font-black\">处理审批</Title>}\r\n        onCancel={() => setOpen(false)}\r\n        onOk={() => form.submit()}\r\n        confirmLoading={actionMutation.isPending}\r\n      >\r\n        <Form form={form} layout=\"vertical\" onFinish={(v) => actionMutation.mutate({ id: selectedReq!.id, payload: { action, ...v } })}>\r\n          <Form.Item label={<span className=\"font-bold text-slate-900\">审批意见</span>} name=\"comment\">\r\n            <Input.TextArea rows={4} className=\"font-medium\" />\r\n          </Form.Item>\r\n        </Form>\r\n      </BaseModal>\r\n    </div>\r\n  );\r\n}\n",
       "__isJSFile": true,
       "__absFile": "E:/code/AiSystem/frontend/src/pages/approval/requests/index.tsx"
     },
@@ -2746,7 +2746,7 @@
       "id": "approval/index",
       "file": "approval/index.ts",
       "absPath": "/approval",
-      "__content": "import { request } from '@/utils/request';\r\n\r\nexport interface ApprovalPerson {\r\n  id: string;\r\n  name: string;\r\n  employeeNo: string;\r\n  department: string;\r\n  title: string;\r\n  [key: string]: any;\r\n}\r\n\r\nexport interface ApprovalNode {\r\n  id: string;\r\n  name: string;\r\n  type: 'start' | 'approval' | 'branch' | 'copy' | 'end';\r\n  timeoutHours: number;\r\n  condition?: string;\r\n  approvers: ApprovalPerson[];\r\n  copies: ApprovalPerson[];\r\n  [key: string]: any;\r\n}\r\n\r\nexport interface ApprovalProgressRecord {\r\n  id: string;\r\n  nodeId: string;\r\n  nodeName: string;\r\n  action: 'submitted' | 'approved' | 'rejected' | 'transferred';\r\n  actorId: string;\r\n  actorName: string;\r\n  comment?: string;\r\n  createdAt: string;\r\n  [key: string]: any;\r\n}\r\n\r\nexport interface ApprovalTemplate {\r\n  id: string;\r\n  name: string;\r\n  type: string;\r\n  platformName: string;\r\n  departmentName: string;\r\n  status: 'enabled' | 'disabled';\r\n  description: string;\r\n  updatedAt: string;\r\n  nodes: ApprovalNode[];\r\n  [key: string]: any;\r\n}\r\n\r\nexport interface ApprovalRequest {\r\n  id: string;\r\n  requestNo: string;\r\n  templateId: string;\r\n  templateName: string;\r\n  bizType?: string;\r\n  bizId?: string;\r\n  type: string;\r\n  applicantId: string;\r\n  applicantName: string;\r\n  currentApproverId?: string;\r\n  currentApproverName?: string;\r\n  status: 'pending' | 'approved' | 'rejected' | 'transferred';\r\n  amount?: number;\r\n  platformName: string;\r\n  departmentName: string;\r\n  summary: string;\r\n  createdAt: string;\r\n  updatedAt: string;\r\n  progress: ApprovalProgressRecord[];\r\n  [key: string]: any;\r\n}\r\n\r\nexport const approvalApi = {\r\n  listTemplates: () => request.get<ApprovalTemplate[]>('/approval/templates'),\r\n  saveTemplate: (payload: any) => request.post('/approval/templates', payload),\r\n  deleteTemplate: (id: string) => request.delete(`/approval/templates/${id}`),\r\n  listMyRequests: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests/my', { params }),\r\n  listPendingApprovals: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests/pending', { params }),\r\n  listDoneApprovals: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests/done', { params }),\r\n  takeAction: (requestId: string, payload: { action: string; comment?: string; transferTo?: string }) =>\r\n    request.post(`/approval/requests/${requestId}/action`, payload),\r\n  \r\n  // 补全缺失的方法\r\n  approveRequest: (id: string, payload: { comment?: string }) => request.post(`/approval/requests/${id}/action`, { action: 'approved', ...payload }),\r\n  rejectRequest: (id: string, payload: { comment?: string }) => request.post(`/approval/requests/${id}/action`, { action: 'rejected', ...payload }),\r\n  transferRequest: (id: string, payload: { comment?: string; assigneeId: string }) => request.post(`/approval/requests/${id}/action`, { action: 'transferred', ...payload }),\r\n  requestStats: () => request.get<any>('/approval/stats'),\r\n  listPeople: () => request.get<ApprovalPerson[]>('/approval/people'),\r\n};\r\n"
+      "__content": "import { request } from '@/utils/request';\n\nexport interface ApprovalPerson {\n  id: string;\n  name: string;\n  employeeNo: string;\n  department: string;\n  title: string;\n  [key: string]: any;\n}\n\nexport interface ApprovalNode {\n  id: string;\n  name: string;\n  type: 'start' | 'approval' | 'branch' | 'copy' | 'end';\n  timeoutHours: number;\n  condition?: string;\n  approvers: ApprovalPerson[];\n  copies: ApprovalPerson[];\n  [key: string]: any;\n}\n\nexport interface ApprovalProgressRecord {\n  id?: string;\n  nodeId: string;\n  nodeName: string;\n  action: 'submitted' | 'approved' | 'rejected' | 'transferred';\n  actorId: string;\n  actorName: string;\n  comment?: string;\n  createdAt: string;\n  [key: string]: any;\n}\n\nexport interface ApprovalTemplate {\n  id: string;\n  name: string;\n  type: string;\n  platformName: string;\n  departmentName: string;\n  status: 'enabled' | 'disabled';\n  description: string;\n  updatedAt: string;\n  nodes: ApprovalNode[];\n  [key: string]: any;\n}\n\nexport interface ApprovalRequest {\n  id: string;\n  requestNo: string;\n  templateId: string;\n  templateName: string;\n  bizType?: string;\n  bizId?: string;\n  type: string;\n  applicantId: string;\n  applicantName: string;\n  currentApproverId?: string;\n  currentApproverName?: string;\n  status: 'pending' | 'approved' | 'rejected' | 'transferred';\n  amount?: number;\n  platformName: string;\n  departmentName: string;\n  summary: string;\n  createdAt: string;\n  updatedAt: string;\n  progress: ApprovalProgressRecord[];\n  [key: string]: any;\n}\n\nexport const approvalApi = {\n  listTemplates: () => request.get<ApprovalTemplate[]>('/approval/templates'),\n  createTemplate: (payload: ApprovalTemplate) => request.post<ApprovalTemplate>('/approval/templates', payload),\n  saveTemplate: (id: string, payload: ApprovalTemplate) => request.patch<ApprovalTemplate>(`/approval/templates/${id}`, payload),\n  deleteTemplate: (id: string) => request.delete(`/approval/templates/${id}`),\n  listMyRequests: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests', { params: { ...params, view: 'my' } }),\n  listPendingApprovals: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests', { params: { ...params, view: 'pending' } }),\n  listDoneApprovals: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests', { params: { ...params, view: 'processed' } }),\n  approveRequest: (id: string, payload: { comment?: string }) => request.post(`/approval/requests/${id}/approve`, payload),\n  rejectRequest: (id: string, payload: { comment?: string }) => request.post(`/approval/requests/${id}/reject`, payload),\n  transferRequest: (id: string, payload: { comment?: string; assigneeId: string }) =>\n    request.post(`/approval/requests/${id}/transfer`, payload),\n  requestStats: () => request.get<any>('/approval/requests/stats'),\n  listPeople: () => request.get<ApprovalPerson[]>('/approval/people'),\n};\n"
     },
     "finance/index": {
       "path": "finance",
@@ -2767,7 +2767,7 @@
       "id": "system/index",
       "file": "system/index.ts",
       "absPath": "/system",
-      "__content": "import { request } from '@/utils/request';\r\n\r\nexport interface UserRecord {\r\n  id: string;\r\n  username: string;\r\n  name: string;\r\n  phone?: string;\r\n  email?: string;\r\n  status: number;\r\n  [key: string]: any;\r\n}\r\n\r\nexport interface PlatformRecord {\r\n  id: string;\r\n  name: string;\r\n  code: string;\r\n  status: number;\r\n  [key: string]: any;\r\n}\r\n\r\nexport interface DepartmentRecord {\r\n  id: string;\r\n  name: string;\r\n  code: string;\r\n  platform_id?: string;\r\n  status: number;\r\n  [key: string]: any;\r\n}\r\n\r\nexport interface ShopRecord {\r\n  id: string;\r\n  name: string;\r\n  code: string;\r\n  platform_id: string;\r\n  department_id: string;\r\n  status: number;\r\n  [key: string]: any;\r\n}\r\n\r\nexport const systemApi = {\r\n  // 平台管理\r\n  listPlatforms: () => request.get<PlatformRecord[]>('/system/platforms'),\r\n  savePlatform: (payload: any) => request.post('/system/platforms', payload),\r\n  \r\n  // 部门管理\r\n  listDepartments: () => request.get<DepartmentRecord[]>('/system/departments'),\r\n  \r\n  // 店铺管理\r\n  listShops: () => request.get<ShopRecord[]>('/system/shops'),\r\n  createShop: (payload: any) => request.post('/system/shops', payload),\r\n  updateShop: (id: string, payload: any) => request.patch(`/system/shops/${id}`, payload),\r\n  deleteShop: (id: string) => request.delete(`/system/shops/${id}`),\r\n\r\n  // API Key 凭据管理\r\n  listApiKeys: () => request.get<any[]>('/system/api-keys'),\r\n  saveApiKey: (payload: any) => request.post('/system/api-keys', payload),\r\n\r\n  // 接口权限管理\r\n  listApis: () => request.get<any[]>('/system/apis'),\r\n  getApiStats: (id: string) => request.get<any>(`/system/apis/${id}/stats`),\r\n  createApi: (payload: any) => request.post('/system/apis', payload),\r\n  updateApi: (id: string, payload: any) => request.patch(`/system/apis/${id}`, payload),\r\n  deleteApi: (id: string) => request.delete(`/system/apis/${id}`),\r\n\r\n  // 消息中心\r\n  listMessages: (params?: any) => request.get<any[]>('/system/messages', { params }),\r\n  markMessageRead: (id: string) => request.patch(`/system/messages/${id}/read`),\r\n  markAllMessagesRead: () => request.post('/system/messages/read-all'),\r\n\r\n  // 操作日志\r\n  listOperationLogs: (params?: any) => request.get<any>('/system/logs/operation', { params }),\r\n  listLoginLogs: (params?: any) => request.get<any>('/system/logs/login', { params }),\r\n\r\n  // 个人中心\r\n  updateProfile: (payload: any) => request.patch('/system/users/profile', payload),\r\n  updateProfilePassword: (payload: any) => request.post('/system/users/profile/password', payload),\r\n};\r\n"
+      "__content": "import { request } from '@/utils/request';\n\nexport interface UserRecord {\n  id: string;\n  username: string;\n  name: string;\n  phone?: string;\n  email?: string;\n  status: number;\n  [key: string]: any;\n}\n\nexport interface PlatformRecord {\n  id: string;\n  name: string;\n  code: string;\n  status: number;\n  [key: string]: any;\n}\n\nexport interface DepartmentRecord {\n  id: string;\n  name: string;\n  code: string;\n  platform_id?: string;\n  status: number;\n  [key: string]: any;\n}\n\nexport interface ShopRecord {\n  id: string;\n  name: string;\n  code: string;\n  platform_id: string;\n  department_id: string;\n  status: number;\n  [key: string]: any;\n}\n\nexport interface ApiKeyRecord {\n  id: string;\n  name: string;\n  service_type: string;\n  api_key: string;\n  api_secret?: string;\n  endpoint?: string;\n  platform_id: string;\n  dept_id?: string | null;\n  status: number;\n  [key: string]: any;\n}\n\nexport interface IntegrationRecord {\n  id: string;\n  source_name: string;\n  api_endpoint: string;\n  method: string;\n  mapping_json: Record<string, string>;\n  platform_id: string;\n  status: number;\n  [key: string]: any;\n}\n\nexport const systemApi = {\n  listPlatforms: () => request.get<PlatformRecord[]>('/system/platforms'),\n  savePlatform: (payload: any) => request.post('/system/platforms', payload),\n\n  listDepartments: () => request.get<DepartmentRecord[]>('/system/departments'),\n\n  listShops: () => request.get<ShopRecord[]>('/system/shops'),\n  createShop: (payload: any) => request.post('/system/shops', payload),\n  updateShop: (id: string, payload: any) => request.patch(`/system/shops/${id}`, payload),\n  deleteShop: (id: string) => request.delete(`/system/shops/${id}`),\n\n  listApiKeys: () => request.get<ApiKeyRecord[]>('/system/api-keys'),\n  saveApiKey: (payload: Partial<ApiKeyRecord>) => request.post('/system/api-keys', payload),\n  updateApiKey: (id: string, payload: Partial<ApiKeyRecord>) => request.patch(`/system/api-keys/${id}`, payload),\n  deleteApiKey: (id: string) => request.delete(`/system/api-keys/${id}`),\n\n  listIntegrations: () => request.get<IntegrationRecord[]>('/system/integrations'),\n  createIntegration: (payload: Partial<IntegrationRecord>) => request.post('/system/integrations', payload),\n  updateIntegration: (id: string, payload: Partial<IntegrationRecord>) => request.patch(`/system/integrations/${id}`, payload),\n  deleteIntegration: (id: string) => request.delete(`/system/integrations/${id}`),\n\n  listApis: () => request.get<any[]>('/system/apis'),\n  getApiStats: (id: string) => request.get<any>(`/system/apis/${id}/stats`),\n  createApi: (payload: any) => request.post('/system/apis', payload),\n  updateApi: (id: string, payload: any) => request.patch(`/system/apis/${id}`, payload),\n  deleteApi: (id: string) => request.delete(`/system/apis/${id}`),\n\n  listMessages: (params?: any) => request.get<any[]>('/system/messages', { params }),\n  markMessageRead: (id: string) => request.patch(`/system/messages/${id}/read`),\n  markAllMessagesRead: () => request.post('/system/messages/read-all'),\n\n  listOperationLogs: (params?: any) => request.get<any>('/system/logs/operation', { params }),\n  listLoginLogs: (params?: any) => request.get<any>('/system/logs/login', { params }),\n\n  updateProfile: (payload: any) => request.patch('/system/users/profile', payload),\n  updateProfilePassword: (payload: any) => request.post('/system/users/profile/password', payload),\n};\n"
     },
     "auth/index": {
       "path": "auth",

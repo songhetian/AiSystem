@@ -9,11 +9,15 @@ export class SystemIntegrationService {
     private readonly scopeService: ScopeService,
   ) {}
 
+  private get delegate() {
+    return (this.prisma as any).sys_api_mapping;
+  }
+
   async findAll(userId: string) {
     const scope = await this.scopeService.resolveAccess(userId);
-    return this.prisma.sys_api_mapping.findMany({
+    return this.delegate.findMany({
       where: this.scopeService.applyScope(scope, { is_deleted: 0 }, { platform: 'platform_id' }),
-      orderBy: { create_time: 'desc' }
+      orderBy: { create_time: 'desc' },
     });
   }
 
@@ -22,28 +26,39 @@ export class SystemIntegrationService {
     this.scopeService.assertPlatformAccess(scope, data.platform_id);
 
     if (data.id) {
-      return this.prisma.sys_api_mapping.update({
+      return this.delegate.update({
         where: { id: data.id },
-        data
+        data,
       });
     }
 
-    return this.prisma.sys_api_mapping.create({
-      data
+    return this.delegate.create({ data });
+  }
+
+  async remove(userId: string, id: string) {
+    const scope = await this.scopeService.resolveAccess(userId);
+    const existing = await this.delegate.findUnique({ where: { id } });
+    if (!existing || existing.is_deleted) {
+      return null;
+    }
+
+    this.scopeService.assertPlatformAccess(scope, existing.platform_id);
+
+    return this.delegate.update({
+      where: { id },
+      data: { is_deleted: 1 },
     });
   }
 
-  /**
-   * 模拟数据拉取并根据映射规则转换
-   */
   async transformExternalData(mappingId: string, externalJson: any) {
-    const mapping = await this.prisma.sys_api_mapping.findUnique({ where: { id: mappingId } });
-    if (!mapping) return null;
+    const mapping = await this.delegate.findUnique({ where: { id: mappingId } });
+    if (!mapping) {
+      return null;
+    }
 
     const rules = mapping.mapping_json as Record<string, string>;
-    const internalData: any = {};
+    const internalData: Record<string, unknown> = {};
 
-    // 执行字段映射规则转换
     for (const [internalField, externalField] of Object.entries(rules)) {
       internalData[internalField] = externalJson[externalField];
     }

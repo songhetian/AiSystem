@@ -31,7 +31,15 @@ export default function ApprovalCenterPage() {
   const refresh = () => queryClient.invalidateQueries({ queryKey: ['approval-requests'] });
 
   const actionMutation = useMutation({
-    mutationFn: ({ id, payload }: { id: string; payload: any }) => approvalApi.takeAction(id, payload),
+    mutationFn: ({ id, payload }: { id: string; payload: any }) => {
+      if (payload.action === 'approved') {
+        return approvalApi.approveRequest(id, { comment: payload.comment });
+      }
+      if (payload.action === 'rejected') {
+        return approvalApi.rejectRequest(id, { comment: payload.comment });
+      }
+      return approvalApi.transferRequest(id, { comment: payload.comment, assigneeId: payload.assigneeId });
+    },
     onSuccess: () => {
       message.success('操作成功');
       setOpen(false);

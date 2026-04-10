@@ -21,7 +21,7 @@ export interface ApprovalNode {
 }
 
 export interface ApprovalProgressRecord {
-  id: string;
+  id?: string;
   nodeId: string;
   nodeName: string;
   action: 'submitted' | 'approved' | 'rejected' | 'transferred';
@@ -70,18 +70,16 @@ export interface ApprovalRequest {
 
 export const approvalApi = {
   listTemplates: () => request.get<ApprovalTemplate[]>('/approval/templates'),
-  saveTemplate: (payload: any) => request.post('/approval/templates', payload),
+  createTemplate: (payload: ApprovalTemplate) => request.post<ApprovalTemplate>('/approval/templates', payload),
+  saveTemplate: (id: string, payload: ApprovalTemplate) => request.patch<ApprovalTemplate>(`/approval/templates/${id}`, payload),
   deleteTemplate: (id: string) => request.delete(`/approval/templates/${id}`),
-  listMyRequests: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests/my', { params }),
-  listPendingApprovals: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests/pending', { params }),
-  listDoneApprovals: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests/done', { params }),
-  takeAction: (requestId: string, payload: { action: string; comment?: string; transferTo?: string }) =>
-    request.post(`/approval/requests/${requestId}/action`, payload),
-  
-  // 补全缺失的方法
-  approveRequest: (id: string, payload: { comment?: string }) => request.post(`/approval/requests/${id}/action`, { action: 'approved', ...payload }),
-  rejectRequest: (id: string, payload: { comment?: string }) => request.post(`/approval/requests/${id}/action`, { action: 'rejected', ...payload }),
-  transferRequest: (id: string, payload: { comment?: string; assigneeId: string }) => request.post(`/approval/requests/${id}/action`, { action: 'transferred', ...payload }),
-  requestStats: () => request.get<any>('/approval/stats'),
+  listMyRequests: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests', { params: { ...params, view: 'my' } }),
+  listPendingApprovals: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests', { params: { ...params, view: 'pending' } }),
+  listDoneApprovals: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests', { params: { ...params, view: 'processed' } }),
+  approveRequest: (id: string, payload: { comment?: string }) => request.post(`/approval/requests/${id}/approve`, payload),
+  rejectRequest: (id: string, payload: { comment?: string }) => request.post(`/approval/requests/${id}/reject`, payload),
+  transferRequest: (id: string, payload: { comment?: string; assigneeId: string }) =>
+    request.post(`/approval/requests/${id}/transfer`, payload),
+  requestStats: () => request.get<any>('/approval/requests/stats'),
   listPeople: () => request.get<ApprovalPerson[]>('/approval/people'),
 };

@@ -9,11 +9,15 @@ export class ExternalApiKeyService {
     private readonly scopeService: ScopeService,
   ) {}
 
+  private get delegate() {
+    return (this.prisma as any).sys_external_api_key;
+  }
+
   async findAll(userId: string) {
     const scope = await this.scopeService.resolveAccess(userId);
-    return this.prisma.sys_external_api_key.findMany({
+    return this.delegate.findMany({
       where: this.scopeService.applyScope(scope, { is_deleted: 0 }, { platform: 'platform_id' }),
-      orderBy: { create_time: 'desc' }
+      orderBy: { create_time: 'desc' },
     });
   }
 
@@ -25,31 +29,45 @@ export class ExternalApiKeyService {
     }
 
     if (data.id) {
-      return this.prisma.sys_external_api_key.update({
+      return this.delegate.update({
         where: { id: data.id },
-        data
+        data,
       });
     }
 
-    return this.prisma.sys_external_api_key.create({ data });
+    return this.delegate.create({ data });
   }
 
-  /**
-   * 核心逻辑：获取指定部门或平台的有效 API Key
-   * 遵循：部门级 Key > 平台级 Key
-   */
-  async getEffectiveKey(platformId: string, deptId?: string, serviceType?: string) {
-    // 1. 尝试查找部门独占 Key
-    if (deptId) {
-      const deptKey = await this.prisma.sys_external_api_key.findFirst({
-        where: { platform_id: platformId, dept_id: deptId, service_type: serviceType, status: 1, is_deleted: 0 }
-      });
-      if (deptKey) return deptKey;
+  async remove(userId: string, id: string) {
+    const scope = await this.scopeService.resolveAccess(userId);
+    const existing = await this.delegate.findUnique({ where: { id } });
+    if (!existing || existing.is_deleted) {
+      return null;
     }
 
-    // 2. 查找平台全局 Key (dept_id 为 null)
-    return this.prisma.sys_external_api_key.findFirst({
-      where: { platform_id: platformId, dept_id: null, service_type: serviceType, status: 1, is_deleted: 0 }
+    this.scopeService.assertPlatformAccess(scope, existing.platform_id);
+    if (existing.dept_id) {
+      this.scopeService.assertDepartmentAccess(scope, existing.dept_id);
+    }
+
+    return this.delegate.update({
+      where: { id },
+      data: { is_deleted: 1 },
+    });
+  }
+
+  async getEffectiveKey(platformId: string, deptId?: string, serviceType?: string) {
+    if (deptId) {
+      const deptKey = await this.delegate.findFirst({
+        where: { platform_id: platformId, dept_id: deptId, service_type: serviceType, status: 1, is_deleted: 0 },
+      });
+      if (deptKey) {
+        return deptKey;
+      }
+    }
+
+    return this.delegate.findFirst({
+      where: { platform_id: platformId, dept_id: null, service_type: serviceType, status: 1, is_deleted: 0 },
     });
   }
 }
