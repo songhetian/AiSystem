@@ -56,7 +56,12 @@ INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_code`, `route`, `sort`, `type`,
 ('seed-menu-knowledge-category', 'Knowledge Categories', 'knowledge:category', '/knowledge/categories', 20, 1, 1, 0),
 ('seed-menu-knowledge-faq-candidate', 'FAQ Candidates', 'knowledge:faq-candidate', '/knowledge/faq-candidates', 21, 1, 1, 0),
 ('seed-menu-knowledge-article', 'Knowledge Articles', 'knowledge:article', '/knowledge/articles', 22, 1, 1, 0),
-('seed-menu-knowledge-tag', 'Knowledge Tags', 'knowledge:tag', '/knowledge/tags', 23, 1, 1, 0)
+('seed-menu-shop-category', 'Product Categories', 'shop:category', '/shop/categories', 24, 1, 1, 0),
+('seed-menu-finance-expense-type', 'Expense Types', 'finance:expense-type', '/finance/expense-types', 26, 1, 1, 0),
+('seed-menu-finance-reimbursement', 'Reimbursements', 'finance:reimbursement', '/finance/reimbursements', 27, 1, 1, 0),
+('seed-menu-finance-purchase', 'Purchases', 'finance:purchase', '/finance/purchases', 28, 1, 1, 0),
+('seed-menu-finance-cash-record', 'Cash Records', 'finance:cash-record', '/finance/cash-records', 29, 1, 1, 0),
+('seed-menu-system-integration', 'Data Integration', 'system:integration', '/system/integrations', 30, 1, 1, 0)
 ON DUPLICATE KEY UPDATE
   `menu_name` = VALUES(`menu_name`),
   `route` = VALUES(`route`),
@@ -66,6 +71,23 @@ ON DUPLICATE KEY UPDATE
   `is_deleted` = VALUES(`is_deleted`);
 
 INSERT INTO `sys_button` (`id`, `button_name`, `button_code`, `menu_id`, `status`, `is_deleted`) VALUES
+('seed-button-system-integration-list', 'View Integrations', 'system:integration:list', 'seed-menu-system-integration', 1, 0),
+('seed-button-system-integration-save', 'Save Integration', 'system:integration:save', 'seed-menu-system-integration', 1, 0),
+('seed-button-finance-reim-list', 'View Reimbursements', 'finance:reimbursement:list', 'seed-menu-finance-reimbursement', 1, 0),
+('seed-button-finance-reim-create', 'Apply Reimbursement', 'finance:reimbursement:create', 'seed-menu-finance-reimbursement', 1, 0),
+('seed-button-finance-reim-pay', 'Pay Reimbursement', 'finance:reimbursement:pay', 'seed-menu-finance-reimbursement', 1, 0),
+('seed-button-finance-purchase-list', 'View Purchases', 'finance:purchase:list', 'seed-menu-finance-purchase', 1, 0),
+('seed-button-finance-purchase-create', 'Apply Purchase', 'finance:purchase:create', 'seed-menu-finance-purchase', 1, 0),
+('seed-button-finance-cash-list', 'View Cash Records', 'finance:cash-record:list', 'seed-menu-finance-cash-record', 1, 0),
+('seed-button-finance-cash-export', 'Export Cash Records', 'finance:cash-record:export', 'seed-menu-finance-cash-record', 1, 0),
+('seed-button-product-list', 'View Products', 'shop:product:list', 'seed-menu-shop-product', 1, 0),
+('seed-button-product-create', 'Create Product', 'shop:product:create', 'seed-menu-shop-product', 1, 0),
+('seed-button-product-update', 'Update Product', 'shop:product:update', 'seed-menu-shop-product', 1, 0),
+('seed-button-product-delete', 'Delete Product', 'shop:product:delete', 'seed-menu-shop-product', 1, 0),
+('seed-button-shop-category-list', 'View Categories', 'shop:category:list', 'seed-menu-shop-category', 1, 0),
+('seed-button-shop-category-create', 'Create Category', 'shop:category:create', 'seed-menu-shop-category', 1, 0),
+('seed-button-shop-category-update', 'Update Category', 'shop:category:update', 'seed-menu-shop-category', 1, 0),
+('seed-button-shop-category-delete', 'Delete Category', 'shop:category:delete', 'seed-menu-shop-category', 1, 0),
 ('seed-button-user-list', 'View Users', 'system:user:list', 'seed-menu-system-user', 1, 0),
 ('seed-button-user-create', 'Create User', 'system:user:create', 'seed-menu-system-user', 1, 0),
 ('seed-button-user-update', 'Update User', 'system:user:update', 'seed-menu-system-user', 1, 0),

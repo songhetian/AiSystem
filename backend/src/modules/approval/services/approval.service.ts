@@ -710,9 +710,65 @@ export class ApprovalService {
     });
 
     await this.syncAttendanceBusinessArtifacts(tx, request, action, operatorId, operatorName, comment);
+    
+    // --- 新增：财务闭环逻辑 ---
+    await this.syncFinanceBusinessArtifacts(tx, request, action, operatorId, operatorName, comment);
   }
 
-  private async syncAttendanceBusinessArtifacts(
+  public async syncFinanceBusinessArtifacts(
+    tx: Prisma.TransactionClient,
+    request: ApprovalRequestRecord,
+    action: 'approved' | 'rejected',
+    operatorId: string,
+    operatorName?: string,
+    comment?: string
+  ) {
+    const bizType = request.bizType;
+    const bizId = request.bizId;
+    if (!bizId || !['finance_reimbursement', 'finance_purchase'].includes(bizType as string)) {
+      return;
+    }
+
+    const nextStatus = action === 'approved' ? 2 : 3;
+
+    if (bizType === 'finance_reimbursement') {
+      const reim = await (tx as any).fin_reimbursement.update({
+        where: { id: bizId },
+        data: { status: nextStatus }
+      });
+
+      // 自动生成支出流水 (仅在通过时)
+      if (action === 'approved') {
+        await (tx as any).fin_cash_record.create({
+          data: {
+            type: 2, // 支出
+            amount: reim.amount,
+            source: `报销支出: ${reim.reason}`,
+            biz_id: reim.id,
+            biz_type: 'reimbursement',
+            platform_id: reim.platform_id,
+            dept_id: reim.dept_id
+          }
+        });
+      }
+    } else if (bizType === 'finance_purchase') {
+      await (tx as any).fin_purchase.update({
+        where: { id: bizId },
+        data: { status: nextStatus }
+      });
+    }
+
+    // 发送 Socket 通知给申请人
+    this.realtimeService.emitToUser(request.applicantId, 'approval_result', {
+      requestId: request.id,
+      requestNo: request.requestNo,
+      status: action,
+      templateName: request.templateName,
+      comment: comment || '无说明'
+    });
+  }
+
+  public async syncAttendanceBusinessArtifacts(
     tx: Prisma.TransactionClient,
     request: ApprovalRequestRecord,
     action: 'approved' | 'rejected',

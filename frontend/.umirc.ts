@@ -5,6 +5,7 @@ export default defineConfig({
   esbuildMinifyIIFE: true,
   routes: [
     { path: '/login', component: '@/pages/login' },
+    { path: '/maintenance', component: '@/pages/maintenance' },
     {
       path: '/',
       component: '@/layouts/BasicLayout',
@@ -34,11 +35,18 @@ export default defineConfig({
         { path: '/service/sessions/:id', component: '@/pages/service/sessions/[id]' },
         { path: '/service/quality-rules', component: '@/pages/service/quality-rules' },
         { path: '/service/sensitive-terms', component: '@/pages/service/sensitive-terms' },
+        { path: '/exam/papers', component: '@/pages/exam/papers' },
+        { path: '/exam/plans', component: '@/pages/exam/plans' },
+        { path: '/exam/my', component: '@/pages/exam/my' },
+        { path: '/exam/my/:id', component: '@/pages/exam/my/[id]' },
+        { path: '/exam/results', component: '@/pages/exam/results' },
         { path: '/knowledge/faq-candidates', component: '@/pages/knowledge/faq-candidates' },
         { path: '/knowledge/articles', component: '@/pages/knowledge/articles' },
         { path: '/knowledge/articles/:id', component: '@/pages/knowledge/articles/[id]' },
         { path: '/knowledge/categories', component: '@/pages/knowledge/categories' },
-        { path: '/knowledge/tags', component: '@/pages/knowledge/tags' }
+        { path: '/knowledge/tags', component: '@/pages/knowledge/tags' },
+        { path: '/403', component: '@/pages/403' },
+        { path: '/*', component: '@/pages/404' }
       ]
     }
   ],

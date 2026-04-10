@@ -32,6 +32,17 @@ export class RealtimeService {
     });
   }
 
+  emitToAll(event: string, payload: Record<string, unknown> = {}) {
+    if (!this.server) {
+      return;
+    }
+
+    this.server.emit(event, {
+      ...payload,
+      emittedAt: new Date().toISOString()
+    });
+  }
+
   buildUserRoom(userId: string) {
     return `user:${userId}`;
   }

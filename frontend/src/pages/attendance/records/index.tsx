@@ -119,43 +119,51 @@ const AttendanceRecords: React.FC = () => {
   ];
 
   return (
-    <div className="p-4">
-      <BaseTable
-        ref={tableRef}
-        columns={columns}
-        request={async (params) => {
-          const res = await attendanceApi.listRecords({
-            keyword: params.keyword,
-            start_date: params.dateRange?.[0],
-            end_date: params.dateRange?.[1],
-          });
-          return {
-            data: res,
-            success: true,
-          };
-        }}
-        search={{
-          layout: 'horizontal',
-          filterType: 'light',
-        }}
-        toolBarRender={() => [
+    <div className="leixi-page-container">
+      <div className="flex items-center gap-4 mb-4 bg-white p-4 rounded shadow-sm">
+        <div className="flex-grow">
           <RangePicker 
             key="range"
+            style={{ width: '100%', height: '44px' }}
+            className="leixi-filter-border"
             onChange={(dates, dateStrings) => {
               tableRef.current?.setParams({ dateRange: dateStrings });
               tableRef.current?.reload();
             }}
-          />,
-          <Input.Search 
-            key="search"
-            placeholder="员工姓名/工号"
-            onSearch={(val) => {
-              tableRef.current?.setParams({ keyword: val });
-              tableRef.current?.reload();
-            }}
-            style={{ width: 250 }}
           />
-        ]}
+        </div>
+        <Input.Search 
+          key="search"
+          placeholder="搜索员工姓名/工号"
+          onSearch={(val) => {
+            tableRef.current?.setParams({ keyword: val });
+            tableRef.current?.reload();
+          }}
+          style={{ width: 250, height: '44px' }}
+          className="leixi-filter-border"
+        />
+      </div>
+
+      <BaseTable
+        ref={tableRef}
+        columns={columns.map(col => ({
+            ...col,
+            className: col.className ? `${col.className} leixi-text-main` : 'leixi-text-main'
+        }))}
+        request={async (params: any) => {
+          const res = await attendanceApi.listRecords({
+            keyword: params.keyword,
+            start_date: params.dateRange?.[0],
+            end_date: params.dateRange?.[1],
+            current: params.current,
+            pageSize: params.pageSize
+          });
+          return {
+            data: res.data,
+            total: res.total,
+            success: true,
+          };
+        }}
       />
     </div>
   );

@@ -81,7 +81,11 @@ const menuDefs: MenuDef[] = [
   { menu_name: 'Sensitive Terms', menu_code: 'service:sensitive-term', route: '/service/sensitive-terms', sort: 19, type: 1 },
   { menu_name: 'Knowledge Categories', menu_code: 'knowledge:category', route: '/knowledge/categories', sort: 20, type: 1 },
   { menu_name: 'FAQ Candidates', menu_code: 'knowledge:faq-candidate', route: '/knowledge/faq-candidates', sort: 21, type: 1 },
-  { menu_name: 'Knowledge Articles', menu_code: 'knowledge:article', route: '/knowledge/articles', sort: 22, type: 1 }
+  { menu_name: 'Knowledge Articles', menu_code: 'knowledge:article', route: '/knowledge/articles', sort: 22, type: 1 },
+  { menu_name: 'Exam Papers', menu_code: 'exam:paper', route: '/exam/papers', sort: 23, type: 1 },
+  { menu_name: 'Exam Plans', menu_code: 'exam:plan', route: '/exam/plans', sort: 24, type: 1 },
+  { menu_name: 'My Exams', menu_code: 'exam:my', route: '/exam/my', sort: 25, type: 1 },
+  { menu_name: 'Exam Results', menu_code: 'exam:result', route: '/exam/results', sort: 26, type: 1 }
 ];
 
 const buttonDefs: ButtonDef[] = [
@@ -173,7 +177,16 @@ const buttonDefs: ButtonDef[] = [
   ['knowledge:faq-candidate:list', 'View FAQ Candidates', 'knowledge:faq-candidate'],
   ['knowledge:article:list', 'View Knowledge Articles', 'knowledge:article'],
   ['knowledge:article:create', 'Create Knowledge Article', 'knowledge:article'],
-  ['knowledge:article:update', 'Update Knowledge Article', 'knowledge:article']
+  ['knowledge:article:update', 'Update Knowledge Article', 'knowledge:article'],
+  ['exam:paper:list', 'View Exam Papers', 'exam:paper'],
+  ['exam:paper:create', 'Create Exam Paper', 'exam:paper'],
+  ['exam:paper:update', 'Update Exam Paper', 'exam:paper'],
+  ['exam:plan:list', 'View Exam Plans', 'exam:plan'],
+  ['exam:plan:create', 'Create Exam Plan', 'exam:plan'],
+  ['exam:my:list', 'View My Exams', 'exam:my'],
+  ['exam:my:submit', 'Submit My Exam', 'exam:my'],
+  ['exam:result:list', 'View Exam Results', 'exam:result'],
+  ['exam:result:manage', 'Manage Exam Results', 'exam:result']
 ];
 
 const apiDefs: ApiDef[] = [
@@ -280,7 +293,21 @@ const apiDefs: ApiDef[] = [
   ['/knowledge/articles', 'GET', 'knowledge:article:list'],
   ['/knowledge/articles', 'POST', 'knowledge:article:create'],
   ['/knowledge/articles/:id', 'PUT', 'knowledge:article:update'],
-  ['/knowledge/faq-candidates', 'GET', 'knowledge:faq-candidate:list']
+  ['/knowledge/faq-candidates', 'GET', 'knowledge:faq-candidate:list'],
+  ['/exam/papers', 'GET', 'exam:paper:list'],
+  ['/exam/papers/:id', 'GET', 'exam:paper:list'],
+  ['/exam/papers', 'POST', 'exam:paper:create'],
+  ['/exam/papers/:id', 'PUT', 'exam:paper:update'],
+  ['/exam/plans', 'GET', 'exam:plan:list'],
+  ['/exam/plans', 'POST', 'exam:plan:create'],
+  ['/exam/my', 'GET', 'exam:my:list'],
+  ['/exam/my/active', 'GET', 'exam:my:list'],
+  ['/exam/my/:id', 'GET', 'exam:my:list'],
+  ['/exam/my/:id/submit', 'POST', 'exam:my:submit'],
+  ['/exam/results', 'GET', 'exam:result:list'],
+  ['/exam/results/:id/mark-absent', 'POST', 'exam:result:manage'],
+  ['/exam/results/summary', 'GET', 'exam:result:list'],
+  ['/exam/my/stats', 'GET', 'exam:my:list']
 ];
 
 async function main() {

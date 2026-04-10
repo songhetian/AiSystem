@@ -3,12 +3,12 @@ import { Modal } from 'antd';
 
 interface BaseModalProps {
   open: boolean;
-  title: string;
+  title: ReactNode;
   onOk: () => void;
   onCancel: () => void;
   children: ReactNode;
   confirmLoading?: boolean;
-  width?: number;
+  width?: number | string;
 }
 
 export function BaseModal({ open, title, onOk, onCancel, children, confirmLoading, width = 640 }: BaseModalProps) {
@@ -18,3 +18,5 @@ export function BaseModal({ open, title, onOk, onCancel, children, confirmLoadin
     </Modal>
   );
 }
+
+export default BaseModal;

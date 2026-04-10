@@ -20,7 +20,10 @@
     "schema:import": "node scripts/import-schema.js",
     "seed:import": "node scripts/import-seed.js",
     "db:init:sql": "node scripts/init-sql.js",
-    "schema:tip": "node scripts/schema-tip.js"
+    "schema:tip": "node scripts/schema-tip.js",
+    "db:migrate:dev": "cd backend && npx prisma migrate dev",
+    "db:migrate:deploy": "cd backend && npx prisma migrate deploy",
+    "db:migrate:status": "cd backend && npx prisma migrate status"
   },
   "scripts_zh_CN": {
     "help": "输出根目录常用命令说明，包含 Docker、本地建表、Prisma Seed、SQL 导入等提示。",
@@ -35,6 +38,9 @@
     "frontend:build": "执行前端构建，验证 Umi/React 页面是否可以正常打包。",
     "db:push:local": "读取 .env 中的本地数据库连接，执行 Prisma db push，只同步表结构，不写入初始化数据。",
     "db:seed:local": "读取 .env 中的本地数据库连接，执行 Prisma seed，写入管理员、菜单、按钮、权限等初始化数据。",
+    "db:migrate:dev": "开发环境迁移：自动比对 schema.prisma 并生成/应用迁移文件。",
+    "db:migrate:deploy": "生产环境迁移：仅应用现有的迁移文件，不生成新文件。",
+    "db:migrate:status": "查看当前数据库迁移执行状态。",
     "schema:import": "在 Prisma 不稳定或不可用时，将 schema.sql 结构脚本直接导入到 .env 指定的 MySQL 数据库。",
     "seed:import": "将根目录 seed.sql 初始化数据脚本导入到 .env 指定的 MySQL 数据库。",
     "db:init:sql": "先导入 schema.sql 再导入 seed.sql，适合完全走 SQL 方式初始化数据库。",

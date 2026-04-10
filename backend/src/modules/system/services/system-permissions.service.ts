@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
+import { RedisService } from '../../../common/services/redis.service';
 import { AssignRolePermissionsDto } from '../dto/assign-role-permissions.dto';
 import { AssignUserRolesDto } from '../dto/assign-user-roles.dto';
 
 @Injectable()
 export class SystemPermissionsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly redisService: RedisService
+  ) {}
 
   async assignUserRoles(dto: AssignUserRolesDto) {
     await this.prisma.sys_user_role.deleteMany({
@@ -13,6 +17,7 @@ export class SystemPermissionsService {
     });
 
     if (dto.role_ids.length === 0) {
+      await this.redisService.del(`user:roles:${dto.user_id}`);
       return { user_id: dto.user_id, role_ids: [] };
     }
 
@@ -22,6 +27,9 @@ export class SystemPermissionsService {
         role_id: roleId
       }))
     });
+
+    // 清理该用户的角色缓存
+    await this.redisService.del(`user:roles:${dto.user_id}`);
 
     return this.getUserRoles(dto.user_id);
   }
@@ -50,6 +58,12 @@ export class SystemPermissionsService {
       });
     }
 
+    // 角色资源变更可能影响多个用户，简单处理：清理所有用户的权限关联缓存
+    // 在生产环境建议通过发布订阅或特定 key 规则清理
+    // 此处简单清理该角色相关的 api:permission 缓存（由于 api_name 未知，可选择全部清理或不处理，靠 TTL 自然过期）
+    // 更好的方案是清理所有用户的 roles 缓存，迫使重新从 DB 加载
+    // await this.redisService.delPattern('user:roles:*'); 
+    
     return this.getRoleResources(dto.role_id);
   }
 

@@ -1,4 +1,5 @@
-import { IsInt, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, IsNumber } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class QueryAttendanceWorkflowsDto {
   @IsOptional()
@@ -26,6 +27,17 @@ export class QueryAttendanceWorkflowsDto {
   end_date?: string;
 
   @IsOptional()
-  @IsInt()
+  @Type(() => Number)
+  @IsNumber()
   approval_status?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  current?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  pageSize?: number;
 }

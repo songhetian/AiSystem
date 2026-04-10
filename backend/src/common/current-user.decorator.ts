@@ -3,6 +3,9 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 export interface CurrentUserPayload {
   sub: string;
   username?: string;
+  platform_id?: string | null;
+  dept_id?: string | null;
+  shop_id?: string | null;
 }
 
 export const CurrentUser = createParamDecorator(

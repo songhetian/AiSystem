@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { BullModule } from '@nestjs/bullmq';
 import { CommonModule } from '../../common/common.module';
 import { ApprovalModule } from '../approval/approval.module';
 import { AttendanceSchedulesController } from './controllers/attendance-schedules.controller';
@@ -9,9 +10,16 @@ import { AttendanceSchedulesService } from './services/attendance-schedules.serv
 import { AttendanceWorkflowsService } from './services/attendance-workflows.service';
 import { ShiftsService } from './services/shifts.service';
 import { AttendanceRecordsService } from './services/attendance-records.service';
+import { AttendanceWorker } from './workers/attendance.worker';
 
 @Module({
-  imports: [CommonModule, ApprovalModule],
+  imports: [
+    CommonModule,
+    ApprovalModule,
+    BullModule.registerQueue({
+      name: 'attendance-queue',
+    }),
+  ],
   controllers: [
     AttendanceSchedulesController,
     AttendanceWorkflowsController,
@@ -23,6 +31,7 @@ import { AttendanceRecordsService } from './services/attendance-records.service'
     AttendanceWorkflowsService,
     ShiftsService,
     AttendanceRecordsService,
+    AttendanceWorker,
   ],
 })
 export class AttendanceModule {}

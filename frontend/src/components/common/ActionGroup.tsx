@@ -48,3 +48,5 @@ export function ActionGroup({
     </Space>
   );
 }
+
+export default ActionGroup;

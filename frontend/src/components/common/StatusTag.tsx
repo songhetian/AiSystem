@@ -9,3 +9,5 @@ const colorMap: Record<string, string> = {
 export function StatusTag({ value }: { value: string }) {
   return <Tag color={colorMap[value] ?? 'blue'}>{value}</Tag>;
 }
+
+export default StatusTag;

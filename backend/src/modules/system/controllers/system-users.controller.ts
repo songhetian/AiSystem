@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { BatchUpdateUserStatusDto } from '../dto/batch-update-user-status.dto';
 import { Permission } from '../../../common/permission.decorator';
+import { CurrentUser, CurrentUserPayload } from '../../../common/current-user.decorator';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { ResetUserPasswordDto } from '../dto/reset-user-password.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
@@ -12,8 +13,8 @@ export class SystemUsersController {
 
   @Get()
   @Permission('system:user:list')
-  findAll() {
-    return this.systemUsersService.findAll();
+  findAll(@CurrentUser() user: CurrentUserPayload) {
+    return this.systemUsersService.findAll(user);
   }
 
   @Post()
@@ -28,7 +29,17 @@ export class SystemUsersController {
     return this.systemUsersService.update(id, dto);
   }
 
-  @Patch(':id/reset-password')
+  @Patch('profile')
+  updateProfile(@CurrentUser() user: CurrentUserPayload, @Body() dto: UpdateUserDto) {
+    return this.systemUsersService.update(user.sub, dto);
+  }
+
+  @Post('profile/password')
+  updatePassword(@CurrentUser() user: CurrentUserPayload, @Body() data: any) {
+    return this.systemUsersService.updatePassword(user.sub, data);
+  }
+
+  @Post(':id/reset-password')
   @Permission('system:user:reset-password')
   resetPassword(@Param('id') id: string, @Body() dto: ResetUserPasswordDto) {
     return this.systemUsersService.resetPassword(id, dto.password);

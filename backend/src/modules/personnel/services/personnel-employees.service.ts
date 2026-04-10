@@ -81,7 +81,7 @@ export class PersonnelEmployeesService {
     const scope = await this.scopeService.resolveAccess(userId);
     // 批量操作通常由具有足够权限的管理人员执行
     // 简化处理：确保操作者对所有涉及的平台/部门有权限（此处简单通过 super_admin 或后续细化校验）
-    if (!scope.is_super_admin) {
+    if (!scope.isSuperAdmin) {
       // 非超管需要校验每个员工的权限，这里简化为只允许超管批量操作状态，或增加循环校验
       // 为保持一致性，先实现逻辑，后续可根据需要细化
     }

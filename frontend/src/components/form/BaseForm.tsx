@@ -12,3 +12,5 @@ export function BaseForm({ children }: BaseFormProps) {
     </Form>
   );
 }
+
+export default BaseForm;

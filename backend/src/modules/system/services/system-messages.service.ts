@@ -94,4 +94,42 @@ export class SystemMessagesService {
 
     return { updated: result.count };
   }
+
+  /**
+   * 一键开启/关闭系统维护
+   */
+  async toggleMaintenance(enabled: boolean) {
+    await this.prisma.sys_config.upsert({
+      where: { config_key: 'maintenance_mode' },
+      create: { config_key: 'maintenance_mode', config_value: String(enabled) },
+      update: { config_value: String(enabled) }
+    });
+
+    if (enabled) {
+      this.realtimeService.emitToAll('system.maintenance.start', {
+        title: '系统紧急维护通知',
+        message: '为了提供更好的服务，系统正在进行紧急维护，所有非管理员操作已暂停。',
+        timestamp: new Date().toISOString()
+      });
+    } else {
+      this.realtimeService.emitToAll('system.maintenance.end', {
+        title: '维护已结束',
+        message: '系统维护已完成，功能已恢复正常。',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    return { maintenance: enabled };
+  }
+
+  /**
+   * 全员实时广播
+   */
+  async broadcast(data: { title: string; content: string; level?: string }) {
+    this.realtimeService.emitToAll('system.broadcast', {
+      ...data,
+      sentAt: new Date().toISOString()
+    });
+    return { success: true };
+  }
 }

@@ -2,129 +2,290 @@
 -- Compatible with MySQL 8.x
 -- This file only creates table structures and comments.
 
+CREATE TABLE IF NOT EXISTS `sys_external_api_key` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `name` varchar(191) NOT NULL,
+  `service_type` varchar(128) NOT NULL,
+  `api_key` varchar(512) NOT NULL,
+  `api_secret` varchar(512) DEFAULT NULL,
+  `endpoint` varchar(512) DEFAULT NULL,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) DEFAULT NULL,
+  `status` int NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `sys_external_api_key_lookup_idx` (`platform_id`, `dept_id`, `service_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='外部 API 凭据管理';
+
+CREATE TABLE IF NOT EXISTS `sys_api_mapping` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `source_name` varchar(191) NOT NULL,
+  `api_endpoint` varchar(191) NOT NULL,
+  `method` varchar(32) NOT NULL DEFAULT 'GET',
+  `mapping_json` json NOT NULL,
+  `platform_id` varchar(191) NOT NULL,
+  `status` int NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `sys_api_mapping_platform_source_idx` (`platform_id`, `source_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='外部数据集成映射配置';
+
+CREATE TABLE IF NOT EXISTS `fin_expense_type` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `name` varchar(191) NOT NULL,
+  `code` varchar(191) NOT NULL,
+  `description` text DEFAULT NULL,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) DEFAULT NULL,
+  `status` int NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `fin_expense_type_code_platform_key` (`code`, `platform_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='费用类型管理';
+
+CREATE TABLE IF NOT EXISTS `fin_reimbursement` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `reim_no` varchar(191) NOT NULL,
+  `expense_type_id` varchar(191) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `reason` text NOT NULL,
+  `attachment_urls` json DEFAULT NULL,
+  `applicant_id` varchar(191) NOT NULL,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `shop_id` varchar(191) DEFAULT NULL,
+  `approval_request_id` varchar(191) DEFAULT NULL,
+  `status` int NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `fin_reimbursement_reim_no_key` (`reim_no`),
+  KEY `fin_reimbursement_platform_dept_status_idx` (`platform_id`, `dept_id`, `status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='报销申请表';
+
+CREATE TABLE IF NOT EXISTS `fin_purchase` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `purchase_no` varchar(191) NOT NULL,
+  `items` json NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `reason` text NOT NULL,
+  `attachment_urls` json DEFAULT NULL,
+  `applicant_id` varchar(191) NOT NULL,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `shop_id` varchar(191) DEFAULT NULL,
+  `approval_request_id` varchar(191) DEFAULT NULL,
+  `status` int NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `fin_purchase_purchase_no_key` (`purchase_no`),
+  KEY `fin_purchase_platform_dept_status_idx` (`platform_id`, `dept_id`, `status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='采购申请表';
+
+CREATE TABLE IF NOT EXISTS `fin_cash_record` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `type` int NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `source` varchar(191) NOT NULL,
+  `biz_id` varchar(191) DEFAULT NULL,
+  `biz_type` varchar(191) DEFAULT NULL,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `shop_id` varchar(191) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fin_cash_record_platform_dept_type_idx` (`platform_id`, `dept_id`, `type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='收支明细记录';
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 CREATE TABLE IF NOT EXISTS `sys_user` (
-  `id` varchar(191) NOT NULL COMMENT '鐢ㄦ埛涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '閫昏緫鍒犻櫎鏍囪锛? 鏈垹闄わ紝1 宸插垹闄?,
-  `username` varchar(191) NOT NULL COMMENT '鐧诲綍鐢ㄦ埛鍚嶏紝绯荤粺鍐呭敮涓€',
-  `password` varchar(191) NOT NULL COMMENT '鐧诲綍瀵嗙爜锛屽缓璁瓨鍌ㄥ搱甯屽€?,
-  `name` varchar(191) NOT NULL COMMENT '鐢ㄦ埛濮撳悕鎴栨樉绀哄悕绉?,
-  `phone` varchar(191) DEFAULT NULL COMMENT '鎵嬫満鍙?,
-  `email` varchar(191) DEFAULT NULL COMMENT '閭鍦板潃',
-  `status` int NOT NULL DEFAULT 1 COMMENT '鐢ㄦ埛鐘舵€侊紝1 鍚敤锛? 绂佺敤',
-  `last_login_time` datetime(3) DEFAULT NULL COMMENT '鏈€杩戜竴娆＄櫥褰曟椂闂?,
-  `platform_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞炲钩鍙?ID',
-  `dept_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞為儴闂?ID',
-  `shop_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞炲簵閾?ID',
+  `id` varchar(191) NOT NULL COMMENT '用户主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记，0 未删除，1 已删除',
+  `username` varchar(191) NOT NULL COMMENT '登录用户名，系统内唯一',
+  `password` varchar(191) NOT NULL COMMENT '登录密码，建议存储哈希值',
+  `name` varchar(191) NOT NULL COMMENT '用户姓名或显示名称',
+  `phone` varchar(191) DEFAULT NULL COMMENT '手机号',
+  `email` varchar(191) DEFAULT NULL COMMENT '邮箱地址',
+  `status` int NOT NULL DEFAULT 1 COMMENT '用户状态，1 启用，0 禁用',
+  `last_login_time` datetime(3) DEFAULT NULL COMMENT '最近一次登录时间',
+  `platform_id` varchar(191) DEFAULT NULL COMMENT '所属平台 ID',
+  `dept_id` varchar(191) DEFAULT NULL COMMENT '所属部门 ID',
+  `shop_id` varchar(191) DEFAULT NULL COMMENT '所属店铺 ID',
   PRIMARY KEY (`id`),
   UNIQUE KEY `sys_user_username_key` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='绯荤粺鐢ㄦ埛琛紝瀛樺偍鐧诲綍璐﹀彿涓庡熀纭€褰掑睘淇℃伅';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统用户表，存储登录账号与基础归属信息';
 
 CREATE TABLE IF NOT EXISTS `sys_role` (
-  `id` varchar(191) NOT NULL COMMENT '瑙掕壊涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '閫昏緫鍒犻櫎鏍囪锛? 鏈垹闄わ紝1 宸插垹闄?,
-  `role_name` varchar(191) NOT NULL COMMENT '瑙掕壊鍚嶇О',
-  `role_code` varchar(191) NOT NULL COMMENT '瑙掕壊缂栫爜锛岀郴缁熷唴鍞竴',
-  `description` varchar(191) DEFAULT NULL COMMENT '瑙掕壊鎻忚堪',
-  `status` int NOT NULL DEFAULT 1 COMMENT '瑙掕壊鐘舵€侊紝1 鍚敤锛? 绂佺敤',
+  `id` varchar(191) NOT NULL COMMENT '角色主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记，0 未删除，1 已删除',
+  `role_name` varchar(191) NOT NULL COMMENT '角色名称',
+  `role_code` varchar(191) NOT NULL COMMENT '角色编码，系统内唯一',
+  `description` varchar(191) DEFAULT NULL COMMENT '角色描述',
+  `status` int NOT NULL DEFAULT 1 COMMENT '角色状态，1 启用，0 禁用',
   PRIMARY KEY (`id`),
   UNIQUE KEY `sys_role_role_code_key` (`role_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='绯荤粺瑙掕壊琛紝瀹氫箟鏉冮檺瑙掕壊';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统角色表，定义权限角色';
 
 CREATE TABLE IF NOT EXISTS `sys_menu` (
-  `id` varchar(191) NOT NULL COMMENT '鑿滃崟涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '閫昏緫鍒犻櫎鏍囪锛? 鏈垹闄わ紝1 宸插垹闄?,
-  `menu_name` varchar(191) NOT NULL COMMENT '鑿滃崟鍚嶇О',
-  `menu_code` varchar(191) NOT NULL COMMENT '鑿滃崟缂栫爜锛岀郴缁熷唴鍞竴',
-  `parent_id` varchar(191) DEFAULT NULL COMMENT '鐖剁骇鑿滃崟 ID锛岀┖琛ㄧず椤剁骇鑿滃崟',
-  `icon` varchar(191) DEFAULT NULL COMMENT '鑿滃崟鍥炬爣鏍囪瘑',
-  `route` varchar(191) DEFAULT NULL COMMENT '鍓嶇璺敱鍦板潃锛岀郴缁熷唴鍞竴',
-  `sort` int NOT NULL DEFAULT 0 COMMENT '鎺掑簭鍊硷紝瓒婂皬瓒婇潬鍓?,
-  `type` int NOT NULL COMMENT '鑿滃崟绫诲瀷',
-  `status` int NOT NULL DEFAULT 1 COMMENT '鑿滃崟鐘舵€侊紝1 鍚敤锛? 绂佺敤',
+  `id` varchar(191) NOT NULL COMMENT '菜单主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记，0 未删除，1 已删除',
+  `menu_name` varchar(191) NOT NULL COMMENT '菜单名称',
+  `menu_code` varchar(191) NOT NULL COMMENT '菜单编码，系统内唯一',
+  `parent_id` varchar(191) DEFAULT NULL COMMENT '父级菜单 ID，空表示顶级菜单',
+  `icon` varchar(191) DEFAULT NULL COMMENT '菜单图标标识',
+  `route` varchar(191) DEFAULT NULL COMMENT '前端路由地址，系统内唯一',
+  `sort` int NOT NULL DEFAULT 0 COMMENT '排序值，越小越靠前',
+  `type` int NOT NULL COMMENT '菜单类型',
+  `status` int NOT NULL DEFAULT 1 COMMENT '菜单状态，1 启用，0 禁用',
   PRIMARY KEY (`id`),
   UNIQUE KEY `sys_menu_menu_code_key` (`menu_code`),
   UNIQUE KEY `sys_menu_route_key` (`route`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='绯荤粺鑿滃崟琛紝瀹氫箟瀵艰埅銆佺洰褰曚笌椤甸潰鏉冮檺鑺傜偣';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单表，定义导航、目录与页面权限节点';
 
 CREATE TABLE IF NOT EXISTS `sys_button` (
-  `id` varchar(191) NOT NULL COMMENT '鎸夐挳涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '閫昏緫鍒犻櫎鏍囪锛? 鏈垹闄わ紝1 宸插垹闄?,
-  `button_name` varchar(191) NOT NULL COMMENT '鎸夐挳鍚嶇О',
-  `button_code` varchar(191) NOT NULL COMMENT '鎸夐挳缂栫爜锛岀郴缁熷唴鍞竴',
-  `menu_id` varchar(191) NOT NULL COMMENT '鎵€灞炶彍鍗?ID',
-  `status` int NOT NULL DEFAULT 1 COMMENT '鎸夐挳鐘舵€侊紝1 鍚敤锛? 绂佺敤',
+  `id` varchar(191) NOT NULL COMMENT '按钮主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记，0 未删除，1 已删除',
+  `button_name` varchar(191) NOT NULL COMMENT '按钮名称',
+  `button_code` varchar(191) NOT NULL COMMENT '按钮编码，系统内唯一',
+  `menu_id` varchar(191) NOT NULL COMMENT '所属菜单 ID',
+  `status` int NOT NULL DEFAULT 1 COMMENT '按钮状态，1 启用，0 禁用',
   PRIMARY KEY (`id`),
   UNIQUE KEY `sys_button_button_code_key` (`button_code`),
   KEY `sys_button_menu_id_idx` (`menu_id`),
   CONSTRAINT `sys_button_menu_id_fkey` FOREIGN KEY (`menu_id`) REFERENCES `sys_menu` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='绯荤粺鎸夐挳琛紝瀹氫箟椤甸潰鎸夐挳绾ф潈闄?;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统按钮表，定义页面按钮级权限';
 
 CREATE TABLE IF NOT EXISTS `sys_user_role` (
-  `id` varchar(191) NOT NULL COMMENT '鍏宠仈涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `user_id` varchar(191) NOT NULL COMMENT '鐢ㄦ埛 ID',
-  `role_id` varchar(191) NOT NULL COMMENT '瑙掕壊 ID',
+  `id` varchar(191) NOT NULL COMMENT '关联主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `user_id` varchar(191) NOT NULL COMMENT '用户 ID',
+  `role_id` varchar(191) NOT NULL COMMENT '角色 ID',
   PRIMARY KEY (`id`),
   UNIQUE KEY `sys_user_role_user_id_role_id_key` (`user_id`, `role_id`),
   KEY `sys_user_role_role_id_idx` (`role_id`),
   CONSTRAINT `sys_user_role_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`),
   CONSTRAINT `sys_user_role_role_id_fkey` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='鐢ㄦ埛涓庤鑹茬殑鍏宠仈鍏崇郴琛?;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户与角色的关联关系表';
 
 CREATE TABLE IF NOT EXISTS `sys_role_menu` (
-  `id` varchar(191) NOT NULL COMMENT '鍏宠仈涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `role_id` varchar(191) NOT NULL COMMENT '瑙掕壊 ID',
-  `menu_id` varchar(191) NOT NULL COMMENT '鑿滃崟 ID',
+  `id` varchar(191) NOT NULL COMMENT '关联主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `role_id` varchar(191) NOT NULL COMMENT '角色 ID',
+  `menu_id` varchar(191) NOT NULL COMMENT '菜单 ID',
   PRIMARY KEY (`id`),
   UNIQUE KEY `sys_role_menu_role_id_menu_id_key` (`role_id`, `menu_id`),
   KEY `sys_role_menu_menu_id_idx` (`menu_id`),
   CONSTRAINT `sys_role_menu_role_id_fkey` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`),
   CONSTRAINT `sys_role_menu_menu_id_fkey` FOREIGN KEY (`menu_id`) REFERENCES `sys_menu` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='瑙掕壊涓庤彍鍗曠殑鍏宠仈鍏崇郴琛?;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色与菜单的关联关系表';
 
 CREATE TABLE IF NOT EXISTS `sys_role_button` (
-  `id` varchar(191) NOT NULL COMMENT '鍏宠仈涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `role_id` varchar(191) NOT NULL COMMENT '瑙掕壊 ID',
-  `button_id` varchar(191) NOT NULL COMMENT '鎸夐挳 ID',
+  `id` varchar(191) NOT NULL COMMENT '关联主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `role_id` varchar(191) NOT NULL COMMENT '角色 ID',
+  `button_id` varchar(191) NOT NULL COMMENT '按钮 ID',
   PRIMARY KEY (`id`),
   UNIQUE KEY `sys_role_button_role_id_button_id_key` (`role_id`, `button_id`),
   KEY `sys_role_button_button_id_idx` (`button_id`),
   CONSTRAINT `sys_role_button_role_id_fkey` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`),
   CONSTRAINT `sys_role_button_button_id_fkey` FOREIGN KEY (`button_id`) REFERENCES `sys_button` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='瑙掕壊涓庢寜閽殑鍏宠仈鍏崇郴琛?;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色与按钮的关联关系表';
 
 CREATE TABLE IF NOT EXISTS `sys_api_permission` (
-  `id` varchar(191) NOT NULL COMMENT '鎺ュ彛鏉冮檺涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '閫昏緫鍒犻櫎鏍囪锛? 鏈垹闄わ紝1 宸插垹闄?,
-  `api_path` varchar(191) NOT NULL COMMENT '鎺ュ彛璺緞锛岀郴缁熷唴鍞竴',
-  `request_method` varchar(191) NOT NULL COMMENT '璇锋眰鏂规硶锛屽 GET銆丳OST',
-  `api_name` varchar(191) NOT NULL COMMENT '鎺ュ彛鍚嶇О',
-  `role_ids` json NOT NULL COMMENT '鍙闂鑹?ID 鍒楄〃锛孞SON 鏁扮粍',
-  `status` int NOT NULL DEFAULT 1 COMMENT '鎺ュ彛鐘舵€侊紝1 鍚敤锛? 绂佺敤',
-  `platform_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞炲钩鍙?ID',
-  `dept_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞為儴闂?ID',
-  `shop_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞炲簵閾?ID',
+  `id` varchar(191) NOT NULL COMMENT '接口权限主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记，0 未删除，1 已删除',
+  `api_path` varchar(191) NOT NULL COMMENT '接口路径，系统内唯一',
+  `request_method` varchar(191) NOT NULL COMMENT '请求方法，如 GET、POST',
+  `api_name` varchar(191) NOT NULL COMMENT '接口名称',
+  `role_ids` json NOT NULL COMMENT '可访问角色 ID 列表，JSON 数组',
+  `status` int NOT NULL DEFAULT 1 COMMENT '接口状态，1 启用，0 禁用',
+  `platform_id` varchar(191) DEFAULT NULL COMMENT '所属平台 ID',
+  `dept_id` varchar(191) DEFAULT NULL COMMENT '所属部门 ID',
+  `shop_id` varchar(191) DEFAULT NULL COMMENT '所属店铺 ID',
   PRIMARY KEY (`id`),
   UNIQUE KEY `sys_api_permission_api_path_key` (`api_path`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='鎺ュ彛鏉冮檺琛紝瀹氫箟 API 涓庡彲璁块棶瑙掕壊鐨勬槧灏?;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='接口权限表，定义 API 与可访问角色的映射';
+
+CREATE TABLE IF NOT EXISTS `biz_product_category` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `name` varchar(191) NOT NULL,
+  `code` varchar(191) NOT NULL,
+  `parent_id` varchar(191) DEFAULT NULL,
+  `level` int NOT NULL DEFAULT 1,
+  `sort` int NOT NULL DEFAULT 0,
+  `platform_id` varchar(191) NOT NULL,
+  `department_id` varchar(191) NOT NULL,
+  `status` int NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `biz_product_category_code_platform_dept_key` (`code`, `platform_id`, `department_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商品分类表';
+
+CREATE TABLE IF NOT EXISTS `biz_product` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `name` varchar(191) NOT NULL,
+  `code` varchar(191) NOT NULL,
+  `category_id` varchar(191) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `images` json DEFAULT NULL,
+  `platform_id` varchar(191) NOT NULL,
+  `department_id` varchar(191) NOT NULL,
+  `status` int NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `biz_product_code_key` (`code`),
+  KEY `biz_product_platform_dept_status_idx` (`platform_id`, `department_id`, `status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商品基础信息表';
+
+CREATE TABLE IF NOT EXISTS `biz_product_sku` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `product_id` varchar(191) NOT NULL,
+  `sku_code` varchar(191) NOT NULL,
+  `spec_data` json DEFAULT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `stock` int NOT NULL DEFAULT 0,
+  `warn_stock` int NOT NULL DEFAULT 5,
+  `sort` int NOT NULL DEFAULT 0,
+  `shop_id` varchar(191) NOT NULL,
+  `status` int NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `biz_product_sku_sku_code_key` (`sku_code`),
+  KEY `biz_product_sku_shop_status_idx` (`shop_id`, `status`),
+  CONSTRAINT `biz_product_sku_product_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `biz_product` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商品 SKU 规格表';
 
 CREATE TABLE IF NOT EXISTS `biz_platform` (
   `id` varchar(191) NOT NULL COMMENT '平台主键 ID',
@@ -141,20 +302,20 @@ CREATE TABLE IF NOT EXISTS `biz_platform` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='平台表，用于管理多平台主体';
 
 CREATE TABLE IF NOT EXISTS `biz_department` (
-  `id` varchar(191) NOT NULL COMMENT '閮ㄩ棬涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '閫昏緫鍒犻櫎鏍囪锛? 鏈垹闄わ紝1 宸插垹闄?,
-  `name` varchar(191) NOT NULL COMMENT '閮ㄩ棬鍚嶇О',
-  `code` varchar(191) NOT NULL COMMENT '閮ㄩ棬缂栫爜锛岀郴缁熷唴鍞竴',
-  `parent_id` varchar(191) DEFAULT NULL COMMENT '鐖剁骇閮ㄩ棬 ID锛岀┖琛ㄧず椤剁骇閮ㄩ棬',
-  `sort` int NOT NULL DEFAULT 0 COMMENT '鎺掑簭鍊硷紝瓒婂皬瓒婇潬鍓?,
-  `status` int NOT NULL DEFAULT 1 COMMENT '閮ㄩ棬鐘舵€侊紝1 鍚敤锛? 绂佺敤',
-  `platform_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞炲钩鍙?ID',
-  `owner_id` varchar(191) DEFAULT NULL COMMENT '閮ㄩ棬璐熻矗浜虹敤鎴?ID',
+  `id` varchar(191) NOT NULL COMMENT '部门主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记，0 未删除，1 已删除',
+  `name` varchar(191) NOT NULL COMMENT '部门名称',
+  `code` varchar(191) NOT NULL COMMENT '部门编码，系统内唯一',
+  `parent_id` varchar(191) DEFAULT NULL COMMENT '父级部门 ID，空表示顶级部门',
+  `sort` int NOT NULL DEFAULT 0 COMMENT '排序值，越小越靠前',
+  `status` int NOT NULL DEFAULT 1 COMMENT '部门状态，1 启用，0 禁用',
+  `platform_id` varchar(191) DEFAULT NULL COMMENT '所属平台 ID',
+  `owner_id` varchar(191) DEFAULT NULL COMMENT '部门负责人用户 ID',
   PRIMARY KEY (`id`),
   UNIQUE KEY `biz_department_code_key` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='閮ㄩ棬琛紝鐢ㄤ簬缁勭粐鏋舵瀯绠＄悊';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='部门表，用于组织架构管理';
 
 CREATE TABLE IF NOT EXISTS `biz_shop` (
   `id` varchar(191) NOT NULL COMMENT '店铺主键 ID',
@@ -178,115 +339,115 @@ CREATE TABLE IF NOT EXISTS `biz_shop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='店铺表，管理平台下的门店或经营主体';
 
 CREATE TABLE IF NOT EXISTS `hr_position` (
-  `id` varchar(191) NOT NULL COMMENT '宀椾綅涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '閫昏緫鍒犻櫎鏍囪锛? 鏈垹闄わ紝1 宸插垹闄?,
-  `name` varchar(191) NOT NULL COMMENT '宀椾綅鍚嶇О',
-  `code` varchar(191) NOT NULL COMMENT '宀椾綅缂栫爜锛岀郴缁熷唴鍞竴',
-  `description` varchar(191) DEFAULT NULL COMMENT '宀椾綅鎻忚堪',
-  `department_id` varchar(191) NOT NULL COMMENT '鎵€灞為儴闂?ID',
-  `level` int DEFAULT NULL COMMENT '宀椾綅绾у埆',
-  `sequence` varchar(191) DEFAULT NULL COMMENT '宀椾綅搴忓垪鎴栬亴绾у簭鍒?,
-  `platform_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞炲钩鍙?ID',
+  `id` varchar(191) NOT NULL COMMENT '岗位主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记，0 未删除，1 已删除',
+  `name` varchar(191) NOT NULL COMMENT '岗位名称',
+  `code` varchar(191) NOT NULL COMMENT '岗位编码，系统内唯一',
+  `description` varchar(191) DEFAULT NULL COMMENT '岗位描述',
+  `department_id` varchar(191) NOT NULL COMMENT '所属部门 ID',
+  `level` int DEFAULT NULL COMMENT '岗位级别',
+  `sequence` varchar(191) DEFAULT NULL COMMENT '岗位序列或职级序列',
+  `platform_id` varchar(191) DEFAULT NULL COMMENT '所属平台 ID',
   PRIMARY KEY (`id`),
   UNIQUE KEY `hr_position_code_key` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='宀椾綅琛紝瀹氫箟閮ㄩ棬涓嬬殑宀椾綅淇℃伅';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='岗位表，定义部门下的岗位信息';
 
 CREATE TABLE IF NOT EXISTS `hr_employee` (
-  `id` varchar(191) NOT NULL COMMENT '鍛樺伐涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '閫昏緫鍒犻櫎鏍囪锛? 鏈垹闄わ紝1 宸插垹闄?,
-  `name` varchar(191) NOT NULL COMMENT '鍛樺伐濮撳悕',
-  `gender` int DEFAULT NULL COMMENT '鎬у埆',
-  `age` int DEFAULT NULL COMMENT '骞撮緞',
-  `phone` varchar(191) DEFAULT NULL COMMENT '鎵嬫満鍙?,
-  `email` varchar(191) DEFAULT NULL COMMENT '閭鍦板潃',
-  `employee_no` varchar(191) DEFAULT NULL COMMENT '鍛樺伐缂栧彿锛岀郴缁熷唴鍞竴',
-  `job_no` varchar(191) DEFAULT NULL COMMENT '宸ュ彿锛岀郴缁熷唴鍞竴',
-  `department_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞為儴闂?ID',
-  `position_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞炲矖浣?ID',
-  `user_id` varchar(191) DEFAULT NULL COMMENT '鍏宠仈鐢ㄦ埛 ID锛岀郴缁熷唴鍞竴',
-  `manager_employee_id` varchar(191) DEFAULT NULL COMMENT '涓婄骇鍛樺伐 ID',
-  `platform_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞炲钩鍙?ID',
-  `status` int NOT NULL DEFAULT 1 COMMENT '鍛樺伐鐘舵€侊紝1 鍦ㄨ亴锛? 鍋滅敤鎴栫鑱?,
-  `join_date` datetime(3) DEFAULT NULL COMMENT '鍏ヨ亴鏃ユ湡',
-  `regularization_date` datetime(3) DEFAULT NULL COMMENT '杞鏃ユ湡',
-  `contract_expire_time` datetime(3) DEFAULT NULL COMMENT '鍚堝悓鍒版湡鏃堕棿',
-  `id_card_front_file` varchar(191) DEFAULT NULL COMMENT '韬唤璇佹闈㈡枃浠跺湴鍧€',
-  `id_card_back_file` varchar(191) DEFAULT NULL COMMENT '韬唤璇佸弽闈㈡枃浠跺湴鍧€',
-  `emergency_contact_name` varchar(191) DEFAULT NULL COMMENT '绱ф€ヨ仈绯讳汉濮撳悕',
-  `emergency_contact_phone` varchar(191) DEFAULT NULL COMMENT '绱ф€ヨ仈绯讳汉鐢佃瘽',
-  `household_registration` varchar(191) DEFAULT NULL COMMENT '鎴风睄淇℃伅',
-  `political_status` varchar(191) DEFAULT NULL COMMENT '鏀挎不闈㈣矊',
-  `education` varchar(191) DEFAULT NULL COMMENT '瀛﹀巻',
-  `graduate_school` varchar(191) DEFAULT NULL COMMENT '姣曚笟闄㈡牎',
-  `major` varchar(191) DEFAULT NULL COMMENT '涓撲笟',
-  `social_security_base` decimal(10,2) DEFAULT NULL COMMENT '绀句繚鍩烘暟',
-  `social_security_city` varchar(191) DEFAULT NULL COMMENT '绀句繚缂寸撼鍩庡競',
+  `id` varchar(191) NOT NULL COMMENT '员工主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记，0 未删除，1 已删除',
+  `name` varchar(191) NOT NULL COMMENT '员工姓名',
+  `gender` int DEFAULT NULL COMMENT '性别',
+  `age` int DEFAULT NULL COMMENT '年龄',
+  `phone` varchar(191) DEFAULT NULL COMMENT '手机号',
+  `email` varchar(191) DEFAULT NULL COMMENT '邮箱地址',
+  `employee_no` varchar(191) DEFAULT NULL COMMENT '员工编号，系统内唯一',
+  `job_no` varchar(191) DEFAULT NULL COMMENT '工号，系统内唯一',
+  `department_id` varchar(191) DEFAULT NULL COMMENT '所属部门 ID',
+  `position_id` varchar(191) DEFAULT NULL COMMENT '所属岗位 ID',
+  `user_id` varchar(191) DEFAULT NULL COMMENT '关联用户 ID，系统内唯一',
+  `manager_employee_id` varchar(191) DEFAULT NULL COMMENT '上级员工 ID',
+  `platform_id` varchar(191) DEFAULT NULL COMMENT '所属平台 ID',
+  `status` int NOT NULL DEFAULT 1 COMMENT '员工状态，1 在职，0 停用或离职',
+  `join_date` datetime(3) DEFAULT NULL COMMENT '入职日期',
+  `regularization_date` datetime(3) DEFAULT NULL COMMENT '转正日期',
+  `contract_expire_time` datetime(3) DEFAULT NULL COMMENT '合同到期时间',
+  `id_card_front_file` varchar(191) DEFAULT NULL COMMENT '身份证正面文件地址',
+  `id_card_back_file` varchar(191) DEFAULT NULL COMMENT '身份证反面文件地址',
+  `emergency_contact_name` varchar(191) DEFAULT NULL COMMENT '紧急联系人姓名',
+  `emergency_contact_phone` varchar(191) DEFAULT NULL COMMENT '紧急联系人电话',
+  `household_registration` varchar(191) DEFAULT NULL COMMENT '户籍信息',
+  `political_status` varchar(191) DEFAULT NULL COMMENT '政治面貌',
+  `education` varchar(191) DEFAULT NULL COMMENT '学历',
+  `graduate_school` varchar(191) DEFAULT NULL COMMENT '毕业院校',
+  `major` varchar(191) DEFAULT NULL COMMENT '专业',
+  `social_security_base` decimal(10,2) DEFAULT NULL COMMENT '社保基数',
+  `social_security_city` varchar(191) DEFAULT NULL COMMENT '社保缴纳城市',
   PRIMARY KEY (`id`),
   UNIQUE KEY `hr_employee_employee_no_key` (`employee_no`),
   UNIQUE KEY `hr_employee_job_no_key` (`job_no`),
   UNIQUE KEY `hr_employee_user_id_key` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='鍛樺伐琛紝璁板綍浜轰簨妗ｆ涓庡叆鑱屼俊鎭?;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='员工表，记录人事档案与入职信息';
 
 CREATE TABLE IF NOT EXISTS `attendance_rule` (
-  `id` varchar(191) NOT NULL COMMENT '瑙勫垯涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '閫昏緫鍒犻櫎鏍囪锛? 鏈垹闄わ紝1 宸插垹闄?,
-  `name` varchar(191) NOT NULL COMMENT '瑙勫垯鍚嶇О',
-  `on_duty_time` varchar(191) NOT NULL COMMENT '涓婄彮鏃堕棿锛屽缓璁牸寮?HH:mm',
-  `off_duty_time` varchar(191) NOT NULL COMMENT '涓嬬彮鏃堕棿锛屽缓璁牸寮?HH:mm',
-  `late_threshold` int NOT NULL DEFAULT 0 COMMENT '杩熷埌闃堝€硷紝鍗曚綅鍒嗛挓',
-  `early_threshold` int NOT NULL DEFAULT 0 COMMENT '鏃╅€€闃堝€硷紝鍗曚綅鍒嗛挓',
-  `absenteeism_threshold` int NOT NULL DEFAULT 0 COMMENT '鏃峰伐闃堝€硷紝鍗曚綅鍒嗛挓',
-  `status` int NOT NULL DEFAULT 1 COMMENT '瑙勫垯鐘舵€侊紝1 鍚敤锛? 绂佺敤',
-  `platform_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞炲钩鍙?ID',
-  `dept_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞為儴闂?ID',
+  `id` varchar(191) NOT NULL COMMENT '规则主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记，0 未删除，1 已删除',
+  `name` varchar(191) NOT NULL COMMENT '规则名称',
+  `on_duty_time` varchar(191) NOT NULL COMMENT '上班时间，建议格式 HH:mm',
+  `off_duty_time` varchar(191) NOT NULL COMMENT '下班时间，建议格式 HH:mm',
+  `late_threshold` int NOT NULL DEFAULT 0 COMMENT '迟到阈值，单位分钟',
+  `early_threshold` int NOT NULL DEFAULT 0 COMMENT '早退阈值，单位分钟',
+  `absenteeism_threshold` int NOT NULL DEFAULT 0 COMMENT '旷工阈值，单位分钟',
+  `status` int NOT NULL DEFAULT 1 COMMENT '规则状态，1 启用，0 禁用',
+  `platform_id` varchar(191) DEFAULT NULL COMMENT '所属平台 ID',
+  `dept_id` varchar(191) DEFAULT NULL COMMENT '所属部门 ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='鑰冨嫟瑙勫垯琛紝瀹氫箟涓婁笅鐝鍒欎笌闃堝€?;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='考勤规则表，定义上下班规则与阈值';
 
 CREATE TABLE IF NOT EXISTS `attendance_schedule` (
-  `id` varchar(191) NOT NULL COMMENT '鎺掔彮涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '閫昏緫鍒犻櫎鏍囪锛? 鏈垹闄わ紝1 宸插垹闄?,
-  `employee_id` varchar(191) NOT NULL COMMENT '鍛樺伐 ID',
-  `schedule_date` datetime(3) NOT NULL COMMENT '鎺掔彮鏃ユ湡',
-  `shift_name` varchar(191) NOT NULL COMMENT '鐝鍚嶇О',
-  `platform_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞炲钩鍙?ID',
-  `dept_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞為儴闂?ID',
+  `id` varchar(191) NOT NULL COMMENT '排班主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记，0 未删除，1 已删除',
+  `employee_id` varchar(191) NOT NULL COMMENT '员工 ID',
+  `schedule_date` datetime(3) NOT NULL COMMENT '排班日期',
+  `shift_name` varchar(191) NOT NULL COMMENT '班次名称',
+  `platform_id` varchar(191) DEFAULT NULL COMMENT '所属平台 ID',
+  `dept_id` varchar(191) DEFAULT NULL COMMENT '所属部门 ID',
   PRIMARY KEY (`id`),
   KEY `attendance_schedule_employee_date_idx` (`employee_id`, `schedule_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='鎺掔彮琛紝瀹氫箟鍛樺伐鏌愬ぉ鐨勭彮娆″畨鎺?;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='排班表，定义员工某天的班次安排';
 
 CREATE TABLE IF NOT EXISTS `attendance_record` (
-  `id` varchar(191) NOT NULL COMMENT '鑰冨嫟璁板綍涓婚敭 ID',
-  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '鍒涘缓鏃堕棿',
-  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '鏇存柊鏃堕棿',
-  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '閫昏緫鍒犻櫎鏍囪锛? 鏈垹闄わ紝1 宸插垹闄?,
-  `employee_id` varchar(191) NOT NULL COMMENT '鍛樺伐 ID',
-  `attendance_date` datetime(3) NOT NULL COMMENT '鑰冨嫟鏃ユ湡',
-  `schedule_id` varchar(191) DEFAULT NULL COMMENT '鍏宠仈鎺掔彮 ID',
-  `shift_name` varchar(191) DEFAULT NULL COMMENT '鐝鍚嶇О',
-  `scheduled_on_duty_time` varchar(191) DEFAULT NULL COMMENT '璁″垝涓婄彮鏃堕棿锛屽缓璁牸寮?HH:mm',
-  `scheduled_off_duty_time` varchar(191) DEFAULT NULL COMMENT '璁″垝涓嬬彮鏃堕棿锛屽缓璁牸寮?HH:mm',
-  `actual_on_duty_time` datetime(3) DEFAULT NULL COMMENT '瀹為檯涓婄彮鎵撳崱鏃堕棿',
-  `actual_off_duty_time` datetime(3) DEFAULT NULL COMMENT '瀹為檯涓嬬彮鎵撳崱鏃堕棿',
-  `on_duty_location` varchar(191) DEFAULT NULL COMMENT '涓婄彮鎵撳崱鍦扮偣',
-  `off_duty_location` varchar(191) DEFAULT NULL COMMENT '涓嬬彮鎵撳崱鍦扮偣',
-  `on_duty_status` int NOT NULL DEFAULT 0 COMMENT '涓婄彮鍑哄嫟鐘舵€?,
-  `off_duty_status` int NOT NULL DEFAULT 0 COMMENT '涓嬬彮鍑哄嫟鐘舵€?,
-  `work_duration_minutes` int DEFAULT NULL COMMENT '宸ヤ綔鏃堕暱锛屽崟浣嶅垎閽?,
-  `exception_type` varchar(191) DEFAULT NULL COMMENT '寮傚父绫诲瀷',
-  `remark` varchar(191) DEFAULT NULL COMMENT '澶囨敞',
-  `platform_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞炲钩鍙?ID',
-  `dept_id` varchar(191) DEFAULT NULL COMMENT '鎵€灞為儴闂?ID',
+  `id` varchar(191) NOT NULL COMMENT '考勤记录主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记，0 未删除，1 已删除',
+  `employee_id` varchar(191) NOT NULL COMMENT '员工 ID',
+  `attendance_date` datetime(3) NOT NULL COMMENT '考勤日期',
+  `schedule_id` varchar(191) DEFAULT NULL COMMENT '关联排班 ID',
+  `shift_name` varchar(191) DEFAULT NULL COMMENT '班次名称',
+  `scheduled_on_duty_time` varchar(191) DEFAULT NULL COMMENT '计划上班时间，建议格式 HH:mm',
+  `scheduled_off_duty_time` varchar(191) DEFAULT NULL COMMENT '计划下班时间，建议格式 HH:mm',
+  `actual_on_duty_time` datetime(3) DEFAULT NULL COMMENT '实际上班打卡时间',
+  `actual_off_duty_time` datetime(3) DEFAULT NULL COMMENT '实际下班打卡时间',
+  `on_duty_location` varchar(191) DEFAULT NULL COMMENT '上班打卡地点',
+  `off_duty_location` varchar(191) DEFAULT NULL COMMENT '下班打卡地点',
+  `on_duty_status` int NOT NULL DEFAULT 0 COMMENT '上班出勤状态',
+  `off_duty_status` int NOT NULL DEFAULT 0 COMMENT '下班出勤状态',
+  `work_duration_minutes` int DEFAULT NULL COMMENT '工作时长，单位分钟',
+  `exception_type` varchar(191) DEFAULT NULL COMMENT '异常类型',
+  `remark` varchar(191) DEFAULT NULL COMMENT '备注',
+  `platform_id` varchar(191) DEFAULT NULL COMMENT '所属平台 ID',
+  `dept_id` varchar(191) DEFAULT NULL COMMENT '所属部门 ID',
   PRIMARY KEY (`id`),
   KEY `attendance_record_employee_date_idx` (`employee_id`, `attendance_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='鑰冨嫟璁板綍琛紝璁板綍鍛樺伐鎵撳崱涓庡嚭鍕ょ粨鏋?;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='考勤记录表，记录员工打卡与出勤结果';
 
 CREATE TABLE IF NOT EXISTS `attendance_leave` (
   `id` varchar(191) NOT NULL COMMENT '请假单主键 ID',
@@ -715,6 +876,109 @@ CREATE TABLE IF NOT EXISTS `service_satisfaction` (
   KEY `service_satisfaction_scope_rating_idx` (`platform_id`, `dept_id`, `shop_id`, `rating`, `create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='客服满意度记录表';
 
+CREATE TABLE `exam_paper` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL,
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `paper_name` varchar(191) NOT NULL,
+  `description` longtext,
+  `total_score` int NOT NULL DEFAULT 100,
+  `pass_score` int NOT NULL DEFAULT 60,
+  `duration_min` int NOT NULL DEFAULT 60,
+  `enabled` int NOT NULL DEFAULT 1,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `shop_id` varchar(191) DEFAULT NULL,
+  `created_by` varchar(191) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `exam_paper_platform_id_dept_id_shop_id_enabled_idx` (`platform_id`,`dept_id`,`shop_id`,`enabled`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='考试试卷表';
+
+CREATE TABLE `exam_paper_question` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL,
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `paper_id` varchar(191) NOT NULL,
+  `question_type` varchar(191) NOT NULL,
+  `title` longtext NOT NULL,
+  `options` json DEFAULT NULL,
+  `correct_answer` json NOT NULL,
+  `score` int NOT NULL DEFAULT 0,
+  `sort` int NOT NULL DEFAULT 0,
+  `explanation` longtext,
+  PRIMARY KEY (`id`),
+  KEY `exam_paper_question_paper_id_sort_idx` (`paper_id`,`sort`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='试卷题目表';
+
+CREATE TABLE `exam_plan` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL,
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `plan_name` varchar(191) NOT NULL,
+  `paper_id` varchar(191) NOT NULL,
+  `start_time` datetime(3) NOT NULL,
+  `end_time` datetime(3) NOT NULL,
+  `reminder_mode` varchar(191) NOT NULL DEFAULT 'notice',
+  `force_enter` int NOT NULL DEFAULT 0,
+  `pass_score` int NOT NULL DEFAULT 60,
+  `duration_min` int NOT NULL DEFAULT 60,
+  `max_attempts` int NOT NULL DEFAULT 3,
+  `allow_retake` int NOT NULL DEFAULT 0,
+  `absent_mark_minutes` int NOT NULL DEFAULT 30,
+  `allow_makeup` int NOT NULL DEFAULT 0,
+  `makeup_limit` int NOT NULL DEFAULT 0,
+  `target_dept_ids` json DEFAULT NULL,
+  `target_employee_ids` json DEFAULT NULL,
+  `target_count` int NOT NULL DEFAULT 0,
+  `status` varchar(191) NOT NULL DEFAULT 'draft',
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `shop_id` varchar(191) DEFAULT NULL,
+  `created_by` varchar(191) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `exam_plan_paper_id_idx` (`paper_id`),
+  KEY `exam_plan_platform_id_dept_id_shop_id_start_time_end_time_idx` (`platform_id`,`dept_id`,`shop_id`,`start_time`,`end_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='考试计划表';
+
+CREATE TABLE `exam_assignment` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL,
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `plan_id` varchar(191) NOT NULL,
+  `paper_id` varchar(191) NOT NULL,
+  `user_id` varchar(191) NOT NULL,
+  `employee_id` varchar(191) DEFAULT NULL,
+  `employee_name` varchar(191) DEFAULT NULL,
+  `employee_no` varchar(191) DEFAULT NULL,
+  `target_dept_id` varchar(191) DEFAULT NULL,
+  `status` varchar(191) NOT NULL DEFAULT 'pending',
+  `attempt_count` int NOT NULL DEFAULT 0,
+  `started_at` datetime(3) DEFAULT NULL,
+  `submitted_at` datetime(3) DEFAULT NULL,
+  `score` int DEFAULT NULL,
+  `passed` int DEFAULT NULL,
+  `auto_graded` int NOT NULL DEFAULT 0,
+  `answers` json DEFAULT NULL,
+  `attempts_history` json DEFAULT NULL,
+  `manual_absent_marked` int NOT NULL DEFAULT 0,
+  `manual_absent_reason` longtext,
+  `correct_count` int NOT NULL DEFAULT 0,
+  `question_count` int NOT NULL DEFAULT 0,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `shop_id` varchar(191) DEFAULT NULL,
+  `reminder_mode` varchar(191) NOT NULL DEFAULT 'notice',
+  `force_enter` int NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `exam_assignment_plan_id_user_id_key` (`plan_id`,`user_id`),
+  KEY `exam_assignment_user_id_status_submitted_at_idx` (`user_id`,`status`,`submitted_at`),
+  KEY `exam_assignment_platform_id_dept_id_shop_id_status_submitted_at_idx` (`platform_id`,`dept_id`,`shop_id`,`status`,`submitted_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='考试分配与答题记录表';
+
 CREATE TABLE IF NOT EXISTS `knowledge_article` (
   `id` varchar(191) NOT NULL COMMENT '知识库文章主键 ID',
   `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
@@ -781,5 +1045,33 @@ CREATE TABLE IF NOT EXISTS `knowledge_tag` (
   KEY `knowledge_tag_scope_source_sort_idx` (`platform_id`, `dept_id`, `shop_id`, `source_type`, `sort`),
   KEY `knowledge_tag_code_source_idx` (`tag_code`, `source_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='知识标签表';
+
+CREATE TABLE IF NOT EXISTS `attendance_record` (
+  `id` varchar(191) NOT NULL COMMENT '考勤记录主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
+  `employee_id` varchar(191) NOT NULL COMMENT '员工 ID',
+  `attendance_date` datetime(3) NOT NULL COMMENT '考勤日期',
+  `schedule_id` varchar(191) DEFAULT NULL COMMENT '关联排班 ID',
+  `shift_name` varchar(191) DEFAULT NULL COMMENT '班次名称',
+  `scheduled_on_duty_time` varchar(191) DEFAULT NULL COMMENT '计划上班时间',
+  `scheduled_off_duty_time` varchar(191) DEFAULT NULL COMMENT '计划下班时间',
+  `actual_on_duty_time` datetime(3) DEFAULT NULL COMMENT '实际上班打卡时间',
+  `actual_off_duty_time` datetime(3) DEFAULT NULL COMMENT '实际下班打卡时间',
+  `on_duty_location` varchar(191) DEFAULT NULL COMMENT '上班打卡地点',
+  `off_duty_location` varchar(191) DEFAULT NULL COMMENT '下班打卡地点',
+  `on_duty_status` int NOT NULL DEFAULT 0 COMMENT '上班出勤状态',
+  `off_duty_status` int NOT NULL DEFAULT 0 COMMENT '下班出勤状态',
+  `work_duration_minutes` int DEFAULT NULL COMMENT '工作时长',
+  `exception_type` varchar(191) DEFAULT NULL COMMENT '异常类型',
+  `remark` varchar(191) DEFAULT NULL COMMENT '备注',
+  `platform_id` varchar(191) DEFAULT NULL COMMENT '所属平台 ID',
+  `dept_id` varchar(191) DEFAULT NULL COMMENT '所属部门 ID',
+  PRIMARY KEY (`id`),
+  KEY `attendance_record_employee_date_idx` (`employee_id`, `attendance_date`),
+  KEY `attendance_record_platform_dept_date_idx` (`platform_id`, `dept_id`, `attendance_date`),
+  KEY `attendance_record_stats_idx` (`platform_id`, `dept_id`, `on_duty_status`, `off_duty_status`, `attendance_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='考勤记录表';
 
 SET FOREIGN_KEY_CHECKS = 1;

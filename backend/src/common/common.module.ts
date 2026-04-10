@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { RealtimeGateway } from './gateways/realtime.gateway';
 import { BusinessLockService } from './services/business-lock.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { ThrottlerGuard } from './guards/throttler.guard';
 import { IdempotencyInterceptor } from './interceptors/idempotency.interceptor';
 import { PermissionGuard } from './guards/permission.guard';
 import { OperationLogInterceptor } from './interceptors/operation-log.interceptor';
@@ -14,6 +15,7 @@ import { MessageService } from './services/message.service';
 import { RealtimeService } from './services/realtime.service';
 import { RedisService } from './services/redis.service';
 import { ScopeService } from './services/scope.service';
+import { VectorService } from './services/vector.service';
 
 @Module({
   imports: [
@@ -30,7 +32,13 @@ import { ScopeService } from './services/scope.service';
     AuditLogService,
     BusinessLockService,
     RedisService,
+    CacheSubscriber,
     IdempotencyService,
+    VectorService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    },
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard
@@ -56,7 +64,9 @@ import { ScopeService } from './services/scope.service';
     AuditLogService,
     BusinessLockService,
     RedisService,
-    IdempotencyService
+    CacheSubscriber,
+    IdempotencyService,
+    VectorService
   ]
 })
 export class CommonModule {}

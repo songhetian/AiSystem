@@ -19,3 +19,5 @@ export function Permission({ allow = true, code, children }: PermissionProps) {
 
   return <>{children}</>;
 }
+
+export default Permission;

@@ -1,184 +1,210 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Link, Outlet, useLocation, useNavigate } from 'umi';
-import { Badge, Layout, Menu, Space, Typography } from 'antd';
-import type { MenuProps } from 'antd';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { io } from 'socket.io-client';
-import { approvalApi, type ApprovalRequestStats } from '@/api/approval';
+import { useEffect, useState } from 'react';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { ProLayout, PageContainer } from '@ant-design/pro-components';
+import { Space, Typography, Dropdown, Avatar, Badge, ConfigProvider, Modal } from 'antd';
+import { 
+  LogoutOutlined, 
+  UserOutlined, 
+  BellOutlined, 
+  AppstoreOutlined,
+  TeamOutlined,
+  SafetyCertificateOutlined,
+  RobotOutlined,
+  DashboardOutlined,
+  ShopOutlined
+} from '@ant-design/icons';
+import { useQuery } from '@tanstack/react-query';
 import { authApi } from '@/api/auth';
+import { systemApi } from '@/api/system';
+import { approvalApi } from '@/api/approval';
+import { examApi, type ExamAssignment } from '@/api/exam';
 import { HeaderMessageHub } from '@/components/common/HeaderMessageHub';
 import { RealtimeNotificationCenter, type RealtimeMessageEvent } from '@/components/common/RealtimeNotificationCenter';
-import { systemApi, type MessageStats } from '@/api/system';
 import { useGlobalStore } from '@/models/global';
+import zhCN from 'antd/lib/locale/zh_CN';
 
-const { Header, Sider, Content } = Layout;
-
-const fallbackItems: Array<{ key: string; label: string }> = [
-  { key: '/system/users', label: '用户管理' },
-  { key: '/system/messages', label: '站内消息' },
-  { key: '/system/roles', label: '角色管理' },
-  { key: '/system/logs', label: '日志管理' },
-  { key: '/org/departments', label: '组织架构' },
-  { key: '/org/positions', label: '岗位管理' },
-  { key: '/org/employees', label: '员工管理' },
-  { key: '/attendance/schedules', label: '排班管理' },
-  { key: '/attendance/requests', label: '考勤申请' },
-  { key: '/approval/process', label: '审批流程' },
-  { key: '/approval/requests', label: '审批中心' },
-  { key: '/service/sessions', label: 'AI质检' },
-  { key: '/service/quality-rules', label: '质检规则' },
-  { key: '/service/sensitive-terms', label: '敏感词管理' },
-  { key: '/knowledge/faq-candidates', label: 'FAQ候选池' },
-  { key: '/knowledge/articles', label: '知识库文章' }
-];
+const { Text } = Typography;
 
 export default function BasicLayout() {
-  const location = useLocation();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  const location = useLocation();
   const { token, currentUser, setCurrentUser, setToken } = useGlobalStore();
   const [lastMessageEvent, setLastMessageEvent] = useState<RealtimeMessageEvent>();
+  const [activeExamModalOpen, setActiveExamModalOpen] = useState(false);
 
-  const { data } = useQuery({
+  // 1. 数据查询
+  const { data: me } = useQuery({
     queryKey: ['auth-me'],
     queryFn: authApi.me,
     enabled: Boolean(token)
   });
 
-  const { data: messageStats } = useQuery<MessageStats>({
+  const { data: messageStats } = useQuery({
     queryKey: ['system-message-stats'],
     queryFn: systemApi.messageStats,
     enabled: Boolean(token)
   });
 
-  const { data: approvalStats } = useQuery<ApprovalRequestStats>({
+  const { data: approvalStats } = useQuery({
     queryKey: ['approval-request-stats'],
     queryFn: approvalApi.requestStats,
     enabled: Boolean(token)
   });
 
-  useEffect(() => {
-    if (!token) {
-      navigate('/login');
-    }
-  }, [navigate, token]);
+  const { data: activeExam } = useQuery<ExamAssignment | null>({
+    queryKey: ['exam-active'],
+    queryFn: examApi.getMyActiveExam,
+    enabled: Boolean(token),
+    refetchInterval: 30000,
+    retry: false
+  });
 
   useEffect(() => {
-    if (data) {
-      setCurrentUser(data);
-    }
-  }, [data, setCurrentUser]);
+    if (!token) navigate('/login');
+    if (me) setCurrentUser(me);
+  }, [me, token, setCurrentUser, navigate]);
 
   useEffect(() => {
-    if (!token) {
+    if (!activeExam) {
+      setActiveExamModalOpen(false);
       return;
     }
 
-    const socket = io('/ws', {
-      auth: { token: `Bearer ${token}` },
-      transports: ['websocket']
-    });
+    const storageKey = `exam-active-notice:${activeExam.id}`;
+    if (activeExam.reminder_mode === 'force') {
+      setActiveExamModalOpen(true);
+      return;
+    }
 
-    const invalidateRealtimeQueries = () => {
-      window.setTimeout(() => {
-        void queryClient.invalidateQueries({ queryKey: ['system-messages'] });
-        void queryClient.invalidateQueries({ queryKey: ['system-message-stats'] });
-        void queryClient.invalidateQueries({ queryKey: ['approval-requests'] });
-        void queryClient.invalidateQueries({ queryKey: ['approval-request-stats'] });
-      }, 250);
-    };
+    if (!sessionStorage.getItem(storageKey)) {
+      sessionStorage.setItem(storageKey, '1');
+      setActiveExamModalOpen(true);
+    }
+  }, [activeExam]);
 
-    const handleSystemMessageChanged = (event: RealtimeMessageEvent) => {
-      setLastMessageEvent({
-        ...event,
-        emittedAt: event.emittedAt ?? new Date().toISOString()
-      });
-      invalidateRealtimeQueries();
-    };
+  // 2. 菜单图标映射
+  const menuIconMap: Record<string, React.ReactNode> = {
+    '/system': <AppstoreOutlined />,
+    '/org': <TeamOutlined />,
+    '/approval': <SafetyCertificateOutlined />,
+    '/service': <RobotOutlined />,
+    '/exam': <SafetyCertificateOutlined />,
+    '/finance': <DashboardOutlined />,
+    '/shop': <ShopOutlined />
+  };
 
-    socket.on('system-message.changed', handleSystemMessageChanged);
-    socket.on('approval-request.changed', invalidateRealtimeQueries);
-
-    return () => {
-      socket.off('system-message.changed', handleSystemMessageChanged);
-      socket.off('approval-request.changed', invalidateRealtimeQueries);
-      socket.close();
-    };
-  }, [queryClient, token]);
-
-  const badgeMap = useMemo(
-    () => ({
-      '/system/messages': messageStats?.unreadCount ?? 0,
-      '/approval/requests': approvalStats?.pendingCount ?? 0
-    }),
-    [approvalStats?.pendingCount, messageStats?.unreadCount]
-  );
-
-  const renderMenuLabel = (path: string, label: string) => (
-    <Badge count={badgeMap[path as keyof typeof badgeMap] ?? 0} size="small" offset={[10, 0]}>
-      <Link to={path}>{label}</Link>
-    </Badge>
-  );
-
-  const userItems =
-    currentUser?.menus
-      ?.filter((menu) => menu.route)
-      .map((menu) => ({
-        key: menu.route!,
-        label: menu.menu_name
-      })) ?? [];
-
-  const sourceItems =
-    userItems.length > 0
-      ? userItems.some((item) => item.key === '/system/messages')
-        ? userItems
-        : [...userItems, { key: '/system/messages', label: '站内消息' }]
-      : fallbackItems;
-
-  const items: MenuProps['items'] = sourceItems.map((item) => ({
-    key: item.key,
-    label: renderMenuLabel(item.key, item.label)
-  }));
+  // 3. 处理菜单数据 (严格适配 ProLayout)
+  const menuData = currentUser?.menus
+    ?.filter(m => m.route)
+    .map(m => ({
+      path: m.route,
+      name: m.menu_name,
+      icon: menuIconMap[m.route!.split('/').slice(0, 2).join('/')] || <AppstoreOutlined />
+    })) || [];
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <RealtimeNotificationCenter lastEvent={lastMessageEvent} />
-      <Sider width={240} theme="light">
-        <div style={{ padding: 20 }}>
-          <Typography.Title level={4} style={{ margin: 0 }}>
-            AiSystem
-          </Typography.Title>
-        </div>
-        <Menu mode="inline" selectedKeys={[location.pathname]} items={items} />
-      </Sider>
-      <Layout>
-        <Header style={{ background: '#fff', padding: '0 24px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <Typography.Text strong>企业控制台</Typography.Text>
-              <Typography.Text type="secondary" style={{ marginLeft: 12 }}>
-                审批、消息和 AI 质检统一接入头部消息通道
-              </Typography.Text>
-            </div>
-            <Space size={16}>
-              <HeaderMessageHub enabled={Boolean(token)} />
-              <Typography.Text>{currentUser?.name ?? currentUser?.username ?? 'Current User'}</Typography.Text>
-              <Typography.Link
-                onClick={() => {
-                  setToken(undefined);
-                  setCurrentUser(undefined);
-                  navigate('/login');
+    <ConfigProvider locale={zhCN}>
+      <div id="pro-layout-container" style={{ height: '100vh' }}>
+        <RealtimeNotificationCenter lastEvent={lastMessageEvent} />
+        <Modal
+          open={activeExamModalOpen}
+          closable={activeExam?.reminder_mode !== 'force'}
+          maskClosable={activeExam?.reminder_mode !== 'force'}
+          cancelButtonProps={{ style: { display: activeExam?.reminder_mode === 'force' ? 'none' : undefined } }}
+          title={activeExam?.reminder_mode === 'force' ? '强制考试提醒' : '考试提醒'}
+          onCancel={() => setActiveExamModalOpen(false)}
+          onOk={() => {
+            if (activeExam) {
+              setActiveExamModalOpen(false);
+              navigate(`/exam/my/${activeExam.id}`);
+            }
+          }}
+        >
+          <p>{activeExam?.plan.plan_name}</p>
+          <p>{activeExam?.plan.paper?.paper_name}</p>
+          <p>{activeExam?.reminder_mode === 'force' ? '当前考试已开始，请立即进入考试页面。' : '当前有一场考试正在进行，请按时完成。'}</p>
+        </Modal>
+        <ProLayout
+          title="雷犀系统 AiSystem"
+          logo="/logo.png" // 假设有Logo
+          layout="mix" // 混合布局，AD Pro 5 推荐
+          fixedHeader
+          fixSiderbar
+          location={location}
+          menuDataRender={() => [
+            { path: '/finance/dashboard', name: '财务大屏', icon: <DashboardOutlined /> },
+            ...menuData
+          ]}
+          menuItemRender={(item, dom) => (
+            <Link to={item.path || '/'} className="font-bold text-slate-700">
+              {dom}
+            </Link>
+          )}
+          subMenuItemRender={(_, dom) => (
+            <span className="font-black text-slate-900">{dom}</span>
+          )}
+          // 头部右侧工具栏
+          actionsRender={() => [
+            <HeaderMessageHub key="message-hub" enabled={Boolean(token)} />,
+            <Badge key="pending-approval" count={approvalStats?.pendingCount} size="small">
+              <BellOutlined className="text-slate-600 text-lg cursor-pointer" />
+            </Badge>
+          ]}
+          avatarProps={{
+            src: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
+            title: <Text className="font-black text-slate-900">{currentUser?.name || '管理员'}</Text>,
+            size: 'small',
+            render: (_props, dom) => (
+              <Dropdown
+                menu={{
+                  items: [
+                    {
+                      key: 'logout',
+                      icon: <LogoutOutlined />,
+                      label: '退出登录',
+                      onClick: () => {
+                        setToken(undefined);
+                        setCurrentUser(undefined);
+                        navigate('/login');
+                      }
+                    }
+                  ]
                 }}
               >
-                退出登录
-              </Typography.Link>
-            </Space>
-          </div>
-        </Header>
-        <Content style={{ padding: 24 }}>
-          <Outlet />
-        </Content>
-      </Layout>
-    </Layout>
+                {dom}
+              </Dropdown>
+            )
+          }}
+          // 自定义样式 - 物理层级强化
+          headerStyle={{
+            background: '#fff',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+            borderBottom: '1px solid #e2e8f0' // slate-200
+          }}
+          siderWidth={240}
+          token={{
+            sider: {
+              colorMenuBackground: '#ffffff',
+              colorTextMenuSelected: '#0f172a', // slate-900
+              colorBgMenuItemSelected: '#f1f5f9', // slate-100
+            },
+            header: {
+              colorBgHeader: '#ffffff',
+              colorHeaderTitle: '#0f172a'
+            }
+          }}
+        >
+          <PageContainer
+            header={{
+              title: null, // 隐藏默认标题，使用页面内自定义
+              breadcrumb: {} // 开启面包屑
+            }}
+            style={{ padding: 0 }}
+          >
+            <Outlet />
+          </PageContainer>
+        </ProLayout>
+      </div>
+    </ConfigProvider>
   );
 }

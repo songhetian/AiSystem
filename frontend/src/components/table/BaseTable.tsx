@@ -1,14 +1,15 @@
 import { ProTable, type ProColumns } from '@ant-design/pro-components';
 
-export interface BaseTableProps<T extends Record<string, unknown>> {
+export interface BaseTableProps<T extends object> {
   rowKey: string;
   columns: ProColumns<T>[];
   dataSource: T[];
   loading?: boolean;
   rowSelection?: Record<string, unknown>;
+  pagination?: Record<string, unknown>;
 }
 
-export function BaseTable<T extends Record<string, unknown>>(props: BaseTableProps<T>) {
+export function BaseTable<T extends object>(props: BaseTableProps<T>) {
   return (
     <ProTable<T>
       search={false}
@@ -18,3 +19,5 @@ export function BaseTable<T extends Record<string, unknown>>(props: BaseTablePro
     />
   );
 }
+
+export default BaseTable;

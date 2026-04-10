@@ -1,70 +1,75 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuditLogService } from '../../../common/services/audit-log.service';
+import { RedisService } from '../../../common/services/redis.service';
 import { comparePassword } from '../../../common/utils/password.util';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { LoginDto } from '../dto/login.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
-    private readonly auditLogService: AuditLogService
+    private readonly auditLogService: AuditLogService,
+    private readonly redisService: RedisService
   ) {}
 
-  async login(dto: LoginDto, meta?: { ip?: string; userAgent?: string }) {
-    const user = await this.prisma.sys_user.findFirst({
-      where: { username: dto.username, is_deleted: 0, status: 1 }
+  async login(dto: any, ip?: string, userAgent?: string) {
+    const user = await this.prisma.sys_user.findUnique({
+      where: { username: dto.username }
     });
 
-    if (!user) {
+    if (!user || user.is_deleted === 1) {
       await this.auditLogService.logLogin({
         username: dto.username,
-        login_ip: meta?.ip,
-        user_agent: meta?.userAgent,
+        login_ip: ip,
+        user_agent: userAgent,
         login_status: 0,
-        login_message: 'user not found or disabled'
+        login_message: '用户不存在'
       });
       throw new UnauthorizedException('用户名或密码错误');
     }
 
-    const valid = await comparePassword(dto.password, user.password);
-    if (!valid) {
+    if (user.status !== 1) {
       await this.auditLogService.logLogin({
         user_id: user.id,
         username: user.username,
-        login_ip: meta?.ip,
-        user_agent: meta?.userAgent,
+        login_ip: ip,
+        user_agent: userAgent,
         login_status: 0,
-        login_message: 'password mismatch',
-        platform_id: user.platform_id,
-        dept_id: user.dept_id,
-        shop_id: user.shop_id
+        login_message: '账号已被禁用'
+      });
+      throw new UnauthorizedException('账号已被禁用');
+    }
+
+    const isMatch = await comparePassword(dto.password, user.password);
+    if (!isMatch) {
+      await this.auditLogService.logLogin({
+        user_id: user.id,
+        username: user.username,
+        login_ip: ip,
+        user_agent: userAgent,
+        login_status: 0,
+        login_message: '密码错误'
       });
       throw new UnauthorizedException('用户名或密码错误');
     }
 
-    await this.prisma.sys_user.update({
-      where: { id: user.id },
-      data: { last_login_time: new Date() }
-    });
-
-    await this.auditLogService.logLogin({
-      user_id: user.id,
+    const accessToken = await this.jwtService.signAsync({
+      sub: user.id,
       username: user.username,
-      login_ip: meta?.ip,
-      user_agent: meta?.userAgent,
-      login_status: 1,
-      login_message: 'login success',
       platform_id: user.platform_id,
       dept_id: user.dept_id,
       shop_id: user.shop_id
     });
 
-    const accessToken = await this.jwtService.signAsync({
-      sub: user.id,
-      username: user.username
+    await this.auditLogService.logLogin({
+      user_id: user.id,
+      username: user.username,
+      login_ip: ip,
+      user_agent: userAgent,
+      login_status: 1,
+      login_message: '登录成功'
     });
 
     return {
@@ -73,39 +78,60 @@ export class AuthService {
     };
   }
 
-  async me(userId: string) {
+  async logout(token: string) {
+    if (!token) return;
+    // 将 Token 加入黑名单，有效期 24 小时 (略大于默认过期时间)
+    await this.redisService.set(`blacklist:token:${token}`, '1', 24 * 60 * 60);
+    return { success: true };
+  }
+
+  async me(id: string) {
     const user = await this.prisma.sys_user.findUnique({
-      where: { id: userId }
+      where: { id },
+      include: {
+        dept: true,
+        platform: true,
+        shop: true
+      }
     });
 
     if (!user) {
-      throw new UnauthorizedException('用户不存在');
+      throw new UnauthorizedException();
     }
 
     const userRoles = await this.prisma.sys_user_role.findMany({
-      where: { user_id: userId },
-      include: { role: true }
+      where: { user_id: id },
+      include: {
+        role: {
+          include: {
+            menus: { include: { menu: true } },
+            buttons: { include: { button: true } }
+          }
+        }
+      }
     });
-    const roleIds = userRoles.map((item) => item.role_id);
 
-    const [roleMenus, roleButtons] = await Promise.all([
-      this.prisma.sys_role_menu.findMany({
-        where: { role_id: { in: roleIds } },
-        include: { menu: true }
-      }),
-      this.prisma.sys_role_button.findMany({
-        where: { role_id: { in: roleIds } },
-        include: { button: true }
-      })
-    ]);
+    const menusMap = new Map();
+    const buttonsMap = new Map();
 
-    const menusMap = new Map<string, any>(roleMenus.map((item) => [item.menu.id, item.menu]));
-    const buttonsMap = new Map<string, any>(roleButtons.map((item) => [item.button.id, item.button]));
+    userRoles.forEach((ur) => {
+      ur.role.menus.forEach((rm) => {
+        if (rm.menu.is_deleted === 0 && rm.menu.status === 1) {
+          menusMap.set(rm.menu.id, rm.menu);
+        }
+      });
+      ur.role.buttons.forEach((rb) => {
+        if (rb.button.is_deleted === 0 && rb.button.status === 1) {
+          buttonsMap.set(rb.button.id, rb.button.button_code);
+        }
+      });
+    });
 
     return {
       id: user.id,
       username: user.username,
       name: user.name,
+      avatar: user.avatar,
       platform_id: user.platform_id,
       dept_id: user.dept_id,
       shop_id: user.shop_id,

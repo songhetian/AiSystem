@@ -1,376 +1,187 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { ProColumns } from '@ant-design/pro-components';
-import { Button, Card, Descriptions, Drawer, Form, Input, Select, Segmented, Space, Tag, Typography, message } from 'antd';
-import { useLocation, useNavigate } from 'umi';
-import {
-  approvalApi,
-  type ApprovalPerson,
-  type ApprovalRequestRecord,
-  type ApprovalRequestStats
-} from '@/api/approval';
-import { BaseModal } from '@/components/common/BaseModal';
-import { Permission } from '@/components/permission/Permission';
+import { Button, Card, Form, Input, Select, Space, Typography, Tag, Tabs, message, Badge } from 'antd';
+import { CheckCircleOutlined, CloseCircleOutlined, SwapOutlined, SearchOutlined, ReloadOutlined } from '@ant-design/icons';
+import { approvalApi, type ApprovalRequest } from '@/api/approval';
 import { BaseTable } from '@/components/table/BaseTable';
-import { createIdempotencyKey } from '@/utils/request';
+import { BaseModal } from '@/components/common/BaseModal';
 
-type ApprovalView = 'all' | 'my' | 'pending' | 'processed';
+const { Text, Title } = Typography;
 
-const statusColorMap: Record<ApprovalRequestRecord['status'], string> = {
-  pending: 'processing',
-  approved: 'success',
-  rejected: 'error',
-  transferred: 'warning'
-};
-
-const statusTextMap: Record<ApprovalRequestRecord['status'], string> = {
-  pending: '待处理',
-  approved: '已通过',
-  rejected: '已驳回',
-  transferred: '已转审'
-};
-
-const actionTextMap: Record<ApprovalRequestRecord['progress'][number]['action'], string> = {
-  submitted: '提交申请',
-  approved: '审批通过',
-  rejected: '审批驳回',
-  transferred: '转审处理'
-};
-
-function isValidView(value: string | null): value is ApprovalView {
-  return value === 'all' || value === 'my' || value === 'pending' || value === 'processed';
-}
-
-export default function ApprovalRequestsPage() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
-  const requestNoFromQuery = searchParams.get('requestNo')?.trim() ?? '';
-  const initialView = isValidView(searchParams.get('view')) ? searchParams.get('view') : 'my';
-  const [view, setView] = useState<ApprovalView>(initialView);
-  const [keyword, setKeyword] = useState(requestNoFromQuery);
-  const [detail, setDetail] = useState<ApprovalRequestRecord | null>(null);
-  const [actionType, setActionType] = useState<'approve' | 'reject' | 'transfer'>();
-  const [actionTarget, setActionTarget] = useState<ApprovalRequestRecord | null>(null);
+export default function ApprovalCenterPage() {
+  const [activeTab, setActiveTab] = useState('pending');
+  const [open, setOpen] = useState(false);
+  const [selectedReq, setSelectedReq] = useState<ApprovalRequest | null>(null);
+  const [action, setAction] = useState<'approved' | 'rejected' | 'transferred'>('approved');
   const [form] = Form.useForm();
-  const actionKeyRef = useRef<string>();
-  const autoOpenedRequestNoRef = useRef<string>();
+  
+  const queryClient = useQueryClient();
 
-  const { data = [], isLoading } = useQuery<ApprovalRequestRecord[]>({
-    queryKey: ['approval-requests', view, keyword],
-    queryFn: () => approvalApi.listRequests({ view, keyword: keyword || undefined })
-  });
-  const { data: stats } = useQuery<ApprovalRequestStats>({
-    queryKey: ['approval-request-stats'],
-    queryFn: approvalApi.requestStats
-  });
-  const { data: people = [] } = useQuery<ApprovalPerson[]>({
-    queryKey: ['approval-request-people'],
-    queryFn: approvalApi.listPeople
+  // 1. 数据查询
+  const { data: requests = [], isLoading } = useQuery({
+    queryKey: ['approval-requests', activeTab],
+    queryFn: () => {
+      if (activeTab === 'pending') return approvalApi.listPendingApprovals();
+      if (activeTab === 'done') return approvalApi.listDoneApprovals();
+      return approvalApi.listMyRequests();
+    }
   });
 
-  useEffect(() => {
-    if (!requestNoFromQuery) {
-      autoOpenedRequestNoRef.current = undefined;
-      return;
-    }
+  const refresh = () => queryClient.invalidateQueries({ queryKey: ['approval-requests'] });
 
-    setKeyword(requestNoFromQuery);
-    if (view !== initialView) {
-      setView(initialView);
-    }
-  }, [initialView, requestNoFromQuery, view]);
-
-  useEffect(() => {
-    if (!requestNoFromQuery || autoOpenedRequestNoRef.current === requestNoFromQuery || data.length === 0) {
-      return;
-    }
-
-    const matched = data.find((item) => item.requestNo === requestNoFromQuery);
-    if (!matched) {
-      return;
-    }
-
-    setDetail(matched);
-    autoOpenedRequestNoRef.current = requestNoFromQuery;
-  }, [data, requestNoFromQuery]);
-
-  const refresh = async () => {
-    await queryClient.invalidateQueries({ queryKey: ['approval-requests'] });
-    await queryClient.invalidateQueries({ queryKey: ['approval-request-stats'] });
-  };
-
-  const approveMutation = useMutation({
-    mutationFn: ({ id, comment }: { id: string; comment?: string }) =>
-      approvalApi.approveRequest(
-        id,
-        { comment },
-        {
-          idempotencyKey: actionKeyRef.current ?? (actionKeyRef.current = createIdempotencyKey(`approval-approve-${id}`))
-        }
-      ),
-    onSuccess: async () => {
-      message.success('审批已通过');
-      setActionType(undefined);
-      setActionTarget(null);
+  // 2. 审批动作
+  const actionMutation = useMutation({
+    mutationFn: ({ id, payload }: { id: string; payload: any }) => approvalApi.takeAction(id, payload),
+    onSuccess: () => {
+      message.success('操作成功');
+      setOpen(false);
       form.resetFields();
-      actionKeyRef.current = undefined;
-      await refresh();
-    },
-    onError: () => {
-      actionKeyRef.current = undefined;
+      refresh();
     }
   });
 
-  const rejectMutation = useMutation({
-    mutationFn: ({ id, comment }: { id: string; comment?: string }) =>
-      approvalApi.rejectRequest(
-        id,
-        { comment },
-        {
-          idempotencyKey: actionKeyRef.current ?? (actionKeyRef.current = createIdempotencyKey(`approval-reject-${id}`))
-        }
-      ),
-    onSuccess: async () => {
-      message.success('审批已驳回');
-      setActionType(undefined);
-      setActionTarget(null);
-      form.resetFields();
-      actionKeyRef.current = undefined;
-      await refresh();
+  const columns: ProColumns<ApprovalRequest>[] = [
+    {
+      title: '审批单信息',
+      dataIndex: 'requestNo',
+      render: (text, record) => (
+        <Space direction="vertical" size={0}>
+          <Text className="font-black text-slate-900">{text}</Text>
+          <Text className="text-slate-500 text-xs">{record.templateName}</Text>
+        </Space>
+      )
     },
-    onError: () => {
-      actionKeyRef.current = undefined;
-    }
-  });
-
-  const transferMutation = useMutation({
-    mutationFn: ({ id, assigneeId, comment }: { id: string; assigneeId: string; comment?: string }) =>
-      approvalApi.transferRequest(
-        id,
-        { assigneeId, comment },
-        {
-          idempotencyKey: actionKeyRef.current ?? (actionKeyRef.current = createIdempotencyKey(`approval-transfer-${id}`))
-        }
-      ),
-    onSuccess: async () => {
-      message.success('审批已转审');
-      setActionType(undefined);
-      setActionTarget(null);
-      form.resetFields();
-      actionKeyRef.current = undefined;
-      await refresh();
+    {
+      title: '申请人',
+      dataIndex: 'applicantName',
+      render: (text, record) => (
+        <div className="flex flex-col">
+          <Text className="text-slate-900 font-bold">{text}</Text>
+          <Text className="text-slate-500 text-xs">{record.departmentName}</Text>
+        </div>
+      )
     },
-    onError: () => {
-      actionKeyRef.current = undefined;
-    }
-  });
-
-  const actionPending = approveMutation.isPending || rejectMutation.isPending || transferMutation.isPending;
-
-  const columns: ProColumns<ApprovalRequestRecord>[] = [
-    { title: '审批单号', dataIndex: 'requestNo' },
-    { title: '模板', dataIndex: 'templateName' },
-    { title: '申请人', dataIndex: 'applicantName' },
-    { title: '摘要', dataIndex: 'summary', ellipsis: true },
+    {
+      title: '审批摘要',
+      dataIndex: 'summary',
+      render: (text) => <Text className="text-slate-600 max-w-[300px]" ellipsis>{text}</Text>
+    },
+    {
+      title: '金额',
+      dataIndex: 'amount',
+      render: (val) => val ? <Text className="font-black text-red-600">￥{Number(val).toFixed(2)}</Text> : '-'
+    },
     {
       title: '状态',
       dataIndex: 'status',
-      render: (_, record) => <Tag color={statusColorMap[record.status]}>{statusTextMap[record.status]}</Tag>
+      render: (status) => {
+        const config: any = {
+          pending: { color: 'processing', text: '审批中', icon: <ReloadOutlined spin /> },
+          approved: { color: 'success', text: '已通过', icon: <CheckCircleOutlined /> },
+          rejected: { color: 'error', text: '已驳回', icon: <CloseCircleOutlined /> },
+          transferred: { color: 'warning', text: '已转办', icon: <SwapOutlined /> }
+        };
+        const item = config[status] || config.pending;
+        return <Tag color={item.color} icon={item.icon} className="font-black border-2">{item.text}</Tag>;
+      }
     },
-    { title: '当前处理人', dataIndex: 'currentApproverName', render: (_, record) => record.currentApproverName ?? '-' },
-    { title: '更新时间', dataIndex: 'updatedAt' },
+    {
+      title: '申请时间',
+      dataIndex: 'createdAt',
+      className: 'text-slate-500 text-xs'
+    },
     {
       title: '操作',
-      render: (_, record) => (
-        <Space>
-          <Button type="link" disabled={actionPending} onClick={() => setDetail(record)}>
-            详情
-          </Button>
-          {view === 'pending' && record.status === 'pending' ? (
-            <>
-              <Permission code="approval:request:approve">
-                <Button
-                  type="link"
-                  disabled={actionPending}
-                  onClick={() => {
-                    setActionType('approve');
-                    setActionTarget(record);
-                    actionKeyRef.current = undefined;
-                  }}
-                >
-                  同意
-                </Button>
-              </Permission>
-              <Permission code="approval:request:reject">
-                <Button
-                  type="link"
-                  danger
-                  disabled={actionPending}
-                  onClick={() => {
-                    setActionType('reject');
-                    setActionTarget(record);
-                    actionKeyRef.current = undefined;
-                  }}
-                >
-                  驳回
-                </Button>
-              </Permission>
-              <Permission code="approval:request:transfer">
-                <Button
-                  type="link"
-                  disabled={actionPending}
-                  onClick={() => {
-                    setActionType('transfer');
-                    setActionTarget(record);
-                    actionKeyRef.current = undefined;
-                  }}
-                >
-                  转审
-                </Button>
-              </Permission>
-            </>
-          ) : null}
-        </Space>
-      )
+      valueType: 'option',
+      render: (_, record) => {
+        if (activeTab !== 'pending') return <Button type="link" size="small">查看详情</Button>;
+        return (
+          <Space>
+            <Button 
+              type="primary" 
+              size="small" 
+              className="bg-green-600 hover:bg-green-500 border-none font-bold"
+              onClick={() => {
+                setSelectedReq(record);
+                setAction('approved');
+                setOpen(true);
+              }}
+            >
+              通过
+            </Button>
+            <Button 
+              danger 
+              size="small" 
+              className="font-bold"
+              onClick={() => {
+                setSelectedReq(record);
+                setAction('rejected');
+                setOpen(true);
+              }}
+            >
+              驳回
+            </Button>
+          </Space>
+        );
+      }
     }
   ];
 
   return (
-    <Card
-      title="审批中心"
-      extra={
-        <Space>
-          <Input.Search
-            allowClear
-            value={keyword}
-            placeholder="搜索单号/申请人/摘要"
-            style={{ width: 260 }}
-            onSearch={(value) => {
-              setKeyword(value.trim());
-              autoOpenedRequestNoRef.current = undefined;
-            }}
-            onChange={(event) => {
-              const nextValue = event.target.value;
-              setKeyword(nextValue);
-              if (!nextValue) {
-                autoOpenedRequestNoRef.current = undefined;
-              }
-            }}
-          />
-          <Segmented
-            value={view}
-            onChange={(value) => {
-              const nextView = value as ApprovalView;
-              setView(nextView);
-              navigate(`/approval/requests${keyword ? `?view=${nextView}&requestNo=${encodeURIComponent(keyword)}` : `?view=${nextView}`}`, {
-                replace: true
-              });
-            }}
-            options={[
-              { label: `全部${stats ? ` (${stats.allCount})` : ''}`, value: 'all' },
-              { label: `我的审批${stats ? ` (${stats.myCount})` : ''}`, value: 'my' },
-              { label: `待我审批${stats ? ` (${stats.pendingCount})` : ''}`, value: 'pending' },
-              { label: `已处理${stats ? ` (${stats.processedCount})` : ''}`, value: 'processed' }
-            ]}
-          />
-        </Space>
-      }
-    >
-      <BaseTable<ApprovalRequestRecord> rowKey="id" columns={columns} dataSource={data} loading={isLoading} />
+    <div className="leixi-page-container">
+      <Card bordered={false} styles={{ body: { padding: '16px 24px' } }} className="shadow-sm mb-4">
+        <Tabs 
+          activeKey={activeTab} 
+          onChange={setActiveTab}
+          className="font-black text-slate-900"
+          size="large"
+          items={[
+            { key: 'pending', label: <Badge count={activeTab === 'pending' ? requests.length : 0} offset={[15, 0]}><span className="px-4">待我审批</span></Badge> },
+            { key: 'done', label: <span className="px-4">已审批</span> },
+            { key: 'my', label: <span className="px-4">我发起的</span> }
+          ]}
+        />
+      </Card>
 
-      <Drawer title="审批详情" open={Boolean(detail)} width={720} onClose={() => setDetail(null)}>
-        {detail ? (
-          <Space direction="vertical" size={16} style={{ display: 'flex' }}>
-            <Descriptions column={2} bordered size="small">
-              <Descriptions.Item label="审批单号">{detail.requestNo}</Descriptions.Item>
-              <Descriptions.Item label="审批模板">{detail.templateName}</Descriptions.Item>
-              <Descriptions.Item label="申请人">{detail.applicantName}</Descriptions.Item>
-              <Descriptions.Item label="状态">
-                <Tag color={statusColorMap[detail.status]}>{statusTextMap[detail.status]}</Tag>
-              </Descriptions.Item>
-              <Descriptions.Item label="平台">{detail.platformName}</Descriptions.Item>
-              <Descriptions.Item label="部门">{detail.departmentName}</Descriptions.Item>
-              <Descriptions.Item label="业务类型">{detail.bizType ?? detail.type}</Descriptions.Item>
-              <Descriptions.Item label="业务单据">{detail.bizId ?? '-'}</Descriptions.Item>
-              <Descriptions.Item label="创建时间">{detail.createdAt}</Descriptions.Item>
-              <Descriptions.Item label="更新时间">{detail.updatedAt}</Descriptions.Item>
-              <Descriptions.Item label="摘要" span={2}>
-                {detail.summary}
-              </Descriptions.Item>
-            </Descriptions>
-            <Card size="small" title="审批进度">
-              <Space direction="vertical" size={12} style={{ display: 'flex' }}>
-                {detail.progress.map((item) => (
-                  <Card key={item.id} size="small">
-                    <Space direction="vertical" size={4} style={{ display: 'flex' }}>
-                      <Typography.Text strong>
-                        {item.nodeName} / {item.actorName}
-                      </Typography.Text>
-                      <Typography.Text type="secondary">
-                        {item.createdAt} | {actionTextMap[item.action]}
-                      </Typography.Text>
-                      {item.comment ? <Typography.Text>{item.comment}</Typography.Text> : null}
-                    </Space>
-                  </Card>
-                ))}
-              </Space>
-            </Card>
-          </Space>
-        ) : null}
-      </Drawer>
+      <Card bordered={false} className="shadow-sm">
+        <BaseTable<ApprovalRequest>
+          columns={columns.map(col => ({
+              ...col,
+              className: col.className ? `${col.className} leixi-text-main` : 'leixi-text-main'
+          }))}
+          dataSource={requests}
+          loading={isLoading}
+          rowKey="id"
+        />
+      </Card>
 
+      {/* 审批操作弹窗 */}
       <BaseModal
-        open={Boolean(actionType && actionTarget)}
-        title={actionType === 'approve' ? '审批同意' : actionType === 'reject' ? '审批驳回' : '审批转审'}
-        onCancel={() => {
-          setActionType(undefined);
-          setActionTarget(null);
-          form.resetFields();
-          actionKeyRef.current = undefined;
-        }}
+        open={open}
+        title={
+          <Space>
+            <Title level={5} className="m-0 font-black">
+              {action === 'approved' ? '通过审批' : '驳回申请'}
+            </Title>
+            <Text className="text-slate-400 font-normal">[{selectedReq?.requestNo}]</Text>
+          </Space>
+        }
+        onCancel={() => setOpen(false)}
         onOk={() => form.submit()}
-        confirmLoading={actionPending}
+        confirmLoading={actionMutation.isPending}
       >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={(values) => {
-            if (!actionTarget || !actionType || actionPending) {
-              return;
-            }
-
-            if (actionType === 'approve') {
-              approveMutation.mutate({ id: actionTarget.id, comment: values.comment });
-              return;
-            }
-
-            if (actionType === 'reject') {
-              rejectMutation.mutate({ id: actionTarget.id, comment: values.comment });
-              return;
-            }
-
-            transferMutation.mutate({ id: actionTarget.id, assigneeId: values.assigneeId, comment: values.comment });
-          }}
-        >
-          {actionType === 'transfer' ? (
-            <Form.Item label="转审人" name="assigneeId" rules={[{ required: true }]}>
-              <Select
-                showSearch
-                optionFilterProp="label"
-                options={people.map((item) => ({
-                  label: `${item.name} / ${item.department} / ${item.title}`,
-                  value: item.id
-                }))}
-              />
-            </Form.Item>
-          ) : null}
-          <Form.Item label="审批意见" name="comment">
-            <Input.TextArea rows={4} placeholder={actionType === 'reject' ? '请填写驳回原因' : '可填写处理说明'} />
+        <Form form={form} layout="vertical" onFinish={(v) => actionMutation.mutate({ id: selectedReq!.id, payload: { action, ...v } })}>
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 mb-4">
+            <Text className="text-slate-500 block mb-1">申请人: <span className="text-slate-900 font-bold">{selectedReq?.applicantName}</span></Text>
+            <Text className="text-slate-500 block">摘要: <span className="text-slate-900">{selectedReq?.summary}</span></Text>
+          </div>
+          
+          <Form.Item label={<span className="font-bold text-slate-900">审批意见</span>} name="comment" rules={[{ required: action === 'rejected', message: '驳回必须填写意见' }]}>
+            <Input.TextArea rows={4} placeholder={action === 'approved' ? '请输入审批意见(选填)' : '请输入驳回原因(必填)'} className="font-medium" />
           </Form.Item>
         </Form>
       </BaseModal>
-    </Card>
+    </div>
   );
 }

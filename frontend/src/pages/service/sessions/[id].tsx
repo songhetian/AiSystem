@@ -1,479 +1,204 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Alert, Button, Card, Checkbox, Descriptions, Empty, Form, Input, List, Select, Space, Tag, Timeline, Typography, message } from 'antd';
-import { io, type Socket } from 'socket.io-client';
-import { useParams } from 'umi';
-import { BaseModal } from '@/components/common/BaseModal';
-import { Permission } from '@/components/permission/Permission';
-import { knowledgeApi, type KnowledgeCategory, type KnowledgeTag } from '@/api/knowledge';
-import { serviceApi, type ServiceCaseDraftResult, type ServiceSessionDetail, type ServiceSessionMessage } from '@/api/service';
-import { useGlobalStore } from '@/models/global';
+import { useState, useEffect, useRef } from 'react';
+import { useParams, history } from 'umi';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Card, Row, Col, Typography, Space, Tag, Input, Button, List, Avatar, Alert, Divider, message } from 'antd';
+import { ArrowLeftOutlined, RobotOutlined, UserOutlined, WarningOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { serviceApi } from '@/api/service';
+import { io, Socket } from 'socket.io-client';
+import { useVirtualizer } from '@tanstack/react-virtual';
 
-type EditableMessage = ServiceSessionMessage & { editableContent: string };
-type SessionOccupancy = { userId: string; username: string; activity: string };
+const { Title, Text, Paragraph } = Typography;
 
-function resolveErrorMessage(error: unknown) {
-  const data = (error as { response?: { data?: { message?: string | string[] } } })?.response?.data;
-  const messageValue = data?.message;
-  if (Array.isArray(messageValue)) {
-    return messageValue[0] ?? 'Operation failed';
-  }
-  return messageValue || (error as Error)?.message || 'Operation failed';
+interface Occupancy {
+  userId: string;
+  username: string;
+  activity: string;
 }
 
 export default function ServiceSessionDetailPage() {
-  const params = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
-  const sessionId = params.id ?? '';
-  const { token, currentUser } = useGlobalStore();
-  const [selectedMessageIds, setSelectedMessageIds] = useState<string[]>([]);
-  const [caseOpen, setCaseOpen] = useState(false);
-  const [editableMessages, setEditableMessages] = useState<EditableMessage[]>([]);
-  const [caseTags, setCaseTags] = useState<string[]>([]);
-  const [occupancies, setOccupancies] = useState<SessionOccupancy[]>([]);
-  const [caseForm] = Form.useForm();
+  const [occupancies, setOccupancies] = useState<Occupancy[]>([]);
+  const [socket, setSocket] = useState<Socket | null>(null);
 
-  const { data, isLoading } = useQuery<ServiceSessionDetail>({
-    queryKey: ['service-session-detail', sessionId],
-    queryFn: () => serviceApi.getSession(sessionId),
-    enabled: Boolean(sessionId)
+  // 1. 数据拉取
+  const { data: session, isLoading } = useQuery({
+    queryKey: ['service-session', id],
+    queryFn: () => serviceApi.getSession(id!),
+    enabled: !!id
   });
 
-  const { data: categories = [] } = useQuery<KnowledgeCategory[]>({
-    queryKey: ['knowledge-categories'],
-    queryFn: () => knowledgeApi.listCategories(),
-    enabled: caseOpen
+  const messages = session?.messages || [];
+  const parentRef = useRef<HTMLDivElement>(null);
+
+  const rowVirtualizer = useVirtualizer({
+    count: messages.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 80, // 预估每条消息的高度
+    overscan: 10, // 预加载数量
   });
 
-  const { data: tagLibrary = [] } = useQuery<KnowledgeTag[]>({
-    queryKey: ['knowledge-tags', 'service_case'],
-    queryFn: () => knowledgeApi.listTags({ source_type: 'service_case', enabled: '1' }),
-    enabled: caseOpen
-  });
-
-  const categoryOptions = useMemo(() => {
-    const rows: Array<{ label: string; value: string }> = [];
-    const walk = (items: KnowledgeCategory[], prefix = '') => {
-      for (const item of items) {
-        rows.push({ label: `${prefix}${item.category_name}`, value: item.id });
-        if (item.children?.length) {
-          walk(item.children, `${prefix}${item.category_name} / `);
-        }
-      }
-    };
-    walk(categories);
-    return rows;
-  }, [categories]);
-
+  // 2. Socket 实时占用逻辑
   useEffect(() => {
-    if (!caseOpen) {
-      return;
-    }
+    const token = localStorage.getItem('token');
+    const s = io('/ws', { auth: { token } });
+    setSocket(s);
 
-    const selected = (data?.messages ?? [])
-      .filter((item) => selectedMessageIds.includes(item.id))
-      .map((item) => ({ ...item, editableContent: item.content }));
-    setEditableMessages(selected);
-    setCaseTags(data?.tags ?? []);
-    caseForm.setFieldsValue({
-      title: data ? `案例复盘 - ${data.session_no}` : '',
-      keyword: data?.tags?.join(', ') ?? '',
-      content: '',
-      tags: data?.tags ?? [],
-      category_name: '服务案例',
-      status: 'published',
-      instruction: '请整理成可复用的服务案例，突出问题、关键应答和复盘建议。'
-    });
-  }, [caseForm, caseOpen, data, selectedMessageIds]);
-
-  useEffect(() => {
-    if (!token || !sessionId) {
-      return;
-    }
-
-    const socket: Socket = io('/ws', {
-      auth: { token: `Bearer ${token}` },
-      transports: ['websocket']
+    s.on('connect', () => {
+      // 开启监控并声明开始质检活动
+      s.emit('service-session.watch', { sessionId: id });
+      s.emit('service-session.presence.start', { sessionId: id, activity: 'inspecting' });
     });
 
-    const handlePresence = (event: { occupancies?: SessionOccupancy[] }) => {
-      setOccupancies(event.occupancies ?? []);
-    };
-
-    socket.on('service-session.presence.snapshot', handlePresence);
-    socket.on('service-session.presence.changed', handlePresence);
-    socket.emit('service-session.watch', { sessionId });
+    s.on('service-session.presence.changed', (data: { occupancies: Occupancy[] }) => {
+      setOccupancies(data.occupancies.filter(o => o.userId !== localStorage.getItem('userId')));
+    });
 
     return () => {
-      socket.emit('service-session.unwatch', { sessionId });
-      socket.off('service-session.presence.snapshot', handlePresence);
-      socket.off('service-session.presence.changed', handlePresence);
-      socket.close();
+      s.emit('service-session.presence.stop', { sessionId: id, activity: 'inspecting' });
+      s.emit('service-session.unwatch', { sessionId: id });
+      s.disconnect();
     };
-  }, [sessionId, token]);
+  }, [id]);
 
-  useEffect(() => {
-    if (!token || !sessionId || !caseOpen) {
-      return;
-    }
-
-    const socket: Socket = io('/ws', {
-      auth: { token: `Bearer ${token}` },
-      transports: ['websocket']
-    });
-
-    socket.emit('service-session.presence.start', { sessionId, activity: 'case_edit' });
-
-    return () => {
-      socket.emit('service-session.presence.stop', { sessionId, activity: 'case_edit' });
-      socket.close();
-    };
-  }, [caseOpen, sessionId, token]);
-
-  const otherOccupancies = useMemo(
-    () => occupancies.filter((item) => item.userId !== currentUser?.id),
-    [currentUser?.id, occupancies]
-  );
-
-  const occupancyText = useMemo(() => {
-    if (!otherOccupancies.length) {
-      return '';
-    }
-
-    return otherOccupancies
-      .map((item) => `${item.username} 正在${item.activity === 'case_edit' ? '编辑案例' : item.activity === 'analyze' ? '执行质检' : '处理中'}`)
-      .join('；');
-  }, [otherOccupancies]);
-
-  const occupancySummary = useMemo(() => {
-    const analyzing = otherOccupancies.filter((item) => item.activity === 'analyze');
-    const caseEditing = otherOccupancies.filter((item) => item.activity === 'case_edit');
-
-    return {
-      total: otherOccupancies.length,
-      analyzing,
-      caseEditing
-    };
-  }, [otherOccupancies]);
-
+  // 3. AI 分析操作
   const analyzeMutation = useMutation({
-    mutationFn: async () => {
-      const socket: Socket = io('/ws', {
-        auth: { token: `Bearer ${token}` },
-        transports: ['websocket']
-      });
-      socket.emit('service-session.presence.start', { sessionId, activity: 'analyze' });
-      try {
-        return await serviceApi.analyzeSession(sessionId, { mode: 'manual' });
-      } finally {
-        socket.emit('service-session.presence.stop', { sessionId, activity: 'analyze' });
-        socket.close();
-      }
-    },
-    onSuccess: async () => {
-      message.success('AI 质检已完成');
-      await queryClient.invalidateQueries({ queryKey: ['service-session-detail', sessionId] });
-      await queryClient.invalidateQueries({ queryKey: ['service-sessions'] });
-      await queryClient.invalidateQueries({ queryKey: ['service-ai-overview'] });
-    },
-    onError: (error: unknown) => {
-      message.warning(resolveErrorMessage(error));
+    mutationFn: () => serviceApi.analyzeSession(id!, { mode: 'manual' }),
+    onSuccess: () => {
+      message.success('AI 质检分析完成');
+      queryClient.invalidateQueries({ queryKey: ['service-session', id] });
     }
   });
 
-  const draftMutation = useMutation({
-    mutationFn: async () => {
-      const values = await caseForm.validateFields(['instruction']);
-      return serviceApi.generateCaseDraft(sessionId, {
-        instruction: values.instruction,
-        messages: editableMessages.map((item) => ({
-          id: item.id,
-          sender_type: item.sender_type,
-          sender_name: item.sender_name,
-          content: item.editableContent,
-          sent_at: item.sent_at
-        }))
-      });
-    },
-    onSuccess: (result: ServiceCaseDraftResult) => {
-      caseForm.setFieldsValue({
-        title: result.title,
-        keyword: result.keyword,
-        content: result.content,
-        tags: result.tags
-      });
-      setCaseTags(result.tags);
-      setEditableMessages((current) =>
-        current.map((item) => {
-          const matched = result.transcript.find((row) => row.id === item.id);
-          return matched ? { ...item, editableContent: matched.content } : item;
-        })
-      );
-      message.success('AI 已完成案例整理');
-    },
-    onError: (error: unknown) => {
-      message.warning(resolveErrorMessage(error));
-    }
-  });
-
-  const archiveMutation = useMutation({
-    mutationFn: async () => {
-      const values = await caseForm.validateFields();
-      return serviceApi.archiveCase(sessionId, {
-        title: values.title,
-        content: values.content,
-        keyword: values.keyword,
-        category_id: values.category_id,
-        category_name: values.category_name,
-        status: values.status,
-        instruction: values.instruction,
-        tags: caseTags,
-        messages: editableMessages.map((item) => ({
-          id: item.id,
-          sender_type: item.sender_type,
-          sender_name: item.sender_name,
-          content: item.editableContent,
-          sent_at: item.sent_at
-        }))
-      });
-    },
-    onSuccess: async () => {
-      message.success('案例已入库');
-      setCaseOpen(false);
-      setSelectedMessageIds([]);
-      await queryClient.invalidateQueries({ queryKey: ['knowledge-articles'] });
-    },
-    onError: (error: unknown) => {
-      message.warning(resolveErrorMessage(error));
-    }
-  });
-
-  if (!sessionId) {
-    return <Empty description="Missing session ID" />;
-  }
-
-  if (!isLoading && !data) {
-    return <Empty description="Session not found" />;
-  }
+  if (isLoading) return <div className="p-10 text-center">加载中...</div>;
 
   return (
-    <Space direction="vertical" size={16} style={{ width: '100%' }}>
-      <Card
-        loading={isLoading}
-        title={`会话详情 ${data?.session_no ?? ''}`}
-        extra={
-          <Space>
-            <Permission code="knowledge:article:create">
-              <Button disabled={!selectedMessageIds.length} onClick={() => setCaseOpen(true)}>
-                案例入库
-              </Button>
-            </Permission>
-            <Permission code="service:quality:analyze">
-              <Button type="primary" loading={analyzeMutation.isPending} onClick={() => analyzeMutation.mutate()}>
-                重新分析
-              </Button>
-            </Permission>
-          </Space>
-        }
-      >
-        {occupancyText ? <Alert type="warning" showIcon message={occupancyText} style={{ marginBottom: 16 }} /> : null}
-        <Card
-          size="small"
-          style={{ marginBottom: 16, background: occupancySummary.total ? '#fffbe6' : '#f6ffed', borderColor: occupancySummary.total ? '#ffe58f' : '#b7eb8f' }}
-        >
-          <Space wrap size={[8, 8]}>
-            <Tag color={occupancySummary.total ? 'warning' : 'success'}>{occupancySummary.total ? '当前有人处理中' : '当前空闲'}</Tag>
-            <Typography.Text type="secondary">
-              质检中 {occupancySummary.analyzing.length} 人 / 案例编辑中 {occupancySummary.caseEditing.length} 人
-            </Typography.Text>
-            {occupancySummary.analyzing.map((item) => (
-              <Tag key={`analyze-${item.userId}`}>{item.username} · 质检</Tag>
-            ))}
-            {occupancySummary.caseEditing.map((item) => (
-              <Tag key={`case-${item.userId}`} color="purple">
-                {item.username} · 案例
-              </Tag>
-            ))}
-          </Space>
-        </Card>
-        <Descriptions column={3}>
-          <Descriptions.Item label="客户">{data?.customer_nickname || '-'}</Descriptions.Item>
-          <Descriptions.Item label="客服">{data?.agent_name || '-'}</Descriptions.Item>
-          <Descriptions.Item label="状态">{data?.status || '-'}</Descriptions.Item>
-          <Descriptions.Item label="平台">{data?.platform_id || '-'}</Descriptions.Item>
-          <Descriptions.Item label="部门">{data?.dept_id || '-'}</Descriptions.Item>
-          <Descriptions.Item label="店铺">{data?.shop_id || '-'}</Descriptions.Item>
-          <Descriptions.Item label="自动标签" span={3}>
-            <Space wrap>
-              {data?.tags?.length ? data.tags.map((tag) => <Tag key={tag}>{tag}</Tag>) : <Typography.Text type="secondary">暂无标签</Typography.Text>}
-            </Space>
-          </Descriptions.Item>
-        </Descriptions>
-      </Card>
+    <div className="p-4 space-y-4 bg-slate-50 min-h-screen">
+      <Button icon={<ArrowLeftOutlined />} onClick={() => history.back()} className="font-bold">返回列表</Button>
 
-      <Card loading={isLoading} title="AI 分析结果">
-        {data?.analyses?.length ? (
-          <Timeline
-            items={data.analyses.map((item) => ({
-              children: (
-                <Space direction="vertical" size={6}>
-                  <Space wrap>
-                    <Tag color={item.quality_passed ? 'success' : 'error'}>{item.quality_passed ? '合格' : '不合格'}</Tag>
-                    <Tag color={item.loss_risk_level === 'high' ? 'error' : item.loss_risk_level === 'medium' ? 'warning' : 'success'}>
-                      {item.loss_risk_level}
-                    </Tag>
-                    <Typography.Text type="secondary">{item.analyzed_at}</Typography.Text>
-                  </Space>
-                  <Typography.Text>质检分：{item.quality_score}</Typography.Text>
-                  <Typography.Text>流失风险分：{item.loss_risk_score}</Typography.Text>
-                  <Typography.Paragraph style={{ marginBottom: 0 }}>{item.summary || '-'}</Typography.Paragraph>
-                  {item.top_faqs?.length ? (
-                    <Typography.Paragraph style={{ marginBottom: 0 }}>
-                      高频问题：{item.top_faqs.map((faq) => `${faq.question}(${faq.count})`).join('，')}
-                    </Typography.Paragraph>
-                  ) : null}
-                </Space>
-              )
-            }))}
-          />
-        ) : (
-          <Empty description="暂无分析结果" />
-        )}
-      </Card>
-
-      <Card loading={isLoading} title={`会话消息流${selectedMessageIds.length ? ` · 已选 ${selectedMessageIds.length} 条` : ''}`}>
+      {/* 协同质检提醒 (多人闭环核心) */}
+      {occupancies.length > 0 && (
         <Alert
-          type="info"
-          showIcon
-          message="勾选需要入库的对话后，可以在案例入库中逐条修改内容，也可以使用 AI 整体整理。若有人同时发起质检或案例入库，系统会直接提示冲突。"
-          style={{ marginBottom: 16 }}
+          message={
+            <Space>
+              <WarningOutlined className="text-red-600" />
+              <Text className="font-bold text-red-600">多人协同警告：</Text>
+              <Text className="text-slate-900 font-black">
+                {occupancies.map(o => o.username).join(', ')}
+              </Text>
+              <Text>也正在查看/质检此会话，请注意沟通避免重复提交！</Text>
+            </Space>
+          }
+          type="error"
+          showIcon={false}
+          className="border-red-200 bg-red-50 shadow-sm"
         />
-        {data?.messages?.length ? (
-          <List
-            dataSource={data.messages}
-            renderItem={(item) => {
-              const checked = selectedMessageIds.includes(item.id);
-              return (
-                <List.Item>
-                  <Space align="start" style={{ width: '100%' }}>
-                    <Checkbox
-                      checked={checked}
-                      onChange={(event) =>
-                        setSelectedMessageIds((current) =>
-                          event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id)
-                        )
-                      }
-                    />
-                    <List.Item.Meta
-                      title={
-                        <Space>
-                          <Tag color={item.sender_type === 'agent' ? 'blue' : 'default'}>{item.sender_type}</Tag>
-                          <span>{item.sender_name || '-'}</span>
-                          <Typography.Text type="secondary">{item.sent_at}</Typography.Text>
-                        </Space>
-                      }
-                      description={item.content}
-                    />
-                  </Space>
-                </List.Item>
-              );
-            }}
-          />
-        ) : (
-          <Empty description="暂无消息记录" />
-        )}
-      </Card>
+      )}
 
-      <BaseModal
-        open={caseOpen}
-        title="案例入库"
-        width={920}
-        confirmLoading={archiveMutation.isPending}
-        onCancel={() => setCaseOpen(false)}
-        onOk={() => archiveMutation.mutate()}
-      >
-        <Space direction="vertical" size={16} style={{ width: '100%' }}>
-          {occupancyText ? <Alert type="warning" showIcon message={occupancyText} /> : null}
-          <Alert
-            type="warning"
-            showIcon
-            message="案例入库会锁定当前会话的案例操作窗口；如果其他人同时入库或质检，接口会返回冲突提示。"
-          />
-          <Form form={caseForm} layout="vertical" initialValues={{ status: 'published' }}>
-            <Form.Item label="AI 整理要求" name="instruction">
-              <Input.TextArea rows={3} placeholder="描述你希望 AI 如何整理案例内容" />
-            </Form.Item>
-            <Space style={{ marginBottom: 12 }}>
-              <Button onClick={() => draftMutation.mutate()} loading={draftMutation.isPending} disabled={!editableMessages.length}>
-                AI 整体整理
-              </Button>
-            </Space>
-            <Form.Item label="案例标题" name="title" rules={[{ required: true }]}>
-              <Input />
-            </Form.Item>
-            <Form.Item label="分类选择" name="category_id">
-              <Select allowClear options={categoryOptions} />
-            </Form.Item>
-            <Form.Item label="分类名称" name="category_name">
-              <Input />
-            </Form.Item>
-            <Form.Item label="关键词" name="keyword">
-              <Input />
-            </Form.Item>
-            <Form.Item label="标签确认" name="tags">
-              <Select
-                mode="tags"
-                value={caseTags}
-                onChange={(value) => {
-                  const nextTags = value.map((item) => String(item).trim()).filter(Boolean);
-                  setCaseTags(nextTags);
-                  caseForm.setFieldValue('tags', nextTags);
+      <Row gutter={16}>
+        {/* 左侧：聊天记录流 */}
+        <Col span={16}>
+          <Card
+            title={<Title level={5} className="m-0 font-black text-slate-900">会话详情: {session?.session_no}</Title>}
+            bordered={false}
+            className="shadow-sm min-h-[600px] flex flex-col"
+            styles={{ body: { flex: 1, overflow: 'hidden', padding: '16px 0' } }}
+          >
+            <div
+              ref={parentRef}
+              className="h-[600px] overflow-auto px-6"
+            >
+              <div
+                style={{
+                  height: `${rowVirtualizer.getTotalSize()}px`,
+                  width: '100%',
+                  position: 'relative',
                 }}
-                options={tagLibrary.map((item) => ({ label: item.tag_name, value: item.tag_name }))}
-                placeholder="自动生成后可直接修改，不满意可以手动增删"
-              />
-            </Form.Item>
-            <Form.Item label="案例内容" name="content" rules={[{ required: true }]}>
-              <Input.TextArea rows={10} />
-            </Form.Item>
-          </Form>
-
-          <div>
-            <Typography.Text strong>自动标签</Typography.Text>
-            <div style={{ marginTop: 8 }}>
-              <Space wrap>
-                {caseTags.length ? caseTags.map((tag) => <Tag key={tag}>{tag}</Tag>) : <Typography.Text type="secondary">暂无标签</Typography.Text>}
-              </Space>
+              >
+                {rowVirtualizer.getVirtualItems().map((virtualRow: any) => {
+                  const msg = messages[virtualRow.index];
+                  return (
+                    <div
+                      key={virtualRow.index}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: `${virtualRow.size}px`,
+                        transform: `translateY(${virtualRow.start}px)`,
+                      }}
+                    >
+                      <div className={`flex mb-6 ${msg.sender_type === 'agent' ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`flex gap-3 max-w-[80%] ${msg.sender_type === 'agent' ? 'flex-row-reverse' : 'flex-row'}`}>
+                          <Avatar
+                            icon={msg.sender_type === 'agent' ? <UserOutlined /> : <RobotOutlined />}
+                            className={msg.sender_type === 'agent' ? 'bg-blue-600' : 'bg-orange-500'}
+                          />
+                          <div className={`p-3 rounded-lg ${msg.sender_type === 'agent' ? 'bg-blue-600 text-white shadow-blue-100' : 'bg-white border border-slate-200 shadow-sm'}`}>
+                            <div className={`text-xs mb-1 font-bold ${msg.sender_type === 'agent' ? 'text-blue-100' : 'text-slate-400'}`}>
+                              {msg.sender_name} · {new Date(msg.sent_at).toLocaleTimeString()}
+                            </div>
+                            <Paragraph className={`m-0 font-medium ${msg.sender_type === 'agent' ? 'text-white' : 'text-slate-900'}`}>
+                              {msg.content}
+                            </Paragraph>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          </Card>
+        </Col>
 
-          <div>
-            <Typography.Text strong>已选对话编辑</Typography.Text>
-            <Space direction="vertical" size={12} style={{ width: '100%', marginTop: 12 }}>
-              {editableMessages.map((item) => (
-                <Card key={item.id} size="small">
-                  <Space direction="vertical" size={8} style={{ width: '100%' }}>
-                    <Space>
-                      <Tag color={item.sender_type === 'agent' ? 'blue' : 'default'}>{item.sender_type}</Tag>
-                      <Typography.Text>{item.sender_name || '-'}</Typography.Text>
-                      <Typography.Text type="secondary">{item.sent_at}</Typography.Text>
-                    </Space>
-                    <Input.TextArea
-                      rows={3}
-                      value={item.editableContent}
-                      onChange={(event) =>
-                        setEditableMessages((current) =>
-                          current.map((row) => (row.id === item.id ? { ...row, editableContent: event.target.value } : row))
-                        )
-                      }
-                    />
-                  </Space>
-                </Card>
-              ))}
-            </Space>
-          </div>
-        </Space>
-      </BaseModal>
-    </Space>
+        {/* 右侧：AI 分析与质检操作 */}
+        <Col span={8}>
+          <Space direction="vertical" className="w-full" size={16}>
+            <Card title={<Text className="font-black">AI 智能辅助</Text>} bordered={false} className="shadow-sm">
+              <Button
+                block
+                type="primary"
+                icon={<RobotOutlined />}
+                className="h-[44px] font-black"
+                loading={analyzeMutation.isPending}
+                onClick={() => analyzeMutation.mutate()}
+              >
+                立即发起 AI 深度质检
+              </Button>
+              <Divider className="my-4" />
+              <div className="space-y-4">
+                <div>
+                  <Text className="text-slate-500 text-xs block mb-1">流失风险等级</Text>
+                  <Tag color={session?.latest_analysis?.loss_risk_level === 'high' ? 'error' : 'success'} className="font-black border-2 px-4 py-1">
+                    {session?.latest_analysis?.loss_risk_level === 'high' ? '🔥 极高风险' : '低风险'}
+                  </Tag>
+                </div>
+                <div>
+                  <Text className="text-slate-500 text-xs block mb-1">质检评分 (AI)</Text>
+                  <Title level={2} className="m-0 font-black text-blue-600">
+                    {session?.latest_analysis?.quality_score ?? '--'}
+                  </Title>
+                </div>
+              </div>
+            </Card>
+
+            <Card title={<Text className="font-black">整改建议</Text>} bordered={false} className="shadow-sm">
+              <List
+                size="small"
+                dataSource={session?.latest_analysis?.suggestions || []}
+                renderItem={(item: string) => (
+                  <List.Item className="border-none px-0">
+                    <CheckCircleOutlined className="text-green-500 mr-2" />
+                    <Text className="font-bold text-slate-700">{item}</Text>
+                  </List.Item>
+                )}
+              />
+            </Card>
+          </Space>
+        </Col>
+      </Row>
+    </div>
   );
 }

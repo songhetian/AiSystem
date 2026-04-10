@@ -67,10 +67,10 @@ const AttendanceStatistics: React.FC = () => {
 
   return (
     <div className="p-4 space-y-4">
-      {/* 搜索筛选区域：单行全铺满、自适应比例 */}
+      {/* 搜索筛选区域：雷犀系统 UI 标准 (单行铺满、flex-grow) */}
       <Card bodyStyle={{ padding: '12px 24px' }}>
-        <div className="flex items-center w-full space-x-4">
-          <div className="flex-none font-bold text-slate-900 mr-2">统计月份:</div>
+        <div className="flex items-center w-full gap-4">
+          <div className="flex-none font-bold text-slate-900">统计月份:</div>
           <div className="flex-none">
             <DatePicker 
               picker="month" 
@@ -79,11 +79,11 @@ const AttendanceStatistics: React.FC = () => {
                 setMonth(dateString as string);
                 tableRef.current?.reload();
               }}
-              className="w-48"
+              style={{ width: '192px', height: '44px' }}
             />
           </div>
           
-          {/* 快捷日期按钮组：高度统一为 44px，边框锁定为 1px slate-500 */}
+          {/* 物理缝合快捷按钮组：高度 44px，Slate-500 边框 */}
           <div className="flex-none flex items-center h-[44px] border border-slate-500 rounded overflow-hidden">
             <button 
               className="px-4 h-full bg-white hover:bg-slate-100 text-slate-900 font-bold border-r border-slate-500 transition-colors"
@@ -102,7 +102,7 @@ const AttendanceStatistics: React.FC = () => {
           <div className="flex-grow"></div>
           
           <div className="flex-none">
-            <Button icon={<DownloadOutlined />} type="primary">导出月报表</Button>
+            <Button icon={<DownloadOutlined />} type="primary" size="large">导出月报表</Button>
           </div>
         </div>
       </Card>

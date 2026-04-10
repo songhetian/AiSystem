@@ -86,6 +86,18 @@ export function resolveMessageAppearance(messageType?: string): MessageAppearanc
     };
   }
 
+  if (messageType === 'system_alert') {
+    return {
+      channelKey: 'system-alert',
+      variant: 'warning',
+      category: 'system',
+      label: '监控预警',
+      title: '系统运行异常',
+      priority: 9,
+      lifetimeMs: 15000
+    };
+  }
+
   return {
     channelKey: messageType,
     variant: 'system',
@@ -120,7 +132,9 @@ export function buildMessageMetaTags(payload?: SystemMessagePayload) {
       : undefined,
     typeof payload.affectedRecords === 'number' && payload.affectedRecords > 0
       ? `考勤 ${payload.affectedRecords}`
-      : undefined
+      : undefined,
+    payload.api ? `接口 ${payload.api}` : undefined,
+    typeof payload.successRate === 'number' ? `成功率 ${payload.successRate.toFixed(1)}%` : undefined
   ]).slice(0, 4);
 }
 

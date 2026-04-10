@@ -1,5 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { Permission } from '../../../common/permission.decorator';
+import { CurrentUser, CurrentUserPayload } from '../../../common/current-user.decorator';
 import { QuerySystemLogsDto } from '../dto/query-system-logs.dto';
 import { SystemLogsService } from '../services/system-logs.service';
 
@@ -9,13 +10,13 @@ export class SystemLogsController {
 
   @Get('login')
   @Permission('system:logs:login:list')
-  listLoginLogs(@Query() query: QuerySystemLogsDto) {
-    return this.systemLogsService.listLoginLogs(query);
+  listLoginLogs(@CurrentUser() user: CurrentUserPayload, @Query() query: QuerySystemLogsDto) {
+    return this.systemLogsService.listLoginLogs(user, query);
   }
 
   @Get('operation')
   @Permission('system:logs:operation:list')
-  listOperationLogs(@Query() query: QuerySystemLogsDto) {
-    return this.systemLogsService.listOperationLogs(query);
+  listOperationLogs(@CurrentUser() user: CurrentUserPayload, @Query() query: QuerySystemLogsDto) {
+    return this.systemLogsService.listOperationLogs(user, query);
   }
 }

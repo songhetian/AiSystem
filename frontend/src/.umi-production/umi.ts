@@ -3,7 +3,7 @@
 // DO NOT CHANGE IT MANUALLY!
 import './core/polyfill';
 
-import { renderClient } from 'E:/code/AiSystem/frontend/node_modules/@umijs/renderer-react';
+import { renderClient } from '/Users/song/Projects/AiSystem/frontend/node_modules/@umijs/renderer-react';
 import { getRoutes } from './core/route';
 import { createPluginManager } from './core/plugin';
 import { createHistory } from './core/history';

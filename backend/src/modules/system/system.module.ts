@@ -22,6 +22,7 @@ import { SystemPlatformsService } from './services/system-platforms.service';
 import { SystemRolesService } from './services/system-roles.service';
 import { SystemShopsService } from './services/system-shops.service';
 import { SystemUsersService } from './services/system-users.service';
+import { ApiMonitorService } from './services/api-monitor.service';
 
 @Module({
   imports: [CommonModule],
@@ -49,7 +50,8 @@ import { SystemUsersService } from './services/system-users.service';
     SystemPermissionsService,
     SystemPlatformsService,
     SystemDepartmentsService,
-    SystemShopsService
+    SystemShopsService,
+    ApiMonitorService
   ]
 })
 export class SystemModule {}

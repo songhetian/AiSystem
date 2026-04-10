@@ -26,6 +26,12 @@ export class SystemApisController {
     return this.systemApisService.update(id, dto);
   }
 
+  @Get(':id/stats')
+  @Permission('system:api:list')
+  getStats(@Param('id') id: string) {
+    return this.systemApisService.getStats(id);
+  }
+
   @Delete(':id')
   @Permission('system:api:delete')
   remove(@Param('id') id: string) {
