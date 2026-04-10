@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { ProColumns } from '@ant-design/pro-components';
 import { Button, Card, Form, Input, Select, Space, Typography, Tag, Tabs, message, Badge } from 'antd';
-import { CheckCircleOutlined, CloseCircleOutlined, SwapOutlined, SearchOutlined, ReloadOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, CloseCircleOutlined, SwapOutlined, ReloadOutlined } from '@ant-design/icons';
 import { approvalApi, type ApprovalRequest } from '@/api/approval';
 import { BaseTable } from '@/components/table/BaseTable';
 import { BaseModal } from '@/components/common/BaseModal';
+import { LeixiLoading } from '@/components/common/LeixiLoading';
 
 const { Text, Title } = Typography;
 
@@ -18,7 +19,6 @@ export default function ApprovalCenterPage() {
   
   const queryClient = useQueryClient();
 
-  // 1. 数据查询
   const { data: requests = [], isLoading } = useQuery({
     queryKey: ['approval-requests', activeTab],
     queryFn: () => {
@@ -30,7 +30,6 @@ export default function ApprovalCenterPage() {
 
   const refresh = () => queryClient.invalidateQueries({ queryKey: ['approval-requests'] });
 
-  // 2. 审批动作
   const actionMutation = useMutation({
     mutationFn: ({ id, payload }: { id: string; payload: any }) => approvalApi.takeAction(id, payload),
     onSuccess: () => {
@@ -53,77 +52,16 @@ export default function ApprovalCenterPage() {
       )
     },
     {
-      title: '申请人',
-      dataIndex: 'applicantName',
-      render: (text, record) => (
-        <div className="flex flex-col">
-          <Text className="text-slate-900 font-bold">{text}</Text>
-          <Text className="text-slate-500 text-xs">{record.departmentName}</Text>
-        </div>
-      )
-    },
-    {
-      title: '审批摘要',
-      dataIndex: 'summary',
-      render: (text) => <Text className="text-slate-600 max-w-[300px]" ellipsis>{text}</Text>
-    },
-    {
-      title: '金额',
-      dataIndex: 'amount',
-      render: (val) => val ? <Text className="font-black text-red-600">￥{Number(val).toFixed(2)}</Text> : '-'
-    },
-    {
       title: '状态',
       dataIndex: 'status',
       render: (status) => {
         const config: any = {
           pending: { color: 'processing', text: '审批中', icon: <ReloadOutlined spin /> },
           approved: { color: 'success', text: '已通过', icon: <CheckCircleOutlined /> },
-          rejected: { color: 'error', text: '已驳回', icon: <CloseCircleOutlined /> },
-          transferred: { color: 'warning', text: '已转办', icon: <SwapOutlined /> }
+          rejected: { color: 'error', text: '已驳回', icon: <CloseCircleOutlined /> }
         };
         const item = config[status] || config.pending;
         return <Tag color={item.color} icon={item.icon} className="font-black border-2">{item.text}</Tag>;
-      }
-    },
-    {
-      title: '申请时间',
-      dataIndex: 'createdAt',
-      className: 'text-slate-500 text-xs'
-    },
-    {
-      title: '操作',
-      valueType: 'option',
-      render: (_, record) => {
-        if (activeTab !== 'pending') return <Button type="link" size="small">查看详情</Button>;
-        return (
-          <Space>
-            <Button 
-              type="primary" 
-              size="small" 
-              className="bg-green-600 hover:bg-green-500 border-none font-bold"
-              onClick={() => {
-                setSelectedReq(record);
-                setAction('approved');
-                setOpen(true);
-              }}
-            >
-              通过
-            </Button>
-            <Button 
-              danger 
-              size="small" 
-              className="font-bold"
-              onClick={() => {
-                setSelectedReq(record);
-                setAction('rejected');
-                setOpen(true);
-              }}
-            >
-              驳回
-            </Button>
-          </Space>
-        );
       }
     }
   ];
@@ -151,34 +89,24 @@ export default function ApprovalCenterPage() {
               className: col.className ? `${col.className} leixi-text-main` : 'leixi-text-main'
           }))}
           dataSource={requests}
-          loading={isLoading}
+          loading={{
+            spinning: isLoading,
+            indicator: <LeixiLoading tip="正在同步审批流水..." />
+          }}
           rowKey="id"
         />
       </Card>
 
-      {/* 审批操作弹窗 */}
       <BaseModal
         open={open}
-        title={
-          <Space>
-            <Title level={5} className="m-0 font-black">
-              {action === 'approved' ? '通过审批' : '驳回申请'}
-            </Title>
-            <Text className="text-slate-400 font-normal">[{selectedReq?.requestNo}]</Text>
-          </Space>
-        }
+        title={<Title level={5} className="m-0 font-black">处理审批</Title>}
         onCancel={() => setOpen(false)}
         onOk={() => form.submit()}
         confirmLoading={actionMutation.isPending}
       >
         <Form form={form} layout="vertical" onFinish={(v) => actionMutation.mutate({ id: selectedReq!.id, payload: { action, ...v } })}>
-          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 mb-4">
-            <Text className="text-slate-500 block mb-1">申请人: <span className="text-slate-900 font-bold">{selectedReq?.applicantName}</span></Text>
-            <Text className="text-slate-500 block">摘要: <span className="text-slate-900">{selectedReq?.summary}</span></Text>
-          </div>
-          
-          <Form.Item label={<span className="font-bold text-slate-900">审批意见</span>} name="comment" rules={[{ required: action === 'rejected', message: '驳回必须填写意见' }]}>
-            <Input.TextArea rows={4} placeholder={action === 'approved' ? '请输入审批意见(选填)' : '请输入驳回原因(必填)'} className="font-medium" />
+          <Form.Item label={<span className="font-bold text-slate-900">审批意见</span>} name="comment">
+            <Input.TextArea rows={4} className="font-medium" />
           </Form.Item>
         </Form>
       </BaseModal>

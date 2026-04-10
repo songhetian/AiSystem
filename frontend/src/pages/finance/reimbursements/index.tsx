@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Card, Input, Space, Button, Typography, Tag } from 'antd';
+import { Card, Input, Typography, Tag } from 'antd';
 import { BaseTable } from '@/components/table/BaseTable';
 import { financeApi } from '@/api/finance';
+import { LeixiLoading } from '@/components/common/LeixiLoading';
 
 const { Text } = Typography;
 
@@ -33,6 +34,9 @@ export default function ReimbursementsPage() {
             const res = await financeApi.listReimbursements({ ...params, keyword });
             return { data: res, success: true };
           }} 
+          loading={{
+            indicator: <LeixiLoading tip="正在核算财务报销数据..." />
+          }}
           scroll={{ y: 600 }}
         />
       </Card>

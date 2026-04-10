@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Card, Input, Button, Typography } from 'antd';
+import { Card, Input, Button, Typography, Tag } from 'antd';
 import { BaseTable } from '@/components/table/BaseTable';
 import { shopApi } from '@/api/shop';
+import { LeixiLoading } from '@/components/common/LeixiLoading';
 
 const { Text } = Typography;
 
@@ -12,7 +13,7 @@ export default function ProductsPage() {
     { title: '商品名称', dataIndex: 'name', className: 'leixi-text-main font-bold' },
     { title: '商品编码', dataIndex: 'code', className: 'leixi-text-main' },
     { title: '分类', dataIndex: 'category_name', className: 'leixi-text-secondary' },
-    { title: '状态', dataIndex: 'status', render: (val: number) => <Tag>{val === 1 ? '上架' : '下架'}</Tag> }
+    { title: '状态', dataIndex: 'status', render: (val: number) => <Tag color={val === 1 ? 'green' : 'red'}>{val === 1 ? '上架' : '下架'}</Tag> }
   ];
 
   return (
@@ -35,6 +36,9 @@ export default function ProductsPage() {
             const res = await shopApi.listProducts({ ...params, keyword });
             return { data: res, success: true };
           }} 
+          loading={{
+            indicator: <LeixiLoading tip="正在同步实时库存库存..." />
+          }}
           scroll={{ y: 600 }}
         />
       </Card>

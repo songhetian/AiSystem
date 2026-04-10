@@ -1,11 +1,10 @@
 import React, { useRef } from 'react';
-import { Button, message, Space, DatePicker, Input } from 'antd';
-import { SyncOutlined } from '@ant-design/icons';
+import { DatePicker, Input, message, Space } from 'antd';
 import BaseTable from '@/components/table/BaseTable';
 import ActionGroup from '@/components/common/ActionGroup';
 import StatusTag from '@/components/common/StatusTag';
-import Permission from '@/components/permission/Permission';
 import { attendanceApi } from '@/api/attendance';
+import { LeixiLoading } from '@/components/common/LeixiLoading';
 import dayjs from 'dayjs';
 
 const { RangePicker } = DatePicker;
@@ -15,11 +14,11 @@ const AttendanceRecords: React.FC = () => {
 
   const getStatusType = (status: number) => {
     switch (status) {
-      case 1: return 'enabled'; // 正常
-      case 2: return 'warning'; // 迟到
-      case 3: return 'warning'; // 早退
-      case 4: return 'error'; // 旷工
-      case 5: return 'error'; // 漏打卡
+      case 1: return 'enabled';
+      case 2: return 'warning';
+      case 3: return 'warning';
+      case 4: return 'error';
+      case 5: return 'error';
       default: return 'default';
     }
   };
@@ -150,6 +149,9 @@ const AttendanceRecords: React.FC = () => {
             ...col,
             className: col.className ? `${col.className} leixi-text-main` : 'leixi-text-main'
         }))}
+        loading={{
+          indicator: <LeixiLoading tip="正在扫描全域考勤大数据..." />
+        }}
         request={async (params: any) => {
           const res = await attendanceApi.listRecords({
             keyword: params.keyword,
