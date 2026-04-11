@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import { request } from "@/utils/request";
 
 export interface ApprovalPerson {
   id: string;
@@ -12,7 +12,7 @@ export interface ApprovalPerson {
 export interface ApprovalNode {
   id: string;
   name: string;
-  type: 'start' | 'approval' | 'branch' | 'copy' | 'end';
+  type: "start" | "approval" | "branch" | "copy" | "end";
   timeoutHours: number;
   condition?: string;
   approvers: ApprovalPerson[];
@@ -24,7 +24,7 @@ export interface ApprovalProgressRecord {
   id?: string;
   nodeId: string;
   nodeName: string;
-  action: 'submitted' | 'approved' | 'rejected' | 'transferred';
+  action: "submitted" | "approved" | "rejected" | "transferred";
   actorId: string;
   actorName: string;
   comment?: string;
@@ -38,7 +38,7 @@ export interface ApprovalTemplate {
   type: string;
   platformName: string;
   departmentName: string;
-  status: 'enabled' | 'disabled';
+  status: "enabled" | "disabled";
   description: string;
   updatedAt: string;
   nodes: ApprovalNode[];
@@ -57,7 +57,7 @@ export interface ApprovalRequest {
   applicantName: string;
   currentApproverId?: string;
   currentApproverName?: string;
-  status: 'pending' | 'approved' | 'rejected' | 'transferred';
+  status: "pending" | "approved" | "rejected" | "transferred";
   amount?: number;
   platformName: string;
   departmentName: string;
@@ -69,17 +69,33 @@ export interface ApprovalRequest {
 }
 
 export const approvalApi = {
-  listTemplates: () => request.get<ApprovalTemplate[]>('/approval/templates'),
-  createTemplate: (payload: ApprovalTemplate) => request.post<ApprovalTemplate>('/approval/templates', payload),
-  saveTemplate: (id: string, payload: ApprovalTemplate) => request.patch<ApprovalTemplate>(`/approval/templates/${id}`, payload),
+  listTemplates: () => request.get<ApprovalTemplate[]>("/approval/templates"),
+  createTemplate: (payload: ApprovalTemplate) =>
+    request.post<ApprovalTemplate>("/approval/templates", payload),
+  saveTemplate: (id: string, payload: ApprovalTemplate) =>
+    request.patch<ApprovalTemplate>(`/approval/templates/${id}`, payload),
   deleteTemplate: (id: string) => request.delete(`/approval/templates/${id}`),
-  listMyRequests: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests', { params: { ...params, view: 'my' } }),
-  listPendingApprovals: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests', { params: { ...params, view: 'pending' } }),
-  listDoneApprovals: (params?: any) => request.get<ApprovalRequest[]>('/approval/requests', { params: { ...params, view: 'processed' } }),
-  approveRequest: (id: string, payload: { comment?: string }) => request.post(`/approval/requests/${id}/approve`, payload),
-  rejectRequest: (id: string, payload: { comment?: string }) => request.post(`/approval/requests/${id}/reject`, payload),
-  transferRequest: (id: string, payload: { comment?: string; assigneeId: string }) =>
-    request.post(`/approval/requests/${id}/transfer`, payload),
-  requestStats: () => request.get<any>('/approval/requests/stats'),
-  listPeople: () => request.get<ApprovalPerson[]>('/approval/people'),
+  listMyRequests: (params?: any) =>
+    request.get<ApprovalRequest[]>("/approval/requests", {
+      params: { ...params, view: "my" },
+    }),
+  listPendingApprovals: (params?: any) =>
+    request.get<ApprovalRequest[]>("/approval/requests", {
+      params: { ...params, view: "pending" },
+    }),
+  listDoneApprovals: (params?: any) =>
+    request.get<ApprovalRequest[]>("/approval/requests", {
+      params: { ...params, view: "processed" },
+    }),
+  approveRequest: (id: string, payload: { comment?: string }, config?: any) =>
+    request.post(`/approval/requests/${id}/approve`, payload, config),
+  rejectRequest: (id: string, payload: { comment?: string }, config?: any) =>
+    request.post(`/approval/requests/${id}/reject`, payload, config),
+  transferRequest: (
+    id: string,
+    payload: { comment?: string; assigneeId: string },
+    config?: any,
+  ) => request.post(`/approval/requests/${id}/transfer`, payload, config),
+  requestStats: () => request.get<any>("/approval/requests/stats"),
+  listPeople: () => request.get<ApprovalPerson[]>("/approval/people"),
 };

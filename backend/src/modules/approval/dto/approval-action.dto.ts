@@ -8,4 +8,8 @@ export class ApprovalActionDto {
   @IsOptional()
   @IsString()
   assigneeId?: string;
+
+  @IsOptional()
+  @IsString()
+  target_user_id?: string;
 }

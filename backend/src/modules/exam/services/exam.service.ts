@@ -257,14 +257,49 @@ export class ExamService {
     return new Date(start + durationMinutes * 60 * 1000);
   }
 
+  async triggerPostGradingHooks(assignmentId: string) {
+    const assignment = await this.examAssignmentDelegate().findUnique({
+      where: { id: assignmentId },
+      include: { plan: true }
+    });
+    if (!assignment) return;
+
+    await this.messageService.send({
+      recipientId: assignment.user_id,
+      title: '考试结果通知',
+      content: `考试《${assignment.plan.plan_name}》已判卷，得分：${assignment.score}，结果：${assignment.passed === 1 ? '合格' : '不合格'}。`,
+      messageType: 'exam_result',
+      bizType: 'exam_assignment',
+      bizId: assignment.id,
+      route: '/exam/my'
+    });
+
+    if (assignment.passed === 0 && assignment.plan.allow_makeup === 1) {
+      await this.examAssignmentDelegate().update({
+        where: { id: assignmentId },
+        data: { status: 'pending' }
+      });
+      this.logger.log(`Automatic retake enabled for assignment: ${assignmentId}`);
+    }
+  }
+
   private isCorrectAnswer(question: Record<string, any>, answer: any) {
     const type = question.question_type;
     const correctAnswer = question.correct_answer;
+    
     if (type === 'multiple') {
       const actual = Array.isArray(answer) ? answer.map(String).sort() : [];
       const expected = Array.isArray(correctAnswer) ? correctAnswer.map(String).sort() : [];
       return actual.length === expected.length && actual.every((item, index) => item === expected[index]);
     }
+    
+    if (type === 'fill') {
+      // 填空题：简单的关键词包含匹配
+      if (!answer || !correctAnswer) return false;
+      const expectedArr = Array.isArray(correctAnswer) ? correctAnswer : [correctAnswer];
+      return expectedArr.some((k: string) => String(answer).includes(k));
+    }
+
     if (type === 'judge') return String(answer) === String(correctAnswer);
     return String(answer) === String(Array.isArray(correctAnswer) ? correctAnswer[0] : correctAnswer);
   }

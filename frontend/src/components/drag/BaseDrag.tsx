@@ -1,5 +1,5 @@
-import type { CSSProperties, ReactNode } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   closestCorners,
   DndContext,
@@ -11,18 +11,20 @@ import {
   useSensors,
   type DragEndEvent,
   type DragOverEvent,
-  type DragStartEvent
-} from '@dnd-kit/core';
+  type DragStartEvent,
+  type DraggableAttributes,
+  type DraggableSyntheticListeners,
+} from "@dnd-kit/core";
 import {
   SortableContext,
   arrayMove,
   rectSortingStrategy,
   sortableKeyboardCoordinates,
-  useSortable
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { HolderOutlined } from '@ant-design/icons';
-import { Card, Empty, Space, Typography } from 'antd';
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { HolderOutlined } from "@ant-design/icons";
+import { Card, Empty, Space, Typography } from "antd";
 
 export interface BaseDragItem {
   id: string;
@@ -37,8 +39,8 @@ export interface BaseDragContainer<T extends BaseDragItem> {
 }
 
 interface DragHandleProps {
-  attributes: Record<string, unknown>;
-  listeners: Record<string, unknown> | undefined;
+  attributes: DraggableAttributes;
+  listeners: DraggableSyntheticListeners;
 }
 
 interface BaseDragRenderContext<T extends BaseDragItem> {
@@ -65,31 +67,48 @@ interface BaseDragLegacyProps {
   style?: CSSProperties;
 }
 
-type BaseDragProps<T extends BaseDragItem> = BaseDragBoardProps<T> | BaseDragLegacyProps;
+type BaseDragProps<T extends BaseDragItem> =
+  | BaseDragBoardProps<T>
+  | BaseDragLegacyProps;
 
 const BOARD_GAP = 16;
 const ITEM_GAP = 12;
 
-function isBoardProps<T extends BaseDragItem>(props: BaseDragProps<T>): props is BaseDragBoardProps<T> {
-  return 'containers' in props;
+function isBoardProps<T extends BaseDragItem>(
+  props: BaseDragProps<T>,
+): props is BaseDragBoardProps<T> {
+  return "containers" in props;
 }
 
-function cloneContainers<T extends BaseDragItem>(containers: BaseDragContainer<T>[]) {
+function cloneContainers<T extends BaseDragItem>(
+  containers: BaseDragContainer<T>[],
+) {
   return containers.map((container) => ({
     ...container,
-    items: [...container.items]
+    items: [...container.items],
   }));
 }
 
-function createDragHandle(attributes: Record<string, unknown>, listeners: Record<string, unknown> | undefined): DragHandleProps {
+function createDragHandle(
+  attributes: DraggableAttributes,
+  listeners: DraggableSyntheticListeners,
+): DragHandleProps {
   return { attributes, listeners };
 }
 
-function findContainerByItemId<T extends BaseDragItem>(containers: BaseDragContainer<T>[], itemId: string) {
-  return containers.find((container) => container.items.some((item) => item.id === itemId));
+function findContainerByItemId<T extends BaseDragItem>(
+  containers: BaseDragContainer<T>[],
+  itemId: string,
+) {
+  return containers.find((container) =>
+    container.items.some((item) => item.id === itemId),
+  );
 }
 
-function findItem<T extends BaseDragItem>(containers: BaseDragContainer<T>[], itemId: string) {
+function findItem<T extends BaseDragItem>(
+  containers: BaseDragContainer<T>[],
+  itemId: string,
+) {
   for (const container of containers) {
     const item = container.items.find((current) => current.id === itemId);
     if (item) {
@@ -103,24 +122,31 @@ function moveAcrossContainers<T extends BaseDragItem>(
   containers: BaseDragContainer<T>[],
   activeId: string,
   overId: string,
-  overContainerId: string
+  overContainerId: string,
 ) {
   const next = cloneContainers(containers);
   const sourceContainer = findContainerByItemId(next, activeId);
-  const destinationContainer = next.find((container) => container.id === overContainerId);
+  const destinationContainer = next.find(
+    (container) => container.id === overContainerId,
+  );
 
   if (!sourceContainer || !destinationContainer) {
     return next;
   }
 
-  const sourceIndex = sourceContainer.items.findIndex((item) => item.id === activeId);
+  const sourceIndex = sourceContainer.items.findIndex(
+    (item) => item.id === activeId,
+  );
   if (sourceIndex === -1) {
     return next;
   }
 
   const [movedItem] = sourceContainer.items.splice(sourceIndex, 1);
-  const overIndex = destinationContainer.items.findIndex((item) => item.id === overId);
-  const targetIndex = overIndex >= 0 ? overIndex : destinationContainer.items.length;
+  const overIndex = destinationContainer.items.findIndex(
+    (item) => item.id === overId,
+  );
+  const targetIndex =
+    overIndex >= 0 ? overIndex : destinationContainer.items.length;
   destinationContainer.items.splice(targetIndex, 0, movedItem);
   return next;
 }
@@ -128,17 +154,24 @@ function moveAcrossContainers<T extends BaseDragItem>(
 function SortableDragItem<T extends BaseDragItem>({
   item,
   containerId,
-  renderItem
+  renderItem,
 }: {
   item: T;
   containerId: string;
-  renderItem: BaseDragBoardProps<T>['renderItem'];
+  renderItem: BaseDragBoardProps<T>["renderItem"];
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: item.id });
   const style: CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.45 : 1
+    opacity: isDragging ? 0.45 : 1,
   };
 
   return (
@@ -148,7 +181,7 @@ function SortableDragItem<T extends BaseDragItem>({
         containerId,
         isDragging,
         isOverlay: false,
-        dragHandle: createDragHandle(attributes, listeners)
+        dragHandle: createDragHandle(attributes, listeners),
       })}
     </div>
   );
@@ -158,7 +191,7 @@ function DroppableColumn({
   id,
   children,
   isOver,
-  style
+  style,
 }: {
   id: string;
   children: ReactNode;
@@ -174,10 +207,10 @@ function DroppableColumn({
         minHeight: 140,
         padding: 12,
         borderRadius: 16,
-        border: `1px dashed ${isOver ? '#1677ff' : '#d9d9d9'}`,
-        background: isOver ? '#f0f7ff' : '#fafafa',
-        transition: 'all 0.2s ease',
-        ...style
+        border: `1px dashed ${isOver ? "#1677ff" : "#d9d9d9"}`,
+        background: isOver ? "#f0f7ff" : "#fafafa",
+        transition: "all 0.2s ease",
+        ...style,
       }}
     >
       {children}
@@ -192,29 +225,37 @@ function BoardBaseDrag<T extends BaseDragItem>({
   overlayRender,
   className,
   style,
-  containerStyle
+  containerStyle,
 }: BaseDragBoardProps<T>) {
-  const [localContainers, setLocalContainers] = useState(() => cloneContainers(containers));
+  const [localContainers, setLocalContainers] = useState(() =>
+    cloneContainers(containers),
+  );
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 6
-      }
+        distance: 6,
+      },
     }),
     useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates
-    })
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   useEffect(() => {
     setLocalContainers(cloneContainers(containers));
   }, [containers]);
 
-  const activeMeta = useMemo(() => (activeId ? findItem(localContainers, activeId) : null), [activeId, localContainers]);
+  const activeMeta = useMemo(
+    () => (activeId ? findItem(localContainers, activeId) : null),
+    [activeId, localContainers],
+  );
 
-  const commitChange = async (next: BaseDragContainer<T>[], previous: BaseDragContainer<T>[]) => {
+  const commitChange = async (
+    next: BaseDragContainer<T>[],
+    previous: BaseDragContainer<T>[],
+  ) => {
     setLocalContainers(next);
     if (!onChange) {
       return;
@@ -240,15 +281,30 @@ function BoardBaseDrag<T extends BaseDragItem>({
       return;
     }
 
-    const activeContainer = findContainerByItemId(localContainers, String(active.id));
+    const activeContainer = findContainerByItemId(
+      localContainers,
+      String(active.id),
+    );
     const overContainer =
-      localContainers.find((container) => container.id === String(over.id)) ?? findContainerByItemId(localContainers, String(over.id));
+      localContainers.find((container) => container.id === String(over.id)) ??
+      findContainerByItemId(localContainers, String(over.id));
 
-    if (!activeContainer || !overContainer || activeContainer.id === overContainer.id) {
+    if (
+      !activeContainer ||
+      !overContainer ||
+      activeContainer.id === overContainer.id
+    ) {
       return;
     }
 
-    setLocalContainers((current) => moveAcrossContainers(current, String(active.id), String(over.id), overContainer.id));
+    setLocalContainers((current) =>
+      moveAcrossContainers(
+        current,
+        String(active.id),
+        String(over.id),
+        overContainer.id,
+      ),
+    );
   };
 
   const handleDragEnd = async ({ active, over }: DragEndEvent) => {
@@ -262,7 +318,8 @@ function BoardBaseDrag<T extends BaseDragItem>({
     const previous = cloneContainers(localContainers);
     const activeContainer = findContainerByItemId(previous, String(active.id));
     const overContainer =
-      previous.find((container) => container.id === String(over.id)) ?? findContainerByItemId(previous, String(over.id));
+      previous.find((container) => container.id === String(over.id)) ??
+      findContainerByItemId(previous, String(over.id));
 
     if (!activeContainer || !overContainer) {
       return;
@@ -270,14 +327,24 @@ function BoardBaseDrag<T extends BaseDragItem>({
 
     let next = previous;
     if (activeContainer.id === overContainer.id) {
-      const targetContainer = next.find((container) => container.id === activeContainer.id);
+      const targetContainer = next.find(
+        (container) => container.id === activeContainer.id,
+      );
       if (!targetContainer) {
         return;
       }
-      const oldIndex = targetContainer.items.findIndex((item) => item.id === String(active.id));
-      const newIndex = targetContainer.items.findIndex((item) => item.id === String(over.id));
+      const oldIndex = targetContainer.items.findIndex(
+        (item) => item.id === String(active.id),
+      );
+      const newIndex = targetContainer.items.findIndex(
+        (item) => item.id === String(over.id),
+      );
       if (oldIndex !== -1 && newIndex !== -1 && oldIndex !== newIndex) {
-        targetContainer.items = arrayMove(targetContainer.items, oldIndex, newIndex);
+        targetContainer.items = arrayMove(
+          targetContainer.items,
+          oldIndex,
+          newIndex,
+        );
       }
     }
 
@@ -301,34 +368,66 @@ function BoardBaseDrag<T extends BaseDragItem>({
       >
         <div
           style={{
-            display: 'grid',
+            display: "grid",
             gridTemplateColumns: `repeat(${Math.max(localContainers.length, 1)}, minmax(0, 1fr))`,
-            gap: BOARD_GAP
+            gap: BOARD_GAP,
           }}
         >
           {localContainers.map((container) => {
             const itemIds = container.items.map((item) => item.id);
-            const isOver = Boolean(activeId) && container.id === activeMeta?.containerId;
+            const isOver =
+              Boolean(activeId) && container.id === activeMeta?.containerId;
 
             return (
               <div key={container.id}>
                 {(container.title || container.description) && (
-                  <Space direction="vertical" size={2} style={{ marginBottom: 8, display: 'flex' }}>
-                    {container.title ? <Typography.Text strong>{container.title}</Typography.Text> : null}
-                    {container.description ? <Typography.Text type="secondary">{container.description}</Typography.Text> : null}
+                  <Space
+                    direction="vertical"
+                    size={2}
+                    style={{ marginBottom: 8, display: "flex" }}
+                  >
+                    {container.title ? (
+                      <Typography.Text strong>
+                        {container.title}
+                      </Typography.Text>
+                    ) : null}
+                    {container.description ? (
+                      <Typography.Text type="secondary">
+                        {container.description}
+                      </Typography.Text>
+                    ) : null}
                   </Space>
                 )}
-                <DroppableColumn id={container.id} isOver={isOver} style={containerStyle}>
-                  <SortableContext items={itemIds} strategy={rectSortingStrategy}>
-                    <Space direction="vertical" size={ITEM_GAP} style={{ width: '100%' }}>
+                <DroppableColumn
+                  id={container.id}
+                  isOver={isOver}
+                  style={containerStyle}
+                >
+                  <SortableContext
+                    items={itemIds}
+                    strategy={rectSortingStrategy}
+                  >
+                    <Space
+                      direction="vertical"
+                      size={ITEM_GAP}
+                      style={{ width: "100%" }}
+                    >
                       {container.items.map((item) => (
-                        <SortableDragItem key={item.id} item={item} containerId={container.id} renderItem={renderItem} />
+                        <SortableDragItem
+                          key={item.id}
+                          item={item}
+                          containerId={container.id}
+                          renderItem={renderItem}
+                        />
                       ))}
                       {container.items.length === 0 ? (
                         <Empty
                           image={Empty.PRESENTED_IMAGE_SIMPLE}
-                          description={container.emptyText ?? '拖拽到这里'}
-                          styles={{ image: { height: 40 }, description: { color: '#8c8c8c' } }}
+                          description={container.emptyText ?? "拖拽到这里"}
+                          styles={{
+                            image: { height: 40 },
+                            description: { color: "#8c8c8c" },
+                          }}
                         />
                       ) : null}
                     </Space>
@@ -340,22 +439,41 @@ function BoardBaseDrag<T extends BaseDragItem>({
         </div>
         <DragOverlay>
           {activeMeta
-            ? overlayRender?.(activeMeta.item, activeMeta.containerId) ?? (
-                <Card size="small" style={{ width: 280, boxShadow: '0 16px 40px rgba(0, 0, 0, 0.14)' }}>
+            ? (overlayRender?.(activeMeta.item, activeMeta.containerId) ?? (
+                <Card
+                  size="small"
+                  style={{
+                    width: 280,
+                    boxShadow: "0 16px 40px rgba(0, 0, 0, 0.14)",
+                  }}
+                >
                   {renderItem({
                     item: activeMeta.item,
                     containerId: activeMeta.containerId,
                     isDragging: true,
                     isOverlay: true,
-                    dragHandle: createDragHandle({}, undefined)
+                    dragHandle: createDragHandle(
+                      {
+                        role: "button",
+                        tabIndex: 0,
+                        "aria-disabled": false,
+                        "aria-pressed": undefined,
+                        "aria-roledescription": "sortable item",
+                        "aria-describedby": "",
+                      },
+                      undefined,
+                    ),
                   })}
                 </Card>
-              )
+              ))
             : null}
         </DragOverlay>
       </DndContext>
       {isSaving ? (
-        <Typography.Text type="secondary" style={{ display: 'block', marginTop: 12 }}>
+        <Typography.Text
+          type="secondary"
+          style={{ display: "block", marginTop: 12 }}
+        >
           正在自动保存拖拽结果...
         </Typography.Text>
       ) : null}
@@ -381,16 +499,16 @@ export function BaseDragHandle({ attributes, listeners }: DragHandleProps) {
       {...attributes}
       {...listeners}
       style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
         width: 28,
         height: 28,
         borderRadius: 8,
-        background: '#f5f5f5',
-        cursor: 'grab',
-        color: '#595959',
-        flexShrink: 0
+        background: "#f5f5f5",
+        cursor: "grab",
+        color: "#595959",
+        flexShrink: 0,
       }}
     >
       <HolderOutlined />

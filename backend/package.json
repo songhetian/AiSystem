@@ -10,7 +10,8 @@
     "prisma:backfill:attendance-approval": "ts-node prisma/backfill-attendance-approval.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "prisma:seed": "ts-node prisma/seed.ts"
+    "prisma:seed": "ts-node prisma/seed.ts",
+    "openapi:generate": "ts-node prisma/export-openapi.ts"
   },
   "dependencies": {
     "@nestjs/bullmq": "^11.0.4",
@@ -22,9 +23,11 @@
     "@nestjs/platform-express": "^11.0.11",
     "@nestjs/platform-socket.io": "^11.1.18",
     "@nestjs/schedule": "^6.1.1",
+    "@nestjs/swagger": "^11.2.7",
     "@nestjs/websockets": "^11.1.18",
     "@prisma/client": "^6.5.0",
     "@qdrant/js-client-rest": "^1.17.0",
+    "@types/pdf-parse": "^1.1.5",
     "bcryptjs": "^2.4.3",
     "bullmq": "^5.73.3",
     "c12": "^4.0.0-beta.4",
@@ -32,15 +35,21 @@
     "class-validator": "^0.14.1",
     "decimal.js": "^10.6.0",
     "iterare": "^1.2.1",
+    "mammoth": "^1.12.0",
     "minio": "^8.0.0",
     "mysql2": "^3.20.0",
+    "officeparser": "^6.0.7",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "pdf-parse": "^2.4.5",
     "redis": "^5.11.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "safer-buffer": "^2.1.2",
     "socket.io": "^4.8.3",
+    "swagger-ui-express": "^5.0.1",
+    "tesseract.js": "^7.0.0",
+    "xlsx": "^0.18.5",
     "xmlbuilder": "^15.1.1"
   },
   "devDependencies": {

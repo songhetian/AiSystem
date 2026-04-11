@@ -32,15 +32,16 @@ export class PersonnelEmployeesService {
     this.scopeService.assertPlatformAccess(scope, platformId);
     this.scopeService.assertDepartmentAccess(scope, departmentId);
 
-    return this.prisma.createWithId('hr_employee', {
+    return this.prisma.hr_employee.create({
+      data: {
         ...dto,
         department_id: departmentId,
         platform_id: platformId,
         join_date: dto.join_date ? new Date(dto.join_date) : undefined,
         regularization_date: dto.regularization_date ? new Date(dto.regularization_date) : undefined,
         contract_expire_time: dto.contract_expire_time ? new Date(dto.contract_expire_time) : undefined,
-        status: dto.status ?? 1
-      }
+        status: dto.status ?? 1,
+      },
     });
   }
 

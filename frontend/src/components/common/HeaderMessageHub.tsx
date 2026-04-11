@@ -1,20 +1,35 @@
-import { BellOutlined } from '@ant-design/icons';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Badge, Button, Drawer, Empty, Input, Segmented, Space, Switch, Tag, Typography } from 'antd';
-import { useMemo, useState } from 'react';
-import { useNavigate } from 'umi';
-import { approvalApi } from '@/api/approval';
-import { systemApi, type MessageStats, type SystemMessageRecord } from '@/api/system';
+import { BellOutlined } from "@ant-design/icons";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  Badge,
+  Button,
+  Drawer,
+  Empty,
+  Input,
+  Segmented,
+  Space,
+  Switch,
+  Tag,
+  Typography,
+} from "antd";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { approvalApi } from "@/api/approval";
+import {
+  systemApi,
+  type MessageStats,
+  type SystemMessageRecord,
+} from "@/api/system";
 import {
   buildMessageMetaTags,
   buildMessageSearchText,
   resolveMessageAppearance,
   type MessageCategory,
-  type NoticeVariant
-} from '@/utils/message-center';
-import styles from './HeaderMessageHub.module.css';
+  type NoticeVariant,
+} from "@/utils/message-center";
+import styles from "./HeaderMessageHub.module.css";
 
-type HubView = 'all' | MessageCategory;
+type HubView = "all" | MessageCategory;
 
 interface ChannelSummary {
   key: string;
@@ -30,27 +45,29 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
-  const [view, setView] = useState<HubView>('all');
-  const [keyword, setKeyword] = useState('');
+  const [view, setView] = useState<HubView>("all");
+  const [keyword, setKeyword] = useState("");
   const [actionableOnly, setActionableOnly] = useState(false);
 
   const { data: stats } = useQuery<MessageStats>({
-    queryKey: ['system-message-stats'],
+    queryKey: ["system-message-stats"],
     queryFn: systemApi.messageStats,
-    enabled
+    enabled,
   });
 
   const { data: unreadMessages = [] } = useQuery<SystemMessageRecord[]>({
-    queryKey: ['system-messages', 'header-unread'],
+    queryKey: ["system-messages", "header-unread"],
     queryFn: () => systemApi.listMessages({ read_status: 0 }),
-    enabled
+    enabled,
   });
 
   const refreshQueries = async () => {
-    await queryClient.invalidateQueries({ queryKey: ['system-messages'] });
-    await queryClient.invalidateQueries({ queryKey: ['system-message-stats'] });
-    await queryClient.invalidateQueries({ queryKey: ['approval-requests'] });
-    await queryClient.invalidateQueries({ queryKey: ['approval-request-stats'] });
+    await queryClient.invalidateQueries({ queryKey: ["system-messages"] });
+    await queryClient.invalidateQueries({ queryKey: ["system-message-stats"] });
+    await queryClient.invalidateQueries({ queryKey: ["approval-requests"] });
+    await queryClient.invalidateQueries({
+      queryKey: ["approval-request-stats"],
+    });
   };
 
   const approveMutation = useMutation({
@@ -60,10 +77,12 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
         return;
       }
 
-      await approvalApi.approveRequest(requestId, { comment: '消息中心快捷同意' });
+      await approvalApi.approveRequest(requestId, {
+        comment: "消息中心快捷同意",
+      });
       await systemApi.markMessageRead(message.id);
     },
-    onSuccess: refreshQueries
+    onSuccess: refreshQueries,
   });
 
   const rejectMutation = useMutation({
@@ -73,10 +92,12 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
         return;
       }
 
-      await approvalApi.rejectRequest(requestId, { comment: '消息中心快捷驳回' });
+      await approvalApi.rejectRequest(requestId, {
+        comment: "消息中心快捷驳回",
+      });
       await systemApi.markMessageRead(message.id);
     },
-    onSuccess: refreshQueries
+    onSuccess: refreshQueries,
   });
 
   const channels = useMemo(() => {
@@ -98,21 +119,25 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
         label: appearance.label,
         title: appearance.title,
         priority: appearance.priority,
-        items: [item]
+        items: [item],
       });
     }
 
     return Array.from(grouped.values())
       .map((channel) => ({
         ...channel,
-        items: channel.items.sort((left, right) => right.create_time.localeCompare(left.create_time))
+        items: channel.items.sort((left, right) =>
+          right.create_time.localeCompare(left.create_time),
+        ),
       }))
       .sort((left, right) => {
         if (right.priority !== left.priority) {
           return right.priority - left.priority;
         }
 
-        return right.items[0]!.create_time.localeCompare(left.items[0]!.create_time);
+        return right.items[0]!.create_time.localeCompare(
+          left.items[0]!.create_time,
+        );
       });
   }, [unreadMessages]);
 
@@ -123,24 +148,34 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
       .map((channel) => ({
         ...channel,
         items: channel.items.filter((item) => {
-          const matchesView = view === 'all' || channel.category === view;
-          const matchesKeyword = !normalizedKeyword || buildMessageSearchText(item).includes(normalizedKeyword);
+          const matchesView = view === "all" || channel.category === view;
+          const matchesKeyword =
+            !normalizedKeyword ||
+            buildMessageSearchText(item).includes(normalizedKeyword);
           const matchesActionable =
-            !actionableOnly || (item.message_type === 'approval_pending' && Boolean(item.payload?.requestId));
+            !actionableOnly ||
+            (item.message_type === "approval_pending" &&
+              Boolean(item.payload?.requestId));
 
           return matchesView && matchesKeyword && matchesActionable;
-        })
+        }),
       }))
       .filter((channel) => channel.items.length > 0);
   }, [actionableOnly, channels, keyword, view]);
 
   const summary = useMemo(
     () => ({
-      approval: channels.filter((channel) => channel.category === 'approval').reduce((sum, channel) => sum + channel.items.length, 0),
-      schedule: channels.filter((channel) => channel.category === 'schedule').reduce((sum, channel) => sum + channel.items.length, 0),
-      system: channels.filter((channel) => channel.category === 'system').reduce((sum, channel) => sum + channel.items.length, 0)
+      approval: channels
+        .filter((channel) => channel.category === "approval")
+        .reduce((sum, channel) => sum + channel.items.length, 0),
+      schedule: channels
+        .filter((channel) => channel.category === "schedule")
+        .reduce((sum, channel) => sum + channel.items.length, 0),
+      system: channels
+        .filter((channel) => channel.category === "system")
+        .reduce((sum, channel) => sum + channel.items.length, 0),
     }),
-    [channels]
+    [channels],
   );
 
   const markAllRead = async () => {
@@ -161,19 +196,40 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
   return (
     <>
       <Badge count={stats?.unreadCount ?? 0} size="small">
-        <Button className={styles.trigger} type="text" aria-label="消息中心" icon={<BellOutlined />} onClick={() => setOpen(true)} />
+        <Button
+          className={styles.trigger}
+          type="text"
+          aria-label="消息中心"
+          icon={<BellOutlined />}
+          onClick={() => setOpen(true)}
+        />
       </Badge>
 
-      <Drawer title={null} placement="right" width={420} open={open} onClose={() => setOpen(false)} styles={{ body: { padding: 16 } }}>
+      <Drawer
+        title={null}
+        placement="right"
+        width={420}
+        open={open}
+        onClose={() => setOpen(false)}
+        styles={{ body: { padding: 16 } }}
+      >
         <div className={styles.drawerTop}>
           <div className={styles.title}>
             <span className={styles.eyebrow}>Message Hub</span>
             <span className={styles.heading}>消息中心</span>
-            <span className={styles.meta}>未读 {stats?.unreadCount ?? 0} 条</span>
+            <span className={styles.meta}>
+              未读 {stats?.unreadCount ?? 0} 条
+            </span>
           </div>
           <Space>
-            <Button onClick={() => navigate('/system/messages')}>站内消息页</Button>
-            <Button type="primary" onClick={() => void markAllRead()} disabled={!stats?.unreadCount}>
+            <Button onClick={() => navigate("/system/messages")}>
+              站内消息页
+            </Button>
+            <Button
+              type="primary"
+              onClick={() => void markAllRead()}
+              disabled={!stats?.unreadCount}
+            >
               全部已读
             </Button>
           </Space>
@@ -199,16 +255,21 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
             value={view}
             onChange={(value) => setView(value)}
             options={[
-              { label: '全部', value: 'all' },
-              { label: `审批 ${summary.approval}`, value: 'approval' },
-              { label: `调班 ${summary.schedule}`, value: 'schedule' },
-              { label: `系统 ${summary.system}`, value: 'system' }
+              { label: "全部", value: "all" },
+              { label: `审批 ${summary.approval}`, value: "approval" },
+              { label: `调班 ${summary.schedule}`, value: "schedule" },
+              { label: `系统 ${summary.system}`, value: "system" },
             ]}
           />
         </div>
 
         <div className={styles.searchRow}>
-          <Input.Search allowClear placeholder="搜索标题、内容、审批单号、调班单号" value={keyword} onChange={(event) => setKeyword(event.target.value)} />
+          <Input.Search
+            allowClear
+            placeholder="搜索标题、内容、审批单号、调班单号"
+            value={keyword}
+            onChange={(event) => setKeyword(event.target.value)}
+          />
         </div>
 
         <div className={styles.toggleRow}>
@@ -218,32 +279,52 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
 
         {visibleChannels.length === 0 ? (
           <div className={styles.empty}>
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="当前没有符合筛选条件的未读消息" />
+            <Empty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description="当前没有符合筛选条件的未读消息"
+            />
           </div>
         ) : (
           <div className={styles.list}>
             {visibleChannels.map((channel) => (
-              <section key={channel.key} className={`${styles.channel} ${styles[channel.variant]}`}>
+              <section
+                key={channel.key}
+                className={`${styles.channel} ${styles[channel.variant]}`}
+              >
                 <div className={styles.channelTop}>
                   <div>
                     <div className={styles.channelLabel}>{channel.label}</div>
                     <div className={styles.channelTitle}>{channel.title}</div>
                   </div>
-                  <Tag color="processing" bordered={false} className={styles.channelCount}>
+                  <Tag
+                    color="processing"
+                    bordered={false}
+                    className={styles.channelCount}
+                  >
                     {channel.items.length} 条未读
                   </Tag>
                 </div>
 
                 <div className={styles.snippetList}>
                   {channel.items.slice(0, 4).map((item) => {
-                    const canQuickApprove = item.message_type === 'approval_pending' && Boolean(item.payload?.requestId);
+                    const canQuickApprove =
+                      item.message_type === "approval_pending" &&
+                      Boolean(item.payload?.requestId);
                     const metaTags = buildMessageMetaTags(item.payload);
 
                     return (
                       <div key={item.id} className={styles.snippetCard}>
-                        <button type="button" className={styles.snippet} onClick={() => void markOneRead(item)}>
-                          <div className={styles.snippetTitle}>{item.title}</div>
-                          <div className={styles.snippetContent}>{item.content}</div>
+                        <button
+                          type="button"
+                          className={styles.snippet}
+                          onClick={() => void markOneRead(item)}
+                        >
+                          <div className={styles.snippetTitle}>
+                            {item.title}
+                          </div>
+                          <div className={styles.snippetContent}>
+                            {item.content}
+                          </div>
                           {metaTags.length ? (
                             <div className={styles.metaTags}>
                               {metaTags.map((tag) => (
@@ -253,15 +334,27 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
                               ))}
                             </div>
                           ) : null}
-                          <div className={styles.snippetMeta}>{item.create_time}</div>
+                          <div className={styles.snippetMeta}>
+                            {item.create_time}
+                          </div>
                         </button>
 
                         {canQuickApprove ? (
                           <div className={styles.quickActions}>
-                            <Button size="small" type="primary" loading={approveMutation.isPending} onClick={() => approveMutation.mutate(item)}>
+                            <Button
+                              size="small"
+                              type="primary"
+                              loading={approveMutation.isPending}
+                              onClick={() => approveMutation.mutate(item)}
+                            >
                               快捷同意
                             </Button>
-                            <Button size="small" danger loading={rejectMutation.isPending} onClick={() => rejectMutation.mutate(item)}>
+                            <Button
+                              size="small"
+                              danger
+                              loading={rejectMutation.isPending}
+                              onClick={() => rejectMutation.mutate(item)}
+                            >
                               快捷驳回
                             </Button>
                           </div>
@@ -272,8 +365,13 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
                 </div>
 
                 <div className={styles.channelFooter}>
-                  <Typography.Text type="secondary">点击消息会自动已读并跳转到对应页面</Typography.Text>
-                  <Button type="link" onClick={() => navigate('/system/messages')}>
+                  <Typography.Text type="secondary">
+                    点击消息会自动已读并跳转到对应页面
+                  </Typography.Text>
+                  <Button
+                    type="link"
+                    onClick={() => navigate("/system/messages")}
+                  >
                     去消息中心
                   </Button>
                 </div>

@@ -1,63 +1,69 @@
-import { useState } from 'react';
-import { history } from 'umi';
-import { useMutation } from '@tanstack/react-query';
-import { 
-  Form, 
-  Input, 
-  Button, 
-  Card, 
-  Typography, 
-  Checkbox, 
-  Space, 
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import {
+  Form,
+  Input,
+  Button,
+  Card,
+  Typography,
+  Checkbox,
+  Space,
   Watermark,
-  message 
-} from 'antd';
-import { 
-  UserOutlined, 
-  LockOutlined, 
+  message,
+} from "antd";
+import {
+  UserOutlined,
+  LockOutlined,
   SafetyCertificateOutlined,
-  ThunderboltOutlined
-} from '@ant-design/icons';
-import { authApi } from '@/api/auth';
-import { useGlobalStore } from '@/models/global';
+  ThunderboltOutlined,
+} from "@ant-design/icons";
+import { authApi } from "@/api/auth";
+import { useGlobalStore } from "@/models/global";
 
 const { Title, Text } = Typography;
 
 export default function LoginPage() {
   const [form] = Form.useForm();
   const { setToken } = useGlobalStore();
+  const navigate = useNavigate();
 
   const loginMutation = useMutation({
     mutationFn: authApi.login,
     onSuccess: (data) => {
       setToken(data.access_token);
-      localStorage.setItem('token', data.access_token);
-      message.success('登录成功，欢迎回来');
-      history.push('/');
+      localStorage.setItem("token", data.access_token);
+      message.success("登录成功，欢迎回来");
+      navigate("/");
     },
     onError: (error: any) => {
-      message.error(error.response?.data?.message || '登录失败，请检查账号密码');
-    }
+      message.error(
+        error.response?.data?.message || "登录失败，请检查账号密码",
+      );
+    },
   });
 
   return (
-    <Watermark content="雷犀 AI 客服系统" font={{ color: 'rgba(0,0,0,0.05)', fontSize: 16 }}>
-      <div 
+    <Watermark
+      content="雷犀 AI 客服系统"
+      font={{ color: "rgba(0,0,0,0.05)", fontSize: 16 }}
+    >
+      <div
         className="min-h-screen flex items-center justify-center"
         style={{
-          background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
-          position: 'relative',
-          overflow: 'hidden'
+          background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
         {/* 背景光影装饰 */}
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-200 opacity-20 blur-[120px] rounded-full" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-200 opacity-20 blur-[120px] rounded-full" />
 
-        <Card 
-          bordered={false} 
+        <Card
+          bordered={false}
           className="w-full max-w-[440px] shadow-2xl rounded-2xl"
-          styles={{ body: { padding: '40px 48px' } }}
+          styles={{ body: { padding: "40px 48px" } }}
         >
           <div className="text-center mb-10">
             <div className="flex justify-center mb-4">
@@ -65,7 +71,10 @@ export default function LoginPage() {
                 <ThunderboltOutlined className="text-white text-2xl" />
               </div>
             </div>
-            <Title level={2} className="m-0 font-black text-slate-900 tracking-tight">
+            <Title
+              level={2}
+              className="m-0 font-black text-slate-900 tracking-tight"
+            >
               雷犀 AI 客服系统
             </Title>
             <Text className="text-slate-500 mt-2 block font-medium">
@@ -82,29 +91,31 @@ export default function LoginPage() {
           >
             <Form.Item
               name="username"
-              rules={[{ required: true, message: '请输入登录账号' }]}
+              rules={[{ required: true, message: "请输入登录账号" }]}
             >
-              <Input 
-                prefix={<UserOutlined className="text-slate-400" />} 
-                placeholder="用户名 / 账号" 
+              <Input
+                prefix={<UserOutlined className="text-slate-400" />}
+                placeholder="用户名 / 账号"
                 className="h-[44px] rounded-lg border-slate-200 font-bold text-slate-900"
               />
             </Form.Item>
 
             <Form.Item
               name="password"
-              rules={[{ required: true, message: '请输入登录密码' }]}
+              rules={[{ required: true, message: "请输入登录密码" }]}
             >
-              <Input.Password 
-                prefix={<LockOutlined className="text-slate-400" />} 
-                placeholder="密码" 
+              <Input.Password
+                prefix={<LockOutlined className="text-slate-400" />}
+                placeholder="密码"
                 className="h-[44px] rounded-lg border-slate-200"
               />
             </Form.Item>
 
             <div className="flex justify-between items-center mb-6">
               <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox className="font-bold text-slate-600">自动登录</Checkbox>
+                <Checkbox className="font-bold text-slate-600">
+                  自动登录
+                </Checkbox>
               </Form.Item>
               <Text className="text-blue-600 cursor-pointer font-bold hover:text-blue-500">
                 忘记密码?
@@ -112,10 +123,10 @@ export default function LoginPage() {
             </div>
 
             <Form.Item className="mb-0">
-              <Button 
-                type="primary" 
-                htmlType="submit" 
-                block 
+              <Button
+                type="primary"
+                htmlType="submit"
+                block
                 loading={loginMutation.isPending}
                 className="h-[44px] rounded-lg font-black text-lg shadow-lg shadow-blue-100"
               >

@@ -16,6 +16,7 @@ export interface KnowledgeArticle {
   shop_id?: string;
   published_at?: string;
   update_time: string;
+  attachment_urls?: string[];
 }
 
 export interface KnowledgeFaqCandidate {
@@ -113,7 +114,63 @@ export interface SaveKnowledgeCategoryPayload {
   shop_id?: string;
 }
 
+export interface KnowledgeDocument {
+  id: string;
+  file_name: string;
+  file_path: string;
+  file_size: number;
+  file_type: string;
+  status: 'pending' | 'processing' | 'completed' | 'failed';
+  error_msg?: string;
+  process_log?: string;
+  create_time: string;
+  update_time: string;
+  uploader_id?: string;
+}
+
+export interface KnowledgeChatSession {
+  id: string;
+  title: string;
+  create_time: string;
+  update_time: string;
+}
+
+export interface KnowledgeChatMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  create_time: string;
+  references?: string[];
+}
+
 export const knowledgeApi = {
+  // --- Chat ---
+  createChatSession: (title: string): Promise<KnowledgeChatSession> =>
+    request.post("/knowledge/chat/sessions", { title }),
+  listChatSessions: (): Promise<KnowledgeChatSession[]> =>
+    request.get("/knowledge/chat/sessions"),
+  getChatMessages: (sessionId: string): Promise<KnowledgeChatMessage[]> =>
+    request.get(`/knowledge/chat/sessions/${sessionId}/messages`),
+  sendChatMessage: (sessionId: string, content: string): Promise<KnowledgeChatMessage> =>
+    request.post(`/knowledge/chat/sessions/${sessionId}/chat`, { content }),
+
+  // --- Documents ---
+  uploadDocument: (file: File, isPublic = 0, onProgress: (p: number) => void) => {
+    const formData = new FormData();
+    formData.append('files', file); // 注意后端现在是 files 数组名
+    formData.append('is_public', isPublic.toString());
+    return request.post("/knowledge/documents/upload", formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      onUploadProgress: (progressEvent) => {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1));
+        onProgress(percentCompleted);
+      }
+    });
+  },
+  togglePublicDocument: (id: string, isPublic: number) => 
+    request.post(`/knowledge/documents/${id}/toggle-public`, { is_public: isPublic }),
+  deleteDocument: (id: string) => request.delete(`/knowledge/documents/${id}`),
+  getDocumentContent: (id: string): Promise<{ content: string }> => request.get(`/knowledge/documents/${id}/content`),
   listArticles: (params?: {
     keyword?: string;
     status?: string;

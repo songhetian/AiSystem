@@ -2,6 +2,18 @@
 -- Compatible with MySQL 8.x
 -- This file only creates table structures and comments.
 
+CREATE TABLE IF NOT EXISTS `sys_config` (
+  `id` varchar(191) NOT NULL COMMENT '配置主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
+  `config_key` varchar(191) NOT NULL COMMENT '配置键名',
+  `config_value` text NOT NULL COMMENT '配置内容',
+  `remark` text DEFAULT NULL COMMENT '备注信息',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `sys_config_config_key_key` (`config_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统全局配置表';
+
 CREATE TABLE IF NOT EXISTS `sys_external_api_key` (
   `id` varchar(191) NOT NULL,
   `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -582,6 +594,7 @@ CREATE TABLE IF NOT EXISTS `approval_request` (
   `template_name` varchar(191) NOT NULL COMMENT '模板名称',
   `biz_type` varchar(191) DEFAULT NULL COMMENT '关联业务类型',
   `biz_id` varchar(191) DEFAULT NULL COMMENT '关联业务 ID',
+  `biz_no` varchar(191) DEFAULT NULL COMMENT '关联业务单号',
   `type` varchar(191) NOT NULL COMMENT '审批类型',
   `applicant_id` varchar(191) NOT NULL COMMENT '申请人 ID',
   `applicant_name` varchar(191) NOT NULL COMMENT '申请人名称',
@@ -991,9 +1004,11 @@ CREATE TABLE IF NOT EXISTS `knowledge_article` (
   `status` varchar(191) NOT NULL DEFAULT 'draft' COMMENT '状态',
   `author_id` varchar(191) DEFAULT NULL COMMENT '作者 ID',
   `author_name` varchar(191) DEFAULT NULL COMMENT '作者名称',
-  `source_type` varchar(191) DEFAULT NULL COMMENT '来源类型',
-  `source_ref` varchar(191) DEFAULT NULL COMMENT '来源引用',
+  `source_type` varchar(191) DEFAULT NULL COMMENT '来源类型: manual, document',
+  `source_ref` varchar(191) DEFAULT NULL COMMENT '来源引用ID: document_id',
   `keyword` varchar(191) DEFAULT NULL COMMENT '关键词',
+  `attachment_urls` json DEFAULT NULL COMMENT '附件链接列表',
+  `is_public` int NOT NULL DEFAULT 0 COMMENT '是否公共知识: 0私有, 1公共',
   `platform_id` varchar(191) NOT NULL COMMENT '平台 ID',
   `dept_id` varchar(191) NOT NULL COMMENT '部门 ID',
   `shop_id` varchar(191) DEFAULT NULL COMMENT '店铺 ID',
@@ -1004,6 +1019,57 @@ CREATE TABLE IF NOT EXISTS `knowledge_article` (
   KEY `knowledge_article_keyword_status_idx` (`keyword`, `status`),
   KEY `knowledge_article_source_idx` (`source_type`, `source_ref`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='知识库文章表';
+
+CREATE TABLE IF NOT EXISTS `knowledge_document` (
+  `id` varchar(191) NOT NULL COMMENT '文档主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
+  `file_name` varchar(191) NOT NULL COMMENT '文件名称',
+  `file_path` varchar(191) NOT NULL COMMENT 'MinIO路径',
+  `file_size` int NOT NULL COMMENT '文件大小',
+  `file_type` varchar(191) NOT NULL COMMENT 'pdf, docx, xlsx, pptx',
+  `status` varchar(191) NOT NULL DEFAULT 'pending' COMMENT '处理状态',
+  `progress` int NOT NULL DEFAULT 0 COMMENT '处理进度百分比 0-100',
+  `content` longtext DEFAULT NULL COMMENT '解析后的全文内容',
+  `error_msg` text DEFAULT NULL COMMENT '错误信息',
+  `process_log` text DEFAULT NULL COMMENT '处理日志',
+  `vector_ids` json DEFAULT NULL COMMENT 'Qdrant点ID',
+  `platform_id` varchar(191) NOT NULL COMMENT '平台 ID',
+  `dept_id` varchar(191) NOT NULL COMMENT '部门 ID',
+  `shop_id` varchar(191) DEFAULT NULL COMMENT '店铺 ID',
+  `uploader_id` varchar(191) DEFAULT NULL COMMENT '上传者 ID',
+  `is_public` int NOT NULL DEFAULT 0 COMMENT '是否公共知识: 0私有, 1公共',
+  PRIMARY KEY (`id`),
+  KEY `knowledge_doc_scope_status_idx` (`platform_id`, `dept_id`, `shop_id`, `status`),
+  KEY `knowledge_doc_status_time_idx` (`status`, `create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='知识库文档处理表';
+
+
+CREATE TABLE IF NOT EXISTS `knowledge_chat_session` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `title` varchar(191) NOT NULL,
+  `user_id` varchar(191) NOT NULL,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `knowledge_chat_session_user_idx` (`user_id`, `create_time`),
+  KEY `knowledge_chat_session_scope_idx` (`platform_id`, `dept_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='知识库对话会话表';
+
+CREATE TABLE IF NOT EXISTS `knowledge_chat_message` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `session_id` varchar(191) NOT NULL,
+  `role` varchar(191) NOT NULL COMMENT 'user, assistant',
+  `content` longtext NOT NULL,
+  `references` json DEFAULT NULL COMMENT '引用知识点ID',
+  PRIMARY KEY (`id`),
+  KEY `knowledge_chat_msg_session_idx` (`session_id`, `create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='知识库对话消息表';
 
 CREATE TABLE IF NOT EXISTS `knowledge_category` (
   `id` varchar(191) NOT NULL COMMENT '知识库分类主键 ID',

@@ -6,299 +6,6 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-
-model service_session {
-  id                    String   @id @default(cuid())
-  create_time           DateTime @default(now())
-  update_time           DateTime @updatedAt
-  is_deleted            Int      @default(0)
-  session_no            String   @unique
-  customer_id           String?
-  customer_nickname     String?
-  customer_satisfaction Int?
-  agent_user_id         String?
-  agent_name            String?
-  group_name            String?
-  platform_id           String
-  dept_id               String
-  shop_id               String?
-  status                String   @default("pending")
-  transfer_status       String   @default("none")
-  started_at            DateTime
-  ended_at              DateTime?
-  first_response_at     DateTime?
-  last_message_at       DateTime?
-  response_duration_sec Int?
-  tags                  Json?
-  remark                String?  @db.Text
-  messages              service_session_message[]
-  analyses              service_session_analysis[]
-  quality_records       service_quality_record[]
-  satisfaction_records  service_satisfaction[]
-
-  @@index([platform_id, dept_id, shop_id, status])
-  @@index([agent_user_id, started_at])
-  @@index([started_at, ended_at])
-}
-
-model service_session_message {
-  id           String   @id @default(cuid())
-  create_time  DateTime @default(now())
-  update_time  DateTime @updatedAt
-  is_deleted   Int      @default(0)
-  session_id   String
-  session_no   String
-  sender_type  String
-  sender_id    String?
-  sender_name  String?
-  message_type String   @default("text")
-  content      String   @db.Text
-  attachments  Json?
-  sent_at      DateTime
-  platform_id  String
-  dept_id      String
-  shop_id      String?
-  session      service_session @relation(fields: [session_id], references: [id])
-
-  @@index([session_id, sent_at])
-  @@index([platform_id, dept_id, shop_id, sent_at])
-}
-
-model service_quality_rule {
-  id                   String   @id @default(cuid())
-  create_time          DateTime @default(now())
-  update_time          DateTime @updatedAt
-  is_deleted           Int      @default(0)
-  rule_name            String
-  rule_type            String
-  description          String?  @db.Text
-  deduct_score         Int      @default(0)
-  pass_threshold       Int      @default(0)
-  trigger_keywords     Json?
-  response_timeout_sec Int?
-  enabled              Int      @default(1)
-  sort                 Int      @default(0)
-  platform_id          String
-  dept_id              String
-  shop_id              String?
-  created_by           String?
-
-  @@index([platform_id, dept_id, shop_id, enabled, sort])
-  @@index([rule_type, enabled])
-}
-
-model service_sensitive_term {
-  id           String   @id @default(cuid())
-  create_time  DateTime @default(now())
-  update_time  DateTime @updatedAt
-  is_deleted   Int      @default(0)
-  term         String
-  category     String
-  severity     Int      @default(1)
-  enabled      Int      @default(1)
-  replace_text String?
-  description  String?  @db.Text
-  platform_id  String
-  dept_id      String
-  shop_id      String?
-  created_by   String?
-
-  @@unique([term, platform_id, dept_id, shop_id])
-  @@index([platform_id, dept_id, shop_id, enabled])
-}
-
-model service_session_analysis {
-  id                     String   @id @default(cuid())
-  create_time            DateTime @default(now())
-  update_time            DateTime @updatedAt
-  is_deleted             Int      @default(0)
-  session_id             String
-  session_no             String
-  platform_id            String
-  dept_id                String
-  shop_id                String?
-  triggered_by           String   @default("system")
-  triggered_by_user_id   String?
-  quality_score          Int      @default(100)
-  quality_passed         Int      @default(1)
-  loss_risk_level        String   @default("low")
-  loss_risk_score        Int      @default(0)
-  customer_sentiment     String   @default("neutral")
-  response_timeout_count Int      @default(0)
-  sensitive_hit_count    Int      @default(0)
-  faq_hit_count          Int      @default(0)
-  top_faqs               Json?
-  sensitive_hits         Json?
-  triggered_rule_ids     Json?
-  summary                String?  @db.Text
-  suggestions            Json?
-  analyzed_at            DateTime @default(now())
-  session                service_session @relation(fields: [session_id], references: [id])
-
-  @@index([session_id, analyzed_at])
-  @@index([platform_id, dept_id, shop_id, analyzed_at])
-  @@index([quality_passed, loss_risk_level, analyzed_at])
-}
-
-model service_quality_record {
-  id                   String   @id @default(cuid())
-  create_time          DateTime @default(now())
-  update_time          DateTime @updatedAt
-  is_deleted           Int      @default(0)
-  session_id           String
-  analysis_id          String?
-  session_no           String
-  inspector_id         String?
-  inspector_name       String?
-  inspection_mode      String   @default("auto")
-  score                Int      @default(100)
-  passed               Int      @default(1)
-  violations           Json?
-  deduct_details       Json?
-  comment              String?  @db.Text
-  platform_id          String
-  dept_id              String
-  shop_id              String?
-  rectification_status String   @default("not_required")
-  rectification_note   String?  @db.Text
-  inspected_at         DateTime @default(now())
-  session              service_session @relation(fields: [session_id], references: [id])
-
-  @@index([session_id, inspected_at])
-  @@index([platform_id, dept_id, shop_id, passed, inspected_at])
-}
-
-model service_satisfaction {
-  id              String   @id @default(cuid())
-  create_time     DateTime @default(now())
-  update_time     DateTime @updatedAt
-  is_deleted      Int      @default(0)
-  session_id      String
-  session_no      String
-  rating          Int
-  label           String
-  content         String?  @db.Text
-  customer_id     String?
-  platform_id     String
-  dept_id         String
-  shop_id         String?
-  created_at_text String?
-  session         service_session @relation(fields: [session_id], references: [id])
-
-  @@index([session_id, rating])
-  @@index([platform_id, dept_id, shop_id, rating, create_time])
-}
-
-model exam_paper {
-  id            String   @id @default(cuid())
-  create_time   DateTime @default(now())
-  update_time   DateTime @updatedAt
-  is_deleted    Int      @default(0)
-  paper_name    String
-  description   String?  @db.Text
-  total_score   Int      @default(100)
-  pass_score    Int      @default(60)
-  duration_min  Int      @default(60)
-  enabled       Int      @default(1)
-  platform_id   String
-  dept_id       String
-  shop_id       String?
-  created_by    String?
-  created_at    DateTime?
-  plans         exam_plan[]
-  questions     exam_paper_question[]
-
-  @@index([platform_id, dept_id, shop_id, enabled])
-}
-
-model exam_paper_question {
-  id              String   @id @default(cuid())
-  create_time     DateTime @default(now())
-  update_time     DateTime @updatedAt
-  is_deleted      Int      @default(0)
-  paper_id        String
-  question_type   String
-  title           String   @db.Text
-  options         Json?
-  correct_answer  Json
-  score           Int      @default(0)
-  sort            Int      @default(0)
-  explanation     String?  @db.Text
-  paper           exam_paper @relation(fields: [paper_id], references: [id])
-
-  @@index([paper_id, sort])
-}
-
-model exam_plan {
-  id                   String   @id @default(cuid())
-  create_time          DateTime @default(now())
-  update_time          DateTime @updatedAt
-  is_deleted           Int      @default(0)
-  plan_name            String
-  paper_id             String
-  start_time           DateTime
-  end_time             DateTime
-  reminder_mode        String   @default("notice")
-  force_enter          Int      @default(0)
-  pass_score           Int      @default(60)
-  duration_min         Int      @default(60)
-  max_attempts         Int      @default(3)
-  allow_retake         Int      @default(0)
-  absent_mark_minutes  Int      @default(30)
-  allow_makeup         Int      @default(0)
-  makeup_limit         Int      @default(0)
-  target_dept_ids      Json?
-  target_employee_ids  Json?
-  target_count         Int      @default(0)
-  status               String   @default("draft")
-  platform_id          String
-  dept_id              String
-  shop_id              String?
-  created_by           String?
-  paper                exam_paper @relation(fields: [paper_id], references: [id])
-  assignments          exam_assignment[]
-
-  @@index([paper_id])
-  @@index([platform_id, dept_id, shop_id, start_time, end_time])
-}
-
-model exam_assignment {
-  id                 String   @id @default(cuid())
-  create_time        DateTime @default(now())
-  update_time        DateTime @updatedAt
-  is_deleted         Int      @default(0)
-  plan_id            String
-  paper_id           String
-  user_id            String
-  employee_id        String?
-  employee_name      String?
-  employee_no        String?
-  target_dept_id     String?
-  status             String   @default("pending")
-  attempt_count      Int      @default(0)
-  started_at         DateTime?
-  submitted_at       DateTime?
-  score              Int?
-  passed             Int?
-  auto_graded        Int      @default(0)
-  answers            Json?
-  attempts_history   Json?
-  manual_absent_marked Int    @default(0)
-  manual_absent_reason String? @db.Text
-  correct_count      Int      @default(0)
-  question_count     Int      @default(0)
-  platform_id        String
-  dept_id            String
-  shop_id            String?
-  reminder_mode      String   @default("notice")
-  force_enter        Int      @default(0)
-  plan               exam_plan @relation(fields: [plan_id], references: [id])
-
-  @@unique([plan_id, user_id])
-  @@index([user_id, status, submitted_at])
-  @@index([platform_id, dept_id, shop_id, status, submitted_at])
-}
-
 model knowledge_article {
   id              String   @id @default(cuid())
   create_time     DateTime @default(now())
@@ -311,10 +18,11 @@ model knowledge_article {
   status          String   @default("draft")
   author_id       String?
   author_name     String?
-  source_type     String?
-  source_ref      String?
+  source_type     String?  // 'manual', 'document'
+  source_ref      String?  // document_id
   keyword         String?
   attachment_urls Json?
+  is_public       Int      @default(0) // 是否为公共
   platform_id     String
   dept_id         String
   shop_id         String?
@@ -326,99 +34,588 @@ model knowledge_article {
   @@index([source_type, source_ref])
 }
 
-model knowledge_category {
+model knowledge_document {
   id            String   @id @default(cuid())
   create_time   DateTime @default(now())
   update_time   DateTime @updatedAt
   is_deleted    Int      @default(0)
-  category_name String
-  category_code String
-  parent_id     String?
-  level         Int      @default(1)
-  sort          Int      @default(0)
-  enabled       Int      @default(1)
-  description   String?  @db.Text
+  file_name     String
+  file_path     String   // MinIO bucket path
+  file_size     Int
+  file_type     String   // pdf, docx, xlsx, pptx
+  status        String   @default("pending") // pending, processing, completed, failed
+  progress      Int      @default(0) // 新增：处理进度 0-100
+  content       String?  @db.LongText
+ // 新增：存储解析后的全文内容
+  error_msg     String?  @db.Text
+  process_log   String?  @db.Text
+  vector_ids    Json?    // Array of point IDs in Qdrant
   platform_id   String
   dept_id       String
   shop_id       String?
+  uploader_id   String?
+  is_public     Int      @default(0) // 是否为公共
+  @@index([platform_id, dept_id, status])
 
-  @@unique([category_code, platform_id, dept_id, shop_id])
-  @@index([platform_id, dept_id, is_deleted, enabled, sort])
-  @@index([parent_id, is_deleted])
+  @@index([status, create_time])
 }
 
-model knowledge_tag {
+model knowledge_chat_session {
+  id            String   @id @default(cuid())
+  create_time   DateTime @default(now())
+  update_time   DateTime @updatedAt
+  is_deleted    Int      @default(0)
+  title         String
+  user_id       String
+  platform_id   String
+  dept_id       String
+  messages      knowledge_chat_message[]
+
+  @@index([user_id, create_time])
+  @@index([platform_id, dept_id])
+}
+
+model knowledge_chat_message {
+  id          String   @id @default(cuid())
+  create_time DateTime @default(now())
+  session_id  String
+  role        String   // user, assistant
+  content     String   @db.Text
+  references  Json?    // 引用知识点的 ID 列表
+  session     knowledge_chat_session @relation(fields: [session_id], references: [id])
+
+  @@index([session_id, create_time])
+}
+
+model knowledge_category {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  category_name   String
+  category_code   String
+  parent_id       String?
+  level           Int      @default(1)
+  sort            Int      @default(0)
+  enabled         Int      @default(1)
+  description     String?  @db.Text
+  platform_id     String
+  dept_id         String
+  shop_id         String?
+
+  @@unique([category_code, platform_id, dept_id, shop_id])
+  @@index([platform_id, dept_id, shop_id, enabled, sort])
+  @@index([parent_id, sort])
+}
+model approval_template {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  name            String
+  type            String
+  platform_name   String
+  department_name String
+  status          String
+  description     String?  @db.Text
+  updated_at      String
+  nodes           Json
+
+  @@index([status, update_time])
+}
+
+model approval_request {
+  id                    String   @id @default(cuid())
+  create_time           DateTime @default(now())
+  update_time           DateTime @updatedAt
+  is_deleted            Int      @default(0)
+  request_no            String   @unique
+  template_id           String
+  template_name         String
+  biz_type              String?
+  biz_id                String?
+  biz_no                String?
+  type                  String
+  applicant_id          String
+  applicant_name        String
+  current_approver_id   String?
+  current_approver_name String?
+  status                String
+  amount                Decimal? @db.Decimal(10, 2)
+  platform_name         String
+  department_name       String
+  summary               String   @db.Text
+  created_at            String
+  updated_at            String
+  progress              Json
+
+  @@unique([biz_type, biz_id])
+  @@index([status, update_time])
+  @@index([applicant_id, update_time])
+  @@index([current_approver_id, update_time])
+}
+
+model sys_user {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  username        String   @unique
+  password        String
+  name            String
+  phone           String?
+  email           String?
+  status          Int      @default(1)
+  last_login_time DateTime?
+  platform_id     String?
+  dept_id         String?
+  shop_id         String?
+  dept            biz_department? @relation(fields: [dept_id], references: [id])
+  roles           sys_user_role[]
+
+  @@index([platform_id, dept_id, status])
+}
+
+model biz_department {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  name            String
+  code            String   @unique
+  parent_id       String?
+  sort            Int      @default(0)
+  status          Int      @default(1)
+  platform_id     String?
+  owner_id        String?
+  users           sys_user[]
+}
+
+model sys_role {
   id          String   @id @default(cuid())
   create_time DateTime @default(now())
   update_time DateTime @updatedAt
   is_deleted  Int      @default(0)
-  tag_name    String
-  tag_code    String
-  source_type String?
-  color       String?
+  role_name   String
+  role_code   String   @unique
+  description String?
+  status      Int      @default(1)
+  users       sys_user_role[]
+  menus       sys_role_menu[]
+  buttons     sys_role_button[]
+}
+
+model sys_user_role {
+  id          String   @id @default(cuid())
+  create_time DateTime @default(now())
+  update_time DateTime @updatedAt
+  user_id     String
+  role_id     String
+  user        sys_user @relation(fields: [user_id], references: [id])
+  role        sys_role @relation(fields: [role_id], references: [id])
+
+  @@unique([user_id, role_id])
+}
+
+model sys_api_permission {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  api_path        String   @unique
+  request_method  String
+  api_name        String
+  role_ids        Json
+  status          Int      @default(1)
+  platform_id     String?
+  dept_id         String?
+  shop_id         String?
+
+  @@index([api_path, status])
+}
+
+model sys_menu {
+  id          String   @id @default(cuid())
+  create_time DateTime @default(now())
+  update_time DateTime @updatedAt
+  is_deleted  Int      @default(0)
+  menu_name   String
+  menu_code   String   @unique
+  parent_id   String?
+  icon        String?
+  route       String?  @unique
   sort        Int      @default(0)
-  platform_id String
-  dept_id     String
-  shop_id     String?
-  created_by  String?
-
-  @@unique([tag_name, platform_id, dept_id, shop_id])
-  @@index([platform_id, dept_id, is_deleted, sort])
+  type        Int
+  status      Int      @default(1)
+  roles       sys_role_menu[]
+  buttons     sys_button[]
 }
 
-model sys_config {
-  id            String   @id @default(cuid())
-  create_time   DateTime @default(now())
-  update_time   DateTime @updatedAt
-  config_key    String   @unique
-  config_value  String
-  config_name   String?
-  remark        String?
+model sys_button {
+  id          String   @id @default(cuid())
+  create_time DateTime @default(now())
+  update_time DateTime @updatedAt
+  is_deleted  Int      @default(0)
+  button_name String
+  button_code String   @unique
+  menu_id     String
+  status      Int      @default(1)
+  menu        sys_menu @relation(fields: [menu_id], references: [id])
+  roles       sys_role_button[]
 }
 
-model sys_external_api_key {
+model sys_role_menu {
+  id          String   @id @default(cuid())
+  create_time DateTime @default(now())
+  update_time DateTime @updatedAt
+  role_id     String
+  menu_id     String
+  role        sys_role @relation(fields: [role_id], references: [id])
+  menu        sys_menu @relation(fields: [menu_id], references: [id])
+
+  @@unique([role_id, menu_id])
+}
+
+model sys_role_button {
+  id          String   @id @default(cuid())
+  create_time DateTime @default(now())
+  update_time DateTime @updatedAt
+  role_id     String
+  button_id   String
+  role        sys_role @relation(fields: [role_id], references: [id])
+  button      sys_button @relation(fields: [button_id], references: [id])
+
+  @@unique([role_id, button_id])
+}
+
+model sys_login_log {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  user_id         String?
+  username        String
+  login_ip        String?
+  user_agent      String?  @db.VarChar(512)
+  login_status    Int      @default(1)
+  login_message   String?
+  platform_id     String?
+  dept_id         String?
+  shop_id         String?
+
+  @@index([username, create_time])
+  @@index([login_status, create_time])
+}
+
+model sys_operation_log {
+  id                String   @id @default(cuid())
+  create_time       DateTime @default(now())
+  update_time       DateTime @updatedAt
+  is_deleted        Int      @default(0)
+  user_id           String?
+  username          String?
+  request_method    String
+  api_path          String
+  api_name          String?
+  operation_module  String?
+  request_ip        String?
+  user_agent        String?  @db.VarChar(512)
+  operation_status  Int      @default(1)
+  operation_message String?
+  request_params    Json?
+  response_summary  Json?
+  platform_id       String?
+  dept_id           String?
+  shop_id           String?
+
+  @@index([user_id, create_time])
+  @@index([operation_module, create_time])
+  @@index([operation_status, create_time])
+}
+
+model biz_platform {
+  id          String   @id @default(cuid())
+  create_time DateTime @default(now())
+  update_time DateTime @updatedAt
+  is_deleted  Int      @default(0)
+  name        String
+  code        String   @unique
+  description String?  @db.Text
+  status      Int      @default(1)
+  owner_id    String?
+}
+
+model biz_shop {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  name            String
+  code            String   @unique
+  type            Int      @default(1)
+  address         String?  @db.Text
+  phone           String?
+  avatar          String?
+  description     String?  @db.Text
+  platform_id     String
+  department_id   String
+  owner_id        String?
+  status          Int      @default(1)
+
+  @@index([platform_id, department_id, status])
+}
+
+model hr_employee {
+  id                    String   @id @default(cuid())
+  create_time           DateTime @default(now())
+  update_time           DateTime @updatedAt
+  is_deleted            Int      @default(0)
+  name                  String
+  gender                Int?
+  age                   Int?
+  phone                 String?
+  email                 String?
+  employee_no           String?  @unique
+  job_no                String?  @unique
+  department_id         String?
+  position_id           String?
+  user_id               String?  @unique
+  manager_employee_id   String?
+  platform_id           String?
+  status                Int      @default(1)
+  join_date             DateTime?
+  regularization_date   DateTime?
+  contract_expire_time  DateTime?
+  id_card_front_file    String?
+  id_card_back_file     String?
+  emergency_contact_name  String?
+  emergency_contact_phone String?
+  household_registration String?
+  political_status      String?
+  education             String?
+  graduate_school       String?
+  major                 String?
+  social_security_base  Decimal? @db.Decimal(10, 2)
+  social_security_city  String?
+}
+
+model attendance_record {
+  id                     String   @id @default(cuid())
+  create_time            DateTime @default(now())
+  update_time            DateTime @updatedAt
+  is_deleted             Int      @default(0)
+  employee_id            String
+  attendance_date        DateTime
+  schedule_id            String?
+  shift_name             String?
+  scheduled_on_duty_time String?
+  scheduled_off_duty_time String?
+  actual_on_duty_time    DateTime?
+  actual_off_duty_time   DateTime?
+  on_duty_location       String?
+  off_duty_location      String?
+  on_duty_status         Int      @default(0)
+  off_duty_status        Int      @default(0)
+  work_duration_minutes  Int?
+  exception_type         String?
+  remark                 String?
+  platform_id            String?
+  dept_id                String?
+
+  @@index([employee_id, attendance_date])
+  @@index([platform_id, dept_id, attendance_date])
+}
+
+model attendance_schedule {
   id            String   @id @default(cuid())
   create_time   DateTime @default(now())
   update_time   DateTime @updatedAt
   is_deleted    Int      @default(0)
-  name          String
-  service_type  String
-  api_key       String
-  api_secret    String?
-  endpoint      String?
-  platform_id   String
+  employee_id   String
+  schedule_date DateTime
+  shift_name    String
+  platform_id   String?
   dept_id       String?
-  status        Int      @default(1)
+
+  @@index([employee_id, schedule_date])
+}
+
+model sys_config {
+  id           String   @id @default(cuid())
+  create_time  DateTime @default(now())
+  update_time  DateTime @updatedAt
+  is_deleted   Int      @default(0)
+  config_key   String   @unique
+  config_value String   @db.Text
+  remark       String?  @db.Text
+}
+
+model attendance_leave {
+  id                  String   @id @default(cuid())
+  create_time         DateTime @default(now())
+  update_time         DateTime @updatedAt
+  is_deleted          Int      @default(0)
+  leave_no            String   @unique
+  employee_id         String
+  leave_type          String
+  start_time          DateTime
+  end_time            DateTime
+  duration_hours      Decimal? @db.Decimal(10, 2)
+  reason              String?
+  approval_status     Int      @default(0)
+  approved_by         String?
+  approved_time       DateTime?
+  platform_id         String?
+  dept_id             String?
+  sync_attendance     Int      @default(0)
+  sync_schedule       Int      @default(0)
+  approval_request_id String?
+  approval_request_no String?
+  attachment_urls     Json?
+
+  @@index([employee_id, start_time])
+  @@index([approval_status, start_time])
+  @@index([approval_request_id])
+}
+
+model attendance_overtime {
+  id                  String   @id @default(cuid())
+  create_time         DateTime @default(now())
+  update_time         DateTime @updatedAt
+  is_deleted          Int      @default(0)
+  overtime_no         String   @unique
+  employee_id         String
+  start_time          DateTime
+  end_time            DateTime
+  duration_hours      Decimal? @db.Decimal(10, 2)
+  reason              String?
+  approval_status     Int      @default(0)
+  approved_by         String?
+  approved_time       DateTime?
+  platform_id         String?
+  dept_id             String?
+  sync_attendance     Int      @default(0)
+  sync_schedule       Int      @default(0)
+  approval_request_id String?
+  approval_request_no String?
+  attachment_urls     Json?
+
+  @@index([employee_id, start_time])
+  @@index([approval_status, start_time])
+  @@index([approval_request_id])
+}
+
+model attendance_patch_card {
+  id                  String   @id @default(cuid())
+  create_time         DateTime @default(now())
+  update_time         DateTime @updatedAt
+  is_deleted          Int      @default(0)
+  patch_no            String   @unique
+  employee_id         String
+  patch_date          DateTime
+  patch_type          String
+  target_time         DateTime
+  reason              String?
+  approval_status     Int      @default(0)
+  approved_by         String?
+  approved_time       DateTime?
+  platform_id         String?
+  dept_id             String?
+  sync_attendance     Int      @default(0)
+  approval_request_id String?
+  approval_request_no String?
+  attachment_urls     Json?
+
+  @@index([employee_id, patch_date])
+  @@index([approval_status, patch_date])
+  @@index([approval_request_id])
+}
+
+model attendance_schedule_change {
+  id                String   @id @default(cuid())
+  create_time       DateTime @default(now())
+  update_time       DateTime @updatedAt
+  is_deleted        Int      @default(0)
+  change_no         String   @unique
+  employee_id       String
+  change_date       DateTime
+  before_shift_name String?
+  after_shift_name  String?
+  change_type       String
+  reason            String?
+  operator_id       String?
+  notify_status     Int      @default(0)
+  platform_id       String?
+  dept_id           String?
+
+  @@index([employee_id, change_date])
+  @@index([notify_status, change_date])
+}
+
+model sys_message {
+  id           String    @id @default(cuid())
+  create_time  DateTime  @default(now())
+  update_time  DateTime  @updatedAt
+  is_deleted   Int       @default(0)
+  recipient_id String
+  title        String
+  content      String    @db.Text
+  message_type String
+  biz_type     String?
+  biz_id       String?
+  route        String?
+  read_status  Int       @default(0)
+  read_time    DateTime?
+  sender_id    String?
+  sender_name  String?
+  payload      Json?
+
+  @@index([recipient_id, read_status, create_time])
+}
+
+model sys_external_api_key {
+  id           String   @id @default(cuid())
+  create_time  DateTime @default(now())
+  update_time  DateTime @updatedAt
+  is_deleted   Int      @default(0)
+  name         String
+  service_type String
+  api_key      String   @db.VarChar(512)
+  api_secret   String?  @db.VarChar(512)
+  endpoint     String?  @db.VarChar(512)
+  platform_id  String
+  dept_id      String?
+  status       Int      @default(1)
 
   @@index([platform_id, dept_id, service_type])
 }
 
 model sys_api_mapping {
-  id            String   @id @default(cuid())
-  create_time   DateTime @default(now())
-  update_time   DateTime @updatedAt
-  is_deleted    Int      @default(0)
-  source_name   String
-  api_endpoint  String
-  method        String   @default("GET")
-  mapping_json  Json
-  platform_id   String
-  status        Int      @default(1)
+  id           String   @id @default(cuid())
+  create_time  DateTime @default(now())
+  update_time  DateTime @updatedAt
+  is_deleted   Int      @default(0)
+  source_name  String
+  api_endpoint String
+  method       String   @default("GET")
+  mapping_json Json
+  platform_id  String
+  status       Int      @default(1)
 
   @@index([platform_id, source_name])
 }
 
 model fin_expense_type {
-  id            String   @id @default(cuid())
-  create_time   DateTime @default(now())
-  update_time   DateTime @updatedAt
-  is_deleted    Int      @default(0)
-  name          String
-  code          String
-  description   String?  @db.Text
-  platform_id   String
-  dept_id       String?
-  status        Int      @default(1)
+  id          String   @id @default(cuid())
+  create_time DateTime @default(now())
+  update_time DateTime @updatedAt
+  is_deleted  Int      @default(0)
+  name        String
+  code        String
+  description String?  @db.Text
+  platform_id String
+  dept_id     String?
+  status      Int      @default(1)
 
   @@unique([code, platform_id])
 }
@@ -464,485 +661,50 @@ model fin_purchase {
 }
 
 model fin_cash_record {
-  id            String   @id @default(cuid())
-  create_time   DateTime @default(now())
-  update_time   DateTime @updatedAt
-  is_deleted    Int      @default(0)
-  type          Int
-  amount        Decimal  @db.Decimal(10, 2)
-  source        String
-  biz_id        String?
-  biz_type      String?
-  platform_id   String
-  dept_id       String
-  shop_id       String?
+  id          String   @id @default(cuid())
+  create_time DateTime @default(now())
+  update_time DateTime @updatedAt
+  is_deleted  Int      @default(0)
+  type        Int
+  amount      Decimal  @db.Decimal(10, 2)
+  source      String
+  biz_id      String?
+  biz_type    String?
+  platform_id String
+  dept_id     String
+  shop_id     String?
 
   @@index([platform_id, dept_id, type])
 }
 
-model sys_user {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  username String @unique
-  password String
-  name String
-  phone String?
-  email String?
-  avatar String?
-  status Int @default(1)
-  last_login_time DateTime?
-  platform_id String?
-  dept_id String?
-  shop_id String?
-  roles sys_user_role[]
-  dept biz_department? @relation(fields: [dept_id], references: [id])
-  platform biz_platform? @relation(fields: [platform_id], references: [id])
-  shop biz_shop? @relation(fields: [shop_id], references: [id])
-}
-
-model sys_role {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  role_name String
-  role_code String @unique
-  description String?
-  status Int @default(1)
-  users sys_user_role[]
-  menus sys_role_menu[]
-  buttons sys_role_button[]
-}
-
-model sys_menu {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  menu_name String
-  menu_code String @unique
-  parent_id String?
-  icon String?
-  route String? @unique
-  sort Int @default(0)
-  type Int
-  status Int @default(1)
-  buttons sys_button[]
-  roles sys_role_menu[]
-}
-
-model sys_button {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  button_name String
-  button_code String @unique
-  menu_id String
-  status Int @default(1)
-  menu sys_menu @relation(fields: [menu_id], references: [id])
-  roles sys_role_button[]
-}
-
-model sys_user_role {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  user_id String
-  role_id String
-  user sys_user @relation(fields: [user_id], references: [id])
-  role sys_role @relation(fields: [role_id], references: [id])
-  @@unique([user_id, role_id])
-}
-
-model sys_role_menu {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  role_id String
-  menu_id String
-  role sys_role @relation(fields: [role_id], references: [id])
-  menu sys_menu @relation(fields: [menu_id], references: [id])
-  @@unique([role_id, menu_id])
-}
-
-model sys_role_button {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  role_id String
-  button_id String
-  role sys_role @relation(fields: [role_id], references: [id])
-  button sys_button @relation(fields: [button_id], references: [id])
-  @@unique([role_id, button_id])
-}
-
-model sys_api_permission {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  api_path String @unique
-  request_method String
-  api_name String
-  role_ids Json
-  status Int @default(1)
-  platform_id String?
-  dept_id String?
-  shop_id String?
-}
-
-model biz_product_category {
-  id            String   @id @default(cuid())
-  create_time   DateTime @default(now())
-  update_time   DateTime @updatedAt
-  is_deleted    Int      @default(0)
-  name          String
-  code          String
-  parent_id     String?
-  level         Int      @default(1)
-  sort          Int      @default(0)
-  platform_id   String
-  department_id String
-  status        Int      @default(1)
-  @@unique([code, platform_id, department_id])
-}
-
-model biz_product {
+model hr_position {
   id            String   @id @default(cuid())
   create_time   DateTime @default(now())
   update_time   DateTime @updatedAt
   is_deleted    Int      @default(0)
   name          String
   code          String   @unique
-  category_id   String?
-  description   String?  @db.Text
-  images        Json?
-  platform_id   String
+  description   String?
   department_id String
-  status        Int      @default(1)
-  skus          biz_product_sku[]
-  @@index([platform_id, department_id, status])
-}
-
-model biz_product_sku {
-  id            String   @id @default(cuid())
-  create_time   DateTime @default(now())
-  update_time   DateTime @updatedAt
-  is_deleted    Int      @default(0)
-  product_id    String
-  sku_code      String   @unique
-  spec_data     Json?
-  price         Decimal  @db.Decimal(10, 2)
-  stock         Int      @default(0)
-  warn_stock    Int      @default(5)
-  sort          Int      @default(0)
-  shop_id       String
-  status        Int      @default(1)
-  product       biz_product @relation(fields: [product_id], references: [id])
-  @@index([shop_id, status])
-}
-
-model biz_platform {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  name String
-  code String @unique
-  description String? @db.Text
-  status Int @default(1)
-  owner_id String?
-  users sys_user[]
-}
-
-model biz_department {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  name String
-  code String @unique
-  parent_id String?
-  sort Int @default(0)
-  status Int @default(1)
-  platform_id String?
-  owner_id String?
-  users sys_user[]
-}
-
-model biz_shop {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  name String
-  code String @unique
-  type Int @default(1)
-  address String? @db.Text
-  phone String?
-  avatar String?
-  description String? @db.Text
-  platform_id String
-  department_id String
-  owner_id String?
-  status Int @default(1)
-  users sys_user[]
-  @@index([platform_id, department_id, status])
-}
-
-model hr_position {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  name String
-  code String @unique
-  description String?
-  department_id String
-  level Int?
-  sequence String?
-  platform_id String?
-}
-
-model hr_employee {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  name String
-  gender Int?
-  age Int?
-  phone String?
-  email String?
-  employee_no String? @unique
-  job_no String? @unique
-  department_id String?
-  position_id String?
-  user_id String? @unique
-  manager_employee_id String?
-  platform_id String?
-  status Int @default(1)
-  join_date DateTime?
-  regularization_date DateTime?
-  contract_expire_time DateTime?
-  id_card_front_file String?
-  id_card_back_file String?
-  emergency_contact_name String?
-  emergency_contact_phone String?
-  household_registration String?
-  political_status String?
-  education String?
-  graduate_school String?
-  major String?
-  social_security_base Decimal? @db.Decimal(10, 2)
-  social_security_city String?
+  level         Int?
+  sequence      String?
+  platform_id   String?
 }
 
 model attendance_rule {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  name String
-  on_duty_time String
-  off_duty_time String
-  late_threshold Int @default(0)
-  early_threshold Int @default(0)
-  absenteeism_threshold Int @default(0)
-  status Int @default(1)
-  platform_id String?
-  dept_id String?
-}
-
-model attendance_schedule {
-  id            String   @id @default(cuid())
-  create_time   DateTime @default(now())
-  update_time   DateTime @updatedAt
-  is_deleted    Int      @default(0)
-  employee_id   String
-  schedule_date DateTime
-  shift_name    String
-  platform_id   String?
-  dept_id       String?
-
-  @@index([employee_id, schedule_date])
-  @@index([schedule_date, is_deleted])
-  @@index([platform_id, dept_id, schedule_date])
-}
-
-model attendance_record {
-  id                      String   @id @default(cuid())
-  create_time             DateTime @default(now())
-  update_time             DateTime @updatedAt
-  is_deleted              Int      @default(0)
-  employee_id             String
-  attendance_date         DateTime
-  schedule_id             String?
-  shift_name              String?
-  scheduled_on_duty_time  String?
-  scheduled_off_duty_time String?
-  actual_on_duty_time     DateTime?
-  actual_off_duty_time    DateTime?
-  on_duty_location        String?
-  off_duty_location       String?
-  on_duty_status          Int      @default(0)
-  off_duty_status         Int      @default(0)
-  work_duration_minutes   Int?
-  exception_type          String?
-  remark                  String?
-  platform_id             String?
-  dept_id                 String?
-
-  @@index([employee_id, attendance_date])
-  @@index([attendance_date, is_deleted])
-  @@index([platform_id, dept_id, attendance_date])
-  @@index([platform_id, dept_id, on_duty_status, off_duty_status, attendance_date])
-}
-
-model attendance_leave {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  leave_no String @unique
-  employee_id String
-  leave_type String
-  start_time DateTime
-  end_time DateTime
-  duration_hours Decimal? @db.Decimal(10, 2)
-  reason String?
-  approval_status Int @default(0)
-  approved_by String?
-  approved_time DateTime?
-  platform_id String?
-  dept_id String?
-  sync_attendance Int @default(0)
-  sync_schedule Int @default(0)
-  approval_request_id String?
-  approval_request_no String?
-  attachment_urls Json?
-  @@index([employee_id, start_time])
-  @@index([approval_status, start_time])
-  @@index([approval_request_id])
-}
-
-model attendance_overtime {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  overtime_no String @unique
-  employee_id String
-  start_time DateTime
-  end_time DateTime
-  duration_hours Decimal? @db.Decimal(10, 2)
-  reason String?
-  approval_status Int @default(0)
-  approved_by String?
-  approved_time DateTime?
-  platform_id String?
-  dept_id String?
-  sync_attendance Int @default(0)
-  sync_schedule Int @default(0)
-  approval_request_id String?
-  approval_request_no String?
-  attachment_urls Json?
-  @@index([employee_id, start_time])
-  @@index([approval_status, start_time])
-  @@index([approval_request_id])
-}
-
-model attendance_patch_card {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  patch_no String @unique
-  employee_id String
-  patch_date DateTime
-  patch_type String
-  target_time DateTime
-  reason String?
-  approval_status Int @default(0)
-  approved_by String?
-  approved_time DateTime?
-  platform_id String?
-  dept_id String?
-  sync_attendance Int @default(0)
-  approval_request_id String?
-  approval_request_no String?
-  attachment_urls Json?
-  @@index([employee_id, patch_date])
-  @@index([approval_status, patch_date])
-  @@index([approval_request_id])
-}
-
-model attendance_schedule_change {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  change_no String @unique
-  employee_id String
-  change_date DateTime
-  before_shift_name String?
-  after_shift_name String?
-  change_type String
-  reason String?
-  operator_id String?
-  notify_status Int @default(0)
-  platform_id String?
-  dept_id String?
-  @@index([employee_id, change_date])
-  @@index([notify_status, change_date])
-}
-
-model approval_template {
-  id              String   @id
-  create_time     DateTime @default(now())
-  update_time     DateTime @updatedAt
-  is_deleted      Int      @default(0)
-  name            String
-  type            String
-  platform_name   String
-  department_name String
-  status          String
-  description     String?  @db.Text
-  updated_at      String
-  nodes           Json
-  @@index([status, update_time])
-}
-
-model approval_request {
-  id                    String   @id
+  id                    String   @id @default(cuid())
   create_time           DateTime @default(now())
   update_time           DateTime @updatedAt
   is_deleted            Int      @default(0)
-  request_no            String   @unique
-  template_id           String
-  template_name         String
-  biz_type              String?
-  biz_id                String?
-  type                  String
-  applicant_id          String
-  applicant_name        String
-  current_approver_id   String?
-  current_approver_name String?
-  status                String
-  amount                Decimal? @db.Decimal(10, 2)
-  platform_name         String
-  department_name       String
-  summary               String   @db.Text
-  created_at            String
-  updated_at            String
-  progress              Json
-  @@index([status, update_time])
-  @@index([applicant_id, update_time])
-  @@index([current_approver_id, update_time])
-  @@unique([biz_type, biz_id])
+  name                  String
+  on_duty_time          String
+  off_duty_time         String
+  late_threshold        Int      @default(0)
+  early_threshold       Int      @default(0)
+  absenteeism_threshold Int      @default(0)
+  status                Int      @default(1)
+  platform_id           String?
+  dept_id               String?
 }
 
 model approval_event {
@@ -965,75 +727,351 @@ model approval_event {
   dedup_key           String?  @unique
   external_event_id   String?
   payload             Json?
+
   @@index([request_id, create_time])
-  @@index([request_no, create_time])
   @@index([event_type, create_time])
-  @@index([event_source, create_time])
-  @@index([biz_type, biz_id, create_time])
-  @@index([external_event_id])
 }
 
-model sys_message {
+model biz_product_category {
   id            String   @id @default(cuid())
   create_time   DateTime @default(now())
   update_time   DateTime @updatedAt
   is_deleted    Int      @default(0)
-  recipient_id  String
-  title         String
-  content       String   @db.Text
-  message_type  String
-  biz_type      String?
-  biz_id        String?
-  route         String?
-  read_status   Int      @default(0)
-  read_time     DateTime?
-  sender_id     String?
-  sender_name   String?
-  payload       Json?
-  @@index([recipient_id, read_status, create_time])
-  @@index([message_type, create_time])
-  @@index([biz_type, biz_id, create_time])
+  name          String
+  code          String
+  parent_id     String?
+  level         Int      @default(1)
+  sort          Int      @default(0)
+  platform_id   String
+  department_id String
+  status        Int      @default(1)
+
+  @@unique([code, platform_id, department_id])
 }
 
-model sys_login_log {
-  id String @id @default(cuid())
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  user_id String?
-  username String
-  login_ip String?
-  user_agent String? @db.VarChar(512)
-  login_status Int @default(1)
-  login_message String?
-  platform_id String?
-  dept_id String?
-  shop_id String?
-  @@index([username, create_time])
-  @@index([login_status, create_time])
+model biz_product {
+  id            String   @id @default(cuid())
+  create_time   DateTime @default(now())
+  update_time   DateTime @updatedAt
+  is_deleted    Int      @default(0)
+  name          String
+  code          String   @unique
+  category_id   String?
+  description   String?  @db.Text
+  images        Json?
+  platform_id   String
+  department_id String
+  status        Int      @default(1)
+  skus          biz_product_sku[]
+
+  @@index([platform_id, department_id, status])
 }
 
-model sys_operation_log {
-  id String @id @default(cuid())
+model biz_product_sku {
+  id          String   @id @default(cuid())
   create_time DateTime @default(now())
   update_time DateTime @updatedAt
-  is_deleted Int @default(0)
-  user_id String?
-  username String?
-  request_method String
-  api_path String
-  api_name String?
-  operation_module String?
-  request_ip String?
-  user_agent String? @db.VarChar(512)
-  operation_status Int @default(1)
-  operation_message String?
-  request_params Json?
-  response_summary Json?
-  platform_id String?
-  dept_id String?
-  shop_id String?
-  @@index([user_id, create_time])
-  @@index([operation_module, create_time])
-  @@index([operation_status, create_time])
+  is_deleted  Int      @default(0)
+  product_id  String
+  sku_code    String   @unique
+  spec_data   Json?
+  price       Decimal  @db.Decimal(10, 2)
+  stock       Int      @default(0)
+  warn_stock  Int      @default(5)
+  sort        Int      @default(0)
+  shop_id     String
+  status      Int      @default(1)
+  product     biz_product @relation(fields: [product_id], references: [id])
+
+  @@index([shop_id, status])
+}
+
+model service_session {
+  id                    String   @id @default(cuid())
+  create_time           DateTime @default(now())
+  update_time           DateTime @updatedAt
+  is_deleted            Int      @default(0)
+  session_no            String   @unique
+  customer_id           String?
+  customer_nickname     String?
+  customer_satisfaction Int?
+  agent_user_id         String?
+  agent_name            String?
+  group_name            String?
+  platform_id           String
+  dept_id               String
+  shop_id               String?
+  status                String   @default("pending")
+  transfer_status       String   @default("none")
+  started_at            DateTime
+  ended_at              DateTime?
+  first_response_at     DateTime?
+  last_message_at       DateTime?
+  response_duration_sec Int?
+  tags                  Json?
+  remark                String?  @db.Text
+  messages              service_session_message[]
+
+  @@index([platform_id, dept_id, shop_id, status])
+  @@index([agent_user_id, started_at])
+}
+
+model service_session_message {
+  id           String   @id @default(cuid())
+  create_time  DateTime @default(now())
+  update_time  DateTime @updatedAt
+  is_deleted   Int      @default(0)
+  session_id   String
+  session_no   String
+  sender_type  String
+  sender_id    String?
+  sender_name  String?
+  message_type String   @default("text")
+  content      String   @db.Text
+  attachments  Json?
+  sent_at      DateTime
+  platform_id  String
+  dept_id      String
+  shop_id      String?
+  session      service_session @relation(fields: [session_id], references: [id])
+
+  @@index([session_id, sent_at])
+}
+
+model service_quality_rule {
+  id                   String   @id @default(cuid())
+  create_time          DateTime @default(now())
+  update_time          DateTime @updatedAt
+  is_deleted           Int      @default(0)
+  rule_name            String
+  rule_type            String
+  description          String?  @db.Text
+  deduct_score         Int      @default(0)
+  pass_threshold       Int      @default(0)
+  trigger_keywords     Json?
+  response_timeout_sec Int?
+  enabled              Int      @default(1)
+  sort                 Int      @default(0)
+  platform_id          String
+  dept_id              String
+  shop_id              String?
+  created_by           String?
+
+  @@index([platform_id, dept_id, shop_id, enabled, sort])
+}
+
+model service_sensitive_term {
+  id          String   @id @default(cuid())
+  create_time DateTime @default(now())
+  update_time DateTime @updatedAt
+  is_deleted  Int      @default(0)
+  term        String
+  category    String
+  severity    Int      @default(1)
+  enabled     Int      @default(1)
+  replace_text String?
+  description String?  @db.Text
+  platform_id String
+  dept_id     String
+  shop_id     String?
+  created_by  String?
+
+  @@unique([term, platform_id, dept_id, shop_id])
+}
+
+model service_session_analysis {
+  id                     String   @id @default(cuid())
+  create_time            DateTime @default(now())
+  update_time            DateTime @updatedAt
+  is_deleted             Int      @default(0)
+  session_id             String
+  session_no             String
+  platform_id            String
+  dept_id                String
+  shop_id                String?
+  triggered_by           String   @default("system")
+  triggered_by_user_id   String?
+  quality_score          Int      @default(100)
+  quality_passed         Int      @default(1)
+  loss_risk_level        String   @default("low")
+  loss_risk_score        Int      @default(0)
+  customer_sentiment     String   @default("neutral")
+  response_timeout_count Int      @default(0)
+  sensitive_hit_count    Int      @default(0)
+  faq_hit_count          Int      @default(0)
+  top_faqs               Json?
+  sensitive_hits         Json?
+  triggered_rule_ids     Json?
+  summary                String?  @db.Text
+  suggestions            Json?
+  analyzed_at            DateTime @default(now())
+
+  @@index([session_id, analyzed_at])
+}
+
+model service_quality_record {
+  id                   String   @id @default(cuid())
+  create_time          DateTime @default(now())
+  update_time          DateTime @updatedAt
+  is_deleted           Int      @default(0)
+  session_id           String
+  analysis_id          String?
+  session_no           String
+  inspector_id         String?
+  inspector_name       String?
+  inspection_mode      String   @default("auto")
+  score                Int      @default(100)
+  passed               Int      @default(1)
+  violations           Json?
+  deduct_details       Json?
+  comment              String?  @db.Text
+  platform_id          String
+  dept_id              String
+  shop_id              String?
+  rectification_status String   @default("not_required")
+  rectification_note   String?  @db.Text
+  inspected_at         DateTime @default(now())
+
+  @@index([session_id, inspected_at])
+}
+
+model service_satisfaction {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  session_id      String
+  session_no      String
+  rating          Int
+  label           String
+  content         String?  @db.Text
+  customer_id     String?
+  platform_id     String
+  dept_id         String
+  shop_id         String?
+  created_at_text String?
+
+  @@index([session_id, rating])
+}
+
+model exam_paper {
+  id           String   @id @default(cuid())
+  create_time  DateTime @default(now())
+  update_time  DateTime @updatedAt
+  is_deleted   Int      @default(0)
+  paper_name   String
+  description  String?  @db.LongText
+  total_score  Int      @default(100)
+  pass_score   Int      @default(60)
+  duration_min Int      @default(60)
+  enabled      Int      @default(1)
+  platform_id  String
+  dept_id      String
+  shop_id      String?
+  created_by   String?
+
+  @@index([platform_id, dept_id, shop_id, enabled])
+}
+
+model exam_paper_question {
+  id             String   @id @default(cuid())
+  create_time    DateTime @default(now())
+  update_time    DateTime @updatedAt
+  is_deleted     Int      @default(0)
+  paper_id       String
+  question_type  String
+  title          String   @db.LongText
+  options        Json?
+  correct_answer Json
+  score          Int      @default(0)
+  sort           Int      @default(0)
+  explanation    String?  @db.LongText
+
+  @@index([paper_id, sort])
+}
+
+model exam_plan {
+  id                  String   @id @default(cuid())
+  create_time         DateTime @default(now())
+  update_time         DateTime @updatedAt
+  is_deleted          Int      @default(0)
+  plan_name           String
+  paper_id            String
+  start_time          DateTime
+  end_time            DateTime
+  reminder_mode       String   @default("notice")
+  force_enter         Int      @default(0)
+  pass_score          Int      @default(60)
+  duration_min        Int      @default(60)
+  max_attempts        Int      @default(3)
+  allow_retake        Int      @default(0)
+  absent_mark_minutes Int      @default(30)
+  allow_makeup        Int      @default(0)
+  makeup_limit        Int      @default(0)
+  target_dept_ids     Json?
+  target_employee_ids Json?
+  target_count        Int      @default(0)
+  status              String   @default("draft")
+  platform_id         String
+  dept_id             String
+  shop_id             String?
+  created_by          String?
+
+  @@index([paper_id])
+  @@index([platform_id, dept_id, shop_id, start_time, end_time])
+}
+
+model exam_assignment {
+  id                   String   @id @default(cuid())
+  create_time          DateTime @default(now())
+  update_time          DateTime @updatedAt
+  is_deleted           Int      @default(0)
+  plan_id              String
+  paper_id             String
+  user_id              String
+  employee_id          String?
+  employee_name        String?
+  employee_no          String?
+  target_dept_id       String?
+  status               String   @default("pending")
+  attempt_count        Int      @default(0)
+  started_at           DateTime?
+  submitted_at         DateTime?
+  score                Int?
+  passed               Int?
+  auto_graded          Int      @default(0)
+  answers              Json?
+  attempts_history     Json?
+  manual_absent_marked Int      @default(0)
+  manual_absent_reason String?  @db.LongText
+  correct_count        Int      @default(0)
+  question_count       Int      @default(0)
+  platform_id          String
+  dept_id              String
+  shop_id              String?
+  reminder_mode        String   @default("notice")
+  force_enter          Int      @default(0)
+
+  @@unique([plan_id, user_id])
+  @@index([user_id, status, submitted_at])
+  @@index([platform_id, dept_id, shop_id, status, submitted_at])
+}
+
+model knowledge_tag {
+  id            String   @id @default(cuid())
+  create_time   DateTime @default(now())
+  update_time   DateTime @updatedAt
+  is_deleted    Int      @default(0)
+  tag_name      String
+  tag_code      String
+  source_type   String?
+  color         String?
+  sort          Int      @default(0)
+  platform_id   String
+  dept_id       String
+  shop_id       String?
+  created_by    String?
+
+  @@index([platform_id, dept_id, source_type, sort])
+  @@index([tag_code, source_type])
 }

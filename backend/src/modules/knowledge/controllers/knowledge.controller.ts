@@ -1,4 +1,19 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  UploadedFiles,
+  UseInterceptors,
+  ParseFilePipe,
+  MaxFileSizeValidator,
+  FileTypeValidator,
+} from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { CurrentUser, type CurrentUserPayload } from '../../../common/current-user.decorator';
 import { Permission } from '../../../common/permission.decorator';
 import { QueryKnowledgeArticlesDto } from '../dto/query-knowledge-articles.dto';
@@ -13,6 +28,54 @@ import { KnowledgeService } from '../services/knowledge.service';
 @Controller('knowledge')
 export class KnowledgeController {
   constructor(private readonly knowledgeService: KnowledgeService) {}
+
+  @Get('documents')
+  @Permission('knowledge:document:list')
+  listDocuments(@CurrentUser() user: CurrentUserPayload) {
+    return this.knowledgeService.listDocuments(user.sub);
+  }
+
+  @Post('documents/upload')
+  @Permission('knowledge:document:create')
+  @UseInterceptors(FilesInterceptor('files'))
+  async uploadDocuments(
+    @CurrentUser() user: CurrentUserPayload,
+    @Body('is_public') isPublic: string,
+    @UploadedFiles(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 10 * 1024 * 1024 }),
+          new FileTypeValidator({ fileType: /.(pdf|docx|xlsx|pptx|jpg|jpeg|png|bmp|gif)$/ }),
+        ],
+      }),
+    )
+    files: Express.Multer.File[],
+  ) {
+    const results: any[] = [];
+    for (const file of files) {
+      const res = await this.knowledgeService.uploadDocument(user.sub, file, isPublic === '1' ? 1 : 0);
+      results.push(res);
+    }
+    return results;
+  }
+
+  @Post('documents/:id/toggle-public')
+  @Permission('knowledge:document:update')
+  togglePublic(@CurrentUser() user: CurrentUserPayload, @Param('id') id: string, @Body('is_public') isPublic: number) {
+    return this.knowledgeService.togglePublicDocument(user.sub, id, isPublic);
+  }
+
+  @Delete('documents/:id')
+  @Permission('knowledge:document:delete')
+  deleteDocument(@CurrentUser() user: CurrentUserPayload, @Param('id') id: string) {
+    return this.knowledgeService.deleteDocument(user.sub, id);
+  }
+
+  @Get('documents/:id/content')
+  @Permission('knowledge:document:list')
+  async getDocumentContent(@CurrentUser() user: CurrentUserPayload, @Param('id') id: string) {
+    return this.knowledgeService.getDocumentContent(user.sub, id);
+  }
 
   @Get('articles')
   @Permission('knowledge:article:list')

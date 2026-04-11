@@ -96,7 +96,17 @@ export class VectorService implements OnModuleInit {
     const vector = await this.generateEmbedding(query);
     const must: any[] = [];
     if (filter.platform_id) must.push({ key: 'platform_id', match: { value: filter.platform_id } });
-    if (filter.dept_id) must.push({ key: 'dept_id', match: { value: filter.dept_id } });
+    
+    // 关键逻辑：(dept_id == 当前部门) OR (is_public == 1)
+    if (filter.dept_id) {
+      must.push({
+        should: [
+          { key: 'dept_id', match: { value: filter.dept_id } },
+          { key: 'is_public', match: { value: 1 } }
+        ]
+      });
+    }
+    
     if (filter.shop_id) must.push({ key: 'shop_id', match: { value: filter.shop_id } });
     const results = await this.client.search(this.collectionName, { vector, filter: { must }, limit, with_payload: true });
     return results.map(r => ({ id: r.id, score: r.score, payload: r.payload }));

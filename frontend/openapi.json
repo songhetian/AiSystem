@@ -1,0 +1,4250 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "operationId": "AuthController_me",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/system/users": {
+      "get": {
+        "operationId": "SystemUsersController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemUsers"
+        ]
+      },
+      "post": {
+        "operationId": "SystemUsersController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemUsers"
+        ]
+      }
+    },
+    "/api/system/users/{id}": {
+      "patch": {
+        "operationId": "SystemUsersController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemUsers"
+        ]
+      },
+      "delete": {
+        "operationId": "SystemUsersController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemUsers"
+        ]
+      }
+    },
+    "/api/system/users/profile": {
+      "patch": {
+        "operationId": "SystemUsersController_updateProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemUsers"
+        ]
+      }
+    },
+    "/api/system/users/profile/password": {
+      "post": {
+        "operationId": "SystemUsersController_updatePassword",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemUsers"
+        ]
+      }
+    },
+    "/api/system/users/{id}/reset-password": {
+      "post": {
+        "operationId": "SystemUsersController_resetPassword",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetUserPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemUsers"
+        ]
+      }
+    },
+    "/api/system/users/batch/status": {
+      "patch": {
+        "operationId": "SystemUsersController_batchUpdateStatus",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchUpdateUserStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemUsers"
+        ]
+      }
+    },
+    "/api/system/roles": {
+      "get": {
+        "operationId": "SystemRolesController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemRoles"
+        ]
+      },
+      "post": {
+        "operationId": "SystemRolesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemRoles"
+        ]
+      }
+    },
+    "/api/system/roles/{id}/copy": {
+      "post": {
+        "operationId": "SystemRolesController_copy",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CopyRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemRoles"
+        ]
+      }
+    },
+    "/api/system/roles/{id}": {
+      "patch": {
+        "operationId": "SystemRolesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemRoles"
+        ]
+      },
+      "delete": {
+        "operationId": "SystemRolesController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemRoles"
+        ]
+      }
+    },
+    "/api/system/menus": {
+      "get": {
+        "operationId": "SystemMenusController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemMenus"
+        ]
+      },
+      "post": {
+        "operationId": "SystemMenusController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMenuDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemMenus"
+        ]
+      }
+    },
+    "/api/system/menus/tree": {
+      "get": {
+        "operationId": "SystemMenusController_findTree",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemMenus"
+        ]
+      }
+    },
+    "/api/system/menus/{id}": {
+      "patch": {
+        "operationId": "SystemMenusController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMenuDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemMenus"
+        ]
+      },
+      "delete": {
+        "operationId": "SystemMenusController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemMenus"
+        ]
+      }
+    },
+    "/api/system/menus/sort": {
+      "post": {
+        "operationId": "SystemMenusController_sort",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SortMenuDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemMenus"
+        ]
+      }
+    },
+    "/api/system/logs/login": {
+      "get": {
+        "operationId": "SystemLogsController_listLoginLogs",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemLogs"
+        ]
+      }
+    },
+    "/api/system/logs/operation": {
+      "get": {
+        "operationId": "SystemLogsController_listOperationLogs",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemLogs"
+        ]
+      }
+    },
+    "/api/system/messages": {
+      "get": {
+        "operationId": "SystemMessagesController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemMessages"
+        ]
+      }
+    },
+    "/api/system/messages/stats": {
+      "get": {
+        "operationId": "SystemMessagesController_stats",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemMessages"
+        ]
+      }
+    },
+    "/api/system/messages/{id}/read": {
+      "patch": {
+        "operationId": "SystemMessagesController_markRead",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemMessages"
+        ]
+      }
+    },
+    "/api/system/messages/read-all": {
+      "patch": {
+        "operationId": "SystemMessagesController_markAllRead",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemMessages"
+        ]
+      }
+    },
+    "/api/system/api-keys": {
+      "get": {
+        "operationId": "SystemApiKeysController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemApiKeys"
+        ]
+      },
+      "post": {
+        "operationId": "SystemApiKeysController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemApiKeys"
+        ]
+      }
+    },
+    "/api/system/api-keys/{id}": {
+      "patch": {
+        "operationId": "SystemApiKeysController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemApiKeys"
+        ]
+      },
+      "delete": {
+        "operationId": "SystemApiKeysController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemApiKeys"
+        ]
+      }
+    },
+    "/api/system/apis": {
+      "get": {
+        "operationId": "SystemApisController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemApis"
+        ]
+      },
+      "post": {
+        "operationId": "SystemApisController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApiPermissionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemApis"
+        ]
+      }
+    },
+    "/api/system/apis/{id}": {
+      "patch": {
+        "operationId": "SystemApisController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateApiPermissionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemApis"
+        ]
+      },
+      "delete": {
+        "operationId": "SystemApisController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemApis"
+        ]
+      }
+    },
+    "/api/system/apis/{id}/stats": {
+      "get": {
+        "operationId": "SystemApisController_getStats",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemApis"
+        ]
+      }
+    },
+    "/api/system/buttons": {
+      "get": {
+        "operationId": "SystemButtonsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemButtons"
+        ]
+      },
+      "post": {
+        "operationId": "SystemButtonsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateButtonDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemButtons"
+        ]
+      }
+    },
+    "/api/system/buttons/{id}": {
+      "patch": {
+        "operationId": "SystemButtonsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateButtonDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemButtons"
+        ]
+      },
+      "delete": {
+        "operationId": "SystemButtonsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemButtons"
+        ]
+      }
+    },
+    "/api/system/permissions/user-roles": {
+      "post": {
+        "operationId": "SystemPermissionsController_assignUserRoles",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserRolesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemPermissions"
+        ]
+      }
+    },
+    "/api/system/permissions/role-resources": {
+      "post": {
+        "operationId": "SystemPermissionsController_assignRoleResources",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignRolePermissionsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemPermissions"
+        ]
+      }
+    },
+    "/api/system/permissions/user-roles/{userId}": {
+      "get": {
+        "operationId": "SystemPermissionsController_getUserRoles",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemPermissions"
+        ]
+      }
+    },
+    "/api/system/permissions/role-resources/{roleId}": {
+      "get": {
+        "operationId": "SystemPermissionsController_getRoleResources",
+        "parameters": [
+          {
+            "name": "roleId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemPermissions"
+        ]
+      }
+    },
+    "/api/system/platforms": {
+      "get": {
+        "operationId": "SystemPlatformsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemPlatforms"
+        ]
+      },
+      "post": {
+        "operationId": "SystemPlatformsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlatformDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemPlatforms"
+        ]
+      }
+    },
+    "/api/system/platforms/{id}": {
+      "patch": {
+        "operationId": "SystemPlatformsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlatformDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemPlatforms"
+        ]
+      },
+      "delete": {
+        "operationId": "SystemPlatformsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemPlatforms"
+        ]
+      }
+    },
+    "/api/system/platforms/batch/status": {
+      "patch": {
+        "operationId": "SystemPlatformsController_batchUpdateStatus",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchUpdatePlatformStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemPlatforms"
+        ]
+      }
+    },
+    "/api/system/departments": {
+      "get": {
+        "operationId": "SystemDepartmentsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemDepartments"
+        ]
+      },
+      "post": {
+        "operationId": "SystemDepartmentsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDepartmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemDepartments"
+        ]
+      }
+    },
+    "/api/system/departments/tree": {
+      "get": {
+        "operationId": "SystemDepartmentsController_findTree",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemDepartments"
+        ]
+      }
+    },
+    "/api/system/departments/batch/status": {
+      "patch": {
+        "operationId": "SystemDepartmentsController_batchUpdateStatus",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchUpdateDepartmentStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemDepartments"
+        ]
+      }
+    },
+    "/api/system/departments/{id}": {
+      "patch": {
+        "operationId": "SystemDepartmentsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDepartmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemDepartments"
+        ]
+      },
+      "delete": {
+        "operationId": "SystemDepartmentsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemDepartments"
+        ]
+      }
+    },
+    "/api/system/shops": {
+      "get": {
+        "operationId": "SystemShopsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemShops"
+        ]
+      },
+      "post": {
+        "operationId": "SystemShopsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateShopDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemShops"
+        ]
+      }
+    },
+    "/api/system/shops/{id}": {
+      "patch": {
+        "operationId": "SystemShopsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateShopDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemShops"
+        ]
+      },
+      "delete": {
+        "operationId": "SystemShopsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemShops"
+        ]
+      }
+    },
+    "/api/system/shops/batch/status": {
+      "patch": {
+        "operationId": "SystemShopsController_batchUpdateStatus",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchUpdateShopStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemShops"
+        ]
+      }
+    },
+    "/api/system/integrations": {
+      "get": {
+        "operationId": "SystemIntegrationsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemIntegrations"
+        ]
+      },
+      "post": {
+        "operationId": "SystemIntegrationsController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemIntegrations"
+        ]
+      }
+    },
+    "/api/system/integrations/{id}": {
+      "patch": {
+        "operationId": "SystemIntegrationsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemIntegrations"
+        ]
+      },
+      "delete": {
+        "operationId": "SystemIntegrationsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "SystemIntegrations"
+        ]
+      }
+    },
+    "/api/personnel/departments": {
+      "get": {
+        "operationId": "PersonnelDepartmentsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PersonnelDepartments"
+        ]
+      }
+    },
+    "/api/personnel/positions": {
+      "get": {
+        "operationId": "PersonnelPositionsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PersonnelPositions"
+        ]
+      },
+      "post": {
+        "operationId": "PersonnelPositionsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePositionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PersonnelPositions"
+        ]
+      }
+    },
+    "/api/personnel/positions/{id}": {
+      "patch": {
+        "operationId": "PersonnelPositionsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePositionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PersonnelPositions"
+        ]
+      },
+      "delete": {
+        "operationId": "PersonnelPositionsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PersonnelPositions"
+        ]
+      }
+    },
+    "/api/personnel/employees": {
+      "get": {
+        "operationId": "PersonnelEmployeesController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PersonnelEmployees"
+        ]
+      },
+      "post": {
+        "operationId": "PersonnelEmployeesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEmployeeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PersonnelEmployees"
+        ]
+      }
+    },
+    "/api/personnel/employees/batch/status": {
+      "patch": {
+        "operationId": "PersonnelEmployeesController_batchUpdateStatus",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchUpdateEmployeeStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PersonnelEmployees"
+        ]
+      }
+    },
+    "/api/personnel/employees/{id}": {
+      "patch": {
+        "operationId": "PersonnelEmployeesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEmployeeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PersonnelEmployees"
+        ]
+      },
+      "delete": {
+        "operationId": "PersonnelEmployeesController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PersonnelEmployees"
+        ]
+      }
+    },
+    "/api/personnel/employees/{id}/id-card/{side}": {
+      "post": {
+        "operationId": "PersonnelEmployeesController_uploadIdCard",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "side",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PersonnelEmployees"
+        ]
+      },
+      "get": {
+        "operationId": "PersonnelEmployeesController_getIdCardUrl",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "side",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "PersonnelEmployees"
+        ]
+      }
+    },
+    "/api/attendance/shifts": {
+      "get": {
+        "operationId": "ShiftsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Shifts"
+        ]
+      },
+      "post": {
+        "operationId": "ShiftsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateShiftDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Shifts"
+        ]
+      }
+    },
+    "/api/attendance/shifts/{id}": {
+      "patch": {
+        "operationId": "ShiftsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateShiftDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Shifts"
+        ]
+      },
+      "delete": {
+        "operationId": "ShiftsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Shifts"
+        ]
+      },
+      "get": {
+        "operationId": "ShiftsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Shifts"
+        ]
+      }
+    },
+    "/api/attendance/schedules": {
+      "get": {
+        "operationId": "AttendanceSchedulesController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceSchedules"
+        ]
+      },
+      "post": {
+        "operationId": "AttendanceSchedulesController_saveSchedule",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveScheduleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceSchedules"
+        ]
+      }
+    },
+    "/api/attendance/schedules/{id}": {
+      "delete": {
+        "operationId": "AttendanceSchedulesController_removeSchedule",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceSchedules"
+        ]
+      }
+    },
+    "/api/attendance/schedules/import": {
+      "post": {
+        "operationId": "AttendanceSchedulesController_importSchedules",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportSchedulesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceSchedules"
+        ]
+      }
+    },
+    "/api/attendance/schedules/export": {
+      "get": {
+        "operationId": "AttendanceSchedulesController_exportSchedules",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceSchedules"
+        ]
+      }
+    },
+    "/api/attendance/schedules/template": {
+      "get": {
+        "operationId": "AttendanceSchedulesController_downloadTemplate",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceSchedules"
+        ]
+      }
+    },
+    "/api/attendance/records": {
+      "get": {
+        "operationId": "AttendanceRecordsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceRecords"
+        ]
+      }
+    },
+    "/api/attendance/leaves": {
+      "get": {
+        "operationId": "AttendanceWorkflowsController_listLeaves",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      },
+      "post": {
+        "operationId": "AttendanceWorkflowsController_createLeave",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertAttendanceLeaveDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      }
+    },
+    "/api/attendance/leaves/{id}": {
+      "patch": {
+        "operationId": "AttendanceWorkflowsController_updateLeave",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertAttendanceLeaveDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      },
+      "delete": {
+        "operationId": "AttendanceWorkflowsController_removeLeave",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      }
+    },
+    "/api/attendance/overtimes": {
+      "get": {
+        "operationId": "AttendanceWorkflowsController_listOvertimes",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      },
+      "post": {
+        "operationId": "AttendanceWorkflowsController_createOvertime",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertAttendanceOvertimeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      }
+    },
+    "/api/attendance/overtimes/{id}": {
+      "patch": {
+        "operationId": "AttendanceWorkflowsController_updateOvertime",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertAttendanceOvertimeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      },
+      "delete": {
+        "operationId": "AttendanceWorkflowsController_removeOvertime",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      }
+    },
+    "/api/attendance/patch-cards": {
+      "get": {
+        "operationId": "AttendanceWorkflowsController_listPatchCards",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      },
+      "post": {
+        "operationId": "AttendanceWorkflowsController_createPatchCard",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertAttendancePatchCardDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      }
+    },
+    "/api/attendance/patch-cards/{id}": {
+      "patch": {
+        "operationId": "AttendanceWorkflowsController_updatePatchCard",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertAttendancePatchCardDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      },
+      "delete": {
+        "operationId": "AttendanceWorkflowsController_removePatchCard",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      }
+    },
+    "/api/attendance/schedule-changes": {
+      "get": {
+        "operationId": "AttendanceWorkflowsController_listScheduleChanges",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      },
+      "post": {
+        "operationId": "AttendanceWorkflowsController_createScheduleChange",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertAttendanceScheduleChangeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      }
+    },
+    "/api/attendance/schedule-changes/{id}": {
+      "patch": {
+        "operationId": "AttendanceWorkflowsController_updateScheduleChange",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertAttendanceScheduleChangeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      },
+      "delete": {
+        "operationId": "AttendanceWorkflowsController_removeScheduleChange",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceWorkflows"
+        ]
+      }
+    },
+    "/api/attendance/records/statistics": {
+      "get": {
+        "operationId": "AttendanceRecordsController_getStatistics",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceRecords"
+        ]
+      }
+    },
+    "/api/attendance/records/{id}/recalculate": {
+      "post": {
+        "operationId": "AttendanceRecordsController_reCalculate",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AttendanceRecords"
+        ]
+      }
+    },
+    "/api/approval/templates": {
+      "get": {
+        "operationId": "ApprovalController_listTemplates",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Approval"
+        ]
+      },
+      "post": {
+        "operationId": "ApprovalController_createTemplate",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveApprovalTemplateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Approval"
+        ]
+      }
+    },
+    "/api/approval/templates/{id}": {
+      "get": {
+        "operationId": "ApprovalController_getTemplate",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Approval"
+        ]
+      },
+      "patch": {
+        "operationId": "ApprovalController_saveTemplate",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveApprovalTemplateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Approval"
+        ]
+      },
+      "delete": {
+        "operationId": "ApprovalController_deleteTemplate",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Approval"
+        ]
+      }
+    },
+    "/api/approval/people": {
+      "get": {
+        "operationId": "ApprovalController_listPeople",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Approval"
+        ]
+      }
+    },
+    "/api/approval/requests": {
+      "get": {
+        "operationId": "ApprovalController_listRequests",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Approval"
+        ]
+      }
+    },
+    "/api/approval/requests/stats": {
+      "get": {
+        "operationId": "ApprovalController_stats",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Approval"
+        ]
+      }
+    },
+    "/api/approval/requests/{id}/approve": {
+      "post": {
+        "operationId": "ApprovalController_approveRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovalActionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Approval"
+        ]
+      }
+    },
+    "/api/approval/requests/{id}/reject": {
+      "post": {
+        "operationId": "ApprovalController_rejectRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovalActionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Approval"
+        ]
+      }
+    },
+    "/api/approval/requests/{id}/transfer": {
+      "post": {
+        "operationId": "ApprovalController_transferRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovalActionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Approval"
+        ]
+      }
+    },
+    "/api/service/sessions": {
+      "get": {
+        "operationId": "ServiceController_listSessions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Service"
+        ]
+      }
+    },
+    "/api/service/sessions/{id}": {
+      "get": {
+        "operationId": "ServiceController_getSession",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Service"
+        ]
+      }
+    },
+    "/api/service/sessions/{id}/analyze": {
+      "post": {
+        "operationId": "ServiceController_analyzeSession",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzeServiceSessionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Service"
+        ]
+      }
+    },
+    "/api/service/sessions/{id}/case-draft": {
+      "post": {
+        "operationId": "ServiceController_generateCaseDraft",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateServiceCaseDraftDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Service"
+        ]
+      }
+    },
+    "/api/service/sessions/{id}/archive-case": {
+      "post": {
+        "operationId": "ServiceController_archiveCase",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArchiveServiceCaseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Service"
+        ]
+      }
+    },
+    "/api/service/quality-rules": {
+      "get": {
+        "operationId": "ServiceController_listQualityRules",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Service"
+        ]
+      },
+      "post": {
+        "operationId": "ServiceController_createQualityRule",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveServiceQualityRuleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Service"
+        ]
+      }
+    },
+    "/api/service/quality-rules/{id}": {
+      "put": {
+        "operationId": "ServiceController_updateQualityRule",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveServiceQualityRuleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Service"
+        ]
+      }
+    },
+    "/api/service/quality-rules/{id}/enable": {
+      "patch": {
+        "operationId": "ServiceController_enableQualityRule",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Service"
+        ]
+      }
+    },
+    "/api/service/quality-rules/{id}/disable": {
+      "patch": {
+        "operationId": "ServiceController_disableQualityRule",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Service"
+        ]
+      }
+    },
+    "/api/service/sensitive-terms": {
+      "get": {
+        "operationId": "ServiceController_listSensitiveTerms",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Service"
+        ]
+      },
+      "post": {
+        "operationId": "ServiceController_createSensitiveTerm",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveServiceSensitiveTermDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Service"
+        ]
+      }
+    },
+    "/api/service/sensitive-terms/{id}": {
+      "put": {
+        "operationId": "ServiceController_updateSensitiveTerm",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveServiceSensitiveTermDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Service"
+        ]
+      }
+    },
+    "/api/service/ai-overview": {
+      "get": {
+        "operationId": "ServiceController_getAiOverview",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Service"
+        ]
+      }
+    },
+    "/api/knowledge/documents": {
+      "get": {
+        "operationId": "KnowledgeController_listDocuments",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/documents/upload": {
+      "post": {
+        "operationId": "KnowledgeController_uploadDocuments",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/documents/{id}/toggle-public": {
+      "post": {
+        "operationId": "KnowledgeController_togglePublic",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/documents/{id}": {
+      "delete": {
+        "operationId": "KnowledgeController_deleteDocument",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/documents/{id}/content": {
+      "get": {
+        "operationId": "KnowledgeController_getDocumentContent",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/articles": {
+      "get": {
+        "operationId": "KnowledgeController_listArticles",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      },
+      "post": {
+        "operationId": "KnowledgeController_createArticle",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveKnowledgeArticleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/articles/{id}": {
+      "get": {
+        "operationId": "KnowledgeController_getArticle",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      },
+      "put": {
+        "operationId": "KnowledgeController_updateArticle",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveKnowledgeArticleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/faq-candidates": {
+      "get": {
+        "operationId": "KnowledgeController_listFaqCandidates",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/tags": {
+      "get": {
+        "operationId": "KnowledgeController_listTags",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      },
+      "post": {
+        "operationId": "KnowledgeController_createTag",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveKnowledgeTagDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/tags/{id}/impact": {
+      "get": {
+        "operationId": "KnowledgeController_getTagImpact",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/tags/ai-suggestions": {
+      "get": {
+        "operationId": "KnowledgeController_getAiTagSuggestions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/tags/batch-create": {
+      "post": {
+        "operationId": "KnowledgeController_batchCreateTags",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/tags/{id}": {
+      "put": {
+        "operationId": "KnowledgeController_updateTag",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveKnowledgeTagDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/tags/{id}/merge": {
+      "post": {
+        "operationId": "KnowledgeController_mergeTag",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MergeKnowledgeTagDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/tags/{id}/enable": {
+      "post": {
+        "operationId": "KnowledgeController_enableTag",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/tags/{id}/disable": {
+      "post": {
+        "operationId": "KnowledgeController_disableTag",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/categories": {
+      "get": {
+        "operationId": "KnowledgeController_listCategories",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      },
+      "post": {
+        "operationId": "KnowledgeController_createCategory",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveKnowledgeCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/categories/{id}": {
+      "put": {
+        "operationId": "KnowledgeController_updateCategory",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveKnowledgeCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/categories/{id}/enable": {
+      "post": {
+        "operationId": "KnowledgeController_enableCategory",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/categories/{id}/disable": {
+      "post": {
+        "operationId": "KnowledgeController_disableCategory",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/api/knowledge/chat/sessions/{id}/chat-stream": {
+      "get": {
+        "operationId": "KnowledgeChatController_chatSse",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "content",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "KnowledgeChat"
+        ]
+      }
+    },
+    "/api/knowledge/chat/sessions": {
+      "post": {
+        "operationId": "KnowledgeChatController_createSession",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "KnowledgeChat"
+        ]
+      },
+      "get": {
+        "operationId": "KnowledgeChatController_listSessions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "KnowledgeChat"
+        ]
+      }
+    },
+    "/api/knowledge/chat/sessions/{id}/messages": {
+      "get": {
+        "operationId": "KnowledgeChatController_getMessages",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "KnowledgeChat"
+        ]
+      }
+    },
+    "/api/shop/products": {
+      "get": {
+        "operationId": "ProductController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Product"
+        ]
+      },
+      "post": {
+        "operationId": "ProductController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/api/shop/products/{id}": {
+      "patch": {
+        "operationId": "ProductController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Product"
+        ]
+      },
+      "delete": {
+        "operationId": "ProductController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/api/shop/products/{id}/skus": {
+      "post": {
+        "operationId": "ProductController_syncSkus",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/api/finance/expense-types": {
+      "get": {
+        "operationId": "FinanceController_listExpenseTypes",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Finance"
+        ]
+      }
+    },
+    "/api/finance/reimbursements": {
+      "get": {
+        "operationId": "FinanceController_listReimbursements",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Finance"
+        ]
+      },
+      "post": {
+        "operationId": "FinanceController_createReimbursement",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReimbursementDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Finance"
+        ]
+      }
+    },
+    "/api/finance/purchases": {
+      "get": {
+        "operationId": "FinanceController_listPurchases",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Finance"
+        ]
+      },
+      "post": {
+        "operationId": "FinanceController_createPurchase",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Finance"
+        ]
+      }
+    },
+    "/api/finance/cash-records": {
+      "get": {
+        "operationId": "FinanceController_listCashRecords",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Finance"
+        ]
+      }
+    },
+    "/api/finance/dashboard/stats": {
+      "get": {
+        "operationId": "FinanceController_getDashboardStats",
+        "parameters": [
+          {
+            "name": "platform_id",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Finance"
+        ]
+      }
+    },
+    "/api/exam/papers": {
+      "get": {
+        "operationId": "ExamController_listPapers",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Exam"
+        ]
+      },
+      "post": {
+        "operationId": "ExamController_createPaper",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveExamPaperDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Exam"
+        ]
+      }
+    },
+    "/api/exam/papers/{id}": {
+      "get": {
+        "operationId": "ExamController_getPaper",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Exam"
+        ]
+      },
+      "put": {
+        "operationId": "ExamController_updatePaper",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveExamPaperDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Exam"
+        ]
+      }
+    },
+    "/api/exam/plans": {
+      "get": {
+        "operationId": "ExamController_listPlans",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Exam"
+        ]
+      },
+      "post": {
+        "operationId": "ExamController_createPlan",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExamPlanDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Exam"
+        ]
+      }
+    },
+    "/api/exam/my": {
+      "get": {
+        "operationId": "ExamController_listMyExams",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Exam"
+        ]
+      }
+    },
+    "/api/exam/my/stats": {
+      "get": {
+        "operationId": "ExamController_getMyExamStats",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Exam"
+        ]
+      }
+    },
+    "/api/exam/my/active": {
+      "get": {
+        "operationId": "ExamController_getMyActiveExam",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Exam"
+        ]
+      }
+    },
+    "/api/exam/my/{id}": {
+      "get": {
+        "operationId": "ExamController_getMyExamDetail",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Exam"
+        ]
+      }
+    },
+    "/api/exam/my/{id}/submit": {
+      "post": {
+        "operationId": "ExamController_submitMyExam",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitExamDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Exam"
+        ]
+      }
+    },
+    "/api/exam/results": {
+      "get": {
+        "operationId": "ExamController_listResults",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Exam"
+        ]
+      }
+    },
+    "/api/exam/results/{id}/mark-absent": {
+      "post": {
+        "operationId": "ExamController_markResultAbsent",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkExamAbsentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Exam"
+        ]
+      }
+    },
+    "/api/exam/results/summary": {
+      "get": {
+        "operationId": "ExamController_getResultSummary",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Exam"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "AiSystem API",
+    "description": "AiSystem 后端接口文档",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "LoginDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ResetUserPasswordDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "BatchUpdateUserStatusDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateRoleDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CopyRoleDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateRoleDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateMenuDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateMenuDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "SortMenuDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateApiPermissionDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateApiPermissionDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateButtonDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateButtonDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "AssignUserRolesDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "AssignRolePermissionsDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreatePlatformDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdatePlatformDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "BatchUpdatePlatformStatusDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateDepartmentDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "BatchUpdateDepartmentStatusDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateDepartmentDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateShopDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateShopDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "BatchUpdateShopStatusDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreatePositionDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdatePositionDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateEmployeeDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "BatchUpdateEmployeeStatusDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateEmployeeDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateShiftDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "班次名称",
+            "example": "早班"
+          },
+          "on_duty_time": {
+            "type": "string",
+            "description": "上班时间",
+            "example": "09:00"
+          },
+          "off_duty_time": {
+            "type": "string",
+            "description": "下班时间",
+            "example": "18:00"
+          },
+          "late_threshold": {
+            "type": "number",
+            "description": "迟到阈值 (分钟)",
+            "default": 0
+          },
+          "early_threshold": {
+            "type": "number",
+            "description": "早退阈值 (分钟)",
+            "default": 0
+          },
+          "absenteeism_threshold": {
+            "type": "number",
+            "description": "旷工阈值 (分钟)",
+            "default": 0
+          },
+          "platform_id": {
+            "type": "string",
+            "description": "平台 ID"
+          },
+          "dept_id": {
+            "type": "string",
+            "description": "部门 ID"
+          },
+          "status": {
+            "type": "number",
+            "description": "状态 (1: 启用, 0: 禁用)",
+            "default": 1
+          }
+        },
+        "required": [
+          "name",
+          "on_duty_time",
+          "off_duty_time"
+        ]
+      },
+      "UpdateShiftDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "SaveScheduleDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ImportSchedulesDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpsertAttendanceLeaveDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpsertAttendanceOvertimeDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpsertAttendancePatchCardDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpsertAttendanceScheduleChangeDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "SaveApprovalTemplateDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ApprovalActionDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "AnalyzeServiceSessionDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "GenerateServiceCaseDraftDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ArchiveServiceCaseDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "SaveServiceQualityRuleDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "SaveServiceSensitiveTermDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "SaveKnowledgeArticleDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "SaveKnowledgeTagDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "MergeKnowledgeTagDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "SaveKnowledgeCategoryDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateReimbursementDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "SaveExamPaperDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateExamPlanDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "SubmitExamDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "MarkExamAbsentDto": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}

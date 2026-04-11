@@ -1,12 +1,25 @@
-import { ProTable, type ProColumns } from '@ant-design/pro-components';
+import { ProTable, type ProColumns } from "@ant-design/pro-components";
+import type { SpinProps } from "antd";
 
 export interface BaseTableProps<T extends object> {
-  rowKey: string;
+  rowKey?: string;
   columns: ProColumns<T>[];
-  dataSource: T[];
-  loading?: boolean;
+  dataSource?: T[];
+  loading?: boolean | SpinProps;
   rowSelection?: Record<string, unknown>;
   pagination?: Record<string, unknown>;
+  request?: (
+    params: Record<string, any>,
+    sort?: Record<string, any>,
+    filter?: Record<string, any>,
+  ) => Promise<{
+    data: T[];
+    success: boolean;
+    total?: number;
+  }>;
+  toolBarRender?: () => React.ReactNode[];
+  scroll?: { x?: number; y?: number };
+  [key: string]: any;
 }
 
 export function BaseTable<T extends object>(props: BaseTableProps<T>) {
@@ -14,7 +27,11 @@ export function BaseTable<T extends object>(props: BaseTableProps<T>) {
     <ProTable<T>
       search={false}
       options={false}
-      pagination={{ pageSize: 10, showSizeChanger: true, pageSizeOptions: [10, 20, 50] }}
+      pagination={{
+        pageSize: 10,
+        showSizeChanger: true,
+        pageSizeOptions: [10, 20, 50],
+      }}
       {...props}
     />
   );

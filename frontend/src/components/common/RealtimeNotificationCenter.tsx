@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
-import { Modal, Space, Typography, message } from 'antd';
-import { NotificationOutlined } from '@ant-design/icons';
-import { history } from 'umi';
-import { io } from 'socket.io-client';
+import { useEffect } from "react";
+import { Modal, Space, Typography, message } from "antd";
+import { NotificationOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
 
 const { Text, Title } = Typography;
 
 export interface RealtimeMessageEvent {
-  action?: 'created' | 'read' | 'read-all';
+  action?: "created" | "read" | "read-all";
   messageId?: string;
   messageType?: string;
   bizType?: string;
@@ -23,12 +23,18 @@ interface BroadcastMessage {
   sentAt: string;
 }
 
-export function RealtimeNotificationCenter({ lastEvent }: { lastEvent?: RealtimeMessageEvent }) {
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const socket = io('/ws', { auth: { token } });
+export function RealtimeNotificationCenter({
+  lastEvent,
+}: {
+  lastEvent?: RealtimeMessageEvent;
+}) {
+  const navigate = useNavigate();
 
-    socket.on('system.broadcast', (data: BroadcastMessage) => {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const socket = io("/ws", { auth: { token } });
+
+    socket.on("system.broadcast", (data: BroadcastMessage) => {
       Modal.confirm({
         title: (
           <Space>
@@ -42,7 +48,9 @@ export function RealtimeNotificationCenter({ lastEvent }: { lastEvent?: Realtime
               {data.title}
             </Title>
             <div className="mt-2 rounded-lg border-2 border-slate-200 bg-slate-50 p-4">
-              <Text className="font-medium leading-relaxed text-slate-700">{data.content}</Text>
+              <Text className="font-medium leading-relaxed text-slate-700">
+                {data.content}
+              </Text>
             </div>
             <div className="mt-4 text-right">
               <Text className="text-xs text-slate-400">
@@ -53,21 +61,23 @@ export function RealtimeNotificationCenter({ lastEvent }: { lastEvent?: Realtime
         ),
         icon: null,
         width: 500,
-        okText: '我知道了',
-        okButtonProps: { className: 'h-[44px] border-none bg-slate-900 px-8 font-black' },
-        cancelButtonProps: { style: { display: 'none' } },
+        okText: "我知道了",
+        okButtonProps: {
+          className: "h-[44px] border-none bg-slate-900 px-8 font-black",
+        },
+        cancelButtonProps: { style: { display: "none" } },
       });
     });
 
-    socket.on('system.maintenance.start', () => {
-      message.loading('系统正在进入维护模式...', 2).then(() => {
-        history.push('/maintenance');
+    socket.on("system.maintenance.start", () => {
+      message.loading("系统正在进入维护模式...", 2).then(() => {
+        navigate("/maintenance");
       });
     });
 
-    socket.on('system.maintenance.end', () => {
-      message.success('维护已结束，正在恢复访问...');
-      history.push('/');
+    socket.on("system.maintenance.end", () => {
+      message.success("维护已结束，正在恢复访问...");
+      navigate("/");
     });
 
     return () => {

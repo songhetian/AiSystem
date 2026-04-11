@@ -52,4 +52,12 @@ export class MinioService implements OnModuleInit {
       throw new InternalServerErrorException(`生成预览链接失败: ${String(error)}`);
     }
   }
+
+  async downloadObject(objectName: string, filePath: string) {
+    try {
+      await this.client.fGetObject(this.bucket, objectName, filePath);
+    } catch (error) {
+      throw new InternalServerErrorException(`下载文件失败: ${String(error)}`);
+    }
+  }
 }

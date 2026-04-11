@@ -68,12 +68,6 @@ import { VectorService } from './services/vector.service';
     CacheSubscriber,
     IdempotencyService,
     VectorService,
-    SnowflakeService,
-  ],
-})
-export class CommonModule {}
-e,
-    VectorService,
   ],
 })
 export class CommonModule {}

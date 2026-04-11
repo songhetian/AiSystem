@@ -55,7 +55,7 @@ export class SnowflakeService {
     return id.toString();
   }
 
-  private waitNextMillis(lastTimestamp: n): bigint {
+  private waitNextMillis(lastTimestamp: bigint): bigint {
     let timestamp = BigInt(Date.now());
     while (timestamp <= lastTimestamp) {
       timestamp = BigInt(Date.now());

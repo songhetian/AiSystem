@@ -11,7 +11,11 @@ export class ExamWorker extends WorkerHost {
   async process(job: Job): Promise<any> {
     if (job.name === 'submit-exam') {
       const { assignmentId, answers, userId } = job.data;
-      return await this.examService.performGrading(assignmentId, answers, userId);
+      const result = await this.examService.performGrading(assignmentId, answers, userId);
+      
+      // 执行联动：成绩通知与补考设置
+      await this.examService.triggerPostGradingHooks(assignmentId);
+      return result;
     }
   }
 }
