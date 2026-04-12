@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { ScopeService } from '../../../common/services/scope.service';
 
@@ -42,7 +42,7 @@ export class ExternalApiKeyService {
     const scope = await this.scopeService.resolveAccess(userId);
     const existing = await this.delegate.findUnique({ where: { id } });
     if (!existing || existing.is_deleted) {
-      return null;
+      throw new NotFoundException('外部 API Key 不存在');
     }
 
     this.scopeService.assertPlatformAccess(scope, existing.platform_id);

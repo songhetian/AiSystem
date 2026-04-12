@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { ScopeService } from '../../../common/services/scope.service';
 
@@ -39,7 +39,7 @@ export class SystemIntegrationService {
     const scope = await this.scopeService.resolveAccess(userId);
     const existing = await this.delegate.findUnique({ where: { id } });
     if (!existing || existing.is_deleted) {
-      return null;
+      throw new NotFoundException('集成配置不存在');
     }
 
     this.scopeService.assertPlatformAccess(scope, existing.platform_id);
@@ -53,7 +53,7 @@ export class SystemIntegrationService {
   async transformExternalData(mappingId: string, externalJson: any) {
     const mapping = await this.delegate.findUnique({ where: { id: mappingId } });
     if (!mapping) {
-      return null;
+      throw new NotFoundException('映射配置不存在');
     }
 
     const rules = mapping.mapping_json as Record<string, string>;

@@ -16,6 +16,51 @@ export interface ScheduleAssignPayload {
   }>;
 }
 
+export interface AttendanceScheduleShift {
+  id: string;
+  name: string;
+  on_duty_time: string;
+  off_duty_time: string;
+}
+
+export interface AttendanceScheduleDay {
+  key: string;
+  label: string;
+  weekday: string;
+}
+
+export interface AttendanceScheduleCell {
+  date: string;
+  schedule_id?: string;
+  shift_name: string | null;
+  shift_id: string | null;
+  on_duty_time: string | null;
+  off_duty_time: string | null;
+}
+
+export interface AttendanceScheduleRow {
+  employee_id: string;
+  employee_name: string;
+  employee_no?: string;
+  department_name?: string;
+  schedules: AttendanceScheduleCell[];
+}
+
+export interface AttendanceScheduleDashboard {
+  days: AttendanceScheduleDay[];
+  rows: AttendanceScheduleRow[];
+  shifts: AttendanceScheduleShift[];
+  pagination?: {
+    total: number;
+    page: number;
+    pageSize: number;
+  };
+  summary?: {
+    employee_count: number;
+    scheduled_count?: number;
+  };
+}
+
 export interface ImportSchedulePayload {
   rows: Array<{
     employee_no?: string;

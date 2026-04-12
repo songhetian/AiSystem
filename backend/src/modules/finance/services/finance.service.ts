@@ -14,6 +14,22 @@ export class FinanceService {
     private readonly realtimeService: RealtimeService
   ) {}
 
+  private async resolveApprovalActors(userId: string, departmentId: string) {
+    const [user, department] = await Promise.all([
+      this.prisma.sys_user.findUnique({ where: { id: userId } }),
+      this.prisma.biz_department.findUnique({ where: { id: departmentId } }),
+    ]);
+    const approver =
+      department?.owner_id ? await this.prisma.sys_user.findUnique({ where: { id: department.owner_id } }) : null;
+
+    return {
+      applicantName: user?.name || user?.username || 'Unknown',
+      approverId: approver?.id ?? userId,
+      approverName: approver?.name || approver?.username || user?.name || 'Unknown',
+      departmentName: department?.name || '未分配部门',
+    };
+  }
+
   // --- 费用类型 ---
   async listExpenseTypes(userId: string) {
     const scope = await this.scopeService.resolveAccess(userId);
@@ -72,17 +88,20 @@ export class FinanceService {
 
     // 发起审批并发送 Socket
     try {
-      const user = await this.prisma.sys_user.findUnique({ where: { id: userId } });
+      const actors = await this.resolveApprovalActors(userId, dto.department_id);
       const approval = await this.approvalService.createAttendanceApproval({
         bizType: 'finance_purchase',
         bizId: purchase.id,
         bizNo: purchaseNo,
         applicantId: userId,
-        applicantName: user?.name || 'Unknown',
-        platformName: '默认平台',
-        departmentName: '行政部',
-        summary: `采购申请: ${dto.reason} (总计: ￥${dto.total_amount})`
-      } as any);
+        applicantName: actors.applicantName,
+        currentApproverId: actors.approverId,
+        currentApproverName: actors.approverName,
+        platformName: dto.platform_id,
+        departmentName: actors.departmentName,
+        summary: `采购申请: ${dto.reason} (总计: ￥${dto.total_amount})`,
+        amount: dto.total_amount,
+      });
 
       await this.prisma.fin_purchase.update({
         where: { id: purchase.id },
@@ -93,7 +112,7 @@ export class FinanceService {
         this.realtimeService.emitToUser(approval.currentApproverId, 'new_approval_task', {
           requestId: approval.id,
           requestNo: approval.requestNo,
-          applicantName: user?.name,
+          applicantName: actors.applicantName,
           type: '采购审批',
           summary: purchase.reason,
           amount: purchase.total_amount
@@ -130,17 +149,20 @@ export class FinanceService {
 
     // 2. 发起审批单并发送 Socket 通知
     try {
-      const user = await this.prisma.sys_user.findUnique({ where: { id: userId } });
+      const actors = await this.resolveApprovalActors(userId, dto.department_id);
       const approval = await this.approvalService.createAttendanceApproval({
         bizType: 'finance_reimbursement',
         bizId: reim.id,
         bizNo: reimNo,
         applicantId: userId,
-        applicantName: user?.name || 'Unknown',
-        platformName: '默认平台',
-        departmentName: '财务部',
-        summary: `报销申请: ${dto.reason} (￥${dto.amount})`
-      } as any);
+        applicantName: actors.applicantName,
+        currentApproverId: actors.approverId,
+        currentApproverName: actors.approverName,
+        platformName: dto.platform_id,
+        departmentName: actors.departmentName,
+        summary: `报销申请: ${dto.reason} (￥${dto.amount})`,
+        amount: dto.amount,
+      });
 
       await this.prisma.fin_reimbursement.update({
         where: { id: reim.id },
@@ -152,7 +174,7 @@ export class FinanceService {
         this.realtimeService.emitToUser(approval.currentApproverId, 'new_approval_task', {
           requestId: approval.id,
           requestNo: approval.requestNo,
-          applicantName: user?.name,
+          applicantName: actors.applicantName,
           type: '报销审批',
           summary: reim.reason,
           amount: reim.amount

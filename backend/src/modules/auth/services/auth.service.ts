@@ -78,6 +78,7 @@ export class AuthService {
     });
 
     return {
+      access_token: accessToken,
       accessToken,
       user: await this.me(user.id),
     };

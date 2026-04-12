@@ -1,25 +1,45 @@
-import { openDB } from 'idb';
+const STORAGE_KEY = 'attendance_pending_checkins';
 
-const DB_NAME = 'AttendanceDB';
-const STORE_NAME = 'pending_checkins';
+interface PendingCheckinRecord {
+  id: number;
+  type: 'on' | 'off';
+  location?: string;
+  timestamp: number;
+}
 
-export const dbPromise = openDB(DB_NAME, 1, {
-  upgrade(db) {
-    db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
-  },
-});
+function readRecords(): PendingCheckinRecord[] {
+  if (typeof localStorage === 'undefined') return [];
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
 
-export const addPendingCheckin = async (data: any) => {
-  const db = await dbPromise;
-  return db.add(STORE_NAME, { ...data, timestamp: Date.now() });
+function writeRecords(records: PendingCheckinRecord[]) {
+  if (typeof localStorage === 'undefined') return;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+}
+
+export const addPendingCheckin = async (data: {
+  type: 'on' | 'off';
+  location?: string;
+}) => {
+  const records = readRecords();
+  const id = Date.now();
+  records.push({ id, ...data, timestamp: id });
+  writeRecords(records);
+  return id;
 };
 
 export const getAllPendingCheckins = async () => {
-  const db = await dbPromise;
-  return db.getAll(STORE_NAME);
+  return readRecords().sort((a, b) => a.timestamp - b.timestamp);
 };
 
 export const deletePendingCheckin = async (id: number) => {
-  const db = await dbPromise;
-  return db.delete(STORE_NAME, id);
+  const records = readRecords().filter((item) => item.id !== id);
+  writeRecords(records);
 };

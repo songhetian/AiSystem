@@ -67,6 +67,61 @@ export class ApprovalService {
   private get requestDelegate() { return (this.prisma as any).approval_request; }
   private get userDelegate() { return (this.prisma as any).sys_user; }
 
+  private getTemplateCandidates(bizType: string) {
+    const normalized = bizType.toLowerCase();
+    if (normalized.includes('leave')) return ['请假', '考勤审批', 'attendance'];
+    if (normalized.includes('overtime')) return ['加班', '考勤审批', 'attendance'];
+    if (normalized.includes('patch')) return ['补卡', '考勤审批', 'attendance'];
+    if (normalized.includes('schedule')) return ['调班', '考勤审批', 'attendance'];
+    if (normalized.includes('purchase')) return ['采购', '财务', 'finance'];
+    if (normalized.includes('reimbursement')) return ['报销', '财务', 'finance'];
+    return [bizType];
+  }
+
+  private getFallbackTemplateName(bizType: string) {
+    const normalized = bizType.toLowerCase();
+    if (normalized.includes('leave')) return '请假审批';
+    if (normalized.includes('overtime')) return '加班审批';
+    if (normalized.includes('patch')) return '补卡审批';
+    if (normalized.includes('schedule')) return '调班审批';
+    if (normalized.includes('purchase')) return '采购审批';
+    if (normalized.includes('reimbursement')) return '报销审批';
+    return '通用审批';
+  }
+
+  private getRequestType(bizType: string) {
+    if (bizType.startsWith('attendance_')) return 'attendance';
+    if (bizType.startsWith('finance_')) return 'finance';
+    return bizType.split('_')[0] || 'general';
+  }
+
+  private async resolveTemplateMetadata(bizType: string) {
+    const candidates = this.getTemplateCandidates(bizType);
+    const item = await this.templateDelegate.findFirst({
+      where: {
+        is_deleted: 0,
+        status: 'enabled',
+        OR: [
+          { type: { in: candidates } },
+          { name: { in: candidates } },
+        ],
+      },
+      orderBy: { update_time: 'desc' },
+    });
+
+    if (item) {
+      return {
+        templateId: item.id,
+        templateName: item.name,
+      };
+    }
+
+    return {
+      templateId: `builtin:${bizType}`,
+      templateName: this.getFallbackTemplateName(bizType),
+    };
+  }
+
   async listTemplates(_userId?: string): Promise<ApprovalTemplate[]> {
     const items = await this.templateDelegate.findMany({
       where: { is_deleted: 0 },
@@ -208,27 +263,30 @@ export class ApprovalService {
     bizNo?: string;
     applicantId: string;
     applicantName: string;
-    currentApproverId: string;
-    currentApproverName: string;
+    currentApproverId?: string;
+    currentApproverName?: string;
     platformName: string;
     departmentName: string;
     summary: string;
+    amount?: number;
   }) {
     const id = randomUUID();
     const requestNo = `APP${Date.now()}${Math.floor(Math.random() * 1000)}`;
+    const template = await this.resolveTemplateMetadata(payload.bizType);
     const data = {
       id,
       request_no: requestNo,
-      template_id: 'attendance_template_id', // 示例占位
-      template_name: '考勤审批',
+      template_id: template.templateId,
+      template_name: template.templateName,
       biz_type: payload.bizType,
       biz_id: payload.bizId,
       biz_no: payload.bizNo,
-      type: 'attendance',
+      type: this.getRequestType(payload.bizType),
       applicant_id: payload.applicantId,
       applicant_name: payload.applicantName,
       current_approver_id: payload.currentApproverId,
       current_approver_name: payload.currentApproverName,
+      amount: payload.amount,
       platform_name: payload.platformName,
       department_name: payload.departmentName,
       summary: payload.summary,
