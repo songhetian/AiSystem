@@ -4,6 +4,7 @@ import { Observable, catchError, tap, throwError } from 'rxjs';
 import { PrismaService } from '../../prisma/prisma.service';
 import { PERMISSION_KEY } from '../permission.decorator';
 import { AuditLogService } from '../services/audit-log.service';
+import { MaskUtil } from '../utils/mask.util';
 
 function getRequestIp(request: any) {
   return (
@@ -79,18 +80,20 @@ export class OperationLogInterceptor implements NestInterceptor {
         operation_module: moduleName,
         request_ip: getRequestIp(request),
         user_agent: request.headers?.['user-agent'],
-        operation_status: status,
-        operation_message: message,
-        request_params: {
+        operation_message: status === 1 ? message : `失败原因：${message}`,
+        request_params: MaskUtil.maskObject({
           params: request.params,
           query: request.query,
           body: request.body
-        },
+        }),
         response_summary: responseSummary,
+        diff_content: request.diffContent,
         platform_id: userInfo?.platform_id,
         dept_id: userInfo?.dept_id,
         shop_id: userInfo?.shop_id
       });
+
+      // 异常告警与细节对齐由 AuditLogService 统一处理
     };
 
     return next.handle().pipe(
@@ -98,7 +101,8 @@ export class OperationLogInterceptor implements NestInterceptor {
         void persist(1, 'success', summarizeResponse(data));
       }),
       catchError((error) => {
-        void persist(0, error?.message ?? 'error');
+        const errorMessage = error?.message || error?.response?.message || '未知错误';
+        void persist(0, `失败原因：${errorMessage}`);
         return throwError(() => error);
       })
     );

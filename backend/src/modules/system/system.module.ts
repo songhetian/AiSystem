@@ -27,6 +27,15 @@ import { SystemRolesService } from './services/system-roles.service';
 import { SystemShopsService } from './services/system-shops.service';
 import { SystemUsersService } from './services/system-users.service';
 import { ApiMonitorService } from './services/api-monitor.service';
+import { MappingService } from './services/mapping.service';
+import { SystemCronWorker } from './workers/cron.worker';
+import { SystemMappingController } from './controllers/system-mapping.controller';
+
+import { IntegrationMonitorService } from './services/integration-monitor.service';
+import { DashboardController } from './controllers/dashboard.controller';
+import { DashboardService } from './services/dashboard.service';
+import { ArchiveService } from './services/archive.service';
+import { PlatformIntegrationAdapterService } from './services/platform-integration-adapter.service';
 
 @Module({
   imports: [CommonModule],
@@ -43,7 +52,9 @@ import { ApiMonitorService } from './services/api-monitor.service';
     SystemPlatformsController,
     SystemDepartmentsController,
     SystemShopsController,
-    SystemIntegrationsController
+    SystemIntegrationsController,
+    SystemMappingController,
+    DashboardController
   ],
   providers: [
     SystemUsersService,
@@ -59,7 +70,14 @@ import { ApiMonitorService } from './services/api-monitor.service';
     SystemDepartmentsService,
     SystemShopsService,
     SystemIntegrationService,
-    ApiMonitorService
-  ]
+    ApiMonitorService,
+    MappingService,
+    IntegrationMonitorService,
+    PlatformIntegrationAdapterService,
+    SystemCronWorker,
+    DashboardService,
+    ArchiveService
+  ],
+  exports: [SystemMessagesService, DashboardService, ArchiveService]
 })
 export class SystemModule {}

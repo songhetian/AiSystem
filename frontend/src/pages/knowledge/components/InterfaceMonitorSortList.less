@@ -1,0 +1,192 @@
+.interface-monitor-sort-container {
+  .sort-tip {
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+
+    .anticon {
+      font-size: 16px;
+    }
+  }
+
+  .interface-monitor-sort-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 20px;
+    background: #fff;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    cursor: move;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover {
+      border-color: #667eea;
+      box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+      transform: translateY(-2px);
+
+      &::before {
+        opacity: 1;
+      }
+
+      .drag-handle {
+        color: #667eea;
+      }
+    }
+
+    .drag-handle {
+      font-size: 20px;
+      color: #bfbfbf;
+      cursor: grab;
+      user-select: none;
+      line-height: 1;
+      padding-top: 2px;
+      transition: color 0.3s ease;
+
+      &:active {
+        cursor: grabbing;
+        color: #764ba2;
+      }
+    }
+
+    .sort-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 16px;
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+      flex-shrink: 0;
+    }
+
+    .monitor-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .monitor-header {
+        .monitor-name {
+          font-size: 16px;
+          font-weight: 600;
+          color: #262626;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          max-width: 400px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          .anticon {
+            color: #667eea;
+            font-size: 18px;
+          }
+        }
+      }
+
+      .monitor-fields {
+        padding: 8px 12px;
+        background: #f5f7fa;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .fields-label {
+          font-size: 13px;
+          color: #8c8c8c;
+          font-weight: 500;
+        }
+
+        .field-tag {
+          margin: 0;
+          font-size: 12px;
+          padding: 2px 8px;
+          border-radius: 4px;
+        }
+      }
+
+      .monitor-path {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        background: #fafafa;
+        border-radius: 6px;
+        border: 1px solid #e8e8e8;
+
+        .path-label {
+          font-size: 13px;
+          color: #8c8c8c;
+          font-weight: 500;
+          flex-shrink: 0;
+        }
+
+        .path-code {
+          font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+          font-size: 12px;
+          color: #667eea;
+          background: #fff;
+          padding: 4px 8px;
+          border-radius: 4px;
+          border: 1px solid #e8e8e8;
+          flex: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+  // 拖拽时的样式
+  .interface-monitor-sort-item.dragging {
+    opacity: 0.5;
+    transform: scale(0.98);
+  }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .interface-monitor-sort-container {
+    .interface-monitor-sort-item {
+      padding: 16px;
+
+      .monitor-info {
+        .monitor-header {
+          .monitor-name {
+            max-width: 200px;
+          }
+        }
+      }
+    }
+  }
+}

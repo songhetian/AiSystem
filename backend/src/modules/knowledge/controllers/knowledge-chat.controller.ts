@@ -34,7 +34,15 @@ export class KnowledgeChatController {
   }
 
   @Get('sessions/:id/messages')
-  getMessages(@Param('id') id: string) {
-    return this.chatService.getChatHistory(id);
+  getMessages(
+    @Param('id') id: string,
+    @Query('limit') limit?: string,
+    @Query('offset') offset?: string,
+  ) {
+    return this.chatService.getChatHistory(
+      id,
+      limit ? parseInt(limit, 10) : 50,
+      offset ? parseInt(offset, 10) : 0,
+    );
   }
 }

@@ -1,0 +1,18 @@
+{
+  "name": "dev-tools",
+  "version": "1.0.0",
+  "description": "雷犀系统外部开发与数据生成工具包",
+  "scripts": {
+    "seed": "ts-node seed-business-data.ts",
+    "generate": "ts-node generate-mock-data.ts",
+    "mock": "ts-node mock-server.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.5.0",
+    "dotenv": "^16.4.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2",
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
+  }
+}

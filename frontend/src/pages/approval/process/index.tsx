@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { ProColumns } from '@ant-design/pro-components';
-import { ArrowLeftOutlined, EditOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, CopyOutlined, EditOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
 import { Badge, Button, Card, Form, Input, Modal, Select, Space, Tag, Typography, message } from 'antd';
 import { approvalApi, type ApprovalNode, type ApprovalPerson, type ApprovalTemplate } from '@/api/approval';
 import { BaseModal } from '@/components/common/BaseModal';
@@ -64,6 +64,14 @@ export default function ApprovalProcessPage() {
     },
   });
 
+  const duplicateMutation = useMutation({
+    mutationFn: (id: string) => approvalApi.duplicateTemplate(id),
+    onSuccess: async () => {
+      message.success('模板已复制');
+      await refresh();
+    },
+  });
+
   const createMutation = useMutation({
     mutationFn: approvalApi.createTemplate,
     onSuccess: async (template) => {
@@ -93,12 +101,13 @@ export default function ApprovalProcessPage() {
         <WorkflowEditor
           template={editingTemplate}
           people={people}
-          onSave={(nodes) =>
+          onSave={(nodes, formFields) =>
             saveMutation.mutate({
               id: editingTemplate.id,
               data: {
                 ...editingTemplate,
                 nodes,
+                formFields,
                 updatedAt: new Date().toISOString(),
               },
             })
@@ -168,6 +177,18 @@ export default function ApprovalProcessPage() {
           <Permission code="approval:process:update">
             <Button type="link" size="small" icon={<EditOutlined />} className="font-bold text-slate-900" onClick={() => setEditingTemplate(record)}>
               配置流程
+            </Button>
+          </Permission>
+          <Permission code="approval:process:update">
+            <Button 
+              type="link" 
+              size="small" 
+              icon={<CopyOutlined />} 
+              className="font-bold text-blue-600" 
+              loading={duplicateMutation.isPending && duplicateMutation.variables === record.id}
+              onClick={() => duplicateMutation.mutate(record.id)}
+            >
+              复制
             </Button>
           </Permission>
           <ActionGroup onDelete={() => deleteMutation.mutate(record.id)} deletePermission="approval:process:update" />

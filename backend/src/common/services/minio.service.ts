@@ -1,5 +1,6 @@
 import { Injectable, InternalServerErrorException, OnModuleInit } from '@nestjs/common';
 import { Client } from 'minio';
+import { CircuitBreaker } from '../decorators/circuit-breaker.decorator';
 
 @Injectable()
 export class MinioService implements OnModuleInit {
@@ -24,6 +25,10 @@ export class MinioService implements OnModuleInit {
     }
   }
 
+  /**
+   * 增加熔断保护：防止 OSS 宕机拖死主服务 (V5.0)
+   */
+  @CircuitBreaker({ failureThreshold: 5, resetTimeout: 30000 })
   async uploadObject(objectName: string, buffer: Buffer, mimeType: string) {
     try {
       await this.ensureBucket();
@@ -43,7 +48,6 @@ export class MinioService implements OnModuleInit {
 
   async getPresignedUrl(objectName: string, expiry = 3600) {
     try {
-      // Return local-friendly URL if it's already a full URL (though usually it's just the path)
       if (objectName.startsWith('http')) {
         return objectName;
       }
@@ -53,6 +57,7 @@ export class MinioService implements OnModuleInit {
     }
   }
 
+  @CircuitBreaker({ failureThreshold: 3, resetTimeout: 10000 })
   async downloadObject(objectName: string, filePath: string) {
     try {
       await this.client.fGetObject(this.bucket, objectName, filePath);

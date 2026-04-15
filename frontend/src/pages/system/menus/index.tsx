@@ -1,21 +1,27 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Card, Form, Space, Popconfirm } from "antd";
+import { Button, Card, Form, Space, Popconfirm, Tabs } from "antd";
 import { systemApi } from "@/api/system";
 import { Permission } from "@/components/permission/Permission";
 import { BaseTable } from "@/components/table/BaseTable";
 import { useSystemCrud } from "../users/hooks/useSystemCrud";
 import { useMenuTree } from "./hooks/useMenuTree";
 import { MenuModal } from "./components/MenuModal";
+import { MenuTreeDraggable } from "./components/MenuTreeDraggable";
 
 export default function SystemMenusPage() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<any>(null);
   const [form] = Form.useForm();
+  const [activeTab, setActiveTab] = useState("list");
 
-  const { data = [], isLoading } = useQuery({ queryKey: ["system-menus"], queryFn: systemApi.listMenus });
+  const {
+    data = [],
+    isLoading,
+    refetch,
+  } = useQuery({ queryKey: ["system-menus"], queryFn: systemApi.listMenus });
   const treeData = useMenuTree(data);
-  
+
   const crud = useSystemCrud(["system-menus"], {
     create: systemApi.createMenu,
     update: systemApi.updateMenu,
@@ -31,11 +37,25 @@ export default function SystemMenusPage() {
       render: (_: any, record: any) => (
         <Space>
           <Permission code="system:menu:update">
-            <Button type="link" onClick={() => { setEditing(record); form.setFieldsValue(record); setOpen(true); }}>编辑</Button>
+            <Button
+              type="link"
+              onClick={() => {
+                setEditing(record);
+                form.setFieldsValue(record);
+                setOpen(true);
+              }}
+            >
+              编辑
+            </Button>
           </Permission>
           <Permission code="system:menu:delete">
-            <Popconfirm title="确认删除？" onConfirm={() => crud.remove(record.id)}>
-              <Button type="link" danger>删除</Button>
+            <Popconfirm
+              title="确认删除？"
+              onConfirm={() => crud.remove(record.id)}
+            >
+              <Button type="link" danger>
+                删除
+              </Button>
             </Popconfirm>
           </Permission>
         </Space>
@@ -44,13 +64,46 @@ export default function SystemMenusPage() {
   ];
 
   return (
-    <Card title="菜单管理" extra={
-      <Permission code="system:menu:create">
-        <Button type="primary" onClick={() => { setEditing(null); form.resetFields(); setOpen(true); }}>新增菜单</Button>
-      </Permission>
-    }>
-      <BaseTable rowKey="id" columns={columns} dataSource={treeData} loading={isLoading} pagination={false} />
-      <MenuModal open={open} editing={editing} form={form} menuOptions={data} onCancel={() => setOpen(false)} onOk={() => form.submit()} />
+    <Card
+      title="菜单管理"
+      extra={
+        <Permission code="system:menu:create">
+          <Button
+            type="primary"
+            onClick={() => {
+              setEditing(null);
+              form.resetFields();
+              setOpen(true);
+            }}
+          >
+            新增菜单
+          </Button>
+        </Permission>
+      }
+    >
+      <Tabs activeKey={activeTab} onChange={setActiveTab}>
+        <Tabs.TabPane tab="菜单列表" key="list">
+          <BaseTable
+            rowKey="id"
+            columns={columns}
+            dataSource={treeData}
+            loading={isLoading}
+            pagination={false}
+          />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="菜单排序" key="sort">
+          <MenuTreeDraggable menus={data} onUpdate={refetch} />
+        </Tabs.TabPane>
+      </Tabs>
+
+      <MenuModal
+        open={open}
+        editing={editing}
+        form={form}
+        menuOptions={data}
+        onCancel={() => setOpen(false)}
+        onOk={() => form.submit()}
+      />
     </Card>
   );
 }

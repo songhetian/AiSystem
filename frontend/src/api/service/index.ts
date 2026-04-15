@@ -1,10 +1,10 @@
-import { request } from '@/utils/request';
+import { request } from "@/utils/request";
 
 export interface ServiceSessionAnalysis {
   id: string;
   quality_score: number;
   quality_passed: number;
-  loss_risk_level: 'high' | 'medium' | 'low';
+  loss_risk_level: "high" | "medium" | "low";
   loss_risk_score: number;
   customer_sentiment: string;
   response_timeout_count: number;
@@ -78,7 +78,7 @@ export interface ServiceCaseDraftResult {
   keyword: string;
   tags: string[];
   content: string;
-  transcript: ServiceCaseDraftPayload['messages'];
+  transcript: ServiceCaseDraftPayload["messages"];
 }
 
 export interface ServiceQualityRule {
@@ -117,7 +117,7 @@ export interface ServiceAiOverview {
   averageQualityScore: number;
   lossSessionCount: number;
   sensitiveHitCount: number;
-  riskBuckets: Record<'high' | 'medium' | 'low', number>;
+  riskBuckets: Record<"high" | "medium" | "low", number>;
   topFaqs: Array<{ question: string; count: number }>;
 }
 
@@ -157,12 +157,51 @@ export interface SaveServiceSensitiveTermPayload {
   shop_id?: string;
 }
 
+export interface ServiceLossInquiry {
+  id: string;
+  session_id: string;
+  session_no: string;
+  customer_id?: string;
+  customer_nickname?: string;
+  product_id?: string;
+  product_name?: string;
+  agent_name?: string;
+  loss_reason?: string;
+  recovery_state: string; // pending, recovering, recovered
+  recovery_remark?: string;
+  create_time: string;
+}
+
+export interface ServiceFaQMapping {
+  id: string;
+  faq_content: string;
+  article_id?: string;
+  hit_count: number;
+  faq_type?: string;
+  create_time: string;
+}
+
+export interface ServiceQualityTag {
+  id: string;
+  session_id: string;
+  session_no: string;
+  tag_name: string;
+  tag_type: string;
+  status: string; // pending, confirmed, rejected
+  reject_reason?: string;
+  create_time: string;
+}
+
 export const serviceApi = {
-  listSessions: (params?: QueryServiceSessionsPayload) => request.get('/service/sessions', { params }),
+  listSessions: (params?: QueryServiceSessionsPayload) =>
+    request.get("/service/sessions", { params }),
   getSession: (id: string) => request.get(`/service/sessions/${id}`),
-  analyzeSession: (id: string, payload?: { mode?: 'auto' | 'manual'; comment?: string }) =>
-    request.post(`/service/sessions/${id}/analyze`, payload ?? {}),
-  generateCaseDraft: (id: string, payload: ServiceCaseDraftPayload) => request.post(`/service/sessions/${id}/case-draft`, payload),
+  analyzeSession: (
+    id: string,
+    payload?: { mode?: "auto" | "manual"; comment?: string },
+  ) => request.post(`/service/sessions/${id}/analyze`, payload ?? {}),
+  generateCaseDraft: (id: string, payload: ServiceCaseDraftPayload) =>
+    request.post(`/service/sessions/${id}/case-draft`, payload),
   archiveCase: (
     id: string,
     payload: ServiceCaseDraftPayload & {
@@ -173,16 +212,55 @@ export const serviceApi = {
       status?: string;
       keyword?: string;
       tags?: string[];
-    }
+    },
   ) => request.post(`/service/sessions/${id}/archive-case`, payload),
-  listQualityRules: () => request.get('/service/quality-rules'),
-  createQualityRule: (payload: SaveServiceQualityRulePayload) => request.post('/service/quality-rules', payload),
-  updateQualityRule: (id: string, payload: SaveServiceQualityRulePayload) => request.put(`/service/quality-rules/${id}`, payload),
-  enableQualityRule: (id: string) => request.patch(`/service/quality-rules/${id}/enable`),
-  disableQualityRule: (id: string) => request.patch(`/service/quality-rules/${id}/disable`),
-  listSensitiveTerms: () => request.get('/service/sensitive-terms'),
-  createSensitiveTerm: (payload: SaveServiceSensitiveTermPayload) => request.post('/service/sensitive-terms', payload),
+  listQualityRules: () => request.get("/service/quality-rules"),
+  createQualityRule: (payload: SaveServiceQualityRulePayload) =>
+    request.post("/service/quality-rules", payload),
+  updateQualityRule: (id: string, payload: SaveServiceQualityRulePayload) =>
+    request.put(`/service/quality-rules/${id}`, payload),
+  enableQualityRule: (id: string) =>
+    request.patch(`/service/quality-rules/${id}/enable`),
+  disableQualityRule: (id: string) =>
+    request.patch(`/service/quality-rules/${id}/disable`),
+  updateQualityRuleSort: (items: Array<{ id: string; sort: number }>) =>
+    request.post("/service/quality-rules/sort", { items }),
+  listSensitiveTerms: () => request.get("/service/sensitive-terms"),
+  createSensitiveTerm: (payload: SaveServiceSensitiveTermPayload) =>
+    request.post("/service/sensitive-terms", payload),
   updateSensitiveTerm: (id: string, payload: SaveServiceSensitiveTermPayload) =>
     request.put(`/service/sensitive-terms/${id}`, payload),
-  getAiOverview: (params?: QueryServiceSessionsPayload) => request.get('/service/ai-overview', { params })
+  getAiOverview: (params?: QueryServiceSessionsPayload) =>
+    request.get("/service/ai-overview", { params }),
+  getDashboardMetrics: (params?: QueryServiceSessionsPayload) =>
+    request.get("/service/dashboard-metrics", { params }),
+  queryLossInquiries: (params?: any) =>
+    request.get("/service/loss-inquiries", { params }),
+  updateLossRecovery: (
+    id: string,
+    payload: { recovery_state: string; recovery_remark?: string },
+  ) => request.patch(`/service/loss-inquiries/${id}/recovery`, payload),
+  queryFaqStats: (params?: any) => request.get("/service/faqs", { params }),
+  mapFaqArticle: (payload: {
+    faq_content: string;
+    article_id: string;
+    faq_type?: string;
+    product_id?: string;
+  }) => request.post("/service/faqs", payload),
+  queryQualityTags: (params?: any) =>
+    request.get("/service/tags/audit", { params }),
+  confirmQualityTags: (payload: { ids: string[]; reject_reason?: string }) =>
+    request.post("/service/tags/audit/confirm", payload),
+  rejectQualityTags: (payload: { ids: string[]; reject_reason?: string }) =>
+    request.post("/service/tags/audit/reject", payload),
+  dedupQualityTags: (payload: {
+    target_tag_name: string;
+    source_tag_names: string[];
+  }) => request.post("/service/tags/dedup", payload),
+  // ✅ 新增：质检配置（ai.md 3.5.2）
+  getQualityConfig: () => request.get("/service/quality-config"),
+  saveQualityConfig: (data: any) =>
+    request.post("/service/quality-config", data),
+  syncQdrantVectors: () =>
+    request.post("/service/quality-config/sync-qdrant", {}),
 };

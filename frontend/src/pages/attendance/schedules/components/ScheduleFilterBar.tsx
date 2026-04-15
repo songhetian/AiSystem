@@ -1,6 +1,7 @@
 import { Button, DatePicker, Select, Space, Tag, Typography } from 'antd';
-import { LeftOutlined, ReloadOutlined, RightOutlined } from '@ant-design/icons';
+import { LeftOutlined, ReloadOutlined, RightOutlined, RobotOutlined, SettingOutlined } from '@ant-design/icons';
 import type { Dayjs } from 'dayjs';
+import { useNavigate } from 'umi';
 
 const { Text } = Typography;
 
@@ -24,6 +25,8 @@ interface ScheduleFilterBarProps {
   onEmployeeChange: (value?: string) => void;
   onRefresh: () => void;
   onToggleScheduleMode: () => void;
+  onOpenAiSettings?: () => void;
+  onOpenGlobalSettings?: () => void;
 }
 
 export const ScheduleFilterBar = ({
@@ -41,7 +44,10 @@ export const ScheduleFilterBar = ({
   onEmployeeChange,
   onRefresh,
   onToggleScheduleMode,
+  onOpenAiSettings,
+  onOpenGlobalSettings
 }: ScheduleFilterBarProps) => {
+  const navigate = useNavigate();
   return (
     <div className="mb-4 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -83,17 +89,31 @@ export const ScheduleFilterBar = ({
         </Space>
 
         <Space size={12} wrap>
+          {onOpenAiSettings && (
+            <Button
+              icon={<RobotOutlined />}
+              onClick={() => navigate('/attendance/ai-schedule')}
+              size="large"
+              className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-black border-none hover:opacity-90 shadow-md"
+            >
+              AI 智能排班中心
+            </Button>
+          )}
           <Button
             type={scheduleMode ? 'default' : 'primary'}
             danger={scheduleMode}
             size="large"
+            className={scheduleMode ? '' : 'bg-slate-900 border-none font-bold'}
             onClick={onToggleScheduleMode}
           >
-            {scheduleMode ? '退出排班' : '进入排班'}
+            {scheduleMode ? '退出排班' : '进入手工排班'}
           </Button>
           <Button icon={<ReloadOutlined />} onClick={onRefresh} size="large">
             刷新
           </Button>
+          {onOpenGlobalSettings && (
+            <Button icon={<SettingOutlined />} onClick={onOpenGlobalSettings} size="large" />
+          )}
         </Space>
       </div>
 

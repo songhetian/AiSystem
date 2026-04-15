@@ -5,6 +5,8 @@ import { Permission } from '../../../common/permission.decorator';
 import { CurrentUser, type CurrentUserPayload } from '../../../common/current-user.decorator';
 import { AttendanceRecordsService } from '../services/attendance-records.service';
 import { QueryAttendanceRecordsDto } from '../dto/query-attendance-records.dto';
+import { Idempotent } from '../../../common/decorators/idempotent.decorator';
+import { AntiShake } from '../../../common/decorators/antishake.decorator';
 
 @Controller('attendance/records')
 @UseGuards(JwtAuthGuard, PermissionGuard)
@@ -13,6 +15,8 @@ export class AttendanceRecordsController {
 
   @Post('clock-in')
   @Permission('attendance:records:update')
+  @AntiShake(5000)
+  @Idempotent({ mode: 'active', ttl: 300 })
   async clockIn(
     @CurrentUser() user: CurrentUserPayload,
     @Body() body: { type: 'on' | 'off'; location?: string },

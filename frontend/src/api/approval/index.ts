@@ -98,4 +98,11 @@ export const approvalApi = {
   ) => request.post(`/approval/requests/${id}/transfer`, payload, config),
   requestStats: () => request.get<any>("/approval/requests/stats"),
   listPeople: () => request.get<ApprovalPerson[]>("/approval/people"),
+  duplicateTemplate: (id: string) =>
+    request.post<ApprovalTemplate>(`/approval/templates/${id}/duplicate`, {}),
+  // 批量审批
+  batchApprove: (payload: { ids: string[]; comment?: string }) =>
+    request.post("/approval/requests/batch-approve", payload),
+  batchReject: (payload: { ids: string[]; comment?: string }) =>
+    request.post("/approval/requests/batch-reject", payload),
 };

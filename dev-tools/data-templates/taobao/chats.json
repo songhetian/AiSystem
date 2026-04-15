@@ -1,0 +1,6587 @@
+[
+  {
+    "session_id": "SESS_TAOBAO_0",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:09:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.886Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_1",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，您先寄回来检测吧，如果检测不出问题运费您自理。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.886Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_2",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:09:11.886Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_3",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_4",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:09:11.886Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_5",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，赠品送完了，没排上就是没排上。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.886Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_6",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_7",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_8",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_9",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，大促期间仓库确实压力很大，我也没法干预物流进度。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我也只是客服，催了也没用，您再等等吧。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，大促期间仓库确实压力很大，我也没法干预物流进度。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_10",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_11",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:09:11.886Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_12",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:09:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.886Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_13",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，您先寄回来检测吧，如果检测不出问题运费您自理。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.886Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_14",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:09:11.886Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_15",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_16",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_17",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，赠品送完了，没排上就是没排上。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，赠品送完了，没排上就是没排上。",
+        "timestamp": "2026-04-13T03:09:11.886Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_18",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.886Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.886Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:09:11.886Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_19",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_20",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_21",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，大促期间仓库确实压力很大，我也没法干预物流进度。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我也只是客服，催了也没用，您再等等吧。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，大促期间仓库确实压力很大，我也没法干预物流进度。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_22",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_23",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_24",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_25",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，您先寄回来检测吧，如果检测不出问题运费您自理。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，您先寄回来检测吧，如果检测不出问题运费您自理。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_26",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_27",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_28",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_29",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，赠品送完了，没排上就是没排上。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_30",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_31",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_32",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_33",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，大促期间仓库确实压力很大，我也没法干预物流进度。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我也只是客服，催了也没用，您再等等吧。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，大促期间仓库确实压力很大，我也没法干预物流进度。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我也只是客服，催了也没用，您再等等吧。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_34",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_35",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_36",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_37",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，您先寄回来检测吧，如果检测不出问题运费您自理。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，您先寄回来检测吧，如果检测不出问题运费您自理。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_38",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_39",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_40",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_41",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，赠品送完了，没排上就是没排上。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_42",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_43",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_44",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_45",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，大促期间仓库确实压力很大，我也没法干预物流进度。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我也只是客服，催了也没用，您再等等吧。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，大促期间仓库确实压力很大，我也没法干预物流进度。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我也只是客服，催了也没用，您再等等吧。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_46",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_47",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_48",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_49",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，您先寄回来检测吧，如果检测不出问题运费您自理。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_50",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_51",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_52",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_53",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，赠品送完了，没排上就是没排上。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，赠品送完了，没排上就是没排上。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_54",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_55",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_56",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_57",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，大促期间仓库确实压力很大，我也没法干预物流进度。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我也只是客服，催了也没用，您再等等吧。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_58",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_59",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_60",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_61",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，您先寄回来检测吧，如果检测不出问题运费您自理。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，您先寄回来检测吧，如果检测不出问题运费您自理。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_62",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_63",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_64",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_65",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，赠品送完了，没排上就是没排上。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_66",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_67",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_68",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_69",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，大促期间仓库确实压力很大，我也没法干预物流进度。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我也只是客服，催了也没用，您再等等吧。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_70",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_71",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_72",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_73",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，您先寄回来检测吧，如果检测不出问题运费您自理。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_74",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_75",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_76",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_77",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，赠品送完了，没排上就是没排上。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，赠品送完了，没排上就是没排上。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_78",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_79",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_80",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_81",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，大促期间仓库确实压力很大，我也没法干预物流进度。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我也只是客服，催了也没用，您再等等吧。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，大促期间仓库确实压力很大，我也没法干预物流进度。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_82",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_83",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_84",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_85",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，您先寄回来检测吧，如果检测不出问题运费您自理。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_86",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_87",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_88",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_89",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，赠品送完了，没排上就是没排上。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，优惠券是平台发的，我们商家操作不了。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，活动商品不支持价保，详情页写得很清楚。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_90",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_91",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_92",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:09:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.887Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_93",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，大促期间仓库确实压力很大，我也没法干预物流进度。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我也只是客服，催了也没用，您再等等吧。",
+        "timestamp": "2026-04-13T03:03:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，这个是第三方快递公司的原因，建议您联系快递公司。",
+        "timestamp": "2026-04-13T03:05:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，大促期间仓库确实压力很大，我也没法干预物流进度。",
+        "timestamp": "2026-04-13T03:07:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.887Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_94",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T02:59:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.887Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，请您放心，如果是硬件质量问题，我们支持“180天只换不修”。",
+        "timestamp": "2026-04-13T03:01:11.887Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉给您的购物体验蒙羞，我们会承担所有退换货运费。",
+        "timestamp": "2026-04-13T03:03:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我已经联系了售后工程师，您可以拍个视频发我，我帮您远程诊断。",
+        "timestamp": "2026-04-13T03:05:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.888Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_95",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.888Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_96",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:07:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:09:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.888Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_97",
+    "scenario": "产品质量/硬件故障",
+    "is_problematic": true,
+    "satisfaction": 1,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "充电宝充不进去电，指示灯也不亮。",
+        "timestamp": "2026-04-13T02:58:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T02:59:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:00:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，电子产品有良品率，这很正常。",
+        "timestamp": "2026-04-13T03:01:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "我要求直接换新，不要维修。",
+        "timestamp": "2026-04-13T03:02:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，您先寄回来检测吧，如果检测不出问题运费您自理。",
+        "timestamp": "2026-04-13T03:03:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，划痕可能是快递运输导致的，跟我们没关系。",
+        "timestamp": "2026-04-13T03:05:11.888Z"
+      }
+    ],
+    "tags": [
+      "产品质量/硬件故障",
+      "态度差",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_98",
+    "scenario": "价保/活动优惠纠纷",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "前100名下单送赠品，我排在第几个？",
+        "timestamp": "2026-04-13T02:58:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T02:59:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:00:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:01:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "你们直播间演示的和收到货的完全不一样。",
+        "timestamp": "2026-04-13T03:02:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:03:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，关于优惠券生效问题，可能是结算时没勾选，我补偿您一张无门槛券。",
+        "timestamp": "2026-04-13T03:05:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，亲，价保申请已经为您提交，差价会在3个工作日退回原账户。",
+        "timestamp": "2026-04-13T03:07:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:08:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，我这就去财务那边帮您核实排名名单，请稍等片刻。",
+        "timestamp": "2026-04-13T03:09:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:10:11.888Z"
+      }
+    ],
+    "tags": [
+      "价保/活动优惠纠纷",
+      "专业",
+      "taobao"
+    ]
+  },
+  {
+    "session_id": "SESS_TAOBAO_99",
+    "scenario": "物流滞留/发货投诉",
+    "is_problematic": false,
+    "satisfaction": 5,
+    "messages": [
+      {
+        "role": "customer",
+        "content": "下单三天了还没发货，你们在干什么？",
+        "timestamp": "2026-04-13T02:58:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T02:59:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:00:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，非常抱歉，我这边立刻为您申请“物流绿色通道”加急处理。",
+        "timestamp": "2026-04-13T03:01:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "别跟我说仓库忙，那是你们内部问题。",
+        "timestamp": "2026-04-13T03:02:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，真的很抱歉耽误您的使用了，我已备注专人跟进此单。",
+        "timestamp": "2026-04-13T03:03:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:04:11.888Z"
+      },
+      {
+        "role": "agent",
+        "content": "亲，由于最近天气原因导致中转站积压，我们已协调顺丰优先配送。",
+        "timestamp": "2026-04-13T03:05:11.888Z"
+      },
+      {
+        "role": "customer",
+        "content": "到底能不能解决？给我个准话。",
+        "timestamp": "2026-04-13T03:06:11.888Z"
+      }
+    ],
+    "tags": [
+      "物流滞留/发货投诉",
+      "专业",
+      "taobao"
+    ]
+  }
+]

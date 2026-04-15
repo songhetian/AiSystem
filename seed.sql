@@ -61,7 +61,13 @@ INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_code`, `route`, `sort`, `type`,
 ('seed-menu-finance-reimbursement', 'Reimbursements', 'finance:reimbursement', '/finance/reimbursements', 27, 1, 1, 0),
 ('seed-menu-finance-purchase', 'Purchases', 'finance:purchase', '/finance/purchases', 28, 1, 1, 0),
 ('seed-menu-finance-cash-record', 'Cash Records', 'finance:cash-record', '/finance/cash-records', 29, 1, 1, 0),
-('seed-menu-system-integration', 'Data Integration', 'system:integration', '/system/integrations', 30, 1, 1, 0)
+('seed-menu-system-integration', 'Data Integration', 'system:integration', '/system/integrations', 30, 1, 1, 0),
+('seed-menu-service-dashboard', 'Dashboard', 'service:dashboard', '/service/dashboard', 31, 1, 1, 0),
+('seed-menu-service-loss-analysis', 'Loss Analysis', 'service:loss-analysis', '/service/loss-analysis', 32, 1, 1, 0),
+('seed-menu-service-faq-stats', 'FAQ Stats', 'service:faq-stats', '/service/faq-stats', 33, 1, 1, 0),
+('seed-menu-service-quality-tags', 'Quality Tags', 'service:quality-tags', '/service/tags', 34, 1, 1, 0),
+('seed-menu-system-data-mapping', 'Data Mapping', 'system:data-mapping', '/system/data-mapping', 35, 1, 1, 0),
+('seed-menu-system-big-screen', '数据大屏', 'system:big-screen', '/system/big-screen', 36, 1, 1, 0)
 ON DUPLICATE KEY UPDATE
   `menu_name` = VALUES(`menu_name`),
   `route` = VALUES(`route`),
@@ -84,6 +90,16 @@ INSERT INTO `sys_button` (`id`, `button_name`, `button_code`, `menu_id`, `status
 ('seed-button-product-create', 'Create Product', 'shop:product:create', 'seed-menu-shop-product', 1, 0),
 ('seed-button-product-update', 'Update Product', 'shop:product:update', 'seed-menu-shop-product', 1, 0),
 ('seed-button-product-delete', 'Delete Product', 'shop:product:delete', 'seed-menu-shop-product', 1, 0),
+('seed-button-service-dashboard-view', 'View Dashboard', 'service:dashboard:view', 'seed-menu-service-dashboard', 1, 0),
+('seed-button-service-loss-list', 'View Loss Inquiries', 'service:loss:list', 'seed-menu-service-loss-analysis', 1, 0),
+('seed-button-service-loss-mark', 'Manage Loss Recovery', 'service:loss:mark', 'seed-menu-service-loss-analysis', 1, 0),
+('seed-button-service-faq-list', 'View FAQs', 'service:faq:list', 'seed-menu-service-faq-stats', 1, 0),
+('seed-button-service-faq-map', 'Map FAQ to Article', 'service:faq:map', 'seed-menu-service-faq-stats', 1, 0),
+('seed-button-service-tag-list', 'View Quality Tags', 'service:tag:list', 'seed-menu-service-quality-tags', 1, 0),
+('seed-button-service-tag-audit', 'Audit Quality Tags', 'service:tag:audit', 'seed-menu-service-quality-tags', 1, 0),
+('seed-button-service-tag-dedup', 'Deduplicate Tags', 'service:tag:dedup', 'seed-menu-service-quality-tags', 1, 0),
+('seed-button-finance-purchase-cancel', 'Cancel Purchase', 'finance:purchase:cancel', 'seed-menu-finance-purchase', 1, 0),
+('seed-button-finance-reim-export', 'Export Reimbursements', 'finance:reimbursement:export', 'seed-menu-finance-reimbursement', 1, 0)
 ('seed-button-shop-category-list', 'View Categories', 'shop:category:list', 'seed-menu-shop-category', 1, 0),
 ('seed-button-shop-category-create', 'Create Category', 'shop:category:create', 'seed-menu-shop-category', 1, 0),
 ('seed-button-shop-category-update', 'Update Category', 'shop:category:update', 'seed-menu-shop-category', 1, 0),
@@ -152,7 +168,10 @@ INSERT INTO `sys_button` (`id`, `button_name`, `button_code`, `menu_id`, `status
 ('seed-button-knowledge-article-update', 'Update Knowledge Article', 'knowledge:article:update', 'seed-menu-knowledge-article', 1, 0),
 ('seed-button-knowledge-tag-list', 'View Knowledge Tags', 'knowledge:tag:list', 'seed-menu-knowledge-tag', 1, 0),
 ('seed-button-knowledge-tag-create', 'Create Knowledge Tag', 'knowledge:tag:create', 'seed-menu-knowledge-tag', 1, 0),
-('seed-button-knowledge-tag-update', 'Update Knowledge Tag', 'knowledge:tag:update', 'seed-menu-knowledge-tag', 1, 0)
+('seed-button-knowledge-tag-update', 'Update Knowledge Tag', 'knowledge:tag:update', 'seed-menu-knowledge-tag', 1, 0),
+('seed-button-system-mapping-list', 'View Mapping Templates', 'system:mapping:list', 'seed-menu-system-data-mapping', 1, 0),
+('seed-button-system-mapping-save', 'Save Mapping Template', 'system:mapping:save', 'seed-menu-system-data-mapping', 1, 0),
+('seed-button-system-config-save', 'Save Platform Config', 'system:config:platform:save', 'seed-menu-system-data-mapping', 1, 0)
 ON DUPLICATE KEY UPDATE
   `button_name` = VALUES(`button_name`),
   `menu_id` = VALUES(`menu_id`),
@@ -214,10 +233,11 @@ ON DUPLICATE KEY UPDATE
   `dept_id` = VALUES(`dept_id`),
   `is_deleted` = VALUES(`is_deleted`);
 
-INSERT INTO `attendance_schedule` (`id`, `employee_id`, `schedule_date`, `shift_name`, `platform_id`, `dept_id`, `is_deleted`)
-VALUES ('seed-schedule-zhangsan-day', 'seed-employee-zhangsan', DATE(NOW()), '白班', 'seed-platform-main', 'seed-department-customer-service', 0)
+INSERT INTO `attendance_schedule` (`id`, `employee_id`, `schedule_date`, `shift_name`, `platform_id`, `dept_id`, `status`, `is_deleted`)
+VALUES ('seed-schedule-zhangsan-day', 'seed-employee-zhangsan', DATE(NOW()), '白班', 'seed-platform-main', 'seed-department-customer-service', 1, 0)
 ON DUPLICATE KEY UPDATE
   `shift_name` = VALUES(`shift_name`),
+  `status` = VALUES(`status`),
   `platform_id` = VALUES(`platform_id`),
   `dept_id` = VALUES(`dept_id`),
   `is_deleted` = VALUES(`is_deleted`);
@@ -771,11 +791,148 @@ JOIN `sys_button` b ON b.`button_code` IN (
   'knowledge:article:update',
   'knowledge:tag:list',
   'knowledge:tag:create',
-  'knowledge:tag:update'
+  'knowledge:tag:update',
+  'finance:purchase:cancel',
+  'finance:reimbursement:export'
 )
 WHERE r.`role_code` = 'super_admin'
   AND NOT EXISTS (
     SELECT 1 FROM `sys_role_button` rb WHERE rb.`role_id` = r.`id` AND rb.`button_id` = b.`id`
   );
 
+INSERT INTO `biz_platform` (`id`, `name`, `code`, `description`, `status`) VALUES
+('plat-pdd', '拼多多', 'pinduoduo', '拼多多电商平台', 1),
+('plat-dy', '抖音', 'douyin', '抖音电商/生活服务平台', 1),
+('plat-jd', '京东', 'jingdong', '京东商城', 1),
+('plat-tb', '淘宝', 'taobao', '淘宝/天猫平台', 1)
+ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
+
+-- 1. 平台公共基础模版 (Section 4.4.2)
+INSERT INTO `sys_mapping_template` (`id`, `name`, `data_type`, `platform_id`, `parent_id`, `mapping_rules`, `cleaning_rules`, `is_public`, `status`) VALUES
+('tpl-pdd-order-base', '拼多多-订单公共基座模版', 'order', 'plat-pdd', NULL, 
+  '{"std_order_no": "order_sn", "order_status": "order_status_str", "order_amount": "pay_amount"}',
+  '{"pay_amount": "number"}', 1, 1),
+('tpl-dy-prod-base', '抖音-商品公共基座模版', 'product', 'plat-dy', NULL,
+  '{"std_spu_id": "product_id", "product_name": "name", "price": "discount_price"}',
+  '{"discount_price": "number"}', 1, 1)
+ON DUPLICATE KEY UPDATE `mapping_rules` = VALUES(`mapping_rules`);
+
+-- 2. 部门演进模版 (继承自公共基座)
+INSERT INTO `sys_mapping_template` (`id`, `name`, `data_type`, `platform_id`, `parent_id`, `mapping_rules`, `cleaning_rules`, `is_public`, `status`) VALUES
+('tpl-pdd-order-cs', '拼多多-客服部专用订单模版', 'order', 'plat-pdd', 'tpl-pdd-order-base',
+  '{"customer_name": "receiver_name", "order_time": "created_time"}',
+  '{"created_time": "datetime"}', 1, 1)
+ON DUPLICATE KEY UPDATE `parent_id` = VALUES(`parent_id`);
+
+-- 3. 平台接入配置 (Master vs Instance)
+INSERT INTO `sys_platform_config` (`id`, `platform_id`, `dept_id`, `template_id`, `app_key`, `app_secret`, `api_endpoint`, `is_master`, `status`) VALUES
+('cfg-pdd-master', 'plat-pdd', 'system', 'tpl-pdd-order-base', 'master_key', 'master_secret', 'https://gw-api.pinduoduo.com/api/router', 1, 1),
+('cfg-pdd-cs-inst', 'plat-pdd', 'seed-department-customer-service', 'tpl-pdd-order-cs', 'pdd_key_cs', 'pdd_secret_cs', 'https://gw-api.pinduoduo.com/api/router', 0, 1)
+ON DUPLICATE KEY UPDATE `is_master` = VALUES(`is_master`);
+
+-- 4. 自动化采集任务 (带重试机制)
+INSERT INTO `sys_cron_job` (`id`, `name`, `cron_expression`, `job_type`, `assoc_config_id`, `retry_count`, `retry_interval`, `status`) VALUES
+('job-pdd-sync', '拼多多订单实时同步', '0 0/5 * * * ?', 'fetch_orders', 'cfg-pdd-cs-inst', 3, 5, 1),
+('job-dy-prod-sync', '抖音商品库存同步', '0 0 0/1 * * ?', 'fetch_products', 'cfg-pdd-cs-inst', 5, 15, 1)
+ON DUPLICATE KEY UPDATE `retry_count` = VALUES(`retry_count`);
+
+-- 5. 初始标准数据演示
+INSERT INTO `bi_product` (`id`, `platform_id`, `dept_id`, `external_spu_id`, `product_name`, `price`, `stock`, `status`) VALUES
+('prod-seed-1', 'plat-pdd', 'seed-department-customer-service', 'SPU1001', '雷犀智能机械键盘', 299.00, 100, 'ON_SALE')
+ON DUPLICATE KEY UPDATE `price` = VALUES(`price`);
+
+-- 6. 健康统计 Mock 数据 (Section 3.3)
+INSERT INTO `sys_integration_stat` (`id`, `stat_time`, `platform_id`, `dept_id`, `total_calls`, `success_calls`, `fail_calls`, `avg_duration_ms`) VALUES
+('stat-mock-1', DATE_SUB(NOW(), INTERVAL 1 HOUR), 'plat-pdd', 'seed-department-customer-service', 100, 98, 2, 120),
+('stat-mock-2', DATE_SUB(NOW(), INTERVAL 2 HOUR), 'plat-pdd', 'seed-department-customer-service', 120, 115, 5, 135)
+ON DUPLICATE KEY UPDATE `total_calls` = VALUES(`total_calls`);
+
+-- 7. 费用类型初始化
+INSERT INTO `fin_expense_type` (`id`, `name`, `code`, `description`, `platform_id`, `dept_id`, `status`) VALUES
+('exp-travel', '差旅费', 'TRAVEL', '包含交通、住宿等', 'plat-pdd', 'seed-department-customer-service', 1),
+('exp-office', '办公费', 'OFFICE', '办公用品采购', 'plat-pdd', 'seed-department-customer-service', 1),
+('exp-entertain', '业务招待费', 'ENTERTAIN', '商务宴请等', 'plat-pdd', 'seed-department-customer-service', 1)
+ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
+
+-- 8. 审批模板初始化 (Rhino 4.0 增强型)
+INSERT INTO `approval_template` (`id`, `name`, `type`, `platform_id`, `platform_name`, `dept_id`, `department_name`, `status`, `description`, `updated_at`, `nodes`, `form_fields`) VALUES
+('tpl-reim-standard', '标准报销申请项', 'finance_reimbursement', 'plat-pdd', '拼多多', 'seed-department-customer-service', '客服部', 'enabled', '标准报销流程：部门负责人 -> HR -> 财务', DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'),
+  '[{"id": "node-1", "name": "部门负责人", "type": "approver", "approvers": ["seed-user-id"], "mode": "or"}, {"id": "node-2", "name": "HR审核", "type": "approver", "approvers": ["hr-user-id"], "mode": "or"}, {"id": "node-3", "name": "财务打款", "type": "approver", "approvers": ["fin-user-id"], "mode": "or"}]',
+  '[{"label": "费用类型", "key": "expense_type", "type": "select", "required": true}, {"label": "发票编号", "key": "invoice_no", "type": "text", "required": false}]'
+) ON DUPLICATE KEY UPDATE `nodes` = VALUES(`nodes`);
+
+-- 9. 报销管理 Mock 数据
+INSERT INTO `fin_reimbursement` (`id`, `reim_no`, `expense_type_id`, `amount`, `reason`, `applicant_id`, `platform_id`, `dept_id`, `status`) VALUES
+('reim-mock-1', 'REIM-20240412001', 'exp-travel', 500.00, '北京出差交通费', 'seed-user-id', 'plat-pdd', 'seed-department-customer-service', 3), -- 已打款
+('reim-mock-2', 'REIM-20240412002', 'exp-office', 120.50, '采购办公文具', 'seed-user-id', 'plat-pdd', 'seed-department-customer-service', 1)   -- 审批中
+ON DUPLICATE KEY UPDATE `amount` = VALUES(`amount`);
+
+-- 10. 收支明细 Mock 数据 (自动同步演示)
+INSERT INTO `fin_cash_record` (`id`, `type`, `amount`, `source`, `biz_id`, `biz_type`, `biz_no`, `platform_id`, `dept_id`) VALUES
+('cash-mock-1', 2, 500.00, '报销打款: 北京出差交通费', 'reim-mock-1', 'reimbursement', 'REIM-20240412001', 'plat-pdd', 'seed-department-customer-service'),
+('cash-mock-income', 1, 10000.00, '拼多多店铺回款', NULL, 'manual', 'REV-20240401', 'plat-pdd', 'seed-department-customer-service')
+ON DUPLICATE KEY UPDATE `amount` = VALUES(`amount`);
+
+-- 11. 审批单 Mock 数据
+INSERT INTO `approval_request` (`id`, `request_no`, `template_id`, `template_name`, `biz_type`, `biz_id`, `type`, `applicant_id`, `applicant_name`, `status`, `amount`, `platform_id`, `platform_name`, `dept_id`, `department_name`, `summary`, `created_at`, `updated_at`, `progress`) VALUES
+('app-mock-reim-1', 'APP20240412001', 'tpl-reim-standard', '标准报销申请项', 'finance_reimbursement', 'reim-mock-1', 'finance', 'seed-user-id', '测试用户', 'approved', 500.00, 'plat-pdd', '拼多多', 'seed-department-customer-service', '客服部', '北京出差交通费报销', DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), '[]')
+ON DUPLICATE KEY UPDATE `status` = VALUES(`status`);
+
+INSERT INTO `fin_reimbursement` (`id`, `reim_no`, `expense_type_id`, `amount`, `reason`, `applicant_id`, `platform_id`, `dept_id`, `status`, `remark`) VALUES ('seed-reim-001', 'REIM-20260412-001', 'seed-expense-type-1', 850.00, '加班打车费报销', 'seed-employee-zhangsan', 'seed-platform-main', 'seed-department-customer-service', 2, '待财务确认收款账户');
+
+-- [NEW] 大屏模板初始数据 (Section 2.1)
+INSERT INTO `sys_dashboard_template` (`id`, `name`, `type`, `description`, `status`) VALUES
+('seed-dash-1', '全局运营总览', 'global', '监控全平台核心员工、订单与财务指标', 1),
+('seed-dash-2', '核心接口监控', 'interface', '实时监控 API 调用成功率与响应时间', 1),
+('seed-dash-3', '电商业务看板', 'ecommerce', '追踪订单流水与退款详情', 1);
+
 SET FOREIGN_KEY_CHECKS = 1;
+INSERT INTO `approval_template` (`id`, `name`, `type`, `platform_name`, `department_name`, `status`, `updated_at`, `nodes`, `form_fields`)
+VALUES (
+  'seed-tpl-purchase-high', 
+  '大额采购审批 (会签)', 
+  'finance', 
+  '默认平台', 
+  '财务部', 
+  'enabled', 
+  '2026-04-12', 
+  JSON_ARRAY(
+    JSON_OBJECT('id', 'node-1', 'type', 'start', 'name', '发起人'),
+    JSON_OBJECT('id', 'node-2', 'type', 'approval', 'name', '部门主管审批', 'mode', 'or', 'approvers', JSON_ARRAY(JSON_OBJECT('id', 'seed-user-admin', 'name', 'System Admin'))),
+    JSON_OBJECT('id', 'node-3', 'type', 'branch', 'name', '金额校验', 'condition', 'amount > 5000'),
+    JSON_OBJECT('id', 'node-4', 'type', 'approval', 'name', '财务+总经理会签', 'mode', 'and', 'approvers', JSON_ARRAY(JSON_OBJECT('id', 'seed-user-admin', 'name', 'Admin A'), JSON_OBJECT('id', 'seed-user-admin', 'name', 'Admin B'))),
+    JSON_OBJECT('id', 'node-5', 'type', 'end', 'name', '结束')
+  ),
+  JSON_ARRAY(
+    JSON_OBJECT('name', 'reason', 'label', '采购原因', 'type', 'text', 'required', true),
+    JSON_OBJECT('name', 'items', 'label', '物品清单', 'type', 'json', 'required', true),
+    JSON_OBJECT('name', 'amount', 'label', '预估金额', 'type', 'number', 'required', true)
+  )
+)
+ON DUPLICATE KEY UPDATE `nodes` = VALUES(`nodes`), `form_fields` = VALUES(`form_fields`);
+
+INSERT INTO `fin_cash_record` (`id`, `type`, `amount`, `source`, `biz_no`, `platform_id`, `dept_id`, `modify_log`)
+VALUES (
+  'seed-cash-001', 
+  2, 
+  1200.00, 
+  '日常办公用品采购', 
+  'PUR-20260412-001', 
+  'seed-platform-main', 
+  'seed-department-customer-service',
+  JSON_ARRAY(
+    JSON_OBJECT('operatorId', 'seed-user-admin', 'time', '2026-04-12T06:00:00Z', 'action', 'CREATE', 'toStatus', 2),
+    JSON_OBJECT('operatorId', 'seed-user-admin', 'time', '2026-04-12T07:30:00Z', 'action', 'MARK_COMPLETED', 'fromStatus', 2, 'toStatus', 3)
+  )
+)
+ON DUPLICATE KEY UPDATE `amount` = VALUES(`amount`), `modify_log` = VALUES(`modify_log`);
+
+-- [NEW] 初始通知模板数据 (Section 2.2.1)
+INSERT INTO `sys_message_template` (`id`, `name`, `tpl_type`, `content`, `channels`, `platform_id`, `dept_id`, `status`, `created_by`) VALUES
+('tpl_approve_001', '审批通过提醒', 'approval', '尊敬的 ${username}，您的审批单 ${requestId} 已通过，请知悉。', 'internal,email', 'p1', 'd1', 1, 'admin'),
+('tpl_attendance_001', '考勤异常提醒', 'attendance', '提醒：${username} 您在 ${date} 存在未打卡记录，请及时补卡。', 'internal,sms', 'p1', 'd1', 1, 'admin'),
+('tpl_interface_001', '接口故障预警', 'interface', '【紧急】接口 ${apiName} 发生异常：${errorDetail}，请立即排查。', 'internal,sms,email', 'p1', 'd1', 1, 'admin');
+
+-- [NEW] 初始模块菜单数据
+INSERT INTO `sys_menu` (`id`, `menu_name`, `route`, `parent_id`, `sort`, `status`) VALUES
+('menu_msg_tpl', '模板管理', '/system/message-templates', 'm2', 20, 1);

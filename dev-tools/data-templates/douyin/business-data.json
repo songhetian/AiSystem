@@ -1,0 +1,55 @@
+{
+  "api_mapping": {
+    "source_name": "dy_order_list",
+    "api_endpoint": "https://openapi.jinritemai.com/order/list",
+    "method": "POST",
+    "mapping_rules": {
+      "id": "$.order_id",
+      "amount": "$.pay_amount",
+      "customer": "$.post_addr.detail",
+      "items": "$.sku_order_list[*].product_name"
+    }
+  },
+  "orders": [
+    {
+      "order_id": "DY_11223344",
+      "shop_id": "S_6677",
+      "author_id": "A_XiaoMei_Live",
+      "p_id": "P_880",
+      "order_status": 2,
+      "order_amount": 19900,
+      "pay_amount": 18900,
+      "post_addr": { "province": { "name": "广东省" }, "city": { "name": "深圳市" }, "detail": "前海壹方城 A 座" },
+      "sku_order_list": [{ "product_id": "DY_P_1", "product_name": "雷犀 极速充电宝 20000mAh", "item_num": 1 }]
+    }
+  ],
+  "chats": [
+    {
+      "session_id": "DY_CHAT_S201",
+      "platform_type": "DY_ECOMMERCE_CHAT",
+      "customer_id": "DY_C_887",
+      "messages": [
+        { "role": "customer", "content": "你好，我在小美直播间买的充电宝，当时说领券减 20，但我付了 189，原价不是 199 吗？只减了 10 块。", "time": "20:00:00" },
+        { "role": "agent", "content": "您好，抖音雷犀旗舰店。请您提供一下优惠券领取的截图哦。", "time": "20:01:00" },
+        { "role": "customer", "content": "截图在这里 [图片]。明明显示是 20 元无门槛。", "time": "20:02:30" },
+        { "role": "agent", "content": "亲，核实了一下，您领取的这张券是“满 200 减 20”，您的订单是 199，所以自动匹配了另一张“满 100 减 10”的券。", "time": "20:04:00" },
+        { "role": "customer", "content": "可是直播间达人说的是直接减 20 啊，她还演示了。你们这不是坑人吗？", "time": "20:05:00" },
+        { "role": "agent", "content": "亲，达人口播可能有误，或者是她演示的是另一款更高价的商品。我们后台设置确实是满 200 才减 20。", "time": "20:06:50" },
+        { "role": "customer", "content": "我是看她推荐才买的。既然她口播有误，你们作为商家不应该承担吗？", "time": "20:07:30" },
+        { "role": "agent", "content": "抱歉，达人是第三方合作，我们无法对她的口误负责。您可以联系达人助理咨询反馈。", "time": "20:09:00" },
+        { "role": "customer", "content": "你们推得可真干净。货我收到了，我要退货，而且要在直播间刷屏揭露你们。", "time": "20:10:00" },
+        { "role": "agent", "content": "亲，请理性处理。退货可以，但请不要恶意诋毁。否则我们会保留追究权利。", "time": "20:12:00" },
+        { "role": "customer", "content": "恶意诋毁？事实就是事实。你们和达人合伙骗人。", "time": "20:13:00" },
+        { "role": "agent", "content": "随你怎么想吧。反正我们按规则办事。再见。", "time": "20:15:00" }
+      ]
+    }
+  ],
+  "evaluations": [
+    {
+      "order_id": "DY_11223344",
+      "user_nickname": "抖音小透明",
+      "score": 1,
+      "comment": "虚假宣传！直播间说减 20，到手才减 10。找客服还说是达人的错，商家一点责任都不负。大家千万别被直播忽悠了！"
+    }
+  ]
+}

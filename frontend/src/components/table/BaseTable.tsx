@@ -26,7 +26,16 @@ export function BaseTable<T extends object>(props: BaseTableProps<T>) {
   return (
     <ProTable<T>
       search={false}
-      options={false}
+      options={props.options !== false ? {
+        fullScreen: false,
+        reload: false,
+        setting: { draggable: true, checkable: true },
+        density: true,
+      } : false}
+      columnsState={{
+        persistenceKey: props.persistenceKey,
+        persistenceType: "localStorage",
+      }}
       pagination={{
         pageSize: 10,
         showSizeChanger: true,

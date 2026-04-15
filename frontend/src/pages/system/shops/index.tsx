@@ -8,6 +8,7 @@ import {
   Input,
   Select,
   Space,
+  Tabs,
   Typography,
   Tag,
 } from "antd";
@@ -26,13 +27,17 @@ import { BaseModal } from "@/components/common/BaseModal";
 import { BaseTable } from "@/components/table/BaseTable";
 import { ActionGroup } from "@/components/common/ActionGroup";
 import { Permission } from "@/components/permission/Permission";
+import { ShopSortList } from "./components/ShopSortList";
 
 const { Text } = Typography;
 
 export default function SystemShopsPage() {
+  const [activeTab, setActiveTab] = useState("list");
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<ShopRecord | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [sortPlatformId, setSortPlatformId] = useState<string>();
+  const [sortDepartmentId, setSortDepartmentId] = useState<string>();
   const [filterForm] = Form.useForm();
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
@@ -62,9 +67,24 @@ export default function SystemShopsPage() {
     },
   });
 
+  // 筛选用于排序的店铺
+  const filteredShopsForSort = useMemo(() => {
+    return shops.filter((shop) => {
+      if (sortPlatformId && shop.platform_id !== sortPlatformId) return false;
+      if (sortDepartmentId && shop.department_id !== sortDepartmentId)
+        return false;
+      return true;
+    });
+  }, [shops, sortPlatformId, sortDepartmentId]);
+
   const refresh = async () => {
     setSelectedIds([]);
     await queryClient.invalidateQueries({ queryKey: ["system-shops"] });
+  };
+
+  const handleSaveSort = async (items: Array<{ id: string; sort: number }>) => {
+    await systemApi.updateShopSort(items);
+    await refresh();
   };
 
   // 2. 变更操作
@@ -190,100 +210,143 @@ export default function SystemShopsPage() {
 
   return (
     <div className="p-4 space-y-4">
-      {/* 搜索筛选区 - 单行全铺满自适应布局 */}
-      <Card bordered={false} className="shadow-sm">
-        <Form
-          form={filterForm}
-          layout="inline"
-          className="flex flex-wrap items-center gap-4"
-        >
-          <Form.Item name="name" className="flex-grow min-w-[200px] mb-0">
-            <Input
-              prefix={<SearchOutlined />}
-              placeholder="搜索店铺名称"
-              className="h-[44px]"
-            />
-          </Form.Item>
-          <Form.Item
-            name="platform_id"
-            className="flex-grow min-w-[180px] mb-0"
-          >
-            <Select
-              placeholder="所属平台"
-              className="h-[44px] w-full"
-              options={platforms.map((p) => ({ label: p.name, value: p.id }))}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item name="status" className="min-w-[120px] mb-0">
-            <Select
-              placeholder="状态"
-              className="h-[44px] w-full"
-              options={[
-                { label: "启用", value: 1 },
-                { label: "禁用", value: 0 },
-              ]}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item className="mb-0">
-            <Space size={8}>
-              <Button
-                icon={<ReloadOutlined />}
-                onClick={() => filterForm.resetFields()}
-                className="h-[44px] border-slate-500 font-bold"
-              >
-                重置
-              </Button>
-              <Permission code="system:shop:batch-status">
-                <Button
-                  disabled={selectedIds.length === 0}
-                  onClick={() =>
-                    batchStatusMutation.mutate({ ids: selectedIds, status: 1 })
-                  }
-                  className="h-[44px] font-bold"
-                >
-                  批量启用
-                </Button>
-                <Button
-                  disabled={selectedIds.length === 0}
-                  onClick={() =>
-                    batchStatusMutation.mutate({ ids: selectedIds, status: 0 })
-                  }
-                  className="h-[44px] font-bold"
-                >
-                  批量禁用
-                </Button>
-              </Permission>
-              <Permission code="system:shop:create">
-                <Button
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={() => setOpen(true)}
-                  className="h-[44px] font-bold"
-                >
-                  新增店铺
-                </Button>
-              </Permission>
-            </Space>
-          </Form.Item>
-        </Form>
-      </Card>
+      <Tabs
+        activeKey={activeTab}
+        onChange={setActiveTab}
+        items={[
+          {
+            key: "list",
+            label: "店铺列表",
+            children: (
+              <>
+                {/* 搜索筛选区 - 单行全铺满自适应布局 */}
+                <Card bordered={false} className="shadow-sm">
+                  <Form
+                    form={filterForm}
+                    layout="inline"
+                    className="flex flex-wrap items-center gap-4"
+                  >
+                    <Form.Item
+                      name="name"
+                      className="flex-grow min-w-[200px] mb-0"
+                    >
+                      <Input
+                        prefix={<SearchOutlined />}
+                        placeholder="搜索店铺名称"
+                        className="h-[44px]"
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="platform_id"
+                      className="flex-grow min-w-[180px] mb-0"
+                    >
+                      <Select
+                        placeholder="所属平台"
+                        className="h-[44px] w-full"
+                        options={platforms.map((p) => ({
+                          label: p.name,
+                          value: p.id,
+                        }))}
+                        allowClear
+                      />
+                    </Form.Item>
+                    <Form.Item name="status" className="min-w-[120px] mb-0">
+                      <Select
+                        placeholder="状态"
+                        className="h-[44px] w-full"
+                        options={[
+                          { label: "启用", value: 1 },
+                          { label: "禁用", value: 0 },
+                        ]}
+                        allowClear
+                      />
+                    </Form.Item>
+                    <Form.Item className="mb-0">
+                      <Space size={8}>
+                        <Button
+                          icon={<ReloadOutlined />}
+                          onClick={() => filterForm.resetFields()}
+                          className="h-[44px] border-slate-500 font-bold"
+                        >
+                          重置
+                        </Button>
+                        <Permission code="system:shop:batch-status">
+                          <Button
+                            disabled={selectedIds.length === 0}
+                            onClick={() =>
+                              batchStatusMutation.mutate({
+                                ids: selectedIds,
+                                status: 1,
+                              })
+                            }
+                            className="h-[44px] font-bold"
+                          >
+                            批量启用
+                          </Button>
+                          <Button
+                            disabled={selectedIds.length === 0}
+                            onClick={() =>
+                              batchStatusMutation.mutate({
+                                ids: selectedIds,
+                                status: 0,
+                              })
+                            }
+                            className="h-[44px] font-bold"
+                          >
+                            批量禁用
+                          </Button>
+                        </Permission>
+                        <Permission code="system:shop:create">
+                          <Button
+                            type="primary"
+                            icon={<PlusOutlined />}
+                            onClick={() => setOpen(true)}
+                            className="h-[44px] font-bold"
+                          >
+                            新增店铺
+                          </Button>
+                        </Permission>
+                      </Space>
+                    </Form.Item>
+                  </Form>
+                </Card>
 
-      {/* 数据表格区 */}
-      <Card bordered={false} className="shadow-sm">
-        <BaseTable<ShopRecord>
-          columns={columns}
-          dataSource={shops}
-          loading={isLoading}
-          rowKey="id"
-          pagination={{ pageSize: 10 }}
-          rowSelection={{
-            selectedRowKeys: selectedIds,
-            onChange: (keys: React.Key[]) => setSelectedIds(keys as string[]),
-          }}
-        />
-      </Card>
+                {/* 数据表格区 */}
+                <Card bordered={false} className="shadow-sm">
+                  <BaseTable<ShopRecord>
+                    columns={columns}
+                    dataSource={shops}
+                    loading={isLoading}
+                    rowKey="id"
+                    pagination={{ pageSize: 10 }}
+                    rowSelection={{
+                      selectedRowKeys: selectedIds,
+                      onChange: (keys: React.Key[]) =>
+                        setSelectedIds(keys as string[]),
+                    }}
+                  />
+                </Card>
+              </>
+            ),
+          },
+          {
+            key: "sort",
+            label: "店铺排序",
+            children: (
+              <ShopSortList
+                shops={filteredShopsForSort}
+                platforms={platforms}
+                departments={departments}
+                onSave={handleSaveSort}
+                platformId={sortPlatformId}
+                departmentId={sortDepartmentId}
+                onPlatformChange={setSortPlatformId}
+                onDepartmentChange={setSortDepartmentId}
+              />
+            ),
+          },
+        ]}
+      />
 
       {/* 新增/编辑弹窗 */}
       <BaseModal

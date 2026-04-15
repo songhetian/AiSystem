@@ -1,0 +1,127 @@
+{
+  "jd": [
+    {
+      "order_sn": "JD202604130001",
+      "vender_id": "10001",
+      "pin": "jd_user_alpha",
+      "order_time": "2026-04-13 10:00:00",
+      "pay_time": "2026-04-13 10:05:00",
+      "order_total_price": 5999.00,
+      "order_payment": 5899.00,
+      "order_state": "WAIT_SELLER_SEND_GOODS",
+      "consignee_info": {
+        "fullname": "张三",
+        "telephone": "13800138000",
+        "full_address": "北京市朝阳区京东大厦 B 座 15 层"
+      },
+      "item_info_list": [
+        {
+          "sku_id": "1000001",
+          "sku_name": "京东京造 智能手机 Pro Max 256G",
+          "jd_price": 5999.00,
+          "item_total_amount": 1
+        }
+      ]
+    },
+    {
+      "order_sn": "JD202604130002",
+      "vender_id": "10001",
+      "pin": "jd_user_beta",
+      "order_time": "2026-04-12 14:00:00",
+      "order_state": "FINISHED",
+      "consignee_info": {
+        "fullname": "李四",
+        "full_address": "上海市浦东新区张江高科技园区"
+      }
+    }
+  ],
+  "tmall": [
+    {
+      "tid": "TM202604139999",
+      "buyer_nick": "tmall_fan_88",
+      "seller_id": "776655",
+      "created": "2026-04-13 09:30:00",
+      "pay_time": "2026-04-13 09:31:45",
+      "total_fee": 128.50,
+      "payment": 120.00,
+      "status": "TRADE_FINISHED",
+      "receiver_name": "王五",
+      "receiver_address": "广东省深圳市南山区腾讯滨海大厦",
+      "orders": {
+        "order": [
+          {
+            "oid": "TM_SUB_001",
+            "title": "天猫精灵 智能音箱 方糖R",
+            "price": 128.50,
+            "num": 1
+          }
+        ]
+      }
+    }
+  ],
+  "douyin": [
+    {
+      "order_id": "DY_666777888",
+      "p_id": "P_99001",
+      "author_id": "A_LaoTie",
+      "create_time": 1712976000,
+      "order_status": 2,
+      "order_status_desc": "已支付",
+      "order_amount": 29900,
+      "pay_amount": 28800,
+      "post_addr": {
+        "province": { "name": "四川省" },
+        "city": { "name": "成都市" },
+        "town": { "name": "高新区" },
+        "detail": "环球中心 N1 2-1-805"
+      },
+      "sku_order_list": [
+        {
+          "product_id": "DY_P_001",
+          "product_name": "抖音爆款 - 螺蛳粉 5 袋装",
+          "item_num": 1
+        }
+      ]
+    }
+  ],
+  "service_sessions": [
+    {
+      "session_no": "S20260413_001",
+      "customer_nickname": "张三 (京东)",
+      "platform_source": "JD",
+      "shop_code": "SHOP-CS-001",
+      "status": "closed",
+      "satisfaction": 5,
+      "messages": [
+        { "role": "customer", "content": "你好，我想查一下我的订单 JD202604130001 发货了吗？", "time_offset": 0 },
+        { "role": "agent", "content": "您好！正在为您查询，请稍等。", "time_offset": 30 },
+        { "role": "agent", "content": "查询到您的订单正在仓库打包中，预计下午就会发出，请您耐心等待。", "time_offset": 120 },
+        { "role": "customer", "content": "好的，谢谢，顺丰发货吗？", "time_offset": 150 },
+        { "role": "agent", "content": "是的，默认顺丰快递，单号生成后会同步给您。", "time_offset": 180 },
+        { "role": "customer", "content": "太棒了，谢谢！", "time_offset": 200 }
+      ]
+    },
+    {
+      "session_no": "S20260413_002",
+      "customer_nickname": "恼火的用户",
+      "platform_source": "TMALL",
+      "shop_code": "SHOP-CS-001",
+      "status": "closed",
+      "satisfaction": 1,
+      "messages": [
+        { "role": "customer", "content": "为什么我的快递还没到？都三天了！", "time_offset": 0 },
+        { "role": "agent", "content": "抱歉，这不是我的责任，物流是由第三方负责的，请你自己去查。", "time_offset": 600 },
+        { "role": "customer", "content": "你这是什么态度？我要投诉你！", "time_offset": 620 }
+      ]
+    }
+  ],
+  "knowledge_chats": [
+    {
+      "title": "关于发货时效咨询",
+      "messages": [
+        { "role": "user", "content": "你们一般多久发货？", "time": "2026-04-13 11:00:00" },
+        { "role": "assistant", "content": "根据系统规定，日常订单在 24 小时内发货，大促期间 48 小时内发货。顺丰包邮订单会优先处理。", "time": "2026-04-13 11:00:05" }
+      ]
+    }
+  ]
+}

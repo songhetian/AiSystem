@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { ProColumns } from '@ant-design/pro-components';
 import { Button, Card, DatePicker, Form, Input, Select, Space, Tag, message } from 'antd';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 import { examApi, type ExamPlan } from '@/api/exam';
 import { personnelApi } from '@/api/personnel';
 import { systemApi } from '@/api/system';
@@ -11,6 +12,7 @@ import { Permission } from '@/components/permission/Permission';
 import { BaseTable } from '@/components/table/BaseTable';
 
 export default function ExamPlansPage() {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [keyword, setKeyword] = useState('');
@@ -72,7 +74,19 @@ export default function ExamPlansPage() {
 
   const columns: ProColumns<ExamPlan>[] = useMemo(
     () => [
-      { title: '计划名称', dataIndex: 'plan_name' },
+      { 
+        title: '计划名称', 
+        dataIndex: 'plan_name',
+        render: (_, record) => (
+          <Button 
+            type="link" 
+            style={{ padding: 0 }}
+            onClick={() => navigate(`/exam/plans/${record.id}`)}
+          >
+            {record.plan_name}
+          </Button>
+        )
+      },
       { title: '试卷', render: (_, record) => record.paper?.paper_name ?? '-' },
       { title: '考试时间', render: (_, record) => `${dayjs(record.start_time).format('YYYY-MM-DD HH:mm')} ~ ${dayjs(record.end_time).format('YYYY-MM-DD HH:mm')}` },
       { title: '时长', dataIndex: 'duration_min', width: 90, render: (_, record) => `${record.duration_min} 分钟` },
@@ -96,7 +110,7 @@ export default function ExamPlansPage() {
         }
       }
     ],
-    []
+    [navigate]
   );
 
   return (

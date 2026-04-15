@@ -1,4 +1,23 @@
 services:
+  # ---------------------------------------------------------
+  # [NEW] Mock Service - 外部平台仿真沙盒 (V21.0)
+  # ---------------------------------------------------------
+  mock-service:
+    build:
+      context: ./dev-tools
+      dockerfile: Dockerfile
+    container_name: leixin-mock-server
+    ports:
+      - "3888:3888"
+    volumes:
+      - ./dev-tools/data-templates:/app/data-templates
+    networks:
+      - aisystem-network
+    restart: always
+
+  # ---------------------------------------------------------
+  # MySQL - 核心数据存储
+  # ---------------------------------------------------------
   mysql:
     image: mysql:8.0.36
     container_name: mysql-service
@@ -105,10 +124,10 @@ services:
         condition: service_healthy
       minio:
         condition: service_healthy
-      qdrant:
-        condition: service_started
     ports:
       - "${PORT:-3000}:3000"
+    volumes:
+      - ./backend/prisma:/app/prisma # 挂载 Prisma 文件夹以便于数据库迁移同步
     networks:
       - backend-network
 
@@ -122,6 +141,24 @@ services:
       - backend
     ports:
       - "${FRONTEND_PORT:-8000}:8000"
+    networks:
+      - backend-network
+
+  # [NEW] 管理端离线工具执行环境 (可选启动)
+  # 职责：用于执行 dev-tools 中的种子数据注入与环境检查
+  seeder:
+    image: node:20-alpine
+    container_name: seeder-tool
+    profiles: ["tools"] # 仅在执行特定指令时拉起
+    volumes:
+      - .:/app
+    working_dir: /app/dev-tools
+    environment:
+      - NODE_ENV=development
+    entrypoint: ["sh", "-c", "npm install && npm run seed"]
+    depends_on:
+      mysql:
+        condition: service_healthy
     networks:
       - backend-network
 

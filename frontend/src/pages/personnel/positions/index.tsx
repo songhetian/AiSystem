@@ -10,11 +10,13 @@ import {
   Popconfirm,
   Select,
   Space,
+  Tabs,
 } from "antd";
 import { personnelApi } from "@/api/personnel";
 import { systemApi } from "@/api/system";
 import { BaseModal } from "@/components/common/BaseModal";
 import { BaseTable } from "@/components/table/BaseTable";
+import { PositionDraggableList } from "./components/PositionDraggableList";
 
 interface PositionRecord {
   id: string;
@@ -22,9 +24,12 @@ interface PositionRecord {
   code: string;
   description?: string;
   department_id: string;
+  department_name?: string;
   level?: number;
   sequence?: string;
   platform_id?: string;
+  status: number;
+  sort: number;
 }
 
 interface DepartmentRecord {
@@ -43,6 +48,7 @@ const columns: ProColumns<PositionRecord>[] = [
 export default function PositionsPage() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<PositionRecord | null>(null);
+  const [activeTab, setActiveTab] = useState("list");
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
   const { data = [], isLoading } = useQuery<PositionRecord[]>({
@@ -93,39 +99,47 @@ export default function PositionsPage() {
         </Button>
       }
     >
-      <BaseTable<PositionRecord>
-        rowKey="id"
-        columns={[
-          ...columns,
-          {
-            title: "操作",
-            render: (_, record) => (
-              <Space>
-                <Button
-                  type="link"
-                  onClick={() => {
-                    setEditing(record);
-                    form.setFieldsValue(record);
-                    setOpen(true);
-                  }}
-                >
-                  编辑
-                </Button>
-                <Popconfirm
-                  title="确认删除该岗位？"
-                  onConfirm={() => deleteMutation.mutate(record.id)}
-                >
-                  <Button type="link" danger>
-                    删除
-                  </Button>
-                </Popconfirm>
-              </Space>
-            ),
-          },
-        ]}
-        dataSource={data}
-        loading={isLoading}
-      />
+      <Tabs activeKey={activeTab} onChange={setActiveTab}>
+        <Tabs.TabPane tab="岗位列表" key="list">
+          <BaseTable<PositionRecord>
+            rowKey="id"
+            columns={[
+              ...columns,
+              {
+                title: "操作",
+                render: (_, record) => (
+                  <Space>
+                    <Button
+                      type="link"
+                      onClick={() => {
+                        setEditing(record);
+                        form.setFieldsValue(record);
+                        setOpen(true);
+                      }}
+                    >
+                      编辑
+                    </Button>
+                    <Popconfirm
+                      title="确认删除该岗位？"
+                      onConfirm={() => deleteMutation.mutate(record.id)}
+                    >
+                      <Button type="link" danger>
+                        删除
+                      </Button>
+                    </Popconfirm>
+                  </Space>
+                ),
+              },
+            ]}
+            dataSource={data}
+            loading={isLoading}
+          />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="岗位排序" key="sort">
+          <PositionDraggableList positions={data} onUpdate={refresh} />
+        </Tabs.TabPane>
+      </Tabs>
+
       <BaseModal
         open={open}
         title={editing ? "编辑岗位" : "新增岗位"}

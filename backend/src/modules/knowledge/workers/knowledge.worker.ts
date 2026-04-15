@@ -42,20 +42,16 @@ export class KnowledgeWorker extends WorkerHost {
     if (!doc) return;
 
     try {
-      await this.prisma.knowledge_document.update({
-        where: { id: documentId },
-        data: { status: 'processing', process_log: '开始下载文件...' },
-      });
+      // 阶段1: 下载文件 (0-20%)
+      await this.updateProgress(documentId, 0, 'processing', '开始下载文件...');
 
       const tempDir = os.tmpdir();
       const tempPath = path.join(tempDir, `${doc.id}.${doc.file_type}`);
 
       await this.minioService.downloadObject(doc.file_path, tempPath);
+      await this.updateProgress(documentId, 20, 'processing', '文件下载完成，开始解析文本...');
 
-      await this.prisma.knowledge_document.update({
-        where: { id: documentId },
-        data: { process_log: '文件下载完成，开始解析文本...' },
-      });
+      // 阶段2: 解析文本 (20-50%)
       const text = await this.parserService.parseFile(tempPath, doc.file_type);
 
       // Cleanup
@@ -65,14 +61,15 @@ export class KnowledgeWorker extends WorkerHost {
         throw new Error('解析出的文本为空');
       }
 
-      await this.prisma.knowledge_document.update({
-        where: { id: documentId },
-        data: { process_log: `文本解析成功 (${text.length} 字符)，开始切片并向量化...` },
-      });
+      await this.updateProgress(documentId, 50, 'processing', `文本解析成功 (${text.length} 字符)，开始切片...`);
 
-      // 切片逻辑：简单按 500 字切片，重叠 50 字
+      // 阶段3: 文本切片 (50-70%)
       const chunks = this.chunkText(text, 500, 50);
+      await this.updateProgress(documentId, 70, 'processing', `文本切片完成 (${chunks.length} 个片段)，开始向量化...`);
+
+      // 阶段4: 向量化 (70-100%)
       const vectorIds: string[] = [];
+      const totalChunks = chunks.length;
 
       for (let i = 0; i < chunks.length; i++) {
         const pointId = `${doc.id}-p${i}`;
@@ -86,19 +83,33 @@ export class KnowledgeWorker extends WorkerHost {
             doc_id: doc.id,
             file_name: doc.file_name,
             chunk_index: i,
-            is_public: doc.is_public, // 新增：记录公共状态
+            is_public: doc.is_public,
+            file_type: doc.file_type,
           },
         });
         vectorIds.push(pointId);
+
+        // 更新向量化进度 (70-100%)
+        const vectorProgress = 70 + Math.floor((i + 1) / totalChunks * 30);
+        if (i % 5 === 0 || i === totalChunks - 1) { // 每5个片段更新一次进度
+          await this.updateProgress(
+            documentId, 
+            vectorProgress, 
+            'processing', 
+            `向量化进度: ${i + 1}/${totalChunks}`
+          );
+        }
       }
 
+      // 完成
       await this.prisma.knowledge_document.update({
         where: { id: documentId },
         data: {
           status: 'completed',
-          content: text, // 保存全文
+          progress: 100,
+          content: text,
           vector_ids: vectorIds,
-          process_log: `处理完成，共生成 ${chunks.length} 个知识点。`,
+          process_log: `✅ 处理完成！共生成 ${chunks.length} 个知识点，已导入向量数据库。`,
         },
       });
     } catch (error: any) {
@@ -107,11 +118,22 @@ export class KnowledgeWorker extends WorkerHost {
         where: { id: documentId },
         data: {
           status: 'failed',
+          progress: 0,
           error_msg: error?.message || 'Unknown error',
-          process_log: `处理失败: ${error?.message || 'Unknown error'}`,
+          process_log: `❌ 处理失败: ${error?.message || 'Unknown error'}`,
         },
       });
     }
+  }
+
+  /**
+   * 更新文档处理进度
+   */
+  private async updateProgress(documentId: string, progress: number, status: string, log: string) {
+    await this.prisma.knowledge_document.update({
+      where: { id: documentId },
+      data: { progress, status, process_log: log },
+    });
   }
 
   private async handleUpsertArticle(data: { article: any }) {

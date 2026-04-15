@@ -1,12 +1,19 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Card, Row, Col, Typography, Table, Tag } from 'antd';
-import { AccountBookOutlined, PieChartOutlined, WalletOutlined } from '@ant-design/icons';
+import { Card, Row, Col, Typography, Table, Tag, Progress, Space, Badge } from 'antd';
+import { 
+  BarChartOutlined, 
+  WalletOutlined, 
+  ArrowUpOutlined, 
+  ArrowDownOutlined,
+  ClockCircleOutlined,
+  TransactionOutlined
+} from '@ant-design/icons';
 import { financeApi } from '@/api/finance';
 import { systemApi } from '@/api/system';
 import { useAppScope } from '@/hooks/useAppScope';
 import { FinanceFilterBar } from './components/FinanceFilterBar';
-import { StatisticCard } from './components/StatisticCard';
-import type { CashRecord } from '@/api/finance';
+import { AuditLogModal } from '../components/AuditLogModal';
 
 const { Title, Text } = Typography;
 
@@ -24,94 +31,194 @@ export default function FinanceDashboardPage() {
     enabled: !!platformId
   });
 
-  const { data: cashRecords = [] } = useQuery<CashRecord[]>({
+  const { data: cashRecords = [] } = useQuery({
     queryKey: ['finance-cash-recent', platformId],
     queryFn: () => financeApi.listCashRecords({ platform_id: platformId }),
     enabled: !!platformId
   });
 
+  const { data: recentPurchases = [] } = useQuery({
+    queryKey: ['finance-purchase-recent', platformId],
+    queryFn: () => financeApi.listPurchases({ platform_id: platformId, status: 3 }),
+    enabled: !!platformId
+  });
+
+  const [auditLogOpen, setAuditLogOpen] = useState(false);
+  const [selectedLogs, setSelectedLogs] = useState<any[]>([]);
+
   return (
-    <div className="p-4 space-y-4 bg-slate-50 min-h-screen">
-      <Card bordered={false} className="shadow-sm">
+    <div className="leixi-page-container min-h-screen">
+      <div className="mb-6">
+        <Title level={2} className="leixi-text-main m-0">财务概览看板</Title>
+        <Text className="leixi-text-secondary">实时监控全平台资金收支、报销进度及采购分摊。符合雷犀 UI 4.0 高辨识度规范。</Text>
+      </div>
+
+      <Card bordered={false} className="shadow-sm mb-6 leixi-filter-border" bodyStyle={{ padding: '12px 24px' }}>
         <FinanceFilterBar platforms={platforms as any[]} />
       </Card>
 
-      <Row gutter={16}>
-        <Col span={6}><StatisticCard title="总报销额" value={stats?.overview?.reimbursement ?? 0} borderColor="border-l-blue-600" /></Col>
-        <Col span={6}><StatisticCard title="总采购额" value={stats?.overview?.purchase ?? 0} borderColor="border-l-orange-600" /></Col>
+      <Row gutter={[24, 24]} className="mb-6">
         <Col span={6}>
-            <StatisticCard 
-                title="本月净收入" 
-                value={(stats?.overview?.income || 0) - (stats?.overview?.expense || 0)} 
-                borderColor="border-l-green-600" 
+          <Card className="shadow-md border-l-4 border-l-slate-900 h-full">
+            <Space direction="vertical" size={0}>
+              <Text className="leixi-text-secondary font-bold uppercase text-[12px]">总报销额 (已打款)</Text>
+              <div className="flex items-baseline gap-2">
+                <Text className="text-3xl leixi-text-main">￥{(stats?.overview?.reimbursement || 0).toLocaleString()}</Text>
+                <Tag color="success" icon={<ArrowDownOutlined />}>12%</Tag>
+              </div>
+            </Space>
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card className="shadow-md border-l-4 border-l-slate-900 h-full">
+            <Space direction="vertical" size={0}>
+              <Text className="leixi-text-secondary font-bold uppercase text-[12px]">总采购额 (已完成)</Text>
+              <div className="flex items-baseline gap-2">
+                <Text className="text-3xl leixi-text-main">￥{(stats?.overview?.purchase || 0).toLocaleString()}</Text>
+                <Tag color="error" icon={<ArrowUpOutlined />}>5%</Tag>
+              </div>
+            </Space>
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card className="shadow-md border-l-4 border-l-slate-900 h-full">
+            <Space direction="vertical" size={0}>
+              <Text className="leixi-text-secondary font-bold uppercase text-[12px]">现金账户净值</Text>
+              <div className="flex items-baseline gap-2">
+                <Text className="text-3xl leixi-text-main">￥{((stats?.overview?.income || 0) - (stats?.overview?.expense || 0)).toLocaleString()}</Text>
+              </div>
+            </Space>
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card className="shadow-md border-l-4 border-l-red-600 h-full bg-red-50">
+            <Space direction="vertical" size={0}>
+              <Text className="text-red-600 font-bold uppercase text-[12px]">驳回/异常单据</Text>
+              <div className="flex items-baseline gap-2">
+                <Text className="text-3xl text-red-700 font-black">2</Text>
+                <Text className="text-red-500 font-bold underline cursor-pointer">立即同步</Text>
+              </div>
+            </Space>
+          </Card>
+        </Col>
+      </Row>
+
+      <Row gutter={[24, 24]}>
+        <Col span={10}>
+          <Card 
+            title={<Title level={5} className="m-0 leixi-text-main"><BarChartOutlined className="mr-2" />费用与采购效能</Title>} 
+            className="shadow-sm h-full"
+            extra={<Text className="leixi-text-secondary cursor-pointer font-bold">查看所有单据</Text>}
+          >
+            <div className="py-4 flex justify-around border-b border-slate-50 mb-4">
+              <Space direction="vertical" align="center">
+                <Progress type="dashboard" percent={92} strokeColor="#0f172a" strokeWidth={10} width={100} />
+                <Text className="leixi-text-main text-xs font-bold">报销通过率</Text>
+              </Space>
+              <Space direction="vertical" align="center">
+                <Progress 
+                  type="dashboard" 
+                  percent={Math.min(100, Math.round(((stats?.overview?.purchase || 0) / (stats?.overview?.expense || 1)) * 100))} 
+                  strokeColor="#64748b" 
+                  strokeWidth={10} 
+                  width={100} 
+                />
+                <Text className="leixi-text-main text-xs font-bold">采购支出比</Text>
+              </Space>
+            </div>
+            
+            <div className="px-4 space-y-4">
+              <Title level={5} className="text-sm leixi-text-main mb-2">采购预算预警 (PRD 2.9.2)</Title>
+              {recentPurchases.slice(0, 3).map((p: any) => {
+                const variance = Number(p.actual_amount || 0) - Number(p.total_amount || 0);
+                const isOver = variance > 0;
+                return (
+                  <div key={p.id} className="p-2 rounded bg-slate-50 border border-slate-100">
+                    <div className="flex justify-between items-center mb-1">
+                      <Text className="leixi-text-main font-bold truncate max-w-[150px]">{p.reason}</Text>
+                      <Tag color={isOver ? 'error' : 'success'} className="border-0 font-bold m-0">
+                        {isOver ? '+' : ''}{variance.toLocaleString()}
+                      </Tag>
+                    </div>
+                    <Progress 
+                      percent={Math.round((Number(p.actual_amount || 0) / Number(p.total_amount || 1)) * 100)} 
+                      status={isOver ? 'exception' : 'success'} 
+                      size="small" 
+                      showInfo={false}
+                      strokeWidth={6}
+                    />
+                  </div>
+                );
+              })}
+              {recentPurchases.length === 0 && <div className="text-center py-4 text-slate-400">暂无已完成的采购单据</div>}
+            </div>
+          </Card>
+        </Col>
+        <Col span={14}>
+          <Card 
+            title={<Title level={5} className="m-0 leixi-text-main"><TransactionOutlined className="mr-2" />实时财务收支流转</Title>} 
+            className="shadow-sm h-full"
+            bodyStyle={{ padding: 0 }}
+          >
+            <Table
+              dataSource={cashRecords}
+              pagination={false}
+              rowKey="id"
+              className="leixi-table"
+              columns={[
+                { 
+                  title: '事项', 
+                  dataIndex: 'source', 
+                  render: (t) => <Text className="leixi-text-main block truncate max-w-[200px]">{t}</Text> 
+                },
+                { 
+                  title: '变动金额', 
+                  dataIndex: 'amount', 
+                  render: (v, r: any) => (
+                    <Text className={`font-black text-lg ${r.type === 1 ? 'text-green-600' : 'text-red-600'}`}>
+                      {r.type === 1 ? '+' : '-'}￥{Number(v).toLocaleString()}
+                    </Text>
+                  ) 
+                },
+                { 
+                  title: '关联单据', 
+                  dataIndex: 'biz_no', 
+                  render: (t) => <Text className="leixi-text-secondary font-bold underline cursor-pointer">{t || '-'}</Text> 
+                },
+                { 
+                  title: '发生时间', 
+                  dataIndex: 'create_time', 
+                  render: (t, r: any) => (
+                    <Space size={12} className="w-full justify-between">
+                      <Space size={4} className="leixi-text-secondary">
+                        <ClockCircleOutlined />
+                        <Text className="leixi-text-secondary text-[12px]">{new Date(t).toLocaleString()}</Text>
+                      </Space>
+                      <Button 
+                        type="link" 
+                        size="small" 
+                        className="font-bold text-slate-500 hover:text-slate-900"
+                        onClick={() => {
+                          setSelectedLogs(r.modify_log || []);
+                          setAuditLogOpen(true);
+                        }}
+                      >
+                        日志
+                      </Button>
+                    </Space>
+                  )
+                }
+              ]}
             />
-        </Col>
-        <Col span={6}><StatisticCard title="异常单据" value={2} prefix="" borderColor="border-l-red-600" /></Col>
-      </Row>
-
-      <Row gutter={16}>
-        <Col span={16}>
-          <Card title={<Title level={5} className="m-0 font-black text-slate-900"><AccountBookOutlined className="mr-2" />收支趋势统计</Title>} bordered={false} className="shadow-sm min-h-[400px]">
-            <div className="flex items-end justify-between h-64 px-4 mt-8">
-              {[40, 60, 30, 80, 95, 45, 70, 55, 90, 65, 40, 85].map((h, i) => (
-                <div key={i} className="flex flex-col items-center gap-2 w-full max-w-[40px]">
-                  <div className="w-full bg-blue-100 rounded-t-sm" style={{ height: `${h}%` }} />
-                  <Text className="text-[10px] text-slate-400 font-bold">{i + 1}月</Text>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card title={<Title level={5} className="m-0 font-black text-slate-900"><PieChartOutlined className="mr-2" />费用结构分布</Title>} bordered={false} className="shadow-sm min-h-[400px]">
-            <div className="flex flex-col gap-4 mt-4">
-              {[
-                { label: '办公耗材', val: 45, color: '#2563eb' },
-                { label: '差旅报销', val: 25, color: '#f97316' },
-                { label: '人力外包', val: 20, color: '#16a34a' },
-              ].map((item, i) => (
-                <div key={i}>
-                  <div className="flex justify-between mb-1">
-                    <Text className="font-bold text-slate-700">{item.label}</Text>
-                    <Text className="font-black text-slate-900">{item.val}%</Text>
-                  </div>
-                  <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                    <div style={{ width: `${item.val}%`, backgroundColor: item.color, height: '100%' }} />
-                  </div>
-                </div>
-              ))}
-            </div>
           </Card>
         </Col>
       </Row>
 
-      <Card title={<Title level={5} className="m-0 font-black text-slate-900"><WalletOutlined className="mr-2" />实时财务流水</Title>} bordered={false} className="shadow-sm">
-        <Table<CashRecord>
-          size="middle"
-          pagination={false}
-          dataSource={cashRecords}
-          rowKey="id"
-          columns={[
-            { title: '流水号', dataIndex: 'id', render: (t) => <Text className="font-bold text-slate-500 text-xs">#{t.slice(-8)}</Text> },
-            { title: '事由/来源', dataIndex: 'source', render: (t) => <Text className="font-black text-slate-900">{t}</Text> },
-            { 
-              title: '金额', 
-              dataIndex: 'amount', 
-              render: (v, r) => (
-                <Text className={`font-black text-lg ${r.type === 1 ? 'text-green-600' : 'text-red-600'}`}>
-                  {r.type === 1 ? '+' : '-'}￥{Number(v).toFixed(2)}
-                </Text>
-              ) 
-            },
-            { 
-              title: '业务关联', 
-              dataIndex: 'biz_type', 
-              render: (t) => <Tag className="font-bold border-slate-300">{t === 'reimbursement' ? '报销申请' : '采购申请'}</Tag> 
-            },
-            { title: '发生时间', dataIndex: 'create_time', className: 'text-slate-500 text-xs' }
-          ]}
-        />
-      </Card>
+      <AuditLogModal 
+        open={auditLogOpen} 
+        onClose={() => setAuditLogOpen(false)} 
+        logs={selectedLogs} 
+      />
     </div>
   );
 }

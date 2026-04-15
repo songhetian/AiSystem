@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
-import { Button, Form, message, Space, Tag, Popconfirm } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Button, Form, message, Tabs } from "antd";
+import { PlusOutlined, SettingOutlined } from "@ant-design/icons";
 import type { ProColumns } from "@ant-design/pro-components";
 import BaseTable from "@/components/table/BaseTable";
 import BaseModal from "@/components/common/BaseModal";
@@ -10,6 +10,7 @@ import StatusTag from "@/components/common/StatusTag";
 import Permission from "@/components/permission/Permission";
 import { attendanceApi } from "@/api/attendance";
 import type { AttendanceShiftPayload } from "@/api/attendance";
+import { AttendanceRuleConfig } from "./components/AttendanceRuleConfig";
 
 const AttendanceShifts: React.FC = () => {
   const tableRef = useRef<any>();
@@ -134,22 +135,49 @@ const AttendanceShifts: React.FC = () => {
 
   return (
     <div className="p-4">
-      <BaseTable
-        ref={tableRef}
-        columns={columns}
-        request={async (params) => {
-          const res = await attendanceApi.listShifts();
-          return {
-            data: res,
-            success: true,
-          };
-        }}
-        toolBarRender={() => [
-          <Permission key="add" code="attendance:shifts:create">
-            <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
-              新增班次
-            </Button>
-          </Permission>,
+      <Tabs
+        type="card"
+        items={[
+          {
+            key: "shifts",
+            label: "班次管理",
+            children: (
+              <>
+                <BaseTable
+                  ref={tableRef}
+                  columns={columns}
+                  request={async () => {
+                    const res = await attendanceApi.listShifts();
+                    return { data: res, success: true };
+                  }}
+                  toolBarRender={() => [
+                    <Permission key="add" code="attendance:shifts:create">
+                      <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={handleAdd}
+                      >
+                        新增班次
+                      </Button>
+                    </Permission>,
+                  ]}
+                />
+              </>
+            ),
+          },
+          {
+            key: "rules",
+            label: (
+              <span>
+                <SettingOutlined /> 考勤规则配置
+              </span>
+            ),
+            children: (
+              <div className="pt-4">
+                <AttendanceRuleConfig />
+              </div>
+            ),
+          },
         ]}
       />
 
@@ -220,6 +248,8 @@ const AttendanceShifts: React.FC = () => {
         />
       </BaseModal>
     </div>
+  );
+};
   );
 };
 

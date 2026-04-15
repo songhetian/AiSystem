@@ -2,11 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { CreateMenuDto } from '../dto/create-menu.dto';
 import { UpdateMenuDto } from '../dto/update-menu.dto';
+import { Cache } from '../../../common/decorators/cache.decorator';
+import { CacheEvict } from '../../../common/decorators/cache-evict.decorator';
+import { QueryOptimize } from '../../../common/decorators/query-optimize.decorator';
 
 @Injectable()
 export class SystemMenusService {
   constructor(private readonly prisma: PrismaService) {}
 
+  /**
+   * 获取菜单列表（带缓存）
+   * 缓存10分钟，不区分用户
+   */
+  @Cache({ ttl: 600, byUser: false, prefix: 'menu-list' })
+  @QueryOptimize({ timeout: 3000, slowQueryThreshold: 200 })
   findAll() {
     return this.prisma.sys_menu.findMany({
       where: { is_deleted: 0 },
@@ -14,6 +23,12 @@ export class SystemMenusService {
     });
   }
 
+  /**
+   * 获取菜单树（带缓存）
+   * 缓存10分钟，根据角色ID生成Key
+   */
+  @Cache({ ttl: 600, byParams: true, prefix: 'menu-tree' })
+  @QueryOptimize({ timeout: 3000, slowQueryThreshold: 200 })
   async findTree(roleId?: string) {
     const items = await this.findAll();
     const selectedMenuIds = roleId
@@ -44,6 +59,10 @@ export class SystemMenusService {
     };
   }
 
+  /**
+   * 创建菜单（清除缓存）
+   */
+  @CacheEvict({ pattern: 'cache:menu-*' })
   create(dto: CreateMenuDto) {
     return this.prisma.sys_menu.create({
       data: {
@@ -59,6 +78,10 @@ export class SystemMenusService {
     });
   }
 
+  /**
+   * 更新菜单（清除缓存）
+   */
+  @CacheEvict({ pattern: 'cache:menu-*' })
   update(id: string, dto: UpdateMenuDto) {
     return this.prisma.sys_menu.update({
       where: { id },
@@ -66,6 +89,10 @@ export class SystemMenusService {
     });
   }
 
+  /**
+   * 排序菜单（清除缓存）
+   */
+  @CacheEvict({ pattern: 'cache:menu-*' })
   async sort(items: Array<{ id: string; parent_id?: string | null; sort: number }>) {
     await this.prisma.$transaction(
       items.map((item) =>
@@ -82,6 +109,10 @@ export class SystemMenusService {
     return { success: true };
   }
 
+  /**
+   * 删除菜单（清除缓存）
+   */
+  @CacheEvict({ pattern: 'cache:menu-*' })
   remove(id: string) {
     return this.prisma.sys_menu.update({
       where: { id },

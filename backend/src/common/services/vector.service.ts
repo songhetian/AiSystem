@@ -111,4 +111,32 @@ export class VectorService implements OnModuleInit {
     const results = await this.client.search(this.collectionName, { vector, filter: { must }, limit, with_payload: true });
     return results.map(r => ({ id: r.id, score: r.score, payload: r.payload }));
   }
+
+  async scroll(filter: { platform_id?: string; dept_id?: string }, limit = 20, offset?: string) {
+    const must: any[] = [];
+    if (filter.platform_id) must.push({ key: 'platform_id', match: { value: filter.platform_id } });
+    
+    // 同上，放通公共知识库（is_public: 1）
+    if (filter.dept_id) {
+      must.push({
+        should: [
+          { key: 'dept_id', match: { value: filter.dept_id } },
+          { key: 'is_public', match: { value: 1 } }
+        ]
+      });
+    }
+
+    const results = await this.client.scroll(this.collectionName, {
+      filter: { must },
+      limit,
+      offset,
+      with_payload: true,
+      with_vector: false
+    });
+
+    return {
+      points: results.points.map(r => ({ id: r.id, payload: r.payload })),
+      next_page_offset: results.next_page_offset
+    };
+  }
 }

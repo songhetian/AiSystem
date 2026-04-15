@@ -1,25 +1,46 @@
 import { useRef, useState } from "react";
-import { Button } from "antd";
-import { DownloadOutlined, TeamOutlined, CheckCircleOutlined, WarningOutlined } from "@ant-design/icons";
+import { Button, Tabs, Select, Space } from "antd";
+import { DownloadOutlined, TeamOutlined, CheckCircleOutlined, WarningOutlined, BarChartOutlined, DashboardOutlined } from "@ant-design/icons";
 import BaseTable from "@/components/table/BaseTable";
 import { attendanceApi } from "@/api/attendance";
+import { systemApi } from "@/api/system";
 import dayjs from "dayjs";
 import LeixiSearchFilter, { FilterField } from "@/components/common/LeixiSearchFilter";
 import LeixiStatGrid, { StatItem } from "@/components/common/LeixiStatGrid";
 import { useAttendanceStats } from "./hooks/useAttendanceStats";
 import { getAttendanceColumns } from "./components/columns";
+import AiScheduleAnalysis from "./components/AiScheduleAnalysis";
+import { useQuery } from "@tanstack/react-query";
 
 export default function AttendanceStatisticsPage() {
   const tableRef = useRef<any>();
   const [data, setData] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState('attendance');
+  const [filters, setFilters] = useState<any>({
+    month: [dayjs().startOf('month'), dayjs()],
+    dept_id: 'seed-department-customer-service'
+  });
+
+  const { data: depts = [] } = useQuery({
+    queryKey: ['system-depts'],
+    queryFn: () => systemApi.listDepartments(),
+  });
+
   const stats = useAttendanceStats(data);
 
   const filterFields: FilterField[] = [
     { 
       name: 'month', 
-      label: '统计月份', 
+      label: '统计周期', 
       type: 'range', 
-      initialValue: [dayjs().startOf('month'), dayjs()]
+      initialValue: filters.month
+    },
+    {
+      name: 'dept_id',
+      label: '分析部门',
+      type: 'select',
+      initialValue: filters.dept_id,
+      options: depts.map((d: any) => ({ label: d.name, value: d.id }))
     }
   ];
 
@@ -38,31 +59,67 @@ export default function AttendanceStatisticsPage() {
   return (
     <div className="bg-slate-50 p-6 min-h-full">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-black text-slate-900">考勤数据概览</h1>
+        <div>
+          <h1 className="text-2xl font-black text-slate-900 mb-1">排班与考勤多维统计</h1>
+          <p className="text-slate-500 font-bold text-sm">Real-time Personnel Statistics & AI Scheduling Insights</p>
+        </div>
         <Button icon={<DownloadOutlined />} type="primary" size="large" className="h-11 rounded-xl bg-slate-900 border-none font-black shadow-lg">
-          导出报表
+          导出全局报表
         </Button>
       </div>
 
-      <LeixiSearchFilter fields={filterFields} onSearch={(v) => tableRef.current?.reload(v)} />
-      
-      <LeixiStatGrid items={statItems} />
+      <LeixiSearchFilter 
+        fields={filterFields} 
+        onSearch={(v) => {
+          setFilters(v);
+          tableRef.current?.reload(v);
+        }} 
+      />
 
-      <div className="bg-white rounded-[32px] shadow-sm border border-slate-100 overflow-hidden">
-        <BaseTable
-          ref={tableRef}
-          columns={getAttendanceColumns()}
-          request={async (params: any) => {
-            const res = await attendanceApi.getStatistics({ 
-              month: params.month?.[0]?.format('YYYY-MM') || dayjs().format('YYYY-MM') 
-            });
-            setData(res);
-            return { data: res, success: true };
-          }}
-          pagination={{ pageSize: 10 }}
-          search={false}
-        />
-      </div>
+      <Tabs
+        activeKey={activeTab}
+        onChange={setActiveTab}
+        type="card"
+        className="rhino-tabs mt-6"
+        items={[
+          {
+            key: 'attendance',
+            label: <span className="px-6 font-black"><BarChartOutlined /> 考勤执行概览</span>,
+            children: (
+              <div className="space-y-6 pt-4">
+                <LeixiStatGrid items={statItems} />
+                <div className="bg-white rounded-[32px] shadow-sm border border-slate-100 overflow-hidden">
+                  <BaseTable
+                    ref={tableRef}
+                    columns={getAttendanceColumns()}
+                    request={async (params: any) => {
+                      const res = await attendanceApi.getStatistics({ 
+                        month: params.month?.[0]?.format('YYYY-MM') || dayjs().format('YYYY-MM') 
+                      });
+                      setData(res);
+                      return { data: res, success: true };
+                    }}
+                    pagination={{ pageSize: 10 }}
+                    search={false}
+                  />
+                </div>
+              </div>
+            )
+          },
+          {
+            key: 'scheduling',
+            label: <span className="px-6 font-black"><DashboardOutlined /> AI 排班效能洞察</span>,
+            children: (
+              <div className="pt-4">
+                <AiScheduleAnalysis 
+                  deptId={filters.dept_id} 
+                  dateRange={filters.month} 
+                />
+              </div>
+            )
+          }
+        ]}
+      />
     </div>
   );
 }

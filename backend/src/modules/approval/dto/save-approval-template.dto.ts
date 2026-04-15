@@ -63,8 +63,16 @@ export class SaveApprovalTemplateDto {
   @IsString()
   type!: string;
 
+  @IsOptional()
+  @IsString()
+  platformId?: string;
+
   @IsString()
   platformName!: string;
+
+  @IsOptional()
+  @IsString()
+  deptId?: string;
 
   @IsString()
   departmentName!: string;
@@ -82,4 +90,8 @@ export class SaveApprovalTemplateDto {
   @ValidateNested({ each: true })
   @Type(() => ApprovalNodeDto)
   nodes!: ApprovalNodeDto[];
+
+  @IsOptional()
+  @IsArray()
+  formFields?: any[]; // 自定义表单字段配置
 }

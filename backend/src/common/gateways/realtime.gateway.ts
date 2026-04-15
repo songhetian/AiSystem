@@ -17,7 +17,13 @@ import { RealtimeService } from '../services/realtime.service';
   cors: {
     origin: true,
     credentials: true
-  }
+  },
+  // V2.0 高并发优化配置
+  maxHttpBufferSize: 1e6,      // 1MB 最大消息大小
+  pingTimeout: 60000,           // 60秒 ping超时
+  pingInterval: 25000,          // 25秒 心跳间隔
+  transports: ['websocket', 'polling'],  // 支持WebSocket和轮询
+  connectTimeout: 45000,        // 45秒 连接超时
 })
 export class RealtimeGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger = new Logger(RealtimeGateway.name);
@@ -25,6 +31,10 @@ export class RealtimeGateway implements OnGatewayConnection, OnGatewayDisconnect
     string,
     Array<{ socketId: string; userId: string; username: string; activity: string }>
   >();
+  
+  // V2.0 连接池管理
+  private readonly userConnections = new Map<string, Set<string>>(); // userId -> Set<socketId>
+  private readonly maxConnectionsPerUser = 3; // 每个用户最多3个连接
 
   @WebSocketServer()
   private server!: Server;
@@ -41,6 +51,7 @@ export class RealtimeGateway implements OnGatewayConnection, OnGatewayDisconnect
   async handleConnection(client: Socket) {
     const token = this.extractToken(client);
     if (!token) {
+      this.logger.warn(`Connection rejected: no token provided`);
       client.disconnect(true);
       return;
     }
@@ -49,10 +60,35 @@ export class RealtimeGateway implements OnGatewayConnection, OnGatewayDisconnect
       const payload = await this.jwtService.verifyAsync<{ sub: string; username: string }>(token, {
         secret: process.env.JWT_SECRET ?? 'changeme'
       });
-      client.data.userId = payload.sub;
+      
+      // V2.0 连接池管理：检查用户连接数
+      const userId = payload.sub;
+      const userSockets = this.userConnections.get(userId) || new Set();
+      
+      if (userSockets.size >= this.maxConnectionsPerUser) {
+        this.logger.warn(`Connection rejected: user ${userId} exceeded max connections (${this.maxConnectionsPerUser})`);
+        client.emit('realtime.error', { 
+          code: 'MAX_CONNECTIONS_EXCEEDED',
+          message: `最多允许${this.maxConnectionsPerUser}个连接，请关闭其他标签页` 
+        });
+        client.disconnect(true);
+        return;
+      }
+      
+      // 记录连接
+      userSockets.add(client.id);
+      this.userConnections.set(userId, userSockets);
+      
+      client.data.userId = userId;
       client.data.username = payload.username;
-      client.join(this.realtimeService.buildUserRoom(payload.sub));
-      client.emit('realtime.ready', { userId: payload.sub, connectedAt: new Date().toISOString() });
+      client.join(this.realtimeService.buildUserRoom(userId));
+      client.emit('realtime.ready', { 
+        userId, 
+        connectedAt: new Date().toISOString(),
+        activeConnections: userSockets.size,
+      });
+      
+      this.logger.log(`User ${userId} connected (${userSockets.size}/${this.maxConnectionsPerUser} connections)`);
     } catch (error) {
       this.logger.warn(`socket auth failed: ${(error as Error)?.message ?? 'unknown error'}`);
       client.disconnect(true);
@@ -60,9 +96,22 @@ export class RealtimeGateway implements OnGatewayConnection, OnGatewayDisconnect
   }
 
   handleDisconnect(client: Socket) {
-    if (client.data.userId) {
-      client.leave(this.realtimeService.buildUserRoom(client.data.userId as string));
+    const userId = client.data.userId as string | undefined;
+    
+    if (userId) {
+      // V2.0 连接池管理：移除连接记录
+      const userSockets = this.userConnections.get(userId);
+      if (userSockets) {
+        userSockets.delete(client.id);
+        if (userSockets.size === 0) {
+          this.userConnections.delete(userId);
+        }
+        this.logger.log(`User ${userId} disconnected (${userSockets.size}/${this.maxConnectionsPerUser} connections remaining)`);
+      }
+      
+      client.leave(this.realtimeService.buildUserRoom(userId));
     }
+    
     this.clearSocketPresence(client);
   }
 

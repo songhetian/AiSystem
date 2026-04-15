@@ -12,6 +12,8 @@ import { ScheduleFilterBar } from './components/ScheduleFilterBar';
 import { ScheduleTable } from './components/ScheduleTable';
 import { DraggableShiftCard } from './components/DraggableShiftCard';
 import { useScheduleDnD } from './hooks/useScheduleDnD';
+import { ScheduleSettingsDrawer } from './components/ScheduleSettingsDrawer';
+import { SettingOutlined } from '@ant-design/icons';
 
 const { Text, Title } = Typography;
 
@@ -40,6 +42,9 @@ export default function AttendanceSchedulesPage() {
   } = useScheduleDnD();
   const sensors = useSensors(useSensor(PointerSensor));
   const dateRange = buildMonthRange(month);
+
+  const [aiModalOpen, setAiModalOpen] = useState(false);
+  const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['attendance-schedules', month.format('YYYY-MM'), deptId, employeeKeyword],
@@ -183,6 +188,8 @@ export default function AttendanceSchedulesPage() {
             return !current;
           });
         }}
+        onOpenAiSettings={() => setAiModalOpen(true)}
+        onOpenGlobalSettings={() => setSettingsDrawerOpen(true)}
       />
 
       <div className="mb-4 grid gap-4 xl:grid-cols-[300px_minmax(0,1fr)]">
@@ -259,6 +266,11 @@ export default function AttendanceSchedulesPage() {
           </Layout>
         </DndContext>
       </div>
+
+      <ScheduleSettingsDrawer 
+        open={settingsDrawerOpen}
+        onClose={() => setSettingsDrawerOpen(false)}
+      />
     </div>
   );
 }

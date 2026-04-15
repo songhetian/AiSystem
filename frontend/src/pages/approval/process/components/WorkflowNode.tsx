@@ -71,7 +71,13 @@ export function WorkflowNode({ node, index, onEdit, onDelete, isLocked }: Workfl
 
         {node.type === 'approval' ? (
           <div className="mb-2 rounded border border-blue-100 bg-blue-50 p-2">
-            <Text className="block text-xs text-blue-700">审批人数: {node.approvers?.length || 0}</Text>
+            <div className="flex justify-between items-center mb-1">
+              <Text className="text-xs text-blue-700">审批人数: {node.approvers?.length || 0}</Text>
+              <Badge 
+                count={node.mode === 'and' ? '会签' : '或签'} 
+                style={{ backgroundColor: node.mode === 'and' ? '#f5222d' : '#1890ff', fontSize: '10px' }} 
+              />
+            </div>
             <Text className="text-xs text-slate-500">超时: {node.timeoutHours} 小时</Text>
           </div>
         ) : null}

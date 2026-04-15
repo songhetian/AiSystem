@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import { request } from "@/utils/request";
 
 export interface ProductRecord {
   id: string;
@@ -26,9 +26,15 @@ export interface SkuRecord {
 }
 
 export const shopApi = {
-  listProducts: (params?: any) => request.get<ProductRecord[]>('/shop/products', { params }),
-  createProduct: (payload: any) => request.post<ProductRecord>('/shop/products', payload),
-  updateProduct: (id: string, payload: any) => request.patch<ProductRecord>(`/shop/products/${id}`, payload),
+  listProducts: (params?: any) =>
+    request.get<ProductRecord[]>("/shop/products", { params }),
+  createProduct: (payload: any) =>
+    request.post<ProductRecord>("/shop/products", payload),
+  updateProduct: (id: string, payload: any) =>
+    request.patch<ProductRecord>(`/shop/products/${id}`, payload),
   deleteProduct: (id: string) => request.delete(`/shop/products/${id}`),
-  syncSkus: (id: string, skus: any[]) => request.post(`/shop/products/${id}/skus`, { skus }),
+  syncSkus: (id: string, skus: any[]) =>
+    request.post(`/shop/products/${id}/skus`, { skus }),
+  updateProductSort: (items: Array<{ id: string; sort: number }>) =>
+    request.post("/shop/products/sort", { items }),
 };

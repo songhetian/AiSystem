@@ -5,8 +5,13 @@ import { RealtimeGateway } from './gateways/realtime.gateway';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { PermissionGuard } from './guards/permission.guard';
 import { ThrottlerGuard } from './guards/throttler.guard';
+import { AntiShakeGuard } from './guards/antishake.guard';
 import { IdempotencyInterceptor } from './interceptors/idempotency.interceptor';
 import { OperationLogInterceptor } from './interceptors/operation-log.interceptor';
+import { BusinessLockInterceptor } from './interceptors/business-lock.interceptor';
+import { CacheInterceptor } from './interceptors/cache.interceptor';
+import { CacheEvictInterceptor } from './interceptors/cache-evict.interceptor';
+import { QueryOptimizeInterceptor } from './interceptors/query-optimize.interceptor';
 import { AuditLogService } from './services/audit-log.service';
 import { BusinessLockService } from './services/business-lock.service';
 import { CacheSubscriber } from './services/cache-subscriber.service';
@@ -17,6 +22,9 @@ import { RealtimeService } from './services/realtime.service';
 import { RedisService } from './services/redis.service';
 import { ScopeService } from './services/scope.service';
 import { VectorService } from './services/vector.service';
+import { DeliveryAdapterService } from './services/delivery-adapter.service';
+import { TemplateEngineHelper } from './helpers/template-engine.helper';
+import { PermissionCacheSubscriber } from './services/permission-cache-subscriber.service';
 
 @Module({
   imports: [
@@ -34,11 +42,18 @@ import { VectorService } from './services/vector.service';
     BusinessLockService,
     RedisService,
     CacheSubscriber,
+    PermissionCacheSubscriber, // V2.0 新增：权限缓存订阅
     IdempotencyService,
     VectorService,
+    DeliveryAdapterService,
+    TemplateEngineHelper,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AntiShakeGuard,
     },
     {
       provide: APP_GUARD,
@@ -54,7 +69,23 @@ import { VectorService } from './services/vector.service';
     },
     {
       provide: APP_INTERCEPTOR,
+      useClass: BusinessLockInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
       useClass: OperationLogInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheEvictInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: QueryOptimizeInterceptor,
     },
   ],
   exports: [
@@ -66,8 +97,11 @@ import { VectorService } from './services/vector.service';
     BusinessLockService,
     RedisService,
     CacheSubscriber,
+    PermissionCacheSubscriber,
     IdempotencyService,
     VectorService,
+    DeliveryAdapterService,
+    TemplateEngineHelper,
   ],
 })
 export class CommonModule {}

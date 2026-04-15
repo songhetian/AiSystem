@@ -1,6 +1,6 @@
-import { request } from '@/utils/request';
+import { request } from "@/utils/request";
 
-export type ExamQuestionType = 'single' | 'multiple' | 'judge';
+export type ExamQuestionType = "single" | "multiple" | "judge";
 
 export interface ExamPaperQuestionOption {
   label: string;
@@ -37,7 +37,7 @@ export interface ExamPlan {
   paper?: ExamPaper;
   start_time: string;
   end_time: string;
-  reminder_mode: 'notice' | 'force';
+  reminder_mode: "notice" | "force";
   force_enter: number;
   pass_score: number;
   duration_min: number;
@@ -69,7 +69,7 @@ export interface ExamAssignment {
   submitted_at?: string;
   question_count: number;
   correct_count: number;
-  reminder_mode: 'notice' | 'force';
+  reminder_mode: "notice" | "force";
   force_enter: number;
   employee_name?: string;
   employee_no?: string;
@@ -82,6 +82,8 @@ export interface ExamAssignment {
     answer: string | string[] | boolean;
     correct: boolean;
     score: number;
+    comment?: string;
+    manually_graded?: boolean;
   }>;
   attempts_history?: Array<{
     attempt_no: number;
@@ -95,6 +97,8 @@ export interface ExamAssignment {
       answer: string | string[] | boolean;
       correct: boolean;
       score: number;
+      comment?: string;
+      manually_graded?: boolean;
     }>;
   }>;
   deadline_at?: string;
@@ -154,7 +158,7 @@ export interface CreateExamPlanPayload {
   paper_id: string;
   start_time: string;
   end_time: string;
-  reminder_mode: 'notice' | 'force';
+  reminder_mode: "notice" | "force";
   force_enter?: number;
   pass_score: number;
   duration_min: number;
@@ -168,19 +172,82 @@ export interface CreateExamPlanPayload {
 }
 
 export const examApi = {
-  listPapers: () => request.get<ExamPaper[]>('/exam/papers'),
+  listPapers: () => request.get<ExamPaper[]>("/exam/papers"),
   getPaper: (id: string) => request.get<ExamPaper>(`/exam/papers/${id}`),
-  createPaper: (payload: SaveExamPaperPayload) => request.post('/exam/papers', payload),
-  updatePaper: (id: string, payload: SaveExamPaperPayload) => request.put(`/exam/papers/${id}`, payload),
-  listPlans: (params?: Record<string, any>) => request.get<ExamPlan[]>('/exam/plans', { params }),
-  createPlan: (payload: CreateExamPlanPayload) => request.post('/exam/plans', payload),
-  listMyExams: (params?: Record<string, any>) => request.get<ExamAssignment[]>('/exam/my', { params }),
-  getMyStats: () => request.get<ExamMyStats>('/exam/my/stats'),
-  getMyActiveExam: () => request.get<ExamAssignment | null>('/exam/my/active'),
-  getMyExamDetail: (id: string) => request.get<ExamAssignment>(`/exam/my/${id}`),
-  submitMyExam: (id: string, payload: { answers: Array<{ question_id: string; answer: string | string[] | boolean }> }) =>
-    request.post<ExamAssignment>(`/exam/my/${id}/submit`, payload),
-  listResults: (params?: Record<string, any>) => request.get<ExamAssignment[]>('/exam/results', { params }),
-  markAbsent: (id: string, payload: { reason?: string }) => request.post<ExamAssignment>(`/exam/results/${id}/mark-absent`, payload),
-  getResultSummary: (params?: Record<string, any>) => request.get<ExamResultSummary>('/exam/results/summary', { params })
+  createPaper: (payload: SaveExamPaperPayload) =>
+    request.post("/exam/papers", payload),
+  updatePaper: (id: string, payload: SaveExamPaperPayload) =>
+    request.put(`/exam/papers/${id}`, payload),
+  listPlans: (params?: Record<string, any>) =>
+    request.get<ExamPlan[]>("/exam/plans", { params }),
+  createPlan: (payload: CreateExamPlanPayload) =>
+    request.post("/exam/plans", payload),
+  listMyExams: (params?: Record<string, any>) =>
+    request.get<ExamAssignment[]>("/exam/my", { params }),
+  getMyStats: () => request.get<ExamMyStats>("/exam/my/stats"),
+  getMyActiveExam: () => request.get<ExamAssignment | null>("/exam/my/active"),
+  getMyExamDetail: (id: string) =>
+    request.get<ExamAssignment>(`/exam/my/${id}`),
+  submitMyExam: (
+    id: string,
+    payload: {
+      answers: Array<{
+        question_id: string;
+        answer: string | string[] | boolean;
+      }>;
+    },
+  ) => request.post<ExamAssignment>(`/exam/my/${id}/submit`, payload),
+  listResults: (params?: Record<string, any>) =>
+    request.get<ExamAssignment[]>("/exam/results", { params }),
+  markAbsent: (id: string, payload: { reason?: string }) =>
+    request.post<ExamAssignment>(`/exam/results/${id}/mark-absent`, payload),
+  getResultSummary: (params?: Record<string, any>) =>
+    request.get<ExamResultSummary>("/exam/results/summary", { params }),
+  manualGrade: (
+    id: string,
+    payload: {
+      grades: Array<{ question_id: string; score: number; comment?: string }>;
+    },
+  ) =>
+    request.post<ExamAssignment>(`/exam/results/${id}/manual-grade`, payload),
+  getQuestionStats: (planId: string) =>
+    request.get<
+      Array<{
+        question_id: string;
+        total_answers: number;
+        correct_count: number;
+        error_rate: number;
+      }>
+    >(`/exam/results/question-stats/${planId}`),
+  getPlanDetail: (id: string) =>
+    request.get<ExamPlan & { stats: ExamResultSummary }>(`/exam/plans/${id}`),
+  getPlanScoreDistribution: (planId: string) =>
+    request.get<{
+      score_ranges: Record<string, number>;
+      time_trend: Array<{ date: string; count: number }>;
+      total_submitted: number;
+      average_score: number;
+      pass_rate: number;
+    }>(`/exam/plans/${planId}/score-distribution`),
+  getDeptComparison: (planId: string) =>
+    request.get<
+      Array<{
+        dept_id: string;
+        total_count: number;
+        submitted_count: number;
+        passed_count: number;
+        absent_count: number;
+        average_score: number;
+        pass_rate: number;
+        absent_rate: number;
+      }>
+    >(`/exam/plans/${planId}/dept-comparison`),
+  // ✅ 新增：批量标记缺考
+  batchMarkAbsent: (
+    planId: string,
+    items: Array<{ employee_no?: string; user_id?: string; reason?: string }>,
+  ) => request.post(`/exam/results/batch-absent`, { plan_id: planId, items }),
+  // ✅ 新增：考试结果导出
+  exportResults: (params?: any) =>
+    request.get("/exam/results/export", { params }),
 };

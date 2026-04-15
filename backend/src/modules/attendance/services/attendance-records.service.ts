@@ -6,6 +6,8 @@ import { ScopeService } from '../../../common/services/scope.service';
 import { RedisService } from '../../../common/services/redis.service';
 import { BusinessLockService } from '../../../common/services/business-lock.service';
 import { QueryAttendanceRecordsDto } from '../dto/query-attendance-records.dto';
+import { Cache } from '../../../common/decorators/cache.decorator';
+import { QueryOptimize } from '../../../common/decorators/query-optimize.decorator';
 
 @Injectable()
 export class AttendanceRecordsService {
@@ -36,45 +38,60 @@ export class AttendanceRecordsService {
         employee = await this.prisma.hr_employee.findUnique({ where: { id: employeeId as string } });
       }
 
-      let record = await this.prisma.attendance_record.findFirst({
-        where: { employee_id: employee.id, attendance_date: today, is_deleted: 0 }
-      });
-
-      if (!record) {
-        record = await this.prisma.attendance_record.create({
-          data: {
-            employee_id: employee.id,
-            attendance_date: today,
-            platform_id: employee.platform_id,
-            dept_id: employee.department_id,
-          }
+      return this.prisma.$transaction(async (tx) => {
+        let record = await tx.attendance_record.findFirst({
+          where: { employee_id: employee.id, attendance_date: today, is_deleted: 0 }
         });
-      }
 
-      const updateData: any = {};
-      if (data.type === 'on') {
-        if (record.actual_on_duty_time) throw new BadRequestException('今日上班已打卡');
-        updateData.actual_on_duty_time = new Date();
-        updateData.on_duty_location = data.location;
-      } else {
-        updateData.actual_off_duty_time = new Date();
-        updateData.off_duty_location = data.location;
-      }
-const updated = await this.prisma.attendance_record.update({
-  where: { id: record.id },
-  data: updateData
-});
+        if (!record) {
+          record = await tx.attendance_record.create({
+            data: {
+              employee_id: employee.id,
+              attendance_date: today,
+              platform_id: employee.platform_id,
+              dept_id: employee.department_id,
+            }
+          });
+        }
 
-// 5. 异步队列化计算
-await this.attendanceQueue.add('recalculate', { recordId: updated.id });
+        const updateData: any = {};
+        if (data.type === 'on') {
+          if (record.actual_on_duty_time) throw new BadRequestException('今日上班已打卡');
+          updateData.actual_on_duty_time = new Date();
+          updateData.on_duty_location = data.location;
+        } else {
+          updateData.actual_off_duty_time = new Date();
+          updateData.off_duty_location = data.location;
+        }
 
-// 6. 修正统计缓存键 (YYYY-MM)
-const monthKey = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}`;
-await this.redisService.del(`attendance:stats:${employee.platform_id}:${monthKey}`);
+        const updated = await tx.attendance_record.update({
+          where: { id: record.id },
+          data: updateData
+        });
 
-return updated;
-});
-}
+        // V5.0 加固：增加 BullMQ 重试与指数退避，确保计算任务的高可靠性
+        await this.attendanceQueue.add('recalculate', 
+          { recordId: updated.id },
+          { 
+            attempts: 3, 
+            backoff: { type: 'exponential', delay: 1000 },
+            removeOnComplete: true 
+          }
+        );
+        
+        const monthKey = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}`;
+        await this.redisService.del(`attendance:stats:${employee.platform_id}:${monthKey}`);
+
+        return updated;
+      });
+    });
+  }
+
+  /**
+   * 查询考勤记录（V2.0 性能优化）
+   * 优化点：添加查询监控
+   */
+  @QueryOptimize({ timeout: 5000, slowQueryThreshold: 300 })
   async findAll(userId: string, query: QueryAttendanceRecordsDto) {
     const scope = await this.scopeService.resolveAccess(userId);
     const { current = 1, pageSize = 20 } = query;
@@ -110,17 +127,17 @@ return updated;
     return { data, total, current, pageSize };
   }
 
+  /**
+   * 工业级高效率统计 (V5.0 + V2.0 性能优化)
+   * 优先从汇总快照表读取，避免全量扫描
+   * 优化点：添加缓存（5分钟）和查询监控
+   */
+  @Cache({ ttl: 300, byParams: true, prefix: 'attendance-stats' })
+  @QueryOptimize({ timeout: 5000, slowQueryThreshold: 300 })
   async getStatistics(userId: string, query: { month: string; dept_id?: string; platform_id?: string }) {
     const scope = await this.scopeService.resolveAccess(userId);
-    const cacheKey = `attendance:stats:${scope.platform_id}:${query.month}:${query.dept_id || 'all'}`;
     
-    const cached = await this.redisService.get(cacheKey);
-    if (cached) return JSON.parse(cached as string);
-
-    const [year, month] = query.month.split('-').map(Number);
-    const startDate = new Date(year, month - 1, 1);
-    const endDate = new Date(year, month, 0);
-
+    // 1. 获取员工列表（基于 Scope）
     const employees = await this.prisma.hr_employee.findMany({
       where: this.scopeService.applyScope(
         scope, 
@@ -130,29 +147,75 @@ return updated;
       select: { id: true, name: true, employee_no: true }
     });
 
-    const records = await this.prisma.attendance_record.findMany({
+    const employeeIds = employees.map(e => e.id);
+
+    // 2. 从汇总快照表读取
+    const summaries = await this.prisma.attendance_monthly_summary.findMany({
       where: {
-        is_deleted: 0,
-        employee_id: { in: employees.map(e => e.id) },
-        attendance_date: { gte: startDate, lte: endDate }
+        employee_id: { in: employeeIds },
+        month: query.month,
+        is_deleted: 0
       }
     });
 
-    const stats = employees.map(e => {
-      const empRecords = records.filter(r => r.employee_id === e.id);
+    const summaryMap = new Map(summaries.map(s => [s.employee_id, s]));
+
+    // 3. 组装结果（若快照不存在则返回全 0，等待 Worker 补全）
+    return employees.map(e => {
+      const s = summaryMap.get(e.id);
       return {
         employee_name: e.name,
         employee_no: e.employee_no,
-        normal_days: empRecords.filter(r => r.on_duty_status === 1 && r.off_duty_status === 1).length,
-        late_count: empRecords.filter(r => r.on_duty_status === 2).length,
-        early_count: empRecords.filter(r => r.off_duty_status === 3).length,
-        absent_days: empRecords.filter(r => r.on_duty_status === 4 || r.off_duty_status === 4).length,
-        miss_count: empRecords.filter(r => r.on_duty_status === 5 || r.off_duty_status === 5).length
+        normal_days: s?.normal_days ?? 0,
+        late_count: s?.late_count ?? 0,
+        early_count: s?.early_count ?? 0,
+        absent_days: s?.absent_days ?? 0,
+        miss_count: s?.miss_count ?? 0
       };
     });
+  }
 
-    await this.redisService.set(cacheKey, JSON.stringify(stats), 600);
-    return stats;
+  /**
+   * 执行月度汇总的增量更新 (V5.0)
+   * 由 Worker 在每次记录重算后调用
+   */
+  async updateMonthlySummary(employeeId: string, month: string) {
+    const [year, monthNum] = month.split('-').map(Number);
+    const startDate = new Date(year, monthNum - 1, 1);
+    const endDate = new Date(year, monthNum, 0);
+
+    const records = await this.prisma.attendance_record.findMany({
+      where: {
+        employee_id: employeeId,
+        attendance_date: { gte: startDate, lte: endDate },
+        is_deleted: 0
+      }
+    });
+
+    const employee = await this.prisma.hr_employee.findUnique({
+      where: { id: employeeId },
+      select: { platform_id: true, department_id: true }
+    });
+
+    const summary = {
+      normal_days: records.filter(r => r.on_duty_status === 1 && r.off_duty_status === 1).length,
+      late_count: records.filter(r => r.on_duty_status === 2).length,
+      early_count: records.filter(r => r.off_duty_status === 3).length,
+      absent_days: records.filter(r => r.on_duty_status === 4 || r.off_duty_status === 4).length,
+      miss_count: records.filter(r => r.on_duty_status === 5 || r.off_duty_status === 5).length
+    };
+
+    return this.prisma.attendance_monthly_summary.upsert({
+      where: { employee_id_month: { employee_id: employeeId, month } },
+      create: {
+        employee_id: employeeId,
+        month,
+        ...summary,
+        platform_id: employee?.platform_id,
+        dept_id: employee?.department_id
+      },
+      update: summary
+    });
   }
 
   async reCalculate(id: string) {

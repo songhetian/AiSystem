@@ -1,0 +1,9 @@
+{
+  "source": "taobao_api_v1",
+  "endpoint": "https://api.taobao.com/v2/orders",
+  "mapping": {
+    "order_id": "$.id",
+    "price": "$.total_amount",
+    "status": "$.order_status"
+  }
+}

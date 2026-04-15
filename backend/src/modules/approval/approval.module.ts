@@ -4,10 +4,12 @@ import { CommonModule } from '../../common/common.module';
 import { ApprovalController } from './controllers/approval.controller';
 import { ApprovalService } from './services/approval.service';
 import { ApprovalWorker } from './workers/approval.worker';
+import { SystemModule } from '../system/system.module';
 
 @Module({
   imports: [
     CommonModule,
+    SystemModule,
     BullModule.registerQueue({
       name: 'approval-queue',
     }),

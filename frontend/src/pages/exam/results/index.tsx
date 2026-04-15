@@ -2,10 +2,16 @@ import { useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { ProColumns } from '@ant-design/pro-components';
 import { Button, Card, Form, Input, Progress, Select, Space, Statistic, Tag, message } from 'antd';
+import { DownloadOutlined, UsergroupDeleteOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs';
 import { examApi, type ExamAssignment, type ExamPlan, type ExamResultSummary } from '@/api/exam';
 import { BaseModal } from '@/components/common/BaseModal';
 import { Permission } from '@/components/permission/Permission';
 import { BaseTable } from '@/components/table/BaseTable';
+import { ManualGradeDrawer } from './components/ManualGradeDrawer';
+import { QuestionStatsModal } from './components/QuestionStatsModal';
+import { BatchAbsentModal } from './components/BatchAbsentModal';
+import { downloadCSV } from '@/utils/exportUtils';
 
 export default function ExamResultsPage() {
   const queryClient = useQueryClient();
@@ -13,6 +19,9 @@ export default function ExamResultsPage() {
   const [status, setStatus] = useState<string>();
   const [planId, setPlanId] = useState<string>();
   const [markAbsentOpen, setMarkAbsentOpen] = useState(false);
+  const [manualGradeOpen, setManualGradeOpen] = useState(false);
+  const [statsOpen, setStatsOpen] = useState(false);
+  const [batchAbsentOpen, setBatchAbsentOpen] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<ExamAssignment>();
   const [form] = Form.useForm();
 
@@ -78,8 +87,9 @@ export default function ExamResultsPage() {
         render: (_, record) =>
           record.status === 'submitted' ? (
             <Space>
+            <Space direction="vertical" size={2}>
               <Tag color={record.passed === 1 ? 'success' : 'error'}>{record.passed === 1 ? '通过' : '未通过'}</Tag>
-              <span>{record.score} / {record.plan.paper?.total_score ?? '-'}</span>
+              <span className="font-bold text-slate-900">{record.score} / {record.plan.paper?.total_score ?? '-'}</span>
             </Space>
           ) : (
             <Tag color={record.status === 'expired' ? 'error' : 'default'}>{record.status === 'expired' ? '缺考' : '未完成'}</Tag>
@@ -96,7 +106,17 @@ export default function ExamResultsPage() {
         width: 120,
         render: (_, record) =>
           record.status === 'submitted' ? (
-            '-'
+            <Permission code="exam:result:manage">
+              <Button
+                type="link"
+                onClick={() => {
+                  setCurrentRecord(record);
+                  setManualGradeOpen(true);
+                }}
+              >
+                手工阅卷
+              </Button>
+            </Permission>
           ) : (
             <Permission code="exam:result:manage">
               <Button
@@ -151,6 +171,40 @@ export default function ExamResultsPage() {
             onChange={setPlanId}
             options={plans.map((item) => ({ label: item.plan_name, value: item.id }))}
           />
+          {planId && (
+            <Button
+              type="primary"
+              onClick={() => setStatsOpen(true)}
+            >
+              分析本计划易错题
+            </Button>
+          )}
+          {planId && (
+            <Permission code="exam:result:manage">
+              <Button icon={<UsergroupDeleteOutlined />} onClick={() => setBatchAbsentOpen(true)}>
+                批量标记缺考
+              </Button>
+            </Permission>
+          )}
+          <Button
+            icon={<DownloadOutlined />}
+            onClick={async () => {
+              const data = await examApi.exportResults({ plan_id: planId, keyword: keyword || undefined, status });
+              downloadCSV(data, `考试结果_${dayjs().format('YYYYMMDD')}`, [
+                { label: '姓名', key: 'employee_name' },
+                { label: '工号', key: 'employee_no' },
+                { label: '考试计划', key: 'plan_name' },
+                { label: '状态', key: 'status' },
+                { label: '得分', key: 'score' },
+                { label: '是否通过', key: 'passed' },
+                { label: '考试次数', key: 'attempt_count' },
+                { label: '交卷时间', key: 'submitted_at' },
+                { label: '缺考原因', key: 'absent_reason' },
+              ]);
+            }}
+          >
+            导出结果
+          </Button>
         </Space>
         <Space style={{ marginBottom: 16 }} wrap size={16}>
           <Card size="small">
@@ -223,6 +277,30 @@ export default function ExamResultsPage() {
           </Form.Item>
         </Form>
       </BaseModal>
+
+      <ManualGradeDrawer
+        open={manualGradeOpen}
+        record={currentRecord}
+        onClose={() => {
+          setManualGradeOpen(false);
+          setCurrentRecord(undefined);
+        }}
+      />
+
+      <QuestionStatsModal
+        open={statsOpen}
+        onClose={() => setStatsOpen(false)}
+        planId={planId}
+        paperId={plans.find(p => p.id === planId)?.paper_id}
+        planName={plans.find(p => p.id === planId)?.plan_name}
+      />
+
+      <BatchAbsentModal
+        open={batchAbsentOpen}
+        planId={planId ?? ''}
+        planName={plans.find(p => p.id === planId)?.plan_name}
+        onClose={() => setBatchAbsentOpen(false)}
+      />
     </Space>
   );
 }

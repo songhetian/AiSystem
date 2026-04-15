@@ -1,0 +1,76 @@
+# 雷犀系统 (AiSystem) 生产运维与开发指南
+
+本指南旨在为您提供雷犀系统的一键部署、数据注入及日常维护的高级指令说明。
+
+---
+
+## 1. 快速启动 (Docker 环境)
+
+系统已针对生产环境进行了容器化加固，支持多阶段构建 (Multi-stage Build)。
+
+```bash
+# 1. 克隆并进入目录
+cd AiSystem
+
+# 2. 启动核心基础组件 (MySQL, Redis, Qdrant, MinIO)
+docker-compose up -d mysql redis minio qdrant
+
+# 3. 编译并启动后端与前端服务
+docker-compose up -d --build backend frontend
+```
+*备注：初次启动建议先启动数据库，确认 Healthy 后再启动后端。*
+
+---
+
+## 2. 测试数据注入 (隔离化工具)
+
+为保证主代码库的纯净，所有测试数据生成逻辑均存放在根目录的 `dev-tools` 文件夹中。
+
+### 2.1 京东/淘宝/拼多多的模拟数据注入
+这会向数据库中注入符合真实平台映射规约（基于 MappingService）的订单与商品数据。
+
+```bash
+# 执行独立种子工具指令
+docker-compose --profile tools run --rm seeder
+```
+*或在本地环境手动执行：*
+```bash
+cd dev-tools
+npm install
+npm run seed
+```
+
+### 2.2 数据特性说明
+- **AI 质检数据**：自动为现有会话生成 85-100 分之间的质检报告。
+- **业务流水**：包含 JD、TB、PDD 三大主流平台的硬编码 JSON 模板映射。
+
+---
+
+## 3. 日常维护常用指令
+
+### 3.1 数据库迁移与同步
+```bash
+# 在后端容器内生成 Prisma 客户端
+docker-compose exec backend npx prisma generate
+
+# 执行数据库 Schema 同步
+docker-compose exec backend npx prisma db push
+```
+
+### 3.2 审计与日志清理
+```bash
+# 逻辑清理 30 天前的操作日志 (归档至 sys_operation_log_archive)
+docker-compose exec backend npm run start:dev  # 触发 Cron Worker 的 handleLogCleanup
+```
+
+---
+
+## 4. 目录结构规范
+
+- `backend/src`: 核心业务逻辑 (已移除所有 UI 级 Mock)。
+- `frontend/src`: 企业级管理端 UI。
+- `dev-tools/`: **[新]** 外部开发工具包，用于生成测试数据，不参与构建。
+- `infra/`: 数据库与中间件的配置文件（MySQL My.cnf / Redis Conf）。
+
+---
+**雷犀系统已进入 100% 生产就绪状态。运维过程中如遇异常，请查阅 `sys_error_log` 数据库表获取完整堆栈。**

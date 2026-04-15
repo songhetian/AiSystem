@@ -73,6 +73,33 @@ export interface IntegrationRecord {
   [key: string]: any;
 }
 
+export interface MappingTemplateRecord {
+  id: string;
+  name: string;
+  data_type: "order" | "product" | "customer";
+  platform_id: string;
+  parent_id?: string; // [NEW] 模版继承
+  mapping_rules: Record<string, string>;
+  cleaning_rules?: Record<string, string>;
+  is_public: number;
+  status: number;
+  [key: string]: any;
+}
+
+export interface PlatformConfigRecord {
+  id: string;
+  platform_id: string;
+  dept_id: string;
+  shop_id?: string;
+  template_id?: string;
+  app_key?: string;
+  app_secret?: string;
+  api_endpoint?: string;
+  is_master: number; // [NEW]
+  status: number;
+  [key: string]: any;
+}
+
 export interface MessageStats {
   unreadCount: number;
   totalCount?: number;
@@ -156,6 +183,9 @@ export const systemApi = {
   deleteDepartment: (id: string) => request.delete(`/system/departments/${id}`),
   batchUpdateDepartmentStatus: (payload: { ids: string[]; status: number }) =>
     request.patch("/system/departments/batch/status", payload),
+  updateDepartmentSort: (
+    items: Array<{ id: string; parent_id?: string | null; sort: number }>,
+  ) => request.post("/system/departments/sort", { items }),
 
   listShops: () => request.get<ShopRecord[]>("/system/shops"),
   createShop: (payload: any) => request.post("/system/shops", payload),
@@ -164,6 +194,8 @@ export const systemApi = {
   deleteShop: (id: string) => request.delete(`/system/shops/${id}`),
   batchUpdateShopStatus: (payload: { ids: string[]; status: number }) =>
     request.patch("/system/shops/batch/status", payload),
+  updateShopSort: (items: Array<{ id: string; sort: number }>) =>
+    request.post("/system/shops/sort", { items }),
 
   listApiKeys: () => request.get<ApiKeyRecord[]>("/system/api-keys"),
   saveApiKey: (payload: Partial<ApiKeyRecord>) =>
@@ -192,12 +224,51 @@ export const systemApi = {
     request.get<SystemMessageRecord[]>("/system/messages", { params }),
   messageStats: () => request.get<MessageStats>("/system/messages/stats"),
   markMessageRead: (id: string) => request.patch(`/system/messages/${id}/read`),
-  markAllMessagesRead: () => request.post("/system/messages/read-all"),
+  toggleMessageFavorite: (id: string) =>
+    request.patch(`/system/messages/${id}/favorite`),
+  moveToTrash: (ids: string[]) =>
+    request.post("/system/messages/trash", { ids }),
+  restoreFromTrash: (ids: string[]) =>
+    request.post("/system/messages/restore", { ids }),
+  purgeTrash: () => request.delete("/system/messages/trash"),
+  markAllMessagesRead: () => request.patch("/system/messages/read-all"),
+
+  // 消息模板管理
+  listMessageTemplates: (params?: any) =>
+    request.get("/system/messages/templates", { params }),
+  saveMessageTemplate: (data: any) =>
+    request.post("/system/messages/templates", data),
+  sendTestMessage: (data: any) =>
+    request.post("/system/messages/send-test", data),
+
+  // ✅ 新增：消息设置（PRD 2.3.3）
+  getMessageSettings: () =>
+    request.get<{
+      channels: string[];
+      dnd_enabled: boolean;
+      dnd_start: string;
+      dnd_end: string;
+      dnd_allow_urgent: boolean;
+    }>("/system/messages/settings"),
+  saveMessageSettings: (data: any) =>
+    request.post("/system/messages/settings", data),
 
   listOperationLogs: (params?: any) =>
     request.get<any>("/system/logs/operation", { params }),
   listLoginLogs: (params?: any) =>
     request.get<any>("/system/logs/login", { params }),
+
+  exportLoginLogs: (params?: any) =>
+    request.get<any>("/system/logs/login/export", {
+      params,
+      responseType: "blob",
+    }),
+
+  exportOperationLogs: (params?: any) =>
+    request.get<any>("/system/logs/operation/export", {
+      params,
+      responseType: "blob",
+    }),
 
   updateProfile: (payload: any) =>
     request.patch("/system/users/profile", payload),
@@ -216,6 +287,14 @@ export const systemApi = {
     request.get<{ items: MenuTreeNode[] }>("/system/menus/tree", {
       params: roleId ? { role_id: roleId } : {},
     }),
+  createMenu: (payload: Partial<MenuRecord>) =>
+    request.post("/system/menus", payload),
+  updateMenu: (id: string, payload: Partial<MenuRecord>) =>
+    request.patch(`/system/menus/${id}`, payload),
+  deleteMenu: (id: string) => request.delete(`/system/menus/${id}`),
+  updateMenuSort: (
+    items: Array<{ id: string; parent_id?: string | null; sort: number }>,
+  ) => request.post("/system/menus/sort", { items }),
 
   // 用户管理
   listUsers: () => request.get<UserRecord[]>("/system/users"),
@@ -226,8 +305,12 @@ export const systemApi = {
   deleteUser: (id: string) => request.delete(`/system/users/${id}`),
   resetUserPassword: (id: string, payload: { password: string }) =>
     request.post(`/system/users/${id}/reset-password`, payload),
+  batchResetPassword: (payload: { ids: string[]; password: string }) =>
+    request.post("/system/users/batch/reset-password", payload),
   batchUpdateUserStatus: (payload: { ids: string[]; status: number }) =>
     request.patch("/system/users/batch/status", payload),
+  batchAssignRoles: (payload: { ids: string[]; role_ids: string[] }) =>
+    request.post("/system/users/batch/assign-roles", payload),
 
   // 角色管理
   listRoles: () => request.get<RoleRecord[]>("/system/roles"),
@@ -251,4 +334,46 @@ export const systemApi = {
   }) => request.post("/system/permissions/role-resources", payload),
   getRolePermissions: (roleId: string) =>
     request.get(`/system/permissions/role-resources/${roleId}`),
+
+  // 数据映射与集成 (V2.1/V2.2)
+  listMappingTemplates: (platform_id?: string) =>
+    request.get<MappingTemplateRecord[]>("/system/mapping/templates", {
+      params: { platform_id },
+    }),
+  saveMappingTemplate: (payload: Partial<MappingTemplateRecord>) =>
+    request.post("/system/mapping/templates", payload),
+  listPlatformConfigs: (dept_id?: string) =>
+    request.get<PlatformConfigRecord[]>("/system/mapping/configs", {
+      params: { dept_id },
+    }),
+  savePlatformConfig: (payload: Partial<PlatformConfigRecord>) =>
+    request.post("/system/mapping/configs", payload),
+  listIntegrationLogs: (params?: any) =>
+    request.get<any[]>("/system/mapping/logs", { params }),
+  getHealthReport: (params: {
+    platform_id: string;
+    dept_id: string;
+    shop_id?: string;
+  }) => request.get<any>("/system/mapping/health", { params }),
+
+  // ✅ 新增：定时脚本管理（数据映射.md 5）
+  listIntegrationScripts: () => request.get<any[]>("/system/mapping/scripts"),
+  saveIntegrationScript: (payload: any) =>
+    request.post("/system/mapping/scripts", payload),
+  toggleIntegrationScript: (id: string, enabled: boolean) =>
+    request.patch(`/system/mapping/scripts/${id}/toggle`, { enabled }),
+  triggerIntegrationScript: (id: string) =>
+    request.post(`/system/mapping/scripts/${id}/trigger`, {}),
+  deleteIntegrationScript: (id: string) =>
+    request.delete(`/system/mapping/scripts/${id}`),
+
+  // ✅ 新增：消息联动规则（消息功能.md 2.5）
+  listMessageLinkageRules: () =>
+    request.get<any[]>("/system/messages/linkage-rules"),
+  saveMessageLinkageRule: (payload: any) =>
+    request.post("/system/messages/linkage-rules", payload),
+  toggleMessageLinkageRule: (id: string, enabled: boolean) =>
+    request.patch(`/system/messages/linkage-rules/${id}/toggle`, { enabled }),
+  deleteMessageLinkageRule: (id: string) =>
+    request.delete(`/system/messages/linkage-rules/${id}`),
 };

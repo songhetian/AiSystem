@@ -14,12 +14,11 @@ import {
   LogoutOutlined,
   UserOutlined,
   BellOutlined,
-  AppstoreOutlined,
-  TeamOutlined,
-  SafetyCertificateOutlined,
   RobotOutlined,
   DashboardOutlined,
   ShopOutlined,
+  ControlOutlined,
+  ThunderboltOutlined,
 } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import { authApi } from "@/api/auth";
@@ -104,6 +103,8 @@ export default function BasicLayout() {
     "/exam": <SafetyCertificateOutlined />,
     "/finance": <DashboardOutlined />,
     "/shop": <ShopOutlined />,
+    "/system/data-mapping": <ControlOutlined />,
+    "/attendance/ai-schedule": <ThunderboltOutlined />,
   };
 
   // 3. 处理菜单数据 (严格适配 ProLayout)

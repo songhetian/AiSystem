@@ -114,12 +114,15 @@ model approval_template {
   is_deleted      Int      @default(0)
   name            String
   type            String
+  platform_id     String?
   platform_name   String
+  dept_id         String?
   department_name String
-  status          String
+  status          String   @default("enabled") // enabled, disabled
   description     String?  @db.Text
-  updated_at      String
-  nodes           Json
+  updated_at      String   // 用于前端显示
+  nodes           Json     // 流程节点定义
+  form_fields     Json?    // [NEW] 自定义表单字段定义
 
   @@index([status, update_time])
 }
@@ -135,19 +138,23 @@ model approval_request {
   biz_type              String?
   biz_id                String?
   biz_no                String?
-  type                  String
+  type                  String   // attendance, finance, general
   applicant_id          String
   applicant_name        String
   current_approver_id   String?
   current_approver_name String?
-  status                String
+  current_node_id       String?  // [NEW] 当前执行到的节点 ID
+  status                String   // pending, approved, rejected, withdrawn
   amount                Decimal? @db.Decimal(10, 2)
+  platform_id           String?
   platform_name         String
+  dept_id               String?
   department_name       String
   summary               String   @db.Text
-  created_at            String
+  form_data             Json?    // [NEW] 提交的表单数据
+  created_at            String   // 前端显示
   updated_at            String
-  progress              Json
+  progress              Json     // 审批进度记录
 
   @@unique([biz_type, biz_id])
   @@index([status, update_time])
@@ -305,9 +312,77 @@ model sys_login_log {
 
   @@index([username, create_time])
   @@index([login_status, create_time])
+  @@index([platform_id])
+  @@index([user_id])
+}
+
+model sys_login_log_archive {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  user_id         String?
+  username        String
+  login_ip        String?
+  user_agent      String?  @db.VarChar(512)
+  login_status    Int      @default(1)
+  login_message   String?
+  platform_id     String?
+  dept_id         String?
+  shop_id         String?
+
+  @@index([platform_id, create_time])
 }
 
 model sys_operation_log {
+  id                String   @id @default(cuid())
+  create_time       DateTime @default(now())
+  update_time       DateTime @updatedAt
+  is_deleted        Int      @default(0)
+  user_id           String?
+  username          String?
+  request_method    String
+  api_path          String
+  api_name          String?
+  operation_module  String?
+  request_ip        String?
+  user_agent        String?  @db.VarChar(512)
+  operation_status  Int      @default(1)
+  operation_message String?
+  request_params    Json?
+  response_summary  Json?
+  diff_content      Json?    // [NEW] 字段级变更详情
+  platform_id       String?
+  dept_id           String?
+  shop_id           String?
+
+  @@index([platform_id, dept_id])
+  @@index([user_id, create_time])
+  @@index([operation_module, create_time])
+  @@index([operation_status, create_time])
+  @@index([create_time])
+  @@index([username, create_time])
+}
+
+model sys_error_log {
+  id                String   @id @default(cuid())
+  create_time       DateTime @default(now())
+  update_time       DateTime @updatedAt
+  is_deleted        Int      @default(0)
+  user_id           String?
+  username          String?
+  request_method    String?
+  api_path          String?
+  request_params    Json?
+  error_message     String   @db.Text
+  stack_trace       String?  @db.LongText
+  platform_id       String?
+  dept_id           String?
+
+  @@index([create_time])
+}
+
+model sys_operation_log_archive {
   id                String   @id @default(cuid())
   create_time       DateTime @default(now())
   update_time       DateTime @updatedAt
@@ -328,9 +403,27 @@ model sys_operation_log {
   dept_id           String?
   shop_id           String?
 
+  @@index([platform_id, create_time])
   @@index([user_id, create_time])
-  @@index([operation_module, create_time])
-  @@index([operation_status, create_time])
+}
+
+model attendance_monthly_summary {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  employee_id     String
+  month           String   // 格式：YYYY-MM
+  normal_days     Int      @default(0)
+  late_count      Int      @default(0)
+  early_count     Int      @default(0)
+  absent_days     Int      @default(0)
+  miss_count      Int      @default(0)
+  platform_id     String?
+  dept_id         String?
+
+  @@unique([employee_id, month])
+  @@index([platform_id, dept_id, month])
 }
 
 model biz_platform {
@@ -361,8 +454,10 @@ model biz_shop {
   department_id   String
   owner_id        String?
   status          Int      @default(1)
+  sort            Int      @default(0)
 
   @@index([platform_id, department_id, status])
+  @@index([sort])
 }
 
 model hr_employee {
@@ -434,10 +529,12 @@ model attendance_schedule {
   employee_id   String
   schedule_date DateTime
   shift_name    String
-  platform_id   String?
   dept_id       String?
+  status        Int      @default(0) // 0: 待发布, 1: 已发布
+  publish_time  DateTime?
 
   @@index([employee_id, schedule_date])
+  @@index([platform_id, dept_id, schedule_date])
 }
 
 model sys_config {
@@ -552,11 +649,29 @@ model attendance_schedule_change {
   @@index([notify_status, change_date])
 }
 
+model attendance_staffing_demand {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  platform_id     String
+  dept_id         String
+  date            DateTime
+  shift_name      String
+  required_count  Int      @default(0)
+  expected_volume Int?     @default(0) // 预期业务量/客流
+
+  @@unique([dept_id, date, shift_name, is_deleted])
+  @@index([platform_id, dept_id, date])
+}
+
 model sys_message {
   id           String    @id @default(cuid())
   create_time  DateTime  @default(now())
   update_time  DateTime  @updatedAt
   is_deleted   Int       @default(0)
+  delete_time  DateTime? // 回收站逻辑删除时间 (PRD 2.3.2)
+  is_favorite  Int       @default(0) // 收藏标记 (PRD 2.3.2)
   recipient_id String
   title        String
   content      String    @db.Text
@@ -569,6 +684,7 @@ model sys_message {
   sender_id    String?
   sender_name  String?
   payload      Json?
+  delivery_channels Json? // 外部渠道发送状态 (sms, email)
 
   @@index([recipient_id, read_status, create_time])
 }
@@ -635,7 +751,10 @@ model fin_reimbursement {
   dept_id             String
   shop_id             String?
   approval_request_id String?
-  status              Int      @default(0)
+  status              Int      @default(1) // 1:审批中, 2:待打款, 3:已打款, 4:已驳回, 5:已撤回
+  paid_at             DateTime?
+  pay_method          String?   // 银行转账, 支付宝, 微信, 现金
+  remark              String?   @db.Text
 
   @@index([platform_id, dept_id, status])
 }
@@ -648,6 +767,7 @@ model fin_purchase {
   purchase_no         String   @unique
   items               Json
   total_amount        Decimal  @db.Decimal(10, 2)
+  actual_amount       Decimal? @db.Decimal(10, 2) // [NEW] 实际采购金额
   reason              String   @db.Text
   attachment_urls     Json?
   applicant_id        String
@@ -655,7 +775,9 @@ model fin_purchase {
   dept_id             String
   shop_id             String?
   approval_request_id String?
-  status              Int      @default(0)
+  status              Int      @default(1) // 1:审批中, 2:待采购, 3:已完成, 4:已驳回, 5:已取消
+  supplier_info       String?  @db.Text
+  completed_at        DateTime?
 
   @@index([platform_id, dept_id, status])
 }
@@ -665,14 +787,18 @@ model fin_cash_record {
   create_time DateTime @default(now())
   update_time DateTime @updatedAt
   is_deleted  Int      @default(0)
-  type        Int
+  type        Int      // 1: 收入, 2: 支出
   amount      Decimal  @db.Decimal(10, 2)
-  source      String
-  biz_id      String?
-  biz_type    String?
+  source      String   // 来源说明
+  biz_id      String?  // 关联业务 ID
+  biz_type    String?  // reimbursement, purchase, manual
+  biz_no      String?  // [NEW] 关联业务单号
   platform_id String
   dept_id     String
   shop_id     String?
+  operator_id String?  // 操作人
+  remark      String?  @db.Text
+  modify_log  Json?    // [NEW] 修改日志
 
   @@index([platform_id, dept_id, type])
 }
@@ -702,6 +828,8 @@ model attendance_rule {
   late_threshold        Int      @default(0)
   early_threshold       Int      @default(0)
   absenteeism_threshold Int      @default(0)
+  color                 String?
+  opacity               Int      @default(50)
   status                Int      @default(1)
   platform_id           String?
   dept_id               String?
@@ -814,6 +942,8 @@ model service_session {
 
   @@index([platform_id, dept_id, shop_id, status])
   @@index([agent_user_id, started_at])
+  @@index([shop_id, status])
+  @@index([started_at, status])
 }
 
 model service_session_message {
@@ -907,6 +1037,8 @@ model service_session_analysis {
   analyzed_at            DateTime @default(now())
 
   @@index([session_id, analyzed_at])
+  @@index([platform_id, dept_id, loss_risk_level])
+  @@index([quality_passed, analyzed_at])
 }
 
 model service_quality_record {
@@ -933,6 +1065,8 @@ model service_quality_record {
   inspected_at         DateTime @default(now())
 
   @@index([session_id, inspected_at])
+  @@index([platform_id, dept_id, inspected_at])
+  @@index([passed, inspected_at])
 }
 
 model service_satisfaction {
@@ -1074,4 +1208,643 @@ model knowledge_tag {
 
   @@index([platform_id, dept_id, source_type, sort])
   @@index([tag_code, source_type])
+}
+
+model service_loss_inquiry {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  session_id      String
+  session_no      String
+  customer_id     String?
+  customer_nickname String?
+  customer_phone  String?
+  product_id      String?  // 关联商品ID，如果有
+  product_name    String?
+  agent_id        String?
+  agent_name      String?
+  loss_reason     String?
+  recovery_state  String   @default("pending") // pending, recovering, recovered
+  recovery_remark String?  @db.Text
+  platform_id     String
+  dept_id         String
+  shop_id         String?
+
+  @@index([platform_id, dept_id, shop_id, recovery_state])
+  @@index([session_id])
+}
+
+model service_session_tag {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  session_id      String
+  session_no      String
+  tag_name        String
+  tag_type        String   @default("quality")
+  status          String   @default("pending") // pending, confirmed, rejected
+  reject_reason   String?  @db.Text
+  platform_id     String
+  dept_id         String
+  shop_id         String?
+
+  @@index([platform_id, dept_id, shop_id, status])
+  @@index([session_id, status])
+}
+
+model service_faq_mapping {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  faq_content     String   // 高频问题原文或聚合词
+  article_id      String?  // 关联知识库 article ID
+  hit_count       Int      @default(0)
+  faq_type        String?  // 比如：整体 general, 商品 product
+  product_id      String?  // 若为商品维度的 FAQ
+  platform_id     String
+  dept_id         String
+  shop_id         String?
+
+  @@index([platform_id, dept_id, shop_id, faq_type])
+  @@index([hit_count])
+}
+
+model attendance_coverage_check {
+  id                     String   @id @default(cuid())
+  create_time            DateTime @default(now())
+  update_time            DateTime @updatedAt
+  is_deleted             Int      @default(0)
+  check_date             DateTime
+  start_time             DateTime
+  end_time               DateTime
+  checked_shift_ids      Json
+  checked_shift_names    Json
+  total_coverage_hours   Decimal  @db.Decimal(10, 2)
+  missing_coverage_hours Decimal  @db.Decimal(10, 2)
+  overlapping_hours      Decimal  @db.Decimal(10, 2)
+  missing_details        Json?
+  overlapping_details    Json?
+  platform_id            String
+  dept_id                String
+
+  @@index([platform_id, dept_id, check_date])
+}
+
+model attendance_ai_config {
+  id                  String   @id @default(cuid())
+  create_time         DateTime @default(now())
+  update_time         DateTime @updatedAt
+  is_deleted          Int      @default(0)
+  conflict_rules      Json?
+  emp_preferences     Json?
+  shift_priority      Json?
+  algorithm_params    Json?
+  ui_settings         Json?
+  platform_id         String
+  dept_id             String
+
+  @@unique([platform_id, dept_id])
+}
+
+model sys_mapping_template {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  name            String
+  data_type       String   // order, product, customer
+  platform_id     String
+  parent_id       String?  // [NEW] 父模版 ID，用于继承 (Section 4.4.2)
+  mapping_rules   Json     // {"std_field": "external.path"}
+  cleaning_rules  Json?    // {"field": "trim/lowercase/number"}
+  is_public       Int      @default(1)
+  created_by      String?
+  status          Int      @default(1)
+
+  parent          sys_mapping_template?  @relation("TemplateInheritance", fields: [parent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  children        sys_mapping_template[] @relation("TemplateInheritance")
+
+  @@index([platform_id, data_type, status])
+}
+
+model sys_platform_config {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  platform_id     String
+  dept_id         String
+  shop_id         String?
+  template_id     String?  // 关联 sys_mapping_template
+  app_key         String?
+  app_secret      String?
+  api_endpoint    String?
+  access_token    String?  @db.Text
+  refresh_token   String?  @db.Text
+  token_expires   DateTime?
+  extra_params    Json?    // 其他平台特定参数
+  is_master       Int      @default(0) // [NEW] 是否为平台公共基础模版 (Section 4.4.2)
+  status          Int      @default(1)
+
+  @@index([platform_id, dept_id, shop_id])
+}
+
+model bi_order {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  platform_id     String
+  dept_id         String
+  shop_id         String?
+  external_order_no String
+  order_status    String
+  order_amount    Decimal  @db.Decimal(10, 2)
+  pay_amount      Decimal? @db.Decimal(10, 2)
+  customer_name   String?
+  customer_phone  String?
+  address         String?  @db.Text
+  order_time      DateTime
+  pay_time        DateTime?
+  raw_data        Json?    // 原始各平台 JSON 数据备查
+  sync_status     Int      @default(1)
+
+  @@unique([platform_id, shop_id, external_order_no])
+  @@index([platform_id, dept_id, order_time])
+}
+
+// [NEW] 标准商品表 (Section 4.3)
+model bi_product {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  platform_id     String
+  dept_id         String
+  shop_id         String?
+  external_spu_id String
+  product_name    String
+  main_image      String?
+  price           Decimal  @db.Decimal(10, 2)
+  stock           Int      @default(0)
+  status          String?  // 上架, 下架
+  raw_data        Json?
+
+  @@unique([platform_id, shop_id, external_spu_id])
+  @@index([platform_id, dept_id])
+}
+
+model sys_cron_job {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  name            String
+  cron_expression String
+  job_type        String   // fetch_orders, fetch_products, token_refresh
+  assoc_config_id String?  // 关联 sys_platform_config
+  last_run_time   DateTime?
+  next_run_time   DateTime?
+  retry_count     Int      @default(3)
+  retry_interval  Int      @default(5) // 分钟
+  current_retry   Int      @default(0) // [NEW] 当前重试次数 (Section 5.3)
+  last_error      String?  @db.Text    // [NEW] 最后错误摘要
+  status          Int      @default(1) // 1: 启用, 0: 禁用
+
+  @@index([job_type, status, next_run_time])
+}
+
+model sys_integration_log {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  is_deleted      Int      @default(0)
+  platform_id     String
+  dept_id         String
+  shop_id         String?
+  biz_type        String?  // order_sync, template_mapping
+  biz_id          String?
+  log_level       String   @default("INFO") // INFO, WARN, ERROR
+  message         String   @db.Text
+  request_payload Json?
+  response_data   Json?
+  error_stack     String?  @db.LongText
+  duration_ms     Int      @default(0)
+  error_code      String?  // [NEW] 错误分类代码 (Section 3.5)
+
+  @@index([platform_id, dept_id, create_time])
+  @@index([biz_type, biz_id])
+}
+
+// [NEW] 集成健康统计表 (Section 3.3)
+model sys_integration_stat {
+  id              String   @id @default(cuid())
+  stat_time       DateTime // 统计整点时间
+  platform_id     String
+  dept_id         String
+  shop_id         String?
+  total_calls     Int      @default(0)
+  success_calls   Int      @default(0)
+  fail_calls      Int      @default(0)
+  avg_duration_ms Int      @default(0)
+
+  @@unique([stat_time, platform_id, dept_id, shop_id])
+}
+
+
+
+// [NEW] 大屏模板管理 (Section 2.1)
+model sys_dashboard_template {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  name            String   @unique
+  type            String   // global, ecommerce, hr, service, interface
+  description     String?  @db.Text
+  platform_ids    Json?    // 关联平台ID列表
+  dept_ids        Json?    // 关联部门ID列表
+  layout_config   Json?    // 自定义布局配置 (Section 2.4.1)
+  status          Int      @default(1) // 1: 启用, 0: 禁用
+  created_by      String?
+
+  @@index([type, status])
+}
+
+// [NEW] 大屏分享管理 (Section 2.4.2)
+model sys_dashboard_share {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  is_deleted      Int      @default(0)
+  template_id     String
+  share_token     String   @unique
+  expires_at      DateTime?
+  platform_id     String?
+  dept_id         String?
+  created_by      String?
+  status          Int      @default(1) // 1: 有效, 0: 失效
+
+  @@index([share_token, status])
+}
+
+// [NEW] 大屏预警记录表 (Section 2.5.3)
+model sys_dashboard_alert_record {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  template_id     String
+  metric_name     String   // 预警指标名称 (e.g., 质检合格率)
+  threshold       Decimal  @db.Decimal(10, 2)
+  actual_value    Decimal  @db.Decimal(10, 2)
+  platform_id     String
+  dept_id         String
+  shop_id         String?
+  status          String   @default("pending") // pending, handled, ignored
+  handle_note     String?  @db.Text
+  handle_user_id  String?
+  handle_time     DateTime?
+
+  @@index([template_id, status, create_time])
+}
+
+// [NEW] 通知模板表 (Section 2.1)
+model sys_message_template {
+  id           String    @id @default(cuid())
+  create_time  DateTime  @default(now())
+  update_time  DateTime  @updatedAt
+  is_deleted   Int       @default(0)
+  name         String    @unique
+  tpl_type     String    // approval, attendance, order, service, interface
+  content      String    @db.Text
+  channels     String    @default("internal") // internal, sms, email (comma separated)
+  platform_id  String
+  dept_id      String
+  shop_id      String?
+  status       Int       @default(1) // 1-启用, 0-禁用
+  created_by   String?
+
+  @@index([platform_id, dept_id, tpl_type])
+}
+
+// [NEW] 消息变量定义表 (Section 2.1.2)
+model sys_message_variable {
+  id           String    @id @default(cuid())
+  create_time  DateTime  @default(now())
+  update_time  DateTime  @updatedAt
+  is_deleted   Int       @default(0)
+  name         String    @unique // e.g., ${username}
+  biz_module   String    // user, order, service, interface
+  description  String?
+  platform_id  String
+}
+
+// [NEW] 排班历史表 - 替代 sys_config 存储排班历史
+model attendance_schedule_history {
+  id                  String   @id @default(cuid())
+  create_time         DateTime @default(now())
+  update_time         DateTime @updatedAt
+  is_deleted          Int      @default(0)
+  draft_name          String
+  mode                String   // fairness, coverage
+  platform_id         String
+  dept_id             String
+  start_date          DateTime @db.Date
+  end_date            DateTime @db.Date
+  total_scheduled     Int      @default(0)
+  warning_count       Int      @default(0)
+  compliance_rate     Int      @default(0)
+  satisfaction_rate   Int      @default(0)
+  fitting_rate        Int      @default(0)
+  applied_by          String
+  applied_at          DateTime
+  items_count         Int      @default(0)
+  schedule_data       Json?    // 详细排班数据
+  config_params       Json?    // 生成时的配置参数
+  remark              String?  @db.Text
+
+  @@index([platform_id, dept_id, start_date, end_date])
+  @@index([applied_at])
+  @@index([mode])
+}
+
+// [NEW] 排班预测表 - 基于历史数据的智能预测
+model attendance_schedule_prediction {
+  id                      String   @id @default(cuid())
+  create_time             DateTime @default(now())
+  update_time             DateTime @updatedAt
+  is_deleted              Int      @default(0)
+  platform_id             String
+  dept_id                 String
+  predict_date            DateTime @db.Date
+  shift_name              String
+  predicted_demand        Int      @default(0)
+  confidence_score        Decimal  @db.Decimal(5, 2) @default(0.00)
+  based_on_history_count  Int      @default(0)
+  avg_historical_demand   Decimal? @db.Decimal(10, 2)
+  trend_factor            Decimal? @db.Decimal(5, 2)
+  prediction_model        String   @default("simple_average")
+  prediction_params       Json?
+  actual_demand           Int?
+  accuracy_rate           Decimal? @db.Decimal(5, 2)
+
+  @@unique([dept_id, predict_date, shift_name, is_deleted], name: "unique_prediction")
+  @@index([platform_id, dept_id, predict_date])
+  @@index([confidence_score])
+}
+
+// [NEW V4.0] 异步排班任务队列表
+model attendance_schedule_job {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  job_id          String   @unique
+  user_id         String
+  platform_id     String
+  dept_id         String
+  start_date      DateTime @db.Date
+  end_date        DateTime @db.Date
+  config_params   Json?
+  status          String   @default("pending") // pending, processing, completed, failed
+  progress        Int      @default(0)
+  result          Json?
+  error_message   String?  @db.Text
+  started_at      DateTime?
+  completed_at    DateTime?
+
+  @@index([user_id, status, create_time])
+  @@index([platform_id, dept_id, status])
+}
+
+// [NEW V4.0] AI推荐记录表
+model attendance_schedule_recommendation {
+  id                  String   @id @default(cuid())
+  create_time         DateTime @default(now())
+  update_time         DateTime @updatedAt
+  is_deleted          Int      @default(0)
+  platform_id         String
+  dept_id             String
+  recommendation_type String   // params, shifts, demands
+  confidence_score    Decimal  @db.Decimal(5, 2) @default(0.00)
+  recommendations     Json
+  analysis_data       Json?
+  applied             Int      @default(0)
+  applied_at          DateTime?
+  applied_by          String?
+
+  @@index([platform_id, dept_id, recommendation_type, create_time])
+  @@index([confidence_score])
+}
+
+// [NEW V4.0] 机器学习模型配置表
+model attendance_schedule_ml_model {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  platform_id     String
+  dept_id         String
+  shift_name      String
+  model_type      String   @default("simple_moving_average")
+  model_params    Json
+  training_data_count Int  @default(0)
+  accuracy_rate   Decimal? @db.Decimal(5, 2)
+  last_trained_at DateTime
+  status          Int      @default(1)
+
+  @@unique([platform_id, dept_id, shift_name, is_deleted])
+  @@index([model_type, status])
+}
+
+// [NEW V4.0] 多目标优化结果表
+model attendance_schedule_optimization_result {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  platform_id     String
+  dept_id         String
+  start_date      DateTime @db.Date
+  end_date        DateTime @db.Date
+  solution_id     String
+  params          Json
+  objectives      Json     // fairness, coverage, satisfaction, cost, compliance
+  total_score     Decimal  @db.Decimal(10, 2)
+  is_pareto_optimal Int    @default(0)
+  schedule_data   Json?
+  applied         Int      @default(0)
+  applied_at      DateTime?
+  applied_by      String?
+
+  @@index([platform_id, dept_id, create_time])
+  @@index([total_score])
+  @@index([is_pareto_optimal])
+}
+
+// [NEW V4.0] 实时调整记录表
+model attendance_schedule_realtime_adjustment {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  platform_id     String
+  dept_id         String
+  adjustment_date DateTime @db.Date
+  adjustment_type String   // replacement, supplement, cancellation
+  original_employee_id String?
+  new_employee_id String?
+  shift_name      String
+  reason          String   @db.Text
+  status          String   @default("pending") // pending, applied, rejected
+  applied_at      DateTime?
+  applied_by      String?
+
+  @@index([platform_id, dept_id, adjustment_date, status])
+  @@index([adjustment_type, create_time])
+}
+
+// 知识库接口监控配置表
+model knowledge_interface_monitor {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  interface_id    String
+  interface_name  String
+  interface_path  String
+  monitor_fields  Json     // 监控字段配置
+  priority        Int      @default(3) // 1高 2中 3低
+  sort            Int      @default(0)
+  status          Int      @default(1)
+  platform_id     String?
+  dept_id         String?
+  shop_id         String?
+
+  @@index([interface_id, is_deleted])
+  @@index([sort, is_deleted])
+  @@index([platform_id, dept_id, is_deleted])
+}
+
+// 知识库接口监控数据表
+model knowledge_interface_monitor_data {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  is_deleted      Int      @default(0)
+  monitor_id      String
+  interface_id    String
+  response_time   Int      // 响应时间（毫秒）
+  success_rate    Decimal  @db.Decimal(5, 2)
+  error_count     Int      @default(0)
+  error_codes     Json?    // 错误码分布
+  data_volume     Int      @default(0)
+  monitor_time    DateTime
+  platform_id     String?
+  dept_id         String?
+  shop_id         String?
+
+  @@index([monitor_id, monitor_time])
+  @@index([platform_id, dept_id, is_deleted])
+}
+
+// 知识库接口监控定时任务配置表
+model knowledge_interface_monitor_schedule {
+  id              String    @id @default(cuid())
+  create_time     DateTime  @default(now())
+  update_time     DateTime  @updatedAt
+  is_deleted      Int       @default(0)
+  monitor_id      String
+  schedule_type   String    // hourly/daily/weekly/monthly
+  schedule_time   String
+  retention_days  Int       @default(90)
+  notify_users    Json?     // 通知用户列表
+  status          Int       @default(1)
+  last_run_time   DateTime?
+  next_run_time   DateTime?
+  platform_id     String?
+  dept_id         String?
+
+  @@index([monitor_id, is_deleted])
+  @@index([next_run_time, status])
+}
+
+// 活动表
+model biz_activity {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  activity_name   String
+  activity_type   String   // discount/fullcut/gift
+  start_time      DateTime
+  end_time        DateTime
+  platform_id     String?
+  dept_id         String?
+  shop_id         String?
+  status          Int      @default(1)
+  sort            Int      @default(0)
+  description     String?  @db.Text
+
+  @@index([sort, is_deleted])
+  @@index([platform_id, dept_id, is_deleted])
+  @@index([shop_id, is_deleted])
+  @@index([start_time, end_time])
+}
+
+// 活动规则表
+model biz_activity_rule {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  activity_id     String
+  rule_name       String
+  rule_type       String   // discount/fullcut/gift
+  rule_config     Json     // 规则配置
+  priority        Int      @default(3) // 1高 2中 3低
+  sort            Int      @default(0)
+  status          Int      @default(1)
+
+  @@index([activity_id, is_deleted])
+  @@index([sort, is_deleted])
+  @@index([priority, is_deleted])
+}
+
+// 坐席组表
+model service_agent_group {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  group_name      String
+  group_code      String
+  description     String?  @db.Text
+  platform_id     String?
+  dept_id         String?
+  status          Int      @default(1)
+
+  @@unique([group_code, is_deleted])
+  @@index([platform_id, dept_id, is_deleted])
+}
+
+// 坐席组成员表
+model service_agent_group_member {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  group_id        String
+  agent_id        String
+  agent_name      String
+  agent_phone     String?
+  priority        Int      @default(3) // 1高 2中 3低
+  sort            Int      @default(0)
+  status          Int      @default(1)
+
+  @@index([group_id, is_deleted])
+  @@index([agent_id, is_deleted])
+  @@index([sort, is_deleted])
+  @@index([priority, is_deleted])
 }

@@ -1,6 +1,5 @@
-import { useEffect } from "react";
-import { Modal, Space, Typography, message } from "antd";
-import { NotificationOutlined } from "@ant-design/icons";
+import { Modal, Space, Typography, message, notification } from "antd";
+import { NotificationOutlined, MessageOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 
@@ -78,6 +77,18 @@ export function RealtimeNotificationCenter({
     socket.on("system.maintenance.end", () => {
       message.success("维护已结束，正在恢复访问...");
       navigate("/");
+    });
+
+    socket.on("system-message.new", (data: { title: string; type: string; content?: string }) => {
+       notification.open({
+          message: <Text className="font-black text-slate-900">{data.title}</Text>,
+          description: <Text className="text-slate-500 font-bold">{data.content || '您收到一条新消息'}</Text>,
+          icon: <MessageOutlined className="text-blue-500" />,
+          placement: 'topRight',
+          duration: 3,
+          className: "rounded-xl border border-slate-100 shadow-xl backdrop-blur-md bg-white/90",
+          onClick: () => navigate('/system/messages')
+       });
     });
 
     return () => {

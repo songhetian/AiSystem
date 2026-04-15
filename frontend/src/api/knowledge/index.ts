@@ -17,6 +17,8 @@ export interface KnowledgeArticle {
   published_at?: string;
   update_time: string;
   attachment_urls?: string[];
+  is_public?: number;
+  sort?: number;
 }
 
 export interface KnowledgeFaqCandidate {
@@ -120,7 +122,7 @@ export interface KnowledgeDocument {
   file_path: string;
   file_size: number;
   file_type: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  status: "pending" | "processing" | "completed" | "failed";
   error_msg?: string;
   process_log?: string;
   create_time: string;
@@ -137,10 +139,18 @@ export interface KnowledgeChatSession {
 
 export interface KnowledgeChatMessage {
   id: string;
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
   create_time: string;
   references?: string[];
+}
+
+export interface VectorData {
+  id: string;
+  file_name: string;
+  doc_id: string;
+  vector_size: number;
+  import_time: string;
 }
 
 export const knowledgeApi = {
@@ -151,26 +161,50 @@ export const knowledgeApi = {
     request.get("/knowledge/chat/sessions"),
   getChatMessages: (sessionId: string): Promise<KnowledgeChatMessage[]> =>
     request.get(`/knowledge/chat/sessions/${sessionId}/messages`),
-  sendChatMessage: (sessionId: string, content: string): Promise<KnowledgeChatMessage> =>
+  sendChatMessage: (
+    sessionId: string,
+    content: string,
+  ): Promise<KnowledgeChatMessage> =>
     request.post(`/knowledge/chat/sessions/${sessionId}/chat`, { content }),
 
   // --- Documents ---
-  uploadDocument: (file: File, isPublic = 0, onProgress: (p: number) => void) => {
+  listDocuments: (): Promise<KnowledgeDocument[]> =>
+    request.get("/knowledge/documents"),
+  uploadDocument: (
+    file: File,
+    isPublic = 0,
+    onProgress: (p: number) => void,
+  ) => {
     const formData = new FormData();
-    formData.append('files', file); // 注意后端现在是 files 数组名
-    formData.append('is_public', isPublic.toString());
+    formData.append("files", file); // 注意后端现在是 files 数组名
+    formData.append("is_public", isPublic.toString());
     return request.post("/knowledge/documents/upload", formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+      headers: { "Content-Type": "multipart/form-data" },
       onUploadProgress: (progressEvent) => {
-        const percentCompleted = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1));
+        const percentCompleted = Math.round(
+          (progressEvent.loaded * 100) / (progressEvent.total || 1),
+        );
         onProgress(percentCompleted);
-      }
+      },
     });
   },
-  togglePublicDocument: (id: string, isPublic: number) => 
-    request.post(`/knowledge/documents/${id}/toggle-public`, { is_public: isPublic }),
+  togglePublicDocument: (id: string, isPublic: number) =>
+    request.post(`/knowledge/documents/${id}/toggle-public`, {
+      is_public: isPublic,
+    }),
   deleteDocument: (id: string) => request.delete(`/knowledge/documents/${id}`),
-  getDocumentContent: (id: string): Promise<{ content: string }> => request.get(`/knowledge/documents/${id}/content`),
+  getDocumentContent: (id: string): Promise<{ content: string }> =>
+    request.get(`/knowledge/documents/${id}/content`),
+  reimportDocument: (id: string) =>
+    request.post(`/knowledge/documents/${id}/re-import`),
+
+  // --- Vectors ---
+  listVectors: (params?: {
+    limit?: number;
+    offset?: string;
+  }): Promise<{ points: VectorData[]; next_page_offset?: string }> =>
+    request.get("/knowledge/vectors", { params }),
+  deleteVector: (id: string) => request.delete(`/knowledge/vectors/${id}`),
   listArticles: (params?: {
     keyword?: string;
     status?: string;
@@ -202,6 +236,8 @@ export const knowledgeApi = {
     request.post("/knowledge/articles", payload),
   updateArticle: (id: string, payload: SaveKnowledgeArticlePayload) =>
     request.put(`/knowledge/articles/${id}`, payload),
+  updateArticleSort: (items: Array<{ id: string; sort: number }>) =>
+    request.post("/knowledge/articles/sort", { items }),
   listFaqCandidates: (): Promise<KnowledgeFaqCandidate[]> =>
     request.get("/knowledge/faq-candidates"),
   listCategories: (params?: { keyword?: string; enabled?: string }) =>
@@ -214,4 +250,12 @@ export const knowledgeApi = {
     request.post(`/knowledge/categories/${id}/enable`),
   disableCategory: (id: string) =>
     request.post(`/knowledge/categories/${id}/disable`),
+  updateCategorySort: (payload: {
+    items: Array<{ id: string; parent_id: string | null; sort: number }>;
+  }) => request.post("/knowledge/categories/sort", payload),
+  // ✅ 新增：向量管理（知识库.md 3.4.2）
+  listVectors: (params?: any) => request.get("/knowledge/vectors", { params }),
+  deleteVector: (id: string) => request.delete(`/knowledge/vectors/${id}`),
+  regenerateVector: (docId: string) =>
+    request.post(`/knowledge/documents/${docId}/regenerate-vector`, {}),
 };

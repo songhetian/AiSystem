@@ -1,5 +1,5 @@
-import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { createClient } from 'redis';
+import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
+import { createClient } from "redis";
 
 @Injectable()
 export class RedisService implements OnModuleInit, OnModuleDestroy {
@@ -12,7 +12,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
       return;
     }
 
-    client.on('error', () => {
+    client.on("error", () => {
       this.ready = false;
     });
 
@@ -58,7 +58,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     }
 
     return this.client.set(key, value, {
-      EX: ttlSeconds
+      EX: ttlSeconds,
     });
   }
 
@@ -69,7 +69,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
 
     return this.client.set(key, value, {
       EX: ttlSeconds,
-      NX: true
+      NX: true,
     });
   }
 
@@ -79,6 +79,22 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     }
 
     return this.client.del(key);
+  }
+
+  async incr(key: string) {
+    if (!this.isReady() || !this.client) {
+      return null;
+    }
+
+    return this.client.incr(key);
+  }
+
+  async expire(key: string, ttlSeconds: number) {
+    if (!this.isReady() || !this.client) {
+      return null;
+    }
+
+    return this.client.expire(key, ttlSeconds);
   }
 
   async deleteByPattern(pattern: string) {
@@ -107,6 +123,17 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     return this.client.publish(channel, message);
   }
 
+  // ✅ 新增：List 操作，用于日志故障兜底缓存（PRD 2.1.2）
+  async lpush(key: string, value: string) {
+    if (!this.isReady() || !this.client) return null;
+    return this.client.lPush(key, value);
+  }
+
+  async rpop(key: string): Promise<string | null> {
+    if (!this.isReady() || !this.client) return null;
+    return this.client.rPop(key);
+  }
+
   async subscribe(channel: string, callback: (message: string) => void) {
     const subClient = this.createRedisClient();
     if (!subClient) return;
@@ -124,17 +151,17 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
 
     if (redisUrl) {
       return createClient({
-        url: redisUrl
+        url: redisUrl,
       });
     }
 
     return createClient({
       socket: {
         host,
-        port: Number(process.env.REDIS_PORT ?? 6379)
+        port: Number(process.env.REDIS_PORT ?? 6379),
       },
       database: Number(process.env.REDIS_DB ?? 0),
-      password: process.env.REDIS_PASSWORD || undefined
+      password: process.env.REDIS_PASSWORD || undefined,
     });
   }
 }

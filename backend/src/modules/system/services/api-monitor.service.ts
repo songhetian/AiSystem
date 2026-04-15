@@ -21,8 +21,8 @@ export class ApiMonitorService {
     
     const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
 
-    // 1. 聚合过去 10 分钟内的接口调用情况
-    // 注意：此处使用基础的 findMany 模拟聚合，生产环境建议使用 raw query 或专用监控工具
+    // 1. 拉取最近 10 分钟日志并在应用层完成聚合。
+    // 当前实现已使用真实日志数据，只是聚合过程尚未下沉到数据库层。
     const recentLogs = await (this.prisma as any).sys_operation_log.findMany({
       where: {
         create_time: { gte: tenMinutesAgo },

@@ -1,4 +1,4 @@
-﻿-- AiSystem MySQL schema initialization script
+-- AiSystem MySQL schema initialization script
 -- Compatible with MySQL 8.x
 -- This file only creates table structures and comments.
 
@@ -76,7 +76,10 @@ CREATE TABLE IF NOT EXISTS `fin_reimbursement` (
   `dept_id` varchar(191) NOT NULL,
   `shop_id` varchar(191) DEFAULT NULL,
   `approval_request_id` varchar(191) DEFAULT NULL,
-  `status` int NOT NULL DEFAULT 0,
+  `status` int NOT NULL DEFAULT 1 COMMENT '1:审批中, 2:待打款, 3:已打款, 4:已驳回, 5:已撤回',
+  `paid_at` datetime(3) DEFAULT NULL,
+  `pay_method` varchar(191) DEFAULT NULL,
+  `remark` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `fin_reimbursement_reim_no_key` (`reim_no`),
   KEY `fin_reimbursement_platform_dept_status_idx` (`platform_id`, `dept_id`, `status`)
@@ -90,6 +93,7 @@ CREATE TABLE IF NOT EXISTS `fin_purchase` (
   `purchase_no` varchar(191) NOT NULL,
   `items` json NOT NULL,
   `total_amount` decimal(10,2) NOT NULL,
+  `actual_amount` decimal(10,2) DEFAULT NULL,
   `reason` text NOT NULL,
   `attachment_urls` json DEFAULT NULL,
   `applicant_id` varchar(191) NOT NULL,
@@ -97,7 +101,9 @@ CREATE TABLE IF NOT EXISTS `fin_purchase` (
   `dept_id` varchar(191) NOT NULL,
   `shop_id` varchar(191) DEFAULT NULL,
   `approval_request_id` varchar(191) DEFAULT NULL,
-  `status` int NOT NULL DEFAULT 0,
+  `status` int NOT NULL DEFAULT 1 COMMENT '1:审批中, 2:待采购, 3:已完成, 4:已驳回, 5:已取消',
+  `supplier_info` text DEFAULT NULL,
+  `completed_at` datetime(3) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `fin_purchase_purchase_no_key` (`purchase_no`),
   KEY `fin_purchase_platform_dept_status_idx` (`platform_id`, `dept_id`, `status`)
@@ -108,14 +114,18 @@ CREATE TABLE IF NOT EXISTS `fin_cash_record` (
   `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
   `is_deleted` int NOT NULL DEFAULT 0,
-  `type` int NOT NULL,
+  `type` int NOT NULL COMMENT '1: 收入, 2: 支出',
   `amount` decimal(10,2) NOT NULL,
   `source` varchar(191) NOT NULL,
   `biz_id` varchar(191) DEFAULT NULL,
   `biz_type` varchar(191) DEFAULT NULL,
+  `biz_no` varchar(191) DEFAULT NULL,
   `platform_id` varchar(191) NOT NULL,
   `dept_id` varchar(191) NOT NULL,
   `shop_id` varchar(191) DEFAULT NULL,
+  `operator_id` varchar(191) DEFAULT NULL,
+  `remark` text DEFAULT NULL,
+  `modify_log` json DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fin_cash_record_platform_dept_type_idx` (`platform_id`, `dept_id`, `type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='收支明细记录';
@@ -274,9 +284,11 @@ CREATE TABLE IF NOT EXISTS `biz_product` (
   `platform_id` varchar(191) NOT NULL,
   `department_id` varchar(191) NOT NULL,
   `status` int NOT NULL DEFAULT 1,
+  `sort` int NOT NULL DEFAULT 0 COMMENT '排序值，越小越靠前',
   PRIMARY KEY (`id`),
   UNIQUE KEY `biz_product_code_key` (`code`),
-  KEY `biz_product_platform_dept_status_idx` (`platform_id`, `department_id`, `status`)
+  KEY `biz_product_platform_dept_status_idx` (`platform_id`, `department_id`, `status`),
+  KEY `biz_product_sort_idx` (`sort`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商品基础信息表';
 
 CREATE TABLE IF NOT EXISTS `biz_product_sku` (
@@ -345,9 +357,11 @@ CREATE TABLE IF NOT EXISTS `biz_shop` (
   `department_id` varchar(191) NOT NULL COMMENT '所属部门 ID',
   `owner_id` varchar(191) DEFAULT NULL COMMENT '店铺负责人用户 ID',
   `status` int NOT NULL DEFAULT 1 COMMENT '店铺状态，1 启用，0 禁用',
+  `sort` int NOT NULL DEFAULT 0 COMMENT '排序值，越小越靠前',
   PRIMARY KEY (`id`),
   UNIQUE KEY `biz_shop_code_key` (`code`),
-  KEY `biz_shop_platform_dept_status_idx` (`platform_id`, `department_id`, `status`)
+  KEY `biz_shop_platform_dept_status_idx` (`platform_id`, `department_id`, `status`),
+  KEY `biz_shop_sort_idx` (`sort`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='店铺表，管理平台下的门店或经营主体';
 
 CREATE TABLE IF NOT EXISTS `hr_position` (
@@ -362,8 +376,10 @@ CREATE TABLE IF NOT EXISTS `hr_position` (
   `level` int DEFAULT NULL COMMENT '岗位级别',
   `sequence` varchar(191) DEFAULT NULL COMMENT '岗位序列或职级序列',
   `platform_id` varchar(191) DEFAULT NULL COMMENT '所属平台 ID',
+  `sort` int NOT NULL DEFAULT 0 COMMENT '排序值，越小越靠前',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `hr_position_code_key` (`code`)
+  UNIQUE KEY `hr_position_code_key` (`code`),
+  KEY `hr_position_sort_idx` (`sort`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='岗位表，定义部门下的岗位信息';
 
 CREATE TABLE IF NOT EXISTS `hr_employee` (
@@ -415,6 +431,8 @@ CREATE TABLE IF NOT EXISTS `attendance_rule` (
   `late_threshold` int NOT NULL DEFAULT 0 COMMENT '迟到阈值，单位分钟',
   `early_threshold` int NOT NULL DEFAULT 0 COMMENT '早退阈值，单位分钟',
   `absenteeism_threshold` int NOT NULL DEFAULT 0 COMMENT '旷工阈值，单位分钟',
+  `color` varchar(191) DEFAULT NULL COMMENT 'UI 颜色展示',
+  `opacity` int NOT NULL DEFAULT 50 COMMENT '颜色透明度规范',
   `status` int NOT NULL DEFAULT 1 COMMENT '规则状态，1 启用，0 禁用',
   `platform_id` varchar(191) DEFAULT NULL COMMENT '所属平台 ID',
   `dept_id` varchar(191) DEFAULT NULL COMMENT '所属部门 ID',
@@ -431,8 +449,11 @@ CREATE TABLE IF NOT EXISTS `attendance_schedule` (
   `shift_name` varchar(191) NOT NULL COMMENT '班次名称',
   `platform_id` varchar(191) DEFAULT NULL COMMENT '所属平台 ID',
   `dept_id` varchar(191) DEFAULT NULL COMMENT '所属部门 ID',
+  `status` int NOT NULL DEFAULT 0 COMMENT '发布状态 (0:待发布, 1:已发布)',
+  `publish_time` datetime(3) DEFAULT NULL COMMENT '发布时间',
   PRIMARY KEY (`id`),
-  KEY `attendance_schedule_employee_date_idx` (`employee_id`, `schedule_date`)
+  KEY `attendance_schedule_employee_date_idx` (`employee_id`, `schedule_date`),
+  KEY `attendance_schedule_platform_dept_date_idx` (`platform_id`, `dept_id`, `schedule_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='排班表，定义员工某天的班次安排';
 
 CREATE TABLE IF NOT EXISTS `attendance_record` (
@@ -574,12 +595,15 @@ CREATE TABLE IF NOT EXISTS `approval_template` (
   `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
   `name` varchar(191) NOT NULL COMMENT '模板名称',
   `type` varchar(191) NOT NULL COMMENT '模板类型',
+  `platform_id` varchar(191) DEFAULT NULL,
   `platform_name` varchar(191) NOT NULL COMMENT '平台名称',
+  `dept_id` varchar(191) DEFAULT NULL,
   `department_name` varchar(191) NOT NULL COMMENT '部门名称',
-  `status` varchar(191) NOT NULL COMMENT '模板状态',
+  `status` varchar(191) NOT NULL DEFAULT 'enabled' COMMENT '模板状态',
   `description` text DEFAULT NULL COMMENT '模板描述',
   `updated_at` varchar(191) NOT NULL COMMENT '前端更新时间',
   `nodes` json NOT NULL COMMENT '模板节点 JSON',
+  `form_fields` json DEFAULT NULL COMMENT '自定义表单字段 JSON',
   PRIMARY KEY (`id`),
   KEY `approval_template_status_update_time_idx` (`status`, `update_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='审批模板表';
@@ -595,16 +619,20 @@ CREATE TABLE IF NOT EXISTS `approval_request` (
   `biz_type` varchar(191) DEFAULT NULL COMMENT '关联业务类型',
   `biz_id` varchar(191) DEFAULT NULL COMMENT '关联业务 ID',
   `biz_no` varchar(191) DEFAULT NULL COMMENT '关联业务单号',
-  `type` varchar(191) NOT NULL COMMENT '审批类型',
+  `type` varchar(191) NOT NULL COMMENT '审批类型: attendance, finance, general',
   `applicant_id` varchar(191) NOT NULL COMMENT '申请人 ID',
   `applicant_name` varchar(191) NOT NULL COMMENT '申请人名称',
   `current_approver_id` varchar(191) DEFAULT NULL COMMENT '当前审批人 ID',
   `current_approver_name` varchar(191) DEFAULT NULL COMMENT '当前审批人名称',
-  `status` varchar(191) NOT NULL COMMENT '审批状态',
+  `current_node_id` varchar(191) DEFAULT NULL COMMENT '当前审批节点 ID',
+  `status` varchar(191) NOT NULL COMMENT '审批状态: pending, approved, rejected, withdrawn',
   `amount` decimal(10,2) DEFAULT NULL COMMENT '金额',
+  `platform_id` varchar(191) DEFAULT NULL,
   `platform_name` varchar(191) NOT NULL COMMENT '平台名称',
+  `dept_id` varchar(191) DEFAULT NULL,
   `department_name` varchar(191) NOT NULL COMMENT '部门名称',
   `summary` text NOT NULL COMMENT '审批摘要',
+  `form_data` json DEFAULT NULL COMMENT '提交的自定义表单数据',
   `created_at` varchar(191) NOT NULL COMMENT '前端创建时间',
   `updated_at` varchar(191) NOT NULL COMMENT '前端更新时间',
   `progress` json NOT NULL COMMENT '审批进度 JSON',
@@ -685,8 +713,28 @@ CREATE TABLE IF NOT EXISTS `sys_login_log` (
   `shop_id` varchar(191) DEFAULT NULL COMMENT '所属店铺 ID',
   PRIMARY KEY (`id`),
   KEY `sys_login_log_username_create_idx` (`username`, `create_time`),
-  KEY `sys_login_log_status_create_idx` (`login_status`, `create_time`)
+  KEY `sys_login_log_status_create_idx` (`login_status`, `create_time`),
+  KEY `sys_login_log_platform_id_idx` (`platform_id`),
+  KEY `sys_login_log_user_id_idx` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='登录日志表，记录用户登录结果与终端信息';
+
+CREATE TABLE IF NOT EXISTS `sys_login_log_archive` (
+  `id` varchar(191) NOT NULL COMMENT '归档 ID',
+  `create_time` datetime(3) NOT NULL COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `user_id` varchar(191) DEFAULT NULL,
+  `username` varchar(191) NOT NULL,
+  `login_ip` varchar(191) DEFAULT NULL,
+  `user_agent` varchar(512) DEFAULT NULL,
+  `login_status` int NOT NULL DEFAULT 1,
+  `login_message` varchar(191) DEFAULT NULL,
+  `platform_id` varchar(191) DEFAULT NULL,
+  `dept_id` varchar(191) DEFAULT NULL,
+  `shop_id` varchar(191) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sys_login_log_archive_platform_create_idx` (`platform_id`, `create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='登录日志归档表';
 
 CREATE TABLE IF NOT EXISTS `sys_operation_log` (
   `id` varchar(191) NOT NULL COMMENT '日志主键 ID',
@@ -705,14 +753,79 @@ CREATE TABLE IF NOT EXISTS `sys_operation_log` (
   `operation_message` varchar(191) DEFAULT NULL COMMENT '操作结果说明',
   `request_params` json DEFAULT NULL COMMENT '请求参数摘要',
   `response_summary` json DEFAULT NULL COMMENT '响应摘要',
+  `diff_content` json DEFAULT NULL COMMENT '字段级变更详情',
   `platform_id` varchar(191) DEFAULT NULL COMMENT '所属平台 ID',
   `dept_id` varchar(191) DEFAULT NULL COMMENT '所属部门 ID',
   `shop_id` varchar(191) DEFAULT NULL COMMENT '所属店铺 ID',
   PRIMARY KEY (`id`),
+  KEY `sys_operation_log_platform_dept_idx` (`platform_id`, `dept_id`),
   KEY `sys_operation_log_user_create_idx` (`user_id`, `create_time`),
   KEY `sys_operation_log_module_create_idx` (`operation_module`, `create_time`),
-  KEY `sys_operation_log_status_create_idx` (`operation_status`, `create_time`)
+  KEY `sys_operation_log_status_create_idx` (`operation_status`, `create_time`),
+  KEY `sys_operation_log_create_time_idx` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志表，记录接口级操作行为';
+
+CREATE TABLE IF NOT EXISTS `sys_operation_log_archive` (
+  `id` varchar(191) NOT NULL COMMENT '归档 ID',
+  `create_time` datetime(3) NOT NULL,
+  `update_time` datetime(3) NOT NULL,
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `user_id` varchar(191) DEFAULT NULL,
+  `username` varchar(191) DEFAULT NULL,
+  `request_method` varchar(32) NOT NULL,
+  `api_path` varchar(191) NOT NULL,
+  `api_name` varchar(191) DEFAULT NULL,
+  `operation_module` varchar(191) DEFAULT NULL,
+  `request_ip` varchar(191) DEFAULT NULL,
+  `user_agent` varchar(512) DEFAULT NULL,
+  `operation_status` int NOT NULL DEFAULT 1,
+  `operation_message` varchar(191) DEFAULT NULL,
+  `request_params` json DEFAULT NULL,
+  `response_summary` json DEFAULT NULL,
+  `platform_id` varchar(191) DEFAULT NULL,
+  `dept_id` varchar(191) DEFAULT NULL,
+  `shop_id` varchar(191) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sys_op_log_archive_platform_create_idx` (`platform_id`, `create_time`),
+  KEY `sys_op_log_archive_user_create_idx` (`user_id`, `create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志归档表';
+
+CREATE TABLE IF NOT EXISTS `sys_error_log` (
+  `id` varchar(191) NOT NULL COMMENT '日志主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `user_id` varchar(191) DEFAULT NULL,
+  `username` varchar(191) DEFAULT NULL,
+  `request_method` varchar(32) DEFAULT NULL,
+  `api_path` varchar(191) DEFAULT NULL,
+  `request_params` json DEFAULT NULL,
+  `error_message` text NOT NULL,
+  `stack_trace` longtext DEFAULT NULL,
+  `platform_id` varchar(191) DEFAULT NULL,
+  `dept_id` varchar(191) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sys_error_log_create_time_idx` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='全局异常追踪日志表';
+
+CREATE TABLE IF NOT EXISTS `attendance_monthly_summary` (
+  `id` varchar(191) NOT NULL COMMENT '汇总主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `employee_id` varchar(191) NOT NULL,
+  `month` varchar(32) NOT NULL COMMENT '格式: YYYY-MM',
+  `normal_days` int NOT NULL DEFAULT 0,
+  `late_count` int NOT NULL DEFAULT 0,
+  `early_count` int NOT NULL DEFAULT 0,
+  `absent_days` int NOT NULL DEFAULT 0,
+  `miss_count` int NOT NULL DEFAULT 0,
+  `platform_id` varchar(191) DEFAULT NULL,
+  `dept_id` varchar(191) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `attendance_monthly_summary_emp_month_unique` (`employee_id`, `month`),
+  KEY `attendance_monthly_summary_platform_month_idx` (`platform_id`, `dept_id`, `month`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='考勤月度结果预处理快照表';
 
 CREATE TABLE IF NOT EXISTS `service_session` (
   `id` varchar(191) NOT NULL COMMENT '会话主键 ID',
@@ -1013,11 +1126,13 @@ CREATE TABLE IF NOT EXISTS `knowledge_article` (
   `dept_id` varchar(191) NOT NULL COMMENT '部门 ID',
   `shop_id` varchar(191) DEFAULT NULL COMMENT '店铺 ID',
   `published_at` datetime(3) DEFAULT NULL COMMENT '发布时间',
+  `sort` int NOT NULL DEFAULT 0 COMMENT '排序值，越小越靠前',
   PRIMARY KEY (`id`),
   KEY `knowledge_article_scope_status_idx` (`platform_id`, `dept_id`, `shop_id`, `status`),
   KEY `knowledge_article_category_status_idx` (`category_id`, `status`),
   KEY `knowledge_article_keyword_status_idx` (`keyword`, `status`),
-  KEY `knowledge_article_source_idx` (`source_type`, `source_ref`)
+  KEY `knowledge_article_source_idx` (`source_type`, `source_ref`),
+  KEY `knowledge_article_sort_idx` (`sort`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='知识库文章表';
 
 CREATE TABLE IF NOT EXISTS `knowledge_document` (
@@ -1140,4 +1255,354 @@ CREATE TABLE IF NOT EXISTS `attendance_record` (
   KEY `attendance_record_stats_idx` (`platform_id`, `dept_id`, `on_duty_status`, `off_duty_status`, `attendance_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='考勤记录表';
 
+CREATE TABLE IF NOT EXISTS `service_loss_inquiry` (
+  `id` varchar(191) NOT NULL COMMENT '主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
+  `session_id` varchar(191) NOT NULL COMMENT '会话 ID',
+  `session_no` varchar(191) NOT NULL COMMENT '会话单号',
+  `customer_id` varchar(191) DEFAULT NULL COMMENT '客户 ID',
+  `customer_nickname` varchar(191) DEFAULT NULL COMMENT '客户昵称',
+  `customer_phone` varchar(191) DEFAULT NULL COMMENT '客户手机号',
+  `product_id` varchar(191) DEFAULT NULL COMMENT '关联商品 ID',
+  `product_name` varchar(191) DEFAULT NULL COMMENT '关联商品名称',
+  `agent_id` varchar(191) DEFAULT NULL COMMENT '客服 ID',
+  `agent_name` varchar(191) DEFAULT NULL COMMENT '客服名称',
+  `loss_reason` varchar(191) DEFAULT NULL COMMENT '流失原因',
+  `recovery_state` varchar(191) NOT NULL DEFAULT 'pending' COMMENT '挽回状态',
+  `recovery_remark` text DEFAULT NULL COMMENT '挽回备注',
+  `platform_id` varchar(191) NOT NULL COMMENT '平台 ID',
+  `dept_id` varchar(191) NOT NULL COMMENT '部门 ID',
+  `shop_id` varchar(191) DEFAULT NULL COMMENT '店铺 ID',
+  PRIMARY KEY (`id`),
+  KEY `service_loss_inquiry_scope_state_idx` (`platform_id`, `dept_id`, `shop_id`, `recovery_state`),
+  KEY `service_loss_inquiry_session_idx` (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='询单流失记录表';
+
+CREATE TABLE IF NOT EXISTS `service_session_tag` (
+  `id` varchar(191) NOT NULL COMMENT '主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
+  `session_id` varchar(191) NOT NULL COMMENT '会话 ID',
+  `session_no` varchar(191) NOT NULL COMMENT '会话单号',
+  `tag_name` varchar(191) NOT NULL COMMENT '标签名称',
+  `tag_type` varchar(191) NOT NULL DEFAULT 'quality' COMMENT '标签类型',
+  `status` varchar(191) NOT NULL DEFAULT 'pending' COMMENT '状态',
+  `reject_reason` text DEFAULT NULL COMMENT '驳回原因',
+  `platform_id` varchar(191) NOT NULL COMMENT '平台 ID',
+  `dept_id` varchar(191) NOT NULL COMMENT '部门 ID',
+  `shop_id` varchar(191) DEFAULT NULL COMMENT '店铺 ID',
+  PRIMARY KEY (`id`),
+  KEY `service_session_tag_scope_status_idx` (`platform_id`, `dept_id`, `shop_id`, `status`),
+  KEY `service_session_tag_session_status_idx` (`session_id`, `status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会话质检标签流转表';
+
+CREATE TABLE IF NOT EXISTS `service_faq_mapping` (
+  `id` varchar(191) NOT NULL COMMENT '主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
+  `faq_content` varchar(191) NOT NULL COMMENT '高频问题内容',
+  `article_id` varchar(191) DEFAULT NULL COMMENT '关联知识库ID',
+  `hit_count` int NOT NULL DEFAULT 0 COMMENT '命中次数',
+  `faq_type` varchar(191) DEFAULT NULL COMMENT 'FAQ类型',
+  `product_id` varchar(191) DEFAULT NULL COMMENT '关联商品ID',
+  `platform_id` varchar(191) NOT NULL COMMENT '平台 ID',
+  `dept_id` varchar(191) NOT NULL COMMENT '部门 ID',
+  `shop_id` varchar(191) DEFAULT NULL COMMENT '店铺 ID',
+  PRIMARY KEY (`id`),
+  KEY `service_faq_mapping_platform_dept_faq_type_idx` (`platform_id`, `dept_id`, `shop_id`, `faq_type`),
+  KEY `service_faq_mapping_hit_count_idx` (`hit_count`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='高频问题与标准知识映射表';
+
+CREATE TABLE IF NOT EXISTS `attendance_coverage_check` (
+  `id` varchar(191) NOT NULL COMMENT '检查记录主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
+  `check_date` datetime(3) NOT NULL COMMENT '待检查的跨度日期',
+  `start_time` datetime(3) NOT NULL COMMENT '范围开始时间',
+  `end_time` datetime(3) NOT NULL COMMENT '范围结束时间',
+  `checked_shift_ids` json NOT NULL COMMENT '检查包含的班次集',
+  `checked_shift_names` json NOT NULL COMMENT '检查的班次名称清单',
+  `total_coverage_hours` decimal(10,2) NOT NULL COMMENT '总覆盖时长',
+  `missing_coverage_hours` decimal(10,2) NOT NULL COMMENT '缺口时长',
+  `overlapping_hours` decimal(10,2) NOT NULL COMMENT '跨叠冗余排班时长',
+  `missing_details` json DEFAULT NULL COMMENT '缺口分段明细',
+  `overlapping_details` json DEFAULT NULL COMMENT '重叠冲突明细',
+  `platform_id` varchar(191) NOT NULL COMMENT '所属平台',
+  `dept_id` varchar(191) NOT NULL COMMENT '所属部门',
+  PRIMARY KEY (`id`),
+  KEY `attendance_coverage_check_date_idx` (`platform_id`, `dept_id`, `check_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='班次分析覆盖检查快照表';
+
+CREATE TABLE IF NOT EXISTS `attendance_ai_config` (
+  `id` varchar(191) NOT NULL COMMENT '配置主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
+  `conflict_rules` json DEFAULT NULL COMMENT '排班软硬冲突约束',
+  `emp_preferences` json DEFAULT NULL COMMENT '员工防连班等倾向约束',
+  `shift_priority` json DEFAULT NULL COMMENT '各时段班次需求人数约束',
+  `algorithm_params` json DEFAULT NULL COMMENT '倾向业务覆盖与公平权衡属性',
+  `ui_settings` json DEFAULT NULL COMMENT '统一前台面板规范配置',
+  `platform_id` varchar(191) NOT NULL COMMENT '平台级别',
+  `dept_id` varchar(191) NOT NULL COMMENT '部门归属配置',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `attendance_ai_config_unique_key` (`platform_id`, `dept_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='AI生成排班引擎规则全局统一配置表';
+
+CREATE TABLE IF NOT EXISTS `sys_mapping_template` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `name` varchar(191) NOT NULL COMMENT '模版名称',
+  `data_type` varchar(191) NOT NULL COMMENT '数据类型: order, product, customer',
+  `platform_id` varchar(191) NOT NULL COMMENT '关联平台ID',
+  `parent_id` varchar(191) DEFAULT NULL COMMENT '父模版ID (Section 4.4.2)',
+  `mapping_rules` json NOT NULL COMMENT '字段映射规则 JSON',
+  `cleaning_rules` json DEFAULT NULL COMMENT '清洗规则 JSON',
+  `is_public` int NOT NULL DEFAULT 1,
+  `created_by` varchar(191) DEFAULT NULL,
+  `status` int NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `sys_mapping_template_platform_type_idx` (`platform_id`, `data_type`, `status`),
+  CONSTRAINT `fk_mapping_inheritance` FOREIGN KEY (`parent_id`) REFERENCES `sys_mapping_template` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='数据映射模版表';
+
+CREATE TABLE IF NOT EXISTS `sys_platform_config` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `platform_id` varchar(191) NOT NULL COMMENT '平台ID',
+  `dept_id` varchar(191) NOT NULL COMMENT '部门ID',
+  `shop_id` varchar(191) DEFAULT NULL COMMENT '店铺ID',
+  `template_id` varchar(191) DEFAULT NULL COMMENT '关联映射模版ID',
+  `app_key` varchar(191) DEFAULT NULL,
+  `app_secret` varchar(191) DEFAULT NULL,
+  `api_endpoint` varchar(191) DEFAULT NULL,
+  `access_token` text DEFAULT NULL,
+  `refresh_token` text DEFAULT NULL,
+  `token_expires` datetime(3) DEFAULT NULL,
+  `extra_params` json DEFAULT NULL COMMENT '扩展参数',
+  `is_master` int NOT NULL DEFAULT 0 COMMENT '是否为平台公共模版',
+  `status` int NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `sys_platform_config_scope_idx` (`platform_id`, `dept_id`, `shop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='部门级平台数据配置表';
+
+CREATE TABLE IF NOT EXISTS `bi_order` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `shop_id` varchar(191) DEFAULT NULL,
+  `external_order_no` varchar(191) NOT NULL COMMENT '第三方平台订单号',
+  `order_status` varchar(191) NOT NULL,
+  `order_amount` decimal(10,2) NOT NULL,
+  `pay_amount` decimal(10,2) DEFAULT NULL,
+  `customer_name` varchar(191) DEFAULT NULL,
+  `customer_phone` varchar(191) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `order_time` datetime(3) NOT NULL,
+  `pay_time` datetime(3) DEFAULT NULL,
+  `raw_data` json DEFAULT NULL COMMENT '原始各平台数据快照',
+  `sync_status` int NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `bi_order_unique_idx` (`platform_id`, `shop_id`, `external_order_no`),
+  KEY `bi_order_scope_time_idx` (`platform_id`, `dept_id`, `order_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='标准业务订单表';
+
+CREATE TABLE IF NOT EXISTS `bi_product` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `shop_id` varchar(191) DEFAULT NULL,
+  `external_spu_id` varchar(191) NOT NULL COMMENT '第三方平台商品ID',
+  `product_name` varchar(191) NOT NULL,
+  `main_image` varchar(191) DEFAULT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `stock` int NOT NULL DEFAULT 0,
+  `status` varchar(191) DEFAULT NULL,
+  `raw_data` json DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `bi_product_unique_idx` (`platform_id`, `shop_id`, `external_spu_id`),
+  KEY `bi_product_scope_idx` (`platform_id`, `dept_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='标准业务商品表';
+
+CREATE TABLE IF NOT EXISTS `sys_cron_job` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `name` varchar(191) NOT NULL,
+  `cron_expression` varchar(191) NOT NULL,
+  `job_type` varchar(191) NOT NULL COMMENT 'fetch_orders, fetch_products, token_refresh',
+  `assoc_config_id` varchar(191) DEFAULT NULL COMMENT '关联平台配置ID',
+  `last_run_time` datetime(3) DEFAULT NULL,
+  `next_run_time` datetime(3) DEFAULT NULL,
+  `retry_count` int NOT NULL DEFAULT 3,
+  `retry_interval` int NOT NULL DEFAULT 5,
+  `current_retry` int NOT NULL DEFAULT 0 COMMENT '当前重试次数',
+  `last_error` text DEFAULT NULL COMMENT '最后一次错误详情',
+  `status` int NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `sys_cron_job_type_status_next_idx` (`job_type`, `status`, `next_run_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='定时采集任务表';
+
+CREATE TABLE IF NOT EXISTS `sys_integration_log` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `shop_id` varchar(191) DEFAULT NULL,
+  `biz_type` varchar(191) DEFAULT NULL COMMENT '业务类型: order_sync等',
+  `biz_id` varchar(191) DEFAULT NULL COMMENT '业务单号ID',
+  `log_level` varchar(191) NOT NULL DEFAULT 'INFO',
+  `message` text NOT NULL,
+  `request_payload` json DEFAULT NULL,
+  `response_data` json DEFAULT NULL,
+  `error_stack` longtext DEFAULT NULL,
+  `duration_ms` int NOT NULL DEFAULT 0,
+  `error_code` varchar(191) DEFAULT NULL COMMENT '错误分类代码',
+  PRIMARY KEY (`id`),
+  KEY `sys_integration_log_scope_time_idx` (`platform_id`, `dept_id`, `create_time`),
+  KEY `sys_integration_log_biz_idx` (`biz_type`, `biz_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='平台对接集成日志表';
+
+CREATE TABLE IF NOT EXISTS `sys_integration_stat` (
+  `id` varchar(191) NOT NULL,
+  `stat_time` datetime(3) NOT NULL COMMENT '统计时间点',
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `shop_id` varchar(191) DEFAULT NULL,
+  `total_calls` int NOT NULL DEFAULT 0,
+  `success_calls` int NOT NULL DEFAULT 0,
+  `fail_calls` int NOT NULL DEFAULT 0,
+  `avg_duration_ms` int NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `sys_integration_stat_unique_idx` (`stat_time`, `platform_id`, `dept_id`, `shop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='集成接口健康统计表';
+
 SET FOREIGN_KEY_CHECKS = 1;
+CREATE TABLE IF NOT EXISTS `attendance_staffing_demand` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `date` datetime(3) NOT NULL,
+  `shift_name` varchar(191) NOT NULL,
+  `required_count` int NOT NULL DEFAULT 0,
+  `expected_volume` int DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `attendance_staffing_demand_unique` (`dept_id`, `date`, `shift_name`, `is_deleted`),
+  INDEX `attendance_staffing_demand_platform_dept_date` (`platform_id`, `dept_id`, `date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='人力需求预测与拟合表';
+
+-- [NEW] 大屏模板表 (Section 2.1.1)
+CREATE TABLE IF NOT EXISTS `sys_dashboard_template` (
+  `id` varchar(191) NOT NULL COMMENT '主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
+  `name` varchar(191) NOT NULL COMMENT '模板名称',
+  `type` varchar(191) NOT NULL COMMENT '模板类型: global, ecommerce, hr, service, interface',
+  `description` text COMMENT '模板描述',
+  `platform_ids` json DEFAULT NULL COMMENT '关联平台 ID 列表',
+  `dept_ids` json DEFAULT NULL COMMENT '关联部门 ID 列表',
+  `layout_config` json DEFAULT NULL COMMENT '自定义布局配置',
+  `status` int NOT NULL DEFAULT 1 COMMENT '状态: 1-启用, 0-禁用',
+  `created_by` varchar(191) DEFAULT NULL COMMENT '创建人 ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `sys_dashboard_template_name_key` (`name`),
+  KEY `sys_dashboard_template_type_status_idx` (`type`, `status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='大屏模板管理表';
+
+-- [NEW] 大屏分享链接表 (Section 2.4.2)
+CREATE TABLE IF NOT EXISTS `sys_dashboard_share` (
+  `id` varchar(191) NOT NULL COMMENT '主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
+  `template_id` varchar(191) NOT NULL COMMENT '大屏模板 ID',
+  `share_token` varchar(191) NOT NULL COMMENT '分享令牌',
+  `expires_at` datetime(3) DEFAULT NULL COMMENT '过期时间',
+  `platform_id` varchar(191) DEFAULT NULL,
+  `dept_id` varchar(191) DEFAULT NULL,
+  `created_by` varchar(191) DEFAULT NULL,
+  `status` int NOT NULL DEFAULT 1 COMMENT '状态: 1-有效, 0-失效',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `sys_dashboard_share_share_token_key` (`share_token`),
+  KEY `sys_dashboard_share_token_status_idx` (`share_token`, `status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='大屏分享管理表';
+
+-- [NEW] 大屏预警记录表 (Section 2.5.3)
+CREATE TABLE IF NOT EXISTS `sys_dashboard_alert_record` (
+  `id` varchar(191) NOT NULL COMMENT '主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
+  `template_id` varchar(191) NOT NULL COMMENT '模板 ID',
+  `metric_name` varchar(191) NOT NULL COMMENT '预警指标名称',
+  `threshold` decimal(10,2) NOT NULL COMMENT '阈值',
+  `actual_value` decimal(10,2) NOT NULL COMMENT '实际值',
+  `platform_id` varchar(191) NOT NULL COMMENT '关联平台 ID',
+  `dept_id` varchar(191) NOT NULL COMMENT '关联部门 ID',
+  `shop_id` varchar(191) DEFAULT NULL COMMENT '关联店铺 ID',
+  `status` varchar(191) NOT NULL DEFAULT 'pending' COMMENT '处理状态: pending, handled, ignored',
+  `handle_note` text COMMENT '处理备注',
+  `handle_user_id` varchar(191) DEFAULT NULL COMMENT '处理人 ID',
+  `handle_time` datetime(3) DEFAULT NULL COMMENT '处理时间',
+  PRIMARY KEY (`id`),
+  KEY `sys_dashboard_alert_record_template_status_idx` (`template_id`, `status`, `create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='数据大屏预警历史记录表';
+
+-- [NEW] 通知模板表 (Section 2.1)
+CREATE TABLE IF NOT EXISTS `sys_message_template` (
+  `id` varchar(191) NOT NULL COMMENT '主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
+  `name` varchar(191) NOT NULL COMMENT '模板名称',
+  `tpl_type` varchar(191) NOT NULL COMMENT '模板类型: approval, attendance, order, service, interface',
+  `content` text NOT NULL COMMENT '模板内容',
+  `channels` varchar(191) NOT NULL DEFAULT 'internal' COMMENT '分发渠道 (英文逗号分隔)',
+  `platform_id` varchar(191) NOT NULL COMMENT '关联平台 ID',
+  `dept_id` varchar(191) NOT NULL COMMENT '关联部门 ID',
+  `shop_id` varchar(191) DEFAULT NULL COMMENT '关联店铺 ID',
+  `status` int NOT NULL DEFAULT 1 COMMENT '状态: 1-启用, 0-禁用',
+  `created_by` varchar(191) DEFAULT NULL COMMENT '创建人 ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `sys_message_template_name_key` (`name`),
+  KEY `sys_message_template_platform_dept_type_idx` (`platform_id`,`dept_id`,`tpl_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='通知模板管理表';
+
+-- [NEW] 消息变量定义表 (Section 2.1.2)
+CREATE TABLE IF NOT EXISTS `sys_message_variable` (
+  `id` varchar(191) NOT NULL COMMENT '主键 ID',
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
+  `name` varchar(191) NOT NULL COMMENT '变量名称 (如 ${username})',
+  `biz_module` varchar(191) NOT NULL COMMENT '所属业务模块',
+  `description` varchar(191) DEFAULT NULL COMMENT '变量描述',
+  `platform_id` varchar(191) NOT NULL COMMENT '关联平台 ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `sys_message_variable_name_key` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='通知模板变量表';
+
+-- [MODIFY] sys_message 表升级 (PRD 2.3.2)
+ALTER TABLE `sys_message` ADD COLUMN IF NOT EXISTS `delete_time` datetime(3) DEFAULT NULL COMMENT '逻辑删除时间 (回收站)';
+ALTER TABLE `sys_message` ADD COLUMN IF NOT EXISTS `is_favorite` int NOT NULL DEFAULT 0 COMMENT '是否收藏';
+ALTER TABLE `sys_message` ADD COLUMN IF NOT EXISTS `delivery_channels` json DEFAULT NULL COMMENT '外部分发渠道状态';

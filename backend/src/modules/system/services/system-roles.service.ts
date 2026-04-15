@@ -3,11 +3,20 @@ import { PrismaService } from '../../../prisma/prisma.service';
 import { CopyRoleDto } from '../dto/copy-role.dto';
 import { CreateRoleDto } from '../dto/create-role.dto';
 import { UpdateRoleDto } from '../dto/update-role.dto';
+import { Cache } from '../../../common/decorators/cache.decorator';
+import { CacheEvict } from '../../../common/decorators/cache-evict.decorator';
+import { QueryOptimize } from '../../../common/decorators/query-optimize.decorator';
 
 @Injectable()
 export class SystemRolesService {
   constructor(private readonly prisma: PrismaService) {}
 
+  /**
+   * 获取角色列表（带缓存）
+   * 缓存10分钟，不区分用户
+   */
+  @Cache({ ttl: 600, byUser: false, prefix: 'role-list' })
+  @QueryOptimize({ timeout: 3000, slowQueryThreshold: 200 })
   findAll() {
     return this.prisma.sys_role.findMany({
       where: { is_deleted: 0 },
@@ -15,6 +24,10 @@ export class SystemRolesService {
     });
   }
 
+  /**
+   * 创建角色（清除缓存）
+   */
+  @CacheEvict({ pattern: 'cache:role-list:*' })
   create(dto: CreateRoleDto) {
     return this.prisma.sys_role.create({
       data: {
@@ -26,6 +39,10 @@ export class SystemRolesService {
     });
   }
 
+  /**
+   * 复制角色（清除缓存）
+   */
+  @CacheEvict({ pattern: 'cache:role-list:*' })
   async copy(id: string, dto: CopyRoleDto) {
     const role = await this.prisma.sys_role.findUnique({
       where: { id }
@@ -70,6 +87,10 @@ export class SystemRolesService {
     return newRole;
   }
 
+  /**
+   * 更新角色（清除缓存）
+   */
+  @CacheEvict({ pattern: 'cache:role-list:*' })
   update(id: string, dto: UpdateRoleDto) {
     return this.prisma.sys_role.update({
       where: { id },
@@ -77,6 +98,10 @@ export class SystemRolesService {
     });
   }
 
+  /**
+   * 删除角色（清除缓存）
+   */
+  @CacheEvict({ pattern: 'cache:role-list:*' })
   remove(id: string) {
     return this.prisma.sys_role.update({
       where: { id },

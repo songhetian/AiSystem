@@ -1,0 +1,58 @@
+{
+  "api_mapping": {
+    "source_name": "tmall_trade_get",
+    "api_endpoint": "https://eco.taobao.com/router/rest",
+    "method": "POST",
+    "mapping_rules": {
+      "id": "$.tid",
+      "amount": "$.payment",
+      "customer": "$.buyer_nick",
+      "items": "$.orders.order[*].title"
+    }
+  },
+  "orders": [
+    {
+      "tid": "TM_2026_554433",
+      "buyer_nick": "tmall_power_user",
+      "created": "2026-04-12 22:00:00",
+      "pay_time": "2026-04-12 22:05:00",
+      "payment": 129.00,
+      "status": "TRADE_FINISHED",
+      "receiver_name": "王五",
+      "receiver_address": "浙江省杭州市余杭区阿里巴巴西溪园区",
+      "orders": {
+        "order": [{ "oid": "TM_SUB_101", "title": "雷犀 智能插排 (国标五孔)", "price": 129.00, "num": 1 }]
+      }
+    }
+  ],
+  "chats": [
+    {
+      "session_id": "TM_CHAT_S102",
+      "platform_type": "TMALL_WANGWANG",
+      "buyer_nick": "tmall_power_user",
+      "messages": [
+        { "role": "customer", "content": "亲，我刚买的插排怎么降价了？昨天买的 129，现在看 99 了。", "time": "15:00:00" },
+        { "role": "agent", "content": "您好亲，我是客服雷小犀。由于系统正在参加百亿补贴活动，价格确实有波动。", "time": "15:00:30" },
+        { "role": "customer", "content": "那我可以申请退差价吗？我还没收到货呢。", "time": "15:01:00" },
+        { "role": "agent", "content": "亲，按照天猫规定，特价秒杀商品是不支持价保的呢。很抱歉。", "time": "15:01:50" },
+        { "role": "customer", "content": "你页面上明明写着 15 天价保。你翻脸就不认账？", "time": "15:02:40" },
+        { "role": "agent", "content": "亲，那个价保是针对日常价格的，活动商品不在范围内。您可以看下详情页底部细则。", "time": "15:03:30" },
+        { "role": "customer", "content": "我看了，细则里没说不保百亿补贴。你这不是欺负人吗？差了 30 块钱呢。", "time": "15:04:20" },
+        { "role": "agent", "content": "亲，我也只是按照公司规定执行。要不我送您一张 5 元的无门槛券作为补偿？", "time": "15:05:50" },
+        { "role": "customer", "content": "5 块钱？你打发叫花子呢。我要退货重新买。", "time": "15:06:30" },
+        { "role": "agent", "content": "亲，如果您申请退货，退回的运费需要您自理哦。而且重新购买可能抢不到了。", "time": "15:07:45" },
+        { "role": "customer", "content": "你这就是威胁我？我有运费险。你现在给我退差价，或者我直接给差评加投诉。", "time": "15:08:50" },
+        { "role": "agent", "content": "亲，请不要威胁客服。规则就是规则。您爱怎么评价就怎么评价吧。", "time": "15:10:00" }
+      ]
+    }
+  ],
+  "evaluations": [
+    {
+      "oid": "TM_SUB_101",
+      "user_nick": "tmall_power_user",
+      "score": 1,
+      "comment": "东西不错，客服垃圾。降价不补差价还拽得很。天猫店的服务现在越来越差了，以后不来了。",
+      "append_comment": "用了两天，确实好用。但客服态度依然是一星原因。老板不换客服迟早倒闭。"
+    }
+  ]
+}

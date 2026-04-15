@@ -4,7 +4,9 @@ import { Observable, Subject } from 'rxjs';
 import { MinioService } from '../../../common/services/minio.service';
 import { ScopeService } from '../../../common/services/scope.service';
 import { VectorService } from '../../../common/services/vector.service';
+import { RedisService } from '../../../common/services/redis.service';
 import { PrismaService } from '../../../prisma/prisma.service';
+import * as crypto from 'crypto';
 
 export interface ChatEvent {
   data: {
@@ -25,7 +27,46 @@ export class KnowledgeChatService {
     private readonly vectorService: VectorService,
     private readonly configService: ConfigService,
     private readonly minioService: MinioService,
+    private readonly redisService: RedisService,
   ) {}
+
+  /**
+   * 生成向量检索缓存key
+   */
+  private generateSearchCacheKey(content: string, platformId: string, deptId: string): string {
+    const hash = crypto.createHash('md5').update(content).digest('hex');
+    return `kb:search:${hash}:${platformId}:${deptId}`;
+  }
+
+  /**
+   * 带缓存的向量检索
+   */
+  private async searchWithCache(content: string, scope: any, limit: number) {
+    const cacheKey = this.generateSearchCacheKey(content, scope.platform_id, scope.dept_id);
+    
+    // 尝试从缓存获取
+    const cached = await this.redisService.get(cacheKey);
+    if (cached) {
+      this.logger.debug(`向量检索缓存命中: ${cacheKey}`);
+      return JSON.parse(cached);
+    }
+
+    // 缓存未命中，执行向量检索
+    const searchResults = await this.vectorService.search(
+      content,
+      {
+        platform_id: scope.platform_id as string,
+        dept_id: scope.dept_id as string,
+      },
+      limit,
+    );
+
+    // 缓存结果（1小时）
+    await this.redisService.set(cacheKey, JSON.stringify(searchResults), 3600);
+    this.logger.debug(`向量检索结果已缓存: ${cacheKey}`);
+
+    return searchResults;
+  }
 
   async createSession(userId: string, title: string) {
     const scope = await this.scopeService.resolveAccess(userId);
@@ -46,10 +87,12 @@ export class KnowledgeChatService {
     });
   }
 
-  async getChatHistory(sessionId: string) {
+  async getChatHistory(sessionId: string, limit = 50, offset = 0) {
     return this.prisma.knowledge_chat_message.findMany({
       where: { session_id: sessionId },
-      orderBy: { create_time: 'asc' },
+      orderBy: { create_time: 'desc' },
+      take: limit,
+      skip: offset,
     });
   }
 
@@ -65,15 +108,8 @@ export class KnowledgeChatService {
       data: { session_id: sessionId, role: 'user', content },
     });
 
-    // 2. 向量检索 (部门隔离)
-    const searchResults = await this.vectorService.search(
-      content,
-      {
-        platform_id: scope.platform_id as string,
-        dept_id: scope.dept_id as string,
-      },
-      5,
-    );
+    // 2. 向量检索（带缓存）
+    const searchResults = await this.searchWithCache(content, scope, 5);
 
     // 发送引用详情给前端
     const references = await Promise.all(
@@ -190,14 +226,8 @@ ${context || '暂无参考资料'}`;
       data: { session_id: sessionId, role: 'user', content },
     });
 
-    const searchResults = await this.vectorService.search(
-      content,
-      {
-        platform_id: scope.platform_id as string,
-        dept_id: scope.dept_id as string,
-      },
-      5,
-    );
+    // 向量检索（带缓存）
+    const searchResults = await this.searchWithCache(content, scope, 5);
 
     const contextText = searchResults
       .map((r) => (r.payload as any)?.text)

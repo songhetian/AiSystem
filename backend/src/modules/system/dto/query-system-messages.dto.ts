@@ -18,4 +18,13 @@ export class QuerySystemMessagesDto {
   @Transform(({ value }) => toNumber(value))
   @IsIn([0, 1])
   read_status?: number;
+
+  @IsOptional()
+  @IsString()
+  @IsIn(['inbox', 'favorite', 'deleted'])
+  view?: string = 'inbox';
+
+  @IsOptional()
+  @IsString()
+  category?: string; // system, approval, business, interface
 }

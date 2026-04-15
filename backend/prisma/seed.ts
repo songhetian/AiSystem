@@ -85,7 +85,11 @@ const menuDefs: MenuDef[] = [
   { menu_name: 'Exam Papers', menu_code: 'exam:paper', route: '/exam/papers', sort: 23, type: 1 },
   { menu_name: 'Exam Plans', menu_code: 'exam:plan', route: '/exam/plans', sort: 24, type: 1 },
   { menu_name: 'My Exams', menu_code: 'exam:my', route: '/exam/my', sort: 25, type: 1 },
-  { menu_name: 'Exam Results', menu_code: 'exam:result', route: '/exam/results', sort: 26, type: 1 }
+  { menu_name: 'Exam Results', menu_code: 'exam:result', route: '/exam/results', sort: 26, type: 1 },
+  { menu_name: 'Dashboard', menu_code: 'service:dashboard', route: '/service/dashboard', sort: 31, type: 1 },
+  { menu_name: 'Loss Analysis', menu_code: 'service:loss-analysis', route: '/service/loss-analysis', sort: 32, type: 1 },
+  { menu_name: 'FAQ Stats', menu_code: 'service:faq-stats', route: '/service/faq-stats', sort: 33, type: 1 },
+  { menu_name: 'Quality Tags', menu_code: 'service:quality-tags', route: '/service/tags', sort: 34, type: 1 }
 ];
 
 const buttonDefs: ButtonDef[] = [
@@ -186,7 +190,15 @@ const buttonDefs: ButtonDef[] = [
   ['exam:my:list', 'View My Exams', 'exam:my'],
   ['exam:my:submit', 'Submit My Exam', 'exam:my'],
   ['exam:result:list', 'View Exam Results', 'exam:result'],
-  ['exam:result:manage', 'Manage Exam Results', 'exam:result']
+  ['exam:result:manage', 'Manage Exam Results', 'exam:result'],
+  ['service:dashboard:view', 'View Dashboard', 'service:dashboard'],
+  ['service:loss:list', 'View Loss Inquiries', 'service:loss-analysis'],
+  ['service:loss:mark', 'Manage Loss Recovery', 'service:loss-analysis'],
+  ['service:faq:list', 'View FAQs', 'service:faq-stats'],
+  ['service:faq:map', 'Map FAQ to Article', 'service:faq-stats'],
+  ['service:tag:list', 'View Quality Tags', 'service:quality-tags'],
+  ['service:tag:audit', 'Audit Quality Tags', 'service:quality-tags'],
+  ['service:tag:dedup', 'Deduplicate Tags', 'service:quality-tags']
 ];
 
 const apiDefs: ApiDef[] = [
@@ -307,7 +319,16 @@ const apiDefs: ApiDef[] = [
   ['/exam/results', 'GET', 'exam:result:list'],
   ['/exam/results/:id/mark-absent', 'POST', 'exam:result:manage'],
   ['/exam/results/summary', 'GET', 'exam:result:list'],
-  ['/exam/my/stats', 'GET', 'exam:my:list']
+  ['/exam/my/stats', 'GET', 'exam:my:list'],
+  ['/service/dashboard-metrics', 'GET', 'service:dashboard:view'],
+  ['/service/loss-inquiries', 'GET', 'service:loss:list'],
+  ['/service/loss-inquiries/:id/recovery', 'PATCH', 'service:loss:mark'],
+  ['/service/faqs', 'GET', 'service:faq:list'],
+  ['/service/faqs', 'POST', 'service:faq:map'],
+  ['/service/tags/audit', 'GET', 'service:tag:list'],
+  ['/service/tags/audit/confirm', 'POST', 'service:tag:audit'],
+  ['/service/tags/audit/reject', 'POST', 'service:tag:audit'],
+  ['/service/tags/dedup', 'POST', 'service:tag:dedup']
 ];
 
 async function main() {

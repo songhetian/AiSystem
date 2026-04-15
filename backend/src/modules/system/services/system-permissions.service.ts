@@ -3,7 +3,17 @@ import { PrismaService } from '../../../prisma/prisma.service';
 import { RedisService } from '../../../common/services/redis.service';
 import { AssignRolePermissionsDto } from '../dto/assign-role-permissions.dto';
 import { AssignUserRolesDto } from '../dto/assign-user-roles.dto';
+import { Cache } from '../../../common/decorators/cache.decorator';
+import { CacheEvict } from '../../../common/decorators/cache-evict.decorator';
+import { QueryOptimize } from '../../../common/decorators/query-optimize.decorator';
 
+/**
+ * 权限服务（V2.0 性能优化）
+ * 优化点：
+ * 1. 添加缓存和查询监控
+ * 2. 完整清除权限相关缓存
+ * 3. 通知权限守卫清除内存缓存
+ */
 @Injectable()
 export class SystemPermissionsService {
   constructor(
@@ -11,12 +21,18 @@ export class SystemPermissionsService {
     private readonly redisService: RedisService
   ) {}
 
+  /**
+   * 分配用户角色（V2.0 性能优化）
+   * 优化点：完整清除相关缓存
+   */
+  @CacheEvict({ pattern: 'cache:user-roles:*' })
   async assignUserRoles(dto: AssignUserRolesDto) {
     await this.prisma.sys_user_role.deleteMany({
       where: { user_id: dto.user_id }
     });
 
     if (dto.role_ids.length === 0) {
+      // 清除用户角色缓存
       await this.redisService.del(`user:roles:${dto.user_id}`);
       return { user_id: dto.user_id, role_ids: [] };
     }
@@ -28,12 +44,17 @@ export class SystemPermissionsService {
       }))
     });
 
-    // 清理该用户的角色缓存
+    // 清除该用户的角色缓存
     await this.redisService.del(`user:roles:${dto.user_id}`);
 
     return this.getUserRoles(dto.user_id);
   }
 
+  /**
+   * 分配角色资源（V2.0 性能优化）
+   * 优化点：完整清除所有相关缓存
+   */
+  @CacheEvict({ pattern: 'cache:role-resources:*' })
   async assignRoleResources(dto: AssignRolePermissionsDto) {
     await this.prisma.$transaction([
       this.prisma.sys_role_menu.deleteMany({ where: { role_id: dto.role_id } }),
@@ -58,15 +79,39 @@ export class SystemPermissionsService {
       });
     }
 
-    // 角色资源变更可能影响多个用户，简单处理：清理所有用户的权限关联缓存
-    // 在生产环境建议通过发布订阅或特定 key 规则清理
-    // 此处简单清理该角色相关的 api:permission 缓存（由于 api_name 未知，可选择全部清理或不处理，靠 TTL 自然过期）
-    // 更好的方案是清理所有用户的 roles 缓存，迫使重新从 DB 加载
-    // await this.redisService.delPattern('user:roles:*'); 
+    // 1. 清除该角色相关的所有用户角色缓存
+    const users = await this.prisma.sys_user_role.findMany({
+      where: { role_id: dto.role_id },
+      select: { user_id: true }
+    });
+    
+    const userRoleKeys = users.map(u => `user:roles:${u.user_id}`);
+    if (userRoleKeys.length > 0) {
+      await Promise.all(userRoleKeys.map(key => this.redisService.del(key)));
+    }
+    
+    // 2. 清除所有API权限缓存（因为不知道哪些API受影响）
+    await this.redisService.deleteByPattern('api:permission:*');
+    
+    // 3. 清除菜单树缓存
+    await this.redisService.deleteByPattern('cache:menu-tree:*');
+    
+    // 4. 发布权限变更事件（用于清除权限守卫的内存缓存）
+    await this.redisService.publish('permission:changed', JSON.stringify({
+      type: 'role_resources',
+      role_id: dto.role_id,
+      timestamp: Date.now()
+    }));
     
     return this.getRoleResources(dto.role_id);
   }
 
+  /**
+   * 获取用户角色（V2.0 性能优化）
+   * 优化点：添加缓存和查询监控
+   */
+  @Cache({ ttl: 300, byParams: true, prefix: 'user-roles' })
+  @QueryOptimize({ timeout: 3000, slowQueryThreshold: 200 })
   async getUserRoles(userId: string) {
     const items = await this.prisma.sys_user_role.findMany({
       where: { user_id: userId },
@@ -80,6 +125,12 @@ export class SystemPermissionsService {
     };
   }
 
+  /**
+   * 获取角色资源（V2.0 性能优化）
+   * 优化点：添加缓存和查询监控
+   */
+  @Cache({ ttl: 300, byParams: true, prefix: 'role-resources' })
+  @QueryOptimize({ timeout: 3000, slowQueryThreshold: 200 })
   async getRoleResources(roleId: string) {
     const [menus, buttons] = await Promise.all([
       this.prisma.sys_role_menu.findMany({
