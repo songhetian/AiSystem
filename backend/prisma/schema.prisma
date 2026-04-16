@@ -177,8 +177,9 @@ model sys_user {
   platform_id     String?
   dept_id         String?
   shop_id         String?
-  dept            biz_department? @relation(fields: [dept_id], references: [id])
+  dept            biz_department? @relation("UserDepartment", fields: [dept_id], references: [id])
   roles           sys_user_role[]
+  approved_registers sys_user_register[] @relation("RegisterApprover")
 
   @@index([platform_id, dept_id, status])
 }
@@ -195,7 +196,8 @@ model biz_department {
   status          Int      @default(1)
   platform_id     String?
   owner_id        String?
-  users           sys_user[]
+  users           sys_user[] @relation("UserDepartment")
+  registers       sys_user_register[]
 }
 
 model sys_role {
@@ -534,7 +536,7 @@ model attendance_schedule {
   publish_time  DateTime?
 
   @@index([employee_id, schedule_date])
-  @@index([platform_id, dept_id, schedule_date])
+  @@index([dept_id, schedule_date])
 }
 
 model sys_config {
@@ -1847,4 +1849,100 @@ model service_agent_group_member {
   @@index([agent_id, is_deleted])
   @@index([sort, is_deleted])
   @@index([priority, is_deleted])
+}
+
+// 权限控制配置表
+model sys_permission_control_config {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  resource_type   String   // module/menu/button
+  resource_id     String
+  resource_name   String
+  need_control    Int      @default(1) // 1需要 0不需要
+  exception_roles Json?    // 例外角色列表
+
+  @@unique([resource_type, resource_id, is_deleted])
+  @@index([resource_type, is_deleted])
+  @@index([need_control, is_deleted])
+}
+
+// 系统配置表（权限优化专用）
+model sys_permission_config {
+  id           String   @id @default(cuid())
+  create_time  DateTime @default(now())
+  update_time  DateTime @updatedAt
+  config_key   String   @unique
+  config_value String   @db.Text
+  config_type  String   // string/number/boolean/json
+  description  String?
+}
+
+// 权限模板表
+model sys_permission_template {
+  id                String   @id @default(cuid())
+  create_time       DateTime @default(now())
+  update_time       DateTime @updatedAt
+  is_deleted        Int      @default(0)
+  template_name     String
+  template_type     String   // system/custom
+  description       String?  @db.Text
+  permission_config Json     // 权限配置
+  is_default        Int      @default(0)
+  category          String?  // 分类（部门/岗位）
+  created_by        String?
+  platform_id       String?
+  dept_id           String?
+
+  @@unique([template_name, is_deleted])
+  @@index([template_type, is_deleted])
+  @@index([category, is_deleted])
+}
+
+// 员工履历表
+model hr_employee_history {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  employee_id     String
+  event_type      String   // onboard(入职), transfer(调岗), promotion(晋升), regularization(转正), resignation(离职), status_change(状态变更)
+  event_date      DateTime
+  before_data     Json?
+  after_data      Json?
+  department_id   String?
+  position_id     String?
+  remark          String?  @db.Text
+  operator_id     String?
+  operator_name   String?
+  platform_id     String?
+
+  @@index([employee_id, event_date])
+  @@index([event_type])
+  @@index([platform_id])
+}
+
+// 用户注册申请表
+model sys_user_register {
+  id            String    @id @default(cuid())
+  create_time   DateTime  @default(now())
+  update_time   DateTime  @updatedAt
+  is_deleted    Int       @default(0)
+  name          String
+  phone         String
+  dept_id       String
+  password      String
+  status        String    @default("pending") // pending, approved, rejected
+  reject_reason String?   @db.Text
+  approve_time  DateTime?
+  approver_id   String?
+  platform_id   String?
+
+  biz_department biz_department? @relation(fields: [dept_id], references: [id])
+  approver       sys_user?       @relation("RegisterApprover", fields: [approver_id], references: [id])
+
+  @@index([phone, status])
+  @@index([status, create_time])
+  @@index([platform_id, dept_id])
 }

@@ -174,6 +174,10 @@ export const systemApi = {
   savePlatform: (payload: any) => request.post("/system/platforms", payload),
 
   listDepartments: () => request.get<DepartmentRecord[]>("/system/departments"),
+  getPublicDepartments: () =>
+    request.get<{ code: number; message: string; data: DepartmentRecord[] }>(
+      "/system/departments/public",
+    ),
   listDepartmentTree: () =>
     request.get<DepartmentRecord[]>("/system/departments/tree"),
   createDepartment: (payload: CreateDepartmentPayload) =>

@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ScopeService } from '../../../common/services/scope.service';
 import { PrismaService } from '../../../prisma/prisma.service';
+import { PaginationService } from '../../../common/services/pagination.service';
+import {
+  PaginationDto,
+  PaginatedResponse,
+} from '../../../common/dto/pagination.dto';
 import { CreateDepartmentDto } from '../dto/create-department.dto';
 import { UpdateDepartmentDto } from '../dto/update-department.dto';
 import { Cache } from '../../../common/decorators/cache.decorator';
@@ -11,16 +16,74 @@ import { QueryOptimize } from '../../../common/decorators/query-optimize.decorat
 export class SystemDepartmentsService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly scopeService: ScopeService
+    private readonly scopeService: ScopeService,
+    private readonly paginationService: PaginationService,
   ) {}
 
-  async findAll(userId: string) {
+  /**
+   * 获取公开部门列表（供注册页面使用，无需登录）
+   * 优化点：缓存优化（10分钟）、查询监控
+   */
+  @Cache({ ttl: 600, prefix: 'public-departments' })
+  @QueryOptimize({ timeout: 3000, slowQueryThreshold: 200 })
+  async getPublicDepartments() {
+    const departments = await this.prisma.biz_department.findMany({
+      where: {
+        is_deleted: 0,
+        status: 1, // 只返回启用的部门
+      },
+      select: {
+        id: true,
+        name: true,
+        code: true,
+        parent_id: true,
+        sort: true,
+      },
+      orderBy: [{ sort: 'asc' }, { create_time: 'desc' }],
+    });
+
+    return {
+      code: 200,
+      message: '查询成功',
+      data: departments,
+    };
+  }
+
+  /**
+   * 获取部门列表（V3.0 统一分页）
+   * 优化点：添加缓存（10分钟）、查询监控、统一分页
+   */
+  @Cache({ ttl: 600, byUser: true, prefix: 'department-list' })
+  @QueryOptimize({ timeout: 3000, slowQueryThreshold: 200 })
+  async findAll(
+    userId: string,
+    pagination: PaginationDto,
+  ): Promise<PaginatedResponse<any>> {
     const scope = await this.scopeService.resolveAccess(userId);
 
-    return this.prisma.biz_department.findMany({
-      where: this.scopeService.applyScope(scope, { is_deleted: 0 }, { platform: 'platform_id' }),
-      orderBy: [{ sort: 'asc' }, { create_time: 'desc' }]
-    });
+    const where = this.scopeService.applyScope(scope, { is_deleted: 0 }, { platform: 'platform_id' });
+
+    const { skip, take } = this.paginationService.calculatePagination(
+      pagination.page,
+      pagination.pageSize,
+    );
+
+    const [data, total] = await Promise.all([
+      this.prisma.biz_department.findMany({
+        where,
+        skip,
+        take,
+        orderBy: [{ sort: 'asc' }, { create_time: 'desc' }],
+      }),
+      this.prisma.biz_department.count({ where }),
+    ]);
+
+    return this.paginationService.createResponse(
+      data,
+      total,
+      pagination.page,
+      pagination.pageSize,
+    );
   }
 
   /**

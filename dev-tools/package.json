@@ -1,18 +1,25 @@
 {
   "name": "dev-tools",
-  "version": "1.0.0",
-  "description": "雷犀系统外部开发与数据生成工具包",
+  "version": "2.0.0",
+  "description": "雷犀系统 Mock API Server 和测试数据生成工具",
+  "type": "commonjs",
   "scripts": {
-    "seed": "ts-node seed-business-data.ts",
-    "generate": "ts-node generate-mock-data.ts",
-    "mock": "ts-node mock-server.ts"
+    "generate": "ts-node generate.ts",
+    "mock": "ts-node mock-server.ts",
+    "start": "npm run generate && npm run mock",
+    "test": "bash test-api.sh"
   },
   "dependencies": {
     "@prisma/client": "^6.5.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.2",
     "express": "^4.19.2",
-    "cors": "^2.8.5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.6.0"
   }
 }

@@ -823,3 +823,161 @@ export class FinanceService implements OnModuleInit {
     };
   }
 }
+
+  /**
+   * 获取报销详情
+   */
+  @Cacheable({
+    prefix: "finance:reimbursement-detail",
+    ttl: 300,
+    keyGenerator: (userId: string, id: string) => `${userId}:${id}`,
+  })
+  @QueryOptimize()
+  async getReimbursement(userId: string, id: string) {
+    const scope = await this.scopeService.resolveAccess(userId);
+
+    const reimbursement = await this.prisma.fin_reimbursement.findUnique({
+      where: { id },
+      include: {
+        fin_expense_type: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!reimbursement) {
+      throw new NotFoundException("报销单不存在");
+    }
+
+    this.scopeService.assertPlatformAccess(scope, reimbursement.platform_id);
+    this.scopeService.assertDepartmentAccess(scope, reimbursement.dept_id);
+
+    return reimbursement;
+  }
+
+  /**
+   * 获取采购详情
+   */
+  @Cacheable({
+    prefix: "finance:purchase-detail",
+    ttl: 300,
+    keyGenerator: (userId: string, id: string) => `${userId}:${id}`,
+  })
+  @QueryOptimize()
+  async getPurchase(userId: string, id: string) {
+    const scope = await this.scopeService.resolveAccess(userId);
+
+    const purchase = await this.prisma.fin_purchase.findUnique({
+      where: { id },
+    });
+
+    if (!purchase) {
+      throw new NotFoundException("采购单不存在");
+    }
+
+    this.scopeService.assertPlatformAccess(scope, purchase.platform_id);
+    this.scopeService.assertDepartmentAccess(scope, purchase.dept_id);
+
+    return purchase;
+  }
+
+  /**
+   * 导出报销记录
+   */
+  async exportReimbursements(userId: string, params: any): Promise<Buffer> {
+    const XLSX = require('xlsx');
+    const reimbursements = await this.listReimbursements(userId, params);
+
+    const statusMap: Record<number, string> = {
+      1: '审批中',
+      2: '待打款',
+      3: '已打款',
+      4: '已驳回',
+      5: '已撤回',
+    };
+
+    const exportData = (reimbursements as any[]).map((item: any) => ({
+      报销单号: item.reim_no || '',
+      申请人ID: item.applicant_id || '',
+      金额: item.amount || 0,
+      费用类型ID: item.expense_type_id || '',
+      原因: item.reason || '',
+      状态: statusMap[item.status] || '未知',
+      支付方式: item.pay_method || '',
+      打款时间: item.paid_at ? new Date(item.paid_at).toLocaleString() : '',
+      创建时间: item.create_time ? new Date(item.create_time).toLocaleString() : '',
+      备注: item.remark || '',
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, '报销记录');
+    return XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+  }
+
+  /**
+   * 导出采购记录
+   */
+  async exportPurchases(userId: string, params: any): Promise<Buffer> {
+    const XLSX = require('xlsx');
+    const purchases = await this.listPurchases(userId, params);
+
+    const statusMap: Record<number, string> = {
+      1: '审批中',
+      2: '待采购',
+      3: '已完成',
+      4: '已驳回',
+      5: '已取消',
+    };
+
+    const exportData = (purchases as any[]).map((item: any) => ({
+      采购单号: item.purchase_no || '',
+      申请人ID: item.applicant_id || '',
+      预算金额: item.total_amount || 0,
+      实际金额: item.actual_amount || 0,
+      差额: (item.actual_amount || 0) - (item.total_amount || 0),
+      原因: item.reason || '',
+      状态: statusMap[item.status] || '未知',
+      供应商信息: item.supplier_info || '',
+      完成时间: item.completed_at ? new Date(item.completed_at).toLocaleString() : '',
+      创建时间: item.create_time ? new Date(item.create_time).toLocaleString() : '',
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, '采购记录');
+    return XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+  }
+
+  /**
+   * 导出收支记录
+   */
+  async exportCashRecords(userId: string, params: any): Promise<Buffer> {
+    const XLSX = require('xlsx');
+    const records = await this.listCashRecords(userId, params);
+
+    const typeMap: Record<number, string> = {
+      1: '收入',
+      2: '支出',
+    };
+
+    const exportData = (records as any[]).map((item: any) => ({
+      类型: typeMap[item.type] || '未知',
+      金额: item.amount || 0,
+      来源: item.source || '',
+      业务类型: item.biz_type || '',
+      业务单号: item.biz_no || '',
+      操作人ID: item.operator_id || '',
+      创建时间: item.create_time ? new Date(item.create_time).toLocaleString() : '',
+      备注: item.remark || '',
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, '收支记录');
+    return XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+  }
+}

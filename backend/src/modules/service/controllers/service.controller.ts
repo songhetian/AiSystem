@@ -31,6 +31,12 @@ import {
   DedupTagsDto,
 } from "../dto/quality-tag.dto";
 import { ServiceService } from "../services/service.service";
+import { AntiShake } from "../../../common/decorators/antishake.decorator";
+import { Idempotent } from "../../../common/decorators/idempotent.decorator";
+import { RateLimit } from "../../../common/decorators/rate-limiter.decorator";
+import { Cache } from "../../../common/decorators/cache.decorator";
+import { CacheEvict } from "../../../common/decorators/cache-evict.decorator";
+import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
 
 @Controller("service")
 export class ServiceController {
@@ -38,6 +44,9 @@ export class ServiceController {
 
   @Get("sessions")
   @Permission("service:session:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "service:sessions", ttl: 300 })
+  @QueryOptimize({ slowQueryThreshold: 300, timeout: 5000 })
   listSessions(
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: QueryServiceSessionsDto,
@@ -47,12 +56,18 @@ export class ServiceController {
 
   @Get("sessions/:id")
   @Permission("service:session:list")
+  @RateLimit({ limit: 50, window: 60 })
+  @Cache({ key: "service:session:detail", ttl: 300 })
+  @QueryOptimize({ slowQueryThreshold: 200, timeout: 3000 })
   getSession(@CurrentUser() user: CurrentUserPayload, @Param("id") id: string) {
     return this.serviceService.getSession(user.sub, id);
   }
 
   @Post("sessions/:id/analyze")
   @Permission("service:quality:analyze")
+  @AntiShake(2000)
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["service:sessions:*", "service:quality:*"] })
   analyzeSession(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -63,6 +78,8 @@ export class ServiceController {
 
   @Post("sessions/:id/case-draft")
   @Permission("service:session:list")
+  @AntiShake(1000)
+  @RateLimit({ limit: 10, window: 60 })
   generateCaseDraft(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -73,6 +90,10 @@ export class ServiceController {
 
   @Post("sessions/:id/archive-case")
   @Permission("knowledge:article:create")
+  @AntiShake(1000)
+  @Idempotent({ mode: "active", ttl: 300 })
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["service:sessions:*", "knowledge:articles:*"] })
   archiveCase(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -83,12 +104,19 @@ export class ServiceController {
 
   @Get("quality-rules")
   @Permission("service:quality-rule:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "service:quality-rules", ttl: 600 })
+  @QueryOptimize({ slowQueryThreshold: 200, timeout: 3000 })
   listQualityRules(@CurrentUser() user: CurrentUserPayload) {
     return this.serviceService.listQualityRules(user.sub);
   }
 
   @Post("quality-rules")
   @Permission("service:quality-rule:create")
+  @AntiShake(1000)
+  @Idempotent({ mode: "active", ttl: 300 })
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["service:quality-rules:*"] })
   createQualityRule(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: SaveServiceQualityRuleDto,
@@ -98,6 +126,9 @@ export class ServiceController {
 
   @Put("quality-rules/:id")
   @Permission("service:quality-rule:update")
+  @AntiShake(1000)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["service:quality-rules:*"] })
   updateQualityRule(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -108,6 +139,9 @@ export class ServiceController {
 
   @Patch("quality-rules/:id/enable")
   @Permission("service:quality-rule:update")
+  @AntiShake(1000)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["service:quality-rules:*"] })
   enableQualityRule(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -117,6 +151,9 @@ export class ServiceController {
 
   @Patch("quality-rules/:id/disable")
   @Permission("service:quality-rule:update")
+  @AntiShake(1000)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["service:quality-rules:*"] })
   disableQualityRule(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -126,6 +163,9 @@ export class ServiceController {
 
   @Post("quality-rules/sort")
   @Permission("service:quality-rule:sort")
+  @AntiShake(500)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["service:quality-rules:*"] })
   sortQualityRules(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: SortQualityRuleDto,
@@ -135,12 +175,19 @@ export class ServiceController {
 
   @Get("sensitive-terms")
   @Permission("service:sensitive-term:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "service:sensitive-terms", ttl: 600 })
+  @QueryOptimize({ slowQueryThreshold: 200, timeout: 3000 })
   listSensitiveTerms(@CurrentUser() user: CurrentUserPayload) {
     return this.serviceService.listSensitiveTerms(user.sub);
   }
 
   @Post("sensitive-terms")
   @Permission("service:sensitive-term:create")
+  @AntiShake(1000)
+  @Idempotent({ mode: "active", ttl: 300 })
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["service:sensitive-terms:*"] })
   createSensitiveTerm(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: SaveServiceSensitiveTermDto,
@@ -150,6 +197,9 @@ export class ServiceController {
 
   @Put("sensitive-terms/:id")
   @Permission("service:sensitive-term:update")
+  @AntiShake(1000)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["service:sensitive-terms:*"] })
   updateSensitiveTerm(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -160,6 +210,9 @@ export class ServiceController {
 
   @Get("ai-overview")
   @Permission("service:dashboard:view")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "service:ai-overview", ttl: 600 })
+  @QueryOptimize({ slowQueryThreshold: 300, timeout: 5000 })
   getAiOverview(
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: QueryServiceSessionsDto,
@@ -169,6 +222,9 @@ export class ServiceController {
 
   @Get("dashboard-metrics")
   @Permission("service:dashboard:view")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "service:dashboard-metrics", ttl: 600 })
+  @QueryOptimize({ slowQueryThreshold: 300, timeout: 5000 })
   getDashboardMetrics(
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: QueryServiceSessionsDto,
@@ -178,6 +234,9 @@ export class ServiceController {
 
   @Get("loss-inquiries")
   @Permission("service:loss:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "service:loss-inquiries", ttl: 300 })
+  @QueryOptimize({ slowQueryThreshold: 300, timeout: 5000 })
   queryLossInquiries(
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: QueryLossInquiriesDto,
@@ -187,6 +246,9 @@ export class ServiceController {
 
   @Patch("loss-inquiries/:id/recovery")
   @Permission("service:loss:mark")
+  @AntiShake(1000)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["service:loss-inquiries:*"] })
   updateLossRecovery(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -197,6 +259,9 @@ export class ServiceController {
 
   @Get("faqs")
   @Permission("service:faq:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "service:faqs", ttl: 600 })
+  @QueryOptimize({ slowQueryThreshold: 200, timeout: 3000 })
   queryFaqStats(
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: QueryFaqStatsDto,
@@ -206,6 +271,9 @@ export class ServiceController {
 
   @Post("faqs")
   @Permission("service:faq:map")
+  @AntiShake(1000)
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["service:faqs:*", "knowledge:articles:*"] })
   mapFaqArticle(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: MapFaqArticleDto,
@@ -215,6 +283,9 @@ export class ServiceController {
 
   @Get("tags/audit")
   @Permission("service:tag:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "service:tags:audit", ttl: 300 })
+  @QueryOptimize({ slowQueryThreshold: 200, timeout: 3000 })
   queryQualityTags(
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: QueryQualityTagsDto,
@@ -224,6 +295,9 @@ export class ServiceController {
 
   @Post("tags/audit/confirm")
   @Permission("service:tag:audit")
+  @AntiShake(1000)
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["service:tags:*", "service:sessions:*"] })
   confirmQualityTags(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: AuditTagsDto,
@@ -233,6 +307,9 @@ export class ServiceController {
 
   @Post("tags/audit/reject")
   @Permission("service:tag:audit")
+  @AntiShake(1000)
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["service:tags:*", "service:sessions:*"] })
   rejectQualityTags(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: AuditTagsDto,
@@ -242,6 +319,9 @@ export class ServiceController {
 
   @Post("tags/dedup")
   @Permission("service:tag:dedup")
+  @AntiShake(1000)
+  @RateLimit({ limit: 5, window: 60 })
+  @CacheEvict({ keys: ["service:tags:*", "service:sessions:*"] })
   dedupQualityTags(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: DedupTagsDto,

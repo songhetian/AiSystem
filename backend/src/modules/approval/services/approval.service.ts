@@ -180,7 +180,7 @@ export class ApprovalService {
       name: `${original.name} (副本)`,
       id: randomUUID() as string,
     }, randomUUID());
-    
+
     const created = await this.templateDelegate.create({ data: payload });
     return this.mapTemplate(created);
   }
@@ -197,7 +197,7 @@ export class ApprovalService {
   async listPeople(_userId?: string): Promise<ApprovalPerson[]> {
     const users = await this.userDelegate.findMany({
       where: { is_deleted: 0, status: 1 },
-      include: { 
+      include: {
         dept: {
           select: {
             id: true,
@@ -220,7 +220,7 @@ export class ApprovalService {
   @Cacheable({
     prefix: 'approval:requests',
     ttl: 180,
-    keyGenerator: (userId: string | undefined, query: QueryApprovalRequestsDto) => 
+    keyGenerator: (userId: string | undefined, query: QueryApprovalRequestsDto) =>
       `${userId}:${query.view}:${query.keyword || 'all'}`,
   })
   @QueryOptimize()
@@ -246,7 +246,7 @@ export class ApprovalService {
     });
     let mapped = items.map((item: any) => this.mapRequest(item));
     if (query.view === 'processed') {
-      mapped = mapped.filter((item: any) => 
+      mapped = mapped.filter((item: any) =>
         item.progress.some((p: any) => p.actorId === userId && ['approved', 'rejected', 'transferred'].includes(p.action))
       );
     }
@@ -259,7 +259,7 @@ export class ApprovalService {
       this.requestDelegate.count({ where: { is_deleted: 0, applicant_id: userId } }),
       this.requestDelegate.findMany({ where: { is_deleted: 0 }, select: { progress: true } }),
     ]);
-    const processed = allProcessed.filter((item: any) => 
+    const processed = allProcessed.filter((item: any) =>
       Array.isArray(item.progress) && item.progress.some((p: any) => p.actorId === userId && ['approved', 'rejected', 'transferred'].includes(p.action))
     ).length;
     return { pending, mine, processed };
@@ -279,14 +279,14 @@ export class ApprovalService {
     const nodes = Array.isArray(template?.nodes) ? template.nodes : [];
     const currentNode = nodes.find((n: any) => n.id === request.current_node_id);
     const currentNodeIdx = nodes.findIndex((n: any) => n.id === request.current_node_id);
-    
+
     const progress = Array.isArray(request.progress) ? [...request.progress] : [];
-    progress.push({ 
+    progress.push({
       nodeId: request.current_node_id,
-      actorId: userId, 
-      action: 'approved', 
-      comment: dto.comment, 
-      time: new Date().toISOString() 
+      actorId: userId,
+      action: 'approved',
+      comment: dto.comment,
+      time: new Date().toISOString()
     });
 
     // 会签 (AND) 逻辑处理
@@ -297,7 +297,7 @@ export class ApprovalService {
       const approvedActors = new Set(
         progress.filter(p => p.nodeId === request.current_node_id && p.action === 'approved').map(p => p.actorId)
       );
-      
+
       const remainingApprovers = currentNode.approvers.filter((a: any) => !approvedActors.has(a.id));
       if (remainingApprovers.length > 0) {
         shouldAdvance = false;
@@ -307,7 +307,7 @@ export class ApprovalService {
 
     if (shouldAdvance) {
       const nextNode = this.resolveNextNode(nodes, currentNodeIdx, Number(request.amount || 0));
-      
+
       if (nextNode && nextNode.id !== 'end') {
         const approver = nextNode.approvers?.[0];
         await this.requestDelegate.update({
@@ -333,7 +333,7 @@ export class ApprovalService {
           }
         });
         await this.approvalQueue.add('biz-callback', { requestId: id, action: 'approved', operatorId: userId });
-        
+
         // --- [NEW] 发送审批通过通知 (PRD 2.5) ---
         try {
           await this.systemMessageService.sendFromTemplate({
@@ -367,7 +367,7 @@ export class ApprovalService {
 
   private evaluateCondition(condition: string, data: Record<string, any>): boolean {
     if (!condition) return true;
-    
+
     // 正则解析简单的比较逻辑: [字段] [操作符] [数值]
     const match = condition.match(/(\w+)\s*(>|<|>=|<=|==)\s*(\d+)/);
     if (!match) return true;
@@ -412,14 +412,14 @@ export class ApprovalService {
   async rejectRequest(userId: string, id: string, dto: ApprovalActionDto) {
     const request = await this.requestDelegate.findUnique({ where: { id } });
     if (!request) throw new NotFoundException('审批单不存在');
-    
+
     const progress = Array.isArray(request.progress) ? [...request.progress] : [];
     progress.push({ actorId: userId, action: 'rejected', comment: dto.comment, time: new Date().toISOString() });
-    
+
     const updated = await this.requestDelegate.update({
       where: { id },
-      data: { 
-        status: 'rejected', 
+      data: {
+        status: 'rejected',
         progress,
         current_approver_id: null,
         current_approver_name: null
@@ -464,21 +464,21 @@ export class ApprovalService {
     if (!targetUser) throw new NotFoundException('目标用户不存在');
 
     const progress = Array.isArray(request.progress) ? [...request.progress] : [];
-    progress.push({ 
-        actorId: userId, 
-        action: 'transferred', 
-        comment: dto.comment, 
-        time: new Date().toISOString(), 
+    progress.push({
+        actorId: userId,
+        action: 'transferred',
+        comment: dto.comment,
+        time: new Date().toISOString(),
         targetId: dto.target_user_id,
         targetName: targetUser.name
     });
 
     const updated = await this.requestDelegate.update({
       where: { id },
-      data: { 
-        current_approver_id: dto.target_user_id, 
+      data: {
+        current_approver_id: dto.target_user_id,
         current_approver_name: targetUser.name,
-        progress 
+        progress
       }
     });
     return this.mapRequest(updated);
@@ -534,7 +534,7 @@ export class ApprovalService {
 
   async runBizSync(request: any, action: string, operatorId: string) {
     this.logger.log(`Executing sync for request ${request.request_no} action ${action} by ${operatorId}`);
-    
+
     if (request.biz_type && this.handlers.has(request.biz_type)) {
       const handler = this.handlers.get(request.biz_type)!;
       await handler(request, action, operatorId);
@@ -607,5 +607,112 @@ export class ApprovalService {
   private async ensureTemplateExists(id: string) {
     const item = await this.templateDelegate.findFirst({ where: { id, is_deleted: 0 } });
     if (!item) throw new NotFoundException('审批模板不存在');
+  }
+}
+
+  /**
+   * 获取审批详情
+   */
+  @Cacheable({
+    prefix: 'approval:request-detail',
+    ttl: 180,
+    keyGenerator: (userId: string | undefined, id: string) => `${userId}:${id}`,
+  })
+  @QueryOptimize()
+  async getRequest(userId: string | undefined, id: string) {
+    const request = await this.requestDelegate.findUnique({ where: { id } });
+    if (!request) {
+      throw new NotFoundException('审批单不存在');
+    }
+    return this.mapRequest(request);
+  }
+
+  /**
+   * 批量审批通过
+   */
+  @CacheEvict({
+    prefix: ['approval:requests'],
+    pattern: '*',
+  })
+  async batchApprove(userId: string, ids: string[], comment?: string) {
+    const results = {
+      success: 0,
+      failed: 0,
+      errors: [] as string[],
+    };
+
+    for (const id of ids) {
+      try {
+        await this.approveRequest(userId, id, { comment });
+        results.success++;
+      } catch (error: any) {
+        results.failed++;
+        results.errors.push(`${id}: ${error.message}`);
+      }
+    }
+
+    return results;
+  }
+
+  /**
+   * 批量审批驳回
+   */
+  @CacheEvict({
+    prefix: ['approval:requests'],
+    pattern: '*',
+  })
+  async batchReject(userId: string, ids: string[], comment?: string) {
+    const results = {
+      success: 0,
+      failed: 0,
+      errors: [] as string[],
+    };
+
+    for (const id of ids) {
+      try {
+        await this.rejectRequest(userId, id, { comment });
+        results.success++;
+      } catch (error: any) {
+        results.failed++;
+        results.errors.push(`${id}: ${error.message}`);
+      }
+    }
+
+    return results;
+  }
+
+  /**
+   * 导出审批记录
+   */
+  async exportRequests(userId: string | undefined, query: QueryApprovalRequestsDto): Promise<Buffer> {
+    const XLSX = require('xlsx');
+    const requests = await this.listRequests(userId, query);
+
+    const statusMap: Record<string, string> = {
+      pending: '待审批',
+      approved: '已通过',
+      rejected: '已驳回',
+      withdrawn: '已撤回',
+    };
+
+    const exportData = (requests as any[]).map((item: any) => ({
+      审批单号: item.requestNo || '',
+      模板名称: item.templateName || '',
+      业务类型: item.bizType || '',
+      申请人: item.applicantName || '',
+      当前审批人: item.currentApproverName || '',
+      状态: statusMap[item.status] || item.status,
+      金额: item.amount || 0,
+      平台: item.platformName || '',
+      部门: item.departmentName || '',
+      摘要: item.summary || '',
+      创建时间: item.createdAt ? new Date(item.createdAt).toLocaleString() : '',
+      更新时间: item.updatedAt ? new Date(item.updatedAt).toLocaleString() : '',
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, '审批记录');
+    return XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
   }
 }

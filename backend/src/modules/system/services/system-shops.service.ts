@@ -1,6 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { ScopeService } from "../../../common/services/scope.service";
 import { PrismaService } from "../../../prisma/prisma.service";
+import { PaginationService } from "../../../common/services/pagination.service";
+import {
+  PaginationDto,
+  PaginatedResponse,
+} from "../../../common/dto/pagination.dto";
 import { CreateShopDto } from "../dto/create-shop.dto";
 import { UpdateShopDto } from "../dto/update-shop.dto";
 import { Cache } from "../../../common/decorators/cache.decorator";
@@ -12,30 +17,51 @@ export class SystemShopsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly scopeService: ScopeService,
+    private readonly paginationService: PaginationService,
   ) {}
 
   /**
-   * 获取店铺列表（V2.0 性能优化）
-   * 优化点：
-   * 1. 添加缓存（10分钟）
-   * 2. 添加查询监控
+   * 获取店铺列表（V3.0 统一分页）
+   * 优化点：添加缓存（10分钟）、查询监控、统一分页
    */
   @Cache({ ttl: 600, byParams: true, prefix: "shop-list" })
   @QueryOptimize({ timeout: 3000, slowQueryThreshold: 200 })
-  async findAll(userId: string) {
+  async findAll(
+    userId: string,
+    pagination: PaginationDto,
+  ): Promise<PaginatedResponse<any>> {
     const scope = await this.scopeService.resolveAccess(userId);
 
-    return this.prisma.biz_shop.findMany({
-      where: this.scopeService.applyScope(
-        scope,
-        { is_deleted: 0 },
-        {
-          platform: "platform_id",
-          department: "department_id",
-        },
-      ),
-      orderBy: [{ sort: "asc" }, { create_time: "desc" }],
-    });
+    const where = this.scopeService.applyScope(
+      scope,
+      { is_deleted: 0 },
+      {
+        platform: "platform_id",
+        department: "department_id",
+      },
+    );
+
+    const { skip, take } = this.paginationService.calculatePagination(
+      pagination.page,
+      pagination.pageSize,
+    );
+
+    const [data, total] = await Promise.all([
+      this.prisma.biz_shop.findMany({
+        where,
+        skip,
+        take,
+        orderBy: [{ sort: "asc" }, { create_time: "desc" }],
+      }),
+      this.prisma.biz_shop.count({ where }),
+    ]);
+
+    return this.paginationService.createResponse(
+      data,
+      total,
+      pagination.page,
+      pagination.pageSize,
+    );
   }
 
   /**

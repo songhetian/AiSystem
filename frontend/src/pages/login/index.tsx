@@ -133,6 +133,19 @@ export default function LoginPage() {
                 立即登录
               </Button>
             </Form.Item>
+
+            {/* 注册入口 */}
+            <div className="mt-4 text-center">
+              <Text className="text-slate-500">
+                还没有账号？
+                <Text
+                  className="text-blue-600 cursor-pointer font-bold hover:text-blue-500 ml-1"
+                  onClick={() => navigate("/register")}
+                >
+                  立即注册
+                </Text>
+              </Text>
+            </div>
           </Form>
 
           <div className="mt-8 text-center">

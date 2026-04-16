@@ -2,11 +2,17 @@ import { BadRequestException, Injectable } from "@nestjs/common";
 import { MinioService } from "../../../common/services/minio.service";
 import { ScopeService } from "../../../common/services/scope.service";
 import { PrismaService } from "../../../prisma/prisma.service";
+import { PaginationService } from "../../../common/services/pagination.service";
+import {
+  PaginationDto,
+  PaginatedResponse,
+} from "../../../common/dto/pagination.dto";
 import { CreateEmployeeDto } from "../dto/create-employee.dto";
 import { UpdateEmployeeDto } from "../dto/update-employee.dto";
 import { Cache } from "../../../common/decorators/cache.decorator";
 import { CacheEvict } from "../../../common/decorators/cache-evict.decorator";
 import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
+import { PersonnelEmployeeHistoryService } from "./personnel-employee-history.service";
 import * as XLSX from "xlsx";
 
 @Injectable()
@@ -15,36 +21,143 @@ export class PersonnelEmployeesService {
     private readonly prisma: PrismaService,
     private readonly minioService: MinioService,
     private readonly scopeService: ScopeService,
+    private readonly historyService: PersonnelEmployeeHistoryService,
+    private readonly paginationService: PaginationService,
   ) {}
 
   /**
-   * 获取员工列表（V2.0 性能优化）
-   * 优化点：添加缓存（5分钟）和查询监控
+   * 获取员工列表（V3.0 统一分页）
+   * 优化点：添加缓存（5分钟）、查询监控、统一分页
    * 缓存策略：根据用户ID生成Key，不同用户看到不同数据
    */
   @Cache({ ttl: 300, byUser: true, prefix: "employee-list" })
   @QueryOptimize({ timeout: 5000, slowQueryThreshold: 300 })
-  async findAll(userId: string) {
+  async findAll(
+    userId: string,
+    pagination: PaginationDto,
+    filters?: {
+      platformId?: string;
+      departmentId?: string;
+      status?: number;
+      keyword?: string;
+    },
+  ): Promise<PaginatedResponse<any>> {
     const scope = await this.scopeService.resolveAccess(userId);
 
-    return this.prisma.hr_employee.findMany({
-      where: this.scopeService.applyScope(
-        scope,
-        { is_deleted: 0 },
-        {
-          platform: "platform_id",
-          department: "department_id",
+    const where: any = this.scopeService.applyScope(
+      scope,
+      { is_deleted: 0 },
+      {
+        platform: "platform_id",
+        department: "department_id",
+      },
+    );
+
+    // 应用筛选条件
+    if (filters?.platformId) {
+      where.platform_id = filters.platformId;
+    }
+    if (filters?.departmentId) {
+      where.department_id = filters.departmentId;
+    }
+    if (filters?.status !== undefined) {
+      where.status = filters.status;
+    }
+    if (filters?.keyword) {
+      where.OR = [
+        { name: { contains: filters.keyword } },
+        { employee_no: { contains: filters.keyword } },
+        { phone: { contains: filters.keyword } },
+        { email: { contains: filters.keyword } },
+      ];
+    }
+
+    const { skip, take } = this.paginationService.calculatePagination(
+      pagination.page,
+      pagination.pageSize,
+    );
+
+    const [data, total] = await Promise.all([
+      this.prisma.hr_employee.findMany({
+        where,
+        skip,
+        take,
+        orderBy: { create_time: "desc" },
+        include: {
+          biz_department: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          hr_position: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
         },
-      ),
-      orderBy: { create_time: "desc" },
+      }),
+      this.prisma.hr_employee.count({ where }),
+    ]);
+
+    return this.paginationService.createResponse(
+      data,
+      total,
+      pagination.page,
+      pagination.pageSize,
+    );
+  }
+
+  /**
+   * 获取员工详情
+   */
+  @Cache({ ttl: 300, byUser: true, prefix: "employee-detail" })
+  @QueryOptimize({ timeout: 3000, slowQueryThreshold: 200 })
+  async findOne(userId: string, id: string) {
+    const scope = await this.scopeService.resolveAccess(userId);
+
+    const employee = await this.prisma.hr_employee.findUnique({
+      where: { id },
+      include: {
+        biz_department: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        hr_position: {
+          select: {
+            id: true,
+            name: true,
+            code: true,
+          },
+        },
+      },
     });
+
+    if (!employee) {
+      throw new BadRequestException("员工不存在");
+    }
+
+    this.scopeService.assertPlatformAccess(scope, employee.platform_id);
+    this.scopeService.assertDepartmentAccess(scope, employee.department_id);
+
+    return employee;
+  }
+
+  /**
+   * 获取员工履历
+   */
+  async getEmployeeHistory(userId: string, employeeId: string) {
+    return this.historyService.getEmployeeHistory(userId, employeeId);
   }
 
   /**
    * 创建员工（V2.0 性能优化）
-   * 优化点：自动清除员工列表缓存
+   * 优化点：自动清除员工列表缓存，校验工号唯一性，自动记录入职履历
    */
-  @CacheEvict({ pattern: "cache:employee-list:*" })
+  @CacheEvict({ pattern: "cache:employee-*" })
   async create(userId: string, dto: CreateEmployeeDto) {
     const scope = await this.scopeService.resolveAccess(userId);
     const departmentId = dto.department_id ?? scope.dept_id ?? undefined;
@@ -52,7 +165,20 @@ export class PersonnelEmployeesService {
     this.scopeService.assertPlatformAccess(scope, platformId);
     this.scopeService.assertDepartmentAccess(scope, departmentId);
 
-    return this.prisma.hr_employee.create({
+    // 校验工号唯一性
+    if (dto.employee_no) {
+      const existing = await this.prisma.hr_employee.findFirst({
+        where: {
+          employee_no: dto.employee_no,
+          is_deleted: 0,
+        },
+      });
+      if (existing) {
+        throw new BadRequestException("工号已存在");
+      }
+    }
+
+    const employee = await this.prisma.hr_employee.create({
       data: {
         ...dto,
         department_id: departmentId,
@@ -67,16 +193,35 @@ export class PersonnelEmployeesService {
         status: dto.status ?? 1,
       },
     });
+
+    // 自动记录入职履历
+    try {
+      await this.historyService.recordOnboard(
+        employee.id,
+        employee,
+        userId,
+        "系统管理员",
+      );
+    } catch (error) {
+      console.error("记录入职履历失败:", error);
+    }
+
+    return employee;
   }
 
   /**
    * 更新员工（V2.0 性能优化）
-   * 优化点：自动清除员工列表缓存
+   * 优化点：自动清除员工列表和详情缓存，自动记录调岗/转正/状态变更履历
    */
-  @CacheEvict({ pattern: "cache:employee-list:*" })
+  @CacheEvict({ pattern: "cache:employee-*" })
   async update(userId: string, id: string, dto: UpdateEmployeeDto) {
     const scope = await this.scopeService.resolveAccess(userId);
     const current = await this.prisma.hr_employee.findUnique({ where: { id } });
+
+    if (!current) {
+      throw new BadRequestException("员工不存在");
+    }
+
     this.scopeService.assertPlatformAccess(scope, current?.platform_id);
     this.scopeService.assertDepartmentAccess(scope, current?.department_id);
     this.scopeService.assertPlatformAccess(
@@ -88,7 +233,21 @@ export class PersonnelEmployeesService {
       dto.department_id ?? current?.department_id,
     );
 
-    return this.prisma.hr_employee.update({
+    // 校验工号唯一性
+    if (dto.employee_no && dto.employee_no !== current.employee_no) {
+      const existing = await this.prisma.hr_employee.findFirst({
+        where: {
+          employee_no: dto.employee_no,
+          is_deleted: 0,
+          id: { not: id },
+        },
+      });
+      if (existing) {
+        throw new BadRequestException("工号已存在");
+      }
+    }
+
+    const updated = await this.prisma.hr_employee.update({
       where: { id },
       data: {
         ...dto,
@@ -102,16 +261,67 @@ export class PersonnelEmployeesService {
           : undefined,
       },
     });
+
+    // 自动记录履历
+    try {
+      // 检查是否调岗
+      if (dto.department_id !== undefined || dto.position_id !== undefined) {
+        await this.historyService.recordTransfer(
+          id,
+          current,
+          updated,
+          userId,
+          "系统管理员",
+        );
+      }
+
+      // 检查是否转正
+      if (
+        dto.regularization_date &&
+        (!current.regularization_date ||
+          new Date(dto.regularization_date).getTime() !==
+            new Date(current.regularization_date).getTime())
+      ) {
+        await this.historyService.recordRegularization(
+          id,
+          new Date(dto.regularization_date),
+          updated,
+          userId,
+          "系统管理员",
+        );
+      }
+
+      // 检查状态变更
+      if (dto.status !== undefined && dto.status !== current.status) {
+        await this.historyService.recordStatusChange(
+          id,
+          current.status,
+          dto.status,
+          updated,
+          userId,
+          "系统管理员",
+        );
+      }
+    } catch (error) {
+      console.error("记录员工履历失败:", error);
+    }
+
+    return updated;
   }
 
   /**
    * 删除员工（V2.0 性能优化）
-   * 优化点：自动清除员工列表缓存
+   * 优化点：自动清除员工列表和详情缓存
    */
-  @CacheEvict({ pattern: "cache:employee-list:*" })
+  @CacheEvict({ pattern: "cache:employee-*" })
   async remove(userId: string, id: string) {
     const scope = await this.scopeService.resolveAccess(userId);
     const current = await this.prisma.hr_employee.findUnique({ where: { id } });
+
+    if (!current) {
+      throw new BadRequestException("员工不存在");
+    }
+
     this.scopeService.assertPlatformAccess(scope, current?.platform_id);
     this.scopeService.assertDepartmentAccess(scope, current?.department_id);
 
@@ -310,5 +520,183 @@ export class PersonnelEmployeesService {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "员工导入模板");
     return XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
+  }
+
+  /**
+   * 上传工牌照片（V2.0 性能优化）
+   * 优化点：自动清除员工详情缓存
+   */
+  @CacheEvict({ pattern: "cache:employee-detail:*" })
+  async uploadBadgePhoto(
+    userId: string,
+    id: string,
+    file?: Express.Multer.File,
+  ) {
+    const scope = await this.scopeService.resolveAccess(userId);
+
+    if (!file) {
+      throw new BadRequestException("未上传文件");
+    }
+
+    const allowedTypes = ["image/jpeg", "image/png"];
+    if (!allowedTypes.includes(file.mimetype)) {
+      throw new BadRequestException("仅支持 JPG/PNG 格式");
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      throw new BadRequestException("文件大小不能超过 10MB");
+    }
+
+    const employee = await this.prisma.hr_employee.findUnique({
+      where: { id },
+    });
+
+    if (!employee) {
+      throw new BadRequestException("员工不存在");
+    }
+
+    this.scopeService.assertPlatformAccess(scope, employee.platform_id);
+    this.scopeService.assertDepartmentAccess(scope, employee.department_id);
+
+    const objectName = `${employee.platform_id ?? "public"}/${employee.department_id ?? "common"}/employee-badge-photo/${id}/badge-${Date.now()}-${file.originalname}`;
+    const uploadResult = await this.minioService.uploadObject(
+      objectName,
+      file.buffer,
+      file.mimetype,
+    );
+
+    return this.prisma.hr_employee.update({
+      where: { id },
+      data: { badge_photo_file: uploadResult.objectName },
+    });
+  }
+
+  /**
+   * 获取工牌照片URL
+   */
+  async getBadgePhotoUrl(userId: string, id: string) {
+    const scope = await this.scopeService.resolveAccess(userId);
+
+    const employee = await this.prisma.hr_employee.findUnique({
+      where: { id },
+    });
+
+    if (!employee) {
+      throw new BadRequestException("员工不存在");
+    }
+
+    this.scopeService.assertPlatformAccess(scope, employee.platform_id);
+    this.scopeService.assertDepartmentAccess(scope, employee.department_id);
+
+    const objectName = (employee as any).badge_photo_file;
+    if (!objectName) {
+      return { url: null };
+    }
+
+    const url = await this.minioService.getPresignedUrl(objectName);
+    return { url };
+  }
+
+  /**
+   * 批量删除员工（V2.0 性能优化）
+   * 优化点：自动清除员工列表缓存
+   */
+  @CacheEvict({ pattern: "cache:employee-*" })
+  async batchRemove(userId: string, ids: string[]) {
+    const scope = await this.scopeService.resolveAccess(userId);
+
+    // 验证所有员工ID是否有权限访问
+    const employees = await this.prisma.hr_employee.findMany({
+      where: {
+        id: { in: ids },
+        ...this.scopeService.applyScope(
+          scope,
+          { is_deleted: 0 },
+          {
+            platform: "platform_id",
+            department: "department_id",
+          },
+        ),
+      },
+    });
+
+    if (employees.length !== ids.length) {
+      throw new BadRequestException("部分员工不存在或无权限访问");
+    }
+
+    // 批量软删除
+    await this.prisma.hr_employee.updateMany({
+      where: { id: { in: ids } },
+      data: {
+        is_deleted: 1,
+        update_time: new Date(),
+      },
+    });
+
+    return { success: true, deleted: ids.length };
+  }
+
+  /**
+   * 批量分配角色（V2.0 性能优化）
+   * 优化点：自动清除员工详情缓存
+   */
+  @CacheEvict({ pattern: "cache:employee-detail:*" })
+  async batchAssignRoles(userId: string, ids: string[], roleIds: string[]) {
+    const scope = await this.scopeService.resolveAccess(userId);
+
+    // 验证所有员工ID是否有权限访问
+    const employees = await this.prisma.hr_employee.findMany({
+      where: {
+        id: { in: ids },
+        ...this.scopeService.applyScope(
+          scope,
+          { is_deleted: 0 },
+          {
+            platform: "platform_id",
+            department: "department_id",
+          },
+        ),
+      },
+    });
+
+    if (employees.length !== ids.length) {
+      throw new BadRequestException("部分员工不存在或无权限访问");
+    }
+
+    // 验证角色是否存在
+    const roles = await this.prisma.sys_role.findMany({
+      where: {
+        id: { in: roleIds },
+        is_deleted: 0,
+      },
+    });
+
+    if (roles.length !== roleIds.length) {
+      throw new BadRequestException("部分角色不存在");
+    }
+
+    // 批量分配角色（先删除旧关联，再创建新关联）
+    await this.prisma.$transaction(async (tx) => {
+      // 删除旧的角色关联
+      await tx.sys_user_role.deleteMany({
+        where: {
+          user_id: { in: ids },
+        },
+      });
+
+      // 创建新的角色关联
+      const userRoles = ids.flatMap((userId) =>
+        roleIds.map((roleId) => ({
+          user_id: userId,
+          role_id: roleId,
+        })),
+      );
+
+      await tx.sys_user_role.createMany({
+        data: userRoles,
+      });
+    });
+
+    return { success: true, updated: ids.length };
   }
 }

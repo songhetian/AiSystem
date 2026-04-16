@@ -6,12 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from "@nestjs/common";
 import {
   CurrentUser,
   type CurrentUserPayload,
 } from "../../../common/current-user.decorator";
 import { Permission } from "../../../common/permission.decorator";
+import { PaginationDto } from "../../../common/dto/pagination.dto";
 import { BatchUpdateShopStatusDto } from "../dto/batch-update-shop-status.dto";
 import { CreateShopDto } from "../dto/create-shop.dto";
 import { SortShopDto } from "../dto/sort-shop.dto";
@@ -24,8 +26,11 @@ export class SystemShopsController {
 
   @Get()
   @Permission("system:shop:list")
-  findAll(@CurrentUser() user: CurrentUserPayload) {
-    return this.systemShopsService.findAll(user.sub);
+  findAll(
+    @CurrentUser() user: CurrentUserPayload,
+    @Query() pagination: PaginationDto,
+  ) {
+    return this.systemShopsService.findAll(user.sub, pagination);
   }
 
   @Post()

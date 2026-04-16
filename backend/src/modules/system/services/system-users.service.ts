@@ -10,6 +10,11 @@ import {
 import { PrismaService } from "../../../prisma/prisma.service";
 import { ScopeService } from "../../../common/services/scope.service";
 import { RedisService } from "../../../common/services/redis.service";
+import { PaginationService } from "../../../common/services/pagination.service";
+import {
+  PaginationDto,
+  PaginatedResponse,
+} from "../../../common/dto/pagination.dto";
 import { CurrentUserPayload } from "../../../common/current-user.decorator";
 import { CreateUserDto } from "../dto/create-user.dto";
 import { UpdateUserDto } from "../dto/update-user.dto";
@@ -22,23 +27,47 @@ export class SystemUsersService {
     private readonly prisma: PrismaService,
     private readonly scopeService: ScopeService,
     private readonly redisService: RedisService,
+    private readonly paginationService: PaginationService,
   ) {}
 
   /**
-   * 查询用户列表（带查询优化）
-   * 监控慢查询，超时保护
+   * 查询用户列表（V3.0 统一分页）
+   * 监控慢查询，超时保护，统一分页
    */
   @QueryOptimize({ timeout: 5000, slowQueryThreshold: 300 })
-  async findAll(user: CurrentUserPayload) {
+  async findAll(
+    user: CurrentUserPayload,
+    pagination: PaginationDto,
+  ): Promise<PaginatedResponse<any>> {
     const scope = await this.scopeService.resolveAccess(user.sub);
-    return this.prisma.sys_user.findMany({
-      where: this.scopeService.applyScope({ is_deleted: 0 }, scope, {
-        platform: "platform_id",
-        department: "dept_id",
-        shop: "shop_id",
-      }),
-      orderBy: { create_time: "desc" },
+
+    const where = this.scopeService.applyScope({ is_deleted: 0 }, scope, {
+      platform: "platform_id",
+      department: "dept_id",
+      shop: "shop_id",
     });
+
+    const { skip, take } = this.paginationService.calculatePagination(
+      pagination.page,
+      pagination.pageSize,
+    );
+
+    const [data, total] = await Promise.all([
+      this.prisma.sys_user.findMany({
+        where,
+        skip,
+        take,
+        orderBy: { create_time: "desc" },
+      }),
+      this.prisma.sys_user.count({ where }),
+    ]);
+
+    return this.paginationService.createResponse(
+      data,
+      total,
+      pagination.page,
+      pagination.pageSize,
+    );
   }
 
   async create(dto: CreateUserDto) {

@@ -1,12 +1,18 @@
-import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query, Res } from "@nestjs/common";
 import {
   CurrentUser,
   type CurrentUserPayload,
 } from "../../../common/current-user.decorator";
 import { Permission } from "../../../common/permission.decorator";
+import { AntiShake } from "../../../common/decorators/antishake.decorator";
+import { Idempotent } from "../../../common/decorators/idempotent.decorator";
+import {
+  RateLimit,
+  RateLimitType,
+} from "../../../common/decorators/rate-limiter.decorator";
 import { FinanceService } from "../services/finance.service";
 import { CreateReimbursementDto } from "../dto/finance.dto";
-import { Idempotent } from "../../../common/decorators/idempotent.decorator";
+import { Response } from "express";
 
 @Controller("finance")
 export class FinanceController {
@@ -14,12 +20,14 @@ export class FinanceController {
 
   @Get("expense-types")
   @Permission("finance:expense-type:list")
+  @RateLimit({ type: RateLimitType.USER, limit: 30, window: 60 })
   listExpenseTypes(@CurrentUser() user: CurrentUserPayload) {
     return this.financeService.listExpenseTypes(user.sub);
   }
 
   @Get("reimbursements")
   @Permission("finance:reimbursement:list")
+  @RateLimit({ type: RateLimitType.USER, limit: 30, window: 60 })
   listReimbursements(
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: any,
@@ -27,9 +35,21 @@ export class FinanceController {
     return this.financeService.listReimbursements(user.sub, query);
   }
 
+  @Get("reimbursements/:id")
+  @Permission("finance:reimbursement:detail")
+  @RateLimit({ type: RateLimitType.USER, limit: 50, window: 60 })
+  getReimbursement(
+    @CurrentUser() user: CurrentUserPayload,
+    @Param("id") id: string,
+  ) {
+    return this.financeService.getReimbursement(user.sub, id);
+  }
+
   @Post("reimbursements")
   @Permission("finance:reimbursement:create")
+  @AntiShake(1000)
   @Idempotent({ mode: "active", ttl: 1800 })
+  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
   createReimbursement(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: CreateReimbursementDto,
@@ -37,31 +57,10 @@ export class FinanceController {
     return this.financeService.createReimbursement(user.sub, dto);
   }
 
-  @Get("purchases")
-  @Permission("finance:purchase:list")
-  listPurchases(@CurrentUser() user: CurrentUserPayload, @Query() query: any) {
-    return this.financeService.listPurchases(user.sub, query);
-  }
-
-  @Post("purchases")
-  @Permission("finance:purchase:create")
-  @Idempotent({ mode: "active", ttl: 1800 })
-  createPurchase(@CurrentUser() user: CurrentUserPayload, @Body() dto: any) {
-    return this.financeService.createPurchase(user.sub, dto);
-  }
-
-  @Get("cash-records")
-  @Permission("finance:cash-record:list")
-  listCashRecords(
-    @CurrentUser() user: CurrentUserPayload,
-    @Query() query: any,
-  ) {
-    return this.financeService.listCashRecords(user.sub, query);
-  }
-
-  // ✅ 新增：报销申请撤回（PRD 2.6.3.2）
   @Post("reimbursements/:id/withdraw")
   @Permission("finance:reimbursement:create")
+  @AntiShake(1000)
+  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
   withdrawReimbursement(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -69,9 +68,10 @@ export class FinanceController {
     return this.financeService.withdrawReimbursement(user.sub, id);
   }
 
-  // ✅ 新增：报销打款（PRD 2.6.3.1）
   @Post("reimbursements/:id/pay")
   @Permission("finance:reimbursement:pay")
+  @AntiShake(1000)
+  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
   completePayment(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -85,9 +85,36 @@ export class FinanceController {
     );
   }
 
-  // ✅ 新增：采购完成（PRD 2.7.2.2）
+  @Get("purchases")
+  @Permission("finance:purchase:list")
+  @RateLimit({ type: RateLimitType.USER, limit: 30, window: 60 })
+  listPurchases(@CurrentUser() user: CurrentUserPayload, @Query() query: any) {
+    return this.financeService.listPurchases(user.sub, query);
+  }
+
+  @Get("purchases/:id")
+  @Permission("finance:purchase:detail")
+  @RateLimit({ type: RateLimitType.USER, limit: 50, window: 60 })
+  getPurchase(
+    @CurrentUser() user: CurrentUserPayload,
+    @Param("id") id: string,
+  ) {
+    return this.financeService.getPurchase(user.sub, id);
+  }
+
+  @Post("purchases")
+  @Permission("finance:purchase:create")
+  @AntiShake(1000)
+  @Idempotent({ mode: "active", ttl: 1800 })
+  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
+  createPurchase(@CurrentUser() user: CurrentUserPayload, @Body() dto: any) {
+    return this.financeService.createPurchase(user.sub, dto);
+  }
+
   @Post("purchases/:id/complete")
   @Permission("finance:purchase:manage")
+  @AntiShake(1000)
+  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
   completePurchase(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -101,9 +128,10 @@ export class FinanceController {
     );
   }
 
-  // ✅ 新增：采购取消（PRD 2.7.3）
   @Post("purchases/:id/cancel")
   @Permission("finance:purchase:manage")
+  @AntiShake(1000)
+  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
   cancelPurchase(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -112,15 +140,28 @@ export class FinanceController {
     return this.financeService.cancelPurchase(user.sub, id, body.reason);
   }
 
-  // ✅ 新增：收支记录新增（PRD 2.8.1/2.8.2）
+  @Get("cash-records")
+  @Permission("finance:cash-record:list")
+  @RateLimit({ type: RateLimitType.USER, limit: 30, window: 60 })
+  listCashRecords(
+    @CurrentUser() user: CurrentUserPayload,
+    @Query() query: any,
+  ) {
+    return this.financeService.listCashRecords(user.sub, query);
+  }
+
   @Post("cash-records")
   @Permission("finance:cash-record:create")
+  @AntiShake(1000)
+  @Idempotent({ mode: "active", ttl: 300 })
+  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
   createCashRecord(@CurrentUser() user: CurrentUserPayload, @Body() body: any) {
     return this.financeService.createCashRecord(user.sub, body);
   }
 
   @Get("dashboard/stats")
   @Permission("finance:cash-record:list")
+  @RateLimit({ type: RateLimitType.USER, limit: 20, window: 60 })
   getDashboardStats(
     @CurrentUser() user: CurrentUserPayload,
     @Query("platform_id") platformId: string,
@@ -128,9 +169,9 @@ export class FinanceController {
     return this.financeService.getDashboardStats(user.sub, platformId);
   }
 
-  // ✅ 新增：报销统计（PRD 2.9.1）
   @Get("reimbursements/stats")
   @Permission("finance:reimbursement:list")
+  @RateLimit({ type: RateLimitType.USER, limit: 20, window: 60 })
   getReimbursementStats(
     @CurrentUser() user: CurrentUserPayload,
     @Query("platform_id") platformId: string,
@@ -146,9 +187,9 @@ export class FinanceController {
     });
   }
 
-  // ✅ 新增：采购统计（PRD 2.9.2）
   @Get("purchases/stats")
   @Permission("finance:purchase:list")
+  @RateLimit({ type: RateLimitType.USER, limit: 20, window: 60 })
   getPurchaseStats(
     @CurrentUser() user: CurrentUserPayload,
     @Query("platform_id") platformId: string,
@@ -164,9 +205,9 @@ export class FinanceController {
     });
   }
 
-  // ✅ 新增：收支统计（PRD 2.9.3）
   @Get("cash-records/stats")
   @Permission("finance:cash-record:list")
+  @RateLimit({ type: RateLimitType.USER, limit: 20, window: 60 })
   getCashRecordStats(
     @CurrentUser() user: CurrentUserPayload,
     @Query("platform_id") platformId: string,
@@ -180,5 +221,68 @@ export class FinanceController {
       endDate,
       type,
     });
+  }
+
+  @Get("reimbursements/export")
+  @Permission("finance:reimbursement:export")
+  @RateLimit({ type: RateLimitType.USER, limit: 5, window: 60 })
+  async exportReimbursements(
+    @CurrentUser() user: CurrentUserPayload,
+    @Query() query: any,
+    @Res() res: Response,
+  ) {
+    const buffer = await this.financeService.exportReimbursements(
+      user.sub,
+      query,
+    );
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=reimbursements_${Date.now()}.xlsx`,
+    );
+    res.end(buffer);
+  }
+
+  @Get("purchases/export")
+  @Permission("finance:purchase:export")
+  @RateLimit({ type: RateLimitType.USER, limit: 5, window: 60 })
+  async exportPurchases(
+    @CurrentUser() user: CurrentUserPayload,
+    @Query() query: any,
+    @Res() res: Response,
+  ) {
+    const buffer = await this.financeService.exportPurchases(user.sub, query);
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=purchases_${Date.now()}.xlsx`,
+    );
+    res.end(buffer);
+  }
+
+  @Get("cash-records/export")
+  @Permission("finance:cash-record:export")
+  @RateLimit({ type: RateLimitType.USER, limit: 5, window: 60 })
+  async exportCashRecords(
+    @CurrentUser() user: CurrentUserPayload,
+    @Query() query: any,
+    @Res() res: Response,
+  ) {
+    const buffer = await this.financeService.exportCashRecords(user.sub, query);
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=cash_records_${Date.now()}.xlsx`,
+    );
+    res.end(buffer);
   }
 }

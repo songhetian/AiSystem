@@ -1,702 +1,2402 @@
 [
   {
-    "id": "JD_ORD_0",
-    "status": "PAID",
-    "amount": "144.54",
-    "customer": "User_jd_0",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_1",
-    "status": "PAID",
-    "amount": "938.24",
-    "customer": "User_jd_1",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_2",
-    "status": "PAID",
-    "amount": "849.72",
-    "customer": "User_jd_2",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_3",
-    "status": "PAID",
-    "amount": "264.06",
-    "customer": "User_jd_3",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_4",
-    "status": "PAID",
-    "amount": "176.91",
-    "customer": "User_jd_4",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_5",
-    "status": "PAID",
-    "amount": "258.62",
-    "customer": "User_jd_5",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_6",
-    "status": "PAID",
-    "amount": "545.87",
-    "customer": "User_jd_6",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_7",
-    "status": "PAID",
-    "amount": "349.58",
-    "customer": "User_jd_7",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_8",
-    "status": "PAID",
-    "amount": "449.64",
-    "customer": "User_jd_8",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_9",
-    "status": "PAID",
-    "amount": "394.47",
-    "customer": "User_jd_9",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_10",
-    "status": "PAID",
-    "amount": "763.65",
-    "customer": "User_jd_10",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_11",
-    "status": "PAID",
-    "amount": "798.38",
-    "customer": "User_jd_11",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_12",
-    "status": "PAID",
-    "amount": "710.02",
-    "customer": "User_jd_12",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_13",
-    "status": "PAID",
-    "amount": "429.64",
-    "customer": "User_jd_13",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_14",
-    "status": "PAID",
-    "amount": "46.64",
-    "customer": "User_jd_14",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_15",
-    "status": "PAID",
-    "amount": "389.91",
-    "customer": "User_jd_15",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_16",
-    "status": "PAID",
-    "amount": "376.66",
-    "customer": "User_jd_16",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_17",
-    "status": "PAID",
-    "amount": "159.28",
-    "customer": "User_jd_17",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_18",
-    "status": "PAID",
-    "amount": "747.85",
-    "customer": "User_jd_18",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_19",
-    "status": "PAID",
-    "amount": "929.97",
-    "customer": "User_jd_19",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_20",
-    "status": "PAID",
-    "amount": "218.59",
-    "customer": "User_jd_20",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_21",
-    "status": "PAID",
-    "amount": "513.28",
-    "customer": "User_jd_21",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_22",
-    "status": "PAID",
-    "amount": "45.33",
-    "customer": "User_jd_22",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_23",
-    "status": "PAID",
-    "amount": "445.34",
-    "customer": "User_jd_23",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_24",
-    "status": "PAID",
-    "amount": "330.05",
-    "customer": "User_jd_24",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_25",
-    "status": "PAID",
-    "amount": "136.67",
-    "customer": "User_jd_25",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_26",
-    "status": "PAID",
-    "amount": "345.54",
-    "customer": "User_jd_26",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_27",
-    "status": "PAID",
-    "amount": "700.74",
-    "customer": "User_jd_27",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_28",
-    "status": "PAID",
-    "amount": "625.88",
-    "customer": "User_jd_28",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_29",
-    "status": "PAID",
-    "amount": "434.59",
-    "customer": "User_jd_29",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_30",
-    "status": "PAID",
-    "amount": "597.07",
-    "customer": "User_jd_30",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_31",
-    "status": "PAID",
-    "amount": "459.22",
-    "customer": "User_jd_31",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_32",
-    "status": "PAID",
-    "amount": "651.68",
-    "customer": "User_jd_32",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_33",
-    "status": "PAID",
-    "amount": "737.39",
-    "customer": "User_jd_33",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_34",
-    "status": "PAID",
-    "amount": "319.00",
-    "customer": "User_jd_34",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_35",
-    "status": "PAID",
-    "amount": "294.80",
-    "customer": "User_jd_35",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_36",
-    "status": "PAID",
-    "amount": "864.78",
-    "customer": "User_jd_36",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_37",
-    "status": "PAID",
-    "amount": "209.22",
-    "customer": "User_jd_37",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_38",
-    "status": "PAID",
-    "amount": "498.21",
-    "customer": "User_jd_38",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_39",
-    "status": "PAID",
-    "amount": "556.88",
-    "customer": "User_jd_39",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_40",
-    "status": "PAID",
-    "amount": "267.84",
-    "customer": "User_jd_40",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_41",
-    "status": "PAID",
-    "amount": "145.69",
-    "customer": "User_jd_41",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_42",
-    "status": "PAID",
-    "amount": "746.19",
-    "customer": "User_jd_42",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_43",
-    "status": "PAID",
-    "amount": "162.67",
-    "customer": "User_jd_43",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_44",
-    "status": "PAID",
-    "amount": "611.83",
-    "customer": "User_jd_44",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_45",
-    "status": "PAID",
-    "amount": "293.29",
-    "customer": "User_jd_45",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_46",
-    "status": "PAID",
-    "amount": "138.15",
-    "customer": "User_jd_46",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_47",
-    "status": "PAID",
-    "amount": "190.28",
-    "customer": "User_jd_47",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_48",
-    "status": "PAID",
-    "amount": "706.43",
-    "customer": "User_jd_48",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_49",
-    "status": "PAID",
-    "amount": "398.65",
-    "customer": "User_jd_49",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_50",
-    "status": "PAID",
-    "amount": "431.24",
-    "customer": "User_jd_50",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_51",
-    "status": "PAID",
-    "amount": "522.72",
-    "customer": "User_jd_51",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_52",
-    "status": "PAID",
-    "amount": "818.29",
-    "customer": "User_jd_52",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_53",
-    "status": "PAID",
-    "amount": "243.96",
-    "customer": "User_jd_53",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_54",
-    "status": "PAID",
-    "amount": "638.17",
-    "customer": "User_jd_54",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_55",
-    "status": "PAID",
-    "amount": "281.35",
-    "customer": "User_jd_55",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_56",
-    "status": "PAID",
-    "amount": "974.69",
-    "customer": "User_jd_56",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_57",
-    "status": "PAID",
-    "amount": "123.45",
-    "customer": "User_jd_57",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_58",
-    "status": "PAID",
-    "amount": "612.26",
-    "customer": "User_jd_58",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_59",
-    "status": "PAID",
-    "amount": "382.00",
-    "customer": "User_jd_59",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_60",
-    "status": "PAID",
-    "amount": "913.05",
-    "customer": "User_jd_60",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_61",
-    "status": "PAID",
-    "amount": "451.67",
-    "customer": "User_jd_61",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_62",
-    "status": "PAID",
-    "amount": "695.94",
-    "customer": "User_jd_62",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_63",
-    "status": "PAID",
-    "amount": "855.32",
-    "customer": "User_jd_63",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_64",
-    "status": "PAID",
-    "amount": "699.70",
-    "customer": "User_jd_64",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_65",
-    "status": "PAID",
-    "amount": "413.15",
-    "customer": "User_jd_65",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_66",
-    "status": "PAID",
-    "amount": "97.56",
-    "customer": "User_jd_66",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_67",
-    "status": "PAID",
-    "amount": "68.82",
-    "customer": "User_jd_67",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_68",
-    "status": "PAID",
-    "amount": "134.93",
-    "customer": "User_jd_68",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_69",
-    "status": "PAID",
-    "amount": "178.62",
-    "customer": "User_jd_69",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_70",
-    "status": "PAID",
-    "amount": "739.95",
-    "customer": "User_jd_70",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_71",
-    "status": "PAID",
-    "amount": "546.69",
-    "customer": "User_jd_71",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_72",
-    "status": "PAID",
-    "amount": "357.79",
-    "customer": "User_jd_72",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_73",
-    "status": "PAID",
-    "amount": "808.71",
-    "customer": "User_jd_73",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_74",
-    "status": "PAID",
-    "amount": "213.92",
-    "customer": "User_jd_74",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_75",
-    "status": "PAID",
-    "amount": "308.97",
-    "customer": "User_jd_75",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_76",
-    "status": "PAID",
-    "amount": "96.30",
-    "customer": "User_jd_76",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_77",
-    "status": "PAID",
-    "amount": "769.40",
-    "customer": "User_jd_77",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_78",
-    "status": "PAID",
-    "amount": "725.13",
-    "customer": "User_jd_78",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_79",
-    "status": "PAID",
-    "amount": "530.90",
-    "customer": "User_jd_79",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_80",
-    "status": "PAID",
-    "amount": "88.03",
-    "customer": "User_jd_80",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_81",
-    "status": "PAID",
-    "amount": "34.18",
-    "customer": "User_jd_81",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_82",
-    "status": "PAID",
-    "amount": "616.20",
-    "customer": "User_jd_82",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_83",
-    "status": "PAID",
-    "amount": "84.96",
-    "customer": "User_jd_83",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_84",
-    "status": "PAID",
-    "amount": "607.54",
-    "customer": "User_jd_84",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_85",
-    "status": "PAID",
-    "amount": "942.23",
-    "customer": "User_jd_85",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_86",
-    "status": "PAID",
-    "amount": "962.28",
-    "customer": "User_jd_86",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_87",
-    "status": "PAID",
-    "amount": "702.06",
-    "customer": "User_jd_87",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_88",
-    "status": "PAID",
-    "amount": "316.46",
-    "customer": "User_jd_88",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_89",
-    "status": "PAID",
-    "amount": "486.31",
-    "customer": "User_jd_89",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_90",
-    "status": "PAID",
-    "amount": "705.56",
-    "customer": "User_jd_90",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_91",
-    "status": "PAID",
-    "amount": "337.67",
-    "customer": "User_jd_91",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_92",
-    "status": "PAID",
-    "amount": "226.54",
-    "customer": "User_jd_92",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_93",
-    "status": "PAID",
-    "amount": "541.75",
-    "customer": "User_jd_93",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_94",
-    "status": "PAID",
-    "amount": "699.59",
-    "customer": "User_jd_94",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_95",
-    "status": "PAID",
-    "amount": "518.65",
-    "customer": "User_jd_95",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_96",
-    "status": "PAID",
-    "amount": "423.17",
-    "customer": "User_jd_96",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_97",
-    "status": "PAID",
-    "amount": "551.44",
-    "customer": "User_jd_97",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_98",
-    "status": "PAID",
-    "amount": "164.71",
-    "customer": "User_jd_98",
-    "time": "2026-04-13T02:58:11.884Z"
-  },
-  {
-    "id": "JD_ORD_99",
-    "status": "PAID",
-    "amount": "970.67",
-    "customer": "User_jd_99",
-    "time": "2026-04-13T02:58:11.884Z"
+    "order_sn": "JD202604000000",
+    "pin": "张伟",
+    "order_total_price": 2999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-10T20:05:54.567Z",
+    "consignee_info": {
+      "fullname": "张伟",
+      "mobile": "138000",
+      "address": "北京市朝阳区建国路88号SOHO现代城A座1201"
+    },
+    "sku_list": [
+      {
+        "sku_id": "100000",
+        "sku_name": "小米13 Pro 12GB+256GB 天玑版",
+        "price": 2999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000001",
+    "pin": "王芳",
+    "order_total_price": 9999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-11T16:54:39.995Z",
+    "consignee_info": {
+      "fullname": "王芳",
+      "mobile": "138001",
+      "address": "上海市浦东新区陆家嘴环路1000号恒生银行大厦32层"
+    },
+    "sku_list": [
+      {
+        "sku_id": "200000",
+        "sku_name": "iPhone 15 Pro Max 256GB 钛金属",
+        "price": 9999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000002",
+    "pin": "李娜",
+    "order_total_price": 6999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-12T05:17:26.920Z",
+    "consignee_info": {
+      "fullname": "李娜",
+      "mobile": "138002",
+      "address": "广州市天河区天河路208号天河城购物中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "300000",
+        "sku_name": "华为Mate 60 Pro 12GB+512GB",
+        "price": 6999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000003",
+    "pin": "刘洋",
+    "order_total_price": 5999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-08T12:29:17.304Z",
+    "consignee_info": {
+      "fullname": "刘洋",
+      "mobile": "138003",
+      "address": "深圳市南山区科技园南区深圳湾科技生态园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "400000",
+        "sku_name": "OPPO Find X7 Ultra 16GB+512GB",
+        "price": 5999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000004",
+    "pin": "陈静",
+    "order_total_price": 4999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-30T19:45:44.480Z",
+    "consignee_info": {
+      "fullname": "陈静",
+      "mobile": "138004",
+      "address": "杭州市西湖区文三路90号东部软件园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "500000",
+        "sku_name": "vivo X100 Pro 16GB+512GB",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000005",
+    "pin": "杨帆",
+    "order_total_price": 12999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-15T02:18:03.424Z",
+    "consignee_info": {
+      "fullname": "杨帆",
+      "mobile": "138005",
+      "address": "成都市武侯区天府大道中段666号希顿国际广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "600000",
+        "sku_name": "联想ThinkPad X1 Carbon i7/16GB/512GB",
+        "price": 12999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000006",
+    "pin": "赵敏",
+    "order_total_price": 8999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-25T03:14:45.761Z",
+    "consignee_info": {
+      "fullname": "赵敏",
+      "mobile": "138006",
+      "address": "重庆市渝北区龙溪街道金开大道西段106号"
+    },
+    "sku_list": [
+      {
+        "sku_id": "700000",
+        "sku_name": "戴尔XPS 13 i7/16GB/1TB",
+        "price": 8999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000007",
+    "pin": "孙悦",
+    "order_total_price": 16999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-05T18:41:52.197Z",
+    "consignee_info": {
+      "fullname": "孙悦",
+      "mobile": "138007",
+      "address": "武汉市洪山区光谷大道61号智慧园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "800000",
+        "sku_name": "MacBook Pro 14英寸 M3 Pro 18GB/512GB",
+        "price": 16999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000008",
+    "pin": "周杰",
+    "order_total_price": 6999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-15T04:35:15.191Z",
+    "consignee_info": {
+      "fullname": "周杰",
+      "mobile": "138008",
+      "address": "南京市玄武区中山东路18号国际贸易中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "900000",
+        "sku_name": "华硕天选4 RTX4060 i7/16GB/1TB",
+        "price": 6999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000009",
+    "pin": "吴磊",
+    "order_total_price": 4999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-27T07:46:47.168Z",
+    "consignee_info": {
+      "fullname": "吴磊",
+      "mobile": "138009",
+      "address": "西安市雁塔区高新路88号尚品国际"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1000000",
+        "sku_name": "惠普战66六代 i5/16GB/512GB",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000010",
+    "pin": "郑强",
+    "order_total_price": 2999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-25T05:21:33.762Z",
+    "consignee_info": {
+      "fullname": "郑强",
+      "mobile": "138010",
+      "address": "苏州市工业园区星湖街328号创意产业园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1100000",
+        "sku_name": "美的空调 1.5匹 新一级能效 变频",
+        "price": 2999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000011",
+    "pin": "王丽",
+    "order_total_price": 4999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-06T22:03:45.948Z",
+    "consignee_info": {
+      "fullname": "王丽",
+      "mobile": "138011",
+      "address": "天津市和平区南京路189号津汇广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1200000",
+        "sku_name": "海尔冰箱 500L 十字对开门",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000012",
+    "pin": "李明",
+    "order_total_price": 5999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-17T23:41:15.646Z",
+    "consignee_info": {
+      "fullname": "李明",
+      "mobile": "138012",
+      "address": "青岛市市南区香港中路8号青岛中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1300000",
+        "sku_name": "格力空调 3匹 柜机 新一级",
+        "price": 5999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000013",
+    "pin": "刘芳",
+    "order_total_price": 3999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-12T17:58:01.569Z",
+    "consignee_info": {
+      "fullname": "刘芳",
+      "mobile": "138013",
+      "address": "长沙市岳麓区麓谷大道658号软件园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1400000",
+        "sku_name": "西门子洗衣机 10kg 滚筒",
+        "price": 3999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000014",
+    "pin": "陈伟",
+    "order_total_price": 4999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-15T02:21:44.611Z",
+    "consignee_info": {
+      "fullname": "陈伟",
+      "mobile": "138014",
+      "address": "郑州市金水区花园路39号国贸中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1500000",
+        "sku_name": "海信电视 75英寸 4K 120Hz",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000015",
+    "pin": "杨静",
+    "order_total_price": 899,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-02T01:38:39.278Z",
+    "consignee_info": {
+      "fullname": "杨静",
+      "mobile": "138015",
+      "address": "济南市历下区泉城路180号齐鲁国际大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1600000",
+        "sku_name": "耐克Air Max 270 男款运动鞋",
+        "price": 899,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000016",
+    "pin": "赵刚",
+    "order_total_price": 1299,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-25T21:16:16.683Z",
+    "consignee_info": {
+      "fullname": "赵刚",
+      "mobile": "138016",
+      "address": "福州市鼓楼区五四路158号环球广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1700000",
+        "sku_name": "阿迪达斯Ultra Boost 跑步鞋",
+        "price": 1299,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000017",
+    "pin": "孙丽",
+    "order_total_price": 99,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-04T06:18:44.415Z",
+    "consignee_info": {
+      "fullname": "孙丽",
+      "mobile": "138017",
+      "address": "厦门市思明区鹭江道8号国际银行大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1800000",
+        "sku_name": "优衣库纯棉T恤 男女同款",
+        "price": 99,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000018",
+    "pin": "周敏",
+    "order_total_price": 599,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-18T07:11:32.507Z",
+    "consignee_info": {
+      "fullname": "周敏",
+      "mobile": "138018",
+      "address": "沈阳市沈河区青年大街286号华润大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1900000",
+        "sku_name": "Levi's 501经典牛仔裤",
+        "price": 599,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000019",
+    "pin": "吴强",
+    "order_total_price": 1999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-14T05:49:11.266Z",
+    "consignee_info": {
+      "fullname": "吴强",
+      "mobile": "138019",
+      "address": "大连市中山区人民路15号国际金融中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2000000",
+        "sku_name": "The North Face 冲锋衣 防水透气",
+        "price": 1999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000020",
+    "pin": "冯芳",
+    "order_total_price": 199,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-01T22:44:07.838Z",
+    "consignee_info": {
+      "fullname": "冯芳",
+      "mobile": "138020",
+      "address": "北京市朝阳区建国路88号SOHO现代城A座1201"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2100000",
+        "sku_name": "三只松鼠每日坚果 750g",
+        "price": 199,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000021",
+    "pin": "陈涛",
+    "order_total_price": 299,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-09T16:09:25.918Z",
+    "consignee_info": {
+      "fullname": "陈涛",
+      "mobile": "138021",
+      "address": "上海市浦东新区陆家嘴环路1000号恒生银行大厦32层"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2200000",
+        "sku_name": "良品铺子零食大礼包 1500g",
+        "price": 299,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000022",
+    "pin": "褚卫",
+    "order_total_price": 89,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-09T18:44:58.944Z",
+    "consignee_info": {
+      "fullname": "褚卫",
+      "mobile": "138022",
+      "address": "广州市天河区天河路208号天河城购物中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2300000",
+        "sku_name": "蒙牛特仑苏纯牛奶 250ml*16盒",
+        "price": 89,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000023",
+    "pin": "卫强",
+    "order_total_price": 159,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-10T14:08:33.887Z",
+    "consignee_info": {
+      "fullname": "卫强",
+      "mobile": "138023",
+      "address": "深圳市南山区科技园南区深圳湾科技生态园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2400000",
+        "sku_name": "五芳斋粽子礼盒 1200g",
+        "price": 159,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000024",
+    "pin": "蒋敏",
+    "order_total_price": 2999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-14T14:35:19.721Z",
+    "consignee_info": {
+      "fullname": "蒋敏",
+      "mobile": "138024",
+      "address": "杭州市西湖区文三路90号东部软件园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2500000",
+        "sku_name": "茅台飞天53度 500ml",
+        "price": 2999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000025",
+    "pin": "沈芳",
+    "order_total_price": 4999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-02T09:19:40.749Z",
+    "consignee_info": {
+      "fullname": "沈芳",
+      "mobile": "138025",
+      "address": "成都市武侯区天府大道中段666号希顿国际广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2600000",
+        "sku_name": "戴森V15吸尘器 无线手持",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000026",
+    "pin": "韩涛",
+    "order_total_price": 2999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-06T20:08:00.196Z",
+    "consignee_info": {
+      "fullname": "韩涛",
+      "mobile": "138026",
+      "address": "重庆市渝北区龙溪街道金开大道西段106号"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2700000",
+        "sku_name": "小米扫地机器人 X10+",
+        "price": 2999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000027",
+    "pin": "杨磊",
+    "order_total_price": 599,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-29T19:27:30.502Z",
+    "consignee_info": {
+      "fullname": "杨磊",
+      "mobile": "138027",
+      "address": "武汉市洪山区光谷大道61号智慧园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2800000",
+        "sku_name": "九阳破壁机 Y88",
+        "price": 599,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000028",
+    "pin": "朱静",
+    "order_total_price": 799,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-06T04:15:10.054Z",
+    "consignee_info": {
+      "fullname": "朱静",
+      "mobile": "138028",
+      "address": "南京市玄武区中山东路18号国际贸易中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2900000",
+        "sku_name": "美的电饭煲 5L IH加热",
+        "price": 799,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000029",
+    "pin": "秦伟",
+    "order_total_price": 299,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-29T21:30:00.260Z",
+    "consignee_info": {
+      "fullname": "秦伟",
+      "mobile": "138029",
+      "address": "西安市雁塔区高新路88号尚品国际"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3000000",
+        "sku_name": "苏泊尔炒锅 32cm 不粘锅",
+        "price": 299,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000030",
+    "pin": "尤娜",
+    "order_total_price": 1899,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-03T19:24:32.110Z",
+    "consignee_info": {
+      "fullname": "尤娜",
+      "mobile": "138030",
+      "address": "苏州市工业园区星湖街328号创意产业园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3100000",
+        "sku_name": "AirPods Pro 2代 主动降噪",
+        "price": 1899,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000031",
+    "pin": "许洋",
+    "order_total_price": 2499,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-11T13:27:35.265Z",
+    "consignee_info": {
+      "fullname": "许洋",
+      "mobile": "138031",
+      "address": "天津市和平区南京路189号津汇广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3200000",
+        "sku_name": "索尼WH-1000XM5 降噪耳机",
+        "price": 2499,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000032",
+    "pin": "何芳",
+    "order_total_price": 3499,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-30T19:43:01.071Z",
+    "consignee_info": {
+      "fullname": "何芳",
+      "mobile": "138032",
+      "address": "青岛市市南区香港中路8号青岛中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3300000",
+        "sku_name": "GoPro Hero 12 运动相机",
+        "price": 3499,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000033",
+    "pin": "吕刚",
+    "order_total_price": 4999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-31T17:43:17.759Z",
+    "consignee_info": {
+      "fullname": "吕刚",
+      "mobile": "138033",
+      "address": "长沙市岳麓区麓谷大道658号软件园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3400000",
+        "sku_name": "大疆Mini 4 Pro 无人机",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000034",
+    "pin": "施丽",
+    "order_total_price": 799,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-19T05:19:31.341Z",
+    "consignee_info": {
+      "fullname": "施丽",
+      "mobile": "138034",
+      "address": "郑州市金水区花园路39号国贸中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3500000",
+        "sku_name": "罗技MX Master 3S 无线鼠标",
+        "price": 799,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000035",
+    "pin": "张敏",
+    "order_total_price": 899,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-21T11:34:53.858Z",
+    "consignee_info": {
+      "fullname": "张敏",
+      "mobile": "138035",
+      "address": "济南市历下区泉城路180号齐鲁国际大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3600000",
+        "sku_name": "雅诗兰黛小棕瓶精华 50ml",
+        "price": 899,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000036",
+    "pin": "孔强",
+    "order_total_price": 1599,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-29T08:33:38.304Z",
+    "consignee_info": {
+      "fullname": "孔强",
+      "mobile": "138036",
+      "address": "福州市鼓楼区五四路158号环球广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3700000",
+        "sku_name": "SK-II神仙水 230ml",
+        "price": 1599,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000037",
+    "pin": "曹娜",
+    "order_total_price": 1299,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-22T05:27:33.522Z",
+    "consignee_info": {
+      "fullname": "曹娜",
+      "mobile": "138037",
+      "address": "厦门市思明区鹭江道8号国际银行大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3800000",
+        "sku_name": "兰蔻小黑瓶精华 100ml",
+        "price": 1299,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000038",
+    "pin": "严磊",
+    "order_total_price": 299,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-27T23:40:54.791Z",
+    "consignee_info": {
+      "fullname": "严磊",
+      "mobile": "138038",
+      "address": "沈阳市沈河区青年大街286号华润大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3900000",
+        "sku_name": "欧莱雅紫熨斗眼霜 15ml",
+        "price": 299,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000039",
+    "pin": "华静",
+    "order_total_price": 199,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-02T23:01:22.439Z",
+    "consignee_info": {
+      "fullname": "华静",
+      "mobile": "138039",
+      "address": "大连市中山区人民路15号国际金融中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4000000",
+        "sku_name": "完美日记口红礼盒 5支装",
+        "price": 199,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000040",
+    "pin": "金伟",
+    "order_total_price": 5999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-28T17:21:43.917Z",
+    "consignee_info": {
+      "fullname": "金伟",
+      "mobile": "138040",
+      "address": "北京市朝阳区建国路88号SOHO现代城A座1201"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4100000",
+        "sku_name": "乐高星球大战 千年隼号",
+        "price": 5999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000041",
+    "pin": "魏芳",
+    "order_total_price": 79,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-21T06:19:49.983Z",
+    "consignee_info": {
+      "fullname": "魏芳",
+      "mobile": "138041",
+      "address": "上海市浦东新区陆家嘴环路1000号恒生银行大厦32层"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4200000",
+        "sku_name": "泡泡玛特MOLLY星座系列",
+        "price": 79,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000042",
+    "pin": "陶刚",
+    "order_total_price": 399,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-20T14:56:32.797Z",
+    "consignee_info": {
+      "fullname": "陶刚",
+      "mobile": "138042",
+      "address": "广州市天河区天河路208号天河城购物中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4300000",
+        "sku_name": "万代高达模型 RG独角兽",
+        "price": 399,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000043",
+    "pin": "姜丽",
+    "order_total_price": 299,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-04T08:23:50.504Z",
+    "consignee_info": {
+      "fullname": "姜丽",
+      "mobile": "138043",
+      "address": "深圳市南山区科技园南区深圳湾科技生态园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4400000",
+        "sku_name": "费雪婴儿健身架",
+        "price": 299,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000044",
+    "pin": "戚敏",
+    "order_total_price": 899,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-03T11:00:18.780Z",
+    "consignee_info": {
+      "fullname": "戚敏",
+      "mobile": "138044",
+      "address": "杭州市西湖区文三路90号东部软件园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4500000",
+        "sku_name": "芭比娃娃梦想豪宅",
+        "price": 899,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000045",
+    "pin": "谢强",
+    "order_total_price": 1999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-26T03:29:45.301Z",
+    "consignee_info": {
+      "fullname": "谢强",
+      "mobile": "138045",
+      "address": "成都市武侯区天府大道中段666号希顿国际广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4600000",
+        "sku_name": "宜家马尔姆床架 1.8m",
+        "price": 1999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000046",
+    "pin": "邹娜",
+    "order_total_price": 8999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-21T22:21:24.116Z",
+    "consignee_info": {
+      "fullname": "邹娜",
+      "mobile": "138046",
+      "address": "重庆市渝北区龙溪街道金开大道西段106号"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4700000",
+        "sku_name": "顾家家居真皮沙发 三人位",
+        "price": 8999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000047",
+    "pin": "喻磊",
+    "order_total_price": 6999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-01T13:25:50.961Z",
+    "consignee_info": {
+      "fullname": "喻磊",
+      "mobile": "138047",
+      "address": "武汉市洪山区光谷大道61号智慧园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4800000",
+        "sku_name": "慕思床垫 乳胶独立弹簧 1.8m",
+        "price": 6999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000048",
+    "pin": "柏静",
+    "order_total_price": 2999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-24T16:51:43.211Z",
+    "consignee_info": {
+      "fullname": "柏静",
+      "mobile": "138048",
+      "address": "南京市玄武区中山东路18号国际贸易中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4900000",
+        "sku_name": "林氏木业实木餐桌 1.4m",
+        "price": 2999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000049",
+    "pin": "水伟",
+    "order_total_price": 3999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-13T18:29:04.028Z",
+    "consignee_info": {
+      "fullname": "水伟",
+      "mobile": "138049",
+      "address": "西安市雁塔区高新路88号尚品国际"
+    },
+    "sku_list": [
+      {
+        "sku_id": "5000000",
+        "sku_name": "全友家居衣柜 2.4m 推拉门",
+        "price": 3999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000050",
+    "pin": "窦芳",
+    "order_total_price": 2999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-05T20:58:01.266Z",
+    "consignee_info": {
+      "fullname": "窦芳",
+      "mobile": "138050",
+      "address": "苏州市工业园区星湖街328号创意产业园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "100000",
+        "sku_name": "小米13 Pro 12GB+256GB 天玑版",
+        "price": 2999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000051",
+    "pin": "章刚",
+    "order_total_price": 9999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-02T04:44:58.621Z",
+    "consignee_info": {
+      "fullname": "章刚",
+      "mobile": "138051",
+      "address": "天津市和平区南京路189号津汇广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "200000",
+        "sku_name": "iPhone 15 Pro Max 256GB 钛金属",
+        "price": 9999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000052",
+    "pin": "云丽",
+    "order_total_price": 6999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-10T01:14:15.654Z",
+    "consignee_info": {
+      "fullname": "云丽",
+      "mobile": "138052",
+      "address": "青岛市市南区香港中路8号青岛中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "300000",
+        "sku_name": "华为Mate 60 Pro 12GB+512GB",
+        "price": 6999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000053",
+    "pin": "苏敏",
+    "order_total_price": 5999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-01T23:19:49.264Z",
+    "consignee_info": {
+      "fullname": "苏敏",
+      "mobile": "138053",
+      "address": "长沙市岳麓区麓谷大道658号软件园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "400000",
+        "sku_name": "OPPO Find X7 Ultra 16GB+512GB",
+        "price": 5999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000054",
+    "pin": "潘强",
+    "order_total_price": 4999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-24T11:47:22.655Z",
+    "consignee_info": {
+      "fullname": "潘强",
+      "mobile": "138054",
+      "address": "郑州市金水区花园路39号国贸中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "500000",
+        "sku_name": "vivo X100 Pro 16GB+512GB",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000055",
+    "pin": "葛娜",
+    "order_total_price": 12999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-23T04:55:38.360Z",
+    "consignee_info": {
+      "fullname": "葛娜",
+      "mobile": "138055",
+      "address": "济南市历下区泉城路180号齐鲁国际大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "600000",
+        "sku_name": "联想ThinkPad X1 Carbon i7/16GB/512GB",
+        "price": 12999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000056",
+    "pin": "奚磊",
+    "order_total_price": 8999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-01T01:36:56.735Z",
+    "consignee_info": {
+      "fullname": "奚磊",
+      "mobile": "138056",
+      "address": "福州市鼓楼区五四路158号环球广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "700000",
+        "sku_name": "戴尔XPS 13 i7/16GB/1TB",
+        "price": 8999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000057",
+    "pin": "范静",
+    "order_total_price": 16999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-19T11:01:16.342Z",
+    "consignee_info": {
+      "fullname": "范静",
+      "mobile": "138057",
+      "address": "厦门市思明区鹭江道8号国际银行大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "800000",
+        "sku_name": "MacBook Pro 14英寸 M3 Pro 18GB/512GB",
+        "price": 16999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000058",
+    "pin": "彭伟",
+    "order_total_price": 6999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-24T16:14:25.271Z",
+    "consignee_info": {
+      "fullname": "彭伟",
+      "mobile": "138058",
+      "address": "沈阳市沈河区青年大街286号华润大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "900000",
+        "sku_name": "华硕天选4 RTX4060 i7/16GB/1TB",
+        "price": 6999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000059",
+    "pin": "郎芳",
+    "order_total_price": 4999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-07T22:12:00.954Z",
+    "consignee_info": {
+      "fullname": "郎芳",
+      "mobile": "138059",
+      "address": "大连市中山区人民路15号国际金融中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1000000",
+        "sku_name": "惠普战66六代 i5/16GB/512GB",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000060",
+    "pin": "鲁刚",
+    "order_total_price": 2999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-29T20:52:02.354Z",
+    "consignee_info": {
+      "fullname": "鲁刚",
+      "mobile": "138060",
+      "address": "北京市朝阳区建国路88号SOHO现代城A座1201"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1100000",
+        "sku_name": "美的空调 1.5匹 新一级能效 变频",
+        "price": 2999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000061",
+    "pin": "韦丽",
+    "order_total_price": 4999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-18T00:10:41.179Z",
+    "consignee_info": {
+      "fullname": "韦丽",
+      "mobile": "138061",
+      "address": "上海市浦东新区陆家嘴环路1000号恒生银行大厦32层"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1200000",
+        "sku_name": "海尔冰箱 500L 十字对开门",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000062",
+    "pin": "昌敏",
+    "order_total_price": 5999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-08T14:08:20.150Z",
+    "consignee_info": {
+      "fullname": "昌敏",
+      "mobile": "138062",
+      "address": "广州市天河区天河路208号天河城购物中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1300000",
+        "sku_name": "格力空调 3匹 柜机 新一级",
+        "price": 5999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000063",
+    "pin": "马强",
+    "order_total_price": 3999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-20T17:46:36.060Z",
+    "consignee_info": {
+      "fullname": "马强",
+      "mobile": "138063",
+      "address": "深圳市南山区科技园南区深圳湾科技生态园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1400000",
+        "sku_name": "西门子洗衣机 10kg 滚筒",
+        "price": 3999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000064",
+    "pin": "苗娜",
+    "order_total_price": 4999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-18T21:35:53.568Z",
+    "consignee_info": {
+      "fullname": "苗娜",
+      "mobile": "138064",
+      "address": "杭州市西湖区文三路90号东部软件园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1500000",
+        "sku_name": "海信电视 75英寸 4K 120Hz",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000065",
+    "pin": "凤磊",
+    "order_total_price": 899,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-08T02:37:04.944Z",
+    "consignee_info": {
+      "fullname": "凤磊",
+      "mobile": "138065",
+      "address": "成都市武侯区天府大道中段666号希顿国际广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1600000",
+        "sku_name": "耐克Air Max 270 男款运动鞋",
+        "price": 899,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000066",
+    "pin": "花静",
+    "order_total_price": 1299,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-20T15:18:20.534Z",
+    "consignee_info": {
+      "fullname": "花静",
+      "mobile": "138066",
+      "address": "重庆市渝北区龙溪街道金开大道西段106号"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1700000",
+        "sku_name": "阿迪达斯Ultra Boost 跑步鞋",
+        "price": 1299,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000067",
+    "pin": "方伟",
+    "order_total_price": 99,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-11T23:25:43.070Z",
+    "consignee_info": {
+      "fullname": "方伟",
+      "mobile": "138067",
+      "address": "武汉市洪山区光谷大道61号智慧园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1800000",
+        "sku_name": "优衣库纯棉T恤 男女同款",
+        "price": 99,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000068",
+    "pin": "俞芳",
+    "order_total_price": 599,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-15T02:48:00.506Z",
+    "consignee_info": {
+      "fullname": "俞芳",
+      "mobile": "138068",
+      "address": "南京市玄武区中山东路18号国际贸易中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1900000",
+        "sku_name": "Levi's 501经典牛仔裤",
+        "price": 599,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000069",
+    "pin": "任刚",
+    "order_total_price": 1999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-18T05:22:43.626Z",
+    "consignee_info": {
+      "fullname": "任刚",
+      "mobile": "138069",
+      "address": "西安市雁塔区高新路88号尚品国际"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2000000",
+        "sku_name": "The North Face 冲锋衣 防水透气",
+        "price": 1999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000070",
+    "pin": "袁丽",
+    "order_total_price": 199,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-29T19:24:19.937Z",
+    "consignee_info": {
+      "fullname": "袁丽",
+      "mobile": "138070",
+      "address": "苏州市工业园区星湖街328号创意产业园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2100000",
+        "sku_name": "三只松鼠每日坚果 750g",
+        "price": 199,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000071",
+    "pin": "柳敏",
+    "order_total_price": 299,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-02T14:43:42.823Z",
+    "consignee_info": {
+      "fullname": "柳敏",
+      "mobile": "138071",
+      "address": "天津市和平区南京路189号津汇广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2200000",
+        "sku_name": "良品铺子零食大礼包 1500g",
+        "price": 299,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000072",
+    "pin": "酆强",
+    "order_total_price": 89,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-27T13:31:08.039Z",
+    "consignee_info": {
+      "fullname": "酆强",
+      "mobile": "138072",
+      "address": "青岛市市南区香港中路8号青岛中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2300000",
+        "sku_name": "蒙牛特仑苏纯牛奶 250ml*16盒",
+        "price": 89,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000073",
+    "pin": "鲍娜",
+    "order_total_price": 159,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-11T01:52:48.082Z",
+    "consignee_info": {
+      "fullname": "鲍娜",
+      "mobile": "138073",
+      "address": "长沙市岳麓区麓谷大道658号软件园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2400000",
+        "sku_name": "五芳斋粽子礼盒 1200g",
+        "price": 159,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000074",
+    "pin": "史磊",
+    "order_total_price": 2999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-31T19:02:14.931Z",
+    "consignee_info": {
+      "fullname": "史磊",
+      "mobile": "138074",
+      "address": "郑州市金水区花园路39号国贸中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2500000",
+        "sku_name": "茅台飞天53度 500ml",
+        "price": 2999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000075",
+    "pin": "唐静",
+    "order_total_price": 4999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-05T16:48:06.898Z",
+    "consignee_info": {
+      "fullname": "唐静",
+      "mobile": "138075",
+      "address": "济南市历下区泉城路180号齐鲁国际大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2600000",
+        "sku_name": "戴森V15吸尘器 无线手持",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000076",
+    "pin": "费伟",
+    "order_total_price": 2999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-14T23:29:15.627Z",
+    "consignee_info": {
+      "fullname": "费伟",
+      "mobile": "138076",
+      "address": "福州市鼓楼区五四路158号环球广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2700000",
+        "sku_name": "小米扫地机器人 X10+",
+        "price": 2999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000077",
+    "pin": "廉芳",
+    "order_total_price": 599,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-02T11:58:43.050Z",
+    "consignee_info": {
+      "fullname": "廉芳",
+      "mobile": "138077",
+      "address": "厦门市思明区鹭江道8号国际银行大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2800000",
+        "sku_name": "九阳破壁机 Y88",
+        "price": 599,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000078",
+    "pin": "岑刚",
+    "order_total_price": 799,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-31T10:37:45.015Z",
+    "consignee_info": {
+      "fullname": "岑刚",
+      "mobile": "138078",
+      "address": "沈阳市沈河区青年大街286号华润大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2900000",
+        "sku_name": "美的电饭煲 5L IH加热",
+        "price": 799,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000079",
+    "pin": "薛丽",
+    "order_total_price": 299,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-19T00:07:32.972Z",
+    "consignee_info": {
+      "fullname": "薛丽",
+      "mobile": "138079",
+      "address": "大连市中山区人民路15号国际金融中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3000000",
+        "sku_name": "苏泊尔炒锅 32cm 不粘锅",
+        "price": 299,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000080",
+    "pin": "雷敏",
+    "order_total_price": 1899,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-02T02:16:19.039Z",
+    "consignee_info": {
+      "fullname": "雷敏",
+      "mobile": "138080",
+      "address": "北京市朝阳区建国路88号SOHO现代城A座1201"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3100000",
+        "sku_name": "AirPods Pro 2代 主动降噪",
+        "price": 1899,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000081",
+    "pin": "贺强",
+    "order_total_price": 2499,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-02T12:12:43.865Z",
+    "consignee_info": {
+      "fullname": "贺强",
+      "mobile": "138081",
+      "address": "上海市浦东新区陆家嘴环路1000号恒生银行大厦32层"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3200000",
+        "sku_name": "索尼WH-1000XM5 降噪耳机",
+        "price": 2499,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000082",
+    "pin": "倪娜",
+    "order_total_price": 3499,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-19T16:00:05.740Z",
+    "consignee_info": {
+      "fullname": "倪娜",
+      "mobile": "138082",
+      "address": "广州市天河区天河路208号天河城购物中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3300000",
+        "sku_name": "GoPro Hero 12 运动相机",
+        "price": 3499,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000083",
+    "pin": "汤磊",
+    "order_total_price": 4999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-11T08:20:56.473Z",
+    "consignee_info": {
+      "fullname": "汤磊",
+      "mobile": "138083",
+      "address": "深圳市南山区科技园南区深圳湾科技生态园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3400000",
+        "sku_name": "大疆Mini 4 Pro 无人机",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000084",
+    "pin": "滕静",
+    "order_total_price": 799,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-11T10:40:49.827Z",
+    "consignee_info": {
+      "fullname": "滕静",
+      "mobile": "138084",
+      "address": "杭州市西湖区文三路90号东部软件园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3500000",
+        "sku_name": "罗技MX Master 3S 无线鼠标",
+        "price": 799,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000085",
+    "pin": "殷伟",
+    "order_total_price": 899,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-23T09:01:12.776Z",
+    "consignee_info": {
+      "fullname": "殷伟",
+      "mobile": "138085",
+      "address": "成都市武侯区天府大道中段666号希顿国际广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3600000",
+        "sku_name": "雅诗兰黛小棕瓶精华 50ml",
+        "price": 899,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000086",
+    "pin": "罗芳",
+    "order_total_price": 1599,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-20T06:05:14.437Z",
+    "consignee_info": {
+      "fullname": "罗芳",
+      "mobile": "138086",
+      "address": "重庆市渝北区龙溪街道金开大道西段106号"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3700000",
+        "sku_name": "SK-II神仙水 230ml",
+        "price": 1599,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000087",
+    "pin": "毕刚",
+    "order_total_price": 1299,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-15T09:32:19.851Z",
+    "consignee_info": {
+      "fullname": "毕刚",
+      "mobile": "138087",
+      "address": "武汉市洪山区光谷大道61号智慧园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3800000",
+        "sku_name": "兰蔻小黑瓶精华 100ml",
+        "price": 1299,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000088",
+    "pin": "郝丽",
+    "order_total_price": 299,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-12T18:48:11.652Z",
+    "consignee_info": {
+      "fullname": "郝丽",
+      "mobile": "138088",
+      "address": "南京市玄武区中山东路18号国际贸易中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "3900000",
+        "sku_name": "欧莱雅紫熨斗眼霜 15ml",
+        "price": 299,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000089",
+    "pin": "邬敏",
+    "order_total_price": 199,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-29T21:14:18.082Z",
+    "consignee_info": {
+      "fullname": "邬敏",
+      "mobile": "138089",
+      "address": "西安市雁塔区高新路88号尚品国际"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4000000",
+        "sku_name": "完美日记口红礼盒 5支装",
+        "price": 199,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000090",
+    "pin": "安强",
+    "order_total_price": 5999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-15T06:38:44.902Z",
+    "consignee_info": {
+      "fullname": "安强",
+      "mobile": "138090",
+      "address": "苏州市工业园区星湖街328号创意产业园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4100000",
+        "sku_name": "乐高星球大战 千年隼号",
+        "price": 5999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000091",
+    "pin": "常娜",
+    "order_total_price": 79,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-18T16:13:27.187Z",
+    "consignee_info": {
+      "fullname": "常娜",
+      "mobile": "138091",
+      "address": "天津市和平区南京路189号津汇广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4200000",
+        "sku_name": "泡泡玛特MOLLY星座系列",
+        "price": 79,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000092",
+    "pin": "乐磊",
+    "order_total_price": 399,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-26T16:50:03.467Z",
+    "consignee_info": {
+      "fullname": "乐磊",
+      "mobile": "138092",
+      "address": "青岛市市南区香港中路8号青岛中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4300000",
+        "sku_name": "万代高达模型 RG独角兽",
+        "price": 399,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000093",
+    "pin": "于静",
+    "order_total_price": 299,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-16T02:33:35.071Z",
+    "consignee_info": {
+      "fullname": "于静",
+      "mobile": "138093",
+      "address": "长沙市岳麓区麓谷大道658号软件园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4400000",
+        "sku_name": "费雪婴儿健身架",
+        "price": 299,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000094",
+    "pin": "时伟",
+    "order_total_price": 899,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-27T22:52:53.091Z",
+    "consignee_info": {
+      "fullname": "时伟",
+      "mobile": "138094",
+      "address": "郑州市金水区花园路39号国贸中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4500000",
+        "sku_name": "芭比娃娃梦想豪宅",
+        "price": 899,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000095",
+    "pin": "傅芳",
+    "order_total_price": 1999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-23T05:00:25.418Z",
+    "consignee_info": {
+      "fullname": "傅芳",
+      "mobile": "138095",
+      "address": "济南市历下区泉城路180号齐鲁国际大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4600000",
+        "sku_name": "宜家马尔姆床架 1.8m",
+        "price": 1999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000096",
+    "pin": "皮刚",
+    "order_total_price": 8999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-02T02:39:05.073Z",
+    "consignee_info": {
+      "fullname": "皮刚",
+      "mobile": "138096",
+      "address": "福州市鼓楼区五四路158号环球广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4700000",
+        "sku_name": "顾家家居真皮沙发 三人位",
+        "price": 8999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000097",
+    "pin": "卞丽",
+    "order_total_price": 6999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-15T22:58:07.724Z",
+    "consignee_info": {
+      "fullname": "卞丽",
+      "mobile": "138097",
+      "address": "厦门市思明区鹭江道8号国际银行大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4800000",
+        "sku_name": "慕思床垫 乳胶独立弹簧 1.8m",
+        "price": 6999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000098",
+    "pin": "齐敏",
+    "order_total_price": 2999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-10T07:55:52.524Z",
+    "consignee_info": {
+      "fullname": "齐敏",
+      "mobile": "138098",
+      "address": "沈阳市沈河区青年大街286号华润大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "4900000",
+        "sku_name": "林氏木业实木餐桌 1.4m",
+        "price": 2999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000099",
+    "pin": "康强",
+    "order_total_price": 3999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-11T23:04:49.015Z",
+    "consignee_info": {
+      "fullname": "康强",
+      "mobile": "138099",
+      "address": "大连市中山区人民路15号国际金融中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "5000000",
+        "sku_name": "全友家居衣柜 2.4m 推拉门",
+        "price": 3999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000100",
+    "pin": "张伟",
+    "order_total_price": 2999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-25T06:38:00.554Z",
+    "consignee_info": {
+      "fullname": "张伟",
+      "mobile": "138100",
+      "address": "北京市朝阳区建国路88号SOHO现代城A座1201"
+    },
+    "sku_list": [
+      {
+        "sku_id": "100000",
+        "sku_name": "小米13 Pro 12GB+256GB 天玑版",
+        "price": 2999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000101",
+    "pin": "王芳",
+    "order_total_price": 9999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-01T02:05:46.913Z",
+    "consignee_info": {
+      "fullname": "王芳",
+      "mobile": "138101",
+      "address": "上海市浦东新区陆家嘴环路1000号恒生银行大厦32层"
+    },
+    "sku_list": [
+      {
+        "sku_id": "200000",
+        "sku_name": "iPhone 15 Pro Max 256GB 钛金属",
+        "price": 9999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000102",
+    "pin": "李娜",
+    "order_total_price": 6999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-17T10:09:05.768Z",
+    "consignee_info": {
+      "fullname": "李娜",
+      "mobile": "138102",
+      "address": "广州市天河区天河路208号天河城购物中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "300000",
+        "sku_name": "华为Mate 60 Pro 12GB+512GB",
+        "price": 6999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000103",
+    "pin": "刘洋",
+    "order_total_price": 5999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-06T01:31:27.676Z",
+    "consignee_info": {
+      "fullname": "刘洋",
+      "mobile": "138103",
+      "address": "深圳市南山区科技园南区深圳湾科技生态园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "400000",
+        "sku_name": "OPPO Find X7 Ultra 16GB+512GB",
+        "price": 5999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000104",
+    "pin": "陈静",
+    "order_total_price": 4999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-20T03:36:08.459Z",
+    "consignee_info": {
+      "fullname": "陈静",
+      "mobile": "138104",
+      "address": "杭州市西湖区文三路90号东部软件园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "500000",
+        "sku_name": "vivo X100 Pro 16GB+512GB",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000105",
+    "pin": "杨帆",
+    "order_total_price": 12999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-22T11:15:30.838Z",
+    "consignee_info": {
+      "fullname": "杨帆",
+      "mobile": "138105",
+      "address": "成都市武侯区天府大道中段666号希顿国际广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "600000",
+        "sku_name": "联想ThinkPad X1 Carbon i7/16GB/512GB",
+        "price": 12999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000106",
+    "pin": "赵敏",
+    "order_total_price": 8999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-03T16:46:31.144Z",
+    "consignee_info": {
+      "fullname": "赵敏",
+      "mobile": "138106",
+      "address": "重庆市渝北区龙溪街道金开大道西段106号"
+    },
+    "sku_list": [
+      {
+        "sku_id": "700000",
+        "sku_name": "戴尔XPS 13 i7/16GB/1TB",
+        "price": 8999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000107",
+    "pin": "孙悦",
+    "order_total_price": 16999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-06T20:01:28.783Z",
+    "consignee_info": {
+      "fullname": "孙悦",
+      "mobile": "138107",
+      "address": "武汉市洪山区光谷大道61号智慧园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "800000",
+        "sku_name": "MacBook Pro 14英寸 M3 Pro 18GB/512GB",
+        "price": 16999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000108",
+    "pin": "周杰",
+    "order_total_price": 6999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-20T17:45:17.755Z",
+    "consignee_info": {
+      "fullname": "周杰",
+      "mobile": "138108",
+      "address": "南京市玄武区中山东路18号国际贸易中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "900000",
+        "sku_name": "华硕天选4 RTX4060 i7/16GB/1TB",
+        "price": 6999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000109",
+    "pin": "吴磊",
+    "order_total_price": 4999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-21T10:21:58.323Z",
+    "consignee_info": {
+      "fullname": "吴磊",
+      "mobile": "138109",
+      "address": "西安市雁塔区高新路88号尚品国际"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1000000",
+        "sku_name": "惠普战66六代 i5/16GB/512GB",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000110",
+    "pin": "郑强",
+    "order_total_price": 2999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-17T13:18:47.125Z",
+    "consignee_info": {
+      "fullname": "郑强",
+      "mobile": "138110",
+      "address": "苏州市工业园区星湖街328号创意产业园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1100000",
+        "sku_name": "美的空调 1.5匹 新一级能效 变频",
+        "price": 2999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000111",
+    "pin": "王丽",
+    "order_total_price": 4999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-03-31T07:45:05.289Z",
+    "consignee_info": {
+      "fullname": "王丽",
+      "mobile": "138111",
+      "address": "天津市和平区南京路189号津汇广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1200000",
+        "sku_name": "海尔冰箱 500L 十字对开门",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000112",
+    "pin": "李明",
+    "order_total_price": 5999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-22T21:22:39.480Z",
+    "consignee_info": {
+      "fullname": "李明",
+      "mobile": "138112",
+      "address": "青岛市市南区香港中路8号青岛中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1300000",
+        "sku_name": "格力空调 3匹 柜机 新一级",
+        "price": 5999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000113",
+    "pin": "刘芳",
+    "order_total_price": 3999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-24T20:51:21.501Z",
+    "consignee_info": {
+      "fullname": "刘芳",
+      "mobile": "138113",
+      "address": "长沙市岳麓区麓谷大道658号软件园"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1400000",
+        "sku_name": "西门子洗衣机 10kg 滚筒",
+        "price": 3999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000114",
+    "pin": "陈伟",
+    "order_total_price": 4999,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-12T22:38:41.629Z",
+    "consignee_info": {
+      "fullname": "陈伟",
+      "mobile": "138114",
+      "address": "郑州市金水区花园路39号国贸中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1500000",
+        "sku_name": "海信电视 75英寸 4K 120Hz",
+        "price": 4999,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000115",
+    "pin": "杨静",
+    "order_total_price": 899,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-17T15:11:17.463Z",
+    "consignee_info": {
+      "fullname": "杨静",
+      "mobile": "138115",
+      "address": "济南市历下区泉城路180号齐鲁国际大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1600000",
+        "sku_name": "耐克Air Max 270 男款运动鞋",
+        "price": 899,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202603000116",
+    "pin": "赵刚",
+    "order_total_price": 1299,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-03-31T01:22:35.699Z",
+    "consignee_info": {
+      "fullname": "赵刚",
+      "mobile": "138116",
+      "address": "福州市鼓楼区五四路158号环球广场"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1700000",
+        "sku_name": "阿迪达斯Ultra Boost 跑步鞋",
+        "price": 1299,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000117",
+    "pin": "孙丽",
+    "order_total_price": 99,
+    "order_state": "WAIT_SELLER_SEND_GOODS",
+    "order_time": "2026-04-09T10:34:36.615Z",
+    "consignee_info": {
+      "fullname": "孙丽",
+      "mobile": "138117",
+      "address": "厦门市思明区鹭江道8号国际银行大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1800000",
+        "sku_name": "优衣库纯棉T恤 男女同款",
+        "price": 99,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000118",
+    "pin": "周敏",
+    "order_total_price": 599,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-09T10:33:15.586Z",
+    "consignee_info": {
+      "fullname": "周敏",
+      "mobile": "138118",
+      "address": "沈阳市沈河区青年大街286号华润大厦"
+    },
+    "sku_list": [
+      {
+        "sku_id": "1900000",
+        "sku_name": "Levi's 501经典牛仔裤",
+        "price": 599,
+        "num": 1
+      }
+    ]
+  },
+  {
+    "order_sn": "JD202604000119",
+    "pin": "吴强",
+    "order_total_price": 1999,
+    "order_state": "TRADE_FINISHED",
+    "order_time": "2026-04-05T01:13:33.027Z",
+    "consignee_info": {
+      "fullname": "吴强",
+      "mobile": "138119",
+      "address": "大连市中山区人民路15号国际金融中心"
+    },
+    "sku_list": [
+      {
+        "sku_id": "2000000",
+        "sku_name": "The North Face 冲锋衣 防水透气",
+        "price": 1999,
+        "num": 1
+      }
+    ]
   }
 ]

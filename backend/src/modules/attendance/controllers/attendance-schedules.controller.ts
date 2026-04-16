@@ -19,6 +19,12 @@ import { QuerySchedulesDto } from "../dto/query-schedules.dto";
 import { SaveScheduleDto } from "../dto/save-schedule.dto";
 import { UpdateShiftDto } from "../dto/update-shift.dto";
 import { AttendanceSchedulesService } from "../services/attendance-schedules.service";
+import { AntiShake } from "../../../common/decorators/antishake.decorator";
+import { Idempotent } from "../../../common/decorators/idempotent.decorator";
+import { RateLimit } from "../../../common/decorators/rate-limiter.decorator";
+import { Cache } from "../../../common/decorators/cache.decorator";
+import { CacheEvict } from "../../../common/decorators/cache-evict.decorator";
+import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
 
 @Controller("attendance")
 export class AttendanceSchedulesController {
@@ -28,12 +34,19 @@ export class AttendanceSchedulesController {
 
   @Get("shifts")
   @Permission("attendance:shift:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "attendance:shifts:list", ttl: 600 })
+  @QueryOptimize({ slowQueryThreshold: 200, timeout: 3000 })
   listShifts(@CurrentUser() user: CurrentUserPayload) {
     return this.attendanceSchedulesService.listShifts(user.sub);
   }
 
   @Post("shifts")
   @Permission("attendance:shift:create")
+  @AntiShake(1000)
+  @Idempotent({ mode: "active", ttl: 300 })
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["attendance:shifts:*", "attendance:schedules:*"] })
   createShift(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: CreateShiftDto,
@@ -43,6 +56,9 @@ export class AttendanceSchedulesController {
 
   @Patch("shifts/:id")
   @Permission("attendance:shift:update")
+  @AntiShake(1000)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["attendance:shifts:*", "attendance:schedules:*"] })
   updateShift(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -53,6 +69,9 @@ export class AttendanceSchedulesController {
 
   @Delete("shifts/:id")
   @Permission("attendance:shift:delete")
+  @AntiShake(1000)
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["attendance:shifts:*", "attendance:schedules:*"] })
   removeShift(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -62,6 +81,9 @@ export class AttendanceSchedulesController {
 
   @Get("schedules")
   @Permission("attendance:schedule:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "attendance:schedules:list", ttl: 300 })
+  @QueryOptimize({ slowQueryThreshold: 300, timeout: 5000 })
   findAll(
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: QuerySchedulesDto,
@@ -71,6 +93,9 @@ export class AttendanceSchedulesController {
 
   @Post("schedules")
   @Permission("attendance:schedule:assign")
+  @AntiShake(1000)
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["attendance:schedules:*", "attendance:records:*"] })
   saveSchedule(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: SaveScheduleDto,
@@ -80,6 +105,9 @@ export class AttendanceSchedulesController {
 
   @Delete("schedules/:id")
   @Permission("attendance:schedule:assign")
+  @AntiShake(1000)
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["attendance:schedules:*", "attendance:records:*"] })
   removeSchedule(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -89,6 +117,9 @@ export class AttendanceSchedulesController {
 
   @Post("schedules/import")
   @Permission("attendance:schedule:import")
+  @AntiShake(2000)
+  @RateLimit({ limit: 3, window: 60 })
+  @CacheEvict({ keys: ["attendance:schedules:*", "attendance:records:*"] })
   importSchedules(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: ImportSchedulesDto,
@@ -98,6 +129,7 @@ export class AttendanceSchedulesController {
 
   @Get("schedules/export")
   @Permission("attendance:schedule:export")
+  @RateLimit({ limit: 5, window: 60 })
   exportSchedules(
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: QuerySchedulesDto,
@@ -107,13 +139,15 @@ export class AttendanceSchedulesController {
 
   @Get("schedules/template")
   @Permission("attendance:schedule:import")
+  @RateLimit({ limit: 10, window: 60 })
   downloadTemplate() {
     return this.attendanceSchedulesService.getImportTemplate();
   }
 
-  // ✅ 新增：员工偏好提交（排班.md 3.7）
   @Post("schedules/preferences")
   @Permission("attendance:schedule:list")
+  @AntiShake(1000)
+  @RateLimit({ limit: 10, window: 60 })
   savePreferences(@CurrentUser() user: CurrentUserPayload, @Body() body: any) {
     return this.attendanceSchedulesService.saveEmployeePreferences(
       user.sub,
@@ -123,13 +157,18 @@ export class AttendanceSchedulesController {
 
   @Get("schedules/preferences")
   @Permission("attendance:schedule:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "attendance:preferences", ttl: 300 })
   getPreferences(@CurrentUser() user: CurrentUserPayload) {
     return this.attendanceSchedulesService.getEmployeePreferences(user.sub);
   }
 
-  // ✅ 新增：调班申请（排班.md 3.7）
   @Post("schedules/change-requests")
   @Permission("attendance:schedule:list")
+  @AntiShake(1000)
+  @Idempotent({ mode: "active", ttl: 300 })
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["attendance:schedules:*"] })
   createChangeRequest(
     @CurrentUser() user: CurrentUserPayload,
     @Body() body: any,
@@ -139,6 +178,8 @@ export class AttendanceSchedulesController {
 
   @Get("schedules/change-requests")
   @Permission("attendance:schedule:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "attendance:change-requests", ttl: 300 })
   listChangeRequests(
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: any,
@@ -146,15 +187,19 @@ export class AttendanceSchedulesController {
     return this.attendanceSchedulesService.listChangeRequests(user.sub, query);
   }
 
-  // ✅ 新增：考勤规则配置（补充文档.md 模块3）
   @Get("rules/config")
   @Permission("attendance:shift:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "attendance:rules:config", ttl: 600 })
   getAttendanceConfig(@CurrentUser() user: CurrentUserPayload) {
     return this.attendanceSchedulesService.getAttendanceConfig(user.sub);
   }
 
   @Post("rules/config")
   @Permission("attendance:shift:create")
+  @AntiShake(1000)
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["attendance:rules:*", "attendance:schedules:*"] })
   saveAttendanceConfig(
     @CurrentUser() user: CurrentUserPayload,
     @Body() body: any,

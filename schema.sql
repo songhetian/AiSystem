@@ -1606,3 +1606,442 @@ CREATE TABLE IF NOT EXISTS `sys_message_variable` (
 ALTER TABLE `sys_message` ADD COLUMN IF NOT EXISTS `delete_time` datetime(3) DEFAULT NULL COMMENT '逻辑删除时间 (回收站)';
 ALTER TABLE `sys_message` ADD COLUMN IF NOT EXISTS `is_favorite` int NOT NULL DEFAULT 0 COMMENT '是否收藏';
 ALTER TABLE `sys_message` ADD COLUMN IF NOT EXISTS `delivery_channels` json DEFAULT NULL COMMENT '外部分发渠道状态';
+
+-- ============================================================
+-- 以下表由 Prisma Migrations 新增，与 schema.prisma 对齐
+-- 同步时间: 2026-04-16
+-- ============================================================
+
+-- [20260413000000_add_schedule_history_table]
+CREATE TABLE `attendance_schedule_history` (
+  `id` VARCHAR(191) NOT NULL,
+  `create_time` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` DATETIME(3) NOT NULL,
+  `is_deleted` INTEGER NOT NULL DEFAULT 0,
+  
+  -- 基础信息
+  `draft_name` VARCHAR(191) NOT NULL,
+  `mode` VARCHAR(191) NOT NULL COMMENT 'fairness, coverage',
+  `platform_id` VARCHAR(191) NOT NULL,
+  `dept_id` VARCHAR(191) NOT NULL,
+  
+  -- 排班周期
+  `start_date` DATE NOT NULL,
+  `end_date` DATE NOT NULL,
+  
+  -- 统计指标
+  `total_scheduled` INTEGER NOT NULL DEFAULT 0,
+  `warning_count` INTEGER NOT NULL DEFAULT 0,
+  `compliance_rate` INTEGER NOT NULL DEFAULT 0,
+  `satisfaction_rate` INTEGER NOT NULL DEFAULT 0,
+  `fitting_rate` INTEGER NOT NULL DEFAULT 0,
+  
+  -- 应用信息
+  `applied_by` VARCHAR(191) NOT NULL,
+  `applied_at` DATETIME(3) NOT NULL,
+  `items_count` INTEGER NOT NULL DEFAULT 0,
+  
+  -- 排班数据（JSON格式存储详细排班信息）
+  `schedule_data` JSON NULL,
+  
+  -- 配置参数（用于预测和分析）
+  `config_params` JSON NULL COMMENT '生成时的配置参数',
+  
+  -- 备注
+  `remark` TEXT NULL,
+
+  PRIMARY KEY (`id`),
+  INDEX `idx_platform_dept_date` (`platform_id`, `dept_id`, `start_date`, `end_date`),
+  INDEX `idx_applied_at` (`applied_at`),
+  INDEX `idx_mode` (`mode`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE `attendance_schedule_prediction` (
+  `id` VARCHAR(191) NOT NULL,
+  `create_time` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` DATETIME(3) NOT NULL,
+  `is_deleted` INTEGER NOT NULL DEFAULT 0,
+  
+  -- 预测目标
+  `platform_id` VARCHAR(191) NOT NULL,
+  `dept_id` VARCHAR(191) NOT NULL,
+  `predict_date` DATE NOT NULL,
+  `shift_name` VARCHAR(191) NOT NULL,
+  
+  -- 预测结果
+  `predicted_demand` INTEGER NOT NULL DEFAULT 0 COMMENT '预测人力需求',
+  `confidence_score` DECIMAL(5, 2) NOT NULL DEFAULT 0.00 COMMENT '置信度 0-100',
+  
+  -- 预测依据
+  `based_on_history_count` INTEGER NOT NULL DEFAULT 0 COMMENT '基于历史记录数',
+  `avg_historical_demand` DECIMAL(10, 2) NULL COMMENT '历史平均需求',
+  `trend_factor` DECIMAL(5, 2) NULL COMMENT '趋势因子',
+  
+  -- 预测元数据
+  `prediction_model` VARCHAR(191) NOT NULL DEFAULT 'simple_average' COMMENT '预测模型类型',
+  `prediction_params` JSON NULL COMMENT '预测参数',
+  
+  -- 验证数据（实际应用后回填）
+  `actual_demand` INTEGER NULL COMMENT '实际需求',
+  `accuracy_rate` DECIMAL(5, 2) NULL COMMENT '准确率',
+
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `unique_prediction` (`dept_id`, `predict_date`, `shift_name`, `is_deleted`),
+  INDEX `idx_platform_dept_date` (`platform_id`, `dept_id`, `predict_date`),
+  INDEX `idx_confidence` (`confidence_score`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+
+-- [20260414000000_add_v4_schedule_tables]
+CREATE TABLE IF NOT EXISTS `attendance_schedule_job` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `job_id` varchar(191) NOT NULL,
+  `user_id` varchar(191) NOT NULL,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `config_params` json DEFAULT NULL,
+  `status` varchar(191) NOT NULL DEFAULT 'pending',
+  `progress` int NOT NULL DEFAULT 0,
+  `result` json DEFAULT NULL,
+  `error_message` text DEFAULT NULL,
+  `started_at` datetime(3) DEFAULT NULL,
+  `completed_at` datetime(3) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `attendance_schedule_job_job_id_key` (`job_id`),
+  KEY `attendance_schedule_job_user_status_idx` (`user_id`, `status`, `create_time`),
+  KEY `attendance_schedule_job_platform_dept_status_idx` (`platform_id`, `dept_id`, `status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='异步排班任务队列表';
+
+CREATE TABLE IF NOT EXISTS `attendance_schedule_recommendation` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `recommendation_type` varchar(191) NOT NULL,
+  `confidence_score` decimal(5,2) NOT NULL DEFAULT 0.00,
+  `recommendations` json NOT NULL,
+  `analysis_data` json DEFAULT NULL,
+  `applied` int NOT NULL DEFAULT 0,
+  `applied_at` datetime(3) DEFAULT NULL,
+  `applied_by` varchar(191) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `attendance_schedule_recommendation_platform_dept_type_idx` (`platform_id`, `dept_id`, `recommendation_type`, `create_time`),
+  KEY `attendance_schedule_recommendation_confidence_idx` (`confidence_score`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='AI推荐记录表';
+
+CREATE TABLE IF NOT EXISTS `attendance_schedule_ml_model` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `shift_name` varchar(191) NOT NULL,
+  `model_type` varchar(191) NOT NULL DEFAULT 'simple_moving_average',
+  `model_params` json NOT NULL,
+  `training_data_count` int NOT NULL DEFAULT 0,
+  `accuracy_rate` decimal(5,2) DEFAULT NULL,
+  `last_trained_at` datetime(3) NOT NULL,
+  `status` int NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `attendance_schedule_ml_model_unique` (`platform_id`, `dept_id`, `shift_name`, `is_deleted`),
+  KEY `attendance_schedule_ml_model_type_status_idx` (`model_type`, `status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='机器学习模型配置表';
+
+CREATE TABLE IF NOT EXISTS `attendance_schedule_optimization_result` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `solution_id` varchar(191) NOT NULL,
+  `params` json NOT NULL,
+  `objectives` json NOT NULL,
+  `total_score` decimal(10,2) NOT NULL,
+  `is_pareto_optimal` int NOT NULL DEFAULT 0,
+  `schedule_data` json DEFAULT NULL,
+  `applied` int NOT NULL DEFAULT 0,
+  `applied_at` datetime(3) DEFAULT NULL,
+  `applied_by` varchar(191) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `attendance_schedule_optimization_result_platform_dept_idx` (`platform_id`, `dept_id`, `create_time`),
+  KEY `attendance_schedule_optimization_result_score_idx` (`total_score`),
+  KEY `attendance_schedule_optimization_result_pareto_idx` (`is_pareto_optimal`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='多目标优化结果表';
+
+CREATE TABLE IF NOT EXISTS `attendance_schedule_realtime_adjustment` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `update_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `is_deleted` int NOT NULL DEFAULT 0,
+  `platform_id` varchar(191) NOT NULL,
+  `dept_id` varchar(191) NOT NULL,
+  `adjustment_date` date NOT NULL,
+  `adjustment_type` varchar(191) NOT NULL,
+  `original_employee_id` varchar(191) DEFAULT NULL,
+  `new_employee_id` varchar(191) DEFAULT NULL,
+  `shift_name` varchar(191) NOT NULL,
+  `reason` text NOT NULL,
+  `status` varchar(191) NOT NULL DEFAULT 'pending',
+  `applied_at` datetime(3) DEFAULT NULL,
+  `applied_by` varchar(191) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `attendance_schedule_realtime_adjustment_platform_dept_date_idx` (`platform_id`, `dept_id`, `adjustment_date`, `status`),
+  KEY `attendance_schedule_realtime_adjustment_type_idx` (`adjustment_type`, `create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='实时调整记录表';
+
+
+-- [20260415120000_add_interface_monitor_tables]
+CREATE TABLE IF NOT EXISTS `knowledge_interface_monitor` (
+  `id` varchar(50) NOT NULL COMMENT '监控配置ID',
+  `interface_id` varchar(50) NOT NULL COMMENT '接口ID（关联sys_api_permission）',
+  `interface_name` varchar(200) NOT NULL COMMENT '接口名称',
+  `interface_path` varchar(500) NOT NULL COMMENT '接口路径',
+  `monitor_fields` json NOT NULL COMMENT '监控字段配置',
+  `priority` int NOT NULL DEFAULT 3 COMMENT '优先级（1高 2中 3低）',
+  `sort` int NOT NULL DEFAULT 0 COMMENT '排序值',
+  `status` int NOT NULL DEFAULT 1 COMMENT '状态（0禁用 1启用）',
+  `platform_id` varchar(50) DEFAULT NULL COMMENT '关联平台ID',
+  `dept_id` varchar(50) DEFAULT NULL COMMENT '关联部门ID',
+  `shop_id` varchar(50) DEFAULT NULL COMMENT '关联店铺ID',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `knowledge_interface_monitor_interface_idx` (`interface_id`),
+  KEY `knowledge_interface_monitor_sort_idx` (`sort`),
+  KEY `knowledge_interface_monitor_platform_idx` (`platform_id`),
+  KEY `knowledge_interface_monitor_dept_idx` (`dept_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='知识库接口监控配置表';
+
+CREATE TABLE IF NOT EXISTS `knowledge_interface_monitor_data` (
+  `id` varchar(50) NOT NULL COMMENT '监控数据ID',
+  `monitor_id` varchar(50) NOT NULL COMMENT '监控配置ID',
+  `interface_id` varchar(50) NOT NULL COMMENT '接口ID',
+  `response_time` int NOT NULL COMMENT '响应时间（毫秒）',
+  `success_rate` decimal(5,2) NOT NULL COMMENT '成功率',
+  `error_count` int NOT NULL DEFAULT 0 COMMENT '错误次数',
+  `error_codes` json DEFAULT NULL COMMENT '错误码分布',
+  `data_volume` int NOT NULL DEFAULT 0 COMMENT '返回数据量',
+  `monitor_time` datetime NOT NULL COMMENT '监控时间',
+  `platform_id` varchar(50) DEFAULT NULL COMMENT '关联平台ID',
+  `dept_id` varchar(50) DEFAULT NULL COMMENT '关联部门ID',
+  `shop_id` varchar(50) DEFAULT NULL COMMENT '关联店铺ID',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `knowledge_interface_monitor_data_monitor_idx` (`monitor_id`),
+  KEY `knowledge_interface_monitor_data_time_idx` (`monitor_time`),
+  KEY `knowledge_interface_monitor_data_platform_idx` (`platform_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='知识库接口监控数据表';
+
+CREATE TABLE IF NOT EXISTS `knowledge_interface_monitor_schedule` (
+  `id` varchar(50) NOT NULL COMMENT '定时任务ID',
+  `monitor_id` varchar(50) NOT NULL COMMENT '监控配置ID',
+  `schedule_type` varchar(50) NOT NULL COMMENT '定时类型（hourly/daily/weekly/monthly）',
+  `schedule_time` varchar(50) NOT NULL COMMENT '定时时间',
+  `retention_days` int NOT NULL DEFAULT 90 COMMENT '数据保留天数',
+  `notify_users` json DEFAULT NULL COMMENT '通知用户列表',
+  `status` int NOT NULL DEFAULT 1 COMMENT '状态（0禁用 1启用）',
+  `last_run_time` datetime DEFAULT NULL COMMENT '上次执行时间',
+  `next_run_time` datetime DEFAULT NULL COMMENT '下次执行时间',
+  `platform_id` varchar(50) DEFAULT NULL COMMENT '关联平台ID',
+  `dept_id` varchar(50) DEFAULT NULL COMMENT '关联部门ID',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `knowledge_interface_monitor_schedule_monitor_idx` (`monitor_id`),
+  KEY `knowledge_interface_monitor_schedule_next_idx` (`next_run_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='知识库接口监控定时任务配置表';
+
+
+-- [20260415130000_add_activity_tables]
+CREATE TABLE IF NOT EXISTS `biz_activity` (
+  `id` varchar(50) NOT NULL COMMENT '活动ID',
+  `activity_name` varchar(100) NOT NULL COMMENT '活动名称',
+  `activity_type` varchar(50) NOT NULL COMMENT '活动类型（discount/fullcut/gift）',
+  `start_time` datetime NOT NULL COMMENT '开始时间',
+  `end_time` datetime NOT NULL COMMENT '结束时间',
+  `platform_id` varchar(50) DEFAULT NULL COMMENT '关联平台ID',
+  `dept_id` varchar(50) DEFAULT NULL COMMENT '关联部门ID',
+  `shop_id` varchar(50) DEFAULT NULL COMMENT '关联店铺ID',
+  `status` int NOT NULL DEFAULT 1 COMMENT '状态（0禁用 1启用）',
+  `sort` int NOT NULL DEFAULT 0 COMMENT '排序值',
+  `description` text COMMENT '活动描述',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `biz_activity_sort_idx` (`sort`),
+  KEY `biz_activity_platform_idx` (`platform_id`),
+  KEY `biz_activity_dept_idx` (`dept_id`),
+  KEY `biz_activity_shop_idx` (`shop_id`),
+  KEY `biz_activity_time_idx` (`start_time`, `end_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='活动表';
+
+CREATE TABLE IF NOT EXISTS `biz_activity_rule` (
+  `id` varchar(50) NOT NULL COMMENT '规则ID',
+  `activity_id` varchar(50) NOT NULL COMMENT '活动ID',
+  `rule_name` varchar(100) NOT NULL COMMENT '规则名称',
+  `rule_type` varchar(50) NOT NULL COMMENT '规则类型（discount/fullcut/gift）',
+  `rule_config` json NOT NULL COMMENT '规则配置',
+  `priority` int NOT NULL DEFAULT 3 COMMENT '优先级（1高 2中 3低）',
+  `sort` int NOT NULL DEFAULT 0 COMMENT '排序值',
+  `status` int NOT NULL DEFAULT 1 COMMENT '状态（0禁用 1启用）',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` int NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `biz_activity_rule_activity_idx` (`activity_id`),
+  KEY `biz_activity_rule_sort_idx` (`sort`),
+  KEY `biz_activity_rule_priority_idx` (`priority`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='活动规则表';
+
+
+-- [20260415140000_add_agent_group_tables]
+CREATE TABLE IF NOT EXISTS `service_agent_group` (
+  `id` varchar(50) NOT NULL COMMENT '坐席组ID',
+  `group_name` varchar(100) NOT NULL COMMENT '坐席组名称',
+  `group_code` varchar(50) NOT NULL COMMENT '坐席组编码',
+  `description` text COMMENT '描述',
+  `platform_id` varchar(50) DEFAULT NULL COMMENT '关联平台ID',
+  `dept_id` varchar(50) DEFAULT NULL COMMENT '关联部门ID',
+  `status` int NOT NULL DEFAULT 1 COMMENT '状态（0禁用 1启用）',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `service_agent_group_code_unique` (`group_code`, `is_deleted`),
+  KEY `service_agent_group_platform_idx` (`platform_id`),
+  KEY `service_agent_group_dept_idx` (`dept_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='坐席组表';
+
+CREATE TABLE IF NOT EXISTS `service_agent_group_member` (
+  `id` varchar(50) NOT NULL COMMENT '成员ID',
+  `group_id` varchar(50) NOT NULL COMMENT '坐席组ID',
+  `agent_id` varchar(50) NOT NULL COMMENT '客服ID',
+  `agent_name` varchar(100) NOT NULL COMMENT '客服姓名',
+  `agent_phone` varchar(20) DEFAULT NULL COMMENT '客服手机号',
+  `priority` int NOT NULL DEFAULT 3 COMMENT '优先级（1高 2中 3低）',
+  `sort` int NOT NULL DEFAULT 0 COMMENT '排序值',
+  `status` int NOT NULL DEFAULT 1 COMMENT '状态（0禁用 1启用）',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `service_agent_group_member_group_idx` (`group_id`),
+  KEY `service_agent_group_member_agent_idx` (`agent_id`),
+  KEY `service_agent_group_member_sort_idx` (`sort`),
+  KEY `service_agent_group_member_priority_idx` (`priority`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='坐席组成员表';
+
+
+-- [20260415150000_add_permission_control_config]
+CREATE TABLE IF NOT EXISTS `sys_permission_control_config` (
+  `id` varchar(50) NOT NULL COMMENT '配置ID',
+  `resource_type` varchar(20) NOT NULL COMMENT '资源类型（module/menu/button）',
+  `resource_id` varchar(50) NOT NULL COMMENT '资源ID',
+  `resource_name` varchar(100) NOT NULL COMMENT '资源名称',
+  `need_control` int NOT NULL DEFAULT 1 COMMENT '是否需要权限控制（1需要 0不需要）',
+  `exception_roles` json DEFAULT NULL COMMENT '例外角色列表',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `sys_permission_control_config_unique` (`resource_type`, `resource_id`, `is_deleted`),
+  KEY `sys_permission_control_config_type_idx` (`resource_type`),
+  KEY `sys_permission_control_config_need_idx` (`need_control`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='权限控制配置表';
+
+
+-- [20260415170000_add_permission_template]
+CREATE TABLE IF NOT EXISTS `sys_permission_template` (
+  `id` varchar(50) NOT NULL COMMENT '模板ID',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '逻辑删除',
+  `template_name` varchar(100) NOT NULL COMMENT '模板名称',
+  `template_type` varchar(20) NOT NULL COMMENT '模板类型（system/custom）',
+  `description` text COMMENT '模板描述',
+  `permission_config` json NOT NULL COMMENT '权限配置',
+  `is_default` int NOT NULL DEFAULT 0 COMMENT '是否为默认模板',
+  `category` varchar(50) DEFAULT NULL COMMENT '分类（部门/岗位）',
+  `created_by` varchar(50) DEFAULT NULL COMMENT '创建人',
+  `platform_id` varchar(50) DEFAULT NULL COMMENT '平台ID',
+  `dept_id` varchar(50) DEFAULT NULL COMMENT '部门ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `sys_permission_template_name_unique` (`template_name`, `is_deleted`),
+  KEY `sys_permission_template_type_idx` (`template_type`, `is_deleted`),
+  KEY `sys_permission_template_category_idx` (`category`, `is_deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='权限模板表';
+
+
+-- [20260415180000_add_employee_history]
+CREATE TABLE `hr_employee_history` (
+    `id` VARCHAR(191) NOT NULL,
+    `create_time` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `update_time` DATETIME(3) NOT NULL,
+    `is_deleted` INTEGER NOT NULL DEFAULT 0,
+    `employee_id` VARCHAR(191) NOT NULL,
+    `event_type` VARCHAR(50) NOT NULL COMMENT '事件类型: onboard(入职), transfer(调岗), promotion(晋升), regularization(转正), resignation(离职), status_change(状态变更)',
+    `event_date` DATETIME(3) NOT NULL COMMENT '事件发生日期',
+    `before_data` JSON NULL COMMENT '变更前数据',
+    `after_data` JSON NULL COMMENT '变更后数据',
+    `department_id` VARCHAR(191) NULL COMMENT '关联部门ID',
+    `position_id` VARCHAR(191) NULL COMMENT '关联岗位ID',
+    `remark` TEXT NULL COMMENT '备注说明',
+    `operator_id` VARCHAR(191) NULL COMMENT '操作人ID',
+    `operator_name` VARCHAR(100) NULL COMMENT '操作人姓名',
+    `platform_id` VARCHAR(191) NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+
+-- [20260416000000_add_user_register_table]
+CREATE TABLE `sys_user_register` (
+    `id` VARCHAR(191) NOT NULL,
+    `create_time` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `update_time` DATETIME(3) NOT NULL,
+    `is_deleted` INTEGER NOT NULL DEFAULT 0,
+    `name` VARCHAR(191) NOT NULL,
+    `phone` VARCHAR(191) NOT NULL,
+    `dept_id` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191) NOT NULL,
+    `status` VARCHAR(191) NOT NULL DEFAULT 'pending',
+    `reject_reason` TEXT NULL,
+    `approve_time` DATETIME(3) NULL,
+    `approver_id` VARCHAR(191) NULL,
+    `platform_id` VARCHAR(191) NULL,
+
+    INDEX `sys_user_register_phone_status_idx`(`phone`, `status`),
+    INDEX `sys_user_register_status_create_time_idx`(`status`, `create_time`),
+    INDEX `sys_user_register_platform_id_dept_id_idx`(`platform_id`, `dept_id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+
+
+-- [sys_permission_config] 权限键值对配置表（来自 schema.prisma，无独立 migration）
+CREATE TABLE IF NOT EXISTS `sys_permission_config` (
+  `id` varchar(191) NOT NULL,
+  `create_time` datetime(3) NOT NULL DEFAULT current_timestamp(3),
+  `update_time` datetime(3) NOT NULL,
+  `config_key` varchar(191) NOT NULL,
+  `config_value` longtext NOT NULL,
+  `config_type` varchar(191) NOT NULL COMMENT 'string/number/boolean/json',
+  `description` varchar(191) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `sys_permission_config_config_key_key` (`config_key`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

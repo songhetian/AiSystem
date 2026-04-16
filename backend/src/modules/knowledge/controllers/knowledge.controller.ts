@@ -28,6 +28,12 @@ import { SaveKnowledgeArticleDto } from "../dto/save-knowledge-article.dto";
 import { SaveKnowledgeCategoryDto } from "../dto/save-knowledge-category.dto";
 import { SortKnowledgeArticleDto } from "../dto/sort-knowledge-article.dto";
 import { KnowledgeService } from "../services/knowledge.service";
+import { AntiShake } from "../../../common/decorators/antishake.decorator";
+import { Idempotent } from "../../../common/decorators/idempotent.decorator";
+import { RateLimit } from "../../../common/decorators/rate-limiter.decorator";
+import { Cache } from "../../../common/decorators/cache.decorator";
+import { CacheEvict } from "../../../common/decorators/cache-evict.decorator";
+import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
 
 @Controller("knowledge")
 export class KnowledgeController {
@@ -35,6 +41,9 @@ export class KnowledgeController {
 
   @Get("documents")
   @Permission("knowledge:document:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "knowledge:documents", ttl: 300 })
+  @QueryOptimize({ slowQueryThreshold: 200, timeout: 3000 })
   listDocuments(@CurrentUser() user: CurrentUserPayload) {
     return this.knowledgeService.listDocuments(user.sub);
   }
@@ -42,6 +51,9 @@ export class KnowledgeController {
   @Post("documents/upload")
   @Permission("knowledge:document:create")
   @UseInterceptors(FilesInterceptor("files"))
+  @AntiShake(2000)
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["knowledge:documents:*"] })
   async uploadDocuments(
     @CurrentUser() user: CurrentUserPayload,
     @Body("is_public") isPublic: string,
@@ -71,6 +83,9 @@ export class KnowledgeController {
 
   @Post("documents/:id/toggle-public")
   @Permission("knowledge:document:update")
+  @AntiShake(1000)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["knowledge:documents:*"] })
   togglePublic(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -81,6 +96,9 @@ export class KnowledgeController {
 
   @Delete("documents/:id")
   @Permission("knowledge:document:delete")
+  @AntiShake(1000)
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["knowledge:documents:*", "knowledge:vectors:*"] })
   deleteDocument(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -90,6 +108,8 @@ export class KnowledgeController {
 
   @Get("documents/:id/content")
   @Permission("knowledge:document:list")
+  @RateLimit({ limit: 50, window: 60 })
+  @Cache({ key: "knowledge:document:content", ttl: 600 })
   async getDocumentContent(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -99,6 +119,9 @@ export class KnowledgeController {
 
   @Post("documents/:id/re-import")
   @Permission("knowledge:document:update")
+  @AntiShake(2000)
+  @RateLimit({ limit: 5, window: 60 })
+  @CacheEvict({ keys: ["knowledge:documents:*", "knowledge:vectors:*"] })
   reimportDocument(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -108,6 +131,9 @@ export class KnowledgeController {
 
   @Get("vectors")
   @Permission("knowledge:document:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "knowledge:vectors", ttl: 300 })
+  @QueryOptimize({ slowQueryThreshold: 200, timeout: 3000 })
   listVectors(
     @CurrentUser() user: CurrentUserPayload,
     @Query("limit") limit?: string,
@@ -122,6 +148,9 @@ export class KnowledgeController {
 
   @Delete("vectors/:id")
   @Permission("knowledge:document:delete")
+  @AntiShake(1000)
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["knowledge:vectors:*"] })
   deleteVector(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -131,6 +160,9 @@ export class KnowledgeController {
 
   @Get("articles")
   @Permission("knowledge:article:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "knowledge:articles", ttl: 300 })
+  @QueryOptimize({ slowQueryThreshold: 200, timeout: 3000 })
   listArticles(
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: QueryKnowledgeArticlesDto,
@@ -140,12 +172,19 @@ export class KnowledgeController {
 
   @Get("articles/:id")
   @Permission("knowledge:article:list")
+  @RateLimit({ limit: 50, window: 60 })
+  @Cache({ key: "knowledge:article:detail", ttl: 300 })
+  @QueryOptimize({ slowQueryThreshold: 200, timeout: 3000 })
   getArticle(@CurrentUser() user: CurrentUserPayload, @Param("id") id: string) {
     return this.knowledgeService.getArticle(user.sub, id);
   }
 
   @Post("articles")
   @Permission("knowledge:article:create")
+  @AntiShake(1000)
+  @Idempotent({ mode: "active", ttl: 300 })
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["knowledge:articles:*"] })
   createArticle(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: SaveKnowledgeArticleDto,
@@ -155,6 +194,9 @@ export class KnowledgeController {
 
   @Put("articles/:id")
   @Permission("knowledge:article:update")
+  @AntiShake(1000)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["knowledge:articles:*"] })
   updateArticle(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -165,6 +207,9 @@ export class KnowledgeController {
 
   @Post("articles/sort")
   @Permission("knowledge:article:sort")
+  @AntiShake(500)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["knowledge:articles:*"] })
   sortArticles(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: SortKnowledgeArticleDto,
@@ -174,12 +219,17 @@ export class KnowledgeController {
 
   @Get("faq-candidates")
   @Permission("knowledge:faq-candidate:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "knowledge:faq-candidates", ttl: 600 })
   listFaqCandidates(@CurrentUser() user: CurrentUserPayload) {
     return this.knowledgeService.listFaqCandidates(user.sub);
   }
 
   @Get("tags")
   @Permission("knowledge:tag:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "knowledge:tags", ttl: 600 })
+  @QueryOptimize({ slowQueryThreshold: 200, timeout: 3000 })
   listTags(
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: QueryKnowledgeTagsDto,
@@ -189,6 +239,8 @@ export class KnowledgeController {
 
   @Get("tags/:id/impact")
   @Permission("knowledge:tag:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "knowledge:tag:impact", ttl: 300 })
   getTagImpact(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -198,12 +250,16 @@ export class KnowledgeController {
 
   @Get("tags/ai-suggestions")
   @Permission("knowledge:tag:list")
+  @RateLimit({ limit: 10, window: 60 })
   getAiTagSuggestions(@CurrentUser() user: CurrentUserPayload) {
     return this.knowledgeService.getAiTagSuggestions(user.sub);
   }
 
   @Post("tags/batch-create")
   @Permission("knowledge:tag:create")
+  @AntiShake(1000)
+  @RateLimit({ limit: 5, window: 60 })
+  @CacheEvict({ keys: ["knowledge:tags:*"] })
   batchCreateTags(
     @CurrentUser() user: CurrentUserPayload,
     @Body() body: { tag_names: string[] },
@@ -216,6 +272,10 @@ export class KnowledgeController {
 
   @Post("tags")
   @Permission("knowledge:tag:create")
+  @AntiShake(1000)
+  @Idempotent({ mode: "active", ttl: 300 })
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["knowledge:tags:*"] })
   createTag(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: SaveKnowledgeTagDto,
@@ -225,6 +285,9 @@ export class KnowledgeController {
 
   @Put("tags/:id")
   @Permission("knowledge:tag:update")
+  @AntiShake(1000)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["knowledge:tags:*"] })
   updateTag(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -235,6 +298,9 @@ export class KnowledgeController {
 
   @Post("tags/:id/merge")
   @Permission("knowledge:tag:update")
+  @AntiShake(1000)
+  @RateLimit({ limit: 5, window: 60 })
+  @CacheEvict({ keys: ["knowledge:tags:*", "knowledge:articles:*"] })
   mergeTag(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -245,18 +311,27 @@ export class KnowledgeController {
 
   @Post("tags/:id/enable")
   @Permission("knowledge:tag:update")
+  @AntiShake(1000)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["knowledge:tags:*"] })
   enableTag(@CurrentUser() user: CurrentUserPayload, @Param("id") id: string) {
     return this.knowledgeService.toggleTag(user.sub, id, 1);
   }
 
   @Post("tags/:id/disable")
   @Permission("knowledge:tag:update")
+  @AntiShake(1000)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["knowledge:tags:*"] })
   disableTag(@CurrentUser() user: CurrentUserPayload, @Param("id") id: string) {
     return this.knowledgeService.toggleTag(user.sub, id, 0);
   }
 
   @Get("categories")
   @Permission("knowledge:category:list")
+  @RateLimit({ limit: 30, window: 60 })
+  @Cache({ key: "knowledge:categories", ttl: 600 })
+  @QueryOptimize({ slowQueryThreshold: 200, timeout: 3000 })
   listCategories(
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: QueryKnowledgeCategoriesDto,
@@ -266,6 +341,10 @@ export class KnowledgeController {
 
   @Post("categories")
   @Permission("knowledge:category:create")
+  @AntiShake(1000)
+  @Idempotent({ mode: "active", ttl: 300 })
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["knowledge:categories:*"] })
   createCategory(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: SaveKnowledgeCategoryDto,
@@ -275,6 +354,9 @@ export class KnowledgeController {
 
   @Put("categories/:id")
   @Permission("knowledge:category:update")
+  @AntiShake(1000)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["knowledge:categories:*"] })
   updateCategory(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -285,6 +367,9 @@ export class KnowledgeController {
 
   @Post("categories/:id/enable")
   @Permission("knowledge:category:update")
+  @AntiShake(1000)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["knowledge:categories:*"] })
   enableCategory(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -294,6 +379,9 @@ export class KnowledgeController {
 
   @Post("categories/:id/disable")
   @Permission("knowledge:category:update")
+  @AntiShake(1000)
+  @RateLimit({ limit: 20, window: 60 })
+  @CacheEvict({ keys: ["knowledge:categories:*"] })
   disableCategory(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,

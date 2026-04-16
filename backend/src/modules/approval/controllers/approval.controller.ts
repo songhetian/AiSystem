@@ -7,16 +7,24 @@ import {
   Patch,
   Post,
   Query,
+  Res,
 } from "@nestjs/common";
 import {
   CurrentUser,
   type CurrentUserPayload,
 } from "../../../common/current-user.decorator";
 import { Permission } from "../../../common/permission.decorator";
+import { AntiShake } from "../../../common/decorators/antishake.decorator";
+import { Idempotent } from "../../../common/decorators/idempotent.decorator";
+import {
+  RateLimit,
+  RateLimitType,
+} from "../../../common/decorators/rate-limiter.decorator";
 import { ApprovalActionDto } from "../dto/approval-action.dto";
 import { QueryApprovalRequestsDto } from "../dto/query-approval-requests.dto";
 import { SaveApprovalTemplateDto } from "../dto/save-approval-template.dto";
 import { ApprovalService } from "../services/approval.service";
+import { Response } from "express";
 
 @Controller("approval")
 export class ApprovalController {
@@ -24,12 +32,14 @@ export class ApprovalController {
 
   @Get("templates")
   @Permission("approval:process:list")
+  @RateLimit({ type: RateLimitType.USER, limit: 30, window: 60 })
   listTemplates(@CurrentUser() user: CurrentUserPayload) {
     return this.approvalService.listTemplates(user?.sub);
   }
 
   @Get("templates/:id")
   @Permission("approval:process:list")
+  @RateLimit({ type: RateLimitType.USER, limit: 50, window: 60 })
   getTemplate(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -39,6 +49,9 @@ export class ApprovalController {
 
   @Post("templates")
   @Permission("approval:process:update")
+  @AntiShake(1000)
+  @Idempotent({ mode: "active", ttl: 300 })
+  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
   createTemplate(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: SaveApprovalTemplateDto,
@@ -48,6 +61,8 @@ export class ApprovalController {
 
   @Patch("templates/:id")
   @Permission("approval:process:update")
+  @AntiShake(1000)
+  @RateLimit({ type: RateLimitType.USER, limit: 20, window: 60 })
   saveTemplate(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -58,6 +73,8 @@ export class ApprovalController {
 
   @Delete("templates/:id")
   @Permission("approval:process:update")
+  @AntiShake(1000)
+  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
   deleteTemplate(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -67,6 +84,8 @@ export class ApprovalController {
 
   @Post("templates/:id/duplicate")
   @Permission("approval:process:update")
+  @AntiShake(1000)
+  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
   duplicateTemplate(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -76,12 +95,14 @@ export class ApprovalController {
 
   @Get("people")
   @Permission("approval:request:list")
+  @RateLimit({ type: RateLimitType.USER, limit: 30, window: 60 })
   listPeople(@CurrentUser() user: CurrentUserPayload) {
     return this.approvalService.listPeople(user?.sub);
   }
 
   @Get("requests")
   @Permission("approval:request:list")
+  @RateLimit({ type: RateLimitType.USER, limit: 30, window: 60 })
   listRequests(
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: QueryApprovalRequestsDto,
@@ -89,14 +110,24 @@ export class ApprovalController {
     return this.approvalService.listRequests(user?.sub, query);
   }
 
+  @Get("requests/:id")
+  @Permission("approval:request:detail")
+  @RateLimit({ type: RateLimitType.USER, limit: 50, window: 60 })
+  getRequest(@CurrentUser() user: CurrentUserPayload, @Param("id") id: string) {
+    return this.approvalService.getRequest(user?.sub, id);
+  }
+
   @Get("requests/stats")
   @Permission("approval:request:list")
+  @RateLimit({ type: RateLimitType.USER, limit: 20, window: 60 })
   stats(@CurrentUser() user: CurrentUserPayload) {
     return this.approvalService.stats(user?.sub);
   }
 
   @Post("requests/:id/approve")
   @Permission("approval:request:approve")
+  @AntiShake(1000)
+  @RateLimit({ type: RateLimitType.USER, limit: 20, window: 60 })
   approveRequest(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -107,6 +138,8 @@ export class ApprovalController {
 
   @Post("requests/:id/reject")
   @Permission("approval:request:reject")
+  @AntiShake(1000)
+  @RateLimit({ type: RateLimitType.USER, limit: 20, window: 60 })
   rejectRequest(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
@@ -117,11 +150,55 @@ export class ApprovalController {
 
   @Post("requests/:id/transfer")
   @Permission("approval:request:transfer")
+  @AntiShake(1000)
+  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
   transferRequest(
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
     @Body() dto: ApprovalActionDto,
   ) {
     return this.approvalService.transferRequest(user?.sub, id, dto);
+  }
+
+  @Post("requests/batch/approve")
+  @Permission("approval:request:approve")
+  @AntiShake(1000)
+  @RateLimit({ type: RateLimitType.USER, limit: 5, window: 60 })
+  batchApprove(
+    @CurrentUser() user: CurrentUserPayload,
+    @Body() dto: { ids: string[]; comment?: string },
+  ) {
+    return this.approvalService.batchApprove(user?.sub, dto.ids, dto.comment);
+  }
+
+  @Post("requests/batch/reject")
+  @Permission("approval:request:reject")
+  @AntiShake(1000)
+  @RateLimit({ type: RateLimitType.USER, limit: 5, window: 60 })
+  batchReject(
+    @CurrentUser() user: CurrentUserPayload,
+    @Body() dto: { ids: string[]; comment?: string },
+  ) {
+    return this.approvalService.batchReject(user?.sub, dto.ids, dto.comment);
+  }
+
+  @Get("requests/export")
+  @Permission("approval:request:export")
+  @RateLimit({ type: RateLimitType.USER, limit: 5, window: 60 })
+  async exportRequests(
+    @CurrentUser() user: CurrentUserPayload,
+    @Query() query: QueryApprovalRequestsDto,
+    @Res() res: Response,
+  ) {
+    const buffer = await this.approvalService.exportRequests(user?.sub, query);
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=approval_requests_${Date.now()}.xlsx`,
+    );
+    res.end(buffer);
   }
 }

@@ -23,6 +23,7 @@ import {
 import { BaseModal } from "@/components/common/BaseModal";
 import { systemApi } from "@/api/system";
 import { PermissionTemplateModal } from "./PermissionTemplates";
+import { PermissionDragAssign } from "./PermissionDragAssign";
 
 const { Search } = AntInput;
 
@@ -216,12 +217,9 @@ export const RoleModal = ({
 
   // 应用权限模板
   const handleApplyTemplate = (template: any) => {
-    if (template.id === "super_admin") {
-      handleSelectAll();
-    } else {
-      setCheckedMenuKeys(template.menuIds);
-      setCheckedButtonKeys(template.buttonIds);
-    }
+    setCheckedMenuKeys(template.menuIds || []);
+    setCheckedButtonKeys(template.buttonIds || []);
+    message.success(`已应用模板：${template.name}`);
   };
 
   // 菜单勾选变化
@@ -474,12 +472,55 @@ export const RoleModal = ({
             </Card>
           </Space>
         </Tabs.TabPane>
+
+        <Tabs.TabPane
+          tab={
+            <span>
+              拖拽分配 <Tag color="purple">快捷</Tag>
+            </span>
+          }
+          key="drag"
+        >
+          {editing?.id && (
+            <PermissionDragAssign
+              roleId={editing.id}
+              onSave={async (permissionIds) => {
+                // 保存权限分配
+                await systemApi.assignRolePermissions({
+                  roleId: editing.id,
+                  menuIds: permissionIds.filter((id) =>
+                    menus.some((m: any) => m.id === id),
+                  ),
+                  buttonIds: permissionIds.filter((id) =>
+                    buttons.some((b: any) => b.id === id),
+                  ),
+                });
+                // 刷新权限数据
+                window.location.reload();
+              }}
+            />
+          )}
+          {!editing?.id && (
+            <Card>
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "40px 0",
+                  color: "#999",
+                }}
+              >
+                请先保存角色基本信息后，再使用拖拽分配功能
+              </div>
+            </Card>
+          )}
+        </Tabs.TabPane>
       </Tabs>
 
       <PermissionTemplateModal
         open={templateModalOpen}
         onCancel={() => setTemplateModalOpen(false)}
         onSelect={handleApplyTemplate}
+        roleId={editing?.id}
       />
     </BaseModal>
   );

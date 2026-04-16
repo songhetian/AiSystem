@@ -1,6 +1,13 @@
 services:
   # ---------------------------------------------------------
-  # [NEW] Mock Service - 外部平台仿真沙盒 (V21.0)
+  # Mock Service - 电商平台 API 模拟服务
+  # 说明：模拟京东、拼多多、淘宝的真实接口，仅开发环境使用
+  # 端口：从环境变量 MOCK_SERVICE_PORT 读取，默认 3888
+  # 接口：
+  #   - 京东：/api/jd/*
+  #   - 拼多多：/api/pdd/*
+  #   - 淘宝：/api/taobao/*
+  # 启动条件：仅当 NODE_ENV=development 时启动
   # ---------------------------------------------------------
   mock-service:
     build:
@@ -8,15 +15,24 @@ services:
       dockerfile: Dockerfile
     container_name: leixin-mock-server
     ports:
-      - "3888:3888"
+      - "${MOCK_SERVICE_PORT:-3888}:3888"
     volumes:
+      - ./dev-tools:/app
       - ./dev-tools/data-templates:/app/data-templates
+    working_dir: /app
+    command: npm run start
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
     networks:
-      - aisystem-network
+      - backend-network
     restart: always
+    profiles:
+      - dev # 使用 dev profile，需要显式启动
 
   # ---------------------------------------------------------
   # MySQL - 核心数据存储
+  # 说明：MySQL 8.0.36，使用 utf8mb4 字符集
+  # 端口：从环境变量 MYSQL_PORT 读取，默认 3306
   # ---------------------------------------------------------
   mysql:
     image: mysql:8.0.36
@@ -35,13 +51,27 @@ services:
       - ./infra/mysql/conf:/etc/mysql/conf.d
       - ./infra/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "127.0.0.1",
+          "-uroot",
+          "-p${MYSQL_ROOT_PASSWORD}",
+        ]
       interval: 10s
       timeout: 5s
       retries: 10
     networks:
       - backend-network
 
+  # ---------------------------------------------------------
+  # Redis - 缓存服务
+  # 说明：Redis 7.2.4，用于缓存、会话存储、限流等
+  # 端口：从环境变量 REDIS_PORT 读取，默认 6379
+  # ---------------------------------------------------------
   redis:
     image: redis:7.2.4
     container_name: redis-service
@@ -60,6 +90,12 @@ services:
     networks:
       - backend-network
 
+  # ---------------------------------------------------------
+  # MinIO - 对象存储服务
+  # 说明：MinIO 对象存储，用于文件上传、图片存储等
+  # API 端口：从环境变量 MINIO_API_PORT 读取，默认 9000
+  # 控制台端口：从环境变量 MINIO_CONSOLE_PORT 读取，默认 9001
+  # ---------------------------------------------------------
   minio:
     image: minio/minio:RELEASE.2024-05-01T00-08-08Z
     container_name: minio-service
@@ -74,13 +110,23 @@ services:
     volumes:
       - minio-data:/data
     healthcheck:
-      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1:9000/minio/health/live > /dev/null || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget -q -O - http://127.0.0.1:9000/minio/health/live > /dev/null || exit 1",
+        ]
       interval: 15s
       timeout: 10s
       retries: 10
     networks:
       - backend-network
 
+  # ---------------------------------------------------------
+  # Qdrant - 向量数据库
+  # 说明：Qdrant 向量数据库，用于 AI 知识库、语义搜索等
+  # HTTP 端口：从环境变量 QDRANT_PORT 读取，默认 6333
+  # gRPC 端口：从环境变量 QDRANT_GRPC_PORT 读取，默认 6334
+  # ---------------------------------------------------------
   qdrant:
     image: qdrant/qdrant:v1.7.3
     container_name: qdrant-service
@@ -96,19 +142,32 @@ services:
     networks:
       - backend-network
 
+  # ---------------------------------------------------------
+  # Nginx - 反向代理服务器
+  # 说明：Nginx 反向代理，统一入口，路由到前后端服务
+  # 端口：从环境变量 NGINX_PORT 读取，默认 80
+  # 配置：/api/* 路由到后端，/* 路由到前端
+  # ---------------------------------------------------------
   nginx:
     image: nginx:1.25.3
     container_name: nginx-service
     restart: always
     depends_on:
       - backend
+      - frontend
     ports:
-      - "80:80"
+      - "${NGINX_PORT:-80}:80"
     volumes:
       - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
     networks:
       - backend-network
 
+  # ---------------------------------------------------------
+  # Backend - 后端服务
+  # 说明：NestJS 后端服务，提供 RESTful API
+  # 端口：从环境变量 PORT 读取，默认 3000
+  # 依赖：MySQL、Redis、MinIO
+  # ---------------------------------------------------------
   backend:
     build:
       context: ./backend
@@ -117,6 +176,9 @@ services:
     restart: always
     env_file:
       - .env
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=${PORT:-3000}
     depends_on:
       mysql:
         condition: service_healthy
@@ -127,16 +189,26 @@ services:
     ports:
       - "${PORT:-3000}:3000"
     volumes:
-      - ./backend/prisma:/app/prisma # 挂载 Prisma 文件夹以便于数据库迁移同步
+      - ./backend/prisma:/app/prisma
+      - ./backend/storage:/app/storage
     networks:
       - backend-network
 
+  # ---------------------------------------------------------
+  # Frontend - 前端服务
+  # 说明：Umi/React 前端服务
+  # 端口：从环境变量 FRONTEND_PORT 读取，默认 8000
+  # 开发环境：8000（本地开发调试）
+  # 生产环境：8000（通过 Nginx 代理访问）
+  # ---------------------------------------------------------
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: frontend-service
     restart: always
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
     depends_on:
       - backend
     ports:
@@ -144,12 +216,15 @@ services:
     networks:
       - backend-network
 
-  # [NEW] 管理端离线工具执行环境 (可选启动)
-  # 职责：用于执行 dev-tools 中的种子数据注入与环境检查
+  # ---------------------------------------------------------
+  # Seeder - 数据库种子数据工具（可选启动）
+  # 说明：用于执行 dev-tools 中的种子数据注入与环境检查
+  # 使用方式：docker compose --profile tools up seeder
+  # ---------------------------------------------------------
   seeder:
     image: node:20-alpine
     container_name: seeder-tool
-    profiles: ["tools"] # 仅在执行特定指令时拉起
+    profiles: ["tools"]
     volumes:
       - .:/app
     working_dir: /app/dev-tools
@@ -162,12 +237,29 @@ services:
     networks:
       - backend-network
 
-volumes:
-  mysql-data:
-  redis-data:
-  minio-data:
-  qdrant-data:
+# ============================================================================
+# 数据卷配置 (Volumes)
+# ============================================================================
+# 说明：持久化存储，数据不会因容器重启而丢失
+# ============================================================================
 
+# ============================================================================
+# 数据卷配置 (Volumes)
+# ============================================================================
+# 说明：持久化存储，数据不会因容器重启而丢失
+# ============================================================================
+volumes:
+  mysql-data: # MySQL 数据存储
+  redis-data: # Redis 数据存储
+  minio-data: # MinIO 对象存储
+  qdrant-data: # Qdrant 向量数据库存储
+
+# ============================================================================
+# 网络配置 (Networks)
+# ============================================================================
+# 说明：所有服务使用同一个 backend-network 网络，可以通过服务名互相访问
+# 例如：backend 可以通过 mysql-service:3306 访问 MySQL
+# ============================================================================
 networks:
   backend-network:
     driver: bridge

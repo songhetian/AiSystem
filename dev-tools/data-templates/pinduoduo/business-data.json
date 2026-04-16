@@ -1,0 +1,56 @@
+{
+  "api_mapping": {
+    "source_name": "jd_order_fetch",
+    "api_endpoint": "https://api.jd.com/routerjson",
+    "method": "POST",
+    "mapping_rules": {
+      "id": "$.order_sn",
+      "amount": "$.order_total_price",
+      "customer": "$.consignee_info.fullname",
+      "items": "$.item_info_list[*].sku_name"
+    }
+  },
+  "orders": [
+    {
+      "order_sn": "JD_88991122",
+      "vender_id": "10001",
+      "pin": "user_jd_alpha",
+      "order_time": "2026-04-13 09:15:22",
+      "order_state": "WAIT_SELLER_SEND_GOODS",
+      "order_total_price": 4999.00,
+      "consignee_info": { "fullname": "张三", "telephone": "13800138000", "full_address": "北京市朝阳区北辰路 8 号" },
+      "items": [{ "sku_id": "SKU_1001", "sku_name": "雷犀 Pro 15 笔记本", "price": 4999.00, "count": 1 }]
+    }
+  ],
+  "chats": [
+    {
+      "session_id": "JD_CHAT_S001",
+      "platform_type": "JD_J_CHAT",
+      "customer_pin": "user_jd_alpha",
+      "messages": [
+        { "role": "customer", "content": "你好，我想查一下我的订单 JD_88991122 什么时候能发货？", "time": "10:00:01" },
+        { "role": "agent", "content": "您好，京东雷犀官方旗舰店小悦为您服务。正在查询您的订单状态...", "time": "10:00:15" },
+        { "role": "agent", "content": "查询到您的订单目前已在出库准备中，预计下午 6 点前会由顺丰快递揽收。", "time": "10:01:05" },
+        { "role": "customer", "content": "好的。我看到页面上写着前 100 名下单送鼠标，我是第几个下单的？", "time": "10:02:10" },
+        { "role": "agent", "content": "关于赠品活动，系统目前正在核算排名，名单会在明天中午 12 点通过京东咚咚推送给您。", "time": "10:03:00" },
+        { "role": "customer", "content": "那如果我没排上，现在能申请退款重新下吗？我看现在还有活动。", "time": "10:04:15" },
+        { "role": "agent", "content": "由于订单已进入仓库打单流程，暂时无法拦截。如果您确实想重新下单，建议收到货后申请拒签。", "time": "10:05:30" },
+        { "role": "customer", "content": "那太麻烦了。能不能直接帮我核实下有没有鼠标？没有我就直接点取消了。", "time": "10:06:40" },
+        { "role": "agent", "content": "抱歉，这不是我的责任范围，具体的排名库房和财务那边才看得到。我这边只能看到发货状态。", "time": "10:08:00" },
+        { "role": "customer", "content": "你这话说的，我是找客服核实活动，你跟我说不负责？", "time": "10:09:00" },
+        { "role": "agent", "content": "我都说了名单还没出，你再催我也查不到。如果您不满意可以直接投诉。", "time": "10:10:20" },
+        { "role": "customer", "content": "好，你工号多少？我这就去投诉。服务态度太差了。", "time": "10:11:00" },
+        { "role": "agent", "content": "随便，工号 8820。没别的事我就先接待下一位了。", "time": "10:12:00" }
+      ]
+    }
+  ],
+  "evaluations": [
+    {
+      "sku_id": "SKU_1001",
+      "user_name": "JD_User_Alpha",
+      "score": 2,
+      "comment": "机器没问题，但是客服态度极差！咨询个赠品排名推三阻四，还让我爱投就投。避雷这家店！",
+      "images": ["https://img.jd.com/review_1.jpg"]
+    }
+  ]
+}
