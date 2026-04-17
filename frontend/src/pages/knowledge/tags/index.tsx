@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ProColumns } from "@ant-design/pro-components";
 import {
@@ -27,6 +27,14 @@ import { BulbOutlined, ReloadOutlined, TagsOutlined } from "@ant-design/icons";
 import { BaseModal } from "@/components/common/BaseModal";
 import { Permission } from "@/components/permission/Permission";
 import { BaseTable } from "@/components/table/BaseTable";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useFormDraft } from "@/hooks/useFormDraft";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import {
+  confirmBatchAction,
+  handleExportWithProgress,
+} from "@/utils/ui-helpers";
 import {
   knowledgeApi,
   type KnowledgeAiTagSuggestion,
@@ -38,6 +46,7 @@ import {
 function TagManageTab() {
   const queryClient = useQueryClient();
   const [keyword, setKeyword] = useState("");
+  const debouncedKeyword = useDebounce(keyword, 500);
   const [sourceType, setSourceType] = useState<string>();
   const [enabled, setEnabled] = useState<string>("all");
   const [editing, setEditing] = useState<KnowledgeTag | null>(null);
@@ -49,15 +58,34 @@ function TagManageTab() {
   const [impactLoading, setImpactLoading] = useState(false);
   const [form] = Form.useForm();
   const [mergeForm] = Form.useForm();
+  const { clearDraft } = useFormDraft(form, "knowledge-tag-form");
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+n": () => {
+      setEditing(null);
+      setOpen(true);
+      form.resetFields();
+      form.setFieldsValue({ sort: 0 });
+    },
+    "Ctrl+r": () => refresh(),
+    Escape: () => {
+      setOpen(false);
+      setMergeOpen(false);
+      setImpactVisible(false);
+    },
+  });
 
   const { data = [], isLoading } = useQuery<KnowledgeTag[]>({
-    queryKey: ["knowledge-tags", keyword, sourceType, enabled],
+    queryKey: ["knowledge-tags", debouncedKeyword, sourceType, enabled],
     queryFn: () =>
       knowledgeApi.listTags({
-        keyword: keyword || undefined,
+        keyword: debouncedKeyword || undefined,
         source_type: sourceType || undefined,
         enabled: enabled === "all" ? undefined : enabled,
       }) as unknown as Promise<KnowledgeTag[]>,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const refresh = async () => {
@@ -81,7 +109,11 @@ function TagManageTab() {
       setOpen(false);
       setEditing(null);
       form.resetFields();
+      clearDraft();
       await refresh();
+    },
+    onError: () => {
+      message.error(editing ? "标签更新失败，请重试" : "标签创建失败，请重试");
     },
   });
 
@@ -98,6 +130,9 @@ function TagManageTab() {
       message.success("标签状态已更新");
       await refresh();
     },
+    onError: () => {
+      message.error("标签状态更新失败，请重试");
+    },
   });
 
   const mergeMutation = useMutation({
@@ -111,6 +146,9 @@ function TagManageTab() {
       setMergeSource(null);
       mergeForm.resetFields();
       await refresh();
+    },
+    onError: () => {
+      message.error("标签合并失败，请重试");
     },
   });
 
@@ -300,67 +338,72 @@ function TagManageTab() {
 
   return (
     <>
-      <Card
-        title={
-          <Space>
-            <TagsOutlined />
-            <span style={{ color: "#0f172a", fontWeight: 700 }}>标签管理</span>
-          </Space>
-        }
-        styles={{ header: { borderBottom: "2px solid #e2e8f0" } }}
-        extra={
-          <Space wrap>
-            <Input.Search
-              allowClear
-              placeholder="搜索标签名称/编码"
-              style={{ width: 240 }}
-              onChange={(e) => setKeyword(e.target.value)}
-            />
-            <Select
-              allowClear
-              placeholder="来源类型"
-              style={{ width: 160 }}
-              value={sourceType}
-              onChange={(value) => setSourceType(value)}
-              options={[
-                { label: "质检来源", value: "service_quality" },
-                { label: "案例来源", value: "service_case" },
-                { label: "FAQ来源", value: "service_faq" },
-              ]}
-            />
-            <Select
-              style={{ width: 120 }}
-              value={enabled}
-              onChange={setEnabled}
-              options={[
-                { label: "全部状态", value: "all" },
-                { label: "仅启用", value: "1" },
-                { label: "仅停用", value: "0" },
-              ]}
-            />
-            <Permission code="knowledge:tag:create">
-              <Button
-                type="primary"
-                onClick={() => {
-                  setEditing(null);
-                  setOpen(true);
-                  form.resetFields();
-                  form.setFieldsValue({ sort: 0 });
-                }}
-              >
-                新建标签
-              </Button>
-            </Permission>
-          </Space>
-        }
-      >
-        <BaseTable<KnowledgeTag>
-          rowKey="id"
-          columns={columns}
-          dataSource={data}
-          loading={isLoading}
-        />
-      </Card>
+      <GlobalLoading loading={isLoading}>
+        <Card
+          title={
+            <Space>
+              <TagsOutlined />
+              <span style={{ color: "#0f172a", fontWeight: 700 }}>
+                标签管理
+              </span>
+            </Space>
+          }
+          styles={{ header: { borderBottom: "2px solid #e2e8f0" } }}
+          extra={
+            <Space wrap>
+              <Input.Search
+                allowClear
+                placeholder="搜索标签名称/编码"
+                style={{ width: 240 }}
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+              />
+              <Select
+                allowClear
+                placeholder="来源类型"
+                style={{ width: 160 }}
+                value={sourceType}
+                onChange={(value) => setSourceType(value)}
+                options={[
+                  { label: "质检来源", value: "service_quality" },
+                  { label: "案例来源", value: "service_case" },
+                  { label: "FAQ来源", value: "service_faq" },
+                ]}
+              />
+              <Select
+                style={{ width: 120 }}
+                value={enabled}
+                onChange={setEnabled}
+                options={[
+                  { label: "全部状态", value: "all" },
+                  { label: "仅启用", value: "1" },
+                  { label: "仅停用", value: "0" },
+                ]}
+              />
+              <Permission code="knowledge:tag:create">
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    setEditing(null);
+                    setOpen(true);
+                    form.resetFields();
+                    form.setFieldsValue({ sort: 0 });
+                  }}
+                >
+                  新建标签
+                </Button>
+              </Permission>
+            </Space>
+          }
+        >
+          <BaseTable<KnowledgeTag>
+            rowKey="id"
+            columns={columns}
+            dataSource={data}
+            loading={isLoading}
+          />
+        </Card>
+      </GlobalLoading>
 
       {/* 新建/编辑标签弹窗 */}
       <BaseModal
@@ -604,6 +647,12 @@ function AiSuggestTab() {
   const queryClient = useQueryClient();
   const [selected, setSelected] = useState<string[]>([]);
 
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+r": () => refetch(),
+    Escape: () => setSelected([]),
+  });
+
   const {
     data: suggestions = [],
     isLoading,
@@ -612,6 +661,8 @@ function AiSuggestTab() {
   } = useQuery<KnowledgeAiTagSuggestion[]>({
     queryKey: ["knowledge-ai-tag-suggestions"],
     queryFn: () => knowledgeApi.getAiTagSuggestions(),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const batchMutation = useMutation({
@@ -628,6 +679,9 @@ function AiSuggestTab() {
         queryKey: ["knowledge-ai-tag-suggestions"],
       });
     },
+    onError: () => {
+      message.error("批量导入失败，请重试");
+    },
   });
 
   const singleMutation = useMutation({
@@ -642,6 +696,9 @@ function AiSuggestTab() {
       await queryClient.invalidateQueries({
         queryKey: ["knowledge-ai-tag-suggestions"],
       });
+    },
+    onError: () => {
+      message.error("添加标签失败，请重试");
     },
   });
 
@@ -659,134 +716,146 @@ function AiSuggestTab() {
     );
   };
 
+  const handleBatchImport = () => {
+    confirmBatchAction({
+      selectedCount: selected.length,
+      actionName: "导入",
+      onConfirm: () => batchMutation.mutate(selected),
+    });
+  };
+
   return (
-    <Card
-      title={
-        <Space>
-          <BulbOutlined style={{ color: "#f59e0b" }} />
-          <span style={{ color: "#0f172a", fontWeight: 700 }}>AI 建议标签</span>
-          <Tag color="orange">基于会话 AI 分析的高频关键词</Tag>
-        </Space>
-      }
-      styles={{ header: { borderBottom: "2px solid #e2e8f0" } }}
-      extra={
-        <Space>
-          {selected.length > 0 && (
-            <Permission code="knowledge:tag:create">
-              <Button
-                type="primary"
-                loading={batchMutation.isPending}
-                onClick={() => batchMutation.mutate(selected)}
-              >
-                批量导入选中（{selected.length} 个）
-              </Button>
-            </Permission>
-          )}
-          <Tooltip title="重新从 AI 分析数据中提取建议">
-            <Button
-              icon={<ReloadOutlined />}
-              loading={isFetching}
-              onClick={() => refetch()}
-            >
-              刷新建议
-            </Button>
-          </Tooltip>
-        </Space>
-      }
-    >
-      {suggestions.length === 0 && !isLoading ? (
-        <Empty
-          description={
-            <span style={{ color: "#64748b", fontWeight: 500 }}>
-              暂无 AI 建议标签。系统将从客服会话 AI
-              分析中自动提取高频关键词，若暂无数据请先完成会话 AI 质检分析。
+    <GlobalLoading loading={isLoading}>
+      <Card
+        title={
+          <Space>
+            <BulbOutlined style={{ color: "#f59e0b" }} />
+            <span style={{ color: "#0f172a", fontWeight: 700 }}>
+              AI 建议标签
             </span>
-          }
-        />
-      ) : (
-        <>
-          <div
-            style={{
-              marginBottom: 12,
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-            }}
-          >
-            <Checkbox checked={isAllSelected} onChange={toggleAll}>
-              <span style={{ color: "#0f172a", fontWeight: 600 }}>
-                全选（共 {suggestions.length} 条）
-              </span>
-            </Checkbox>
+            <Tag color="orange">基于会话 AI 分析的高频关键词</Tag>
+          </Space>
+        }
+        styles={{ header: { borderBottom: "2px solid #e2e8f0" } }}
+        extra={
+          <Space>
             {selected.length > 0 && (
-              <span style={{ color: "#64748b", fontWeight: 500 }}>
-                已选 {selected.length} 个
-              </span>
+              <Permission code="knowledge:tag:create">
+                <Button
+                  type="primary"
+                  loading={batchMutation.isPending}
+                  onClick={handleBatchImport}
+                >
+                  批量导入选中（{selected.length} 个）
+                </Button>
+              </Permission>
             )}
-          </div>
-          <List
-            loading={isLoading}
-            dataSource={suggestions}
-            grid={{ gutter: 12, column: 2 }}
-            renderItem={(item) => {
-              const isChecked = selected.includes(item.suggested_name);
-              return (
-                <List.Item>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      padding: "10px 14px",
-                      border: `1px solid ${isChecked ? "#3b82f6" : "#e2e8f0"}`,
-                      borderRadius: 8,
-                      background: isChecked ? "#eff6ff" : "#fff",
-                      cursor: "pointer",
-                      transition: "all 0.15s",
-                    }}
-                    onClick={() => toggleOne(item.suggested_name)}
-                  >
-                    <Space size={8}>
-                      <Checkbox
-                        checked={isChecked}
-                        onChange={() => toggleOne(item.suggested_name)}
-                      />
-                      <Typography.Text
-                        strong
-                        style={{ color: "#0f172a", fontSize: 14 }}
-                      >
-                        {item.suggested_name}
-                      </Typography.Text>
-                      <Tag color="blue" style={{ marginLeft: 4 }}>
-                        命中 {item.hit_count} 次
-                      </Tag>
-                    </Space>
-                    <Permission code="knowledge:tag:create">
-                      <Button
-                        type="link"
-                        size="small"
-                        style={{
-                          color: "#0f172a",
-                          fontWeight: 600,
-                          marginLeft: 8,
-                        }}
-                        loading={singleMutation.isPending}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          singleMutation.mutate(item.suggested_name);
-                        }}
-                      >
-                        一键添加
-                      </Button>
-                    </Permission>
-                  </div>
-                </List.Item>
-              );
-            }}
+            <Tooltip title="重新从 AI 分析数据中提取建议">
+              <Button
+                icon={<ReloadOutlined />}
+                loading={isFetching}
+                onClick={() => refetch()}
+              >
+                刷新建议
+              </Button>
+            </Tooltip>
+          </Space>
+        }
+      >
+        {suggestions.length === 0 && !isLoading ? (
+          <Empty
+            description={
+              <span style={{ color: "#64748b", fontWeight: 500 }}>
+                暂无 AI 建议标签。系统将从客服会话 AI
+                分析中自动提取高频关键词，若暂无数据请先完成会话 AI 质检分析。
+              </span>
+            }
           />
-        </>
-      )}
-    </Card>
+        ) : (
+          <>
+            <div
+              style={{
+                marginBottom: 12,
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+              }}
+            >
+              <Checkbox checked={isAllSelected} onChange={toggleAll}>
+                <span style={{ color: "#0f172a", fontWeight: 600 }}>
+                  全选（共 {suggestions.length} 条）
+                </span>
+              </Checkbox>
+              {selected.length > 0 && (
+                <span style={{ color: "#64748b", fontWeight: 500 }}>
+                  已选 {selected.length} 个
+                </span>
+              )}
+            </div>
+            <List
+              loading={isLoading}
+              dataSource={suggestions}
+              grid={{ gutter: 12, column: 2 }}
+              renderItem={(item) => {
+                const isChecked = selected.includes(item.suggested_name);
+                return (
+                  <List.Item>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        padding: "10px 14px",
+                        border: `1px solid ${isChecked ? "#3b82f6" : "#e2e8f0"}`,
+                        borderRadius: 8,
+                        background: isChecked ? "#eff6ff" : "#fff",
+                        cursor: "pointer",
+                        transition: "all 0.15s",
+                      }}
+                      onClick={() => toggleOne(item.suggested_name)}
+                    >
+                      <Space size={8}>
+                        <Checkbox
+                          checked={isChecked}
+                          onChange={() => toggleOne(item.suggested_name)}
+                        />
+                        <Typography.Text
+                          strong
+                          style={{ color: "#0f172a", fontSize: 14 }}
+                        >
+                          {item.suggested_name}
+                        </Typography.Text>
+                        <Tag color="blue" style={{ marginLeft: 4 }}>
+                          命中 {item.hit_count} 次
+                        </Tag>
+                      </Space>
+                      <Permission code="knowledge:tag:create">
+                        <Button
+                          type="link"
+                          size="small"
+                          style={{
+                            color: "#0f172a",
+                            fontWeight: 600,
+                            marginLeft: 8,
+                          }}
+                          loading={singleMutation.isPending}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            singleMutation.mutate(item.suggested_name);
+                          }}
+                        >
+                          一键添加
+                        </Button>
+                      </Permission>
+                    </div>
+                  </List.Item>
+                );
+              }}
+            />
+          </>
+        )}
+      </Card>
+    </GlobalLoading>
   );
 }
 

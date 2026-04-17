@@ -1,6 +1,30 @@
-import React from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import React from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ErrorBoundary } from "@/components/common/ErrorBoundary";
+import { register } from "@/utils/serviceWorkerRegistration";
+import { reportWebVitals } from "@/utils/performance-monitor";
+
+// 启用 Service Worker（离线支持）
+if (process.env.NODE_ENV === "production") {
+  register({
+    onSuccess: () => {
+      console.log("[Service Worker] 注册成功，应用已支持离线访问");
+    },
+    onUpdate: (registration) => {
+      console.log("[Service Worker] 发现新版本，请刷新页面获取最新内容");
+      // 可以在这里显示更新提示
+    },
+    onError: (error) => {
+      console.error("[Service Worker] 注册失败:", error);
+    },
+  });
+}
+
+// 启用性能监控
+reportWebVitals((metric: any) => {
+  // 性能数据会自动上报到后端 /api/performance/web-vitals
+  console.log("[Performance]", metric);
+});
 
 /**
  * React Query 配置优化 (V2.0)

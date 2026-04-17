@@ -8,6 +8,7 @@ import {
   Modal,
   Form,
   Input,
+  Select,
   message,
 } from "antd";
 import {
@@ -18,6 +19,9 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
+import { useFormDraft } from "@/hooks/useFormDraft";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 
 const { TextArea } = Input;
 
@@ -38,6 +42,16 @@ export default function AgentGroupManagement() {
   const [modalVisible, setModalVisible] = useState(false);
   const [editingGroup, setEditingGroup] = useState<AgentGroup | null>(null);
   const [form] = Form.useForm();
+  const { clearDraft } = useFormDraft(form, "service-agent-group-form");
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+n": () => handleAdd(),
+    Escape: () => {
+      setModalVisible(false);
+      form.resetFields();
+    },
+  });
 
   // 模拟数据
   const [groups] = useState<AgentGroup[]>([
@@ -83,12 +97,15 @@ export default function AgentGroupManagement() {
     Modal.confirm({
       title: "确认删除",
       content: `确定要删除坐席组"${record.group_name}"吗？`,
+      okText: "确认删除",
+      okType: "danger",
+      cancelText: "取消",
       onOk: async () => {
         try {
           // TODO: 调用删除API
           message.success("删除成功");
         } catch (error) {
-          message.error("删除失败");
+          message.error("删除失败，请重试");
         }
       },
     });
@@ -109,8 +126,10 @@ export default function AgentGroupManagement() {
       message.success(editingGroup ? "更新成功" : "创建成功");
       setModalVisible(false);
       form.resetFields();
+      clearDraft();
     } catch (error) {
       console.error("Submit error:", error);
+      message.error(editingGroup ? "更新失败，请重试" : "创建失败，请重试");
     } finally {
       setLoading(false);
     }
@@ -208,87 +227,92 @@ export default function AgentGroupManagement() {
   ];
 
   return (
-    <div className="agent-group-management">
-      <Card
-        title={
-          <Space>
-            <TeamOutlined style={{ fontSize: 20, color: "#4facfe" }} />
-            <span style={{ fontSize: 18, fontWeight: 600 }}>坐席组管理</span>
-          </Space>
-        }
-        extra={
-          <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
-            新增坐席组
-          </Button>
-        }
-      >
-        <Table
-          columns={columns}
-          dataSource={groups}
-          rowKey="id"
-          loading={loading}
-          pagination={{
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total) => `共 ${total} 条`,
-          }}
-        />
-      </Card>
-
-      <Modal
-        title={editingGroup ? "编辑坐席组" : "新增坐席组"}
-        open={modalVisible}
-        onOk={handleSubmit}
-        onCancel={() => {
-          setModalVisible(false);
-          form.resetFields();
-        }}
-        confirmLoading={loading}
-        width={600}
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          initialValues={{
-            status: 1,
-          }}
+    <GlobalLoading loading={loading}>
+      <div className="agent-group-management">
+        <Card
+          title={
+            <Space>
+              <TeamOutlined style={{ fontSize: 20, color: "#4facfe" }} />
+              <span style={{ fontSize: 18, fontWeight: 600 }}>坐席组管理</span>
+            </Space>
+          }
+          extra={
+            <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
+              新增坐席组
+            </Button>
+          }
         >
-          <Form.Item
-            label="坐席组名称"
-            name="group_name"
-            rules={[{ required: true, message: "请输入坐席组名称" }]}
+          <Table
+            columns={columns}
+            dataSource={groups}
+            rowKey="id"
+            loading={loading}
+            pagination={{
+              showSizeChanger: true,
+              showQuickJumper: true,
+              showTotal: (total) => `共 ${total} 条`,
+            }}
+          />
+        </Card>
+
+        <Modal
+          title={editingGroup ? "编辑坐席组" : "新增坐席组"}
+          open={modalVisible}
+          onOk={handleSubmit}
+          onCancel={() => {
+            setModalVisible(false);
+            form.resetFields();
+          }}
+          confirmLoading={loading}
+          width={600}
+        >
+          <Form
+            form={form}
+            layout="vertical"
+            initialValues={{
+              status: 1,
+            }}
           >
-            <Input placeholder="请输入坐席组名称" />
-          </Form.Item>
+            <Form.Item
+              label="坐席组名称"
+              name="group_name"
+              rules={[{ required: true, message: "请输入坐席组名称" }]}
+            >
+              <Input placeholder="请输入坐席组名称" />
+            </Form.Item>
 
-          <Form.Item
-            label="坐席组编码"
-            name="group_code"
-            rules={[
-              { required: true, message: "请输入坐席组编码" },
-              { pattern: /^[A-Z_]+$/, message: "编码只能包含大写字母和下划线" },
-            ]}
-          >
-            <Input
-              placeholder="请输入坐席组编码（如：PRE_SALES）"
-              disabled={!!editingGroup}
-            />
-          </Form.Item>
-
-          <Form.Item label="描述" name="description">
-            <TextArea rows={4} placeholder="请输入坐席组描述" />
-          </Form.Item>
-
-          <Form.Item label="状态" name="status">
-            <Select
-              options={[
-                { label: "启用", value: 1 },
-                { label: "禁用", value: 0 },
+            <Form.Item
+              label="坐席组编码"
+              name="group_code"
+              rules={[
+                { required: true, message: "请输入坐席组编码" },
+                {
+                  pattern: /^[A-Z_]+$/,
+                  message: "编码只能包含大写字母和下划线",
+                },
               ]}
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
+            >
+              <Input
+                placeholder="请输入坐席组编码（如：PRE_SALES）"
+                disabled={!!editingGroup}
+              />
+            </Form.Item>
+
+            <Form.Item label="描述" name="description">
+              <TextArea rows={4} placeholder="请输入坐席组描述" />
+            </Form.Item>
+
+            <Form.Item label="状态" name="status">
+              <Select
+                options={[
+                  { label: "启用", value: 1 },
+                  { label: "禁用", value: 0 },
+                ]}
+              />
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
+    </GlobalLoading>
   );
 }

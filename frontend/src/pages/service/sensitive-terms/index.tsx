@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ProColumns } from "@ant-design/pro-components";
 import {
@@ -21,6 +21,9 @@ import {
 import { BaseModal } from "@/components/common/BaseModal";
 import { Permission } from "@/components/permission/Permission";
 import { BaseTable } from "@/components/table/BaseTable";
+import { useFormDraft } from "@/hooks/useFormDraft";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 const categoryOptions = [
   { label: "辱骂类", value: "abuse" },
@@ -35,9 +38,35 @@ export default function ServiceSensitiveTermsPage() {
   const [editing, setEditing] = useState<ServiceSensitiveTerm | null>(null);
   const [form] = Form.useForm();
 
+  // 表单草稿保存
+  const { clearDraft } = useFormDraft(
+    form,
+    "service-sensitive-term-form",
+    30000,
+  );
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+n": () => {
+      setEditing(null);
+      setOpen(true);
+      form.resetFields();
+    },
+    "Ctrl+r": () => {
+      refresh();
+      message.success("已刷新");
+    },
+    Escape: () => {
+      setOpen(false);
+      setEditing(null);
+    },
+  });
+
   const { data = [], isLoading } = useQuery<ServiceSensitiveTerm[]>({
     queryKey: ["service-sensitive-terms"],
     queryFn: serviceApi.listSensitiveTerms,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const refresh = async () => {
@@ -59,7 +88,11 @@ export default function ServiceSensitiveTermsPage() {
       setOpen(false);
       setEditing(null);
       form.resetFields();
+      clearDraft();
       await refresh();
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "操作失败");
     },
   });
 
@@ -82,7 +115,13 @@ export default function ServiceSensitiveTermsPage() {
         dept_id: record.dept_id,
         shop_id: record.shop_id,
       }),
-    onSuccess: refresh,
+    onSuccess: () => {
+      message.success("状态已更新");
+      refresh();
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "操作失败");
+    },
   });
 
   const columns: ProColumns<ServiceSensitiveTerm>[] = useMemo(
@@ -159,18 +198,21 @@ export default function ServiceSensitiveTermsPage() {
                 setOpen(true);
                 form.resetFields();
               }}
+              title="快捷键: Ctrl+N"
             >
               新建敏感词
             </Button>
           </Permission>
         }
       >
-        <BaseTable<ServiceSensitiveTerm>
-          rowKey="id"
-          columns={columns}
-          dataSource={data}
-          loading={isLoading}
-        />
+        <GlobalLoading loading={isLoading}>
+          <BaseTable<ServiceSensitiveTerm>
+            rowKey="id"
+            columns={columns}
+            dataSource={data}
+            loading={isLoading}
+          />
+        </GlobalLoading>
       </Card>
 
       <BaseModal

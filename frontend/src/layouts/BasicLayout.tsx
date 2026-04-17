@@ -5,10 +5,11 @@ import {
   Space,
   Typography,
   Dropdown,
-  Avatar,
   Badge,
   ConfigProvider,
   Modal,
+  Switch,
+  Tooltip,
 } from "antd";
 import {
   LogoutOutlined,
@@ -19,6 +20,11 @@ import {
   ShopOutlined,
   ControlOutlined,
   ThunderboltOutlined,
+  BulbOutlined,
+  BulbFilled,
+  AppstoreOutlined,
+  TeamOutlined,
+  SafetyCertificateOutlined,
 } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import { authApi } from "@/api/auth";
@@ -31,6 +37,7 @@ import {
   type RealtimeMessageEvent,
 } from "@/components/common/RealtimeNotificationCenter";
 import { useGlobalStore } from "@/models/global";
+import { useTheme } from "@/hooks/useTheme";
 import zhCN from "antd/lib/locale/zh_CN";
 import FloatingChat from "@/components/common/FloatingChat";
 
@@ -40,6 +47,7 @@ export default function BasicLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const { token, currentUser, setCurrentUser, setToken } = useGlobalStore();
+  const { isDark, toggleTheme, algorithm } = useTheme();
   const [lastMessageEvent, setLastMessageEvent] =
     useState<RealtimeMessageEvent>();
   const [activeExamModalOpen, setActiveExamModalOpen] = useState(false);
@@ -120,7 +128,12 @@ export default function BasicLayout() {
       })) || [];
 
   return (
-    <ConfigProvider locale={zhCN}>
+    <ConfigProvider
+      locale={zhCN}
+      theme={{
+        algorithm: algorithm,
+      }}
+    >
       <div id="pro-layout-container" style={{ height: "100vh" }}>
         <RealtimeNotificationCenter lastEvent={lastMessageEvent} />
         <Modal
@@ -177,6 +190,18 @@ export default function BasicLayout() {
           )}
           // 头部右侧工具栏
           actionsRender={() => [
+            <Tooltip
+              key="theme-toggle"
+              title={isDark ? "切换到浅色模式" : "切换到深色模式"}
+            >
+              <Switch
+                checked={isDark}
+                onChange={toggleTheme}
+                checkedChildren={<BulbFilled />}
+                unCheckedChildren={<BulbOutlined />}
+                style={{ marginRight: 16 }}
+              />
+            </Tooltip>,
             <HeaderMessageHub key="message-hub" enabled={Boolean(token)} />,
             <Badge
               key="pending-approval"

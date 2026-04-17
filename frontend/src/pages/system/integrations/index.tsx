@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ProColumns } from "@ant-design/pro-components";
 import {
@@ -24,6 +24,10 @@ import { systemApi, type IntegrationRecord } from "@/api/system";
 import { BaseModal } from "@/components/common/BaseModal";
 import { ActionGroup } from "@/components/common/ActionGroup";
 import { BaseTable } from "@/components/table/BaseTable";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useFormDraft } from "@/hooks/useFormDraft";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 const { Text } = Typography;
 
@@ -46,6 +50,33 @@ export default function DataIntegrationPage() {
   const [form] = Form.useForm<IntegrationFormValues>();
   const [filterForm] = Form.useForm();
   const queryClient = useQueryClient();
+  const searchInputRef = useRef<any>(null);
+
+  // 表单草稿保存
+  const { clearDraft } = useFormDraft(form, "system-integration-form", 30000);
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+n": () => {
+      setEditing(null);
+      form.resetFields();
+      form.setFieldsValue({
+        method: "GET",
+        status: 1,
+        mapping_json: {},
+      });
+      setOpen(true);
+    },
+    "Ctrl+f": () => searchInputRef.current?.focus(),
+    "Ctrl+r": () => {
+      refresh();
+      message.success("已刷新");
+    },
+    Escape: () => {
+      setOpen(false);
+      setEditing(null);
+    },
+  });
 
   const { data: platforms = [] } = useQuery({
     queryKey: ["system-platforms"],
@@ -54,17 +85,22 @@ export default function DataIntegrationPage() {
   const { data: integrations = [], isLoading } = useQuery({
     queryKey: ["system-integrations"],
     queryFn: systemApi.listIntegrations,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
   const keyword = Form.useWatch("name", filterForm) as string | undefined;
 
+  // 搜索防抖
+  const debouncedKeyword = useDebounce(keyword || "", 500);
+
   const filteredIntegrations = useMemo(() => {
-    if (!keyword) {
+    if (!debouncedKeyword) {
       return integrations;
     }
     return integrations.filter((item) =>
-      item.source_name.toLowerCase().includes(keyword.toLowerCase()),
+      item.source_name.toLowerCase().includes(debouncedKeyword.toLowerCase()),
     );
-  }, [integrations, keyword]);
+  }, [integrations, debouncedKeyword]);
 
   const refresh = () =>
     queryClient.invalidateQueries({ queryKey: ["system-integrations"] });
@@ -90,7 +126,11 @@ export default function DataIntegrationPage() {
       setOpen(false);
       setEditing(null);
       form.resetFields();
+      clearDraft();
       await refresh();
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "操作失败");
     },
   });
 
@@ -99,6 +139,9 @@ export default function DataIntegrationPage() {
     onSuccess: async () => {
       message.success("集成已删除");
       await refresh();
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "删除失败");
     },
   });
 
@@ -180,9 +223,11 @@ export default function DataIntegrationPage() {
         >
           <Form.Item name="name" className="mb-0 min-w-[200px] flex-grow">
             <Input
+              ref={searchInputRef}
               prefix={<SearchOutlined />}
-              placeholder="搜索数据源名称"
+              placeholder="搜索数据源名称 (Ctrl+F)"
               className="h-[44px]"
+              allowClear
             />
           </Form.Item>
           <Form.Item className="mb-0">
@@ -208,6 +253,7 @@ export default function DataIntegrationPage() {
                   setOpen(true);
                 }}
                 className="h-[44px] font-bold"
+                title="快捷键: Ctrl+N"
               >
                 新增集成
               </Button>
@@ -217,12 +263,14 @@ export default function DataIntegrationPage() {
       </Card>
 
       <Card bordered={false} className="shadow-sm">
-        <BaseTable<IntegrationRecord>
-          columns={columns}
-          dataSource={filteredIntegrations}
-          rowKey="id"
-          loading={isLoading}
-        />
+        <GlobalLoading loading={isLoading}>
+          <BaseTable<IntegrationRecord>
+            columns={columns}
+            dataSource={filteredIntegrations}
+            rowKey="id"
+            loading={isLoading}
+          />
+        </GlobalLoading>
       </Card>
 
       <BaseModal

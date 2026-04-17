@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, Card, Input, Segmented, Space, message } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,9 @@ import {
   type ColumnConfig,
 } from "@/components/table/ColumnCustomizer";
 import { defaultColumnConfig, getSessionColumns } from "./components/columns";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 export default function ServiceSessionsPage() {
   const navigate = useNavigate();
@@ -25,18 +28,33 @@ export default function ServiceSessionsPage() {
   const [columns, setColumns] = useState<ColumnConfig[]>(() =>
     loadColumnConfig("service-sessions-columns", defaultColumnConfig),
   );
+  const searchInputRef = useRef<any>(null);
+
+  // 搜索防抖
+  const debouncedKeyword = useDebounce(keyword, 500);
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+f": () => searchInputRef.current?.focus(),
+    "Ctrl+r": () => {
+      queryClient.invalidateQueries({ queryKey: ["service-sessions"] });
+      message.success("已刷新");
+    },
+  });
 
   const queryParams = useMemo(
     () => ({
-      keyword: keyword || undefined,
+      keyword: debouncedKeyword || undefined,
       risk_level: riskView === "all" ? undefined : riskView,
     }),
-    [keyword, riskView],
+    [debouncedKeyword, riskView],
   );
 
   const { data: sessions = [], isLoading } = useQuery<ServiceSessionRecord[]>({
     queryKey: ["service-sessions", queryParams],
     queryFn: () => serviceApi.listSessions(queryParams),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const { data: overview } = useQuery<ServiceAiOverview>({
@@ -50,6 +68,9 @@ export default function ServiceSessionsPage() {
     onSuccess: async () => {
       message.success("AI 质检已重新分析");
       await queryClient.invalidateQueries({ queryKey: ["service-sessions"] });
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "分析失败");
     },
   });
 
@@ -66,10 +87,14 @@ export default function ServiceSessionsPage() {
         <div className="flex items-center gap-4 justify-between">
           <div className="flex items-center gap-4">
             <Input.Search
+              ref={searchInputRef}
               placeholder="搜索会话..."
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
               onSearch={setKeyword}
               style={{ width: 300, height: "44px" }}
               className="leixi-filter-border"
+              allowClear
             />
             <Segmented
               value={riskView}
@@ -87,13 +112,15 @@ export default function ServiceSessionsPage() {
       </Card>
 
       <Card className="shadow-sm" bodyStyle={{ padding: 0 }}>
-        <BaseTable<ServiceSessionRecord>
-          rowKey="id"
-          columns={tableColumns}
-          dataSource={sessions}
-          loading={isLoading}
-          scroll={{ y: 600 }} // 启用虚拟滚动支持
-        />
+        <GlobalLoading loading={isLoading}>
+          <BaseTable<ServiceSessionRecord>
+            rowKey="id"
+            columns={tableColumns}
+            dataSource={sessions}
+            loading={isLoading}
+            scroll={{ y: 600 }} // 启用虚拟滚动支持
+          />
+        </GlobalLoading>
       </Card>
     </div>
   );

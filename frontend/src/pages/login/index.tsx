@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -20,6 +20,7 @@ import {
 } from "@ant-design/icons";
 import { authApi } from "@/api/auth";
 import { useGlobalStore } from "@/models/global";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 
 const { Title, Text } = Typography;
 
@@ -27,6 +28,12 @@ export default function LoginPage() {
   const [form] = Form.useForm();
   const { setToken } = useGlobalStore();
   const navigate = useNavigate();
+  const usernameInputRef = useRef<any>(null);
+
+  useKeyboardShortcuts({
+    "Ctrl+Enter": () => form.submit(),
+    "Ctrl+r": () => navigate("/register"),
+  });
 
   const loginMutation = useMutation({
     mutationFn: authApi.login,

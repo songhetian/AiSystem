@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useRef } from "react";
 import {
   Card,
   Table,
@@ -26,7 +26,7 @@ import {
   ImportOutlined,
   ThunderboltOutlined,
 } from "@ant-design/icons";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   permissionTemplateApi,
   PermissionTemplate,
@@ -38,22 +38,36 @@ import { usePermissionTree } from "@/hooks/usePermissionTree";
 import { HotkeyGuide } from "@/components/common/HotkeyGuide";
 import { useTemplateModal } from "./hooks/useTemplateModal";
 import { useTemplateOperations } from "./hooks/useTemplateOperations";
+import { useDebounce } from "@/hooks/useDebounce";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 import "./index.less";
 
 export default function PermissionTemplatePage() {
   const [searchForm] = Form.useForm();
+  const [form] = Form.useForm();
+  const queryClient = useQueryClient();
 
   const [applyModalOpen, setApplyModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [exportModalOpen, setExportModalOpen] = useState(false);
   const [selectedTemplate, setSelectedTemplate] =
+    useState<PermissionTemplate | null>(null);
+  const [editingTemplate, setEditingTemplate] =
     useState<PermissionTemplate | null>(null);
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
   const [searchParams, setSearchParams] = useState<any>({});
+  const debouncedSearchParams = useDebounce(searchParams, 500);
   const [partialApply, setPartialApply] = useState(false);
+  const [checkedMenuKeys, setCheckedMenuKeys] = useState<string[]>([]);
+  const [checkedButtonKeys, setCheckedButtonKeys] = useState<string[]>([]);
+  const searchInputRef = useRef<any>(null);
 
   // 获取模板列表
   const { data: templates = [], isLoading } = useQuery({
-    queryKey: ["permission-templates", searchParams],
-    queryFn: () => permissionTemplateApi.getTemplateList(searchParams),
+    queryKey: ["permission-templates", debouncedSearchParams],
+    queryFn: () => permissionTemplateApi.getTemplateList(debouncedSearchParams),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   // 获取菜单和按钮数据
@@ -517,21 +531,23 @@ export default function PermissionTemplatePage() {
             ]}
           />
 
-          <Table
-            rowKey="id"
-            columns={columns}
-            dataSource={templates}
-            loading={isLoading}
-            rowSelection={{
-              selectedRowKeys,
-              onChange: setSelectedRowKeys,
-            }}
-            scroll={{ x: 1200 }}
-            pagination={{
-              showSizeChanger: true,
-              showTotal: (total) => `共 ${total} 条`,
-            }}
-          />
+          <GlobalLoading loading={isLoading}>
+            <Table
+              rowKey="id"
+              columns={columns}
+              dataSource={templates}
+              loading={isLoading}
+              rowSelection={{
+                selectedRowKeys,
+                onChange: setSelectedRowKeys,
+              }}
+              scroll={{ x: 1200 }}
+              pagination={{
+                showSizeChanger: true,
+                showTotal: (total) => `共 ${total} 条`,
+              }}
+            />
+          </GlobalLoading>
         </Space>
       </Card>
 

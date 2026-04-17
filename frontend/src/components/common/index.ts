@@ -5,3 +5,4 @@
 export { GlobalLoading } from "./GlobalLoading";
 export { SmartSearch } from "./SmartSearch";
 export { ErrorBoundary } from "./ErrorBoundary";
+export { EmptyState } from "./EmptyState";

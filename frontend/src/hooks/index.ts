@@ -6,3 +6,5 @@ export { useDebounce } from "./useDebounce";
 export { useFormDraft } from "./useFormDraft";
 export { useKeyboardShortcuts } from "./useKeyboardShortcuts";
 export { useTheme } from "./useTheme";
+export { useInlineEdit } from "./useInlineEdit";
+export { useResponsive, useResponsiveColumns } from "./useResponsive";

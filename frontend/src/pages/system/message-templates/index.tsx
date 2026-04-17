@@ -26,6 +26,9 @@ import {
   SortAscendingOutlined,
 } from "@ant-design/icons";
 import { systemApi } from "@/api/system";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
+import { useFormDraft } from "@/hooks/useFormDraft";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import {
   VariableSortList,
   type TemplateVariable,
@@ -43,10 +46,21 @@ export default function MessageTemplatesPage() {
   const [modalVisible, setModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [activeTab, setActiveTab] = useState("list");
+  const { clearDraft } = useFormDraft(form, "message-template-form");
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+n": () => handleEdit(),
+    "Ctrl+r": () =>
+      queryClient.invalidateQueries({ queryKey: ["message-templates"] }),
+    Escape: () => setModalVisible(false),
+  });
 
   const { data: templates = [], isLoading } = useQuery({
     queryKey: ["message-templates"],
     queryFn: () => systemApi.listMessageTemplates(),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const saveMutation = useMutation({
@@ -54,13 +68,18 @@ export default function MessageTemplatesPage() {
     onSuccess: () => {
       message.success("模板保存成功");
       setModalVisible(false);
+      clearDraft();
       queryClient.invalidateQueries({ queryKey: ["message-templates"] });
+    },
+    onError: () => {
+      message.error("模板保存失败，请重试");
     },
   });
 
   const sendTestMutation = useMutation({
     mutationFn: systemApi.sendTestMessage,
     onSuccess: () => message.success("测试消息已发送至您的收件箱"),
+    onError: () => message.error("测试消息发送失败，请重试"),
   });
 
   const handleEdit = (record?: any) => {
@@ -234,186 +253,188 @@ export default function MessageTemplatesPage() {
   });
 
   return (
-    <div className="p-6 bg-[#f8fafc] h-full flex flex-col gap-6 animate-in fade-in duration-500">
-      <div className="flex justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-        <Space direction="vertical" size={0}>
-          <Title
-            level={3}
-            className="!m-0 font-black text-slate-900 tracking-tight"
-          >
-            模板管理
-          </Title>
-          <Text className="text-slate-500 font-bold">
-            配置多变量、多渠道的工业级通知模组 (PRD 2.1)
-          </Text>
-        </Space>
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          className="bg-slate-900 h-[44px] px-6 rounded-xl font-bold border-none"
-          onClick={() => handleEdit()}
-        >
-          新增模板
-        </Button>
-      </div>
-
-      <Card
-        className="flex-1 rounded-2xl shadow-sm border-slate-100 overflow-hidden"
-        bodyStyle={{ padding: 12 }}
-      >
-        <Tabs
-          activeKey={activeTab}
-          onChange={setActiveTab}
-          items={[
-            {
-              key: "list",
-              label: (
-                <Space>
-                  <span>模板列表</span>
-                </Space>
-              ),
-              children: (
-                <ProTable
-                  columns={columns}
-                  dataSource={templates}
-                  isLoading={isLoading}
-                  rowKey="id"
-                  search={false}
-                  options={{ density: false, setting: true }}
-                  pagination={{ pageSize: 10 }}
-                />
-              ),
-            },
-            {
-              key: "variables",
-              label: (
-                <Space>
-                  <SortAscendingOutlined />
-                  <span>变量排序</span>
-                </Space>
-              ),
-              children: (
-                <VariableSortList
-                  variables={templateVariables}
-                  onSave={(variables) =>
-                    sortVariablesMutation.mutate(variables)
-                  }
-                  loading={sortVariablesMutation.isPending}
-                />
-              ),
-            },
-          ]}
-        />
-      </Card>
-
-      <Modal
-        title={
-          <Space>
-            <BulbOutlined className="text-amber-500" />
-            <Text className="font-black text-slate-900">配置通知模板</Text>
+    <GlobalLoading loading={isLoading}>
+      <div className="p-6 bg-[#f8fafc] h-full flex flex-col gap-6 animate-in fade-in duration-500">
+        <div className="flex justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+          <Space direction="vertical" size={0}>
+            <Title
+              level={3}
+              className="!m-0 font-black text-slate-900 tracking-tight"
+            >
+              模板管理
+            </Title>
+            <Text className="text-slate-500 font-bold">
+              配置多变量、多渠道的工业级通知模组 (PRD 2.1)
+            </Text>
           </Space>
-        }
-        open={modalVisible}
-        onCancel={() => setModalVisible(false)}
-        onOk={() => form.submit()}
-        width={800}
-        confirmLoading={saveMutation.isPending}
-        bodyStyle={{ padding: "24px 0" }}
-        className="message-template-modal"
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={(values) =>
-            saveMutation.mutate({
-              ...values,
-              channels: values.channels.join(","),
-            })
-          }
-          className="px-8"
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            className="bg-slate-900 h-[44px] px-6 rounded-xl font-bold border-none"
+            onClick={() => handleEdit()}
+          >
+            新增模板
+          </Button>
+        </div>
+
+        <Card
+          className="flex-1 rounded-2xl shadow-sm border-slate-100 overflow-hidden"
+          bodyStyle={{ padding: 12 }}
         >
-          <div className="grid grid-cols-2 gap-6">
+          <Tabs
+            activeKey={activeTab}
+            onChange={setActiveTab}
+            items={[
+              {
+                key: "list",
+                label: (
+                  <Space>
+                    <span>模板列表</span>
+                  </Space>
+                ),
+                children: (
+                  <ProTable
+                    columns={columns}
+                    dataSource={templates}
+                    isLoading={isLoading}
+                    rowKey="id"
+                    search={false}
+                    options={{ density: false, setting: true }}
+                    pagination={{ pageSize: 10 }}
+                  />
+                ),
+              },
+              {
+                key: "variables",
+                label: (
+                  <Space>
+                    <SortAscendingOutlined />
+                    <span>变量排序</span>
+                  </Space>
+                ),
+                children: (
+                  <VariableSortList
+                    variables={templateVariables}
+                    onSave={(variables) =>
+                      sortVariablesMutation.mutate(variables)
+                    }
+                    loading={sortVariablesMutation.isPending}
+                  />
+                ),
+              },
+            ]}
+          />
+        </Card>
+
+        <Modal
+          title={
+            <Space>
+              <BulbOutlined className="text-amber-500" />
+              <Text className="font-black text-slate-900">配置通知模板</Text>
+            </Space>
+          }
+          open={modalVisible}
+          onCancel={() => setModalVisible(false)}
+          onOk={() => form.submit()}
+          width={800}
+          confirmLoading={saveMutation.isPending}
+          bodyStyle={{ padding: "24px 0" }}
+          className="message-template-modal"
+        >
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={(values) =>
+              saveMutation.mutate({
+                ...values,
+                channels: values.channels.join(","),
+              })
+            }
+            className="px-8"
+          >
+            <div className="grid grid-cols-2 gap-6">
+              <Form.Item
+                label="模板名称"
+                name="name"
+                rules={[{ required: true }]}
+              >
+                <Input
+                  placeholder="输入唯一模板名称"
+                  style={{ height: 44 }}
+                  className="rounded-lg font-bold"
+                />
+              </Form.Item>
+              <Form.Item
+                label="业务类型"
+                name="tpl_type"
+                rules={[{ required: true }]}
+              >
+                <Select style={{ height: 44 }} className="font-bold">
+                  <Select.Option value="approval">审批通知</Select.Option>
+                  <Select.Option value="attendance">考勤通知</Select.Option>
+                  <Select.Option value="business">业务通知</Select.Option>
+                  <Select.Option value="interface">接口预警</Select.Option>
+                </Select>
+              </Form.Item>
+            </div>
+
             <Form.Item
-              label="模板名称"
-              name="name"
+              label="通知方式 (多选)"
+              name="channels"
               rules={[{ required: true }]}
             >
-              <Input
-                placeholder="输入唯一模板名称"
-                style={{ height: 44 }}
-                className="rounded-lg font-bold"
+              <Checkbox.Group className="bg-slate-50 p-4 rounded-xl border border-slate-200 w-full">
+                <Space size={32}>
+                  <Checkbox value="internal">
+                    <Text className="font-bold">站内信 (实时播报)</Text>
+                  </Checkbox>
+                  <Checkbox value="sms">
+                    <Text className="font-bold">短信 (外部推送)</Text>
+                  </Checkbox>
+                  <Checkbox value="email">
+                    <Text className="font-bold">邮件 (报表推送)</Text>
+                  </Checkbox>
+                </Space>
+              </Checkbox.Group>
+            </Form.Item>
+
+            <Form.Item
+              label="通知内容 (支持变量)"
+              name="content"
+              rules={[{ required: true }]}
+            >
+              <TextArea
+                rows={5}
+                placeholder="请输入模板内容，点击右侧变量快速插入..."
+                className="rounded-xl border-slate-200 p-4 font-medium"
               />
             </Form.Item>
-            <Form.Item
-              label="业务类型"
-              name="tpl_type"
-              rules={[{ required: true }]}
-            >
-              <Select style={{ height: 44 }} className="font-bold">
-                <Select.Option value="approval">审批通知</Select.Option>
-                <Select.Option value="attendance">考勤通知</Select.Option>
-                <Select.Option value="business">业务通知</Select.Option>
-                <Select.Option value="interface">接口预警</Select.Option>
-              </Select>
-            </Form.Item>
-          </div>
 
-          <Form.Item
-            label="通知方式 (多选)"
-            name="channels"
-            rules={[{ required: true }]}
-          >
-            <Checkbox.Group className="bg-slate-50 p-4 rounded-xl border border-slate-200 w-full">
-              <Space size={32}>
-                <Checkbox value="internal">
-                  <Text className="font-bold">站内信 (实时播报)</Text>
-                </Checkbox>
-                <Checkbox value="sms">
-                  <Text className="font-bold">短信 (外部推送)</Text>
-                </Checkbox>
-                <Checkbox value="email">
-                  <Text className="font-bold">邮件 (报表推送)</Text>
-                </Checkbox>
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <Text className="text-[10px] text-slate-400 font-black uppercase mb-2 block">
+                可用变量库（按排序显示）
+              </Text>
+              <Space wrap>
+                {[...templateVariables]
+                  .sort((a, b) => a.sort - b.sort)
+                  .map((v) => (
+                    <Tag
+                      key={v.value}
+                      className="cursor-pointer hover:border-blue-500 rounded-md py-1 px-3 bg-white border-slate-200 font-bold"
+                      onClick={() => {
+                        const cur = form.getFieldValue("content") || "";
+                        form.setFieldsValue({ content: cur + v.value });
+                      }}
+                      title={v.description}
+                    >
+                      {v.label} {v.value}
+                    </Tag>
+                  ))}
               </Space>
-            </Checkbox.Group>
-          </Form.Item>
-
-          <Form.Item
-            label="通知内容 (支持变量)"
-            name="content"
-            rules={[{ required: true }]}
-          >
-            <TextArea
-              rows={5}
-              placeholder="请输入模板内容，点击右侧变量快速插入..."
-              className="rounded-xl border-slate-200 p-4 font-medium"
-            />
-          </Form.Item>
-
-          <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-            <Text className="text-[10px] text-slate-400 font-black uppercase mb-2 block">
-              可用变量库（按排序显示）
-            </Text>
-            <Space wrap>
-              {[...templateVariables]
-                .sort((a, b) => a.sort - b.sort)
-                .map((v) => (
-                  <Tag
-                    key={v.value}
-                    className="cursor-pointer hover:border-blue-500 rounded-md py-1 px-3 bg-white border-slate-200 font-bold"
-                    onClick={() => {
-                      const cur = form.getFieldValue("content") || "";
-                      form.setFieldsValue({ content: cur + v.value });
-                    }}
-                    title={v.description}
-                  >
-                    {v.label} {v.value}
-                  </Tag>
-                ))}
-            </Space>
-          </div>
-        </Form>
-      </Modal>
-    </div>
+            </div>
+          </Form>
+        </Modal>
+      </div>
+    </GlobalLoading>
   );
 }

@@ -26,6 +26,8 @@ import {
   ShareAltOutlined,
   CustomerServiceOutlined,
   HistoryOutlined,
+  CopyOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
 import {
   DndContext,
@@ -47,6 +49,9 @@ import { InterfaceMonitor } from "./components/InterfaceMonitor";
 import { DrillDownModal } from "./components/DrillDownModal";
 import { AlertHistoryModal } from "./components/AlertHistoryModal";
 import { AlertConfig } from "./components/AlertConfig";
+import { MetricCard } from "./components/MetricCard";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import GlobalLoading from "@/components/common/GlobalLoading";
 
 const { Title, Text } = Typography;
 const { RangePicker } = DatePicker;
@@ -68,9 +73,31 @@ export default function BigScreenPage() {
   >(null);
   const [alertHistoryVisible, setAlertHistoryVisible] = useState(false);
   const [alertConfigVisible, setAlertConfigVisible] = useState(false);
+  const [globalLoading, setGlobalLoading] = useState(false);
 
   const queryClient = useQueryClient();
   const sensors = useSensors(useSensor(PointerSensor));
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "ctrl+r": () => handleRefresh(),
+    f11: () => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        document.documentElement.requestFullscreen();
+      }
+    },
+    escape: () => {
+      if (drillTarget) {
+        setDrillTarget(null);
+      } else if (alertHistoryVisible) {
+        setAlertHistoryVisible(false);
+      } else if (alertConfigVisible) {
+        setAlertConfigVisible(false);
+      }
+    },
+  });
 
   // --- 1. Automation: Auto-Refresh Engine (PRD 2.4.3) ---
   useEffect(() => {
@@ -91,18 +118,24 @@ export default function BigScreenPage() {
     queryKey: ["dashboard.global", refreshKey],
     queryFn: () => dashboardApi.getGlobalOverview(),
     enabled: activeTemplate === "global",
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const { data: interfaceData, isLoading: interfaceLoading } = useQuery({
     queryKey: ["dashboard.interface", refreshKey],
     queryFn: () => dashboardApi.getInterfaceMonitoring(),
     enabled: activeTemplate === "interface",
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const { data: serviceData } = useQuery({
     queryKey: ["dashboard.service", refreshKey],
     queryFn: () => dashboardApi.getServiceOverview(),
     enabled: activeTemplate === "service",
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const [globalLayout, setGlobalLayout] = useState([
@@ -162,6 +195,7 @@ export default function BigScreenPage() {
 
   return (
     <div className="p-6 bg-[#f8fafc] h-full flex flex-col gap-6">
+      <GlobalLoading loading={globalLoading} />
       {/* 2.3.1 Global Filter Workspace (Standard Rhino 4.0) */}
       <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-wrap gap-4 items-center">
         <div className="flex-grow min-w-[300px]">

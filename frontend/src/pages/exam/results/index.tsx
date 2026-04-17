@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { ProColumns } from '@ant-design/pro-components';
 import { Button, Card, Form, Input, Progress, Select, Space, Statistic, Tag, message } from 'antd';
@@ -12,6 +12,10 @@ import { ManualGradeDrawer } from './components/ManualGradeDrawer';
 import { QuestionStatsModal } from './components/QuestionStatsModal';
 import { BatchAbsentModal } from './components/BatchAbsentModal';
 import { downloadCSV } from '@/utils/exportUtils';
+import { useDebounce } from '@/hooks/useDebounce';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
+import { GlobalLoading } from '@/components/common/GlobalLoading';
+import { handleExportWithProgress } from '@/utils/ui-helpers';
 
 export default function ExamResultsPage() {
   const queryClient = useQueryClient();
@@ -24,14 +28,35 @@ export default function ExamResultsPage() {
   const [batchAbsentOpen, setBatchAbsentOpen] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<ExamAssignment>();
   const [form] = Form.useForm();
+  const searchInputRef = useRef<any>(null);
+
+  // 搜索防抖
+  const debouncedKeyword = useDebounce(keyword, 500);
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    'Ctrl+f': () => searchInputRef.current?.focus(),
+    'Ctrl+r': () => {
+      refresh();
+      message.success('已刷新');
+    },
+    Escape: () => {
+      if (markAbsentOpen) setMarkAbsentOpen(false);
+      if (manualGradeOpen) setManualGradeOpen(false);
+      if (statsOpen) setStatsOpen(false);
+      if (batchAbsentOpen) setBatchAbsentOpen(false);
+    },
+  });
 
   const { data = [], isLoading } = useQuery<ExamAssignment[]>({
-    queryKey: ['exam-results', keyword, status, planId],
-    queryFn: () => examApi.listResults({ keyword: keyword || undefined, status, plan_id: planId })
+    queryKey: ['exam-results', debouncedKeyword, status, planId],
+    queryFn: () => examApi.listResults({ keyword: debouncedKeyword || undefined, status, plan_id: planId }),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
   const { data: summary } = useQuery<ExamResultSummary>({
-    queryKey: ['exam-results-summary', keyword, status, planId],
-    queryFn: () => examApi.getResultSummary({ keyword: keyword || undefined, status, plan_id: planId })
+    queryKey: ['exam-results-summary', debouncedKeyword, status, planId],
+    queryFn: () => examApi.getResultSummary({ keyword: debouncedKeyword || undefined, status, plan_id: planId }),
   });
 
   const { data: plans = [] } = useQuery<ExamPlan[]>({
@@ -53,7 +78,10 @@ export default function ExamResultsPage() {
       setCurrentRecord(undefined);
       form.resetFields();
       await refresh();
-    }
+    },
+    onError: (error: any) => {
+      message.error(error?.message || '标记失败');
+    },
   });
 
   const deptColumns: ProColumns<ExamResultSummary['department_stats'][number]>[] = useMemo(
@@ -143,9 +171,10 @@ export default function ExamResultsPage() {
       <Card title="考试结果">
         <Space style={{ marginBottom: 16 }} wrap>
           <Input
+            ref={searchInputRef}
             allowClear
             style={{ width: 240 }}
-            placeholder="搜索人员/工号/计划"
+            placeholder="搜索人员/工号/计划 (Ctrl+F)"
             value={keyword}
             onChange={(event) => setKeyword(event.target.value)}
           />
@@ -189,18 +218,23 @@ export default function ExamResultsPage() {
           <Button
             icon={<DownloadOutlined />}
             onClick={async () => {
-              const data = await examApi.exportResults({ plan_id: planId, keyword: keyword || undefined, status });
-              downloadCSV(data, `考试结果_${dayjs().format('YYYYMMDD')}`, [
-                { label: '姓名', key: 'employee_name' },
-                { label: '工号', key: 'employee_no' },
-                { label: '考试计划', key: 'plan_name' },
-                { label: '状态', key: 'status' },
-                { label: '得分', key: 'score' },
-                { label: '是否通过', key: 'passed' },
-                { label: '考试次数', key: 'attempt_count' },
-                { label: '交卷时间', key: 'submitted_at' },
-                { label: '缺考原因', key: 'absent_reason' },
-              ]);
+              await handleExportWithProgress(
+                async () => {
+                  const data = await examApi.exportResults({ plan_id: planId, keyword: debouncedKeyword || undefined, status });
+                  downloadCSV(data, `考试结果_${dayjs().format('YYYYMMDD')}`, [
+                    { label: '姓名', key: 'employee_name' },
+                    { label: '工号', key: 'employee_no' },
+                    { label: '考试计划', key: 'plan_name' },
+                    { label: '状态', key: 'status' },
+                    { label: '得分', key: 'score' },
+                    { label: '是否通过', key: 'passed' },
+                    { label: '考试次数', key: 'attempt_count' },
+                    { label: '交卷时间', key: 'submitted_at' },
+                    { label: '缺考原因', key: 'absent_reason' },
+                  ]);
+                },
+                `考试结果_${dayjs().format('YYYYMMDD')}.csv`
+              );
             }}
           >
             导出结果
@@ -236,7 +270,9 @@ export default function ExamResultsPage() {
             <Progress percent={summary?.absent_rate ?? 0} showInfo={false} strokeColor="#fa8c16" />
           </Card>
         </Space>
-        <BaseTable<ExamAssignment> rowKey="id" columns={columns} dataSource={data} loading={isLoading} />
+        <GlobalLoading loading={isLoading}>
+          <BaseTable<ExamAssignment> rowKey="id" columns={columns} dataSource={data} loading={isLoading} />
+        </GlobalLoading>
       </Card>
 
       <Card title="部门成绩分布">

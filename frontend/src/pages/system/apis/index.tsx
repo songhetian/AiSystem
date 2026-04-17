@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { ProColumns } from '@ant-design/pro-components';
+import { useState, useRef } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { ProColumns } from "@ant-design/pro-components";
 import {
   Button,
   Card,
@@ -17,7 +17,8 @@ import {
   Statistic,
   Tag,
   Typography,
-} from 'antd';
+  message,
+} from "antd";
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -26,11 +27,15 @@ import {
   ReloadOutlined,
   SearchOutlined,
   ThunderboltOutlined,
-} from '@ant-design/icons';
-import { systemApi } from '@/api/system';
-import { BaseModal } from '@/components/common/BaseModal';
-import { Permission } from '@/components/permission/Permission';
-import { BaseTable } from '@/components/table/BaseTable';
+} from "@ant-design/icons";
+import { systemApi } from "@/api/system";
+import { BaseModal } from "@/components/common/BaseModal";
+import { Permission } from "@/components/permission/Permission";
+import { BaseTable } from "@/components/table/BaseTable";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useFormDraft } from "@/hooks/useFormDraft";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 const { Text, Title } = Typography;
 
@@ -61,64 +66,96 @@ export default function SystemApisPage() {
   const [editing, setEditing] = useState<ApiRecord | null>(null);
   const [statsOpen, setStatsOpen] = useState(false);
   const [activeApiId, setActiveApiId] = useState<string | null>(null);
+  const [searchText, setSearchText] = useState("");
+  const debouncedSearchText = useDebounce(searchText, 500);
   const [filterForm] = Form.useForm();
   const [form] = Form.useForm();
+  const { clearDraft } = useFormDraft(form, "system-api-form");
+  const searchInputRef = useRef<any>(null);
   const queryClient = useQueryClient();
 
+  useKeyboardShortcuts({
+    "Ctrl+n": () => setOpen(true),
+    "Ctrl+f": () => searchInputRef.current?.focus(),
+    "Ctrl+r": () => refresh(),
+    Escape: () => setOpen(false),
+  });
+
   const { data: apis = [], isLoading } = useQuery<ApiRecord[]>({
-    queryKey: ['system-apis'],
-    queryFn: systemApi.listApis,
+    queryKey: ["system-apis", debouncedSearchText],
+    queryFn: () => systemApi.listApis(),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
-  const { data: apiStats, isLoading: isStatsLoading } = useQuery<ApiStats | null>({
-    queryKey: ['system-api-stats', activeApiId],
-    queryFn: () => (activeApiId ? systemApi.getApiStats(activeApiId) : null),
-    enabled: Boolean(activeApiId) && statsOpen,
-  });
+  const { data: apiStats, isLoading: isStatsLoading } =
+    useQuery<ApiStats | null>({
+      queryKey: ["system-api-stats", activeApiId],
+      queryFn: () => (activeApiId ? systemApi.getApiStats(activeApiId) : null),
+      enabled: Boolean(activeApiId) && statsOpen,
+    });
 
-  const refresh = () => queryClient.invalidateQueries({ queryKey: ['system-apis'] });
+  const refresh = () =>
+    queryClient.invalidateQueries({ queryKey: ["system-apis"] });
 
   const createMutation = useMutation({
     mutationFn: systemApi.createApi,
     onSuccess: () => {
       setOpen(false);
       form.resetFields();
+      clearDraft();
       refresh();
+      message.success("接口创建成功");
     },
+    onError: () => message.error("接口创建失败"),
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, payload }: { id: string; payload: Record<string, unknown> }) =>
-      systemApi.updateApi(id, payload),
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: Record<string, unknown>;
+    }) => systemApi.updateApi(id, payload),
     onSuccess: () => {
       setOpen(false);
       setEditing(null);
       form.resetFields();
+      clearDraft();
       refresh();
+      message.success("接口更新成功");
     },
+    onError: () => message.error("接口更新失败"),
   });
 
   const deleteMutation = useMutation({
     mutationFn: systemApi.deleteApi,
-    onSuccess: refresh,
+    onSuccess: () => {
+      refresh();
+      message.success("接口删除成功");
+    },
+    onError: () => message.error("接口删除失败"),
   });
 
   const columns: ProColumns<ApiRecord>[] = [
     {
-      title: '接口名称',
-      dataIndex: 'api_name',
-      render: (text) => <Text className="font-black text-slate-900">{text}</Text>,
+      title: "接口名称",
+      dataIndex: "api_name",
+      render: (text) => (
+        <Text className="font-black text-slate-900">{text}</Text>
+      ),
     },
     {
-      title: '请求方式',
-      dataIndex: 'request_method',
+      title: "请求方式",
+      dataIndex: "request_method",
       render: (method) => {
         const colors: Record<string, string> = {
-          POST: 'blue',
-          DELETE: 'red',
-          PUT: 'orange',
-          GET: 'green',
-          PATCH: 'purple',
+          POST: "blue",
+          DELETE: "red",
+          PUT: "orange",
+          GET: "green",
+          PATCH: "purple",
         };
         return (
           <Tag color={colors[String(method)]} className="border-2 font-black">
@@ -128,22 +165,22 @@ export default function SystemApisPage() {
       },
     },
     {
-      title: '接口路径',
-      dataIndex: 'api_path',
-      className: 'font-mono text-xs text-slate-500',
+      title: "接口路径",
+      dataIndex: "api_path",
+      className: "font-mono text-xs text-slate-500",
     },
     {
-      title: '状态',
-      dataIndex: 'status',
+      title: "状态",
+      dataIndex: "status",
       render: (status) => (
-        <Tag color={status === 1 ? 'success' : 'default'} className="font-bold">
-          {status === 1 ? '已启用' : '已禁用'}
+        <Tag color={status === 1 ? "success" : "default"} className="font-bold">
+          {status === 1 ? "已启用" : "已禁用"}
         </Tag>
       ),
     },
     {
-      title: '操作',
-      valueType: 'option',
+      title: "操作",
+      valueType: "option",
       width: 240,
       render: (_, record) => (
         <Space>
@@ -168,7 +205,9 @@ export default function SystemApisPage() {
                 setEditing(record);
                 form.setFieldsValue({
                   ...record,
-                  role_ids: Array.isArray(record.role_ids) ? record.role_ids.join(', ') : record.role_ids || '',
+                  role_ids: Array.isArray(record.role_ids)
+                    ? record.role_ids.join(", ")
+                    : record.role_ids || "",
                 });
                 setOpen(true);
               }}
@@ -177,7 +216,10 @@ export default function SystemApisPage() {
             </Button>
           </Permission>
           <Permission code="system:api:delete">
-            <Popconfirm title="确认删除该接口？" onConfirm={() => deleteMutation.mutate(record.id)}>
+            <Popconfirm
+              title="确认删除该接口？"
+              onConfirm={() => deleteMutation.mutate(record.id)}
+            >
               <Button type="link" size="small" danger className="font-bold">
                 删除
               </Button>
@@ -191,12 +233,19 @@ export default function SystemApisPage() {
   return (
     <div className="min-h-screen space-y-4 bg-slate-50 p-4">
       <Card bordered={false} className="shadow-sm">
-        <Form form={filterForm} layout="inline" className="flex flex-wrap items-center gap-4">
+        <Form
+          form={filterForm}
+          layout="inline"
+          className="flex flex-wrap items-center gap-4"
+        >
           <Form.Item name="keyword" className="mb-0 min-w-[300px] flex-grow">
             <Input
+              ref={searchInputRef}
               prefix={<SearchOutlined />}
               placeholder="搜索接口名称/路径"
               className="h-[44px] border-slate-300 font-bold"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
             />
           </Form.Item>
           <Form.Item name="status" className="mb-0 min-w-[150px]">
@@ -204,8 +253,8 @@ export default function SystemApisPage() {
               placeholder="接口状态"
               className="h-[44px] font-bold"
               options={[
-                { label: '启用', value: 1 },
-                { label: '禁用', value: 0 },
+                { label: "启用", value: 1 },
+                { label: "禁用", value: 0 },
               ]}
               allowClear
             />
@@ -235,7 +284,14 @@ export default function SystemApisPage() {
       </Card>
 
       <Card bordered={false} className="overflow-hidden rounded-xl shadow-sm">
-        <BaseTable<ApiRecord> rowKey="id" columns={columns} dataSource={apis} loading={isLoading} />
+        <GlobalLoading loading={isLoading}>
+          <BaseTable<ApiRecord>
+            rowKey="id"
+            columns={columns}
+            dataSource={apis}
+            loading={isLoading}
+          />
+        </GlobalLoading>
       </Card>
 
       <Drawer
@@ -251,37 +307,53 @@ export default function SystemApisPage() {
           setActiveApiId(null);
         }}
         open={statsOpen}
-        styles={{ header: { borderBottom: '1px solid #e2e8f0' } }}
+        styles={{ header: { borderBottom: "1px solid #e2e8f0" } }}
       >
         {isStatsLoading ? (
           <Empty description="加载监控数据中..." />
         ) : apiStats ? (
           <div className="space-y-8">
             <div className="rounded-xl bg-slate-900 p-6 text-white shadow-xl">
-              <Title level={5} className="!m-0 !mb-4 !text-xs uppercase tracking-widest !text-slate-400">
+              <Title
+                level={5}
+                className="!m-0 !mb-4 !text-xs uppercase tracking-widest !text-slate-400"
+              >
                 Real-time Health Summary
               </Title>
               <Row gutter={16}>
                 <Col span={12}>
                   <Statistic
-                    title={<Text className="text-xs text-slate-400">最近一小时调用</Text>}
+                    title={
+                      <Text className="text-xs text-slate-400">
+                        最近一小时调用
+                      </Text>
+                    }
                     value={apiStats.summary.total}
-                    valueStyle={{ color: '#fff', fontWeight: 900 }}
+                    valueStyle={{ color: "#fff", fontWeight: 900 }}
                     suffix="次"
                   />
                 </Col>
                 <Col span={12}>
                   <Statistic
-                    title={<Text className="text-xs text-slate-400">成功率</Text>}
+                    title={
+                      <Text className="text-xs text-slate-400">成功率</Text>
+                    }
                     value={apiStats.summary.success_rate}
                     precision={1}
                     valueStyle={{
-                      color: apiStats.summary.success_rate >= 95 ? '#10b981' : '#f43f5e',
+                      color:
+                        apiStats.summary.success_rate >= 95
+                          ? "#10b981"
+                          : "#f43f5e",
                       fontWeight: 900,
                     }}
                     suffix="%"
                     prefix={
-                      apiStats.summary.success_rate >= 95 ? <CheckCircleOutlined /> : <CloseCircleOutlined />
+                      apiStats.summary.success_rate >= 95 ? (
+                        <CheckCircleOutlined />
+                      ) : (
+                        <CloseCircleOutlined />
+                      )
                     }
                   />
                 </Col>
@@ -301,11 +373,19 @@ export default function SystemApisPage() {
                       key={point.time}
                       className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
                     >
-                      <Text className="font-mono text-xs text-slate-500">{point.time}</Text>
+                      <Text className="font-mono text-xs text-slate-500">
+                        {point.time}
+                      </Text>
                       <Space size={16}>
-                        <Text className="text-sm text-slate-700">总调用 {point.total}</Text>
-                        <Text className="text-sm text-emerald-600">成功 {point.success}</Text>
-                        <Text className="text-sm text-rose-600">失败 {point.failed}</Text>
+                        <Text className="text-sm text-slate-700">
+                          总调用 {point.total}
+                        </Text>
+                        <Text className="text-sm text-emerald-600">
+                          成功 {point.success}
+                        </Text>
+                        <Text className="text-sm text-rose-600">
+                          失败 {point.failed}
+                        </Text>
                       </Space>
                     </div>
                   ))
@@ -322,7 +402,7 @@ export default function SystemApisPage() {
 
       <BaseModal
         open={open}
-        title={editing ? '编辑接口权限' : '新增接口权限'}
+        title={editing ? "编辑接口权限" : "新增接口权限"}
         onCancel={() => {
           setOpen(false);
           setEditing(null);
@@ -339,8 +419,15 @@ export default function SystemApisPage() {
               : createMutation.mutate(values)
           }
         >
-          <Form.Item label={<Text className="font-bold">接口名称</Text>} name="api_name" rules={[{ required: true }]}>
-            <Input className="h-[40px] font-bold" placeholder="如：获取用户信息" />
+          <Form.Item
+            label={<Text className="font-bold">接口名称</Text>}
+            name="api_name"
+            rules={[{ required: true }]}
+          >
+            <Input
+              className="h-[40px] font-bold"
+              placeholder="如：获取用户信息"
+            />
           </Form.Item>
           <Row gutter={12}>
             <Col span={8}>
@@ -352,10 +439,12 @@ export default function SystemApisPage() {
               >
                 <Select
                   className="h-[40px]"
-                  options={['GET', 'POST', 'PUT', 'DELETE', 'PATCH'].map((value) => ({
-                    label: value,
-                    value,
-                  }))}
+                  options={["GET", "POST", "PUT", "DELETE", "PATCH"].map(
+                    (value) => ({
+                      label: value,
+                      value,
+                    }),
+                  )}
                 />
               </Form.Item>
             </Col>
@@ -365,19 +454,29 @@ export default function SystemApisPage() {
                 name="api_path"
                 rules={[{ required: true }]}
               >
-                <Input className="h-[40px] font-mono" placeholder="/system/users" />
+                <Input
+                  className="h-[40px] font-mono"
+                  placeholder="/system/users"
+                />
               </Form.Item>
             </Col>
           </Row>
-          <Form.Item label={<Text className="font-bold">关联角色 (逗号分隔)</Text>} name="role_ids">
+          <Form.Item
+            label={<Text className="font-bold">关联角色 (逗号分隔)</Text>}
+            name="role_ids"
+          >
             <Input className="h-[40px]" placeholder="role_admin, role_user" />
           </Form.Item>
-          <Form.Item label={<Text className="font-bold">状态</Text>} name="status" initialValue={1}>
+          <Form.Item
+            label={<Text className="font-bold">状态</Text>}
+            name="status"
+            initialValue={1}
+          >
             <Select
               className="h-[40px]"
               options={[
-                { label: '启用', value: 1 },
-                { label: '禁用', value: 0 },
+                { label: "启用", value: 1 },
+                { label: "禁用", value: 0 },
               ]}
             />
           </Form.Item>

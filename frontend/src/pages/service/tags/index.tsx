@@ -14,6 +14,7 @@ import { BaseTable } from "@/components/BaseTable";
 import { Permission } from "@/components/Permission";
 import { serviceApi } from "@/api/service";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { useFormDraft } from "@/hooks/useFormDraft";
 import { GlobalLoading } from "@/components/common/GlobalLoading";
 import { confirmBatchAction } from "@/utils/ui-helpers";
 
@@ -26,6 +27,7 @@ export default function QualityTagsPage() {
   const [dedupModalVisible, setDedupModalVisible] = useState(false);
   const [dedupForm] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const { clearDraft } = useFormDraft(dedupForm, "service-tag-dedup-form");
 
   // 快捷键支持
   useKeyboardShortcuts({
@@ -33,7 +35,10 @@ export default function QualityTagsPage() {
       tableRef.current?.reload();
       message.success("已刷新");
     },
-    Escape: () => setDedupModalVisible(false),
+    Escape: () => {
+      setDedupModalVisible(false);
+      setSelectedRowKeys([]);
+    },
   });
 
   const handleAudit = async (
@@ -46,9 +51,10 @@ export default function QualityTagsPage() {
 
     try {
       if (action === "confirm") {
-        confirmBatchAction(
-          `批量通过并入库选中的 ${selectedRowKeys.length} 条标签`,
-          async () => {
+        await confirmBatchAction({
+          selectedCount: selectedRowKeys.length,
+          actionName: "通过并入库",
+          onConfirm: async () => {
             await serviceApi.confirmQualityTags({
               ids: selectedRowKeys as string[],
             });
@@ -58,11 +64,12 @@ export default function QualityTagsPage() {
             setSelectedRowKeys([]);
             tableRef.current?.reload();
           },
-        );
+        });
       } else {
-        confirmBatchAction(
-          `批量驳回选中的 ${selectedRowKeys.length} 条标签`,
-          async () => {
+        await confirmBatchAction({
+          selectedCount: selectedRowKeys.length,
+          actionName: "驳回",
+          onConfirm: async () => {
             await serviceApi.rejectQualityTags({
               ids: selectedRowKeys as string[],
               reject_reason: rejectReason,
@@ -71,7 +78,7 @@ export default function QualityTagsPage() {
             setSelectedRowKeys([]);
             tableRef.current?.reload();
           },
-        );
+        });
       }
     } catch (e: any) {
       message.error(e.message || "操作异常");
@@ -94,6 +101,7 @@ export default function QualityTagsPage() {
       });
       message.success("智能去重合并工作已提交完成");
       setDedupModalVisible(false);
+      clearDraft();
       tableRef.current?.reload();
     } catch (e: any) {
       if (e.errorFields) return;

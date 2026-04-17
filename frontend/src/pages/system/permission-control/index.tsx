@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Card,
   Table,
@@ -32,6 +32,8 @@ import { HotkeyGuide } from "@/components/common/HotkeyGuide";
 import { TutorialGuide, TUTORIALS } from "@/components/common/TutorialGuide";
 import { useHotkeys } from "@/hooks/useHotkeys";
 import { usePreferences } from "@/hooks/usePreferences";
+import { useDebounce } from "@/hooks/useDebounce";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 import "./index.less";
 
 const { Search } = Input;
@@ -56,7 +58,9 @@ export default function PermissionControlPage() {
     savedFilters.needControl,
   );
   const [searchText, setSearchText] = useState("");
+  const debouncedSearchText = useDebounce(searchText, 500);
   const [cleanupModalVisible, setCleanupModalVisible] = useState(false);
+  const searchInputRef = useRef<any>(null);
 
   // 检测冗余配置
   const { data: detectionResult, refetch: refetchDetection } = useQuery({
@@ -92,12 +96,15 @@ export default function PermissionControlPage() {
       "permission-control-list",
       resourceTypeFilter,
       needControlFilter,
+      debouncedSearchText,
     ],
     queryFn: () =>
       permissionControlApi.getPermissionControlList({
         resourceType: resourceTypeFilter,
         needControl: needControlFilter,
       }),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   // 更新全局开关
@@ -113,6 +120,7 @@ export default function PermissionControlPage() {
       message.success("全局权限控制开关已更新");
       queryClient.invalidateQueries({ queryKey: ["system-config"] });
     },
+    onError: () => message.error("更新失败"),
   });
 
   // 批量更新权限控制
@@ -135,6 +143,7 @@ export default function PermissionControlPage() {
       setSelectedRowKeys([]);
       queryClient.invalidateQueries({ queryKey: ["permission-control-list"] });
     },
+    onError: () => message.error("批量更新失败"),
   });
 
   // 切换全局开关
@@ -196,9 +205,7 @@ export default function PermissionControlPage() {
       key: "f",
       ctrl: true,
       callback: () => {
-        document
-          .querySelector<HTMLInputElement>(".ant-input-search input")
-          ?.focus();
+        searchInputRef.current?.focus();
       },
       description: "聚焦搜索框",
     },
@@ -356,6 +363,7 @@ export default function PermissionControlPage() {
                 ]}
               />
               <Search
+                ref={searchInputRef}
                 placeholder="搜索资源名称或ID"
                 allowClear
                 style={{ width: 250 }}
@@ -403,20 +411,22 @@ export default function PermissionControlPage() {
           )}
 
           {/* 配置列表 */}
-          <Table
-            rowSelection={{
-              selectedRowKeys,
-              onChange: setSelectedRowKeys,
-            }}
-            columns={columns}
-            dataSource={filteredData}
-            rowKey="id"
-            loading={isLoading}
-            pagination={{
-              showSizeChanger: true,
-              showTotal: (total) => `共 ${total} 条`,
-            }}
-          />
+          <GlobalLoading loading={isLoading}>
+            <Table
+              rowSelection={{
+                selectedRowKeys,
+                onChange: setSelectedRowKeys,
+              }}
+              columns={columns}
+              dataSource={filteredData}
+              rowKey="id"
+              loading={isLoading}
+              pagination={{
+                showSizeChanger: true,
+                showTotal: (total) => `共 ${total} 条`,
+              }}
+            />
+          </GlobalLoading>
 
           {/* 提示信息 */}
           <Card size="small" type="inner">

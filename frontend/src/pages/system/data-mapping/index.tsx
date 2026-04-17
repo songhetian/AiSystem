@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ProColumns } from "@ant-design/pro-components";
 import {
@@ -16,6 +16,7 @@ import {
   FileSearchOutlined,
   CodeOutlined,
   ClockCircleOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import {
   Button,
@@ -45,6 +46,10 @@ import { BaseModal } from "@/components/common/BaseModal";
 import { ActionGroup } from "@/components/common/ActionGroup";
 import { BaseTable } from "@/components/table/BaseTable";
 import { ScriptManager } from "./components/ScriptManager";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useFormDraft } from "@/hooks/useFormDraft";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 const { Text, Title } = Typography;
 
@@ -55,16 +60,29 @@ const TemplateTable: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<MappingTemplateRecord | null>(null);
   const [filter, setFilter] = useState("");
+  const debouncedFilter = useDebounce(filter, 500);
   const [form] = Form.useForm();
+  const { clearDraft } = useFormDraft(form, "data-mapping-template-form");
+  const searchInputRef = useRef<any>(null);
   const queryClient = useQueryClient();
+
+  useKeyboardShortcuts({
+    "Ctrl+n": () => setOpen(true),
+    "Ctrl+f": () => searchInputRef.current?.focus(),
+    "Ctrl+r": () =>
+      queryClient.invalidateQueries({ queryKey: ["mapping-templates"] }),
+    Escape: () => setOpen(false),
+  });
 
   const { data: platforms = [] } = useQuery({
     queryKey: ["system-platforms"],
     queryFn: systemApi.listPlatforms,
   });
   const { data: templates = [], isLoading } = useQuery({
-    queryKey: ["mapping-templates"],
+    queryKey: ["mapping-templates", debouncedFilter],
     queryFn: () => systemApi.listMappingTemplates(),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const selectedParentId = Form.useWatch("parent_id", form);
@@ -78,8 +96,11 @@ const TemplateTable: React.FC = () => {
     onSuccess: () => {
       message.success("治理基座已加固");
       setOpen(false);
+      form.resetFields();
+      clearDraft();
       queryClient.invalidateQueries({ queryKey: ["mapping-templates"] });
     },
+    onError: () => message.error("治理基座保存失败"),
   });
 
   const filteredTemplates = useMemo(
@@ -161,8 +182,10 @@ const TemplateTable: React.FC = () => {
     <div className="space-y-4">
       <div className="flex gap-4 w-full bg-slate-50 p-2 rounded-2xl border border-slate-100 items-center">
         <Input
+          ref={searchInputRef}
           placeholder="搜索模版名称..."
           className="h-[44px] border-slate-500 font-black flex-grow max-w-[400px]"
+          value={filter}
           onChange={(e) => setFilter(e.target.value)}
           prefix={<FileSearchOutlined className="text-slate-400" />}
         />
@@ -180,12 +203,14 @@ const TemplateTable: React.FC = () => {
           定义新基座
         </Button>
       </div>
-      <BaseTable<MappingTemplateRecord>
-        columns={columns}
-        dataSource={filteredTemplates}
-        loading={isLoading}
-        rowKey="id"
-      />
+      <GlobalLoading loading={isLoading}>
+        <BaseTable<MappingTemplateRecord>
+          columns={columns}
+          dataSource={filteredTemplates}
+          loading={isLoading}
+          rowKey="id"
+        />
+      </GlobalLoading>
 
       <BaseModal
         open={open}
@@ -323,8 +348,20 @@ const TemplateTable: React.FC = () => {
 const ConfigTable: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<PlatformConfigRecord | null>(null);
+  const [searchText, setSearchText] = useState("");
+  const debouncedSearchText = useDebounce(searchText, 500);
   const [form] = Form.useForm();
+  const { clearDraft } = useFormDraft(form, "platform-config-form");
+  const searchInputRef = useRef<any>(null);
   const queryClient = useQueryClient();
+
+  useKeyboardShortcuts({
+    "Ctrl+n": () => setOpen(true),
+    "Ctrl+f": () => searchInputRef.current?.focus(),
+    "Ctrl+r": () =>
+      queryClient.invalidateQueries({ queryKey: ["platform-configs"] }),
+    Escape: () => setOpen(false),
+  });
 
   const { data: platforms = [] } = useQuery({
     queryKey: ["system-platforms"],
@@ -341,8 +378,10 @@ const ConfigTable: React.FC = () => {
 
   // 遵循规范 7.4.1：处理标准化响应中的 data 字段
   const { data: configsRes, isLoading } = useQuery({
-    queryKey: ["platform-configs"],
+    queryKey: ["platform-configs", debouncedSearchText],
     queryFn: () => systemApi.listPlatformConfigs(),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
   const configs = (configsRes as any)?.data || [];
 
@@ -352,6 +391,8 @@ const ConfigTable: React.FC = () => {
       if (res.code === 200) {
         message.success("数据链路治理策略已生效");
         setOpen(false);
+        form.resetFields();
+        clearDraft();
         queryClient.invalidateQueries({ queryKey: ["platform-configs"] });
       } else {
         message.error(res.message || "治理策略同步失败");
@@ -449,8 +490,11 @@ const ConfigTable: React.FC = () => {
     <div className="space-y-4">
       <div className="flex gap-4 w-full bg-slate-50 p-3 rounded-2xl items-center border border-slate-200">
         <Input
+          ref={searchInputRef}
           placeholder="检索外部集群节点 (AppKey)..."
           className="h-[44px] border-slate-500 font-bold max-w-[350px] shadow-sm"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
           prefix={<SearchOutlined className="text-slate-400" />}
         />
         <div className="flex-grow" />
@@ -468,13 +512,15 @@ const ConfigTable: React.FC = () => {
         </Button>
       </div>
 
-      <BaseTable<PlatformConfigRecord>
-        columns={columns}
-        dataSource={configs}
-        loading={isLoading}
-        rowKey="id"
-        className="border border-slate-200 rounded-3xl overflow-hidden shadow-2xl"
-      />
+      <GlobalLoading loading={isLoading}>
+        <BaseTable<PlatformConfigRecord>
+          columns={columns}
+          dataSource={configs}
+          loading={isLoading}
+          rowKey="id"
+          className="border border-slate-200 rounded-3xl overflow-hidden shadow-2xl"
+        />
+      </GlobalLoading>
 
       <BaseModal
         open={open}
@@ -589,11 +635,20 @@ const ConfigTable: React.FC = () => {
 const LogTable: React.FC = () => {
   const [selected, setSelected] = useState<any>(null);
   const [keyword, setKeyword] = useState("");
+  const debouncedKeyword = useDebounce(keyword, 500);
+  const searchInputRef = useRef<any>(null);
+
+  useKeyboardShortcuts({
+    "Ctrl+f": () => searchInputRef.current?.focus(),
+    Escape: () => setSelected(null),
+  });
 
   const { data: logs = [], isLoading } = useQuery({
-    queryKey: ["integration-logs"],
+    queryKey: ["integration-logs", debouncedKeyword],
     queryFn: () => systemApi.listIntegrationLogs(),
     refetchInterval: 5000,
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const filteredLogs = useMemo(
@@ -688,9 +743,11 @@ const LogTable: React.FC = () => {
     <>
       <div className="flex gap-4 w-full bg-slate-50 p-2 rounded-2xl mb-4 items-center border border-slate-100">
         <Input
+          ref={searchInputRef}
           placeholder="搜索实体类型、错误消息..."
           className="h-[44px] border-slate-500 font-bold flex-grow max-w-[400px]"
           prefix={<FilterOutlined className="text-slate-400" />}
+          value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />
         <div className="flex items-center gap-0 border border-slate-500 rounded-xl overflow-hidden h-[44px]">

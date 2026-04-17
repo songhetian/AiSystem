@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ProColumns } from "@ant-design/pro-components";
 import {
@@ -20,6 +20,9 @@ import { Permission } from "@/components/permission/Permission";
 import { BaseTable } from "@/components/table/BaseTable";
 import LeixiModalForm from "@/components/common/LeixiModalForm";
 import { CategoryTreeDraggable } from "./components/CategoryTreeDraggable";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 type KnowledgeCategoryRow = KnowledgeCategory & { path_name: string };
 
@@ -44,11 +47,26 @@ export default function KnowledgeCategoriesPage() {
   const queryClient = useQueryClient();
   const [keyword, setKeyword] = useState("");
   const [activeTab, setActiveTab] = useState("list");
+  const searchInputRef = useRef<any>(null);
+
+  // 搜索防抖
+  const debouncedKeyword = useDebounce(keyword, 500);
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+f": () => searchInputRef.current?.focus(),
+    "Ctrl+r": () => {
+      refresh();
+      message.success("已刷新");
+    },
+  });
 
   const { data: categories = [], isLoading } = useQuery<KnowledgeCategory[]>({
-    queryKey: ["knowledge-categories", keyword],
+    queryKey: ["knowledge-categories", debouncedKeyword],
     queryFn: () =>
-      knowledgeApi.listCategories({ keyword: keyword || undefined }),
+      knowledgeApi.listCategories({ keyword: debouncedKeyword || undefined }),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const rows = useMemo(() => flattenCategories(categories), [categories]);
@@ -62,11 +80,15 @@ export default function KnowledgeCategoriesPage() {
   };
 
   const handleSave = async (values: any, id?: string) => {
-    const payload = { ...values, enabled: values.enabled ? 1 : 0 };
-    if (id) await knowledgeApi.updateCategory(id, payload);
-    else await knowledgeApi.createCategory(payload);
-    message.success("分类已保存");
-    await refresh();
+    try {
+      const payload = { ...values, enabled: values.enabled ? 1 : 0 };
+      if (id) await knowledgeApi.updateCategory(id, payload);
+      else await knowledgeApi.createCategory(payload);
+      message.success("分类已保存");
+      await refresh();
+    } catch (error: any) {
+      message.error(error?.message || "操作失败");
+    }
   };
 
   const columns: ProColumns<KnowledgeCategoryRow>[] = [
@@ -125,9 +147,14 @@ export default function KnowledgeCategoriesPage() {
               size="small"
               checked={!!record.enabled}
               onChange={async (checked) => {
-                if (checked) await knowledgeApi.enableCategory(record.id);
-                else await knowledgeApi.disableCategory(record.id);
-                refresh();
+                try {
+                  if (checked) await knowledgeApi.enableCategory(record.id);
+                  else await knowledgeApi.disableCategory(record.id);
+                  message.success("状态已更新");
+                  refresh();
+                } catch (error: any) {
+                  message.error(error?.message || "操作失败");
+                }
               }}
             />
           </Permission>
@@ -147,10 +174,13 @@ export default function KnowledgeCategoriesPage() {
         </div>
         <Space size="middle">
           <Input
+            ref={searchInputRef}
             prefix={<SearchOutlined />}
-            placeholder="搜索分类名称..."
+            placeholder="搜索分类名称... (Ctrl+F)"
             className="h-11 rounded-xl w-64 border-none shadow-sm font-bold"
+            value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
+            allowClear
           />
           <Permission code="knowledge:category:create">
             <LeixiModalForm
@@ -184,13 +214,15 @@ export default function KnowledgeCategoriesPage() {
               key: "list",
               label: "分类列表",
               children: (
-                <BaseTable<KnowledgeCategoryRow>
-                  rowKey="id"
-                  columns={columns}
-                  dataSource={rows}
-                  loading={isLoading}
-                  pagination={{ pageSize: 10 }}
-                />
+                <GlobalLoading loading={isLoading}>
+                  <BaseTable<KnowledgeCategoryRow>
+                    rowKey="id"
+                    columns={columns}
+                    dataSource={rows}
+                    loading={isLoading}
+                    pagination={{ pageSize: 10 }}
+                  />
+                </GlobalLoading>
               ),
             },
             {

@@ -22,6 +22,8 @@ import { BaseTable } from "@/components/table/BaseTable";
 import { LogFilterBar } from "./components/LogFilterBar";
 import { LogDetailDrawer } from "./components/LogDetailDrawer";
 import { getLoginColumns, getOperationColumns } from "./components/columns";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import GlobalLoading from "@/components/common/GlobalLoading";
 
 type LogTab = "operation" | "login";
 
@@ -30,6 +32,18 @@ export default function SystemLogsPage() {
   const [detail, setDetail] = useState<any>(null);
   const [filterForm] = Form.useForm();
   const [pagination, setPagination] = useState({ page: 1, pageSize: 20 });
+  const [globalLoading, setGlobalLoading] = useState(false);
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "ctrl+r": () => refetch(),
+    "ctrl+e": () => handleExport(),
+    escape: () => {
+      if (detail) {
+        setDetail(null);
+      }
+    },
+  });
 
   const {
     data: logData,
@@ -60,6 +74,8 @@ export default function SystemLogsPage() {
         ? systemApi.listOperationLogs(params)
         : systemApi.listLoginLogs(params);
     },
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   // 监听 V2.0 元数据反馈
@@ -75,11 +91,15 @@ export default function SystemLogsPage() {
   const { data: platforms = [] } = useQuery({
     queryKey: ["platforms-list"],
     queryFn: systemApi.listPlatforms,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const { data: departments = [] } = useQuery({
     queryKey: ["departments-list"],
     queryFn: systemApi.listDepartments,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const handleSearch = () => {
@@ -118,6 +138,7 @@ export default function SystemLogsPage() {
 
   const performExport = async () => {
     try {
+      setGlobalLoading(true);
       const values = filterForm.getFieldsValue();
       const params: Record<string, any> = {
         ...values,
@@ -147,6 +168,8 @@ export default function SystemLogsPage() {
       message.success("导出成功");
     } catch {
       message.error("导出失败，服务端异常或网络繁忙");
+    } finally {
+      setGlobalLoading(false);
     }
   };
 
@@ -155,6 +178,7 @@ export default function SystemLogsPage() {
 
   return (
     <div className="p-4 space-y-4 bg-white min-h-screen">
+      <GlobalLoading loading={globalLoading} />
       {/* Tab 切换 */}
       <Card
         bordered={false}

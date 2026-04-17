@@ -18,6 +18,9 @@ import {
   DeleteOutlined,
   ThunderboltOutlined,
 } from "@ant-design/icons";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
+import { useFormDraft } from "@/hooks/useFormDraft";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import dayjs from "dayjs";
 
 const { RangePicker } = DatePicker;
@@ -41,6 +44,16 @@ export default function ActivityManagement() {
   const [modalVisible, setModalVisible] = useState(false);
   const [editingActivity, setEditingActivity] = useState<Activity | null>(null);
   const [form] = Form.useForm();
+  const { clearDraft } = useFormDraft(form, "shop-activity-form");
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+n": () => handleAdd(),
+    Escape: () => {
+      setModalVisible(false);
+      form.resetFields();
+    },
+  });
 
   // 模拟数据
   const [activities] = useState<Activity[]>([
@@ -89,12 +102,15 @@ export default function ActivityManagement() {
     Modal.confirm({
       title: "确认删除",
       content: `确定要删除活动"${record.activity_name}"吗？`,
+      okText: "确认删除",
+      okType: "danger",
+      cancelText: "取消",
       onOk: async () => {
         try {
           // TODO: 调用删除API
           message.success("删除成功");
         } catch (error) {
-          message.error("删除失败");
+          message.error("删除失败，请重试");
         }
       },
     });
@@ -111,8 +127,10 @@ export default function ActivityManagement() {
       message.success(editingActivity ? "更新成功" : "创建成功");
       setModalVisible(false);
       form.resetFields();
+      clearDraft();
     } catch (error) {
       console.error("Submit error:", error);
+      message.error(editingActivity ? "更新失败，请重试" : "创建失败，请重试");
     } finally {
       setLoading(false);
     }
@@ -210,93 +228,95 @@ export default function ActivityManagement() {
   ];
 
   return (
-    <div className="activity-management">
-      <Card
-        title={
-          <Space>
-            <ThunderboltOutlined style={{ fontSize: 20, color: "#f093fb" }} />
-            <span style={{ fontSize: 18, fontWeight: 600 }}>活动管理</span>
-          </Space>
-        }
-        extra={
-          <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
-            新增活动
-          </Button>
-        }
-      >
-        <Table
-          columns={columns}
-          dataSource={activities}
-          rowKey="id"
-          loading={loading}
-          pagination={{
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total) => `共 ${total} 条`,
-          }}
-        />
-      </Card>
-
-      <Modal
-        title={editingActivity ? "编辑活动" : "新增活动"}
-        open={modalVisible}
-        onOk={handleSubmit}
-        onCancel={() => {
-          setModalVisible(false);
-          form.resetFields();
-        }}
-        confirmLoading={loading}
-        width={600}
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          initialValues={{
-            status: 1,
-          }}
+    <GlobalLoading loading={loading}>
+      <div className="activity-management">
+        <Card
+          title={
+            <Space>
+              <ThunderboltOutlined style={{ fontSize: 20, color: "#f093fb" }} />
+              <span style={{ fontSize: 18, fontWeight: 600 }}>活动管理</span>
+            </Space>
+          }
+          extra={
+            <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
+              新增活动
+            </Button>
+          }
         >
-          <Form.Item
-            label="活动名称"
-            name="activity_name"
-            rules={[{ required: true, message: "请输入活动名称" }]}
+          <Table
+            columns={columns}
+            dataSource={activities}
+            rowKey="id"
+            loading={loading}
+            pagination={{
+              showSizeChanger: true,
+              showQuickJumper: true,
+              showTotal: (total) => `共 ${total} 条`,
+            }}
+          />
+        </Card>
+
+        <Modal
+          title={editingActivity ? "编辑活动" : "新增活动"}
+          open={modalVisible}
+          onOk={handleSubmit}
+          onCancel={() => {
+            setModalVisible(false);
+            form.resetFields();
+          }}
+          confirmLoading={loading}
+          width={600}
+        >
+          <Form
+            form={form}
+            layout="vertical"
+            initialValues={{
+              status: 1,
+            }}
           >
-            <Input placeholder="请输入活动名称" />
-          </Form.Item>
+            <Form.Item
+              label="活动名称"
+              name="activity_name"
+              rules={[{ required: true, message: "请输入活动名称" }]}
+            >
+              <Input placeholder="请输入活动名称" />
+            </Form.Item>
 
-          <Form.Item
-            label="活动类型"
-            name="activity_type"
-            rules={[{ required: true, message: "请选择活动类型" }]}
-          >
-            <Select placeholder="请选择活动类型" options={activityTypes} />
-          </Form.Item>
+            <Form.Item
+              label="活动类型"
+              name="activity_type"
+              rules={[{ required: true, message: "请选择活动类型" }]}
+            >
+              <Select placeholder="请选择活动类型" options={activityTypes} />
+            </Form.Item>
 
-          <Form.Item
-            label="活动时间"
-            name="time_range"
-            rules={[{ required: true, message: "请选择活动时间" }]}
-          >
-            <RangePicker
-              showTime
-              style={{ width: "100%" }}
-              placeholder={["开始时间", "结束时间"]}
-            />
-          </Form.Item>
+            <Form.Item
+              label="活动时间"
+              name="time_range"
+              rules={[{ required: true, message: "请选择活动时间" }]}
+            >
+              <RangePicker
+                showTime
+                style={{ width: "100%" }}
+                placeholder={["开始时间", "结束时间"]}
+              />
+            </Form.Item>
 
-          <Form.Item label="活动描述" name="description">
-            <TextArea rows={4} placeholder="请输入活动描述" />
-          </Form.Item>
+            <Form.Item label="活动描述" name="description">
+              <TextArea rows={4} placeholder="请输入活动描述" />
+            </Form.Item>
 
-          <Form.Item label="状态" name="status">
-            <Select
-              options={[
-                { label: "启用", value: 1 },
-                { label: "禁用", value: 0 },
-              ]}
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
+            <Form.Item label="状态" name="status">
+              <Select
+                options={[
+                  { label: "启用", value: 1 },
+                  { label: "禁用", value: 0 },
+                ]}
+              />
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
+    </GlobalLoading>
   );
 }

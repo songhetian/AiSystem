@@ -24,6 +24,10 @@ import {
   ReloadOutlined,
 } from "@ant-design/icons";
 import { authApi } from "@/api/auth";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { confirmBatchAction } from "@/utils/ui-helpers";
 import dayjs from "dayjs";
 
 const { Text } = Typography;
@@ -31,11 +35,12 @@ const { TextArea } = Input;
 
 export default function RegisterManagePage() {
   const queryClient = useQueryClient();
+  const [keyword, setKeyword] = useState("");
+  const debouncedKeyword = useDebounce(keyword, 500);
   const [searchParams, setSearchParams] = useState({
     page: 1,
     pageSize: 20,
     status: "",
-    keyword: "",
     deptId: "",
   });
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
@@ -44,10 +49,22 @@ export default function RegisterManagePage() {
   const [currentRecord, setCurrentRecord] = useState<any>(null);
   const [approveForm] = Form.useForm();
 
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+r": () => refetch(),
+    Escape: () => {
+      setDetailModalVisible(false);
+      setApproveModalVisible(false);
+      setSelectedRowKeys([]);
+    },
+  });
+
   // 获取注册申请列表
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ["register-list", searchParams],
-    queryFn: () => authApi.getRegisterList(searchParams),
+    queryKey: ["register-list", searchParams, debouncedKeyword],
+    queryFn: () => authApi.getRegisterList({ ...searchParams, keyword: debouncedKeyword }),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   // 单个审核
@@ -61,7 +78,7 @@ export default function RegisterManagePage() {
       queryClient.invalidateQueries({ queryKey: ["register-list"] });
     },
     onError: (error: any) => {
-      message.error(error.response?.data?.message || "审核失败");
+      message.error(error.response?.data?.message || "审核失败，请重试");
     },
   });
 
@@ -75,7 +92,7 @@ export default function RegisterManagePage() {
       queryClient.invalidateQueries({ queryKey: ["register-list"] });
     },
     onError: (error: any) => {
-      message.error(error.response?.data?.message || "批量审核失败");
+      message.error(error.response?.data?.message || "批量审核失败，请重试");
     },
   });
 
@@ -112,53 +129,54 @@ export default function RegisterManagePage() {
   };
 
   // 批量审核
-  const handleBatchApprove = (status: "approved" | "rejected") => {
+  const handleBatchApprove = async (status: "approved" | "rejected") => {
     if (selectedRowKeys.length === 0) {
       message.warning("请先选择要审核的申请");
       return;
     }
 
-    if (status === "rejected") {
-      Modal.confirm({
-        title: "批量拒绝",
-        content: (
-          <Form>
-            <Form.Item
-              label="拒绝原因"
-              name="rejectReason"
-              rules={[{ required: true, message: "请填写拒绝原因" }]}
-            >
-              <TextArea rows={4} placeholder="请填写拒绝原因" />
-            </Form.Item>
-          </Form>
-        ),
-        onOk: async (close) => {
-          const form = Modal.useForm()[0];
-          try {
-            const values = await form.validateFields();
-            await batchApproveMutation.mutateAsync({
-              ids: selectedRowKeys,
-              status,
-              rejectReason: values.rejectReason,
-            });
-            close();
-          } catch (error) {
-            return Promise.reject(error);
-          }
-        },
-      });
-    } else {
-      Modal.confirm({
-        title: "批量通过",
-        content: `确定要通过选中的 ${selectedRowKeys.length} 条注册申请吗？`,
-        onOk: async () => {
+    await confirmBatchAction({
+      selectedCount: selectedRowKeys.length,
+      actionName: status === "approved" ? "通过" : "拒绝",
+      onConfirm: async () => {
+        if (status === "rejected") {
+          // 需要填写拒绝原因
+          Modal.confirm({
+            title: "批量拒绝",
+            content: (
+              <Form>
+                <Form.Item
+                  label="拒绝原因"
+                  name="rejectReason"
+                  rules={[{ required: true, message: "请填写拒绝原因" }]}
+                >
+                  <TextArea rows={4} placeholder="请填写拒绝原因" />
+                </Form.Item>
+              </Form>
+            ),
+            onOk: async (close) => {
+              const form = Modal.useForm()[0];
+              try {
+                const values = await form.validateFields();
+                await batchApproveMutation.mutateAsync({
+                  ids: selectedRowKeys,
+                  status,
+                  rejectReason: values.rejectReason,
+                });
+                close();
+              } catch (error) {
+                return Promise.reject(error);
+              }
+            },
+          });
+        } else {
           await batchApproveMutation.mutateAsync({
             ids: selectedRowKeys,
             status,
           });
-        },
-      });
-    }
+        }
+      },
+    });
   };
 
   // 状态标签
@@ -262,7 +280,8 @@ export default function RegisterManagePage() {
   ];
 
   return (
-    <div className="p-6">
+    <GlobalLoading loading={isLoading}>
+      <div className="p-6">
       <Card
         title={
           <div className="flex items-center justify-between">
@@ -282,10 +301,8 @@ export default function RegisterManagePage() {
           <Input
             placeholder="搜索姓名或手机号"
             prefix={<SearchOutlined />}
-            value={searchParams.keyword}
-            onChange={(e) =>
-              setSearchParams({ ...searchParams, keyword: e.target.value })
-            }
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
             style={{ width: 250 }}
             allowClear
           />
@@ -482,5 +499,6 @@ export default function RegisterManagePage() {
         </Form>
       </Modal>
     </div>
+    </GlobalLoading>
   );
 }

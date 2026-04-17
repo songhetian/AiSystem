@@ -28,6 +28,8 @@ import {
   type ColumnConfig,
 } from "@/components/table/ColumnCustomizer";
 import { defaultMessageColumns, getMessageColumns } from "./components/columns";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import GlobalLoading from "@/components/common/GlobalLoading";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -42,18 +44,36 @@ export default function SystemMessagesPage() {
   const [activeView, setActiveView] = useState<MessageView>("inbox");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [keyword, setKeyword] = useState("");
+  const [globalLoading, setGlobalLoading] = useState(false);
   const [columns, setColumns] = useState<ColumnConfig[]>(() =>
     loadColumnConfig("system-messages-columns", defaultMessageColumns),
   );
 
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "ctrl+r": () => refresh(),
+    "ctrl+a": () => {
+      if (activeView !== "settings") {
+        systemApi.markAllMessagesRead().then(refresh);
+      }
+    },
+    escape: () => {
+      setSelectedIds([]);
+    },
+  });
+
   const { data: stats } = useQuery({
     queryKey: ["system-messages-stats"],
     queryFn: () => systemApi.messageStats(),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const { data = [], isLoading } = useQuery<SystemMessageRecord[]>({
     queryKey: ["system-messages", activeView, keyword],
     queryFn: () => systemApi.listMessages({ view: activeView, keyword }),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const refresh = () => {
@@ -108,6 +128,7 @@ export default function SystemMessagesPage() {
 
   return (
     <div className="p-6 bg-[#f8fafc] h-full flex flex-col gap-6 animate-in fade-in duration-500">
+      <GlobalLoading loading={globalLoading} />
       {/* 头部状态与快速筛选 */}
       <div className="flex justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-slate-100 backdrop-blur-md bg-white/80">
         <Space direction="vertical" size={0}>
