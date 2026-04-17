@@ -71,14 +71,21 @@ export default function SystemPlatformsPage() {
     setSelectedIds([]);
     await queryClient.invalidateQueries({ queryKey: ["system-platforms"] });
   };
+
   const createMutation = useMutation({
     mutationFn: systemApi.createPlatform,
     onSuccess: async () => {
       setOpen(false);
       form.resetFields();
+      clearDraft();
+      message.success("创建成功");
       await refresh();
     },
+    onError: (error: any) => {
+      message.error(error?.message || "创建失败");
+    },
   });
+
   const updateMutation = useMutation({
     mutationFn: ({
       id,
@@ -91,16 +98,35 @@ export default function SystemPlatformsPage() {
       setOpen(false);
       setEditing(null);
       form.resetFields();
+      clearDraft();
+      message.success("更新成功");
       await refresh();
     },
+    onError: (error: any) => {
+      message.error(error?.message || "更新失败");
+    },
   });
+
   const deleteMutation = useMutation({
     mutationFn: systemApi.deletePlatform,
-    onSuccess: refresh,
+    onSuccess: () => {
+      message.success("删除成功");
+      refresh();
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "删除失败");
+    },
   });
+
   const batchStatusMutation = useMutation({
     mutationFn: systemApi.batchUpdatePlatformStatus,
-    onSuccess: refresh,
+    onSuccess: () => {
+      message.success("批量操作成功");
+      refresh();
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "批量操作失败");
+    },
   });
 
   const columns: ProColumns<PlatformRecord>[] = [
@@ -145,7 +171,11 @@ export default function SystemPlatformsPage() {
             <Button
               disabled={selectedIds.length === 0}
               onClick={() =>
-                batchStatusMutation.mutate({ ids: selectedIds, status: 1 })
+                confirmBatchAction(
+                  `批量启用选中的 ${selectedIds.length} 个平台`,
+                  () =>
+                    batchStatusMutation.mutate({ ids: selectedIds, status: 1 }),
+                )
               }
             >
               批量启用
@@ -153,7 +183,11 @@ export default function SystemPlatformsPage() {
             <Button
               disabled={selectedIds.length === 0}
               onClick={() =>
-                batchStatusMutation.mutate({ ids: selectedIds, status: 0 })
+                confirmBatchAction(
+                  `批量禁用选中的 ${selectedIds.length} 个平台`,
+                  () =>
+                    batchStatusMutation.mutate({ ids: selectedIds, status: 0 }),
+                )
               }
             >
               批量禁用
@@ -167,16 +201,18 @@ export default function SystemPlatformsPage() {
         </Space>
       }
     >
-      <BaseTable<PlatformRecord>
-        rowKey="id"
-        columns={columns}
-        dataSource={data}
-        loading={isLoading}
-        rowSelection={{
-          selectedRowKeys: selectedIds,
-          onChange: (keys: React.Key[]) => setSelectedIds(keys as string[]),
-        }}
-      />
+      <GlobalLoading loading={isLoading}>
+        <BaseTable<PlatformRecord>
+          rowKey="id"
+          columns={columns}
+          dataSource={data}
+          loading={isLoading}
+          rowSelection={{
+            selectedRowKeys: selectedIds,
+            onChange: (keys: React.Key[]) => setSelectedIds(keys as string[]),
+          }}
+        />
+      </GlobalLoading>
       <BaseModal
         open={open}
         title={editing ? "编辑平台" : "新增平台"}
@@ -186,6 +222,7 @@ export default function SystemPlatformsPage() {
           form.resetFields();
         }}
         onOk={() => form.submit()}
+        confirmLoading={createMutation.isPending || updateMutation.isPending}
       >
         <Form
           form={form}
@@ -195,21 +232,26 @@ export default function SystemPlatformsPage() {
               ? updateMutation.mutate({ id: editing.id, payload: values })
               : createMutation.mutate(values)
           }
+          initialValues={{ status: 1 }}
         >
-          <Form.Item label="平台名称" name="name" rules={[{ required: true }]}>
-            <Input />
+          <Form.Item
+            label="平台名称"
+            name="name"
+            rules={[{ required: true, message: "请输入平台名称" }]}
+          >
+            <Input placeholder="输入平台名称" />
           </Form.Item>
           <Form.Item
             label="平台编码"
             name="code"
-            rules={[{ required: !editing }]}
+            rules={[{ required: !editing, message: "请输入平台编码" }]}
           >
-            <Input disabled={Boolean(editing)} />
+            <Input disabled={Boolean(editing)} placeholder="一经创建不可修改" />
           </Form.Item>
           <Form.Item label="描述" name="description">
-            <Input.TextArea rows={3} />
+            <Input.TextArea rows={3} placeholder="输入平台描述信息" />
           </Form.Item>
-          <Form.Item label="状态" name="status" initialValue={1}>
+          <Form.Item label="状态" name="status">
             <Select
               options={[
                 { label: "启用", value: 1 },

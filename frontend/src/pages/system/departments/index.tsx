@@ -11,12 +11,17 @@ import {
   Space,
   Tree,
   Tabs,
+  message,
 } from "antd";
 import type { DataNode } from "antd/es/tree";
 import { systemApi, type CreateDepartmentPayload } from "@/api/system";
 import { BaseModal } from "@/components/common/BaseModal";
 import { Permission } from "@/components/permission/Permission";
 import { DepartmentTreeDraggable } from "./components/DepartmentTreeDraggable";
+import { useFormDraft } from "@/hooks/useFormDraft";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
+import { confirmBatchAction } from "@/utils/ui-helpers";
 
 interface DepartmentNode {
   id: string;
@@ -42,6 +47,22 @@ export default function SystemDepartmentsPage() {
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
 
+  // 表单草稿保存
+  const { clearDraft } = useFormDraft(form, "system-department-form", 30000);
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+n": () => setOpen(true),
+    "Ctrl+r": () => {
+      refresh();
+      message.success("已刷新");
+    },
+    Escape: () => {
+      setOpen(false);
+      setEditing(null);
+    },
+  });
+
   const { data: departments = [], isLoading } = useQuery<DepartmentNode[]>({
     queryKey: ["system-departments-tree"],
     queryFn: systemApi.listDepartmentTree,
@@ -65,7 +86,12 @@ export default function SystemDepartmentsPage() {
     onSuccess: async () => {
       setOpen(false);
       form.resetFields();
+      clearDraft();
+      message.success("创建成功");
       await refresh();
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "创建失败");
     },
   });
 
@@ -81,18 +107,35 @@ export default function SystemDepartmentsPage() {
       setOpen(false);
       setEditing(null);
       form.resetFields();
+      clearDraft();
+      message.success("更新成功");
       await refresh();
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "更新失败");
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: systemApi.deleteDepartment,
-    onSuccess: refresh,
+    onSuccess: () => {
+      message.success("删除成功");
+      refresh();
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "删除失败");
+    },
   });
 
   const batchStatusMutation = useMutation({
     mutationFn: systemApi.batchUpdateDepartmentStatus,
-    onSuccess: refresh,
+    onSuccess: () => {
+      message.success("批量操作成功");
+      refresh();
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "批量操作失败");
+    },
   });
 
   const onEdit = (item: DepartmentNode) => {
@@ -111,7 +154,11 @@ export default function SystemDepartmentsPage() {
             <Button
               disabled={checkedKeys.length === 0}
               onClick={() =>
-                batchStatusMutation.mutate({ ids: checkedKeys, status: 1 })
+                confirmBatchAction(
+                  `批量启用选中的 ${checkedKeys.length} 个部门`,
+                  () =>
+                    batchStatusMutation.mutate({ ids: checkedKeys, status: 1 }),
+                )
               }
             >
               批量启用
@@ -119,7 +166,11 @@ export default function SystemDepartmentsPage() {
             <Button
               disabled={checkedKeys.length === 0}
               onClick={() =>
-                batchStatusMutation.mutate({ ids: checkedKeys, status: 0 })
+                confirmBatchAction(
+                  `批量禁用选中的 ${checkedKeys.length} 个部门`,
+                  () =>
+                    batchStatusMutation.mutate({ ids: checkedKeys, status: 0 }),
+                )
               }
             >
               批量禁用
@@ -135,17 +186,19 @@ export default function SystemDepartmentsPage() {
     >
       <Tabs activeKey={activeTab} onChange={setActiveTab}>
         <Tabs.TabPane tab="部门列表" key="list">
-          <Tree
-            checkable
-            defaultExpandAll
-            checkedKeys={checkedKeys}
-            onCheck={(keys) => setCheckedKeys(keys as string[])}
-            treeData={buildDepartmentTree(
-              departments,
-              onEdit,
-              deleteMutation.mutate,
-            )}
-          />
+          <GlobalLoading loading={isLoading}>
+            <Tree
+              checkable
+              defaultExpandAll
+              checkedKeys={checkedKeys}
+              onCheck={(keys) => setCheckedKeys(keys as string[])}
+              treeData={buildDepartmentTree(
+                departments,
+                onEdit,
+                deleteMutation.mutate,
+              )}
+            />
+          </GlobalLoading>
         </Tabs.TabPane>
         <Tabs.TabPane tab="部门排序" key="sort">
           <DepartmentTreeDraggable
@@ -164,6 +217,7 @@ export default function SystemDepartmentsPage() {
           form.resetFields();
         }}
         onOk={() => form.submit()}
+        confirmLoading={createMutation.isPending || updateMutation.isPending}
       >
         <Form
           form={form}
@@ -173,36 +227,43 @@ export default function SystemDepartmentsPage() {
               ? updateMutation.mutate({ id: editing.id, payload: values })
               : createMutation.mutate(values)
           }
+          initialValues={{ status: 1, sort: 0 }}
         >
-          <Form.Item label="部门名称" name="name" rules={[{ required: true }]}>
-            <Input />
+          <Form.Item
+            label="部门名称"
+            name="name"
+            rules={[{ required: true, message: "请输入部门名称" }]}
+          >
+            <Input placeholder="输入部门名称" />
           </Form.Item>
           <Form.Item
             label="部门编码"
             name="code"
-            rules={[{ required: !editing }]}
+            rules={[{ required: !editing, message: "请输入部门编码" }]}
           >
-            <Input disabled={Boolean(editing)} />
+            <Input disabled={Boolean(editing)} placeholder="一经创建不可修改" />
           </Form.Item>
           <Form.Item label="上级部门" name="parent_id">
             <Select
               allowClear
+              placeholder="选择上级部门"
               options={flattenDepartmentOptions(departments)}
             />
           </Form.Item>
           <Form.Item label="所属平台" name="platform_id">
             <Select
               allowClear
+              placeholder="选择所属平台"
               options={platforms.map((item) => ({
                 label: item.name,
                 value: item.id,
               }))}
             />
           </Form.Item>
-          <Form.Item label="排序" name="sort" initialValue={0}>
-            <InputNumber style={{ width: "100%" }} />
+          <Form.Item label="排序" name="sort">
+            <InputNumber style={{ width: "100%" }} placeholder="输入排序号" />
           </Form.Item>
-          <Form.Item label="状态" name="status" initialValue={1}>
+          <Form.Item label="状态" name="status">
             <Select
               options={[
                 { label: "启用", value: 1 },

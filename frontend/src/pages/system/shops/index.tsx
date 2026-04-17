@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ProColumns } from "@ant-design/pro-components";
 import {
@@ -31,6 +31,7 @@ import { Permission } from "@/components/permission/Permission";
 import { ShopSortList } from "./components/ShopSortList";
 import { useFormDraft } from "@/hooks/useFormDraft";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { useDebounce } from "@/hooks/useDebounce";
 import { GlobalLoading } from "@/components/common/GlobalLoading";
 import { confirmBatchAction } from "@/utils/ui-helpers";
 
@@ -43,9 +44,31 @@ export default function SystemShopsPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [sortPlatformId, setSortPlatformId] = useState<string>();
   const [sortDepartmentId, setSortDepartmentId] = useState<string>();
+  const [searchText, setSearchText] = useState("");
   const [filterForm] = Form.useForm();
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
+  const searchInputRef = useRef<any>(null);
+
+  // 搜索防抖
+  const debouncedSearchText = useDebounce(searchText, 500);
+
+  // 表单草稿保存
+  const { clearDraft } = useFormDraft(form, "system-shop-form", 30000);
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+n": () => setOpen(true),
+    "Ctrl+f": () => searchInputRef.current?.focus(),
+    "Ctrl+r": () => {
+      refresh();
+      message.success("已刷新");
+    },
+    Escape: () => {
+      setOpen(false);
+      setEditing(null);
+    },
+  });
 
   // 1. 数据查询
   const { data: platforms = [] } = useQuery<PlatformRecord[]>({
@@ -65,11 +88,15 @@ export default function SystemShopsPage() {
   });
 
   const { data: shops = [], isLoading } = useQuery<ShopRecord[]>({
-    queryKey: ["system-shops"],
+    queryKey: ["system-shops", debouncedSearchText],
     queryFn: async () => {
-      const res = await systemApi.listShops();
+      const res = await systemApi.listShops({
+        name: debouncedSearchText || undefined,
+      });
       return Array.isArray(res) ? res : [];
     },
+    staleTime: 5 * 60 * 1000, // 5分钟内数据视为新鲜
+    refetchOnWindowFocus: false,
   });
 
   // 筛选用于排序的店铺
@@ -98,7 +125,12 @@ export default function SystemShopsPage() {
     onSuccess: () => {
       setOpen(false);
       form.resetFields();
+      clearDraft();
+      message.success("创建成功");
       refresh();
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "创建失败");
     },
   });
 
@@ -109,18 +141,35 @@ export default function SystemShopsPage() {
       setOpen(false);
       setEditing(null);
       form.resetFields();
+      clearDraft();
+      message.success("更新成功");
       refresh();
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "更新失败");
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: systemApi.deleteShop,
-    onSuccess: refresh,
+    onSuccess: () => {
+      message.success("删除成功");
+      refresh();
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "删除失败");
+    },
   });
 
   const batchStatusMutation = useMutation({
     mutationFn: systemApi.batchUpdateShopStatus,
-    onSuccess: refresh,
+    onSuccess: () => {
+      message.success("批量操作成功");
+      refresh();
+    },
+    onError: (error: any) => {
+      message.error(error?.message || "批量操作失败");
+    },
   });
 
   // 3. 联动逻辑
@@ -225,7 +274,7 @@ export default function SystemShopsPage() {
             children: (
               <>
                 {/* 搜索筛选区 - 单行全铺满自适应布局 */}
-                <Card bordered={false} className="shadow-sm">
+                <Card className="shadow-sm">
                   <Form
                     form={filterForm}
                     layout="inline"
@@ -236,9 +285,13 @@ export default function SystemShopsPage() {
                       className="flex-grow min-w-[200px] mb-0"
                     >
                       <Input
+                        ref={searchInputRef}
                         prefix={<SearchOutlined />}
                         placeholder="搜索店铺名称"
                         className="h-[44px]"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        allowClear
                       />
                     </Form.Item>
                     <Form.Item
@@ -279,10 +332,14 @@ export default function SystemShopsPage() {
                           <Button
                             disabled={selectedIds.length === 0}
                             onClick={() =>
-                              batchStatusMutation.mutate({
-                                ids: selectedIds,
-                                status: 1,
-                              })
+                              confirmBatchAction(
+                                `批量启用选中的 ${selectedIds.length} 个店铺`,
+                                () =>
+                                  batchStatusMutation.mutate({
+                                    ids: selectedIds,
+                                    status: 1,
+                                  }),
+                              )
                             }
                             className="h-[44px] font-bold"
                           >
@@ -291,10 +348,14 @@ export default function SystemShopsPage() {
                           <Button
                             disabled={selectedIds.length === 0}
                             onClick={() =>
-                              batchStatusMutation.mutate({
-                                ids: selectedIds,
-                                status: 0,
-                              })
+                              confirmBatchAction(
+                                `批量禁用选中的 ${selectedIds.length} 个店铺`,
+                                () =>
+                                  batchStatusMutation.mutate({
+                                    ids: selectedIds,
+                                    status: 0,
+                                  }),
+                              )
                             }
                             className="h-[44px] font-bold"
                           >
@@ -317,19 +378,21 @@ export default function SystemShopsPage() {
                 </Card>
 
                 {/* 数据表格区 */}
-                <Card bordered={false} className="shadow-sm">
-                  <BaseTable<ShopRecord>
-                    columns={columns}
-                    dataSource={shops}
-                    loading={isLoading}
-                    rowKey="id"
-                    pagination={{ pageSize: 10 }}
-                    rowSelection={{
-                      selectedRowKeys: selectedIds,
-                      onChange: (keys: React.Key[]) =>
-                        setSelectedIds(keys as string[]),
-                    }}
-                  />
+                <Card className="shadow-sm">
+                  <GlobalLoading loading={isLoading}>
+                    <BaseTable<ShopRecord>
+                      columns={columns}
+                      dataSource={shops}
+                      loading={isLoading}
+                      rowKey="id"
+                      pagination={{ pageSize: 10 }}
+                      rowSelection={{
+                        selectedRowKeys: selectedIds,
+                        onChange: (keys: React.Key[]) =>
+                          setSelectedIds(keys as string[]),
+                      }}
+                    />
+                  </GlobalLoading>
                 </Card>
               </>
             ),
