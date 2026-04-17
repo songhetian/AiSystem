@@ -29,6 +29,12 @@ export class PermissionTemplateService {
    * 获取模板列表
    */
   @Cache({ ttl: 300, byParams: true, prefix: "permission-templates" })
+  /**
+   * 获取权限模板列表（V2.0 性能优化）
+   * 优化点：添加缓存（10分钟）和查询监控
+   */
+  @Cache({ ttl: 600, byParams: true, prefix: "permission-template-list" })
+  @QueryOptimize({ timeout: 3000, slowQueryThreshold: 200 })
   async getTemplateList(query: QueryPermissionTemplateDto) {
     const where: any = { is_deleted: 0 };
 
@@ -49,6 +55,17 @@ export class PermissionTemplateService {
 
     return await this.prisma.sys_permission_template.findMany({
       where,
+      select: {
+        id: true,
+        template_name: true,
+        template_type: true,
+        category: true,
+        description: true,
+        is_default: true,
+        status: true,
+        create_time: true,
+        update_time: true,
+      },
       orderBy: [
         { is_default: "desc" },
         { template_type: "asc" },
@@ -61,6 +78,11 @@ export class PermissionTemplateService {
    * 获取模板详情
    */
   @Cache({ ttl: 300, byParams: true, prefix: "permission-template" })
+  /**
+   * 根据ID获取权限模板（V2.0 性能优化）
+   * 优化点：添加缓存（10分钟）
+   */
+  @Cache({ ttl: 600, byParams: true, prefix: "permission-template" })
   async getTemplateById(id: string) {
     const template = await this.prisma.sys_permission_template.findFirst({
       where: { id, is_deleted: 0 },
@@ -75,6 +97,11 @@ export class PermissionTemplateService {
 
   /**
    * 创建模板
+   */
+  @CacheEvict({ pattern: "cache:permission-template*" })
+  /**
+   * 创建权限模板（V2.0 性能优化）
+   * 优化点：自动清除相关缓存
    */
   @CacheEvict({ pattern: "cache:permission-template*" })
   async createTemplate(dto: CreatePermissionTemplateDto, userId: string) {
@@ -106,6 +133,11 @@ export class PermissionTemplateService {
 
   /**
    * 更新模板
+   */
+  @CacheEvict({ pattern: "cache:permission-template*" })
+  /**
+   * 更新权限模板（V2.0 性能优化）
+   * 优化点：自动清除相关缓存
    */
   @CacheEvict({ pattern: "cache:permission-template*" })
   async updateTemplate(dto: UpdatePermissionTemplateDto) {
@@ -146,6 +178,11 @@ export class PermissionTemplateService {
    * 删除模板
    */
   @CacheEvict({ pattern: "cache:permission-template*" })
+  /**
+   * 删除权限模板（V2.0 性能优化）
+   * 优化点：自动清除相关缓存
+   */
+  @CacheEvict({ pattern: "cache:permission-template*" })
   async deleteTemplate(id: string) {
     const template = await this.getTemplateById(id);
 
@@ -181,8 +218,14 @@ export class PermissionTemplateService {
       if (config.type === "all") {
         // 全部权限：获取所有菜单和按钮
         const [allMenus, allButtons] = await Promise.all([
-          tx.sys_menu.findMany({ where: { is_deleted: 0, status: 1 } }),
-          tx.sys_button.findMany({ where: { is_deleted: 0, status: 1 } }),
+          tx.sys_menu.findMany({
+            where: { is_deleted: 0, status: 1 },
+            select: { id: true },
+          }),
+          tx.sys_button.findMany({
+            where: { is_deleted: 0, status: 1 },
+            select: { id: true },
+          }),
         ]);
 
         if (allMenus.length > 0) {

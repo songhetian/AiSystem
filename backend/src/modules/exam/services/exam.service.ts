@@ -35,15 +35,15 @@ export class ExamService {
   ) {}
 
   private examPaperDelegate() {
-    return (this.prisma as any).exam_paper;
+    return this.prisma["exam_paper" as keyof typeof this.prisma] as any;
   }
 
   private examPlanDelegate() {
-    return (this.prisma as any).exam_plan;
+    return this.prisma["exam_plan" as keyof typeof this.prisma] as any;
   }
 
   private examAssignmentDelegate() {
-    return (this.prisma as any).exam_assignment;
+    return this.prisma["exam_assignment" as keyof typeof this.prisma] as any;
   }
 
   @Cacheable({
@@ -997,7 +997,7 @@ export class ExamService {
     return assignment;
   }
 
-  private enrichAssignment(assignment: any) {
+  private enrichAssignment<T extends Record<string, any>>(assignment: T) {
     const deadline = this.resolveAssignmentDeadline(assignment);
     const expired =
       Date.now() > deadline.getTime() && assignment.status !== "submitted";
@@ -1009,7 +1009,9 @@ export class ExamService {
     };
   }
 
-  private resolveAssignmentDeadline(assignment: any) {
+  private resolveAssignmentDeadline<T extends Record<string, any>>(
+    assignment: T,
+  ): Date {
     if (assignment.deadline_at) {
       return new Date(assignment.deadline_at);
     }
@@ -1116,11 +1118,12 @@ export class ExamService {
           },
         });
         results.push({ id: assignment.id, success: true });
-      } catch (e: any) {
+      } catch (e) {
+        const errorMessage = e instanceof Error ? e.message : "Unknown error";
         results.push({
           id: item.user_id || item.employee_id || "",
           success: false,
-          error: e.message,
+          error: errorMessage,
         });
       }
     }

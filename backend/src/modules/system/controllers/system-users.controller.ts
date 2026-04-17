@@ -8,6 +8,12 @@ import {
   Post,
   Query,
 } from "@nestjs/common";
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiResponse,
+} from "@nestjs/swagger";
 import { BatchUpdateUserStatusDto } from "../dto/batch-update-user-status.dto";
 import { Permission } from "../../../common/permission.decorator";
 import {
@@ -26,11 +32,18 @@ import { Cache } from "../../../common/decorators/cache.decorator";
 import { CacheEvict } from "../../../common/decorators/cache-evict.decorator";
 import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
 
+@ApiTags("系统用户管理")
+@ApiBearerAuth()
 @Controller("system/users")
 export class SystemUsersController {
   constructor(private readonly systemUsersService: SystemUsersService) {}
 
   @Get()
+  @ApiOperation({
+    summary: "获取用户列表",
+    description: "分页查询系统用户列表",
+  })
+  @ApiResponse({ status: 200, description: "成功返回用户列表" })
   @Permission("system:user:list")
   @RateLimit({ limit: 30, window: 60 })
   @Cache({ key: "system:users", ttl: 300 })
@@ -43,6 +56,9 @@ export class SystemUsersController {
   }
 
   @Post()
+  @ApiOperation({ summary: "创建用户", description: "创建新的系统用户" })
+  @ApiResponse({ status: 201, description: "用户创建成功" })
+  @ApiResponse({ status: 400, description: "请求参数错误" })
   @Permission("system:user:create")
   @AntiShake(1000)
   @Idempotent({ mode: "active", ttl: 300 })
@@ -53,6 +69,9 @@ export class SystemUsersController {
   }
 
   @Patch(":id")
+  @ApiOperation({ summary: "更新用户", description: "更新指定用户的信息" })
+  @ApiResponse({ status: 200, description: "用户更新成功" })
+  @ApiResponse({ status: 404, description: "用户不存在" })
   @Permission("system:user:update")
   @AntiShake(1000)
   @RateLimit({ limit: 20, window: 60 })

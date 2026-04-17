@@ -29,6 +29,18 @@ export class KnowledgeService {
     @InjectQueue("ai-analysis-queue") private readonly aiAnalysisQueue: Queue,
   ) {}
 
+  private get knowledgeTagDelegate() {
+    return this.prisma["knowledge_tag" as keyof typeof this.prisma] as any;
+  }
+
+  private get serviceSessionDelegate() {
+    return this.prisma["service_session" as keyof typeof this.prisma] as any;
+  }
+
+  private get knowledgeDocumentDelegate() {
+    return this.prisma["knowledge_document" as keyof typeof this.prisma] as any;
+  }
+
   private buildCategoryTree<
     T extends { id: string; parent_id?: string | null; children?: T[] },
   >(items: T[]) {
@@ -305,7 +317,7 @@ export class KnowledgeService {
     if (query.enabled === "0") where.is_deleted = 1;
     if (query.enabled === "1") where.is_deleted = 0;
 
-    return (this.prisma as any).knowledge_tag.findMany({
+    return this.knowledgeTagDelegate().findMany({
       where,
       orderBy: [{ sort: "asc" }, { update_time: "desc" }],
     });
@@ -320,7 +332,7 @@ export class KnowledgeService {
     const tag_name = dto.tag_name.trim();
     const tag_code = dto.tag_code?.trim() || this.normalizeTagCode(tag_name);
 
-    return (this.prisma as any).knowledge_tag.create({
+    return this.knowledgeTagDelegate().create({
       data: {
         ...dto,
         tag_name,
@@ -338,7 +350,7 @@ export class KnowledgeService {
   })
   async updateTag(_userId: string, id: string, dto: SaveKnowledgeTagDto) {
     const tag_name = dto.tag_name.trim();
-    return (this.prisma as any).knowledge_tag.update({
+    return this.knowledgeTagDelegate().update({
       where: { id },
       data: {
         ...dto,
@@ -350,12 +362,12 @@ export class KnowledgeService {
 
   async getTagImpact(userId: string, id: string) {
     const scope = await this.scopeService.resolveAccess(userId);
-    const tag = await (this.prisma as any).knowledge_tag.findUnique({
+    const tag = await this.knowledgeTagDelegate().findUnique({
       where: { id },
     });
     if (!tag) throw new NotFoundException("标签不存在");
 
-    const sessions = await (this.prisma as any).service_session.findMany({
+    const sessions = await this.serviceSessionDelegate().findMany({
       where: this.scopeService.applyScope(
         scope,
         { is_deleted: 0 },
@@ -404,7 +416,7 @@ export class KnowledgeService {
   async getAiTagSuggestions(userId: string) {
     const scope = await this.scopeService.resolveAccess(userId);
     const [sessions, existedTags] = await Promise.all([
-      (this.prisma as any).service_session.findMany({
+      this.serviceSessionDelegate().findMany({
         where: this.scopeService.applyScope(
           scope,
           { is_deleted: 0 },
@@ -414,7 +426,7 @@ export class KnowledgeService {
         orderBy: { update_time: "desc" },
         take: 200,
       }),
-      (this.prisma as any).knowledge_tag.findMany({
+      this.knowledgeTagDelegate().findMany({
         where: this.scopeService.applyScope(
           scope,
           { is_deleted: 0 },
@@ -455,7 +467,7 @@ export class KnowledgeService {
   async batchCreateTags(userId: string, names: string[]) {
     const scope = await this.scopeService.resolveAccess(userId);
     const normalizedNames = names.map((item) => item.trim()).filter(Boolean);
-    const existed = await (this.prisma as any).knowledge_tag.findMany({
+    const existed = await this.knowledgeTagDelegate().findMany({
       where: {
         platform_id: scope.platform_id as string,
         dept_id: scope.dept_id as string,
@@ -476,7 +488,7 @@ export class KnowledgeService {
         continue;
       }
 
-      await (this.prisma as any).knowledge_tag.create({
+      await this.knowledgeTagDelegate().create({
         data: {
           tag_name: name,
           tag_code: this.normalizeTagCode(name),
@@ -504,8 +516,8 @@ export class KnowledgeService {
 
     const scope = await this.scopeService.resolveAccess(userId);
     const [sourceTag, targetTag] = await Promise.all([
-      (this.prisma as any).knowledge_tag.findUnique({ where: { id } }),
-      (this.prisma as any).knowledge_tag.findUnique({
+      this.knowledgeTagDelegate().findUnique({ where: { id } }),
+      this.knowledgeTagDelegate().findUnique({
         where: { id: targetId },
       }),
     ]);
@@ -513,7 +525,7 @@ export class KnowledgeService {
       throw new NotFoundException("标签不存在");
     }
 
-    const sessions = await (this.prisma as any).service_session.findMany({
+    const sessions = await this.serviceSessionDelegate().findMany({
       where: this.scopeService.applyScope(
         scope,
         { is_deleted: 0 },
@@ -539,7 +551,7 @@ export class KnowledgeService {
           ),
         ),
       );
-      await (this.prisma as any).service_session.update({
+      await this.serviceSessionDelegate().update({
         where: { id: session.id },
         data: { tags: nextTags },
       });
@@ -573,7 +585,7 @@ export class KnowledgeService {
       affected_articles += 1;
     }
 
-    await (this.prisma as any).knowledge_tag.update({
+    await this.knowledgeTagDelegate().update({
       where: { id },
       data: { is_deleted: 1 },
     });
@@ -586,7 +598,7 @@ export class KnowledgeService {
     pattern: "*",
   })
   async toggleTag(_userId: string, id: string, status: number) {
-    return (this.prisma as any).knowledge_tag.update({
+    return this.knowledgeTagDelegate().update({
       where: { id },
       data: { is_deleted: status === 1 ? 0 : 1 },
     });
@@ -678,7 +690,7 @@ export class KnowledgeService {
       { is_deleted: 0 },
       { platform: "platform_id", department: "dept_id" },
     );
-    return (this.prisma as any).knowledge_document.findMany({
+    return this.knowledgeDocumentDelegate().findMany({
       where,
       orderBy: { create_time: "desc" },
     });
@@ -704,7 +716,7 @@ export class KnowledgeService {
       file.mimetype,
     );
 
-    const doc = await (this.prisma as any).knowledge_document.create({
+    const doc = await this.knowledgeDocumentDelegate().create({
       data: {
         file_name: file.originalname,
         file_path: objectName,
@@ -727,7 +739,7 @@ export class KnowledgeService {
     pattern: "*",
   })
   async deleteDocument(_userId: string, id: string) {
-    const doc = await (this.prisma as any).knowledge_document.findUnique({
+    const doc = await this.knowledgeDocumentDelegate().findUnique({
       where: { id },
     });
     if (!doc) throw new NotFoundException("文档不存在");
@@ -739,7 +751,7 @@ export class KnowledgeService {
       }
     }
 
-    return (this.prisma as any).knowledge_document.update({
+    return this.knowledgeDocumentDelegate().update({
       where: { id },
       data: { is_deleted: 1 },
     });
@@ -750,7 +762,7 @@ export class KnowledgeService {
     pattern: "*",
   })
   async togglePublicDocument(_userId: string, id: string, isPublic: number) {
-    const doc = await (this.prisma as any).knowledge_document.update({
+    const doc = await this.knowledgeDocumentDelegate().update({
       where: { id },
       data: { is_public: isPublic },
     });
@@ -759,7 +771,7 @@ export class KnowledgeService {
   }
 
   async getDocumentContent(_userId: string, id: string) {
-    const doc = await (this.prisma as any).knowledge_document.findUnique({
+    const doc = await this.knowledgeDocumentDelegate().findUnique({
       where: { id },
     });
     if (!doc) throw new NotFoundException("文档不存在");
@@ -799,13 +811,13 @@ export class KnowledgeService {
   }
 
   async reimportDocument(_userId: string, docId: string) {
-    const doc = await (this.prisma as any).knowledge_document.findUnique({
+    const doc = await this.knowledgeDocumentDelegate().findUnique({
       where: { id: docId },
     });
     if (!doc) throw new NotFoundException("归属源不存在，无法重新生维度提取");
 
     // 把记录倒车回 pending，给系统重新抓取的余地
-    await (this.prisma as any).knowledge_document.update({
+    await this.knowledgeDocumentDelegate().update({
       where: { id: docId },
       data: { status: "pending", vector_ids: [] },
     });

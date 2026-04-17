@@ -32,6 +32,61 @@ export class ServiceService {
     private readonly realtimeService: RealtimeService,
   ) {}
 
+  // Delegate methods for type-safe table access
+  private get sessionDelegate() {
+    return this.prisma["service_session" as keyof typeof this.prisma] as any;
+  }
+
+  private get sessionAnalysisDelegate() {
+    return this.prisma[
+      "service_session_analysis" as keyof typeof this.prisma
+    ] as any;
+  }
+
+  private get qualityRecordDelegate() {
+    return this.prisma[
+      "service_quality_record" as keyof typeof this.prisma
+    ] as any;
+  }
+
+  private get qualityRuleDelegate() {
+    return this.prisma[
+      "service_quality_rule" as keyof typeof this.prisma
+    ] as any;
+  }
+
+  private get sensitiveTermDelegate() {
+    return this.prisma[
+      "service_sensitive_term" as keyof typeof this.prisma
+    ] as any;
+  }
+
+  private get lossInquiryDelegate() {
+    return this.prisma[
+      "service_loss_inquiry" as keyof typeof this.prisma
+    ] as any;
+  }
+
+  private get faqMappingDelegate() {
+    return this.prisma[
+      "service_faq_mapping" as keyof typeof this.prisma
+    ] as any;
+  }
+
+  private get sessionTagDelegate() {
+    return this.prisma[
+      "service_session_tag" as keyof typeof this.prisma
+    ] as any;
+  }
+
+  private get knowledgeArticleDelegate() {
+    return this.prisma["knowledge_article" as keyof typeof this.prisma] as any;
+  }
+
+  private get knowledgeTagDelegate() {
+    return this.prisma["knowledge_tag" as keyof typeof this.prisma] as any;
+  }
+
   // ✅ 优化：使用 select 限制字段，减少数据传输量
   private async enrichSessions(sessions: any[]) {
     if (sessions.length === 0) return [];
@@ -39,7 +94,7 @@ export class ServiceService {
     const sessionIds = sessions.map((item) => item.id);
     // ✅ 一次批量查询，使用 select 只取必要字段
     const [analyses, qualityRecords] = await Promise.all([
-      (this.prisma as any).service_session_analysis.findMany({
+      this.sessionAnalysisDelegate().findMany({
         where: { session_id: { in: sessionIds }, is_deleted: 0 },
         select: {
           id: true,
@@ -59,7 +114,7 @@ export class ServiceService {
         },
         orderBy: [{ analyzed_at: "desc" }, { create_time: "desc" }],
       }),
-      (this.prisma as any).service_quality_record.findMany({
+      this.qualityRecordDelegate().findMany({
         where: { session_id: { in: sessionIds }, is_deleted: 0 },
         select: {
           id: true,
@@ -128,7 +183,7 @@ export class ServiceService {
       };
     }
 
-    const sessions = await (this.prisma as any).service_session.findMany({
+    const sessions = await this.sessionDelegate().findMany({
       where,
       orderBy: { started_at: "desc" },
     });
@@ -142,7 +197,7 @@ export class ServiceService {
 
   async getSession(userId: string, id: string) {
     const scope = await this.scopeService.resolveAccess(userId);
-    const session = await (this.prisma as any).service_session.findFirst({
+    const session = await this.sessionDelegate().findFirst({
       where: this.scopeService.applyScope(
         scope,
         { id, is_deleted: 0 },
@@ -158,11 +213,11 @@ export class ServiceService {
     if (!session) throw new NotFoundException("会话不存在");
 
     const [analyses, qualityRecords] = await Promise.all([
-      (this.prisma as any).service_session_analysis.findMany({
+      this.sessionAnalysisDelegate().findMany({
         where: { session_id: id, is_deleted: 0 },
         orderBy: [{ analyzed_at: "desc" }, { create_time: "desc" }],
       }),
-      (this.prisma as any).service_quality_record.findMany({
+      this.qualityRecordDelegate().findMany({
         where: { session_id: id, is_deleted: 0 },
         orderBy: [{ inspected_at: "desc" }, { create_time: "desc" }],
       }),
@@ -207,7 +262,7 @@ export class ServiceService {
             severity: t.severity,
           }));
 
-        const rules = await (this.prisma as any).service_quality_rule.findMany({
+        const rules = await this.qualityRuleDelegate().findMany({
           where: {
             platform_id: session.platform_id,
             enabled: 1,
@@ -308,7 +363,7 @@ export class ServiceService {
           },
         });
 
-        await (this.prisma as any).service_quality_record.create({
+        await this.qualityRecordDelegate().create({
           data: {
             session_id: session.id,
             analysis_id: analysis.id,
@@ -394,7 +449,7 @@ export class ServiceService {
   async archiveCase(userId: string, id: string, dto: ArchiveServiceCaseDto) {
     const session = await this.getSession(userId, id);
     const scope = await this.scopeService.resolveAccess(userId);
-    const article = await (this.prisma as any).knowledge_article.create({
+    const article = await this.knowledgeArticleDelegate().create({
       data: {
         title: dto.title,
         content: dto.content,
@@ -417,7 +472,7 @@ export class ServiceService {
         ...(dto.tags || []),
       ]),
     );
-    await (this.prisma as any).service_session.update({
+    await this.sessionDelegate().update({
       where: { id: session.id },
       data: {
         tags: mergedTags as any,
@@ -441,7 +496,7 @@ export class ServiceService {
   @QueryOptimize()
   async listQualityRules(userId: string) {
     const scope = await this.scopeService.resolveAccess(userId);
-    return (this.prisma as any).service_quality_rule.findMany({
+    return this.qualityRuleDelegate().findMany({
       where: this.scopeService.applyScope(
         scope,
         { is_deleted: 0 },
@@ -453,7 +508,7 @@ export class ServiceService {
 
   async createQualityRule(userId: string, dto: SaveServiceQualityRuleDto) {
     const scope = await this.scopeService.resolveAccess(userId);
-    return (this.prisma as any).service_quality_rule.create({
+    return this.qualityRuleDelegate().create({
       data: { ...dto, platform_id: scope.platform_id, dept_id: scope.dept_id },
     });
   }
@@ -463,14 +518,14 @@ export class ServiceService {
     id: string,
     dto: SaveServiceQualityRuleDto,
   ) {
-    return (this.prisma as any).service_quality_rule.update({
+    return this.qualityRuleDelegate().update({
       where: { id },
       data: dto,
     });
   }
 
   async toggleQualityRule(_userId: string, id: string, status: number) {
-    return (this.prisma as any).service_quality_rule.update({
+    return this.qualityRuleDelegate().update({
       where: { id },
       data: { enabled: status },
     });
@@ -491,7 +546,7 @@ export class ServiceService {
 
     // 获取所有规则并校验权限
     const ruleIds = items.map((item) => item.id);
-    const rules = await (this.prisma as any).service_quality_rule.findMany({
+    const rules = await this.qualityRuleDelegate().findMany({
       where: { id: { in: ruleIds }, is_deleted: 0 },
     });
 
@@ -508,7 +563,7 @@ export class ServiceService {
     // 使用事务批量更新排序
     return this.prisma.$transaction(
       items.map((item) =>
-        (this.prisma as any).service_quality_rule.update({
+        this.qualityRuleDelegate().update({
           where: { id: item.id },
           data: { sort: item.sort },
         }),
@@ -525,7 +580,7 @@ export class ServiceService {
   @QueryOptimize()
   async listSensitiveTerms(userId: string) {
     const scope = await this.scopeService.resolveAccess(userId);
-    return (this.prisma as any).service_sensitive_term.findMany({
+    return this.sensitiveTermDelegate().findMany({
       where: this.scopeService.applyScope(
         scope,
         { is_deleted: 0 },
@@ -536,7 +591,7 @@ export class ServiceService {
 
   async createSensitiveTerm(userId: string, dto: SaveServiceSensitiveTermDto) {
     const scope = await this.scopeService.resolveAccess(userId);
-    return (this.prisma as any).service_sensitive_term.create({
+    return this.sensitiveTermDelegate().create({
       data: { ...dto, platform_id: scope.platform_id, dept_id: scope.dept_id },
     });
   }
@@ -546,7 +601,7 @@ export class ServiceService {
     id: string,
     dto: SaveServiceSensitiveTermDto,
   ) {
-    return (this.prisma as any).service_sensitive_term.update({
+    return this.sensitiveTermDelegate().update({
       where: { id },
       data: dto,
     });
@@ -610,7 +665,7 @@ export class ServiceService {
     if (query.product_id) where.product_id = query.product_id;
     if (query.agent_id) where.agent_id = query.agent_id;
 
-    return (this.prisma as any).service_loss_inquiry.findMany({
+    return this.lossInquiryDelegate().findMany({
       where,
       orderBy: { create_time: "desc" },
     });
@@ -621,7 +676,7 @@ export class ServiceService {
     id: string,
     dto: UpdateRecoveryStateDto,
   ) {
-    return (this.prisma as any).service_loss_inquiry.update({
+    return this.lossInquiryDelegate().update({
       where: { id },
       data: {
         recovery_state: dto.recovery_state,
@@ -639,7 +694,7 @@ export class ServiceService {
     );
     if (query.faq_type) where.faq_type = query.faq_type;
 
-    return (this.prisma as any).service_faq_mapping.findMany({
+    return this.faqMappingDelegate().findMany({
       where,
       orderBy: { hit_count: "desc" },
       take: 50,
@@ -648,7 +703,7 @@ export class ServiceService {
 
   async mapFaqArticle(userId: string, dto: MapFaqArticleDto) {
     const scope = await this.scopeService.resolveAccess(userId);
-    return (this.prisma as any).service_faq_mapping.create({
+    return this.faqMappingDelegate().create({
       data: {
         ...dto,
         platform_id: scope.platform_id,
@@ -666,7 +721,7 @@ export class ServiceService {
     );
     if (query.status) where.status = query.status;
 
-    return (this.prisma as any).service_session_tag.findMany({
+    return this.sessionTagDelegate().findMany({
       where,
       orderBy: { create_time: "desc" },
     });
@@ -678,11 +733,11 @@ export class ServiceService {
     action: "confirm" | "reject",
   ) {
     const scope = await this.scopeService.resolveAccess(userId);
-    const tags = await (this.prisma as any).service_session_tag.findMany({
+    const tags = await this.sessionTagDelegate().findMany({
       where: { id: { in: dto.ids } },
     });
 
-    await (this.prisma as any).service_session_tag.updateMany({
+    await this.sessionTagDelegate().updateMany({
       where: { id: { in: dto.ids } },
       data: {
         status: action === "confirm" ? "confirmed" : "rejected",
@@ -691,7 +746,7 @@ export class ServiceService {
     });
 
     if (action === "confirm") {
-      const existingTags = await (this.prisma as any).knowledge_tag.findMany({
+      const existingTags = await this.knowledgeTagDelegate().findMany({
         where: {
           tag_name: { in: tags.map((t: any) => t.tag_name) },
           platform_id: scope.platform_id,
@@ -723,7 +778,7 @@ export class ServiceService {
 
       if (uniqueNewTags.length > 0) {
         // ✅ 优化：使用 createMany 批量创建，替代循环单条创建
-        await (this.prisma as any).knowledge_tag.createMany({
+        await this.knowledgeTagDelegate().createMany({
           data: uniqueNewTags,
           skipDuplicates: true,
         });
@@ -747,7 +802,7 @@ export class ServiceService {
     });
 
     // Convert source to target
-    await (this.prisma as any).service_session_tag.updateMany({
+    await this.sessionTagDelegate().updateMany({
       where: {
         tag_name: { in: source_tag_names },
         platform_id: scope.platform_id,

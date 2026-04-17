@@ -1,5 +1,11 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from "@nestjs/common";
 import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiResponse,
+} from "@nestjs/swagger";
+import {
   CurrentUser,
   type CurrentUserPayload,
 } from "../../../common/current-user.decorator";
@@ -19,11 +25,18 @@ import { Cache } from "../../../common/decorators/cache.decorator";
 import { CacheEvict } from "../../../common/decorators/cache-evict.decorator";
 import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
 
+@ApiTags("考试管理")
+@ApiBearerAuth()
 @Controller("exam")
 export class ExamController {
   constructor(private readonly examService: ExamService) {}
 
   @Get("papers")
+  @ApiOperation({
+    summary: "获取试卷列表",
+    description: "查询所有可用的考试试卷",
+  })
+  @ApiResponse({ status: 200, description: "成功返回试卷列表" })
   @Permission("exam:paper:list")
   @RateLimit({ limit: 30, window: 60 })
   @Cache({ key: "exam:papers", ttl: 600 })
@@ -33,6 +46,12 @@ export class ExamController {
   }
 
   @Get("papers/:id")
+  @ApiOperation({
+    summary: "获取试卷详情",
+    description: "根据ID获取试卷的详细信息和题目",
+  })
+  @ApiResponse({ status: 200, description: "成功返回试卷详情" })
+  @ApiResponse({ status: 404, description: "试卷不存在" })
   @Permission("exam:paper:list")
   @RateLimit({ limit: 50, window: 60 })
   @Cache({ key: "exam:paper:detail", ttl: 600 })
@@ -42,6 +61,9 @@ export class ExamController {
   }
 
   @Post("papers")
+  @ApiOperation({ summary: "创建试卷", description: "创建新的考试试卷" })
+  @ApiResponse({ status: 201, description: "试卷创建成功" })
+  @ApiResponse({ status: 400, description: "请求参数错误" })
   @Permission("exam:paper:create")
   @AntiShake(1000)
   @Idempotent({ mode: "active", ttl: 300 })
@@ -55,6 +77,9 @@ export class ExamController {
   }
 
   @Put("papers/:id")
+  @ApiOperation({ summary: "更新试卷", description: "更新指定试卷的信息" })
+  @ApiResponse({ status: 200, description: "试卷更新成功" })
+  @ApiResponse({ status: 404, description: "试卷不存在" })
   @Permission("exam:paper:update")
   @AntiShake(1000)
   @RateLimit({ limit: 20, window: 60 })
@@ -68,6 +93,11 @@ export class ExamController {
   }
 
   @Get("plans")
+  @ApiOperation({
+    summary: "获取考试计划列表",
+    description: "查询所有考试计划",
+  })
+  @ApiResponse({ status: 200, description: "成功返回考试计划列表" })
   @Permission("exam:plan:list")
   @RateLimit({ limit: 30, window: 60 })
   @Cache({ key: "exam:plans", ttl: 300 })

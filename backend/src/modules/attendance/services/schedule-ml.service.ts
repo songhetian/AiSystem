@@ -1,15 +1,15 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from '../../../prisma/prisma.service';
+import { Injectable, Logger } from "@nestjs/common";
+import { PrismaService } from "../../../prisma/prisma.service";
 
 /**
  * 机器学习预测服务 (V4.0 长期优化)
- * 
+ *
  * 功能：
  * 1. 时间序列预测（简化版ARIMA）
  * 2. 考虑季节性因素
  * 3. 考虑节假日影响
  * 4. 模型训练和评估
- * 
+ *
  * 注意：这是简化版实现，生产环境建议使用专业ML库（如TensorFlow.js、brain.js）
  */
 @Injectable()
@@ -25,41 +25,47 @@ export class ScheduleMlService {
     platformId: string,
     deptId: string,
     shiftName: string,
-    predictDate: string
+    predictDate: string,
   ) {
-    this.logger.log(`ML预测人力需求: 部门=${deptId}, 班次=${shiftName}, 日期=${predictDate}`);
+    this.logger.log(
+      `ML预测人力需求: 部门=${deptId}, 班次=${shiftName}, 日期=${predictDate}`,
+    );
 
     // 1. 获取历史数据（最近90天）
     const ninetyDaysAgo = new Date();
     ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
 
-    const historicalDemands = await this.prisma.attendance_staffing_demand.findMany({
-      where: {
-        platform_id: platformId,
-        dept_id: deptId,
-        shift_name: shiftName,
-        date: { gte: ninetyDaysAgo },
-        is_deleted: 0,
-      },
-      orderBy: { date: 'asc' },
-    });
+    const historicalDemands =
+      await this.prisma.attendance_staffing_demand.findMany({
+        where: {
+          platform_id: platformId,
+          dept_id: deptId,
+          shift_name: shiftName,
+          date: { gte: ninetyDaysAgo },
+          is_deleted: 0,
+        },
+        orderBy: { date: "asc" },
+      });
 
     if (historicalDemands.length < 7) {
       return {
         success: false,
-        message: '历史数据不足，至少需要7天的数据',
+        message: "历史数据不足，至少需要7天的数据",
       };
     }
 
     // 2. 提取时间序列
-    const timeSeries = historicalDemands.map(d => d.required_count);
+    const timeSeries = historicalDemands.map((d) => d.required_count);
 
     // 3. 简单移动平均预测
     const prediction = this.simpleMovingAverage(timeSeries, 7);
 
     // 4. 考虑季节性因素
     const targetDate = new Date(predictDate);
-    const seasonalFactor = this.calculateSeasonalFactor(targetDate, historicalDemands);
+    const seasonalFactor = this.calculateSeasonalFactor(
+      targetDate,
+      historicalDemands,
+    );
     const adjustedPrediction = Math.round(prediction * seasonalFactor);
 
     // 5. 考虑节假日影响
@@ -78,7 +84,7 @@ export class ScheduleMlService {
         seasonal: seasonalFactor,
         holiday: holidayFactor,
       },
-      model: 'simple_moving_average',
+      model: "simple_moving_average",
       historicalDataPoints: timeSeries.length,
     };
   }
@@ -90,7 +96,7 @@ export class ScheduleMlService {
     platformId: string,
     deptId: string,
     startDate: string,
-    endDate: string
+    endDate: string,
   ) {
     this.logger.log(`批量ML预测: 部门=${deptId}, 周期=${startDate}~${endDate}`);
 
@@ -110,14 +116,14 @@ export class ScheduleMlService {
     const end = new Date(endDate);
 
     for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-      const dateStr = d.toISOString().split('T')[0];
+      const dateStr = d.toISOString().split("T")[0];
 
       for (const shift of shifts) {
         const prediction = await this.predictDemand(
           platformId,
           deptId,
           shift.name,
-          dateStr
+          dateStr,
         );
 
         if (prediction.success) {
@@ -141,39 +147,38 @@ export class ScheduleMlService {
   /**
    * 训练模型（保存模型参数）
    */
-  async trainModel(
-    platformId: string,
-    deptId: string,
-    shiftName: string
-  ) {
+  async trainModel(platformId: string, deptId: string, shiftName: string) {
     this.logger.log(`训练ML模型: 部门=${deptId}, 班次=${shiftName}`);
 
     // 获取历史数据
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
-    const historicalDemands = await this.prisma.attendance_staffing_demand.findMany({
-      where: {
-        platform_id: platformId,
-        dept_id: deptId,
-        shift_name: shiftName,
-        date: { gte: sixMonthsAgo },
-        is_deleted: 0,
-      },
-      orderBy: { date: 'asc' },
-    });
+    const historicalDemands =
+      await this.prisma.attendance_staffing_demand.findMany({
+        where: {
+          platform_id: platformId,
+          dept_id: deptId,
+          shift_name: shiftName,
+          date: { gte: sixMonthsAgo },
+          is_deleted: 0,
+        },
+        orderBy: { date: "asc" },
+      });
 
     if (historicalDemands.length < 30) {
       return {
         success: false,
-        message: '历史数据不足，至少需要30天的数据',
+        message: "历史数据不足，至少需要30天的数据",
       };
     }
 
     // 计算模型参数
-    const timeSeries = historicalDemands.map(d => d.required_count);
+    const timeSeries = historicalDemands.map((d) => d.required_count);
     const mean = timeSeries.reduce((a, b) => a + b, 0) / timeSeries.length;
-    const variance = timeSeries.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / timeSeries.length;
+    const variance =
+      timeSeries.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) /
+      timeSeries.length;
     const stdDev = Math.sqrt(variance);
 
     // 计算季节性参数
@@ -181,7 +186,7 @@ export class ScheduleMlService {
 
     // 保存模型参数（可以存储到数据库或配置中）
     const modelParams = {
-      model_type: 'simple_moving_average',
+      model_type: "simple_moving_average",
       window_size: 7,
       mean,
       variance,
@@ -194,39 +199,36 @@ export class ScheduleMlService {
     return {
       success: true,
       model: modelParams,
-      message: '模型训练完成',
+      message: "模型训练完成",
     };
   }
 
   /**
    * 评估模型准确率
    */
-  async evaluateModel(
-    platformId: string,
-    deptId: string,
-    shiftName: string
-  ) {
+  async evaluateModel(platformId: string, deptId: string, shiftName: string) {
     this.logger.log(`评估ML模型: 部门=${deptId}, 班次=${shiftName}`);
 
     // 获取最近30天的预测和实际数据
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-    const predictions = await this.prisma.attendance_schedule_prediction.findMany({
-      where: {
-        platform_id: platformId,
-        dept_id: deptId,
-        shift_name: shiftName,
-        predict_date: { gte: thirtyDaysAgo },
-        actual_demand: { not: null },
-        is_deleted: 0,
-      },
-    });
+    const predictions =
+      await this.prisma.attendance_schedule_prediction.findMany({
+        where: {
+          platform_id: platformId,
+          dept_id: deptId,
+          shift_name: shiftName,
+          predict_date: { gte: thirtyDaysAgo },
+          actual_demand: { not: null },
+          is_deleted: 0,
+        },
+      });
 
     if (predictions.length === 0) {
       return {
         success: false,
-        message: '没有可评估的预测数据',
+        message: "没有可评估的预测数据",
       };
     }
 
@@ -238,7 +240,7 @@ export class ScheduleMlService {
     for (const pred of predictions) {
       const error = pred.actual_demand! - pred.predicted_demand;
       const absError = Math.abs(error);
-      
+
       totalError += error;
       totalAbsError += absError;
 
@@ -267,7 +269,10 @@ export class ScheduleMlService {
   /**
    * 简单移动平均
    */
-  private simpleMovingAverage(timeSeries: number[], windowSize: number): number {
+  private simpleMovingAverage(
+    timeSeries: number[],
+    windowSize: number,
+  ): number {
     if (timeSeries.length < windowSize) {
       return timeSeries.reduce((a, b) => a + b, 0) / timeSeries.length;
     }
@@ -279,9 +284,12 @@ export class ScheduleMlService {
   /**
    * 计算季节性因子
    */
-  private calculateSeasonalFactor(targetDate: Date, historicalDemands: any[]): number {
+  private calculateSeasonalFactor(
+    targetDate: Date,
+    historicalDemands: any[],
+  ): number {
     const dayOfWeek = targetDate.getDay();
-    
+
     // 按星期几分组
     const weekdayDemands = new Map<number, number[]>();
     for (const demand of historicalDemands) {
@@ -296,11 +304,13 @@ export class ScheduleMlService {
     const targetDayDemands = weekdayDemands.get(dayOfWeek) || [];
     if (targetDayDemands.length === 0) return 1.0;
 
-    const targetDayAvg = targetDayDemands.reduce((a, b) => a + b, 0) / targetDayDemands.length;
+    const targetDayAvg =
+      targetDayDemands.reduce((a, b) => a + b, 0) / targetDayDemands.length;
 
     // 计算整体平均需求
-    const allDemands = historicalDemands.map(d => d.required_count);
-    const overallAvg = allDemands.reduce((a, b) => a + b, 0) / allDemands.length;
+    const allDemands = historicalDemands.map((d) => d.required_count);
+    const overallAvg =
+      allDemands.reduce((a, b) => a + b, 0) / allDemands.length;
 
     // 季节性因子 = 目标星期几平均 / 整体平均
     return overallAvg > 0 ? targetDayAvg / overallAvg : 1.0;
@@ -311,14 +321,44 @@ export class ScheduleMlService {
    */
   private calculateHolidayFactor(targetDate: Date): number {
     const dayOfWeek = targetDate.getDay();
-    
+    const month = targetDate.getMonth() + 1;
+    const date = targetDate.getDate();
+
     // 周末需求通常更高
     if (dayOfWeek === 0 || dayOfWeek === 6) {
       return 1.2; // 增加20%
     }
 
-    // TODO: 可以添加更复杂的节假日判断逻辑
-    // 例如：春节、国庆等法定节假日
+    // 法定节假日判断(简化版)
+    // 春节(农历正月初一,简化为公历1月下旬到2月中旬)
+    if ((month === 1 && date > 20) || (month === 2 && date < 15)) {
+      return 1.5; // 增加50%
+    }
+
+    // 国庆节(10月1-7日)
+    if (month === 10 && date >= 1 && date <= 7) {
+      return 1.4; // 增加40%
+    }
+
+    // 劳动节(5月1-3日)
+    if (month === 5 && date >= 1 && date <= 3) {
+      return 1.3; // 增加30%
+    }
+
+    // 清明节(4月4-6日)
+    if (month === 4 && date >= 4 && date <= 6) {
+      return 1.2; // 增加20%
+    }
+
+    // 端午节(农历五月初五,简化为公历6月中旬)
+    if (month === 6 && date >= 10 && date <= 20) {
+      return 1.2; // 增加20%
+    }
+
+    // 中秋节(农历八月十五,简化为公历9月中旬)
+    if (month === 9 && date >= 10 && date <= 20) {
+      return 1.2; // 增加20%
+    }
 
     return 1.0;
   }
@@ -342,11 +382,14 @@ export class ScheduleMlService {
 
     for (let dow = 0; dow < 7; dow++) {
       const dayDemands = historicalDemands
-        .filter(d => new Date(d.date).getDay() === dow)
-        .map(d => d.required_count);
+        .filter((d) => new Date(d.date).getDay() === dow)
+        .map((d) => d.required_count);
 
       if (dayDemands.length > 0) {
-        weekdayAvg.set(dow, dayDemands.reduce((a, b) => a + b, 0) / dayDemands.length);
+        weekdayAvg.set(
+          dow,
+          dayDemands.reduce((a, b) => a + b, 0) / dayDemands.length,
+        );
       }
     }
 

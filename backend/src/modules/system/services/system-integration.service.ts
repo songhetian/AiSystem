@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../../prisma/prisma.service';
-import { ScopeService } from '../../../common/services/scope.service';
-import { Cache } from '../../../common/decorators/cache.decorator';
-import { CacheEvict } from '../../../common/decorators/cache-evict.decorator';
-import { QueryOptimize } from '../../../common/decorators/query-optimize.decorator';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { PrismaService } from "../../../prisma/prisma.service";
+import { ScopeService } from "../../../common/services/scope.service";
+import { Cache } from "../../../common/decorators/cache.decorator";
+import { CacheEvict } from "../../../common/decorators/cache-evict.decorator";
+import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
 
 /**
  * 系统集成服务（V2.0 性能优化）
@@ -20,20 +20,24 @@ export class SystemIntegrationService {
   ) {}
 
   private get delegate() {
-    return (this.prisma as any).sys_api_mapping;
+    return this.prisma["sys_api_mapping" as keyof typeof this.prisma] as any;
   }
 
   /**
    * 获取集成配置列表（V2.0 性能优化）
    * 优化点：添加缓存（10分钟）和查询监控
    */
-  @Cache({ ttl: 600, byUser: true, prefix: 'integration-list' })
+  @Cache({ ttl: 600, byUser: true, prefix: "integration-list" })
   @QueryOptimize({ timeout: 3000, slowQueryThreshold: 200 })
   async findAll(userId: string) {
     const scope = await this.scopeService.resolveAccess(userId);
     return this.delegate.findMany({
-      where: this.scopeService.applyScope(scope, { is_deleted: 0 }, { platform: 'platform_id' }),
-      orderBy: { create_time: 'desc' },
+      where: this.scopeService.applyScope(
+        scope,
+        { is_deleted: 0 },
+        { platform: "platform_id" },
+      ),
+      orderBy: { create_time: "desc" },
     });
   }
 
@@ -41,7 +45,7 @@ export class SystemIntegrationService {
    * 保存集成配置（V2.0 性能优化）
    * 优化点：自动清除集成配置列表缓存
    */
-  @CacheEvict({ pattern: 'cache:integration-list:*' })
+  @CacheEvict({ pattern: "cache:integration-list:*" })
   async save(userId: string, data: any) {
     const scope = await this.scopeService.resolveAccess(userId);
     this.scopeService.assertPlatformAccess(scope, data.platform_id);
@@ -60,12 +64,12 @@ export class SystemIntegrationService {
    * 删除集成配置（V2.0 性能优化）
    * 优化点：自动清除集成配置列表缓存
    */
-  @CacheEvict({ pattern: 'cache:integration-list:*' })
+  @CacheEvict({ pattern: "cache:integration-list:*" })
   async remove(userId: string, id: string) {
     const scope = await this.scopeService.resolveAccess(userId);
     const existing = await this.delegate.findUnique({ where: { id } });
     if (!existing || existing.is_deleted) {
-      throw new NotFoundException('集成配置不存在');
+      throw new NotFoundException("集成配置不存在");
     }
 
     this.scopeService.assertPlatformAccess(scope, existing.platform_id);
@@ -77,9 +81,11 @@ export class SystemIntegrationService {
   }
 
   async transformExternalData(mappingId: string, externalJson: any) {
-    const mapping = await this.delegate.findUnique({ where: { id: mappingId } });
+    const mapping = await this.delegate.findUnique({
+      where: { id: mappingId },
+    });
     if (!mapping) {
-      throw new NotFoundException('映射配置不存在');
+      throw new NotFoundException("映射配置不存在");
     }
 
     const rules = mapping.mapping_json as Record<string, string>;

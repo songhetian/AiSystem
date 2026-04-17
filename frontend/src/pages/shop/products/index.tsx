@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useQuery } from "@tantml:query";
+import { useState, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   Badge,
   Card,
@@ -11,6 +11,7 @@ import {
   Tag,
   Tabs,
   Typography,
+  message,
 } from "antd";
 import type { ProColumns } from "@ant-design/pro-components";
 import { EyeOutlined, SyncOutlined } from "@ant-design/icons";
@@ -18,17 +19,25 @@ import { BaseTable } from "@/components/table/BaseTable";
 import { shopApi } from "@/api/shop";
 import { systemApi } from "@/api/system";
 import { ProductSortList } from "./components/ProductSortList";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 const { Text } = Typography;
 
 // 商品数据来自第三方平台 API 同步，只读展示
 export default function ProductsPage() {
+  const searchInputRef = useRef<any>(null);
   const [activeTab, setActiveTab] = useState("list");
   const [keyword, setKeyword] = useState("");
   const [platformId, setPlatformId] = useState<string>();
   const [sortPlatformId, setSortPlatformId] = useState<string>();
   const [status, setStatus] = useState<number>();
   const [detail, setDetail] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // 搜索防抖
+  const debouncedKeyword = useDebounce(keyword, 500);
 
   const { data: platforms = [] } = useQuery({
     queryKey: ["system-platforms"],
@@ -46,9 +55,23 @@ export default function ProductsPage() {
     enabled: activeTab === "sort",
   });
 
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+f": () => searchInputRef.current?.focus(),
+    Escape: () => setDetail(null),
+  });
+
   const handleSaveSort = async (items: Array<{ id: string; sort: number }>) => {
-    await shopApi.updateProductSort(items);
-    await refetchProducts();
+    const hide = message.loading("正在保存排序...", 0);
+    try {
+      await shopApi.updateProductSort(items);
+      await refetchProducts();
+      hide();
+      message.success("排序保存成功");
+    } catch (error) {
+      hide();
+      message.error("排序保存失败，请重试");
+    }
   };
 
   const columns: ProColumns<any>[] = [
@@ -136,8 +159,9 @@ export default function ProductsPage() {
                 >
                   <div className="flex flex-wrap items-center gap-3">
                     <Input.Search
+                      ref={searchInputRef}
                       placeholder="搜索商品名称/编码"
-                      onSearch={setKeyword}
+                      onChange={(e) => setKeyword(e.target.value)}
                       allowClear
                       style={{ width: 280, height: 44 }}
                     />
@@ -171,19 +195,26 @@ export default function ProductsPage() {
                 </Card>
 
                 <Card className="shadow-sm" bodyStyle={{ padding: 0 }}>
-                  <BaseTable
-                    columns={columns}
-                    request={async (params) => {
-                      const res = await shopApi.listProducts({
-                        ...params,
-                        keyword: keyword || undefined,
-                        platform_id: platformId,
-                        status,
-                      });
-                      return { data: res, success: true };
-                    }}
-                    scroll={{ y: 600 }}
-                  />
+                  <GlobalLoading loading={isLoading}>
+                    <BaseTable
+                      columns={columns}
+                      request={async (params) => {
+                        setIsLoading(true);
+                        try {
+                          const res = await shopApi.listProducts({
+                            ...params,
+                            keyword: debouncedKeyword || undefined,
+                            platform_id: platformId,
+                            status,
+                          });
+                          return { data: res, success: true };
+                        } finally {
+                          setIsLoading(false);
+                        }
+                      }}
+                      scroll={{ y: 600 }}
+                    />
+                  </GlobalLoading>
                 </Card>
               </>
             ),

@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, OnModuleInit } from '@nestjs/common';
+import { Injectable, BadRequestException, OnModuleInit, Logger } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { ScopeService } from '../../../common/services/scope.service';
 import { EmployeeScheduleService, type SchedulePreference } from './employee-schedule.service';
@@ -34,6 +34,8 @@ export interface ScheduleDraft {
 
 @Injectable()
 export class AiScheduleService implements OnModuleInit {
+  private readonly logger = new Logger(AiScheduleService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly scopeService: ScopeService,
@@ -49,6 +51,10 @@ export class AiScheduleService implements OnModuleInit {
         await this.executeScheduleSwap(request.biz_id, action);
       });
     }
+  }
+
+  private get approvalRequestDelegate() {
+    return this.prisma['approval_request' as keyof typeof this.prisma] as any;
   }
 
   /**
@@ -91,7 +97,17 @@ export class AiScheduleService implements OnModuleInit {
     if (dto.shift_ids && dto.shift_ids.length > 0) {
       shiftsWhere.id = { in: dto.shift_ids };
     }
-    const shifts = await this.prisma.attendance_rule.findMany({ where: shiftsWhere });
+    const shifts = await this.prisma.attendance_rule.findMany({
+      where: shiftsWhere,
+      select: {
+        id: true,
+        name: true,
+        on_duty_time: true,
+        off_duty_time: true,
+        color: true,
+        opacity: true,
+      },
+    });
 
     if (shifts.length === 0) {
       throw new BadRequestException('未找到可用班次规则，请先配置班次');
@@ -104,7 +120,13 @@ export class AiScheduleService implements OnModuleInit {
         platform_id: scope.platform_id as string,
         date: { gte: new Date(dto.start_date), lte: new Date(dto.end_date) },
         is_deleted: 0
-      }
+      },
+      select: {
+        date: true,
+        shift_name: true,
+        required_count: true,
+        expected_volume: true,
+      },
     });
     // 转为 Map: dateStr_shiftName -> count
     const demandMap = new Map<string, number>();
@@ -226,7 +248,7 @@ export class AiScheduleService implements OnModuleInit {
           },
         });
       } catch (err) {
-        console.error('保存排班历史失败:', err);
+        this.logger.error(`保存排班历史失败: ${err instanceof Error ? err.message : 'Unknown error'}`, err instanceof Error ? err.stack : undefined);
         // 历史归档失败不影响主流程
       }
     }
@@ -245,7 +267,7 @@ export class AiScheduleService implements OnModuleInit {
     const employees = await this.prisma.hr_employee.findMany({
       where: { department_id: config.dept_id, platform_id: scope.platform_id as string, is_deleted: 0, status: 1 },
     });
-    
+
     // V2.0 优化：批量查询员工偏好
     const preferencesMap = await this.employeeScheduleService.getPreferencesBatch(
       employees.map(e => e.id)
@@ -275,13 +297,13 @@ export class AiScheduleService implements OnModuleInit {
         const mySchedules = optimizedData.filter(d => d.employee_id === emp.id);
         const totalWeekHours = mySchedules.reduce((acc, cur) => acc + 8, 0); // 简化按8h计
         const isScheduledToday = mySchedules.some(d => d.schedule_date === dateStr);
-        
+
         empState.set(emp.id, { totalWeekHours, consecutiveDays: 0, isScheduledToday });
       }
 
       for (const prob of problemsInDay) {
         const shiftName = prob.shift_name;
-        
+
         // 寻找最优平替
         const candidates = employees.filter(emp => {
           const state = empState.get(emp.id)!;
@@ -313,7 +335,7 @@ export class AiScheduleService implements OnModuleInit {
             is_warning: false,
             warning_reason: undefined,
           };
-          
+
           // 更新状态防止该员工在同日被重复排入
           empState.get(best.id)!.isScheduledToday = true;
           empState.get(best.id)!.totalWeekHours += 8;
@@ -344,7 +366,7 @@ export class AiScheduleService implements OnModuleInit {
       where: { department_id: config.dept_id, platform_id: scope.platform_id as string, is_deleted: 0 },
       select: { id: true, name: true }
     });
-    
+
     // V2.0 优化：批量查询员工偏好
     const preferencesMap = await this.employeeScheduleService.getPreferencesBatch(
       employees.map(e => e.id)
@@ -353,7 +375,7 @@ export class AiScheduleService implements OnModuleInit {
     // 2. 统计当前草案状态
     const empStats = new Map<string, { totalHours: number, isScheduledToday: boolean }>();
     employees.forEach(e => empStats.set(e.id, { totalHours: 0, isScheduledToday: false }));
-    
+
     draftData.forEach(d => {
       if (empStats.has(d.employee_id)) {
         const stats = empStats.get(d.employee_id)!;
@@ -536,14 +558,14 @@ export class AiScheduleService implements OnModuleInit {
     for (const s of schedules) {
       const dateKey = s.schedule_date.toISOString().split('T')[0];
       const shiftName = s.shift_name;
-      
+
       // 员工工时累加
       if (!empStats.has(s.employee_id)) {
         empStats.set(s.employee_id, { id: s.employee_id, name: empMap.get(s.employee_id) || '未知', count: 0, totalHours: 0 });
       }
       const eStat = empStats.get(s.employee_id)!;
       eStat.count++;
-      
+
       const rule = ruleMap.get(shiftName);
       if (rule) {
         const on = rule.on_duty_time.split(':').map(Number);
@@ -577,7 +599,7 @@ export class AiScheduleService implements OnModuleInit {
     for (const dateKey of dates) {
       const dayDemands = demands.filter(d => d.date.toISOString().split('T')[0] === dateKey);
       const daySupply = dailySupply.get(dateKey) || new Map();
-      
+
       let dayDemandSum = 0;
       let daySupplySum = 0;
 
@@ -587,16 +609,16 @@ export class AiScheduleService implements OnModuleInit {
         const actual = daySupply.get(dd.shift_name) || 0;
         totalCoverage += Math.min(actual, dd.required_count);
       }
-      
+
       daySupplySum = Array.from(daySupply.values()).reduce((a, b) => a + b, 0);
-      
+
       demandTrend.push({ date: dateKey, value: dayDemandSum, type: '需求' });
       supplyTrend.push({ date: dateKey, value: daySupplySum, type: '实排' });
     }
 
     const empStatsArr = Array.from(empStats.values()).sort((a, b) => b.totalHours - a.totalHours);
     const avgHours = empStatsArr.length > 0 ? totalHours / empStatsArr.length : 0;
-    
+
     return {
       overview: {
         total_scheduled: schedules.length,
@@ -608,7 +630,7 @@ export class AiScheduleService implements OnModuleInit {
       trends: [...demandTrend, ...supplyTrend],
       employee_load: empStatsArr.slice(0, 10).map(e => ({ name: e.name, value: Math.round(e.totalHours * 10) / 10 })),
       shift_distribution: Array.from(shiftStats.entries()).map(([name, count]) => ({ name, value: count })),
-      load_balance_score: empStatsArr.length > 1 
+      load_balance_score: empStatsArr.length > 1
         ? Math.max(0, 100 - Math.round((empStatsArr[0].totalHours - empStatsArr[empStatsArr.length - 1].totalHours) / (avgHours || 1) * 20))
         : 100
     };
@@ -620,7 +642,7 @@ export class AiScheduleService implements OnModuleInit {
   @CacheEvict({ pattern: 'cache:schedule-analytics:*' })
   async saveStaffingDemands(userId: string, deptId: string, demands: any[]) {
     const scope = await this.scopeService.resolveAccess(userId);
-    
+
     for (const d of demands) {
       const date = new Date(d.date);
       await this.prisma.attendance_staffing_demand.upsert({
@@ -695,7 +717,7 @@ export class AiScheduleService implements OnModuleInit {
       const mySchedules = pendingSchedules.filter(s => s.employee_id === empId);
       const title = `📅 新的排班通知 (${startDate} ~ ${endDate})`;
       const content = `您的最新排班方案已下发。周期：${startDate} 至 ${endDate}。共计排入 ${mySchedules.length} 个班次，请进入“我的排班”或钉钉工作台查看明细。`;
-      
+
       await this.prisma.sys_message.create({
         data: {
           recipient_id: empId,
@@ -855,7 +877,7 @@ export class AiScheduleService implements OnModuleInit {
     if (changes.length === 0) return [];
 
     // 2. 批量拉取对应的审批单 ID，以便前端直接调用审批 API
-    const approvalRequests = await (this.prisma as any).approval_request.findMany({
+    const approvalRequests = await this.approvalRequestDelegate().findMany({
       where: {
         biz_id: { in: changes.map(c => c.id) },
         biz_type: 'attendance_schedule_swap',
@@ -980,17 +1002,17 @@ export class AiScheduleService implements OnModuleInit {
   }
 
   private buildDraftMeta(
-    id: string, 
-    name: string, 
-    mode: string, 
-    data: ScheduleResultItem[], 
+    id: string,
+    name: string,
+    mode: string,
+    data: ScheduleResultItem[],
     preferences?: Map<string, SchedulePreference>,
     demandMap?: Map<string, number>
   ): ScheduleDraft {
     const warnings = data.filter((d) => d.is_warning).length;
     const total = data.filter((d) => d.employee_id !== '__shortage__').length;
     const compliance = total > 0 ? Math.round(((total - warnings) / total) * 100) : 0;
-    
+
     // 计算满意度
     let satisfaction = 0;
     if (preferences) {
@@ -1008,14 +1030,14 @@ export class AiScheduleService implements OnModuleInit {
       fitting_rate = totalRequired > 0 ? Math.round(Math.min(100, (totalActual / totalRequired) * 100)) : 100;
     }
 
-    return { 
-      id, name, mode, 
-      total_scheduled: total, 
-      warning_count: warnings, 
-      compliance_rate: compliance, 
-      satisfaction_rate: satisfaction, 
+    return {
+      id, name, mode,
+      total_scheduled: total,
+      warning_count: warnings,
+      compliance_rate: compliance,
+      satisfaction_rate: satisfaction,
       fitting_rate, // 传递拟合率
-      data 
+      data
     };
   }
 
@@ -1029,7 +1051,9 @@ export class AiScheduleService implements OnModuleInit {
         if (diff < 0) diff += 24 * 60; // 跨天班
         return Math.round(diff / 60);
       }
-    } catch (_) {}
+    } catch (error) {
+      this.logger.warn(`Failed to parse shift hours for shift ${shift?.id || 'unknown'}:`, error);
+    }
     return 8; // 默认8小时
   }
 

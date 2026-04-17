@@ -16,7 +16,17 @@ export class SystemMessagesService {
   ) {}
 
   private get messageDelegate() {
-    return (this.prisma as any).sys_message;
+    return this.prisma["sys_message" as keyof typeof this.prisma] as any;
+  }
+
+  private get messageTemplateDelegate() {
+    return this.prisma[
+      "sys_message_template" as keyof typeof this.prisma
+    ] as any;
+  }
+
+  private get sysConfigDelegate() {
+    return this.prisma["sys_config" as keyof typeof this.prisma] as any;
   }
 
   // --- 消息处理 (Inbox/Recycle Bin/Favorites) ---
@@ -52,6 +62,20 @@ export class SystemMessagesService {
 
     return this.messageDelegate.findMany({
       where,
+      select: {
+        id: true,
+        recipient_id: true,
+        title: true,
+        content: true,
+        message_type: true,
+        read_status: true,
+        is_favorite: true,
+        create_time: true,
+        read_time: true,
+        biz_type: true,
+        biz_id: true,
+        route: true,
+      },
       orderBy: { create_time: "desc" },
       take: 100, // 分页限制
     });
@@ -141,7 +165,7 @@ export class SystemMessagesService {
     variables: Record<string, any>;
     senderId?: string;
   }) {
-    const template = await (this.prisma as any).sys_message_template.findUnique(
+    const template = await this.messageTemplateDelegate().findUnique(
       {
         where: { name: payload.templateName, status: 1 },
       },
@@ -183,28 +207,35 @@ export class SystemMessagesService {
   // --- 模板管理 (PRD 2.1.3) ---
 
   async listTemplates(_query: any) {
-    return (this.prisma as any).sys_message_template.findMany({
+    return this.messageTemplateDelegate().findMany({
       where: { is_deleted: 0 },
+      select: {
+        id: true,
+        name: true,
+        tpl_type: true,
+        content: true,
+        channels: true,
+        status: true,
+        create_time: true,
+        update_time: true,
+      },
       orderBy: { update_time: "desc" },
     });
   }
 
   async saveTemplate(data: any) {
     if (data.id) {
-      return (this.prisma as any).sys_message_template.update({
+      return this.messageTemplateDelegate().update({
         where: { id: data.id },
         data,
       });
     }
-    return (this.prisma as any).sys_message_template.create({ data });
+    return this.messageTemplateDelegate().create({ data });
   }
 
   // ✅ 新增：消息设置（PRD 2.3.3）- 个人接收偏好与免打扰
   async getSettings(userId: string) {
     const key = `msg:settings:${userId}`;
-    const cached = await (this.prisma as any)
-      .$queryRawUnsafe?.(`SELECT 1`)
-      .catch(() => null);
     // 从 sys_user 扩展字段或 Redis 读取设置
     const user = await this.prisma.sys_user.findUnique({
       where: { id: userId },
@@ -213,7 +244,7 @@ export class SystemMessagesService {
     if (!user) return this.defaultSettings();
 
     // 尝试从 sys_config 读取用户个人设置
-    const setting = await (this.prisma as any).sys_config?.findFirst?.({
+    const setting = await this.sysConfigDelegate()?.findFirst?.({
       where: { config_key: `user_msg_settings_${userId}` },
     });
 
@@ -241,17 +272,17 @@ export class SystemMessagesService {
     const key = `user_msg_settings_${userId}`;
 
     // 存入 sys_config（用户级配置）
-    const existing = await (this.prisma as any).sys_config?.findFirst?.({
+    const existing = await this.sysConfigDelegate()?.findFirst?.({
       where: { config_key: key },
     });
 
     if (existing) {
-      await (this.prisma as any).sys_config?.update?.({
+      await this.sysConfigDelegate()?.update?.({
         where: { id: existing.id },
         data: { config_value: JSON.stringify(merged) },
       });
     } else {
-      await (this.prisma as any).sys_config?.create?.({
+      await this.sysConfigDelegate()?.create?.({
         data: {
           config_key: key,
           config_value: JSON.stringify(merged),

@@ -116,7 +116,7 @@ export class DataValidationGuard implements CanActivate {
   /**
    * 去除字符串首尾空格
    */
-  private trimStrings(data: any): void {
+  private trimStrings<T extends Record<string, any>>(data: T): void {
     for (const key in data) {
       if (typeof data[key] === "string") {
         data[key] = data[key].trim();
@@ -129,7 +129,7 @@ export class DataValidationGuard implements CanActivate {
   /**
    * 移除空字符串
    */
-  private removeEmptyStrings(data: any): void {
+  private removeEmptyStrings<T extends Record<string, any>>(data: T): void {
     for (const key in data) {
       if (data[key] === "") {
         delete data[key];
@@ -142,7 +142,10 @@ export class DataValidationGuard implements CanActivate {
   /**
    * SQL注入检查
    */
-  private checkSqlInjection(data: any, config: any): void {
+  private checkSqlInjection<T extends Record<string, any>>(
+    data: T,
+    config: Record<string, any>,
+  ): void {
     const fields = config.fields || Object.keys(data);
 
     for (const field of fields) {
@@ -191,7 +194,10 @@ export class DataValidationGuard implements CanActivate {
   /**
    * XSS检查
    */
-  private checkXss(data: any, config: any): void {
+  private checkXss<T extends Record<string, any>>(
+    data: T,
+    config: Record<string, any>,
+  ): void {
     const fields = config.fields || Object.keys(data);
 
     for (const field of fields) {

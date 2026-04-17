@@ -14,7 +14,7 @@ export class PaginationService {
 
   /**
    * 通用分页查询方法
-   * @param model Prisma模型名称（如：'hr_employee'）
+   * @param model Prisma模型名称(如:'hr_employee')
    * @param where 查询条件
    * @param page 页码
    * @param pageSize 每页数量
@@ -23,25 +23,28 @@ export class PaginationService {
    */
   async paginate<T>(
     model: string,
-    where: any,
+    where: Record<string, any>,
     page: number = 1,
     pageSize: number = 20,
-    orderBy?: any,
-    include?: any,
+    orderBy?: Record<string, any>,
+    include?: Record<string, any>,
   ): Promise<PaginatedResponse<T>> {
     const skip = (page - 1) * pageSize;
     const take = pageSize;
 
+    // 使用类型安全的动态访问
+    const delegate = this.prisma[model as keyof typeof this.prisma] as any;
+
     // 并行查询数据和总数
     const [data, total] = await Promise.all([
-      (this.prisma as any)[model].findMany({
+      delegate.findMany({
         where,
         skip,
         take,
         orderBy,
         include,
       }),
-      (this.prisma as any)[model].count({ where }),
+      delegate.count({ where }),
     ]);
 
     return createPaginatedResponse<T>(data, total, page, pageSize);

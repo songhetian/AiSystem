@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button, Card, Form, Input, Modal, Space, message } from "antd";
+import { Button, Card, Form, Input, Modal, Space, message, Select } from "antd";
+import { ReloadOutlined } from "@ant-design/icons";
 import { systemApi } from "@/api/system";
 import { Permission } from "@/components/permission/Permission";
 import { BaseTable } from "@/components/table/BaseTable";
@@ -14,6 +15,10 @@ import { useSystemCrud } from "./hooks/useSystemCrud";
 import { getUserColumns } from "./components/columns";
 import { UserModal } from "./components/UserModal";
 import { AssignRoleModal } from "./components/AssignRoleModal";
+import { useFormDraft } from "@/hooks/useFormDraft";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
+import { confirmBatchAction, resetColumnConfig } from "@/utils/ui-helpers";
 
 // 定义默认列配置
 const defaultColumns: ColumnConfig[] = [
@@ -43,6 +48,9 @@ export default function SystemUsersPage() {
   const [batchAssignForm] = Form.useForm();
   const [resetPasswordForm] = Form.useForm();
 
+  // 表单草稿保存
+  const { clearDraft } = useFormDraft(form, "system-user-form", 30000);
+
   const { data = [], isLoading } = useQuery({
     queryKey: ["system-users"],
     queryFn: systemApi.listUsers,
@@ -56,6 +64,25 @@ export default function SystemUsersPage() {
     create: systemApi.createUser,
     update: systemApi.updateUser,
     delete: systemApi.deleteUser,
+  });
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+n": () => {
+      setEditing(null);
+      form.resetFields();
+      setOpen(true);
+    },
+    "Ctrl+r": () => {
+      crud.refresh();
+      message.success("已刷新");
+    },
+    Escape: () => {
+      setOpen(false);
+      setAssignOpen(false);
+      setBatchAssignOpen(false);
+      setResetPasswordOpen(false);
+    },
   });
 
   const queryClient = useQueryClient();
@@ -87,11 +114,43 @@ export default function SystemUsersPage() {
       message.error(e?.response?.data?.message || "批量分配角色失败"),
   });
 
+  // 批量启用
+  const handleBatchEnable = () => {
+    confirmBatchAction(selectedIds.length, "启用", async () => {
+      await systemApi.batchUpdateUserStatus({ ids: selectedIds, status: 1 });
+      crud.refresh();
+      message.success("批量启用成功");
+      setSelectedIds([]);
+    });
+  };
+
+  // 批量禁用
+  const handleBatchDisable = () => {
+    confirmBatchAction(selectedIds.length, "禁用", async () => {
+      await systemApi.batchUpdateUserStatus({ ids: selectedIds, status: 0 });
+      crud.refresh();
+      message.success("批量禁用成功");
+      setSelectedIds([]);
+    });
+  };
+
+  // 重置列配置
+  const handleResetColumns = () => {
+    resetColumnConfig(defaultColumns, setColumnConfig, "system-users-columns");
+  };
+
   return (
     <Card
       title="用户管理"
       extra={
         <Space>
+          <Button
+            icon={<ReloadOutlined />}
+            onClick={handleResetColumns}
+            title="重置列配置"
+          >
+            重置列
+          </Button>
           <ColumnCustomizer
             columns={columnConfig}
             onChange={setColumnConfig}
@@ -100,21 +159,13 @@ export default function SystemUsersPage() {
           <Permission code="system:user:batch-status">
             <Button
               disabled={selectedIds.length === 0}
-              onClick={() =>
-                systemApi
-                  .batchUpdateUserStatus({ ids: selectedIds, status: 1 })
-                  .then(crud.refresh)
-              }
+              onClick={handleBatchEnable}
             >
               批量启用
             </Button>
             <Button
               disabled={selectedIds.length === 0}
-              onClick={() =>
-                systemApi
-                  .batchUpdateUserStatus({ ids: selectedIds, status: 0 })
-                  .then(crud.refresh)
-              }
+              onClick={handleBatchDisable}
             >
               批量禁用
             </Button>
@@ -156,34 +207,36 @@ export default function SystemUsersPage() {
         </Space>
       }
     >
-      <BaseTable
-        rowKey="id"
-        columns={getUserColumns(
-          (rec) => {
-            setEditing(rec);
-            form.setFieldsValue(rec);
-            setOpen(true);
-          },
-          crud.remove,
-          (id) =>
-            systemApi
-              .resetUserPassword(id, { password: "123456" })
-              .then(crud.refresh),
-          async (rec) => {
-            setCurrentUserId(rec.id);
-            const r = await systemApi.getUserRoles(rec.id);
-            assignForm.setFieldsValue({ role_ids: r.role_ids });
-            setAssignOpen(true);
-          },
-          columnConfig,
-        )}
-        dataSource={data}
-        loading={isLoading}
-        rowSelection={{
-          selectedRowKeys: selectedIds,
-          onChange: (keys: React.Key[]) => setSelectedIds(keys as string[]),
-        }}
-      />
+      <GlobalLoading loading={isLoading}>
+        <BaseTable
+          rowKey="id"
+          columns={getUserColumns(
+            (rec) => {
+              setEditing(rec);
+              form.setFieldsValue(rec);
+              setOpen(true);
+            },
+            crud.remove,
+            (id) =>
+              systemApi
+                .resetUserPassword(id, { password: "123456" })
+                .then(crud.refresh),
+            async (rec) => {
+              setCurrentUserId(rec.id);
+              const r = await systemApi.getUserRoles(rec.id);
+              assignForm.setFieldsValue({ role_ids: r.role_ids });
+              setAssignOpen(true);
+            },
+            columnConfig,
+          )}
+          dataSource={data}
+          loading={isLoading}
+          rowSelection={{
+            selectedRowKeys: selectedIds,
+            onChange: (keys: React.Key[]) => setSelectedIds(keys as string[]),
+          }}
+        />
+      </GlobalLoading>
 
       <UserModal
         open={open}

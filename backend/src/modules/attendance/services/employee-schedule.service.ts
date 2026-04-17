@@ -1,11 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../prisma/prisma.service';
-import { ScopeService } from '../../../common/services/scope.service';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../../../prisma/prisma.service";
+import { ScopeService } from "../../../common/services/scope.service";
+import { ConfigCacheService } from "../../../common/services/config-cache.service";
 
 export interface SchedulePreference {
-  avoid_shifts?: string[];      // 不希望排的班次名称
-  prefer_shifts?: string[];     // 希望优先排的班次
-  avoid_weekdays?: number[];    // 0=周日,1=周一...不希望上班的星期
+  avoid_shifts?: string[]; // 不希望排的班次名称
+  prefer_shifts?: string[]; // 希望优先排的班次
+  avoid_weekdays?: number[]; // 0=周日,1=周一...不希望上班的星期
   max_days_per_week?: number;
   can_overtime?: boolean;
   note?: string;
@@ -16,6 +17,7 @@ export class EmployeeScheduleService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly scopeService: ScopeService,
+    private readonly configCacheService: ConfigCacheService,
   ) {}
 
   // ======= 排班偏好 =======
@@ -24,31 +26,39 @@ export class EmployeeScheduleService {
   }
 
   async getPreference(employeeId: string): Promise<SchedulePreference> {
-    const rec = await this.prisma.sys_config.findUnique({ where: { config_key: this.prefKey(employeeId) } });
-    if (!rec) return {};
-    try { return JSON.parse(rec.config_value); } catch { return {}; }
+    const value = await this.configCacheService.get(this.prefKey(employeeId));
+    if (!value) return {};
+    try {
+      return JSON.parse(value);
+    } catch {
+      return {};
+    }
   }
 
   /**
    * 批量获取员工偏好（V2.0 性能优化）
    * 解决N+1查询问题，将N次查询优化为1次
    */
-  async getPreferencesBatch(employeeIds: string[]): Promise<Map<string, SchedulePreference>> {
+  async getPreferencesBatch(
+    employeeIds: string[],
+  ): Promise<Map<string, SchedulePreference>> {
     if (employeeIds.length === 0) {
       return new Map();
     }
 
     // 批量查询所有员工的偏好配置
-    const keys = employeeIds.map(id => this.prefKey(id));
+    const keys = employeeIds.map((id) => this.prefKey(id));
     const records = await this.prisma.sys_config.findMany({
       where: { config_key: { in: keys } },
     });
 
     // 构建Map
     const map = new Map<string, SchedulePreference>();
-    const recordMap = new Map(records.map(r => [r.config_key, r.config_value]));
+    const recordMap = new Map(
+      records.map((r) => [r.config_key, r.config_value]),
+    );
 
-    employeeIds.forEach(id => {
+    employeeIds.forEach((id) => {
       const key = this.prefKey(id);
       const value = recordMap.get(key);
       if (value) {
@@ -68,7 +78,10 @@ export class EmployeeScheduleService {
   async savePreference(employeeId: string, pref: SchedulePreference) {
     await this.prisma.sys_config.upsert({
       where: { config_key: this.prefKey(employeeId) },
-      create: { config_key: this.prefKey(employeeId), config_value: JSON.stringify(pref) },
+      create: {
+        config_key: this.prefKey(employeeId),
+        config_value: JSON.stringify(pref),
+      },
       update: { config_value: JSON.stringify(pref) },
     });
     return { success: true };
@@ -79,7 +92,11 @@ export class EmployeeScheduleService {
     const scope = await this.scopeService.resolveAccess(userId);
     // 通过 userId 找到对应员工
     const employee = await this.prisma.hr_employee.findFirst({
-      where: { user_id: userId, platform_id: scope.platform_id as string, is_deleted: 0 },
+      where: {
+        user_id: userId,
+        platform_id: scope.platform_id as string,
+        is_deleted: 0,
+      },
     });
     if (!employee) return { employee: null, schedules: [] };
 
@@ -89,29 +106,40 @@ export class EmployeeScheduleService {
         schedule_date: { gte: new Date(startDate), lte: new Date(endDate) },
         is_deleted: 0,
       },
-      orderBy: { schedule_date: 'asc' },
+      orderBy: { schedule_date: "asc" },
     });
 
     return {
-      employee: { id: employee.id, name: employee.name, dept_id: employee.department_id },
-      schedules: schedules.map(s => ({
+      employee: {
+        id: employee.id,
+        name: employee.name,
+        dept_id: employee.department_id,
+      },
+      schedules: schedules.map((s) => ({
         id: s.id,
-        date: s.schedule_date.toISOString().split('T')[0],
+        date: s.schedule_date.toISOString().split("T")[0],
         shift_name: s.shift_name,
       })),
     };
   }
 
   // ======= 调班申请 =======
-  async submitSwapRequest(userId: string, payload: {
-    schedule_date: string;
-    current_shift_name: string;
-    target_shift_name: string;
-    reason: string;
-  }) {
+  async submitSwapRequest(
+    userId: string,
+    payload: {
+      schedule_date: string;
+      current_shift_name: string;
+      target_shift_name: string;
+      reason: string;
+    },
+  ) {
     const scope = await this.scopeService.resolveAccess(userId);
     const employee = await this.prisma.hr_employee.findFirst({
-      where: { user_id: userId, platform_id: scope.platform_id as string, is_deleted: 0 },
+      where: {
+        user_id: userId,
+        platform_id: scope.platform_id as string,
+        is_deleted: 0,
+      },
     });
 
     const changeNo = `SC${Date.now()}`;
@@ -122,7 +150,7 @@ export class EmployeeScheduleService {
         change_date: new Date(payload.schedule_date),
         before_shift_name: payload.current_shift_name,
         after_shift_name: payload.target_shift_name,
-        change_type: 'swap_request',
+        change_type: "swap_request",
         reason: payload.reason,
         operator_id: userId,
         notify_status: 0,
@@ -137,18 +165,22 @@ export class EmployeeScheduleService {
   async listMySwapRequests(userId: string) {
     const scope = await this.scopeService.resolveAccess(userId);
     const employee = await this.prisma.hr_employee.findFirst({
-      where: { user_id: userId, platform_id: scope.platform_id as string, is_deleted: 0 },
+      where: {
+        user_id: userId,
+        platform_id: scope.platform_id as string,
+        is_deleted: 0,
+      },
     });
     if (!employee) return [];
 
     return this.prisma.attendance_schedule_change.findMany({
       where: {
         employee_id: employee.id,
-        change_type: 'swap_request',
+        change_type: "swap_request",
         platform_id: scope.platform_id as string,
         is_deleted: 0,
       },
-      orderBy: { create_time: 'desc' },
+      orderBy: { create_time: "desc" },
     });
   }
 
@@ -157,14 +189,21 @@ export class EmployeeScheduleService {
     return `schedule:feedback:${employeeId}:${date}`;
   }
 
-  async submitFeedback(userId: string, payload: {
-    schedule_date: string;
-    rating: 'ok' | 'unreasonable' | 'need_adjust';
-    comment?: string;
-  }) {
+  async submitFeedback(
+    userId: string,
+    payload: {
+      schedule_date: string;
+      rating: "ok" | "unreasonable" | "need_adjust";
+      comment?: string;
+    },
+  ) {
     const scope = await this.scopeService.resolveAccess(userId);
     const employee = await this.prisma.hr_employee.findFirst({
-      where: { user_id: userId, platform_id: scope.platform_id as string, is_deleted: 0 },
+      where: {
+        user_id: userId,
+        platform_id: scope.platform_id as string,
+        is_deleted: 0,
+      },
     });
     const empId = employee?.id ?? userId;
     const key = this.feedbackKey(empId, payload.schedule_date);
@@ -173,10 +212,18 @@ export class EmployeeScheduleService {
       where: { config_key: key },
       create: {
         config_key: key,
-        config_value: JSON.stringify({ ...payload, employee_id: empId, submitted_at: new Date().toISOString() }),
+        config_value: JSON.stringify({
+          ...payload,
+          employee_id: empId,
+          submitted_at: new Date().toISOString(),
+        }),
       },
       update: {
-        config_value: JSON.stringify({ ...payload, employee_id: empId, submitted_at: new Date().toISOString() }),
+        config_value: JSON.stringify({
+          ...payload,
+          employee_id: empId,
+          submitted_at: new Date().toISOString(),
+        }),
       },
     });
     return { success: true };
@@ -187,14 +234,23 @@ export class EmployeeScheduleService {
     return `ai_schedule_template:${platformId}`;
   }
 
-  async saveTemplate(userId: string, template: { name: string; params: Record<string, any> }) {
+  async saveTemplate(
+    userId: string,
+    template: { name: string; params: Record<string, any> },
+  ) {
     const scope = await this.scopeService.resolveAccess(userId);
     const key = this.templateKey(scope.platform_id as string);
 
-    const existing = await this.prisma.sys_config.findUnique({ where: { config_key: key } });
+    const existing = await this.prisma.sys_config.findUnique({
+      where: { config_key: key },
+    });
     const list: any[] = existing ? JSON.parse(existing.config_value) : [];
 
-    const newTemplate = { id: `tpl_${Date.now()}`, ...template, created_at: new Date().toISOString() };
+    const newTemplate = {
+      id: `tpl_${Date.now()}`,
+      ...template,
+      created_at: new Date().toISOString(),
+    };
     list.unshift(newTemplate);
     const trimmed = list.slice(0, 20);
 
@@ -209,20 +265,30 @@ export class EmployeeScheduleService {
   async listTemplates(userId: string) {
     const scope = await this.scopeService.resolveAccess(userId);
     const key = this.templateKey(scope.platform_id as string);
-    const existing = await this.prisma.sys_config.findUnique({ where: { config_key: key } });
+    const existing = await this.prisma.sys_config.findUnique({
+      where: { config_key: key },
+    });
     if (!existing) return [];
-    try { return JSON.parse(existing.config_value); } catch { return []; }
+    try {
+      return JSON.parse(existing.config_value);
+    } catch {
+      return [];
+    }
   }
 
   async deleteTemplate(userId: string, templateId: string) {
     const scope = await this.scopeService.resolveAccess(userId);
     const key = this.templateKey(scope.platform_id as string);
-    const existing = await this.prisma.sys_config.findUnique({ where: { config_key: key } });
+    const existing = await this.prisma.sys_config.findUnique({
+      where: { config_key: key },
+    });
     if (!existing) return { success: true };
     const list: any[] = JSON.parse(existing.config_value);
     await this.prisma.sys_config.update({
       where: { config_key: key },
-      data: { config_value: JSON.stringify(list.filter(t => t.id !== templateId)) },
+      data: {
+        config_value: JSON.stringify(list.filter((t) => t.id !== templateId)),
+      },
     });
     return { success: true };
   }
@@ -232,14 +298,14 @@ export class EmployeeScheduleService {
     const scope = await this.scopeService.resolveAccess(userId);
     return this.prisma.attendance_schedule_change.findMany({
       where: {
-        change_type: 'swap_request',
+        change_type: "swap_request",
         platform_id: scope.platform_id as string,
         is_deleted: 0,
       },
       include: {
-        hr_employee: { select: { name: true } }
+        hr_employee: { select: { name: true } },
       },
-      orderBy: { create_time: 'desc' },
+      orderBy: { create_time: "desc" },
     });
   }
 
@@ -249,7 +315,7 @@ export class EmployeeScheduleService {
       where: { id: changeId, platform_id: scope.platform_id as string },
     });
 
-    if (!change) throw new Error('申请记录不存在');
+    if (!change) throw new Error("申请记录不存在");
 
     // 1. 更新正式排班表
     await this.prisma.attendance_schedule.updateMany({
@@ -287,4 +353,3 @@ export class EmployeeScheduleService {
     return { success: true };
   }
 }
-

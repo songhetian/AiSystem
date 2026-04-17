@@ -89,8 +89,14 @@ export class SystemRolesService {
     });
 
     const [menus, buttons] = await Promise.all([
-      this.prisma.sys_role_menu.findMany({ where: { role_id: id } }),
-      this.prisma.sys_role_button.findMany({ where: { role_id: id } }),
+      this.prisma.sys_role_menu.findMany({
+        where: { role_id: id },
+        select: { menu_id: true },
+      }),
+      this.prisma.sys_role_button.findMany({
+        where: { role_id: id },
+        select: { button_id: true },
+      }),
     ]);
 
     if (menus.length > 0) {

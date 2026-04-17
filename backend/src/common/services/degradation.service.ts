@@ -1,4 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger, OnModuleDestroy } from "@nestjs/common";
 import { RedisService } from "./redis.service";
 import { DegradationLevel } from "../decorators/degradation.decorator";
 import * as os from "os";
@@ -8,10 +8,11 @@ import * as os from "os";
  * 监控系统负载，自动触发降级
  */
 @Injectable()
-export class DegradationService {
+export class DegradationService implements OnModuleDestroy {
   private readonly logger = new Logger(DegradationService.name);
   private currentLevel: DegradationLevel = 0; // 0表示正常状态
   private readonly DEGRADATION_KEY = "system:degradation:level";
+  private monitoringInterval: NodeJS.Timeout;
 
   // 降级阈值配置（可通过配置文件调整）
   private readonly thresholds = {
@@ -31,6 +32,16 @@ export class DegradationService {
   constructor(private readonly redisService: RedisService) {
     // 启动监控
     this.startMonitoring();
+  }
+
+  /**
+   * 清理定时器，防止内存泄漏
+   */
+  onModuleDestroy() {
+    if (this.monitoringInterval) {
+      clearInterval(this.monitoringInterval);
+      this.logger.log("Degradation service monitoring interval cleared");
+    }
   }
 
   /**
@@ -98,7 +109,7 @@ export class DegradationService {
    */
   private startMonitoring(): void {
     // 每10秒检查一次系统负载
-    setInterval(() => {
+    this.monitoringInterval = setInterval(() => {
       this.checkSystemLoad();
     }, 10000);
   }

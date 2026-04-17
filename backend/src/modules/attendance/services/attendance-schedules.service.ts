@@ -50,6 +50,11 @@ export class AttendanceSchedulesService implements IAttendanceSchedulesService {
     private readonly redisService: RedisService,
   ) {}
 
+  private get scheduleChangeDelegate() {
+    return this.prisma['attendance_schedule_change' as keyof typeof this.prisma] as any;
+  }
+  ) {}
+
   /**
    * 获取排班看板（V2.0 性能优化）
    * 优化点：添加查询监控
@@ -460,7 +465,7 @@ export class AttendanceSchedulesService implements IAttendanceSchedulesService {
       where: { user_id: userId, is_deleted: 0 },
     });
 
-    const record = await (this.prisma as any).attendance_schedule_change.create(
+    const record = await this.scheduleChangeDelegate().create(
       {
         data: {
           employee_id: employee?.id || userId,
@@ -491,7 +496,7 @@ export class AttendanceSchedulesService implements IAttendanceSchedulesService {
     if (query.dept_id) where.dept_id = query.dept_id;
     if (query.status) where.status = query.status;
 
-    return (this.prisma as any).attendance_schedule_change.findMany({
+    return this.scheduleChangeDelegate().findMany({
       where,
       include: {
         employee: { select: { id: true, name: true, employee_no: true } },

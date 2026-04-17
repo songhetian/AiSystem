@@ -35,6 +35,19 @@ export class SystemMenusService {
     const [data, total] = await Promise.all([
       this.prisma.sys_menu.findMany({
         where,
+        select: {
+          id: true,
+          menu_name: true,
+          menu_code: true,
+          parent_id: true,
+          icon: true,
+          route: true,
+          sort: true,
+          type: true,
+          status: true,
+          create_time: true,
+          update_time: true,
+        },
         skip,
         take,
         orderBy: [{ sort: "asc" }, { create_time: "desc" }],
@@ -62,6 +75,7 @@ export class SystemMenusService {
       ? (
           await this.prisma.sys_role_menu.findMany({
             where: { role_id: roleId },
+            select: { menu_id: true },
           })
         ).map((item) => item.menu_id)
       : [];

@@ -10,6 +10,12 @@ import {
   Res,
 } from "@nestjs/common";
 import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiResponse,
+} from "@nestjs/swagger";
+import {
   CurrentUser,
   type CurrentUserPayload,
 } from "../../../common/current-user.decorator";
@@ -26,11 +32,18 @@ import { SaveApprovalTemplateDto } from "../dto/save-approval-template.dto";
 import { ApprovalService } from "../services/approval.service";
 import { Response } from "express";
 
+@ApiTags("审批管理")
+@ApiBearerAuth()
 @Controller("approval")
 export class ApprovalController {
   constructor(private readonly approvalService: ApprovalService) {}
 
   @Get("templates")
+  @ApiOperation({
+    summary: "获取审批模板列表",
+    description: "查询所有可用的审批流程模板",
+  })
+  @ApiResponse({ status: 200, description: "成功返回审批模板列表" })
   @Permission("approval:process:list")
   @RateLimit({ type: RateLimitType.USER, limit: 30, window: 60 })
   listTemplates(@CurrentUser() user: CurrentUserPayload) {
@@ -38,6 +51,12 @@ export class ApprovalController {
   }
 
   @Get("templates/:id")
+  @ApiOperation({
+    summary: "获取审批模板详情",
+    description: "根据ID获取审批模板的详细配置",
+  })
+  @ApiResponse({ status: 200, description: "成功返回审批模板详情" })
+  @ApiResponse({ status: 404, description: "审批模板不存在" })
   @Permission("approval:process:list")
   @RateLimit({ type: RateLimitType.USER, limit: 50, window: 60 })
   getTemplate(
@@ -48,6 +67,12 @@ export class ApprovalController {
   }
 
   @Post("templates")
+  @ApiOperation({
+    summary: "创建审批模板",
+    description: "创建新的审批流程模板",
+  })
+  @ApiResponse({ status: 201, description: "审批模板创建成功" })
+  @ApiResponse({ status: 400, description: "请求参数错误" })
   @Permission("approval:process:update")
   @AntiShake(1000)
   @Idempotent({ mode: "active", ttl: 300 })

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, Logger } from "@nestjs/common";
 import { MinioService } from "../../../common/services/minio.service";
 import { ScopeService } from "../../../common/services/scope.service";
 import { PrismaService } from "../../../prisma/prisma.service";
@@ -17,6 +17,8 @@ import * as XLSX from "xlsx";
 
 @Injectable()
 export class PersonnelEmployeesService {
+  private readonly logger = new Logger(PersonnelEmployeesService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly minioService: MinioService,
@@ -203,7 +205,10 @@ export class PersonnelEmployeesService {
         "系统管理员",
       );
     } catch (error) {
-      console.error("记录入职履历失败:", error);
+      this.logger.error(
+        `记录入职履历失败: ${error instanceof Error ? error.message : "Unknown error"}`,
+        error instanceof Error ? error.stack : undefined,
+      );
     }
 
     return employee;
@@ -303,7 +308,10 @@ export class PersonnelEmployeesService {
         );
       }
     } catch (error) {
-      console.error("记录员工履历失败:", error);
+      this.logger.error(
+        `记录员工履历失败: ${error instanceof Error ? error.message : "Unknown error"}`,
+        error instanceof Error ? error.stack : undefined,
+      );
     }
 
     return updated;
@@ -493,8 +501,9 @@ export class PersonnelEmployeesService {
           },
         });
         success++;
-      } catch (e: any) {
-        errors.push(`第${rowNum}行：${e.message || "导入失败"}`);
+      } catch (e) {
+        const errorMessage = e instanceof Error ? e.message : "导入失败";
+        errors.push(`第${rowNum}行：${errorMessage}`);
         failed++;
       }
     }

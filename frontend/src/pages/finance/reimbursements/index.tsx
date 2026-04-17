@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { Card, Input, Tabs, Button, Space, DatePicker } from "antd";
+import { Card, Input, Tabs, Button, Space, DatePicker, message } from "antd";
 import { ReimbursementTable } from "./components/ReimbursementTable";
 import { downloadCSV } from "@/utils/exportUtils";
 import { DownloadOutlined, ExportOutlined } from "@ant-design/icons";
 import { financeApi } from "@/api/finance";
 import { useAppScope } from "@/hooks/useAppScope";
 import { useQuery } from "@tanstack/react-query";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { handleExportWithProgress } from "@/utils/ui-helpers";
 
 const { RangePicker } = DatePicker;
 
@@ -14,27 +17,54 @@ export default function ReimbursementsPage() {
   const [status, setStatus] = useState("all");
   const [dateRange, setDateRange] = useState<any>(null);
 
+  // 搜索防抖
+  const debouncedKeyword = useDebounce(keyword, 500);
+
   const { platformId } = useAppScope();
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+f": () => {
+      const input = document.querySelector(
+        'input[placeholder*="搜索报销"]',
+      ) as HTMLInputElement;
+      input?.focus();
+    },
+    "Ctrl+r": () => {
+      setKeyword("");
+      setStatus("all");
+      setDateRange(null);
+      message.success("已刷新");
+    },
+  });
   const handleQuickDate = (type: string) => {
     console.log("Quick date:", type);
   };
 
   const handleExport = async () => {
-    const data = await financeApi.listReimbursements({ platform_id: platformId, keyword, status: status === 'all' ? undefined : status });
-    downloadCSV(data, '报销记录清单', [
-      { label: '报销单号', key: 'reim_no' },
-      { label: '申请原因', key: 'reason' },
-      { label: '金额', key: 'amount' },
-      { label: '状态', key: 'status' },
-      { label: '提交时间', key: 'create_time' },
-    ]);
+    handleExportWithProgress(async () => {
+      const data = await financeApi.listReimbursements({
+        platform_id: platformId,
+        keyword: debouncedKeyword,
+        status: status === "all" ? undefined : status,
+      });
+      downloadCSV(data, "报销记录清单", [
+        { label: "报销单号", key: "reim_no" },
+        { label: "申请原因", key: "reason" },
+        { label: "金额", key: "amount" },
+        { label: "状态", key: "status" },
+        { label: "提交时间", key: "create_time" },
+      ]);
+    });
   };
 
   return (
     <div className="leixi-page-container">
       <div className="mb-4">
         <h1 className="leixi-text-main text-2xl mb-2">财务报销中心</h1>
-        <p className="leixi-text-secondary">管理并审核全平台的报销申请，实现自动化打款与账务同步。</p>
+        <p className="leixi-text-secondary">
+          管理并审核全平台的报销申请，实现自动化打款与账务同步。
+        </p>
       </div>
 
       <Card className="shadow-sm mb-4" bodyStyle={{ padding: "20px" }}>
@@ -43,12 +73,12 @@ export default function ReimbursementsPage() {
           <div className="flex-grow min-w-[300px]">
             <Input.Search
               placeholder="搜索报销单号、申请人、摘要关键词..."
-              onSearch={setKeyword}
+              onChange={(e) => setKeyword(e.target.value)}
               style={{ height: "44px" }}
               className="leixi-filter-height"
             />
           </div>
-          
+
           <div className="flex items-center gap-2">
             <span className="leixi-text-secondary font-bold">时间范围:</span>
             <RangePicker style={{ height: "44px" }} />
@@ -57,21 +87,21 @@ export default function ReimbursementsPage() {
           <div className="flex items-center">
             {/* 快捷日期按钮组，高度统一为 44px，边框严格锁定为 slate-500 */}
             <Space.Compact>
-              <Button 
-                style={{ height: "44px", borderColor: "#64748b" }} 
+              <Button
+                style={{ height: "44px", borderColor: "#64748b" }}
                 onClick={() => handleQuickDate("today")}
                 className="hover:leixi-text-main"
               >
                 今日
               </Button>
-              <Button 
-                style={{ height: "44px", borderColor: "#64748b" }} 
+              <Button
+                style={{ height: "44px", borderColor: "#64748b" }}
                 onClick={() => handleQuickDate("near7")}
               >
                 近7天
               </Button>
-              <Button 
-                style={{ height: "44px", borderColor: "#64748b" }} 
+              <Button
+                style={{ height: "44px", borderColor: "#64748b" }}
                 onClick={() => handleQuickDate("near30")}
               >
                 近30天
@@ -79,9 +109,9 @@ export default function ReimbursementsPage() {
             </Space.Compact>
           </div>
 
-          <Button 
-            icon={<DownloadOutlined />} 
-            style={{ height: "44px", borderColor: "#64748b" }} 
+          <Button
+            icon={<DownloadOutlined />}
+            style={{ height: "44px", borderColor: "#64748b" }}
             className="font-bold text-slate-900 border-2"
             onClick={handleExport}
           >
@@ -105,7 +135,10 @@ export default function ReimbursementsPage() {
           ]}
         />
         <div className="p-4">
-          <ReimbursementTable keyword={keyword} status={status === "all" ? undefined : status} />
+          <ReimbursementTable
+            keyword={debouncedKeyword}
+            status={status === "all" ? undefined : status}
+          />
         </div>
       </Card>
     </div>

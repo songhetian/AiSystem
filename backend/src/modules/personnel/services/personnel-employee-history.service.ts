@@ -79,10 +79,19 @@ export class PersonnelEmployeeHistoryService {
         employee_id: employeeId,
         is_deleted: 0,
       },
-      orderBy: {
-        event_date: "desc",
-      },
-      include: {
+      select: {
+        id: true,
+        employee_id: true,
+        event_type: true,
+        event_date: true,
+        before_data: true,
+        after_data: true,
+        department_id: true,
+        position_id: true,
+        remark: true,
+        operator_id: true,
+        operator_name: true,
+        create_time: true,
         biz_department: {
           select: {
             id: true,
@@ -95,6 +104,9 @@ export class PersonnelEmployeeHistoryService {
             name: true,
           },
         },
+      },
+      orderBy: {
+        event_date: "desc",
       },
     });
   }

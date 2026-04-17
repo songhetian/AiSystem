@@ -44,6 +44,16 @@ export class SystemPlatformsService {
     const [data, total] = await Promise.all([
       this.prisma.biz_platform.findMany({
         where,
+        select: {
+          id: true,
+          name: true,
+          code: true,
+          description: true,
+          status: true,
+          owner_id: true,
+          create_time: true,
+          update_time: true,
+        },
         skip,
         take,
         orderBy: { create_time: "desc" },

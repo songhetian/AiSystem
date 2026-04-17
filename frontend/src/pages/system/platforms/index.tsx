@@ -1,11 +1,24 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ProColumns } from "@ant-design/pro-components";
-import { Button, Card, Form, Input, Popconfirm, Select, Space } from "antd";
+import {
+  Button,
+  Card,
+  Form,
+  Input,
+  Popconfirm,
+  Select,
+  Space,
+  message,
+} from "antd";
 import { systemApi } from "@/api/system";
 import { BaseModal } from "@/components/common/BaseModal";
 import { Permission } from "@/components/permission/Permission";
 import { BaseTable } from "@/components/table/BaseTable";
+import { useFormDraft } from "@/hooks/useFormDraft";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
+import { confirmBatchAction } from "@/utils/ui-helpers";
 
 interface PlatformRecord {
   id: string;
@@ -32,9 +45,26 @@ export default function SystemPlatformsPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
+
+  // 表单草稿保存
+  const { clearDraft } = useFormDraft(form, "system-platform-form", 30000);
+
   const { data = [], isLoading } = useQuery<PlatformRecord[]>({
     queryKey: ["system-platforms"],
     queryFn: systemApi.listPlatforms,
+  });
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+n": () => setOpen(true),
+    "Ctrl+r": () => {
+      refresh();
+      message.success("已刷新");
+    },
+    Escape: () => {
+      setOpen(false);
+      setEditing(null);
+    },
   });
 
   const refresh = async () => {

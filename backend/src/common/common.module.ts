@@ -27,6 +27,7 @@ import { TemplateEngineHelper } from "./helpers/template-engine.helper";
 import { PermissionCacheSubscriber } from "./services/permission-cache-subscriber.service";
 import { PaginationService } from "./services/pagination.service";
 import { CaptchaService } from "./services/captcha.service";
+import { ConfigCacheService } from "./services/config-cache.service";
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { CaptchaService } from "./services/captcha.service";
     TemplateEngineHelper,
     PaginationService,
     CaptchaService,
+    ConfigCacheService, // 配置缓存服务
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
@@ -108,6 +110,7 @@ import { CaptchaService } from "./services/captcha.service";
     TemplateEngineHelper,
     PaginationService,
     CaptchaService,
+    ConfigCacheService, // 配置缓存服务
   ],
 })
 export class CommonModule {}

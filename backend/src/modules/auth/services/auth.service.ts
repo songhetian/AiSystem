@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { AuditLogService } from "../../../common/services/audit-log.service";
 import { RedisService } from "../../../common/services/redis.service";
+import { ConfigCacheService } from "../../../common/services/config-cache.service";
 import { comparePassword } from "../../../common/utils/password.util";
 import { PrismaService } from "../../../prisma/prisma.service";
 import { Cache } from "../../../common/decorators/cache.decorator";
@@ -20,6 +21,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly auditLogService: AuditLogService,
     private readonly redisService: RedisService,
+    private readonly configCacheService: ConfigCacheService,
   ) {}
 
   async login(dto: any, context: LoginContext = {}) {
@@ -27,24 +29,11 @@ export class AuthService {
     const lockedKey = `login_locked:${username}`;
     const failedCountKey = `login_failed_count:${username}`;
 
-    // 获取动态动态配置 (V2.1 工业级精修)
-    const [lockoutThresholdCfg, lockoutDurationCfg] = await Promise.all([
-      this.prisma.sys_config.findUnique({
-        where: { config_key: "auth.lockout_threshold" },
-      }),
-      this.prisma.sys_config.findUnique({
-        where: { config_key: "auth.lockout_duration" },
-      }),
+    // 获取动态配置 (使用缓存优化)
+    const [lockoutThreshold, lockoutDuration] = await Promise.all([
+      this.configCacheService.getNumber("auth.lockout_threshold", 5),
+      this.configCacheService.getNumber("auth.lockout_duration", 900),
     ]);
-
-    const lockoutThreshold = parseInt(
-      lockoutThresholdCfg?.config_value || "5",
-      10,
-    );
-    const lockoutDuration = parseInt(
-      lockoutDurationCfg?.config_value || "900",
-      10,
-    );
 
     // 1. 检查是否锁定
     const isLocked = await this.redisService.get(lockedKey);
@@ -145,11 +134,11 @@ export class AuthService {
     await this.redisService.del(failedCountKey);
     await this.redisService.del(lockedKey);
 
-    // 从配置读取 JWT 过期时间
-    const jwtExpiryCfg = await this.prisma.sys_config.findUnique({
-      where: { config_key: "auth.jwt_expires" },
-    });
-    const expiresIn = jwtExpiryCfg?.config_value || "2h";
+    // 从配置读取 JWT 过期时间（使用缓存优化）
+    const expiresIn = await this.configCacheService.get(
+      "auth.jwt_expires",
+      "2h",
+    );
 
     const accessToken = await this.jwtService.signAsync(
       {

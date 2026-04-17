@@ -1,8 +1,11 @@
--- AiSystem MySQL 初始化数据脚本
+-- ============================================================
+-- AiSystem MySQL 初始化数据脚本 (Optimized & Aligned)
+-- ============================================================
 -- 用途：
---   1. 为纯 SQL 初始化提供管理员、菜单、按钮、角色关系和基础业务演示数据。
---   2. 可与 schema.sql 配合使用：先建表，再写入数据。
---   3. 支持重复执行，已尽量按唯一键做幂等处理。
+--   1. 为纯 SQL 初始化提供管理员、菜单、按钮、角色关系和基础业务演示数据
+--   2. 可与 schema.sql 配合使用：先建表，再写入数据
+--   3. 支持重复执行，已尽量按唯一键做幂等处理
+--   4. 完全对齐 schema.sql 中的所有表结构
 --
 -- 推荐执行方式：
 --   npm run seed:import
@@ -11,12 +14,20 @@
 --
 -- 说明：
 --   1. 管理员账号：admin
---   2. 管理员密码：Admin123456
---   3. 本脚本不写死数据库名，导入脚本会按 .env 中的数据库连接自动选择目标库。
+--   2. 管理员密码：Admin123456 (BCrypt hash)
+--   3. 本脚本不写死数据库名，导入脚本会按 .env 中的数据库连接自动选择目标库
+--   4. 优化日期：2026-04-16
+--
+-- ============================================================
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
+-- ============================================================
+-- 1. 核心系统表：角色、用户、平台、部门
+-- ============================================================
+
+-- 1.1 系统角色
 INSERT INTO `sys_role` (`id`, `role_name`, `role_code`, `description`, `status`, `is_deleted`)
 VALUES ('seed-role-super-admin', 'Super Admin', 'super_admin', 'Default super administrator', 1, 0)
 ON DUPLICATE KEY UPDATE
@@ -25,11 +36,46 @@ ON DUPLICATE KEY UPDATE
   `status` = VALUES(`status`),
   `is_deleted` = VALUES(`is_deleted`);
 
+-- 1.2 系统用户 (密码: Admin123456)
 INSERT INTO `sys_user` (`id`, `username`, `password`, `name`, `status`, `is_deleted`)
 VALUES ('seed-user-admin', 'admin', '$2a$10$jUXWaL/l1ZcyWmV4EZjtfuoIGTAa5Si1nnD89Ki90fqF5Yznzg7xu', 'System Admin', 1, 0)
 ON DUPLICATE KEY UPDATE
   `password` = VALUES(`password`),
   `name` = VALUES(`name`),
+  `status` = VALUES(`status`),
+  `is_deleted` = VALUES(`is_deleted`);
+
+-- 1.3 业务平台
+INSERT INTO `biz_platform` (`id`, `name`, `code`, `description`, `status`, `is_deleted`)
+VALUES
+('seed-platform-main', '默认平台', 'MAIN', '系统初始化平台', 1, 0),
+('plat-pdd', '拼多多', 'pinduoduo', '拼多多电商平台', 1, 0),
+('plat-dy', '抖音', 'douyin', '抖音电商/生活服务平台', 1, 0),
+('plat-jd', '京东', 'jingdong', '京东商城', 1, 0),
+('plat-tb', '淘宝', 'taobao', '淘宝/天猫平台', 1, 0)
+ON DUPLICATE KEY UPDATE
+  `name` = VALUES(`name`),
+  `description` = VALUES(`description`),
+  `status` = VALUES(`status`);
+
+-- 1.4 业务部门
+INSERT INTO `biz_department` (`id`, `name`, `code`, `sort`, `status`, `platform_id`, `is_deleted`)
+VALUES ('seed-department-customer-service', '客服部', 'CS', 1, 1, 'seed-platform-main', 0)
+ON DUPLICATE KEY UPDATE
+  `name` = VALUES(`name`),
+  `sort` = VALUES(`sort`),
+  `status` = VALUES(`status`),
+  `platform_id` = VALUES(`platform_id`),
+  `is_deleted` = VALUES(`is_deleted`);
+
+-- 1.5 业务店铺
+INSERT INTO `biz_shop` (`id`, `name`, `code`, `type`, `platform_id`, `department_id`, `status`, `is_deleted`)
+VALUES ('seed-shop-customer-service', 'Service Demo Shop', 'SHOP-CS-001', 1, 'seed-platform-main', 'seed-department-customer-service', 1, 0)
+ON DUPLICATE KEY UPDATE
+  `name` = VALUES(`name`),
+  `type` = VALUES(`type`),
+  `platform_id` = VALUES(`platform_id`),
+  `department_id` = VALUES(`department_id`),
   `status` = VALUES(`status`),
   `is_deleted` = VALUES(`is_deleted`);
 
@@ -67,7 +113,11 @@ INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_code`, `route`, `sort`, `type`,
 ('seed-menu-service-faq-stats', 'FAQ Stats', 'service:faq-stats', '/service/faq-stats', 33, 1, 1, 0),
 ('seed-menu-service-quality-tags', 'Quality Tags', 'service:quality-tags', '/service/tags', 34, 1, 1, 0),
 ('seed-menu-system-data-mapping', 'Data Mapping', 'system:data-mapping', '/system/data-mapping', 35, 1, 1, 0),
-('seed-menu-system-big-screen', '数据大屏', 'system:big-screen', '/system/big-screen', 36, 1, 1, 0)
+('seed-menu-system-big-screen', '数据大屏', 'system:big-screen', '/system/big-screen', 36, 1, 1, 0),
+('seed-menu-exam-paper', 'Exam Papers', 'exam:paper', '/exam/papers', 23, 1, 1, 0),
+('seed-menu-exam-plan', 'Exam Plans', 'exam:plan', '/exam/plans', 24, 1, 1, 0),
+('seed-menu-exam-my', 'My Exams', 'exam:my', '/exam/my', 25, 1, 1, 0),
+('seed-menu-exam-result', 'Exam Results', 'exam:result', '/exam/results', 26, 1, 1, 0)
 ON DUPLICATE KEY UPDATE
   `menu_name` = VALUES(`menu_name`),
   `route` = VALUES(`route`),
@@ -171,7 +221,21 @@ INSERT INTO `sys_button` (`id`, `button_name`, `button_code`, `menu_id`, `status
 ('seed-button-knowledge-tag-update', 'Update Knowledge Tag', 'knowledge:tag:update', 'seed-menu-knowledge-tag', 1, 0),
 ('seed-button-system-mapping-list', 'View Mapping Templates', 'system:mapping:list', 'seed-menu-system-data-mapping', 1, 0),
 ('seed-button-system-mapping-save', 'Save Mapping Template', 'system:mapping:save', 'seed-menu-system-data-mapping', 1, 0),
-('seed-button-system-config-save', 'Save Platform Config', 'system:config:platform:save', 'seed-menu-system-data-mapping', 1, 0)
+('seed-button-system-config-save', 'Save Platform Config', 'system:config:platform:save', 'seed-menu-system-data-mapping', 1, 0),
+('seed-button-exam-paper-list', 'View Exam Papers', 'exam:paper:list', 'seed-menu-exam-paper', 1, 0),
+('seed-button-exam-paper-create', 'Create Exam Paper', 'exam:paper:create', 'seed-menu-exam-paper', 1, 0),
+('seed-button-exam-paper-update', 'Update Exam Paper', 'exam:paper:update', 'seed-menu-exam-paper', 1, 0),
+('seed-button-exam-plan-list', 'View Exam Plans', 'exam:plan:list', 'seed-menu-exam-plan', 1, 0),
+('seed-button-exam-plan-create', 'Create Exam Plan', 'exam:plan:create', 'seed-menu-exam-plan', 1, 0),
+('seed-button-exam-my-list', 'View My Exams', 'exam:my:list', 'seed-menu-exam-my', 1, 0),
+('seed-button-exam-my-submit', 'Submit My Exam', 'exam:my:submit', 'seed-menu-exam-my', 1, 0),
+('seed-button-exam-result-list', 'View Exam Results', 'exam:result:list', 'seed-menu-exam-result', 1, 0),
+('seed-button-exam-result-manage', 'Manage Exam Results', 'exam:result:manage', 'seed-menu-exam-result', 1, 0),
+('seed-button-exam-result-export', 'Export Exam Results', 'exam:result:export', 'seed-menu-exam-result', 1, 0),
+('seed-button-approval-request-detail', 'View Request Detail', 'approval:request:detail', 'seed-menu-approval-request', 1, 0),
+('seed-button-approval-request-export', 'Export Approval Records', 'approval:request:export', 'seed-menu-approval-request', 1, 0),
+('seed-button-system-user-batch-reset-password', 'Batch Reset Password', 'system:user:batch-reset-password', 'seed-menu-system-user', 1, 0),
+('seed-button-system-user-batch-assign-roles', 'Batch Assign Roles', 'system:user:batch-assign-roles', 'seed-menu-system-user', 1, 0)
 ON DUPLICATE KEY UPDATE
   `button_name` = VALUES(`button_name`),
   `menu_id` = VALUES(`menu_id`),
@@ -809,7 +873,7 @@ ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
 
 -- 1. 平台公共基础模版 (Section 4.4.2)
 INSERT INTO `sys_mapping_template` (`id`, `name`, `data_type`, `platform_id`, `parent_id`, `mapping_rules`, `cleaning_rules`, `is_public`, `status`) VALUES
-('tpl-pdd-order-base', '拼多多-订单公共基座模版', 'order', 'plat-pdd', NULL, 
+('tpl-pdd-order-base', '拼多多-订单公共基座模版', 'order', 'plat-pdd', NULL,
   '{"std_order_no": "order_sn", "order_status": "order_status_str", "order_amount": "pay_amount"}',
   '{"pay_amount": "number"}', 1, 1),
 ('tpl-dy-prod-base', '抖音-商品公共基座模版', 'product', 'plat-dy', NULL,
@@ -889,13 +953,13 @@ INSERT INTO `sys_dashboard_template` (`id`, `name`, `type`, `description`, `stat
 SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `approval_template` (`id`, `name`, `type`, `platform_name`, `department_name`, `status`, `updated_at`, `nodes`, `form_fields`)
 VALUES (
-  'seed-tpl-purchase-high', 
-  '大额采购审批 (会签)', 
-  'finance', 
-  '默认平台', 
-  '财务部', 
-  'enabled', 
-  '2026-04-12', 
+  'seed-tpl-purchase-high',
+  '大额采购审批 (会签)',
+  'finance',
+  '默认平台',
+  '财务部',
+  'enabled',
+  '2026-04-12',
   JSON_ARRAY(
     JSON_OBJECT('id', 'node-1', 'type', 'start', 'name', '发起人'),
     JSON_OBJECT('id', 'node-2', 'type', 'approval', 'name', '部门主管审批', 'mode', 'or', 'approvers', JSON_ARRAY(JSON_OBJECT('id', 'seed-user-admin', 'name', 'System Admin'))),
@@ -913,12 +977,12 @@ ON DUPLICATE KEY UPDATE `nodes` = VALUES(`nodes`), `form_fields` = VALUES(`form_
 
 INSERT INTO `fin_cash_record` (`id`, `type`, `amount`, `source`, `biz_no`, `platform_id`, `dept_id`, `modify_log`)
 VALUES (
-  'seed-cash-001', 
-  2, 
-  1200.00, 
-  '日常办公用品采购', 
-  'PUR-20260412-001', 
-  'seed-platform-main', 
+  'seed-cash-001',
+  2,
+  1200.00,
+  '日常办公用品采购',
+  'PUR-20260412-001',
+  'seed-platform-main',
   'seed-department-customer-service',
   JSON_ARRAY(
     JSON_OBJECT('operatorId', 'seed-user-admin', 'time', '2026-04-12T06:00:00Z', 'action', 'CREATE', 'toStatus', 2),

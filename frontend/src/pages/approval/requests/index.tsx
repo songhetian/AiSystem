@@ -31,6 +31,12 @@ import {
 import { BaseTable } from "@/components/table/BaseTable";
 import { BaseModal } from "@/components/common/BaseModal";
 import { downloadCSV } from "@/utils/exportUtils";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
+import {
+  confirmBatchAction,
+  handleExportWithProgress,
+} from "@/utils/ui-helpers";
 
 const { Text } = Typography;
 
@@ -82,6 +88,18 @@ export default function ApprovalCenterPage() {
     queryKey: ["approval-people"],
     queryFn: approvalApi.listPeople,
     enabled: open && action === "transferred",
+  });
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+r": () => {
+      refresh();
+      message.success("已刷新");
+    },
+    Escape: () => {
+      setOpen(false);
+      setBatchOpen(false);
+    },
   });
 
   const refresh = () => {
@@ -149,19 +167,27 @@ export default function ApprovalCenterPage() {
       message.warning("请先选择要操作的审批单");
       return;
     }
-    setBatchAction(act);
-    setBatchOpen(true);
+    confirmBatchAction(
+      selectedIds.length,
+      act === "approved" ? "同意" : "驳回",
+      () => {
+        setBatchAction(act);
+        setBatchOpen(true);
+      },
+    );
   };
 
   const handleExport = () => {
-    downloadCSV(requests, `审批记录_${dayjs().format("YYYYMMDD")}`, [
-      { label: "审批单号", key: "requestNo" },
-      { label: "模板名称", key: "templateName" },
-      { label: "申请人", key: "applicantName" },
-      { label: "状态", key: "status" },
-      { label: "摘要", key: "summary" },
-      { label: "发起时间", key: "createdAt" },
-    ]);
+    handleExportWithProgress(async () => {
+      downloadCSV(requests, `审批记录_${dayjs().format("YYYYMMDD")}`, [
+        { label: "审批单号", key: "requestNo" },
+        { label: "模板名称", key: "templateName" },
+        { label: "申请人", key: "applicantName" },
+        { label: "状态", key: "status" },
+        { label: "摘要", key: "summary" },
+        { label: "发起时间", key: "createdAt" },
+      ]);
+    });
   };
 
   const columns: ProColumns<ApprovalRequest>[] = [
@@ -367,21 +393,23 @@ export default function ApprovalCenterPage() {
       </Card>
 
       <Card bordered={false} className="shadow-sm">
-        <BaseTable<ApprovalRequest>
-          columns={columns}
-          dataSource={requests}
-          loading={isLoading}
-          rowKey="id"
-          rowSelection={
-            activeTab === "pending"
-              ? {
-                  selectedRowKeys: selectedIds,
-                  onChange: (keys: React.Key[]) =>
-                    setSelectedIds(keys as string[]),
-                }
-              : undefined
-          }
-        />
+        <GlobalLoading loading={isLoading}>
+          <BaseTable<ApprovalRequest>
+            columns={columns}
+            dataSource={requests}
+            loading={isLoading}
+            rowKey="id"
+            rowSelection={
+              activeTab === "pending"
+                ? {
+                    selectedRowKeys: selectedIds,
+                    onChange: (keys: React.Key[]) =>
+                      setSelectedIds(keys as string[]),
+                  }
+                : undefined
+            }
+          />
+        </GlobalLoading>
       </Card>
 
       {/* 操作弹窗 */}

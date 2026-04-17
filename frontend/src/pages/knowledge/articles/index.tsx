@@ -39,6 +39,7 @@ import {
   KnowledgeCategory,
   KnowledgeArticle,
 } from "@/api/knowledge";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 
 const { Text, Title, Paragraph } = Typography;
 const { Sider, Content } = Layout;
@@ -50,6 +51,21 @@ export default function DoubaoKnowledgeOptimizedPage() {
   const [detailArticleId, setDetailArticleId] = useState<string | null>(null);
 
   const queryClient = useQueryClient();
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+f": () => {
+      const input = document.querySelector(
+        'input[placeholder*="自然语言"]',
+      ) as HTMLInputElement;
+      input?.focus();
+    },
+    "Ctrl+r": () => {
+      queryClient.invalidateQueries({ queryKey: ["knowledge-articles"] });
+      message.success("已刷新");
+    },
+    Escape: () => setDetailArticleId(null),
+  });
 
   const handleSaveArticle = async (values: any, id?: string) => {
     if (id) await knowledgeApi.updateArticle(id, values);

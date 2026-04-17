@@ -3,6 +3,7 @@ import {
   OnModuleInit,
   NotFoundException,
   BadRequestException,
+  Logger,
 } from "@nestjs/common";
 import { PrismaService } from "../../../prisma/prisma.service";
 import { ScopeService } from "../../../common/services/scope.service";
@@ -15,6 +16,8 @@ import { CreateReimbursementDto, CreatePurchaseDto } from "../dto/finance.dto";
 
 @Injectable()
 export class FinanceService implements OnModuleInit {
+  private readonly logger = new Logger(FinanceService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly scopeService: ScopeService,
@@ -205,7 +208,7 @@ export class FinanceService implements OnModuleInit {
         data: { approval_request_id: approval.id },
       });
     } catch (e) {
-      console.error("Purchase approval error:", e);
+      this.logger.error(`Purchase approval error: ${e instanceof Error ? e.message : 'Unknown error'}`, e instanceof Error ? e.stack : undefined);
     }
 
     return purchase;
@@ -261,7 +264,7 @@ export class FinanceService implements OnModuleInit {
         data: { approval_request_id: approval.id },
       });
     } catch (e) {
-      console.error("Reimbursement approval error:", e);
+      this.logger.error(`Reimbursement approval error: ${e instanceof Error ? e.message : 'Unknown error'}`, e instanceof Error ? e.stack : undefined);
     }
 
     return reim;

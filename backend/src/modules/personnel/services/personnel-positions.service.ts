@@ -57,10 +57,18 @@ export class PersonnelPositionsService {
     const [data, total] = await Promise.all([
       this.prisma.hr_position.findMany({
         where,
-        skip,
-        take,
-        orderBy: { create_time: "desc" },
-        include: {
+        select: {
+          id: true,
+          name: true,
+          code: true,
+          department_id: true,
+          level: true,
+          sort: true,
+          status: true,
+          description: true,
+          platform_id: true,
+          create_time: true,
+          update_time: true,
           biz_department: {
             select: {
               id: true,
@@ -73,6 +81,9 @@ export class PersonnelPositionsService {
             },
           },
         },
+        skip,
+        take,
+        orderBy: { create_time: "desc" },
       }),
       this.prisma.hr_position.count({ where }),
     ]);
@@ -455,8 +466,9 @@ export class PersonnelPositionsService {
           },
         });
         success++;
-      } catch (e: any) {
-        errors.push(`第${rowNum}行：${e.message || "导入失败"}`);
+      } catch (e) {
+        const errorMessage = e instanceof Error ? e.message : "导入失败";
+        errors.push(`第${rowNum}行：${errorMessage}`);
         failed++;
       }
     }

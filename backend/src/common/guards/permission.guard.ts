@@ -1,8 +1,15 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable, Logger } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
-import { PrismaService } from '../../prisma/prisma.service';
-import { RedisService } from '../services/redis.service';
-import { PERMISSION_KEY } from '../permission.decorator';
+import {
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+  Injectable,
+  Logger,
+  OnModuleDestroy,
+} from "@nestjs/common";
+import { Reflector } from "@nestjs/core";
+import { PrismaService } from "../../prisma/prisma.service";
+import { RedisService } from "../services/redis.service";
+import { PERMISSION_KEY } from "../permission.decorator";
 
 /**
  * 简单的LRU缓存实现
@@ -20,13 +27,13 @@ class LRUCache<K, V> {
   get(key: K): V | undefined {
     const item = this.cache.get(key);
     if (!item) return undefined;
-    
+
     // 检查是否过期
     if (Date.now() > item.expireAt) {
       this.cache.delete(key);
       return undefined;
     }
-    
+
     // LRU: 重新插入到末尾
     this.cache.delete(key);
     this.cache.set(key, item);
@@ -38,17 +45,17 @@ class LRUCache<K, V> {
     if (this.cache.has(key)) {
       this.cache.delete(key);
     }
-    
+
     // 如果超过最大容量，删除最旧的（第一个）
     if (this.cache.size >= this.maxSize) {
       const firstKey = this.cache.keys().next().value;
       this.cache.delete(firstKey);
     }
-    
+
     // 插入新值
     this.cache.set(key, {
       value,
-      expireAt: Date.now() + this.ttl
+      expireAt: Date.now() + this.ttl,
     });
   }
 
@@ -69,19 +76,20 @@ class LRUCache<K, V> {
  * 3. 减少90% Redis查询次数
  */
 @Injectable()
-export class PermissionGuard implements CanActivate {
+export class PermissionGuard implements CanActivate, OnModuleDestroy {
   private readonly logger = new Logger(PermissionGuard.name);
-  
+
   // 内存缓存：最多2000个条目，TTL 5秒
   private readonly permissionCache = new LRUCache<string, boolean>(2000, 5000);
+  private cleanupInterval: NodeJS.Timeout;
 
   constructor(
     private readonly reflector: Reflector,
     private readonly prisma: PrismaService,
-    private readonly redisService: RedisService
+    private readonly redisService: RedisService,
   ) {
     // 定期清理过期缓存（每分钟）
-    setInterval(() => {
+    this.cleanupInterval = setInterval(() => {
       const size = this.permissionCache.size();
       if (size > 0) {
         this.logger.debug(`Permission cache size: ${size}`);
@@ -90,18 +98,28 @@ export class PermissionGuard implements CanActivate {
   }
 
   /**
+   * 清理定时器，防止内存泄漏
+   */
+  onModuleDestroy() {
+    if (this.cleanupInterval) {
+      clearInterval(this.cleanupInterval);
+      this.logger.log("Permission guard cleanup interval cleared");
+    }
+  }
+
+  /**
    * 清除内存缓存（权限变更时调用）
    */
   clearCache(): void {
     this.permissionCache.clear();
-    this.logger.log('Permission cache cleared');
+    this.logger.log("Permission cache cleared");
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const permissionCode = this.reflector.getAllAndOverride<string>(PERMISSION_KEY, [
-      context.getHandler(),
-      context.getClass()
-    ]);
+    const permissionCode = this.reflector.getAllAndOverride<string>(
+      PERMISSION_KEY,
+      [context.getHandler(), context.getClass()],
+    );
 
     if (!permissionCode) {
       return true;
@@ -110,7 +128,7 @@ export class PermissionGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user as { sub?: string };
     if (!user?.sub) {
-      throw new ForbiddenException('未登录或登录状态已失效');
+      throw new ForbiddenException("未登录或登录状态已失效");
     }
 
     // 1. 先查内存缓存（5秒TTL）
@@ -118,19 +136,19 @@ export class PermissionGuard implements CanActivate {
     const cachedResult = this.permissionCache.get(cacheKey);
     if (cachedResult !== undefined) {
       if (!cachedResult) {
-        throw new ForbiddenException('无权限访问该接口');
+        throw new ForbiddenException("无权限访问该接口");
       }
       return true;
     }
 
     // 2. 查Redis + 数据库
     const hasPermission = await this.checkPermission(user.sub, permissionCode);
-    
+
     // 3. 存入内存缓存
     this.permissionCache.set(cacheKey, hasPermission);
-    
+
     if (!hasPermission) {
-      throw new ForbiddenException('无权限访问该接口');
+      throw new ForbiddenException("无权限访问该接口");
     }
 
     return true;
@@ -139,7 +157,10 @@ export class PermissionGuard implements CanActivate {
   /**
    * 检查用户权限（从Redis或数据库）
    */
-  private async checkPermission(userId: string, permissionCode: string): Promise<boolean> {
+  private async checkPermission(
+    userId: string,
+    permissionCode: string,
+  ): Promise<boolean> {
     // 1. 尝试从Redis获取用户的角色 IDs
     const userRoleKey = `user:roles:${userId}`;
     let roleIds: string[] = [];
@@ -149,7 +170,7 @@ export class PermissionGuard implements CanActivate {
       roleIds = JSON.parse(cachedRoles);
     } else {
       const relations = await this.prisma.sys_user_role.findMany({
-        where: { user_id: userId }
+        where: { user_id: userId },
       });
       roleIds = relations.map((item) => item.role_id);
       await this.redisService.set(userRoleKey, JSON.stringify(roleIds), 600); // 缓存 10 分钟
@@ -171,8 +192,8 @@ export class PermissionGuard implements CanActivate {
         where: {
           is_deleted: 0,
           status: 1,
-          api_name: permissionCode
-        }
+          api_name: permissionCode,
+        },
       });
 
       if (!apiPermission) {
@@ -180,7 +201,11 @@ export class PermissionGuard implements CanActivate {
       }
 
       allowedRoleIds = (apiPermission.role_ids as string[]) ?? [];
-      await this.redisService.set(apiPermissionKey, JSON.stringify(allowedRoleIds), 600);
+      await this.redisService.set(
+        apiPermissionKey,
+        JSON.stringify(allowedRoleIds),
+        600,
+      );
     }
 
     // 3. 权限匹配

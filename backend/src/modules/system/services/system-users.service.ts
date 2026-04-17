@@ -3,6 +3,7 @@ import {
   NotFoundException,
   BadRequestException,
 } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import {
   hashPassword,
   comparePassword,
@@ -28,6 +29,7 @@ export class SystemUsersService {
     private readonly scopeService: ScopeService,
     private readonly redisService: RedisService,
     private readonly paginationService: PaginationService,
+    private readonly configService: ConfigService,
   ) {}
 
   /**
@@ -55,6 +57,19 @@ export class SystemUsersService {
     const [data, total] = await Promise.all([
       this.prisma.sys_user.findMany({
         where,
+        select: {
+          id: true,
+          username: true,
+          name: true,
+          phone: true,
+          email: true,
+          status: true,
+          platform_id: true,
+          dept_id: true,
+          shop_id: true,
+          create_time: true,
+          update_time: true,
+        },
         skip,
         take,
         orderBy: { create_time: "desc" },
@@ -140,14 +155,16 @@ export class SystemUsersService {
   }
 
   /**
-   * 重置密码（清除缓存）
+   * 重置密码(清除缓存)
    */
   @CacheEvict({ pattern: "cache:user-info:*" })
-  async resetPassword(id: string, password = "Admin123456") {
+  async resetPassword(id: string, password?: string) {
+    const defaultPassword =
+      this.configService.get<string>("DEFAULT_RESET_PASSWORD") || "Admin123456";
     const res = await this.prisma.sys_user.update({
       where: { id },
       data: {
-        password: await hashPassword(password),
+        password: await hashPassword(password || defaultPassword),
       },
     });
     await this.clearUserCache(id);

@@ -57,11 +57,49 @@ export interface ApprovalRequestRecord {
   deptId?: string;
   departmentName: string;
   summary: string;
-  formData?: any;
+  formData?: Record<string, any>;
   createdAt: string;
   updatedAt: string;
-  progress: any[];
+  progress: ApprovalProgressItem[];
 }
+
+export interface ApprovalProgressItem {
+  nodeId: string;
+  nodeName: string;
+  actorId: string;
+  actorName: string;
+  action: 'approved' | 'rejected' | 'transferred' | 'pending';
+  comment?: string;
+  timestamp: string;
+}
+
+export interface ApprovalNode {
+  id: string;
+  name: string;
+  type: 'approval' | 'branch' | 'cc';
+  approvers?: Array<{ id: string; name: string }>;
+  condition?: string;
+  mode?: 'and' | 'or';
+}
+
+export interface ApprovalRequest {
+  id: string;
+  request_no: string;
+  template_id: string;
+  biz_type?: string;
+  biz_id?: string;
+  current_node_id?: string;
+  status: string;
+  progress: ApprovalProgressItem[];
+  form_data?: Record<string, any>;
+  [key: string]: any;
+}
+
+export type ApprovalHandler = (
+  request: ApprovalRequest,
+  action: string,
+  operatorId: string
+) => Promise<void>;
 
 @Injectable()
 export class ApprovalService {
@@ -75,15 +113,15 @@ export class ApprovalService {
     @InjectQueue('approval-queue') private readonly approvalQueue: Queue,
   ) {}
 
-  private readonly handlers = new Map<string, (request: any, action: string, operatorId: string) => Promise<void>>();
+  private readonly handlers = new Map<string, ApprovalHandler>();
 
-  registerHandler(bizType: string, handler: (request: any, action: string, operatorId: string) => Promise<void>) {
+  registerHandler(bizType: string, handler: ApprovalHandler) {
     this.handlers.set(bizType, handler);
   }
 
-  private get templateDelegate() { return (this.prisma as any).approval_template; }
-  private get requestDelegate() { return (this.prisma as any).approval_request; }
-  private get userDelegate() { return (this.prisma as any).sys_user; }
+  private get templateDelegate() { return this.prisma['approval_template' as keyof typeof this.prisma] as any; }
+  private get requestDelegate() { return this.prisma['approval_request' as keyof typeof this.prisma] as any; }
+  private get userDelegate() { return this.prisma['sys_user' as keyof typeof this.prisma] as any; }
 
   private getTemplateCandidates(bizType: string) {
     const normalized = bizType.toLowerCase();
@@ -140,13 +178,26 @@ export class ApprovalService {
     };
   }
 
-  // ✅ 优化：无需额外查询，模板数据已包含所有信息
+  // ✅ 优化:无需额外查询,模板数据已包含所有信息
   async listTemplates(_userId?: string): Promise<ApprovalTemplate[]> {
     const items = await this.templateDelegate.findMany({
       where: { is_deleted: 0 },
+      select: {
+        id: true,
+        name: true,
+        biz_type: true,
+        approver_type: true,
+        approver_ids: true,
+        auto_pass_conditions: true,
+        auto_reject_conditions: true,
+        timeout_hours: true,
+        status: true,
+        create_time: true,
+        update_time: true,
+      },
       orderBy: { update_time: 'desc' },
     });
-    return items.map((item: any) => this.mapTemplate(item));
+    return items.map((item: Record<string, any>) => this.mapTemplate(item));
   }
 
   async getTemplate(_userId: string | undefined, id: string): Promise<ApprovalTemplate> {
@@ -532,7 +583,7 @@ export class ApprovalService {
     return this.mapRequest(created);
   }
 
-  async runBizSync(request: any, action: string, operatorId: string) {
+  async runBizSync(request: ApprovalRequest, action: string, operatorId: string) {
     this.logger.log(`Executing sync for request ${request.request_no} action ${action} by ${operatorId}`);
 
     if (request.biz_type && this.handlers.has(request.biz_type)) {
@@ -559,7 +610,7 @@ export class ApprovalService {
     };
   }
 
-  private mapTemplate(item: any): ApprovalTemplate {
+  private mapTemplate(item: Record<string, any>): ApprovalTemplate {
     return {
       id: item.id,
       name: item.name,
@@ -576,7 +627,7 @@ export class ApprovalService {
     };
   }
 
-  private mapRequest(item: any): ApprovalRequestRecord {
+  private mapRequest(item: Record<string, any>): ApprovalRequestRecord {
     return {
       id: item.id,
       requestNo: item.request_no,
@@ -645,9 +696,10 @@ export class ApprovalService {
       try {
         await this.approveRequest(userId, id, { comment });
         results.success++;
-      } catch (error: any) {
+      } catch (error) {
         results.failed++;
-        results.errors.push(`${id}: ${error.message}`);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        results.errors.push(`${id}: ${errorMessage}`);
       }
     }
 
@@ -672,9 +724,10 @@ export class ApprovalService {
       try {
         await this.rejectRequest(userId, id, { comment });
         results.success++;
-      } catch (error: any) {
+      } catch (error) {
         results.failed++;
-        results.errors.push(`${id}: ${error.message}`);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        results.errors.push(`${id}: ${errorMessage}`);
       }
     }
 

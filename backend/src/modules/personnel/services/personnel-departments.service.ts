@@ -384,10 +384,12 @@ export class PersonnelDepartmentsService {
 
         await this.create(userId, dto);
         results.success++;
-      } catch (error: any) {
+      } catch (error) {
         results.failed++;
+        const errorMessage =
+          error instanceof Error ? error.message : "Unknown error";
         results.errors.push(
-          `部门"${row["部门名称"]}"导入失败: ${error.message}`,
+          `部门"${row["部门名称"]}"导入失败: ${errorMessage}`,
         );
       }
     }

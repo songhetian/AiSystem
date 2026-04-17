@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ProColumns } from "@ant-design/pro-components";
 import {
@@ -11,12 +11,17 @@ import {
   Select,
   Space,
   Tabs,
+  message,
 } from "antd";
 import { personnelApi } from "@/api/personnel";
 import { systemApi } from "@/api/system";
 import { BaseModal } from "@/components/common/BaseModal";
 import { BaseTable } from "@/components/table/BaseTable";
 import { PositionDraggableList } from "./components/PositionDraggableList";
+import { useFormDraft } from "@/hooks/useFormDraft";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
+import { confirmBatchAction } from "@/utils/ui-helpers";
 
 interface PositionRecord {
   id: string;
@@ -51,6 +56,10 @@ export default function PositionsPage() {
   const [activeTab, setActiveTab] = useState("list");
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
+
+  // 表单草稿保存
+  const { clearDraft } = useFormDraft(form, "position-form", 30000);
+
   const { data = [], isLoading } = useQuery<PositionRecord[]>({
     queryKey: ["personnel-positions"],
     queryFn: personnelApi.listPositions,
@@ -60,6 +69,19 @@ export default function PositionsPage() {
     queryFn: systemApi.listDepartments,
   });
 
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+n": () => setOpen(true),
+    "Ctrl+r": () => {
+      refresh();
+      message.success("已刷新");
+    },
+    Escape: () => {
+      setOpen(false);
+      setEditing(null);
+    },
+  });
+
   const refresh = () =>
     queryClient.invalidateQueries({ queryKey: ["personnel-positions"] });
   const createMutation = useMutation({
@@ -67,7 +89,12 @@ export default function PositionsPage() {
     onSuccess: async () => {
       setOpen(false);
       form.resetFields();
+      clearDraft();
+      message.success("创建成功");
       await refresh();
+    },
+    onError: () => {
+      message.error("创建失败，请重试");
     },
   });
   const updateMutation = useMutation({
@@ -82,12 +109,23 @@ export default function PositionsPage() {
       setOpen(false);
       setEditing(null);
       form.resetFields();
+      clearDraft();
+      message.success("更新成功");
       await refresh();
+    },
+    onError: () => {
+      message.error("更新失败，请重试");
     },
   });
   const deleteMutation = useMutation({
     mutationFn: personnelApi.deletePosition,
-    onSuccess: refresh,
+    onSuccess: () => {
+      message.success("删除成功");
+      refresh();
+    },
+    onError: () => {
+      message.error("删除失败，请重试");
+    },
   });
 
   return (
@@ -101,39 +139,41 @@ export default function PositionsPage() {
     >
       <Tabs activeKey={activeTab} onChange={setActiveTab}>
         <Tabs.TabPane tab="岗位列表" key="list">
-          <BaseTable<PositionRecord>
-            rowKey="id"
-            columns={[
-              ...columns,
-              {
-                title: "操作",
-                render: (_, record) => (
-                  <Space>
-                    <Button
-                      type="link"
-                      onClick={() => {
-                        setEditing(record);
-                        form.setFieldsValue(record);
-                        setOpen(true);
-                      }}
-                    >
-                      编辑
-                    </Button>
-                    <Popconfirm
-                      title="确认删除该岗位？"
-                      onConfirm={() => deleteMutation.mutate(record.id)}
-                    >
-                      <Button type="link" danger>
-                        删除
+          <GlobalLoading loading={isLoading}>
+            <BaseTable<PositionRecord>
+              rowKey="id"
+              columns={[
+                ...columns,
+                {
+                  title: "操作",
+                  render: (_, record) => (
+                    <Space>
+                      <Button
+                        type="link"
+                        onClick={() => {
+                          setEditing(record);
+                          form.setFieldsValue(record);
+                          setOpen(true);
+                        }}
+                      >
+                        编辑
                       </Button>
-                    </Popconfirm>
-                  </Space>
-                ),
-              },
-            ]}
-            dataSource={data}
-            loading={isLoading}
-          />
+                      <Popconfirm
+                        title="确认删除该岗位？"
+                        onConfirm={() => deleteMutation.mutate(record.id)}
+                      >
+                        <Button type="link" danger>
+                          删除
+                        </Button>
+                      </Popconfirm>
+                    </Space>
+                  ),
+                },
+              ]}
+              dataSource={data}
+              loading={isLoading}
+            />
+          </GlobalLoading>
         </Tabs.TabPane>
         <Tabs.TabPane tab="岗位排序" key="sort">
           <PositionDraggableList positions={data} onUpdate={refresh} />

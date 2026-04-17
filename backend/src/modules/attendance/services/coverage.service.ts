@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../prisma/prisma.service';
-import { ScopeService } from '../../../common/services/scope.service';
-import { CheckCoverageDto } from '../dto/coverage.dto';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../../../prisma/prisma.service";
+import { ScopeService } from "../../../common/services/scope.service";
+import { CheckCoverageDto } from "../dto/coverage.dto";
 
 type TimeRange = {
   startMinute: number;
@@ -11,7 +11,7 @@ type TimeRange = {
 };
 
 function toMinuteOfDay(value: string) {
-  const [hours = '0', minutes = '0'] = value.split(':');
+  const [hours = "0", minutes = "0"] = value.split(":");
   return Number(hours) * 60 + Number(minutes);
 }
 
@@ -23,12 +23,12 @@ function formatMinute(minute: number) {
   const normalized = ((minute % 1440) + 1440) % 1440;
   const hours = Math.floor(normalized / 60)
     .toString()
-    .padStart(2, '0');
-  const minutes = (normalized % 60).toString().padStart(2, '0');
+    .padStart(2, "0");
+  const minutes = (normalized % 60).toString().padStart(2, "0");
   return `${hours}:${minutes}`;
 }
 
-function buildSegments(minutes: number[], kind: 'missing' | 'overlap') {
+function buildSegments(minutes: number[], kind: "missing" | "overlap") {
   if (minutes.length === 0) {
     return [];
   }
@@ -61,6 +61,12 @@ export class CoverageService {
     private readonly scopeService: ScopeService,
   ) {}
 
+  private get scheduleDelegate() {
+    return this.prisma[
+      "attendance_schedule" as keyof typeof this.prisma
+    ] as any;
+  }
+
   async checkCoverage(userId: string, dto: CheckCoverageDto) {
     const scope = await this.scopeService.resolveAccess(userId);
     const shifts = await this.prisma.attendance_rule.findMany({
@@ -72,12 +78,13 @@ export class CoverageService {
       },
     });
 
-    const shiftNames = shifts.map(s => s.name);
+    const shiftNames = shifts.map((s) => s.name);
     const windowStart = new Date(dto.start_time);
     const windowEnd = new Date(dto.end_time);
     const checkDate = new Date(dto.check_date);
 
-    const windowStartMinute = windowStart.getHours() * 60 + windowStart.getMinutes();
+    const windowStartMinute =
+      windowStart.getHours() * 60 + windowStart.getMinutes();
     let windowEndMinute = windowEnd.getHours() * 60 + windowEnd.getMinutes();
     if (windowEnd <= windowStart) {
       windowEndMinute += 1440;
@@ -93,10 +100,10 @@ export class CoverageService {
         schedule_date: checkDate,
         shift_name: { in: shiftNames },
       },
-      { platform: 'platform_id', department: 'dept_id' },
+      { platform: "platform_id", department: "dept_id" },
     );
 
-    const schedules = await (this.prisma as any).attendance_schedule.findMany({
+    const schedules = await this.scheduleDelegate().findMany({
       where: scheduleWhere,
       select: {
         employee_id: true,
@@ -162,8 +169,8 @@ export class CoverageService {
       0,
     );
 
-    const missingDetails = buildSegments(missingMinutes, 'missing');
-    const overlappingDetails = buildSegments(overlapMinutes, 'overlap');
+    const missingDetails = buildSegments(missingMinutes, "missing");
+    const overlappingDetails = buildSegments(overlapMinutes, "overlap");
 
     const record = await this.prisma.attendance_coverage_check.create({
       data: {
@@ -186,30 +193,33 @@ export class CoverageService {
         },
         platform_id: scope.platform_id as string,
         dept_id: scope.dept_id as string,
-      }
+      },
     });
 
     return record;
   }
 
-  async getCoverageReports(userId: string, query: { start_date?: string, end_date?: string }) {
+  async getCoverageReports(
+    userId: string,
+    query: { start_date?: string; end_date?: string },
+  ) {
     const scope = await this.scopeService.resolveAccess(userId);
     const where = this.scopeService.applyScope(
-       scope, 
-       { is_deleted: 0 }, 
-       { platform: 'platform_id', department: 'dept_id' }
+      scope,
+      { is_deleted: 0 },
+      { platform: "platform_id", department: "dept_id" },
     );
-    
+
     if (query.start_date && query.end_date) {
       where.check_date = {
         gte: new Date(query.start_date),
-        lte: new Date(query.end_date)
+        lte: new Date(query.end_date),
       };
     }
-    
+
     return this.prisma.attendance_coverage_check.findMany({
       where,
-      orderBy: { create_time: 'desc' }
+      orderBy: { create_time: "desc" },
     });
   }
 }

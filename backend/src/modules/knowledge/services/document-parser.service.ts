@@ -1,10 +1,10 @@
-import { Injectable, Logger } from '@nestjs/common';
-import * as fs from 'fs';
-import * as mammoth from 'mammoth';
-import * as officeparser from 'officeparser';
-import * as pdf from 'pdf-parse';
-import * as Tesseract from 'tesseract.js';
-import * as xlsx from 'xlsx';
+import { Injectable, Logger } from "@nestjs/common";
+import * as fs from "fs/promises";
+import * as mammoth from "mammoth";
+import * as officeparser from "officeparser";
+import * as pdf from "pdf-parse";
+import * as Tesseract from "tesseract.js";
+import * as xlsx from "xlsx";
 
 @Injectable()
 export class DocumentParserService {
@@ -14,25 +14,27 @@ export class DocumentParserService {
     try {
       const type = fileType.toLowerCase();
       switch (type) {
-        case 'pdf':
+        case "pdf":
           return await this.parsePdf(filePath);
-        case 'docx':
+        case "docx":
           return await this.parseDocx(filePath);
-        case 'xlsx':
+        case "xlsx":
           return await this.parseXlsx(filePath);
-        case 'pptx':
+        case "pptx":
           return await this.parsePptx(filePath);
-        case 'jpg':
-        case 'jpeg':
-        case 'png':
-        case 'bmp':
-        case 'gif':
+        case "jpg":
+        case "jpeg":
+        case "png":
+        case "bmp":
+        case "gif":
           return await this.parseImage(filePath);
         default:
           throw new Error(`Unsupported file type: ${fileType}`);
       }
-    } catch (error: any) {
-      this.logger.error(`Error parsing file ${filePath}: ${error?.message || 'Unknown error'}`);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
+      this.logger.error(`Error parsing file ${filePath}: ${errorMessage}`);
       throw error;
     }
   }
@@ -40,12 +42,12 @@ export class DocumentParserService {
   private async parseImage(filePath: string): Promise<string> {
     const {
       data: { text },
-    } = await Tesseract.recognize(filePath, 'chi_sim+eng');
+    } = await Tesseract.recognize(filePath, "chi_sim+eng");
     return text;
   }
 
   private async parsePdf(filePath: string): Promise<string> {
-    const dataBuffer = fs.readFileSync(filePath);
+    const dataBuffer = await fs.readFile(filePath);
     // 兼容某些环境下 pdf-parse 的导出方式
     const pdfParser = (pdf as any).default || pdf;
     const data = await pdfParser(dataBuffer);
@@ -59,12 +61,12 @@ export class DocumentParserService {
 
   private async parseXlsx(filePath: string): Promise<string> {
     const workbook = xlsx.readFile(filePath);
-    let fullText = '';
+    let fullText = "";
     workbook.SheetNames.forEach((sheetName) => {
       const worksheet = workbook.Sheets[sheetName];
       fullText += `--- Sheet: ${sheetName} ---\n`;
       fullText += xlsx.utils.sheet_to_txt(worksheet);
-      fullText += '\n';
+      fullText += "\n";
     });
     return fullText;
   }

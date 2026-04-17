@@ -2,6 +2,7 @@ import {
   Injectable,
   BadRequestException,
   NotFoundException,
+  Logger,
 } from "@nestjs/common";
 import { PrismaService } from "../../../prisma/prisma.service";
 import { RedisService } from "../../../common/services/redis.service";
@@ -21,6 +22,8 @@ import { QueryOptimize } from "../../../common/decorators/query-optimize.decorat
 
 @Injectable()
 export class RegisterService {
+  private readonly logger = new Logger(RegisterService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly redisService: RedisService,
@@ -370,7 +373,7 @@ export class RegisterService {
       });
 
       // TODO: 发送审核通过短信通知
-      console.log(
+      this.logger.log(
         `[注册审核通过] 手机号: ${register.phone}, 姓名: ${register.name}`,
       );
 
@@ -397,7 +400,7 @@ export class RegisterService {
       });
 
       // TODO: 发送审核拒绝短信通知
-      console.log(
+      this.logger.log(
         `[注册审核拒绝] 手机号: ${register.phone}, 姓名: ${register.name}, 原因: ${rejectReason}`,
       );
 
@@ -438,7 +441,10 @@ export class RegisterService {
         successCount++;
       } catch (error) {
         failedCount++;
-        console.error(`批量审核失败 - ID: ${id}, 错误: ${error.message}`);
+        this.logger.error(
+          `批量审核失败 - ID: ${id}, 错误: ${error instanceof Error ? error.message : "Unknown error"}`,
+          error instanceof Error ? error.stack : undefined,
+        );
       }
     }
 

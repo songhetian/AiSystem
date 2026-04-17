@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Card, Form, Space, Popconfirm, Tabs } from "antd";
+import { Button, Card, Form, Space, Popconfirm, Tabs, message } from "antd";
 import { systemApi } from "@/api/system";
 import { Permission } from "@/components/permission/Permission";
 import { BaseTable } from "@/components/table/BaseTable";
@@ -8,12 +8,18 @@ import { useSystemCrud } from "../users/hooks/useSystemCrud";
 import { useMenuTree } from "./hooks/useMenuTree";
 import { MenuModal } from "./components/MenuModal";
 import { MenuTreeDraggable } from "./components/MenuTreeDraggable";
+import { useFormDraft } from "@/hooks/useFormDraft";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 export default function SystemMenusPage() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<any>(null);
   const [form] = Form.useForm();
   const [activeTab, setActiveTab] = useState("list");
+
+  // 表单草稿保存
+  const { clearDraft } = useFormDraft(form, "system-menu-form", 30000);
 
   const {
     data = [],
@@ -26,6 +32,20 @@ export default function SystemMenusPage() {
     create: systemApi.createMenu,
     update: systemApi.updateMenu,
     delete: systemApi.deleteMenu,
+  });
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+n": () => {
+      setEditing(null);
+      form.resetFields();
+      setOpen(true);
+    },
+    "Ctrl+r": () => {
+      refetch();
+      message.success("已刷新");
+    },
+    Escape: () => setOpen(false),
   });
 
   const columns = [
@@ -83,13 +103,15 @@ export default function SystemMenusPage() {
     >
       <Tabs activeKey={activeTab} onChange={setActiveTab}>
         <Tabs.TabPane tab="菜单列表" key="list">
-          <BaseTable
-            rowKey="id"
-            columns={columns}
-            dataSource={treeData}
-            loading={isLoading}
-            pagination={false}
-          />
+          <GlobalLoading loading={isLoading}>
+            <BaseTable
+              rowKey="id"
+              columns={columns}
+              dataSource={treeData}
+              loading={isLoading}
+              pagination={false}
+            />
+          </GlobalLoading>
         </Tabs.TabPane>
         <Tabs.TabPane tab="菜单排序" key="sort">
           <MenuTreeDraggable menus={data} onUpdate={refetch} />
@@ -101,7 +123,10 @@ export default function SystemMenusPage() {
         editing={editing}
         form={form}
         menuOptions={data}
-        onCancel={() => setOpen(false)}
+        onCancel={() => {
+          setOpen(false);
+          clearDraft();
+        }}
         onOk={() => form.submit()}
       />
     </Card>

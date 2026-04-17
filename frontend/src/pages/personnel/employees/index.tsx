@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Button,
@@ -17,7 +17,11 @@ import {
   Upload,
 } from "antd";
 import type { UploadFile, UploadProps } from "antd/es/upload/interface";
-import { DownloadOutlined, UploadOutlined } from "@ant-design/icons";
+import {
+  DownloadOutlined,
+  UploadOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import dayjs from "dayjs";
 import { personnelApi } from "@/api/personnel";
 import { systemApi } from "@/api/system";
@@ -35,6 +39,14 @@ import {
   getEmployeeColumns,
   type EmployeeRecord,
 } from "./components/columns";
+import { useDebounce, useFormDraft, useKeyboardShortcuts } from "@/hooks";
+import { GlobalLoading } from "@/components/common";
+import {
+  confirmBatchAction,
+  handleExportWithProgress,
+  resetColumnConfig,
+  saveColumnConfig,
+} from "@/utils/ui-helpers";
 
 const { Title } = Typography;
 
@@ -69,6 +81,28 @@ export default function EmployeesPage() {
   );
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
+  const searchInputRef = useRef<any>(null);
+
+  // 使用防抖优化搜索
+  const debouncedSearchText = useDebounce(searchText, 500);
+
+  // 使用表单草稿自动保存
+  const { clearDraft } = useFormDraft(form, "employee-form", 30000);
+
+  // 添加快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+n": () => {
+      setOpen(true);
+      setEditing(null);
+      form.resetFields();
+    },
+    "Ctrl+f": () => searchInputRef.current?.focus(),
+    "Ctrl+r": () => refresh(),
+    Escape: () => {
+      if (open) setOpen(false);
+      if (uploadOpen) setUploadOpen(false);
+    },
+  });
 
   const { data = [], isLoading } = useQuery<EmployeeRecord[]>({
     queryKey: ["personnel-employees"],
@@ -116,7 +150,12 @@ export default function EmployeesPage() {
     onSuccess: async () => {
       setOpen(false);
       form.resetFields();
+      clearDraft(); // 清除草稿
+      message.success("创建成功");
       await refresh();
+    },
+    onError: () => {
+      message.error("创建失败，请重试");
     },
   });
 
@@ -132,18 +171,36 @@ export default function EmployeesPage() {
       setOpen(false);
       setEditing(null);
       form.resetFields();
+      clearDraft(); // 清除草稿
+      message.success("更新成功");
       await refresh();
+    },
+    onError: () => {
+      message.error("更新失败，请重试");
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: personnelApi.deleteEmployee,
-    onSuccess: refresh,
+    onSuccess: () => {
+      message.success("删除成功");
+      refresh();
+    },
+    onError: () => {
+      message.error("删除失败，请重试");
+    },
   });
 
   const batchStatusMutation = useMutation({
     mutationFn: personnelApi.batchUpdateEmployeeStatus,
-    onSuccess: refresh,
+    onSuccess: () => {
+      message.success("批量操作成功");
+      setSelectedIds([]);
+      refresh();
+    },
+    onError: () => {
+      message.error("批量操作失败，请重试");
+    },
   });
 
   const uploadMutation = useMutation({
@@ -186,14 +243,14 @@ export default function EmployeesPage() {
       }
     };
 
-  // 过滤数据
+  // 过滤数据 - 使用防抖后的搜索文本
   const filteredData = data.filter((item) => {
     const matchSearch =
-      !searchText ||
-      item.name?.includes(searchText) ||
-      item.phone?.includes(searchText) ||
-      item.employee_no?.includes(searchText) ||
-      item.job_no?.includes(searchText);
+      !debouncedSearchText ||
+      item.name?.includes(debouncedSearchText) ||
+      item.phone?.includes(debouncedSearchText) ||
+      item.employee_no?.includes(debouncedSearchText) ||
+      item.job_no?.includes(debouncedSearchText);
 
     const matchStatus =
       statusFilter === undefined || item.status === statusFilter;
@@ -227,19 +284,40 @@ export default function EmployeesPage() {
         <Space>
           <ColumnCustomizer
             columns={columns}
-            onChange={setColumns}
+            onChange={(newColumns) => {
+              setColumns(newColumns);
+              saveColumnConfig("employee-table-columns", newColumns);
+            }}
             storageKey="employee-table-columns"
           />
+          <Button
+            icon={<ReloadOutlined />}
+            onClick={() =>
+              resetColumnConfig(
+                "employee-table-columns",
+                defaultColumnConfig,
+                setColumns,
+              )
+            }
+            title="重置列配置"
+          >
+            重置列
+          </Button>
           <Permission code="personnel:employee:batch-status">
             <Button
               disabled={selectedIds.length === 0}
               onClick={() => {
-                Modal.confirm({
-                  title: "确认批量设置为在职？",
-                  content: `将 ${selectedIds.length} 名员工设置为在职状态`,
-                  onOk: () =>
-                    batchStatusMutation.mutate({ ids: selectedIds, status: 1 }),
-                });
+                confirmBatchAction(
+                  selectedIds.length,
+                  "设置为在职",
+                  async () => {
+                    await batchStatusMutation.mutateAsync({
+                      ids: selectedIds,
+                      status: 1,
+                    });
+                  },
+                  "员工",
+                );
               }}
             >
               批量在职
@@ -247,19 +325,32 @@ export default function EmployeesPage() {
             <Button
               disabled={selectedIds.length === 0}
               onClick={() => {
-                Modal.confirm({
-                  title: "确认批量设置为离职？",
-                  content: `将 ${selectedIds.length} 名员工设置为离职状态`,
-                  onOk: () =>
-                    batchStatusMutation.mutate({ ids: selectedIds, status: 0 }),
-                });
+                confirmBatchAction(
+                  selectedIds.length,
+                  "设置为离职",
+                  async () => {
+                    await batchStatusMutation.mutateAsync({
+                      ids: selectedIds,
+                      status: 0,
+                    });
+                  },
+                  "员工",
+                );
               }}
             >
               批量离职
             </Button>
           </Permission>
           <Permission code="personnel:employee:create">
-            <Button type="primary" onClick={() => setOpen(true)}>
+            <Button
+              type="primary"
+              onClick={() => {
+                setOpen(true);
+                setEditing(null);
+                form.resetFields();
+              }}
+              title="快捷键: Ctrl+N"
+            >
               新增员工
             </Button>
           </Permission>
@@ -268,23 +359,18 @@ export default function EmployeesPage() {
               icon={<DownloadOutlined />}
               loading={false}
               onClick={async () => {
-                try {
-                  message.loading({
-                    content: "正在导出...",
-                    key: "export",
-                    duration: 0,
-                  });
-                  const blob = await personnelApi.exportEmployees();
-                  const url = window.URL.createObjectURL(new Blob([blob]));
-                  const a = document.createElement("a");
-                  a.href = url;
-                  a.download = `员工列表_${dayjs().format("YYYYMMDD")}.xlsx`;
-                  a.click();
-                  window.URL.revokeObjectURL(url);
-                  message.success({ content: "导出成功", key: "export" });
-                } catch {
-                  message.error({ content: "导出失败", key: "export" });
-                }
+                await handleExportWithProgress(
+                  async () => {
+                    const blob = await personnelApi.exportEmployees();
+                    const url = window.URL.createObjectURL(new Blob([blob]));
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `员工列表_${dayjs().format("YYYYMMDD")}.xlsx`;
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                  },
+                  `员工列表_${dayjs().format("YYYYMMDD")}.xlsx`,
+                );
               }}
             >
               导出
@@ -357,9 +443,10 @@ export default function EmployeesPage() {
       {/* 搜索和筛选 */}
       <Space style={{ marginBottom: 16 }}>
         <Input.Search
-          placeholder="搜索姓名、手机号、员工编号、工号"
+          ref={searchInputRef}
+          placeholder="搜索姓名、手机号、员工编号、工号 (Ctrl+F)"
           allowClear
-          style={{ width: 300 }}
+          style={{ width: 350 }}
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           onSearch={(value) => setSearchText(value)}
@@ -381,16 +468,18 @@ export default function EmployeesPage() {
         )}
       </Space>
 
-      <BaseTable<EmployeeRecord>
-        rowKey="id"
-        columns={tableColumns}
-        dataSource={filteredData}
-        loading={isLoading}
-        rowSelection={{
-          selectedRowKeys: selectedIds,
-          onChange: (keys: React.Key[]) => setSelectedIds(keys as string[]),
-        }}
-      />
+      <GlobalLoading loading={isLoading}>
+        <BaseTable<EmployeeRecord>
+          rowKey="id"
+          columns={tableColumns}
+          dataSource={filteredData}
+          loading={isLoading}
+          rowSelection={{
+            selectedRowKeys: selectedIds,
+            onChange: (keys: React.Key[]) => setSelectedIds(keys as string[]),
+          }}
+        />
+      </GlobalLoading>
       <BaseModal
         open={open}
         title={editing ? "编辑员工" : "新增员工"}

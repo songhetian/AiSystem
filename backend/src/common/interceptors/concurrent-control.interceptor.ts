@@ -239,7 +239,10 @@ export class ConcurrentControlInterceptor implements NestInterceptor {
   /**
    * 生成锁Key
    */
-  private generateLockKey(template: string, request: any): string {
+  private generateLockKey<T extends Record<string, any>>(
+    template: string,
+    request: T,
+  ): string {
     let key = template;
 
     // 替换参数占位符

@@ -11,12 +11,29 @@ import Permission from "@/components/permission/Permission";
 import { attendanceApi } from "@/api/attendance";
 import type { AttendanceShiftPayload } from "@/api/attendance";
 import { AttendanceRuleConfig } from "./components/AttendanceRuleConfig";
+import { useFormDraft } from "@/hooks/useFormDraft";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 const AttendanceShifts: React.FC = () => {
   const tableRef = useRef<any>();
   const [modalVisible, setModalVisible] = useState(false);
   const [currentRow, setCurrentRow] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
+
+  // 表单草稿保存
+  const { clearDraft } = useFormDraft(form, "attendance-shift-form", 30000);
+
+  // 快捷键支持
+  useKeyboardShortcuts({
+    "Ctrl+n": () => handleAdd(),
+    "Ctrl+r": () => {
+      tableRef.current?.reload();
+      message.success("已刷新");
+    },
+    Escape: () => setModalVisible(false),
+  });
 
   const columns: ProColumns<object>[] = [
     {
@@ -112,7 +129,7 @@ const AttendanceShifts: React.FC = () => {
       message.success("删除成功");
       tableRef.current?.reload();
     } catch (error) {
-      message.error("删除失败");
+      message.error("删除失败，请重试");
     }
   };
 
@@ -127,9 +144,10 @@ const AttendanceShifts: React.FC = () => {
         message.success("创建成功");
       }
       setModalVisible(false);
+      clearDraft();
       tableRef.current?.reload();
     } catch (error) {
-      // Form validation error handled by BaseForm
+      message.error("操作失败，请重试");
     }
   };
 
@@ -143,25 +161,32 @@ const AttendanceShifts: React.FC = () => {
             label: "班次管理",
             children: (
               <>
-                <BaseTable
-                  ref={tableRef}
-                  columns={columns}
-                  request={async () => {
-                    const res = await attendanceApi.listShifts();
-                    return { data: res, success: true };
-                  }}
-                  toolBarRender={() => [
-                    <Permission key="add" code="attendance:shifts:create">
-                      <Button
-                        type="primary"
-                        icon={<PlusOutlined />}
-                        onClick={handleAdd}
-                      >
-                        新增班次
-                      </Button>
-                    </Permission>,
-                  ]}
-                />
+                <GlobalLoading loading={isLoading}>
+                  <BaseTable
+                    ref={tableRef}
+                    columns={columns}
+                    request={async () => {
+                      setIsLoading(true);
+                      try {
+                        const res = await attendanceApi.listShifts();
+                        return { data: res, success: true };
+                      } finally {
+                        setIsLoading(false);
+                      }
+                    }}
+                    toolBarRender={() => [
+                      <Permission key="add" code="attendance:shifts:create">
+                        <Button
+                          type="primary"
+                          icon={<PlusOutlined />}
+                          onClick={handleAdd}
+                        >
+                          新增班次
+                        </Button>
+                      </Permission>,
+                    ]}
+                  />
+                </GlobalLoading>
               </>
             ),
           },
@@ -185,7 +210,10 @@ const AttendanceShifts: React.FC = () => {
         title={currentRow ? "编辑班次" : "新增班次"}
         open={modalVisible}
         onOk={handleModalOk}
-        onCancel={() => setModalVisible(false)}
+        onCancel={() => {
+          setModalVisible(false);
+          clearDraft();
+        }}
         width={600}
       >
         <BaseForm
