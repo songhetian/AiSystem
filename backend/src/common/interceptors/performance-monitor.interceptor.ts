@@ -146,7 +146,16 @@ export class PerformanceMonitorInterceptor implements NestInterceptor {
       endpointMap.get(key)!.push(metric);
     }
 
-    const statistics = [];
+    const statistics: Array<{
+      endpoint: string;
+      totalRequests: number;
+      avgDuration: number;
+      minDuration: number;
+      maxDuration: number;
+      p50: number;
+      p95: number;
+      p99: number;
+    }> = [];
 
     for (const [endpoint, metrics] of endpointMap.entries()) {
       const durations = metrics.map((m) => m.duration).sort((a, b) => a - b);

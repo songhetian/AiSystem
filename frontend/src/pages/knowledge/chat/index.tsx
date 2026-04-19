@@ -335,7 +335,7 @@ const KnowledgeChat: React.FC = () => {
                                 <span>
                                   相关度: {(ref.score * 100).toFixed(1)}%
                                 </span>
-                                <Tag size="small" color="blue">
+                                <Tag color="blue">
                                   {ref.type}
                                 </Tag>
                               </div>

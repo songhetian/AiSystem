@@ -13,18 +13,18 @@ import {
   type CurrentUserPayload,
 } from "../../../common/current-user.decorator";
 import { Permission } from "../../../common/permission.decorator";
+import { RateLimit, RateLimitType } from "../../../common/decorators/rate-limiter.decorator";
+import { Cache } from "../../../common/decorators/cache.decorator";
+import { CacheEvict } from "../../../common/decorators/cache-evict.decorator";
+import { AntiShake } from "../../../common/decorators/antishake.decorator";
+import { Idempotent } from "../../../common/decorators/idempotent.decorator";
+import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
 import { CreateShiftDto } from "../dto/create-shift.dto";
 import { ImportSchedulesDto } from "../dto/import-schedules.dto";
 import { QuerySchedulesDto } from "../dto/query-schedules.dto";
 import { SaveScheduleDto } from "../dto/save-schedule.dto";
 import { UpdateShiftDto } from "../dto/update-shift.dto";
 import { AttendanceSchedulesService } from "../services/attendance-schedules.service";
-import { AntiShake } from "../../../common/decorators/antishake.decorator";
-import { Idempotent } from "../../../common/decorators/idempotent.decorator";
-import { RateLimit } from "../../../common/decorators/rate-limiter.decorator";
-import { Cache } from "../../../common/decorators/cache.decorator";
-import { CacheEvict } from "../../../common/decorators/cache-evict.decorator";
-import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
 
 @Controller("attendance")
 export class AttendanceSchedulesController {
@@ -34,8 +34,8 @@ export class AttendanceSchedulesController {
 
   @Get("shifts")
   @Permission("attendance:shift:list")
-  @RateLimit({ limit: 30, window: 60 })
-  @Cache({ key: "attendance:shifts:list", ttl: 600 })
+  @RateLimit({ limit: 30, window: 60, type: RateLimitType.USER })
+  @Cache({ prefix: "attendance:shifts:list", ttl: 600 })
   @QueryOptimize({ slowQueryThreshold: 200, timeout: 3000 })
   listShifts(@CurrentUser() user: CurrentUserPayload) {
     return this.attendanceSchedulesService.listShifts(user.sub);

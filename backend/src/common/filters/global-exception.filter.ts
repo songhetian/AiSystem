@@ -21,7 +21,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   async catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
-    const request = ctx.switchToHttp().getRequest();
+    const request = ctx.getRequest();
 
     const status =
       exception instanceof HttpException
@@ -40,7 +40,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
       try {
         // 持久化到 sys_error_log
-        await this.prisma.sys_error_log.create({
+        await (this.prisma as any).sys_error_log.create({
           data: {
             user_id: request.user?.sub,
             username: request.user?.username,
@@ -56,7 +56,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
           },
         });
       } catch (e) {
-        this.logger.error('持久化异常日志失败', e.stack);
+        this.logger.error('持久化异常日志失败', (e as Error).stack);
       }
     }
 

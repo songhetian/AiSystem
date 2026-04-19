@@ -11,6 +11,7 @@ import {
 } from "../dto/permission-template.dto";
 import { Cache } from "../../../common/decorators/cache.decorator";
 import { CacheEvict } from "../../../common/decorators/cache-evict.decorator";
+import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
 import * as crypto from "crypto";
 
 /**
@@ -331,7 +332,7 @@ export class PermissionTemplateService {
    */
   @CacheEvict({ pattern: "cache:permission-template*" })
   async importTemplates(dto: ImportTemplateDto, userId: string) {
-    const results = [];
+    const results: Array<{ name: string; status: string; error?: string }> = [];
 
     for (const template of dto.templates) {
       try {
@@ -376,7 +377,7 @@ export class PermissionTemplateService {
         results.push({
           name: template.template_name,
           status: "failed",
-          error: error.message,
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
@@ -412,7 +413,7 @@ export class PermissionTemplateService {
         template_name: newName,
         template_type: "custom",
         description: template.description,
-        permission_config: template.permission_config,
+        permission_config: template.permission_config as any,
         category: template.category,
         platform_id: template.platform_id,
         dept_id: template.dept_id,

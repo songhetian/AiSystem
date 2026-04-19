@@ -48,8 +48,10 @@ class LRUCache<K, V> {
 
     // 如果超过最大容量，删除最旧的（第一个）
     if (this.cache.size >= this.maxSize) {
-      const firstKey = this.cache.keys().next().value;
-      this.cache.delete(firstKey);
+      const firstKey = this.cache.keys().next().value as K;
+      if (firstKey !== undefined) {
+        this.cache.delete(firstKey);
+      }
     }
 
     // 插入新值

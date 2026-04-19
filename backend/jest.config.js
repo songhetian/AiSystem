@@ -20,7 +20,7 @@ module.exports = {
   },
   setupFilesAfterEnv: ["<rootDir>/test/setup.ts"],
   testTimeout: 30000,
-  coverageThresholds: {
+  coverageThreshold: {
     global: {
       branches: 80,
       functions: 80,

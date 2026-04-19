@@ -70,10 +70,6 @@ export default function ApiKeysPage() {
 
   const keyword = Form.useWatch("name", filterForm) as string | undefined;
   const debouncedKeyword = useDebounce(keyword, 500);
-    queryFn: systemApi.listApiKeys,
-  });
-
-  const keyword = Form.useWatch("name", filterForm) as string | undefined;
 
   const filteredApiKeys = useMemo(() => {
     if (!debouncedKeyword) {

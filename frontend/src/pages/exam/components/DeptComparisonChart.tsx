@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, Empty, Skeleton, Space, Tabs } from 'antd';
+// @ts-ignore
 import { Column, Pie } from '@ant-design/plots';
 import { examApi } from '@/api/exam';
 import { systemApi } from '@/api/system';

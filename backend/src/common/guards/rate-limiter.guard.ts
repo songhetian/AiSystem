@@ -38,7 +38,7 @@ export class RateLimiterGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
-    const key = this.generateKey(request, options.type);
+    const key = this.generateKey(request, options.type || RateLimitType.IP);
 
     try {
       const allowed = await this.checkRateLimit(key, options);
@@ -63,7 +63,8 @@ export class RateLimiterGuard implements CanActivate {
       if (error instanceof HttpException) {
         throw error;
       }
-      this.logger.error(`Rate limiter error: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Rate limiter error: ${errorMessage}`);
       // Redis故障时降级，允许请求通过
       return true;
     }
@@ -103,28 +104,41 @@ export class RateLimiterGuard implements CanActivate {
     key: string,
     options: RateLimitOptions,
   ): Promise<boolean> {
-    const redis = this.redisService.getClient();
     const now = Date.now();
     const windowStart = now - options.window * 1000;
 
-    // 使用Redis的ZSET实现滑动窗口
-    const multi = redis.multi();
+    // 使用Redis的eval脚本实现滑动窗口
+    const script = `
+      local key = KEYS[1]
+      local now = tonumber(ARGV[1])
+      local windowStart = tonumber(ARGV[2])
+      local limit = tonumber(ARGV[3])
+      local window = tonumber(ARGV[4])
 
-    // 移除窗口外的记录
-    multi.zremrangebyscore(key, 0, windowStart);
+      -- 移除窗口外的记录
+      redis.call('ZREMRANGEBYSCORE', key, 0, windowStart)
 
-    // 获取当前窗口内的请求数
-    multi.zcard(key);
+      -- 获取当前窗口内的请求数
+      local count = redis.call('ZCARD', key)
 
-    // 添加当前请求
-    multi.zadd(key, now, `${now}-${Math.random()}`);
+      if count < limit then
+        -- 添加当前请求
+        redis.call('ZADD', key, now, now .. '-' .. math.random())
+        -- 设置过期时间
+        redis.call('EXPIRE', key, window)
+        return 1
+      else
+        return 0
+      end
+    `;
 
-    // 设置过期时间
-    multi.expire(key, options.window);
+    const result = await this.redisService.eval(script, [key], [
+      String(now),
+      String(windowStart),
+      String(options.limit),
+      String(options.window),
+    ]);
 
-    const results = await multi.exec();
-    const count = results[1][1] as number;
-
-    return count < options.limit;
+    return result === 1;
   }
 }

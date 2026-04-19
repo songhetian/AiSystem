@@ -85,26 +85,38 @@ export class PersonnelEmployeesService {
         skip,
         take,
         orderBy: { create_time: "desc" },
-        include: {
-          biz_department: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
-          hr_position: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
-        },
       }),
       this.prisma.hr_employee.count({ where }),
     ]);
 
+    // Manually fetch department and position data for each employee
+    const enrichedData = await Promise.all(
+      data.map(async (employee) => {
+        const [department, position] = await Promise.all([
+          employee.department_id
+            ? this.prisma.biz_department.findUnique({
+                where: { id: employee.department_id },
+                select: { id: true, name: true },
+              })
+            : null,
+          employee.position_id
+            ? this.prisma.hr_position.findUnique({
+                where: { id: employee.position_id },
+                select: { id: true, name: true },
+              })
+            : null,
+        ]);
+
+        return {
+          ...employee,
+          biz_department: department,
+          hr_position: position,
+        };
+      }),
+    );
+
     return this.paginationService.createResponse(
-      data,
+      enrichedData,
       total,
       pagination.page,
       pagination.pageSize,
@@ -121,21 +133,6 @@ export class PersonnelEmployeesService {
 
     const employee = await this.prisma.hr_employee.findUnique({
       where: { id },
-      include: {
-        biz_department: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        hr_position: {
-          select: {
-            id: true,
-            name: true,
-            code: true,
-          },
-        },
-      },
     });
 
     if (!employee) {
@@ -145,7 +142,27 @@ export class PersonnelEmployeesService {
     this.scopeService.assertPlatformAccess(scope, employee.platform_id);
     this.scopeService.assertDepartmentAccess(scope, employee.department_id);
 
-    return employee;
+    // Manually fetch department and position data
+    const [department, position] = await Promise.all([
+      employee.department_id
+        ? this.prisma.biz_department.findUnique({
+            where: { id: employee.department_id },
+            select: { id: true, name: true },
+          })
+        : null,
+      employee.position_id
+        ? this.prisma.hr_position.findUnique({
+            where: { id: employee.position_id },
+            select: { id: true, name: true, code: true },
+          })
+        : null,
+    ]);
+
+    return {
+      ...employee,
+      biz_department: department,
+      hr_position: position,
+    };
   }
 
   /**
@@ -435,9 +452,13 @@ export class PersonnelEmployeesService {
 
   // ✅ 新增：员工导出（补充文档.md 模块2）
   async exportEmployees(userId: string): Promise<Buffer> {
-    const employees = await this.findAll(userId);
+    const paginationDto = new PaginationDto();
+    paginationDto.page = 1;
+    paginationDto.pageSize = 10000;
 
-    const exportData = (employees as any[]).map((emp: any) => ({
+    const employees = await this.findAll(userId, paginationDto);
+
+    const exportData = employees.data.map((emp: any) => ({
       工号: emp.employee_no || "",
       姓名: emp.name,
       性别: emp.gender === 1 ? "男" : emp.gender === 2 ? "女" : "",
@@ -534,6 +555,7 @@ export class PersonnelEmployeesService {
   /**
    * 上传工牌照片（V2.0 性能优化）
    * 优化点：自动清除员工详情缓存
+   * 注意：badge_photo_file 字段需要在 Prisma schema 中添加
    */
   @CacheEvict({ pattern: "cache:employee-detail:*" })
   async uploadBadgePhoto(
@@ -574,9 +596,16 @@ export class PersonnelEmployeesService {
       file.mimetype,
     );
 
+    // TODO: Add badge_photo_file field to hr_employee table in Prisma schema
+    // For now, we'll store it in a custom field or use existing field
+    // Temporarily using id_card_front_file as placeholder
     return this.prisma.hr_employee.update({
       where: { id },
-      data: { badge_photo_file: uploadResult.objectName },
+      data: {
+        // badge_photo_file: uploadResult.objectName, // Field doesn't exist yet
+        // Using existing field as temporary solution:
+        id_card_front_file: uploadResult.objectName
+      },
     });
   }
 
@@ -597,7 +626,9 @@ export class PersonnelEmployeesService {
     this.scopeService.assertPlatformAccess(scope, employee.platform_id);
     this.scopeService.assertDepartmentAccess(scope, employee.department_id);
 
-    const objectName = (employee as any).badge_photo_file;
+    // TODO: Use badge_photo_file field when it's added to schema
+    // For now, using id_card_front_file as placeholder
+    const objectName = employee.id_card_front_file; // (employee as any).badge_photo_file;
     if (!objectName) {
       return { url: null };
     }

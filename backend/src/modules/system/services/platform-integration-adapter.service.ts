@@ -58,7 +58,7 @@ export class PlatformIntegrationAdapterService {
 
       hasMore = rawItems.length >= 10;
       currentPage++;
-      await new Promise((r) => setTimeout(resolve, 300));
+      await new Promise((r) => setTimeout(r, 300));
     }
   }
 

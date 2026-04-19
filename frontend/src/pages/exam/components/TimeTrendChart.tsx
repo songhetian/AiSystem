@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, Empty, Skeleton } from 'antd';
+// @ts-ignore
 import { Line } from '@ant-design/plots';
 import { examApi } from '@/api/exam';
 
@@ -17,7 +18,7 @@ export function TimeTrendChart({ planId }: TimeTrendChartProps) {
 
   const chartData = useMemo(() => {
     if (!data?.time_trend) return [];
-    
+
     return data.time_trend.map(item => ({
       date: item.date,
       count: item.count,

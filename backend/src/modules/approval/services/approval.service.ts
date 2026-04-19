@@ -227,9 +227,18 @@ export class ApprovalService {
   async duplicateTemplate(_userId: string | undefined, id: string) {
     const original = await this.getTemplate(_userId, id);
     const payload = this.normalizeTemplatePayload({
-      ...original,
       name: `${original.name} (副本)`,
-      id: randomUUID() as string,
+      type: original.type,
+      platformId: original.platformId,
+      platformName: original.platformName,
+      deptId: original.deptId,
+      departmentName: original.departmentName,
+      status: original.status as 'enabled' | 'disabled',
+      description: original.description,
+      nodes: original.nodes,
+      formFields: original.formFields,
+      updatedAt: new Date().toISOString(),
+      id: randomUUID(),
     }, randomUUID());
 
     const created = await this.templateDelegate.create({ data: payload });
@@ -318,8 +327,7 @@ export class ApprovalService {
 
   // ✅ 优化：添加缓存清除
   @CacheEvict({
-    prefix: ['approval:requests'],
-    pattern: '*',
+    pattern: 'approval:requests:*',
   })
   async approveRequest(userId: string, id: string, dto: ApprovalActionDto) {
     const request = await this.requestDelegate.findUnique({ where: { id } });
@@ -342,7 +350,7 @@ export class ApprovalService {
 
     // 会签 (AND) 逻辑处理
     let shouldAdvance = true;
-    let nextApprover = null;
+    let nextApprover: any = null;
 
     if (currentNode?.mode === 'and' && Array.isArray(currentNode.approvers)) {
       const approvedActors = new Set(
@@ -397,7 +405,8 @@ export class ApprovalService {
             senderId: userId,
           });
         } catch (error) {
-          this.logger.error(`Failed to send approval notification: ${error.message}`);
+          const errorMessage = error instanceof Error ? error.message : String(error);
+          this.logger.error(`Failed to send approval notification: ${errorMessage}`);
         }
       }
     } else {
@@ -457,8 +466,7 @@ export class ApprovalService {
 
   // ✅ 优化：添加缓存清除
   @CacheEvict({
-    prefix: ['approval:requests'],
-    pattern: '*',
+    pattern: 'approval:requests:*',
   })
   async rejectRequest(userId: string, id: string, dto: ApprovalActionDto) {
     const request = await this.requestDelegate.findUnique({ where: { id } });
@@ -493,7 +501,8 @@ export class ApprovalService {
         senderId: userId,
       });
     } catch (error) {
-       this.logger.error(`Failed to send rejection notification: ${error.message}`);
+       const errorMessage = error instanceof Error ? error.message : String(error);
+       this.logger.error(`Failed to send rejection notification: ${errorMessage}`);
     }
 
     return this.mapRequest(updated);
@@ -501,8 +510,7 @@ export class ApprovalService {
 
   // ✅ 优化：添加缓存清除
   @CacheEvict({
-    prefix: ['approval:requests'],
-    pattern: '*',
+    pattern: 'approval:requests:*',
   })
   async transferRequest(userId: string, id: string, dto: ApprovalActionDto) {
     if (!dto.target_user_id) throw new BadRequestException('请选择转审人员');
@@ -659,7 +667,6 @@ export class ApprovalService {
     const item = await this.templateDelegate.findFirst({ where: { id, is_deleted: 0 } });
     if (!item) throw new NotFoundException('审批模板不存在');
   }
-}
 
   /**
    * 获取审批详情
@@ -682,8 +689,7 @@ export class ApprovalService {
    * 批量审批通过
    */
   @CacheEvict({
-    prefix: ['approval:requests'],
-    pattern: '*',
+    pattern: 'approval:requests:*',
   })
   async batchApprove(userId: string, ids: string[], comment?: string) {
     const results = {
@@ -710,8 +716,7 @@ export class ApprovalService {
    * 批量审批驳回
    */
   @CacheEvict({
-    prefix: ['approval:requests'],
-    pattern: '*',
+    pattern: 'approval:requests:*',
   })
   async batchReject(userId: string, ids: string[], comment?: string) {
     const results = {

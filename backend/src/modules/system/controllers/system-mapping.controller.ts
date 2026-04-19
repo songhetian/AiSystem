@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Query, UseGuards, Logger } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { JwtAuthGuard } from '../../auth/strategies/jwt.strategy';
+import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard';
 import { CurrentUser, CurrentUserPayload } from '../../../common/current-user.decorator';
 import { ScopeService } from '../../../common/services/scope.service';
 import { SavePlatformConfigDto } from '../dto/platform-config.dto';
@@ -29,10 +29,10 @@ export class SystemMappingController {
     if (deptId) where.dept_id = deptId;
 
     const list = await (this.prisma as any).sys_platform_config.findMany({
-      where: this.scopeService.applyScope(where, scope, { 
-        platform: 'platform_id', 
-        department: 'dept_id', 
-        shop: 'shop_id' 
+      where: this.scopeService.applyScope(where, scope, {
+        platform: 'platform_id',
+        department: 'dept_id',
+        shop: 'shop_id'
       }),
       orderBy: { update_time: 'desc' }
     });
@@ -46,11 +46,11 @@ export class SystemMappingController {
 
   @Post('configs')
   async saveConfig(
-    @CurrentUser() user: CurrentUserPayload, 
+    @CurrentUser() user: CurrentUserPayload,
     @Body() dto: SavePlatformConfigDto
   ) {
     const scope = await this.scopeService.resolveAccess(user.sub);
-    
+
     // 规范 3.2: 接口调用权限强制校验
     this.scopeService.assertPlatformAccess(scope, dto.platform_id);
     this.scopeService.assertDepartmentAccess(scope, dto.dept_id);
@@ -59,13 +59,13 @@ export class SystemMappingController {
 
     let result;
     if (dto.id) {
-      this.logger.log(`🛠️ [AUDIT] 用户 ${user.name} 正在更新集成链路: ${dto.id}`);
+      this.logger.log(`🛠️ [AUDIT] 用户 ${user.username || user.sub} 正在更新集成链路: ${dto.id}`);
       result = await (this.prisma as any).sys_platform_config.update({
         where: { id: dto.id },
         data
       });
     } else {
-      this.logger.log(`✨ [AUDIT] 用户 ${user.name} 正在建立新集成链路: ${dto.platform_id}`);
+      this.logger.log(`✨ [AUDIT] 用户 ${user.username || user.sub} 正在建立新集成链路: ${dto.platform_id}`);
       result = await (this.prisma as any).sys_platform_config.create({ data });
     }
 
@@ -100,7 +100,7 @@ export class SystemMappingController {
   ) {
     const scope = await this.scopeService.resolveAccess(user.sub);
     const where: any = { is_deleted: 0 };
-    
+
     if (query.platform_id) where.platform_id = query.platform_id;
     if (query.log_level) where.log_level = query.log_level;
 

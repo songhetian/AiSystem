@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { request } from '@/utils/request';
+import request from '@/utils/request';
 import type { AttendanceWorkflowQuery } from './types';
 import {
   addPendingCheckin,

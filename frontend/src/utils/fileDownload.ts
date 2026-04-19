@@ -29,6 +29,15 @@ export function downloadBlob(blob: Blob, filename: string): void {
 }
 
 /**
+ * 下载文件（downloadBlob的别名）
+ * @param blob - Blob对象
+ * @param filename - 文件名
+ */
+export function downloadFile(blob: Blob, filename: string): void {
+  downloadBlob(blob, filename);
+}
+
+/**
  * 读取文件内容
  * @param file - 文件对象
  * @returns Promise<string> - 文件内容

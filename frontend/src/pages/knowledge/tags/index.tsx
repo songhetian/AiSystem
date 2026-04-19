@@ -717,11 +717,11 @@ function AiSuggestTab() {
   };
 
   const handleBatchImport = () => {
-    confirmBatchAction({
-      selectedCount: selected.length,
-      actionName: "导入",
-      onConfirm: () => batchMutation.mutate(selected),
-    });
+    confirmBatchAction(
+      selected.length,
+      "导入",
+      () => batchMutation.mutate(selected),
+    );
   };
 
   return (

@@ -158,7 +158,7 @@ export default function ApprovalProcessPage() {
 
   const createMutation = useMutation({
     mutationFn: approvalApi.createTemplate,
-    onSuccess: async (template) => {
+    onSuccess: async (template: ApprovalTemplate) => {
       message.success("模板已创建");
       setCreateOpen(false);
       createForm.resetFields();

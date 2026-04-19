@@ -9,11 +9,11 @@ import {
   Select,
   message,
 } from "antd";
-import { BaseTable } from "@/components/BaseTable";
-import { Permission } from "@/components/Permission";
+import { BaseTable } from "@/components/table/BaseTable";
+import { Permission } from "@/components/permission/Permission";
 import { serviceApi } from "@/api/service";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import GlobalLoading from "@/components/common/GlobalLoading";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -112,7 +112,7 @@ export default function LossAnalysisPage() {
       width: 120,
       fixed: "right",
       render: (_: any, record: any) => (
-        <Permission button_code="service:loss:mark">
+        <Permission code="service:loss:mark">
           <a
             className="text-indigo-600 hover:text-indigo-800 font-black"
             onClick={() => {

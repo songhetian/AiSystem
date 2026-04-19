@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, Empty, Skeleton, Statistic, Row, Col, Space } from 'antd';
+// @ts-ignore
 import { Column, Line } from '@ant-design/plots';
 import { financeApi } from '@/api/finance';
 
@@ -25,7 +26,7 @@ export function PurchaseStatsChart({ platformId, startDate, endDate, deptId }: P
       planned: item.planned_amount,
       actual: item.actual_amount,
       count: item.count
-    })).sort((a, b) => b.actual - a.actual);
+    })).sort((a: any, b: any) => b.actual - a.actual);
   }, [data]);
 
   const trendData = useMemo(() => {
@@ -63,7 +64,7 @@ export function PurchaseStatsChart({ platformId, startDate, endDate, deptId }: P
   }
 
   const departmentConfig = {
-    data: departmentData.flatMap(item => [
+    data: departmentData.flatMap((item: any) => [
       { dept: item.dept, type: '预算金额', amount: item.planned },
       { dept: item.dept, type: '实际金额', amount: item.actual }
     ]),
@@ -194,10 +195,10 @@ export function PurchaseStatsChart({ platformId, startDate, endDate, deptId }: P
             <Statistic title="实际金额" value={data.summary.actual_amount} prefix="￥" precision={2} />
           </Col>
           <Col span={6}>
-            <Statistic 
-              title="预算差异" 
-              value={data.summary.variance} 
-              prefix="￥" 
+            <Statistic
+              title="预算差异"
+              value={data.summary.variance}
+              prefix="￥"
               precision={2}
               valueStyle={{ color: data.summary.variance > 0 ? '#cf1322' : '#3f8600' }}
             />

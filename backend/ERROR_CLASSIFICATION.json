@@ -1,0 +1,382 @@
+{
+  "summary": {
+    "totalErrors": 1127,
+    "analysisDate": "2025-01-01",
+    "status": "COMPILATION_FAILED"
+  },
+  "errorCategories": {
+    "prismaTypeErrors": {
+      "name": "Prisma 类型错误",
+      "count": 935,
+      "percentage": 83.0,
+      "description": "Prisma 生成的类型定义与代码使用不匹配",
+      "severity": "CRITICAL",
+      "examples": [
+        "Type 'JsonValue' is not assignable to type 'JsonNull | InputJsonValue'",
+        "Property 'where' does not exist on type 'attendance_leaveCreateArgs'",
+        "Type 'PaginatedResponse<any>' has no matching index signature for type 'number'"
+      ],
+      "affectedFiles": [
+        "node_modules/.prisma/client/index.d.ts",
+        "src/modules/shop/services/product.service.ts",
+        "src/modules/system/services/dashboard.service.ts",
+        "src/modules/system/services/permission-template.service.ts",
+        "src/prisma/prisma.service.ts"
+      ]
+    },
+    "decoratorParameterErrors": {
+      "name": "装饰器参数错误",
+      "count": 48,
+      "percentage": 4.3,
+      "description": "装饰器参数类型不匹配或缺少必需属性",
+      "severity": "HIGH",
+      "subcategories": {
+        "rateLimitMissingType": {
+          "name": "@RateLimit 缺少 'type' 属性",
+          "count": 30,
+          "affectedFiles": [
+            "src/modules/service/controllers/service.controller.ts",
+            "src/modules/system/controllers/system-menus.controller.ts",
+            "src/modules/system/controllers/system-roles.controller.ts",
+            "src/modules/system/controllers/system-users.controller.ts"
+          ]
+        },
+        "cacheInvalidKey": {
+          "name": "@Cache 中 'key' 属性不存在",
+          "count": 8,
+          "affectedFiles": [
+            "src/modules/service/controllers/service.controller.ts",
+            "src/modules/system/controllers/system-menus.controller.ts",
+            "src/modules/system/controllers/system-roles.controller.ts",
+            "src/modules/system/controllers/system-users.controller.ts"
+          ]
+        },
+        "cacheEvictInvalidKeys": {
+          "name": "@CacheEvict 中 'keys' 属性不存在",
+          "count": 10,
+          "affectedFiles": [
+            "src/modules/service/controllers/service.controller.ts",
+            "src/modules/system/controllers/system-menus.controller.ts",
+            "src/modules/system/controllers/system-roles.controller.ts",
+            "src/modules/system/controllers/system-users.controller.ts"
+          ]
+        }
+      }
+    },
+    "missingPropertyErrors": {
+      "name": "缺少属性错误",
+      "count": 38,
+      "percentage": 3.4,
+      "description": "对象或类型中不存在指定的属性",
+      "severity": "HIGH",
+      "examples": [
+        "Property 'sort' does not exist on type 'SystemDepartmentsService'",
+        "Property 'name' does not exist on type 'CurrentUserPayload'",
+        "Property 'fetchData' does not exist on type 'PlatformIntegrationAdapterService'"
+      ],
+      "affectedFiles": [
+        "src/modules/system/controllers/system-departments.controller.ts",
+        "src/modules/system/controllers/system-mapping.controller.ts",
+        "src/modules/system/services/system-departments.service.ts",
+        "src/modules/system/workers/cron.worker.ts"
+      ]
+    },
+    "moduleImportErrors": {
+      "name": "模块导入错误",
+      "count": 8,
+      "percentage": 0.7,
+      "description": "无法找到或导入所需的模块",
+      "severity": "CRITICAL",
+      "subcategories": {
+        "dayjsNotFound": {
+          "name": "dayjs 模块未找到",
+          "count": 3,
+          "affectedFiles": [
+            "src/modules/system/services/integration-monitor.service.ts",
+            "src/modules/system/services/system-logs.service.ts",
+            "src/modules/system/workers/cron.worker.ts"
+          ]
+        },
+        "jwtAuthGuardNotFound": {
+          "name": "jwt-auth.guard 导入路径错误",
+          "count": 2,
+          "affectedFiles": [
+            "src/modules/system/controllers/dashboard.controller.ts",
+            "src/modules/system/controllers/system-messages.controller.ts"
+          ]
+        },
+        "currentUserDecoratorNotFound": {
+          "name": "current-user.decorator 导入路径错误",
+          "count": 2,
+          "affectedFiles": [
+            "src/modules/system/controllers/dashboard.controller.ts",
+            "src/modules/system/controllers/system-messages.controller.ts"
+          ]
+        },
+        "currentUserInterfaceNotFound": {
+          "name": "current-user.interface 导入路径错误",
+          "count": 2,
+          "affectedFiles": [
+            "src/modules/system/controllers/dashboard.controller.ts",
+            "src/modules/system/controllers/system-messages.controller.ts"
+          ]
+        }
+      }
+    },
+    "typeIncompatibilityErrors": {
+      "name": "类型不兼容错误",
+      "count": 25,
+      "percentage": 2.2,
+      "description": "类型之间不兼容或无法转换",
+      "severity": "HIGH",
+      "examples": [
+        "Type 'PaginatedResponse<any>' may be a mistake because neither type sufficiently overlaps",
+        "Expected 3 arguments, but got 2",
+        "Type 'string | undefined' is not assignable to type 'string'"
+      ]
+    },
+    "unknownTypeErrors": {
+      "name": "未知类型错误",
+      "count": 18,
+      "percentage": 1.6,
+      "description": "变量或参数类型为 unknown 或未定义",
+      "severity": "MEDIUM",
+      "subcategories": {
+        "errorTypeUnknown": {
+          "name": "'error' 类型为 unknown",
+          "count": 12,
+          "affectedFiles": [
+            "src/modules/system/services/archive.service.ts",
+            "src/modules/system/services/mapping.service.ts",
+            "src/modules/system/services/permission-cleanup.service.ts",
+            "src/modules/system/services/permission-template.service.ts",
+            "src/modules/system/services/system-logs.service.ts",
+            "src/modules/system/workers/cron.worker.ts"
+          ]
+        },
+        "jestNotDefined": {
+          "name": "'jest' 未定义",
+          "count": 6,
+          "affectedFiles": [
+            "test/helpers/test-utils.ts",
+            "test/setup.ts"
+          ]
+        }
+      }
+    },
+    "syntaxErrors": {
+      "name": "语法错误",
+      "count": 15,
+      "percentage": 1.3,
+      "description": "代码语法错误，如缺少逗号、分号等",
+      "severity": "CRITICAL",
+      "affectedFiles": [
+        "src/modules/system/services/system-departments.service.ts",
+        "src/modules/system/services/dashboard.service.ts",
+        "src/modules/system/services/platform-integration-adapter.service.ts"
+      ]
+    },
+    "methodPropertyNotExistErrors": {
+      "name": "方法/属性不存在错误",
+      "count": 15,
+      "percentage": 1.3,
+      "description": "调用不存在的方法或访问不存在的属性",
+      "severity": "HIGH",
+      "examples": [
+        "Property 'sort' does not exist on type 'SystemDepartmentsService'",
+        "Property 'map' does not exist on type 'PaginatedResponse<any>'"
+      ]
+    },
+    "exportErrors": {
+      "name": "导出错误",
+      "count": 1,
+      "percentage": 0.1,
+      "description": "模块中没有导出指定的成员",
+      "severity": "MEDIUM",
+      "examples": [
+        "Module '\"../../auth/strategies/jwt.strategy\"' has no exported member 'JwtAuthGuard'"
+      ]
+    },
+    "otherErrors": {
+      "name": "其他错误",
+      "count": 8,
+      "percentage": 0.7,
+      "description": "其他类型的编译错误",
+      "severity": "MEDIUM"
+    }
+  },
+  "fileErrorDistribution": {
+    "prismaGeneratedTypes": {
+      "file": "node_modules/.prisma/client/index.d.ts",
+      "errorCount": 935,
+      "percentage": 83.0,
+      "category": "prismaTypeErrors"
+    },
+    "systemDashboardService": {
+      "file": "src/modules/system/services/dashboard.service.ts",
+      "errorCount": 8,
+      "percentage": 0.7,
+      "categories": [
+        "prismaTypeErrors",
+        "syntaxErrors"
+      ]
+    },
+    "systemPermissionTemplateService": {
+      "file": "src/modules/system/services/permission-template.service.ts",
+      "errorCount": 12,
+      "percentage": 1.1,
+      "categories": [
+        "prismaTypeErrors",
+        "unknownTypeErrors"
+      ]
+    },
+    "systemDepartmentsService": {
+      "file": "src/modules/system/services/system-departments.service.ts",
+      "errorCount": 15,
+      "percentage": 1.3,
+      "categories": [
+        "syntaxErrors",
+        "typeIncompatibilityErrors"
+      ]
+    },
+    "systemUsersController": {
+      "file": "src/modules/system/controllers/system-users.controller.ts",
+      "errorCount": 18,
+      "percentage": 1.6,
+      "categories": [
+        "decoratorParameterErrors"
+      ]
+    },
+    "systemMenusController": {
+      "file": "src/modules/system/controllers/system-menus.controller.ts",
+      "errorCount": 14,
+      "percentage": 1.2,
+      "categories": [
+        "decoratorParameterErrors"
+      ]
+    },
+    "systemRolesController": {
+      "file": "src/modules/system/controllers/system-roles.controller.ts",
+      "errorCount": 12,
+      "percentage": 1.1,
+      "categories": [
+        "decoratorParameterErrors"
+      ]
+    },
+    "serviceController": {
+      "file": "src/modules/service/controllers/service.controller.ts",
+      "errorCount": 12,
+      "percentage": 1.1,
+      "categories": [
+        "decoratorParameterErrors"
+      ]
+    },
+    "testHelpers": {
+      "file": "test/helpers/test-utils.ts",
+      "errorCount": 6,
+      "percentage": 0.5,
+      "categories": [
+        "unknownTypeErrors"
+      ]
+    },
+    "testSetup": {
+      "file": "test/setup.ts",
+      "errorCount": 7,
+      "percentage": 0.6,
+      "categories": [
+        "unknownTypeErrors"
+      ]
+    }
+  },
+  "rootCauses": [
+    {
+      "cause": "Prisma schema 定义与生成的类型不一致",
+      "impact": "83% 的错误",
+      "affectedAreas": [
+        "数据库操作",
+        "类型定义"
+      ],
+      "solution": "重新生成 Prisma 客户端或更新 schema 定义"
+    },
+    {
+      "cause": "装饰器接口定义与实际使用不符",
+      "impact": "4.3% 的错误",
+      "affectedAreas": [
+        "@RateLimit",
+        "@Cache",
+        "@CacheEvict"
+      ],
+      "solution": "更新装饰器定义或统一使用方式"
+    },
+    {
+      "cause": "模块导入路径错误或依赖未安装",
+      "impact": "0.7% 的错误",
+      "affectedAreas": [
+        "dayjs",
+        "jwt-auth.guard",
+        "current-user.decorator"
+      ],
+      "solution": "安装依赖或修正导入路径"
+    },
+    {
+      "cause": "方法签名与调用处参数不一致",
+      "impact": "1.3% 的错误",
+      "affectedAreas": [
+        "findAll()",
+        "sort()",
+        "fetchData()"
+      ],
+      "solution": "统一方法签名或更新调用处参数"
+    },
+    {
+      "cause": "错误处理中的类型问题",
+      "impact": "1.6% 的错误",
+      "affectedAreas": [
+        "catch 块",
+        "error 处理"
+      ],
+      "solution": "添加类型断言或类型守卫"
+    }
+  ],
+  "fixingStrategy": {
+    "phase1": {
+      "name": "关键问题修复",
+      "priority": "CRITICAL",
+      "tasks": [
+        "重新生成 Prisma 客户端",
+        "安装缺失的依赖（dayjs）",
+        "修复导入路径错误"
+      ],
+      "expectedErrorReduction": "~85%"
+    },
+    "phase2": {
+      "name": "装饰器和接口修复",
+      "priority": "HIGH",
+      "tasks": [
+        "更新 RateLimitOptions 接口",
+        "更新 CacheOptions 接口",
+        "更新 CacheEvictOptions 接口"
+      ],
+      "expectedErrorReduction": "~4%"
+    },
+    "phase3": {
+      "name": "方法签名和类型修复",
+      "priority": "HIGH",
+      "tasks": [
+        "修复 findAll() 方法签名",
+        "完成 sort() 方法实现",
+        "添加错误处理类型断言"
+      ],
+      "expectedErrorReduction": "~10%"
+    },
+    "phase4": {
+      "name": "测试和验证",
+      "priority": "MEDIUM",
+      "tasks": [
+        "运行编译验证",
+        "运行单元测试",
+        "代码审查"
+      ]
+    }
+  }
+}

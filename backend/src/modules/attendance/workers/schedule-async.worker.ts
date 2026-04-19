@@ -8,7 +8,7 @@ import { ScheduleAsyncService } from '../services/schedule-async.service';
 
 /**
  * 异步排班任务处理器 (V4.0)
- * 
+ *
  * 功能：
  * 1. 后台异步生成大规模排班
  * 2. 实时更新任务进度
@@ -33,7 +33,7 @@ export class ScheduleAsyncWorker extends WorkerHost {
         return await this.handleGenerateSchedule(job);
       }
     } catch (error) {
-      this.logger.error(`[Worker Error] 任务 ${job.id} 执行失败: ${error.message}`, error.stack);
+      this.logger.error(`[Worker Error] 任务 ${job.id} 执行失败: ${error instanceof Error ? error.message : String(error)}`, error instanceof Error ? error.stack : undefined);
       throw error;
     }
   }
@@ -117,7 +117,7 @@ export class ScheduleAsyncWorker extends WorkerHost {
 
     // 6. 运行排班算法
     const scheduleData = this.scheduleAlgorithmService.runSchedulingEngine(
-      employees,
+      employees as any,
       shifts,
       days,
       config.priority || 'fairness',
@@ -137,7 +137,7 @@ export class ScheduleAsyncWorker extends WorkerHost {
 
     // 7. 保存排班结果
     const validData = scheduleData.filter(item => item.employee_id !== '__shortage__');
-    
+
     await this.prisma.$transaction(async (tx) => {
       // 删除旧排班
       await tx.attendance_schedule.deleteMany({
@@ -183,8 +183,8 @@ export class ScheduleAsyncWorker extends WorkerHost {
         applied_by: userId,
         applied_at: new Date(),
         items_count: validData.length,
-        schedule_data: scheduleData,
-        config_params: config,
+        schedule_data: scheduleData as any,
+        config_params: config as any,
       },
     });
 
@@ -211,7 +211,7 @@ export class ScheduleAsyncWorker extends WorkerHost {
   @OnWorkerEvent('failed')
   onFailed(job: Job, error: Error) {
     this.logger.warn(`任务 ${job.id} 最终失败: ${error.message} (已尝试 ${job.attemptsMade} 次)`);
-    
+
     // 通知用户任务失败
     if (job.data.userId) {
       this.scheduleAsyncService.notifyJobFailed(

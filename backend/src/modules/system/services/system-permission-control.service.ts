@@ -32,7 +32,7 @@ export class SystemPermissionControlService {
     const { roleIds, permissionIds, action } = dto;
 
     return await this.prisma.$transaction(async (tx) => {
-      const results = [];
+      const results: Array<{ roleId: string; action: string; menuCount?: number; buttonCount?: number; deletedMenus?: any; deletedButtons?: any }> = [];
 
       for (const roleId of roleIds) {
         if (action === "assign") {
@@ -272,7 +272,7 @@ export class SystemPermissionControlService {
   @CacheEvict({ pattern: "cache:permission-control-*" })
   async batchUpdatePermissionControl(dto: BatchUpdatePermissionControlDto) {
     return await this.prisma.$transaction(async (tx) => {
-      const results = [];
+      const results: Array<any> = [];
 
       for (const config of dto.configs) {
         const existing = await tx.sys_permission_control_config.findFirst({
@@ -360,7 +360,7 @@ export class SystemPermissionControlService {
         where: { config_key: configKey },
         data: {
           config_value: configValue,
-          config_type: configType,
+          config_type: configType || 'string',
           description,
         },
       });
@@ -369,7 +369,7 @@ export class SystemPermissionControlService {
         data: {
           config_key: configKey,
           config_value: configValue,
-          config_type: configType,
+          config_type: configType || 'string',
           description,
         },
       });

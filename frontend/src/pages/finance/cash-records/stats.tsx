@@ -5,7 +5,7 @@ import { CashRecordStatsChart } from "../components/CashRecordStatsChart";
 import { useAppScope } from "@/hooks/useAppScope";
 import dayjs from "dayjs";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import GlobalLoading from "@/components/common/GlobalLoading";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 const { RangePicker } = DatePicker;
 

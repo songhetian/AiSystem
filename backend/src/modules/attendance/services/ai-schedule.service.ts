@@ -135,9 +135,23 @@ export class AiScheduleService implements OnModuleInit {
       demandMap.set(dKey, d.required_count);
     });
 
+    // 5.5 生成日期列表和获取配置参数
+    const days: Date[] = [];
+    const startDate = new Date(dto.start_date);
+    const endDate = new Date(dto.end_date);
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      days.push(new Date(d));
+    }
+
+    const config = dto.config || {};
+    const maxConsec = config.max_consecutive_days ?? 6;
+    const maxWeekHours = config.max_hours_per_week ?? 40;
+    const maxDayHours = config.daily_max_hours ?? 8;
+    const minStaff = config.min_staff_per_shift ?? 1;
+
     // 6. 生成两份草案（使用优化的算法引擎）
     const fairnessDraft = this.scheduleAlgorithmService.runSchedulingEngine(
-      employees,
+      employees as any,
       shifts,
       days,
       'fairness',
@@ -153,7 +167,7 @@ export class AiScheduleService implements OnModuleInit {
     );
 
     const coverageDraft = this.scheduleAlgorithmService.runSchedulingEngine(
-      employees,
+      employees as any,
       shifts,
       days,
       'coverage',
@@ -934,47 +948,6 @@ export class AiScheduleService implements OnModuleInit {
       startDate,
       endDate
     );
-  }ncludes(s) || s.includes(shift.name))) {
-              isWarning = true;
-              warningReason = `员工偏好避开该班次（${shift.name}）`;
-            }
-          }
-
-          results.push({
-            employee_id: emp.id,
-            employee_name: emp.name,
-            schedule_date: dateStr,
-            shift_id: shift.id,
-            shift_name: shift.name,
-            dept_id: emp.department_id,
-            is_warning: isWarning,
-            warning_reason: warningReason,
-          });
-
-          state.totalWeekHours += shiftHours;
-          state.lastScheduledDate = dateStr;
-          state.scheduledCount += 1;
-          state.consecutiveDays += 1; // 这里简化处理，实际由于按天循环，每次成功分配就是+1
-
-          available.splice(available.indexOf(emp), 1);
-          assigned++;
-        }
-
-        if (assigned < needCount) {
-          results.push({
-            employee_id: '__shortage__',
-            employee_name: `⚠️ 人力缺口`,
-            schedule_date: dateStr,
-            shift_id: shift.id,
-            shift_name: shift.name,
-            dept_id: '',
-            is_warning: true,
-            warning_reason: `${shift.name} 当日所需 ${needCount} 人，仅排出 ${assigned} 人`,
-          });
-        }
-      }
-    }
-    return results;
   }
 
 

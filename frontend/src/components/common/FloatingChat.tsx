@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Input, Button, Avatar, Spin, message, Badge, Tooltip } from 'antd';
+import { Input, Button, Avatar, Spin, message, Badge, Tooltip, Space } from 'antd';
 import { SendOutlined, CloseOutlined, MinusOutlined, RobotOutlined, UserOutlined, MessageOutlined, FileSearchOutlined, ReloadOutlined } from '@ant-design/icons';
 import { knowledgeApi, KnowledgeChatMessage } from '@/api/knowledge';
 import { useGlobalStore } from '@/models/global';
-import { motion, AnimatePresence } from 'framer-motion';
 
 const FloatingChat: React.FC = () => {
   const { token } = useGlobalStore();
@@ -87,18 +86,17 @@ const FloatingChat: React.FC = () => {
 
   return (
     <div className="fixed bottom-6 right-6 z-[1000]">
-      <AnimatePresence>
         {!visible && (
-          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} onClick={() => setVisible(true)} className="cursor-pointer group flex items-center space-x-2 bg-slate-900 p-3 rounded-full shadow-2xl hover:bg-slate-800 transition-all">
+          <div onClick={() => setVisible(true)} className="cursor-pointer group flex items-center space-x-2 bg-slate-900 p-3 rounded-full shadow-2xl hover:bg-slate-800 transition-all">
             <div className="bg-blue-500 w-10 h-10 rounded-full flex items-center justify-center">
               <RobotOutlined className="text-white text-xl" />
             </div>
             <span className="text-white font-black pr-2">豆包</span>
-          </motion.div>
+          </div>
         )}
 
         {visible && (
-          <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 100 }} className={`bg-white shadow-2xl border border-slate-200 rounded-3xl overflow-hidden flex flex-col transition-all duration-300 ${minimized ? 'h-14 w-[380px]' : 'h-[550px] w-[380px]'}`}>
+          <div className={`bg-white shadow-2xl border border-slate-200 rounded-3xl overflow-hidden flex flex-col transition-all duration-300 ${minimized ? 'h-14 w-[380px]' : 'h-[550px] w-[380px]'}`}>
             {/* Header */}
             <div className="bg-white border-b border-slate-100 p-4 flex justify-between items-center h-14 shrink-0">
               <Space>
@@ -118,7 +116,7 @@ const FloatingChat: React.FC = () => {
                 {/* Messages */}
                 <div className="flex-1 overflow-auto p-4 space-y-6 bg-slate-50">
                   {messages.length === 0 && !loading && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col items-center justify-center p-8 text-center space-y-6">
+                    <div className="h-full flex flex-col items-center justify-center p-8 text-center space-y-6">
                       <div className="bg-white p-6 rounded-full shadow-md">
                         <RobotOutlined style={{ fontSize: 48 }} className="text-blue-500" />
                       </div>
@@ -128,23 +126,23 @@ const FloatingChat: React.FC = () => {
                           你可以询问我关于考勤、报销或公积金政策的问题。
                         </p>
                       </div>
-                    </motion.div>
+                    </div>
                   )}
-                  
+
                   {messages.map((msg) => (
                     <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                       <div className={`flex max-w-[90%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                         <Avatar size="small" icon={msg.role === 'user' ? <UserOutlined /> : <RobotOutlined />} className={`${msg.role === 'user' ? 'ml-2 bg-slate-700' : 'mr-2 bg-slate-900'}`} />
                         <div className={`p-3 rounded-2xl text-xs leading-loose font-bold ${msg.role === 'user' ? 'bg-slate-900 text-white shadow-lg' : 'bg-white text-slate-900 shadow-sm border border-slate-100'}`}>
                           {msg.content || (msg.role === 'assistant' && <Spin size="small" />)}
-                          
+
                           {/* 图片引用展示 */}
                           {msg.role === 'assistant' && msg.references?.some((r: any) => r.type === 'image') && (
                             <div className="mt-3 flex flex-wrap gap-2">
                               {msg.references.filter((r: any) => r.type === 'image').map((ref: any) => (
                                 <Tooltip title="点击查看大图" key={ref.id}>
-                                  <img 
-                                    src={ref.url} 
+                                  <img
+                                    src={ref.url}
                                     className="w-20 h-20 object-cover rounded-lg border border-slate-200 cursor-pointer hover:opacity-80 transition-all shadow-sm"
                                     onClick={() => window.open(ref.url, '_blank')}
                                   />
@@ -172,9 +170,8 @@ const FloatingChat: React.FC = () => {
                 </div>
               </>
             )}
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
     </div>
   );
 };

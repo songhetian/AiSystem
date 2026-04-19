@@ -114,7 +114,6 @@ export default function ExamResultsPage() {
         title: '结果',
         render: (_, record) =>
           record.status === 'submitted' ? (
-            <Space>
             <Space direction="vertical" size={2}>
               <Tag color={record.passed === 1 ? 'success' : 'error'}>{record.passed === 1 ? '通过' : '未通过'}</Tag>
               <span className="font-bold text-slate-900">{record.score} / {record.plan.paper?.total_score ?? '-'}</span>

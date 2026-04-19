@@ -7,8 +7,7 @@ import {
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Observable, throwError } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import {
   TRANSACTION_KEY,
   TransactionOptions,
@@ -46,9 +45,21 @@ export class TransactionInterceptor implements NestInterceptor {
     this.logger.log(`Transaction started for ${handler}`);
 
     try {
+      // 映射隔离级别
+      const isolationLevelMap: Record<string, Prisma.TransactionIsolationLevel> = {
+        READ_UNCOMMITTED: Prisma.TransactionIsolationLevel.ReadUncommitted,
+        READ_COMMITTED: Prisma.TransactionIsolationLevel.ReadCommitted,
+        REPEATABLE_READ: Prisma.TransactionIsolationLevel.RepeatableRead,
+        SERIALIZABLE: Prisma.TransactionIsolationLevel.Serializable,
+      };
+
+      const isolationLevel = options.isolationLevel
+        ? isolationLevelMap[options.isolationLevel]
+        : undefined;
+
       // 使用Prisma事务
       const result = await this.prisma.$transaction(
-        async (tx) => {
+        async (tx: any) => {
           // 将事务对象注入到请求中
           const request = context.switchToHttp().getRequest();
           request.transaction = tx;
@@ -59,7 +70,7 @@ export class TransactionInterceptor implements NestInterceptor {
         {
           maxWait: options.timeout || 30000,
           timeout: options.timeout || 30000,
-          isolationLevel: options.isolationLevel,
+          isolationLevel,
         },
       );
 
@@ -74,8 +85,9 @@ export class TransactionInterceptor implements NestInterceptor {
       });
     } catch (error) {
       const duration = Date.now() - startTime;
+      const errorMessage = error instanceof Error ? error.message : String(error);
       this.logger.error(
-        `Transaction rolled back for ${handler}, duration: ${duration}ms, error: ${error.message}`,
+        `Transaction rolled back for ${handler}, duration: ${duration}ms, error: ${errorMessage}`,
       );
 
       return throwError(() => error);

@@ -47,7 +47,7 @@ export const useGlobalStore = create<GlobalState>((set) => ({
           if (user) {
             user.buttonCodesSet = new Set(user.buttons?.map((b: any) => b.button_code) ?? []);
             user.menuCodesSet = new Set(user.menus?.map((m: any) => m.menu_code) ?? []);
-            user.routesSet = new Set(user.menus?.map((m: any) => m.route).filter(Boolean) ?? []);
+            user.routesSet = new Set(user.menus?.map((m: any) => m.route).filter((r: any): r is string => Boolean(r)) ?? []);
           }
           return user;
         })(),
@@ -72,9 +72,9 @@ export const useGlobalStore = create<GlobalState>((set) => ({
           currentUser.menus?.map(m => m.menu_code) ?? []
         );
         currentUser.routesSet = new Set(
-          currentUser.menus?.map(m => m.route).filter(Boolean) ?? []
+          currentUser.menus?.map(m => m.route).filter((r): r is string => Boolean(r)) ?? []
         );
-        
+
         // 存储到localStorage（Set会被忽略，恢复时重新生成）
         localStorage.setItem("currentUser", JSON.stringify({
           ...currentUser,

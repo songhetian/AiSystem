@@ -26,7 +26,7 @@ export const AIScheduleModal = ({ open, onCancel, onSuccess }: AIScheduleModalPr
   });
 
   const { mutateAsync: generateDrafts, isPending: generating } = useMutation({
-    mutationFn: attendanceApi.generateDrafts,
+    mutationFn: (data: Parameters<typeof attendanceApi.generateDrafts>[0]) => attendanceApi.generateDrafts(data),
     onSuccess: (res) => {
       if (res.success) {
         setDrafts(res.drafts);
@@ -113,8 +113,8 @@ export const AIScheduleModal = ({ open, onCancel, onSuccess }: AIScheduleModalPr
           />
           <div className="mt-8 flex gap-4 justify-center">
              {drafts.map((draft, idx) => (
-                <div 
-                  key={draft.id} 
+                <div
+                  key={draft.id}
                   className={`border-2 rounded-xl p-4 cursor-pointer w-[280px] transition-all
                   ${selectedDraftIndex === idx ? 'border-blue-600 bg-blue-50 shadow-md' : 'border-slate-200 bg-white hover:border-slate-400'}`}
                   onClick={() => setSelectedDraftIndex(idx)}

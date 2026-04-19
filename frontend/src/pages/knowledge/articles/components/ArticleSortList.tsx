@@ -17,7 +17,7 @@ export function ArticleSortList() {
 
   const { data: categories = [] } = useQuery<KnowledgeCategory[]>({
     queryKey: ["knowledge-categories"],
-    queryFn: knowledgeApi.listCategories,
+    queryFn: () => knowledgeApi.listCategories(),
   });
 
   const { data = [], isLoading } = useQuery<KnowledgeArticle[]>({

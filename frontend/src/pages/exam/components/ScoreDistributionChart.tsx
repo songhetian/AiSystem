@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, Empty, Skeleton } from 'antd';
+// @ts-ignore
 import { Column } from '@ant-design/plots';
 import { examApi } from '@/api/exam';
 
@@ -17,7 +18,7 @@ export function ScoreDistributionChart({ planId }: ScoreDistributionChartProps) 
 
   const chartData = useMemo(() => {
     if (!data?.score_ranges) return [];
-    
+
     return Object.entries(data.score_ranges).map(([range, count]) => ({
       range,
       count,
@@ -104,8 +105,8 @@ export function ScoreDistributionChart({ planId }: ScoreDistributionChartProps) 
   };
 
   return (
-    <Card 
-      title="成绩分布" 
+    <Card
+      title="成绩分布"
       size="small"
       extra={
         <span className="text-slate-500 text-sm">

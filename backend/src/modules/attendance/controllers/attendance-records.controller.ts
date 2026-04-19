@@ -19,7 +19,7 @@ import { AttendanceRecordsService } from "../services/attendance-records.service
 import { QueryAttendanceRecordsDto } from "../dto/query-attendance-records.dto";
 import { Idempotent } from "../../../common/decorators/idempotent.decorator";
 import { AntiShake } from "../../../common/decorators/antishake.decorator";
-import { RateLimit } from "../../../common/decorators/rate-limiter.decorator";
+import { RateLimit, RateLimitType } from "../../../common/decorators/rate-limiter.decorator";
 import { Cache } from "../../../common/decorators/cache.decorator";
 import { CacheEvict } from "../../../common/decorators/cache-evict.decorator";
 import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
@@ -33,8 +33,8 @@ export class AttendanceRecordsController {
   @Permission("attendance:records:update")
   @AntiShake(5000)
   @Idempotent({ mode: "active", ttl: 300 })
-  @RateLimit({ limit: 10, window: 60 })
-  @CacheEvict({ keys: ["attendance:records:*", "attendance:stats:*"] })
+  @RateLimit({ limit: 10, window: 60, type: RateLimitType.USER })
+  @CacheEvict({ pattern: "attendance:records:*" })
   async clockIn(
     @CurrentUser() user: CurrentUserPayload,
     @Body() body: { type: "on" | "off"; location?: string },
@@ -44,8 +44,8 @@ export class AttendanceRecordsController {
 
   @Get()
   @Permission("attendance:records:list")
-  @RateLimit({ limit: 30, window: 60 })
-  @Cache({ key: "attendance:records", ttl: 300 })
+  @RateLimit({ limit: 30, window: 60, type: RateLimitType.USER })
+  @Cache({ prefix: "attendance:records", ttl: 300 })
   @QueryOptimize({ slowQueryThreshold: 300, timeout: 5000 })
   async findAll(
     @CurrentUser("id") userId: string,
@@ -57,7 +57,7 @@ export class AttendanceRecordsController {
 
   @Get("export")
   @Permission("attendance:records:export")
-  @RateLimit({ limit: 5, window: 60 })
+  @RateLimit({ limit: 5, window: 60, type: RateLimitType.USER })
   async export(
     @CurrentUser("id") userId: string,
     @Query() query: QueryAttendanceRecordsDto,
@@ -67,8 +67,8 @@ export class AttendanceRecordsController {
 
   @Get("statistics")
   @Permission("attendance:records:stats")
-  @RateLimit({ limit: 30, window: 60 })
-  @Cache({ key: "attendance:stats", ttl: 600 })
+  @RateLimit({ limit: 30, window: 60, type: RateLimitType.USER })
+  @Cache({ prefix: "attendance:stats", ttl: 600 })
   @QueryOptimize({ slowQueryThreshold: 300, timeout: 5000 })
   async getStatistics(
     @CurrentUser("id") userId: string,
@@ -79,8 +79,8 @@ export class AttendanceRecordsController {
 
   @Get(":id")
   @Permission("attendance:records:query")
-  @RateLimit({ limit: 50, window: 60 })
-  @Cache({ key: "attendance:records:detail", ttl: 300 })
+  @RateLimit({ limit: 50, window: 60, type: RateLimitType.USER })
+  @Cache({ prefix: "attendance:records:detail", ttl: 300 })
   @QueryOptimize({ slowQueryThreshold: 200, timeout: 3000 })
   async findOne(@CurrentUser("id") userId: string, @Param("id") id: string) {
     return this.recordsService.findOne(userId, id);
@@ -89,8 +89,8 @@ export class AttendanceRecordsController {
   @Post(":id/recalculate")
   @Permission("attendance:records:update")
   @AntiShake(1000)
-  @RateLimit({ limit: 10, window: 60 })
-  @CacheEvict({ keys: ["attendance:records:*", "attendance:stats:*"] })
+  @RateLimit({ limit: 10, window: 60, type: RateLimitType.USER })
+  @CacheEvict({ pattern: "attendance:records:*" })
   async reCalculate(@Param("id") id: string) {
     return this.recordsService.reCalculate(id);
   }
@@ -98,8 +98,8 @@ export class AttendanceRecordsController {
   @Post("batch-approve")
   @Permission("attendance:records:approve")
   @AntiShake(1000)
-  @RateLimit({ limit: 5, window: 60 })
-  @CacheEvict({ keys: ["attendance:records:*", "attendance:stats:*"] })
+  @RateLimit({ limit: 5, window: 60, type: RateLimitType.USER })
+  @CacheEvict({ pattern: "attendance:records:*" })
   async batchApprove(
     @CurrentUser("id") userId: string,
     @Body() body: { ids: string[]; status: number },

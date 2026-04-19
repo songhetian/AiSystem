@@ -72,9 +72,9 @@ const AttendanceRecords: React.FC = () => {
   // 重置列配置
   const handleResetColumns = () => {
     resetColumnConfig(
+      "attendance-records-columns",
       defaultColumnConfig,
       setColumns,
-      "attendance-records-columns",
     );
   };
 

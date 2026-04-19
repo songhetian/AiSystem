@@ -85,10 +85,10 @@ export default function ServiceQualityRulesPage() {
       };
 
       if (editing) {
-        return serviceApi.updateQualityRule(editing.id, payload);
+        return serviceApi.updateQualityRule(editing.id, payload as any);
       }
 
-      return serviceApi.createQualityRule(payload);
+      return serviceApi.createQualityRule(payload as any);
     },
     onSuccess: async () => {
       message.success(editing ? "规则已更新" : "规则已创建");

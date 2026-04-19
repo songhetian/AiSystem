@@ -23,7 +23,7 @@ import { LogFilterBar } from "./components/LogFilterBar";
 import { LogDetailDrawer } from "./components/LogDetailDrawer";
 import { getLoginColumns, getOperationColumns } from "./components/columns";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import GlobalLoading from "@/components/common/GlobalLoading";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 type LogTab = "operation" | "login";
 

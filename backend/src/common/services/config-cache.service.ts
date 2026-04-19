@@ -49,7 +49,8 @@ export class ConfigCacheService implements OnModuleInit {
 
       return value;
     } catch (error) {
-      this.logger.error(`Failed to get config ${key}: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Failed to get config ${key}: ${errorMessage}`);
       return defaultValue ?? null;
     }
   }
@@ -80,7 +81,8 @@ export class ConfigCacheService implements OnModuleInit {
     try {
       return JSON.parse(value);
     } catch (error) {
-      this.logger.error(`Failed to parse JSON config ${key}: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Failed to parse JSON config ${key}: ${errorMessage}`);
       return defaultValue ?? null;
     }
   }
@@ -126,7 +128,8 @@ export class ConfigCacheService implements OnModuleInit {
 
       this.logger.log(`Config ${key} updated`);
     } catch (error) {
-      this.logger.error(`Failed to set config ${key}: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Failed to set config ${key}: ${errorMessage}`);
       throw error;
     }
   }
@@ -148,7 +151,8 @@ export class ConfigCacheService implements OnModuleInit {
 
       this.logger.log(`Config ${key} deleted`);
     } catch (error) {
-      this.logger.error(`Failed to delete config ${key}: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Failed to delete config ${key}: ${errorMessage}`);
       throw error;
     }
   }
@@ -166,12 +170,7 @@ export class ConfigCacheService implements OnModuleInit {
    * 清除所有配置缓存
    */
   async clearAllCache(): Promise<void> {
-    const redis = this.redisService.getClient();
-    const keys = await redis.keys(`${this.CACHE_PREFIX}*`);
-
-    if (keys.length > 0) {
-      await redis.del(...keys);
-      this.logger.log(`Cleared ${keys.length} config cache entries`);
-    }
+    const keys = await this.redisService.deleteByPattern(`${this.CACHE_PREFIX}*`);
+    this.logger.log(`Cleared ${keys} config cache entries`);
   }
 }

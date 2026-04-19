@@ -101,7 +101,8 @@ export class DataValidationGuard implements CanActivate {
       if (error instanceof HttpException) {
         throw error;
       }
-      this.logger.error(`Data validation error: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Data validation error: ${errorMessage}`);
       throw new HttpException(
         {
           code: HttpStatus.BAD_REQUEST,
@@ -213,7 +214,7 @@ export class DataValidationGuard implements CanActivate {
 
           if (config.sanitize) {
             // 清理危险内容
-            data[field] = value.replace(pattern, "");
+            (data as any)[field] = value.replace(pattern, "");
           } else {
             throw new HttpException(
               {

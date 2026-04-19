@@ -72,10 +72,6 @@ export function PermissionDragAssign({
       message.error('加载权限数据失败');
     }
   };
-    // const assigned = await permissionApi.getAssignedPermissions(roleId);
-    // setAvailablePermissions(available);
-    // setAssignedPermissions(assigned);
-  };
 
   const handleDragToAssigned = (permission: Permission) => {
     const newAssigned = [...assignedPermissions, permission];
@@ -139,7 +135,7 @@ export function PermissionDragAssign({
       key: 's',
       ctrl: true,
       description: '保存',
-      handler: () => {
+      callback: () => {
         if (hasChanges && !loading) {
           handleSave();
         }
@@ -149,25 +145,25 @@ export function PermissionDragAssign({
       key: 'z',
       ctrl: true,
       description: '撤销',
-      handler: handleUndo,
+      callback: handleUndo,
     },
     {
       key: 'y',
       ctrl: true,
       description: '重做',
-      handler: handleRedo,
+      callback: handleRedo,
     },
     {
       key: 'r',
       ctrl: true,
       description: '重置',
-      handler: () => {
+      callback: () => {
         if (hasChanges) {
           handleReset();
         }
       },
     },
-  ], true);
+  ]);
 
   const handleSave = async () => {
     setLoading(true);

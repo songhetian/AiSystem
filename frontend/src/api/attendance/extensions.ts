@@ -1,4 +1,4 @@
-import { request } from "../request";
+import request from '@/utils/request';
 
 export interface CheckCoveragePayload {
   check_date: string;
@@ -131,7 +131,7 @@ export const aiScheduleApi = {
       data,
     ),
   getMySchedules: (params: { start_date: string; end_date: string }) =>
-    request.get<any[]>("/attendance/ai-schedule/my", { params }),
+    request.get<any>("/attendance/ai-schedule/my", { params }),
   submitSwapRequest: (data: {
     date: string;
     before_shift: string;

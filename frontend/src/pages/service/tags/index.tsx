@@ -10,8 +10,8 @@ import {
   Input,
   Form,
 } from "antd";
-import { BaseTable } from "@/components/BaseTable";
-import { Permission } from "@/components/Permission";
+import { BaseTable } from "@/components/table/BaseTable";
+import { Permission } from "@/components/permission/Permission";
 import { serviceApi } from "@/api/service";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { useFormDraft } from "@/hooks/useFormDraft";
@@ -51,10 +51,10 @@ export default function QualityTagsPage() {
 
     try {
       if (action === "confirm") {
-        await confirmBatchAction({
-          selectedCount: selectedRowKeys.length,
-          actionName: "通过并入库",
-          onConfirm: async () => {
+        await confirmBatchAction(
+          selectedRowKeys.length,
+          "通过并入库",
+          async () => {
             await serviceApi.confirmQualityTags({
               ids: selectedRowKeys as string[],
             });
@@ -64,12 +64,12 @@ export default function QualityTagsPage() {
             setSelectedRowKeys([]);
             tableRef.current?.reload();
           },
-        });
+        );
       } else {
-        await confirmBatchAction({
-          selectedCount: selectedRowKeys.length,
-          actionName: "驳回",
-          onConfirm: async () => {
+        await confirmBatchAction(
+          selectedRowKeys.length,
+          "驳回",
+          async () => {
             await serviceApi.rejectQualityTags({
               ids: selectedRowKeys as string[],
               reject_reason: rejectReason,
@@ -78,7 +78,7 @@ export default function QualityTagsPage() {
             setSelectedRowKeys([]);
             tableRef.current?.reload();
           },
-        });
+        );
       }
     } catch (e: any) {
       message.error(e.message || "操作异常");
@@ -114,9 +114,9 @@ export default function QualityTagsPage() {
       title: "智能抽取标签字面",
       dataIndex: "tag_name",
       width: 250,
-      render: (val: string) => (
+      render: (_: any, record: any) => (
         <Text className="text-slate-900 font-black px-3 py-1 bg-slate-100 rounded border border-slate-300">
-          {val}
+          {record.tag_name}
         </Text>
       ),
     },
@@ -124,9 +124,9 @@ export default function QualityTagsPage() {
       title: "标签切面源",
       dataIndex: "tag_type",
       width: 150,
-      render: (val: string) => (
+      render: (_: any, record: any) => (
         <Text className="text-slate-700 font-bold">
-          {val === "quality" ? "对话质检推断" : val}
+          {record.tag_type === "quality" ? "对话质检推断" : record.tag_type}
         </Text>
       ),
     },
@@ -134,9 +134,9 @@ export default function QualityTagsPage() {
       title: "源会话关联",
       dataIndex: "session_no",
       width: 200,
-      render: (val: string) => (
+      render: (_: any, record: any) => (
         <Text className="text-indigo-600 font-bold hover:underline cursor-pointer">
-          {val}
+          {record.session_no}
         </Text>
       ),
     },
@@ -145,8 +145,8 @@ export default function QualityTagsPage() {
           {
             title: "驳回理由/纠偏",
             dataIndex: "reject_reason",
-            render: (val: string) => (
-              <Text className="text-rose-600 font-medium">{val || "未填"}</Text>
+            render: (_: any, record: any) => (
+              <Text className="text-rose-600 font-medium">{record.reject_reason || "未填"}</Text>
             ),
           },
         ]
@@ -155,9 +155,9 @@ export default function QualityTagsPage() {
       title: "抽取产生时间",
       dataIndex: "create_time",
       width: 180,
-      render: (val: string) => (
+      render: (_: any, record: any) => (
         <Text className="text-slate-500 font-bold">
-          {new Date(val).toLocaleString()}
+          {new Date(record.create_time).toLocaleString()}
         </Text>
       ),
     },
@@ -198,7 +198,7 @@ export default function QualityTagsPage() {
         ]}
         tabBarExtraContent={
           activeKey === "confirmed" && (
-            <Permission button_code="service:tag:dedup">
+            <Permission code="service:tag:dedup">
               <Button
                 type="primary"
                 className="bg-slate-900 font-black"
@@ -236,7 +236,7 @@ export default function QualityTagsPage() {
                   </span>{" "}
                   项准备流转操作:
                 </Text>
-                <Permission button_code="service:tag:audit">
+                <Permission code="service:tag:audit">
                   <Button
                     type="primary"
                     onClick={() => handleAudit("confirm")}

@@ -62,8 +62,8 @@ export const getSessionColumns = (
       title: "开始时间",
       dataIndex: "start_time",
       width: 160,
-      render: (val: string) => (
-        <Text className="leixi-text-secondary text-xs">{val || "-"}</Text>
+      render: (_: any, record: ServiceSessionRecord) => (
+        <Text className="leixi-text-secondary text-xs">{record.start_time || "-"}</Text>
       ),
     },
     {
@@ -71,8 +71,8 @@ export const getSessionColumns = (
       title: "结束时间",
       dataIndex: "end_time",
       width: 160,
-      render: (val: string) => (
-        <Text className="leixi-text-secondary text-xs">{val || "-"}</Text>
+      render: (_: any, record: ServiceSessionRecord) => (
+        <Text className="leixi-text-secondary text-xs">{record.end_time || "-"}</Text>
       ),
     },
     {
@@ -80,7 +80,8 @@ export const getSessionColumns = (
       title: "会话时长",
       dataIndex: "duration",
       width: 120,
-      render: (val: number) => {
+      render: (_: any, record: ServiceSessionRecord) => {
+        const val = record.duration;
         if (!val) return "-";
         const minutes = Math.floor(val / 60);
         const seconds = val % 60;
@@ -97,8 +98,8 @@ export const getSessionColumns = (
       title: "消息数",
       dataIndex: "message_count",
       width: 100,
-      render: (val: number) => (
-        <Text className="leixi-text-main">{val || 0}</Text>
+      render: (_: any, record: ServiceSessionRecord) => (
+        <Text className="leixi-text-main">{record.message_count || 0}</Text>
       ),
     },
     {
@@ -125,7 +126,8 @@ export const getSessionColumns = (
       title: "风险等级",
       dataIndex: "risk_level",
       width: 100,
-      render: (val: string) => {
+      render: (_: any, record: ServiceSessionRecord) => {
+        const val = record.risk_level;
         const colorMap: Record<string, string> = {
           high: "error",
           medium: "warning",
@@ -136,7 +138,7 @@ export const getSessionColumns = (
           medium: "中风险",
           low: "低风险",
         };
-        return <Tag color={colorMap[val]}>{textMap[val] || "-"}</Tag>;
+        return <Tag color={colorMap[val as string]}>{textMap[val as string] || "-"}</Tag>;
       },
     },
     {

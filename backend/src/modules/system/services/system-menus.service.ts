@@ -70,7 +70,11 @@ export class SystemMenusService {
   @Cache({ ttl: 600, byParams: true, prefix: "menu-tree" })
   @QueryOptimize({ timeout: 3000, slowQueryThreshold: 200 })
   async findTree(roleId?: string) {
-    const items = await this.findAll();
+    const paginationDto = new PaginationDto();
+    paginationDto.page = 1;
+    paginationDto.pageSize = 100;
+    const result = await this.findAll(paginationDto);
+    const items = result.data;
     const selectedMenuIds = roleId
       ? (
           await this.prisma.sys_role_menu.findMany({
@@ -79,7 +83,7 @@ export class SystemMenusService {
           })
         ).map((item) => item.menu_id)
       : [];
-    type MenuTreeNode = (typeof items)[number] & { children: MenuTreeNode[] };
+    type MenuTreeNode = { id: string; parent_id: string | null; [key: string]: any } & { children: MenuTreeNode[] };
     const nodeMap = new Map<string, MenuTreeNode>(
       items.map((item) => [
         item.id,

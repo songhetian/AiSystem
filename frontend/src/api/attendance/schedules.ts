@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import request from '@/utils/request';
 import type { AttendanceScheduleDashboard, ScheduleAssignPayload, ImportSchedulePayload } from './types';
 
 export const scheduleApi = {

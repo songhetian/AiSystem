@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card, Tree, Button, Space, Input, Form, message, Modal } from "antd";
 import {
@@ -201,9 +201,9 @@ export default function DepartmentsPage() {
               expandedKeys={displayExpandedKeys}
               onExpand={(keys) => setExpandedKeys(keys as string[])}
               treeData={filteredTreeData}
-              titleRender={(node) => (
+              titleRender={(node: DataNode) => (
                 <div className="flex items-center justify-between group">
-                  <span>{node.title}</span>
+                  <span>{node.title as React.ReactNode}</span>
                   <Space
                     size="small"
                     className="opacity-0 group-hover:opacity-100 transition-opacity"
@@ -215,7 +215,7 @@ export default function DepartmentsPage() {
                         icon={<EditOutlined />}
                         onClick={(e) => {
                           e.stopPropagation();
-                          const dept = data.find((d) => d.id === node.key);
+                          const dept = data.find((d) => d.id === String(node.key));
                           if (dept) {
                             setEditing(dept);
                             form.setFieldsValue(dept);
@@ -234,7 +234,7 @@ export default function DepartmentsPage() {
                         icon={<DeleteOutlined />}
                         onClick={(e) => {
                           e.stopPropagation();
-                          const dept = data.find((d) => d.id === node.key);
+                          const dept = data.find((d) => d.id === String(node.key));
                           if (dept) {
                             handleDelete(dept.id, dept.name);
                           }

@@ -6,6 +6,10 @@ export class CreateDepartmentDto {
 
   @IsOptional()
   @IsString()
+  code?: string;
+
+  @IsOptional()
+  @IsString()
   parent_id?: string;
 
   @IsOptional()

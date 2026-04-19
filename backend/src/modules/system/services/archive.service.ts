@@ -18,7 +18,7 @@ export class ArchiveService {
   @Cron(CronExpression.EVERY_DAY_AT_2AM)
   async handleLogArchiving() {
     this.logger.log('[V5.0 Archive] 开始执行自动化日志归档任务...');
-    
+
     // 设定归档界限：30 天前
     const archiveThreshold = new Date();
     archiveThreshold.setDate(archiveThreshold.getDate() - 30);
@@ -45,7 +45,7 @@ export class ArchiveService {
           await tx.sys_operation_log.deleteMany({
             where: { id: { in: opLogs.map(l => l.id) } }
           });
-          
+
           this.logger.log(`[V5.0 Archive] 已成功归档 ${opLogs.length} 条操作日志`);
         }
 
@@ -67,10 +67,12 @@ export class ArchiveService {
           this.logger.log(`[V5.0 Archive] 已成功归档 ${loginLogs.length} 条登录日志`);
         }
       }, { timeout: 30000 }); // 增加事务超时时间
-      
+
       this.logger.log('[V5.0 Archive] 日志归档任务执行完毕');
     } catch (error) {
-      this.logger.error(`[V5.0 Archive] 归档任务失败: ${error.message}`, error.stack);
+      const message = error instanceof Error ? error.message : String(error);
+      const stack = error instanceof Error ? error.stack : '';
+      this.logger.error(`[V5.0 Archive] 归档任务失败: ${message}`, stack);
     }
   }
 }

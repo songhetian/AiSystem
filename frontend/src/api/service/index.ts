@@ -1,4 +1,4 @@
-import { request } from "@/utils/request";
+import request from "@/utils/request";
 
 export interface ServiceSessionAnalysis {
   id: string;
@@ -44,6 +44,12 @@ export interface ServiceSessionRecord {
   tags?: string[];
   latest_analysis?: ServiceSessionAnalysis | null;
   latest_quality_record?: ServiceQualityRecord | null;
+  // Additional computed fields
+  start_time?: string;
+  end_time?: string;
+  duration?: number;
+  message_count?: number;
+  risk_level?: string;
 }
 
 export interface ServiceSessionMessage {

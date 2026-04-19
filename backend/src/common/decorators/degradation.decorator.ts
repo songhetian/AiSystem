@@ -4,6 +4,7 @@ import { SetMetadata } from "@nestjs/common";
  * 降级级别枚举
  */
 export enum DegradationLevel {
+  NORMAL = 0, // 正常状态
   LIGHT = 1, // 一级降级（轻度）
   MEDIUM = 2, // 二级降级（中度）
   HEAVY = 3, // 三级降级（重度）

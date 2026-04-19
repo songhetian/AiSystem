@@ -1,12 +1,12 @@
-import { request } from '@/utils/request';
+import request from '@/utils/request';
 import { withIdempotencyKey } from './utils';
-import type { 
-  AttendanceWorkflowQuery, 
-  AttendanceLeavePayload, 
-  AttendanceOvertimePayload, 
-  AttendancePatchCardPayload, 
+import type {
+  AttendanceWorkflowQuery,
+  AttendanceLeavePayload,
+  AttendanceOvertimePayload,
+  AttendancePatchCardPayload,
   AttendanceScheduleChangePayload,
-  MutationRequestOptions 
+  MutationRequestOptions
 } from './types';
 
 export const workflowApi = {

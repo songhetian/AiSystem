@@ -11,6 +11,7 @@ import {
   Modal,
   Tabs,
   Switch,
+  Tag,
   message,
   Select,
   DatePicker,
@@ -51,7 +52,7 @@ import { AlertHistoryModal } from "./components/AlertHistoryModal";
 import { AlertConfig } from "./components/AlertConfig";
 import { MetricCard } from "./components/MetricCard";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import GlobalLoading from "@/components/common/GlobalLoading";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 const { Title, Text } = Typography;
 const { RangePicker } = DatePicker;

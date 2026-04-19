@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, IsObject } from 'class-validator';
 
 export class GenerateAIScheduleDto {
   @IsNotEmpty()
@@ -43,4 +43,8 @@ export class GenerateAIScheduleDto {
   @IsOptional()
   @IsNumber()
   min_shift_staff?: number;
+
+  @IsOptional()
+  @IsObject()
+  config?: any;
 }

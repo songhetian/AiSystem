@@ -3,7 +3,7 @@ import {
   Form, DatePicker, Select, InputNumber, Radio, Button, Steps,
   Card, Table, Tag, Alert, Badge, Statistic, Row, Col, Space,
   Typography, Tooltip, Modal, message, Divider, Tabs, Empty,
-  Progress, Timeline
+  Progress, Timeline, Spin, Popover, Drawer, notification
 } from 'antd';
 import {
   RobotOutlined, CheckCircleOutlined, WarningOutlined, ThunderboltOutlined,
@@ -14,7 +14,7 @@ import {
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'umi';
+import { useNavigate } from 'react-router-dom';
 import {
   attendanceApi,
   type ScheduleDraft,
@@ -23,6 +23,60 @@ import {
 } from '@/api/attendance';
 import { systemApi } from '@/api/system';
 import { approvalApi } from '@/api/approval';
+
+// ================================================
+// 占位组件：KPILine
+// ================================================
+const KPILine: React.FC<{ label: string; value: number; color: string }> = ({ label, value, color }) => (
+  <div className="flex items-center gap-3">
+    <span className="text-xs font-bold text-slate-500 w-20 shrink-0">{label}</span>
+    <div className="flex-1 bg-slate-100 rounded-full h-2 overflow-hidden">
+      <div className="h-full rounded-full transition-all" style={{ width: `${value}%`, backgroundColor: color }} />
+    </div>
+    <span className="text-xs font-black text-slate-900 w-10 text-right">{value}%</span>
+  </div>
+);
+
+// ================================================
+// 占位组件：DemandHeatmap
+// ================================================
+const DemandHeatmap: React.FC<{ data: ScheduleResultItem[] }> = ({ data }) => {
+  const dates = Array.from(new Set(data.map(d => d.schedule_date))).sort();
+  const shifts = Array.from(new Set(data.map(d => d.shift_name)));
+  return (
+    <div className="overflow-x-auto rounded-2xl border border-slate-100 shadow-sm">
+      <table className="w-full border-collapse text-xs">
+        <thead>
+          <tr className="bg-slate-50">
+            <th className="p-3 text-left font-black text-slate-500">班次 / 日期</th>
+            {dates.slice(0, 14).map(d => (
+              <th key={d} className="p-2 font-black text-slate-500 text-center">{d.slice(5)}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {shifts.map(shift => (
+            <tr key={shift} className="border-t border-slate-50">
+              <td className="p-3 font-black text-slate-900">{shift}</td>
+              {dates.slice(0, 14).map(d => {
+                const count = data.filter(r => r.schedule_date === d && r.shift_name === shift).length;
+                return (
+                  <td key={d} className="p-2 text-center">
+                    {count > 0 ? (
+                      <span className="inline-block w-7 h-7 rounded-lg bg-blue-100 text-blue-700 font-black leading-7">{count}</span>
+                    ) : (
+                      <span className="inline-block w-7 h-7 rounded-lg bg-slate-50 text-slate-300 font-bold leading-7">-</span>
+                    )}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 const { RangePicker } = DatePicker;
 const { Title, Text } = Typography;
@@ -202,7 +256,7 @@ const ParamPanel: React.FC<{
                       <Button type="primary" className="bg-slate-900 border-none font-black px-6">批量填充</Button>
                     </Space>
                   </div>
-                  
+
                   <div className="rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
                     <table className="w-full border-collapse">
                       <thead>
@@ -225,8 +279,8 @@ const ParamPanel: React.FC<{
                       </tbody>
                     </table>
                   </div>
-                  <Alert className="mt-8 rounded-xl bg-slate-900 border-none" 
-                    message={<span className="text-white font-bold">前瞻性算法提示: AI 将根据不同日期的属性（周中/周末）自动插值上述基准值，生成非线性拟合的排班方案。</span>} 
+                  <Alert className="mt-8 rounded-xl bg-slate-900 border-none"
+                    message={<span className="text-white font-bold">前瞻性算法提示: AI 将根据不同日期的属性（周中/周末）自动插值上述基准值，生成非线性拟合的排班方案。</span>}
                     icon={<ThunderboltOutlined className="text-amber-400" />} showIcon />
                 </div>
               ),
@@ -268,41 +322,41 @@ const DraftSelector: React.FC<{ drafts: ScheduleDraft[]; selectedId: string; onS
               </div>
               {isSelected && <Tag color="blue" className="font-black text-sm border-0 bg-blue-600 text-white px-4 py-1 rounded-xl shadow-lg m-0">最优选</Tag>}
             </div>
-            
+
             <div className="p-8">
               <Row gutter={16} className="mb-6">
                 <Col span={8}>
-                  <Statistic 
-                    title={<span className="text-xs font-black text-slate-500 uppercase tracking-widest">合规健康度</span>} 
-                    value={draft.compliance_rate} 
-                    suffix="%" 
-                    valueStyle={{ fontSize: 24, fontWeight: 900, color: draft.compliance_rate >= 90 ? '#10b981' : '#f59e0b' }} 
+                  <Statistic
+                    title={<span className="text-xs font-black text-slate-500 uppercase tracking-widest">合规健康度</span>}
+                    value={draft.compliance_rate}
+                    suffix="%"
+                    valueStyle={{ fontSize: 24, fontWeight: 900, color: draft.compliance_rate >= 90 ? '#10b981' : '#f59e0b' }}
                   />
                 </Col>
                 <Col span={8}>
-                  <Statistic 
-                    title={<span className="text-xs font-black text-slate-500 uppercase tracking-widest">员工满意度</span>} 
-                    value={draft.satisfaction_rate} 
-                    suffix="%" 
-                    valueStyle={{ fontSize: 24, fontWeight: 900, color: '#3b82f6' }} 
+                  <Statistic
+                    title={<span className="text-xs font-black text-slate-500 uppercase tracking-widest">员工满意度</span>}
+                    value={draft.satisfaction_rate}
+                    suffix="%"
+                    valueStyle={{ fontSize: 24, fontWeight: 900, color: '#3b82f6' }}
                   />
                 </Col>
                 <Col span={8}>
-                  <Statistic 
-                    title={<span className="text-xs font-black text-slate-500 uppercase tracking-widest">业务拟合度</span>} 
-                    value={draft.fitting_rate} 
-                    suffix="%" 
-                    valueStyle={{ fontSize: 24, fontWeight: 900, color: '#f59e0b' }} 
+                  <Statistic
+                    title={<span className="text-xs font-black text-slate-500 uppercase tracking-widest">业务拟合度</span>}
+                    value={draft.fitting_rate}
+                    suffix="%"
+                    valueStyle={{ fontSize: 24, fontWeight: 900, color: '#f59e0b' }}
                   />
                 </Col>
               </Row>
-              
+
               <div className="space-y-4 mb-6">
                 <KPILine label="合规健康度" value={draft.compliance_rate} color="#10b981" />
                 <KPILine label="员工满意度" value={draft.satisfaction_rate} color="#3b82f6" />
                 <KPILine label="业务拟合度" value={draft.fitting_rate} color="#f59e0b" />
               </div>
-              
+
               <div className="space-y-3">
                 <div className="flex justify-between items-center py-2 border-b border-slate-100">
                   <span className="text-slate-500 font-bold text-xs">预警冲突数</span>
@@ -313,7 +367,7 @@ const DraftSelector: React.FC<{ drafts: ScheduleDraft[]; selectedId: string; onS
                   <span className="font-black text-slate-900">{draft.total_scheduled} 次</span>
                 </div>
               </div>
-              
+
               {isSelected && <div className="mt-6 text-[10px] font-black text-blue-500 text-center uppercase tracking-tighter italic">Recommended by Leixi AI Engine 2.0</div>}
             </div>
           </Card>
@@ -328,7 +382,7 @@ const DraftSelector: React.FC<{ drafts: ScheduleDraft[]; selectedId: string; onS
 // ================================================
 const ComparisonPanel: React.FC<{ drafts: ScheduleDraft[] }> = ({ drafts }) => {
   const isMobile = window.innerWidth < 768;
-  
+
   const metrics = [
     { label: '合规健康度', key: 'compliance_rate', suffix: '%', desc: '基于工时与连班约束的满足比率' },
     { label: '员工满意度', key: 'satisfaction_rate', suffix: '%', desc: '基于偏好命中与避开成功率的加权得分' },
@@ -339,7 +393,7 @@ const ComparisonPanel: React.FC<{ drafts: ScheduleDraft[] }> = ({ drafts }) => {
   ];
 
   return (
-    <Card className="rounded-3xl border border-slate-200 shadow-2xl overflow-hidden" 
+    <Card className="rounded-3xl border border-slate-200 shadow-2xl overflow-hidden"
       bodyStyle={{ padding: 0 }}
       title={<span className="font-black text-slate-900 flex items-center gap-2"><ThunderboltOutlined /> 多方案多维 KPI 深度对标</span>}>
       <div className="overflow-x-auto">
@@ -366,10 +420,10 @@ const ComparisonPanel: React.FC<{ drafts: ScheduleDraft[] }> = ({ drafts }) => {
                 </td>
                 {drafts.map(d => {
                   const val = (d as any)[m.key] ?? '-';
-                  const isBest = m.reverse 
+                  const isBest = m.reverse
                     ? val === Math.min(...drafts.map(x => (x as any)[m.key]))
                     : val === Math.max(...drafts.map(x => (x as any)[m.key]));
-                  
+
                   return (
                     <td key={d.id} className="p-6 text-center border-b border-slate-100 border-l border-slate-100">
                       <div className={`text-2xl font-black ${isBest ? 'text-blue-600' : 'text-slate-900'}`}>
@@ -408,19 +462,6 @@ const ComparisonPanel: React.FC<{ drafts: ScheduleDraft[] }> = ({ drafts }) => {
     </Card>
   );
 };
-
-// ================================================
-// 排班明细网格（支持行内编辑、删除、撤销）
-// ================================================
-const ScheduleGrid: React.FC<{
-  draft: ScheduleDraft;
-  onDraftChange: (newData: ScheduleResultItem[]) => void;
-  onExport: () => void;
-  onAutoOptimize: () => void;
-}> = ({ draft, onDraftChange, onExport, onAutoOptimize }) => {
-  const [history, setHistory] = useState<ScheduleResultItem[][]>([]);
-  const [editingKey, setEditingKey] = useState<string | null>(null);
-  const [editShift, setEditShift] = useState<string>('');
 
 // ================================================
 // AI 智能单点推荐 Popover
@@ -478,11 +519,11 @@ const MagicRepairPopover: React.FC<{
   );
 
   return (
-    <Popover 
-      content={content} 
-      trigger="click" 
-      open={open} 
-      onOpenChange={setOpen} 
+    <Popover
+      content={content}
+      trigger="click"
+      open={open}
+      onOpenChange={setOpen}
       placement="leftTop"
       overlayClassName="magic-popover"
       overlayInnerStyle={{ borderRadius: 20, padding: 8 }}
@@ -520,9 +561,9 @@ const ConflictResolverDrawer: React.FC<{
       onClose={onClose}
       width={480}
       extra={
-        <Button 
-          type="primary" 
-          icon={<ThunderboltOutlined />} 
+        <Button
+          type="primary"
+          icon={<ThunderboltOutlined />}
           onClick={onAutoFix}
           className="bg-amber-500 border-none font-black rounded-lg h-9 shadow-lg"
         >
@@ -531,14 +572,14 @@ const ConflictResolverDrawer: React.FC<{
       }
     >
       <div className="space-y-6">
-        <Alert 
+        <Alert
           className="rounded-xl"
           type="info"
           message={<span className="font-bold">深度解析提示</span>}
           description={<span className="text-xs text-slate-500 font-medium">当前方案存在 {warnings.length} 处异常。您可以选择单点修复或执行全局前瞻性优化。</span>}
           showIcon
         />
-        
+
         <div className="space-y-4">
           {warnings.map((w, i) => (
             <Card key={i} className="rounded-2xl border-slate-100 shadow-sm" bodyStyle={{ padding: 16 }}>
@@ -549,10 +590,10 @@ const ConflictResolverDrawer: React.FC<{
                     <WarningOutlined /> {w.warning_reason || '存在人力缺口'}
                   </div>
                 </div>
-                <MagicRepairPopover 
-                  record={w} 
-                  config={config} 
-                  allData={draft.data} 
+                <MagicRepairPopover
+                  record={w}
+                  config={config}
+                  allData={draft.data}
                   onSelect={(id, name) => onRepair(w, id, name)}
                 >
                   <Button type="primary" size="small" className="bg-slate-900 border-none rounded-lg font-black h-8">
@@ -643,7 +684,7 @@ const ScheduleGrid: React.FC<{
 
   const [publishing, setPublishing] = useState(false);
   const handlePublish = async () => {
-    const range = config.dateRange;
+    const range = (config as any).dateRange;
     if (!range || !range[0] || !range[1]) {
       message.error('未识别日期范围，请重新生成排班后再发布');
       return;
@@ -669,7 +710,7 @@ const ScheduleGrid: React.FC<{
               icon: <CheckCircleOutlined className="text-emerald-500" />
             });
             // 刷新当前本地状态（标记为已发布）
-            onDraftChange(draft.data.map(d => ({ ...d, status: 1 })));
+            onDraftChange(draft.data.map(d => ({ ...d, status: 1 } as any)));
           }
         } catch (err) {
           message.error('发布失败，请检查网络或权限');
@@ -705,8 +746,8 @@ const ScheduleGrid: React.FC<{
     {
       title: '发布状态', width: 100,
       render: (_: any, record: ScheduleResultItem) => (
-        <Tag color={record.status === 1 ? 'cyan' : 'default'} className="font-bold border-0 rounded-lg">
-          {record.status === 1 ? '已发布' : '待发布'}
+        <Tag color={(record as any).status === 1 ? 'cyan' : 'default'} className="font-bold border-0 rounded-lg">
+          {(record as any).status === 1 ? '已发布' : '待发布'}
         </Tag>
       )
     },
@@ -722,7 +763,7 @@ const ScheduleGrid: React.FC<{
       render: (_: any, record: ScheduleResultItem) => {
         const k = `${record.employee_id}_${record.schedule_date}_${record.shift_name}`;
         const hasIssue = record.is_warning || record.employee_id === '__shortage__';
-        
+
         return (
           <Space size={4}>
             {hasIssue && (
@@ -757,9 +798,9 @@ const ScheduleGrid: React.FC<{
           <Button icon={<UndoOutlined />} onClick={handleUndo} disabled={history.length === 0} className="font-bold rounded-lg px-6">
             撤销 ({history.length})
           </Button>
-          <Button 
-            icon={<WarningOutlined />} 
-            onClick={() => setResolverOpen(true)} 
+          <Button
+            icon={<WarningOutlined />}
+            onClick={() => setResolverOpen(true)}
             danger={warnings.length > 0}
             className={`font-black rounded-lg px-6 ${warnings.length === 0 ? 'border-slate-300' : 'bg-orange-50'}`}
           >
@@ -779,10 +820,10 @@ const ScheduleGrid: React.FC<{
         </Space>
       </div>
 
-      <ConflictResolverDrawer 
-        open={resolverOpen} 
-        onClose={() => setResolverOpen(false)} 
-        draft={draft} 
+      <ConflictResolverDrawer
+        open={resolverOpen}
+        onClose={() => setResolverOpen(false)}
+        draft={draft}
         config={config}
         onRepair={handleMagicRepair}
         onAutoFix={() => { setResolverOpen(false); onAutoOptimize(); }}
@@ -970,33 +1011,13 @@ const AnalyticsPanel: React.FC<{ departments: any[] }> = ({ departments }) => {
       </Card>
 
       {!analytics && !isLoading && (
-            <Col span={10}>
-              <Card className="rounded-2xl border border-slate-200 shadow-sm h-full" title={<span className="font-black text-slate-900 flex items-center gap-2"><BarChartOutlined /> 班次使用分布</span>}>
-                <div className="space-y-3">
-                  {analytics.shift_distribution?.map((shift: any, i: number) => {
-                    const maxShiftCount = analytics.shift_distribution[0]?.count ?? 1;
-                    return (
-                      <div key={i}>
-                        <div className="flex justify-between text-xs font-bold text-slate-700 mb-1">
-                          <span>{shift.name}</span>
-                          <span>{shift.count} 次</span>
-                        </div>
-                        <Progress
-                          percent={Math.round((shift.count / maxShiftCount) * 100)}
-                          showInfo={false}
-                          strokeColor={['#3b82f6', '#6366f1', '#8b5cf6', '#a78bfa'][i % 4]}
-                          size={['100%', 8] as [string, number]}
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-              </Card>
-            </Col>
-          </Row>
-        </>
+        <Empty description={<span className="font-bold text-slate-400">请选择部门和日期范围后查询</span>} />
       )}
+      {analytics && renderContent()}
     </div>
+  );
+};
+
 // ================================================
 // 调班审批工作台 (Admin Side)
 // ================================================
@@ -1071,18 +1092,18 @@ const SwapApprovalPanel: React.FC<{ deptId: string }> = ({ deptId }) => {
         if (!record.approval_id) return <Tag color="warning">未关联审批流</Tag>;
         return (
           <Space>
-            <Button 
-              type="primary" 
-              size="small" 
-              className="bg-slate-900 border-none font-black rounded-lg hover:scale-105 transition-all" 
+            <Button
+              type="primary"
+              size="small"
+              className="bg-slate-900 border-none font-black rounded-lg hover:scale-105 transition-all"
               onClick={() => approve(record.approval_id)}
             >
               批准
             </Button>
-            <Button 
-              danger 
-              size="small" 
-              className="font-black rounded-lg hover:scale-105 transition-all" 
+            <Button
+              danger
+              size="small"
+              className="font-black rounded-lg hover:scale-105 transition-all"
               onClick={() => reject(record.approval_id)}
             >
               拒绝
@@ -1094,8 +1115,8 @@ const SwapApprovalPanel: React.FC<{ deptId: string }> = ({ deptId }) => {
   ];
 
   return (
-    <Card 
-      className="rounded-[32px] border-slate-100 shadow-sm overflow-hidden" 
+    <Card
+      className="rounded-[32px] border-slate-100 shadow-sm overflow-hidden"
       title={<Space><ThunderboltOutlined className="text-blue-600" /><span className="font-black text-slate-900">调班审批中心</span></Space>}
       extra={<Badge count={requests.length} overflowCount={99} className="font-black" />}
     >
@@ -1197,7 +1218,7 @@ export default function AISchedulePage() {
 
   const handleAutoOptimize = async () => {
     if (!selectedDraft || !formValues) return;
-    
+
     // 构造配置参数（与生成时一致）
     const config: AIScheduleGeneratePayload = {
       start_date: formValues.dateRange[0].format('YYYY-MM-DD'),
@@ -1263,9 +1284,9 @@ export default function AISchedulePage() {
               <Title level={3} className="!mb-1 !text-slate-900 font-black tracking-tighter">双方案深度博弈比选</Title>
               <Text className="text-slate-500 font-bold text-sm">AI 已根据不同侧重生成了以下方案，请评估指标后选择</Text>
             </div>
-            <Button 
-              type={showComparison ? 'primary' : 'default'} 
-              icon={<ThunderboltOutlined />} 
+            <Button
+              type={showComparison ? 'primary' : 'default'}
+              icon={<ThunderboltOutlined />}
               onClick={() => setShowComparison(!showComparison)}
               className={`font-black rounded-xl h-11 px-6 ${showComparison ? 'bg-blue-600 border-none' : 'border-slate-300'}`}
             >

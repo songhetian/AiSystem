@@ -115,7 +115,7 @@ export class PaginationExampleService {
             select: { id: true, name: true },
           },
         },
-      }),
+      } as any),
       this.prisma.hr_employee.count({ where }),
     ]);
 

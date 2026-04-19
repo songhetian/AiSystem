@@ -284,7 +284,7 @@ export class SystemLogsService {
         api_path: `/system/logs/${type}/export`,
         operation_module: "审计日志",
         operation_status: 0,
-        operation_message: `导出${type === "login" ? "登录" : "操作"}日志报表失败，原因：${error.message}`,
+        operation_message: `导出${type === "login" ? "登录" : "操作"}日志报表失败，原因：${error instanceof Error ? error.message : String(error)}`,
         platform_id: user.platform_id,
         dept_id: user.dept_id,
         shop_id: user.shop_id,

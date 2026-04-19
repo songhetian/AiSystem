@@ -1,4 +1,4 @@
-import { Drawer, Form, Button, Switch, InputNumber, Divider, Space, Typography, message } from 'antd';
+import { Drawer, Form, Button, Switch, InputNumber, Divider, Space, Typography, Spin, message } from 'antd';
 import { useEffect } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { attendanceApi } from '@/api/attendance';
@@ -67,7 +67,7 @@ export const ScheduleSettingsDrawer = ({ open, onClose }: ScheduleSettingsDrawer
           <div className="mb-6">
             <Title level={5} className="!mb-1 font-bold text-slate-900">视觉与显示规则</Title>
             <Text type="secondary" className="text-sm font-medium text-slate-500 mb-4 block">定义看板在员工侧和管理侧的统一阅读体验。</Text>
-            
+
             <Form.Item name="show_conflict_warning" valuePropName="checked" className="mb-4">
               <div className="flex justify-between items-center bg-slate-50 p-4 rounded-xl">
                 <div>
@@ -77,7 +77,7 @@ export const ScheduleSettingsDrawer = ({ open, onClose }: ScheduleSettingsDrawer
                 <Switch />
               </div>
             </Form.Item>
-            
+
             <Form.Item name="default_opacity" label={<span className="font-bold text-slate-900">色块默认覆盖透明度 (%)</span>}>
               <InputNumber min={10} max={100} className="w-full" size="large" />
             </Form.Item>
@@ -99,7 +99,7 @@ export const ScheduleSettingsDrawer = ({ open, onClose }: ScheduleSettingsDrawer
                   <div className="font-bold text-rose-900">强制放行所有排班冲突</div>
                   <div className="text-xs text-rose-600 mt-1">仅超级管理员建议开启，绕过所有排班时间互斥检测</div>
                 </div>
-                <Switch danger />
+                <Switch />
               </div>
             </Form.Item>
           </div>

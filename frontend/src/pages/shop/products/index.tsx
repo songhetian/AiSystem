@@ -78,9 +78,9 @@ export default function ProductsPage() {
     {
       title: "商品名称",
       dataIndex: "name",
-      render: (name: string, record: any) => (
+      render: (_: any, record: any) => (
         <Space direction="vertical" size={0}>
-          <Text className="font-bold text-slate-900">{name}</Text>
+          <Text className="font-bold text-slate-900">{record.name}</Text>
           <Text className="text-xs text-slate-400">{record.code}</Text>
         </Space>
       ),
@@ -89,30 +89,30 @@ export default function ProductsPage() {
       title: "分类",
       dataIndex: "category_name",
       width: 120,
-      render: (v: string) => (v ? <Tag>{v}</Tag> : "-"),
+      render: (_: any, record: any) => (record.category_name ? <Tag>{record.category_name}</Tag> : "-"),
     },
     {
       title: "所属平台",
       dataIndex: "platform_name",
       width: 120,
-      render: (v: string) =>
-        v ? <Text className="text-slate-600 font-bold">{v}</Text> : "-",
+      render: (_: any, record: any) =>
+        record.platform_name ? <Text className="text-slate-600 font-bold">{record.platform_name}</Text> : "-",
     },
     {
       title: "SKU 数",
       dataIndex: "skus",
       width: 80,
-      render: (skus: any[]) => (
-        <Badge count={skus?.length ?? 0} color="#64748b" showZero />
+      render: (_: any, record: any) => (
+        <Badge count={record.skus?.length ?? 0} color="#64748b" showZero />
       ),
     },
     {
       title: "状态",
       dataIndex: "status",
       width: 90,
-      render: (val: number) => (
-        <Tag color={val === 1 ? "success" : "default"}>
-          {val === 1 ? "上架" : "下架"}
+      render: (_: any, record: any) => (
+        <Tag color={record.status === 1 ? "success" : "default"}>
+          {record.status === 1 ? "上架" : "下架"}
         </Tag>
       ),
     },
@@ -120,9 +120,9 @@ export default function ProductsPage() {
       title: "同步时间",
       dataIndex: "update_time",
       width: 160,
-      render: (t: string) => (
+      render: (_: any, record: any) => (
         <Text className="text-xs text-slate-400">
-          {t ? new Date(t).toLocaleString() : "-"}
+          {record.update_time ? new Date(record.update_time).toLocaleString() : "-"}
         </Text>
       ),
     },

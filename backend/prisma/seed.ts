@@ -275,6 +275,43 @@ const menuDefs: MenuDef[] = [
     sort: 34,
     type: 1,
   },
+  // 质检Prompt管理菜单 (父菜单)
+  {
+    menu_name: "智能Prompt管理",
+    menu_code: "service:quality-prompts",
+    route: "",
+    sort: 35,
+    type: 1,
+  },
+  // 质检Prompt管理子菜单
+  {
+    menu_name: "全局Prompt管理",
+    menu_code: "service:quality-prompts:global",
+    route: "/service/quality-prompts/global",
+    sort: 36,
+    type: 2,
+  },
+  {
+    menu_name: "部门Prompt管理",
+    menu_code: "service:quality-prompts:department",
+    route: "/service/quality-prompts/department",
+    sort: 37,
+    type: 2,
+  },
+  {
+    menu_name: "Prompt模板库",
+    menu_code: "service:quality-prompts:templates",
+    route: "/service/quality-prompts/templates",
+    sort: 38,
+    type: 2,
+  },
+  {
+    menu_name: "Prompt审计日志",
+    menu_code: "service:quality-prompts:audit-logs",
+    route: "/service/quality-prompts/audit-logs",
+    sort: 39,
+    type: 2,
+  },
 ];
 
 const buttonDefs: ButtonDef[] = [
@@ -437,6 +474,32 @@ const buttonDefs: ButtonDef[] = [
   ["service:tag:list", "View Quality Tags", "service:quality-tags"],
   ["service:tag:audit", "Audit Quality Tags", "service:quality-tags"],
   ["service:tag:dedup", "Deduplicate Tags", "service:quality-tags"],
+  // 质检Prompt管理按钮
+  ["service:quality-prompts:global:list", "View Global Prompts", "service:quality-prompts:global"],
+  ["service:quality-prompts:global:create", "Create Global Prompt", "service:quality-prompts:global"],
+  ["service:quality-prompts:global:update", "Update Global Prompt", "service:quality-prompts:global"],
+  ["service:quality-prompts:global:delete", "Delete Global Prompt", "service:quality-prompts:global"],
+  ["service:quality-prompts:global:enable", "Enable Global Prompt", "service:quality-prompts:global"],
+  ["service:quality-prompts:global:disable", "Disable Global Prompt", "service:quality-prompts:global"],
+  ["service:quality-prompts:department:list", "View Department Prompts", "service:quality-prompts:department"],
+  ["service:quality-prompts:department:create", "Create Department Prompt", "service:quality-prompts:department"],
+  ["service:quality-prompts:department:update", "Update Department Prompt", "service:quality-prompts:department"],
+  ["service:quality-prompts:department:delete", "Delete Department Prompt", "service:quality-prompts:department"],
+  ["service:quality-prompts:department:enable", "Enable Department Prompt", "service:quality-prompts:department"],
+  ["service:quality-prompts:department:disable", "Disable Department Prompt", "service:quality-prompts:department"],
+  ["service:quality-prompts:templates:list", "View Prompt Templates", "service:quality-prompts:templates"],
+  ["service:quality-prompts:templates:create", "Create Prompt Template", "service:quality-prompts:templates"],
+  ["service:quality-prompts:templates:update", "Update Prompt Template", "service:quality-prompts:templates"],
+  ["service:quality-prompts:templates:delete", "Delete Prompt Template", "service:quality-prompts:templates"],
+  ["service:quality-prompts:audit-logs:list", "View Audit Logs", "service:quality-prompts:audit-logs"],
+  ["service:quality-prompts:audit-logs:export", "Export Audit Logs", "service:quality-prompts:audit-logs"],
+  ["service:quality-prompts:version:list", "View Version History", "service:quality-prompts:global"],
+  ["service:quality-prompts:version:rollback", "Rollback Version", "service:quality-prompts:global"],
+  ["service:quality-prompts:batch:enable", "Batch Enable Prompts", "service:quality-prompts:global"],
+  ["service:quality-prompts:batch:disable", "Batch Disable Prompts", "service:quality-prompts:global"],
+  ["service:quality-prompts:import", "Import Prompts", "service:quality-prompts:global"],
+  ["service:quality-prompts:export", "Export Prompts", "service:quality-prompts:global"],
+  ["service:quality-prompts:preview", "Preview Prompt", "service:quality-prompts:global"],
 ];
 
 const apiDefs: ApiDef[] = [
@@ -607,6 +670,35 @@ const apiDefs: ApiDef[] = [
   ["/service/tags/audit/confirm", "POST", "service:tag:audit"],
   ["/service/tags/audit/reject", "POST", "service:tag:audit"],
   ["/service/tags/dedup", "POST", "service:tag:dedup"],
+  // 质检Prompt管理API
+  ["/service/quality-prompts/global", "GET", "service:quality-prompts:global:list"],
+  ["/service/quality-prompts/global", "POST", "service:quality-prompts:global:create"],
+  ["/service/quality-prompts/global/:id", "GET", "service:quality-prompts:global:list"],
+  ["/service/quality-prompts/global/:id", "PUT", "service:quality-prompts:global:update"],
+  ["/service/quality-prompts/global/:id", "DELETE", "service:quality-prompts:global:delete"],
+  ["/service/quality-prompts/global/:id/enable", "PATCH", "service:quality-prompts:global:enable"],
+  ["/service/quality-prompts/global/:id/disable", "PATCH", "service:quality-prompts:global:disable"],
+  ["/service/quality-prompts/department", "GET", "service:quality-prompts:department:list"],
+  ["/service/quality-prompts/department", "POST", "service:quality-prompts:department:create"],
+  ["/service/quality-prompts/department/:id", "GET", "service:quality-prompts:department:list"],
+  ["/service/quality-prompts/department/:id", "PUT", "service:quality-prompts:department:update"],
+  ["/service/quality-prompts/department/:id", "DELETE", "service:quality-prompts:department:delete"],
+  ["/service/quality-prompts/department/:id/enable", "PATCH", "service:quality-prompts:department:enable"],
+  ["/service/quality-prompts/department/:id/disable", "PATCH", "service:quality-prompts:department:disable"],
+  ["/service/quality-prompts/templates", "GET", "service:quality-prompts:templates:list"],
+  ["/service/quality-prompts/templates", "POST", "service:quality-prompts:templates:create"],
+  ["/service/quality-prompts/templates/:id", "GET", "service:quality-prompts:templates:list"],
+  ["/service/quality-prompts/templates/:id", "PUT", "service:quality-prompts:templates:update"],
+  ["/service/quality-prompts/templates/:id", "DELETE", "service:quality-prompts:templates:delete"],
+  ["/service/quality-prompts/audit-logs", "GET", "service:quality-prompts:audit-logs:list"],
+  ["/service/quality-prompts/audit-logs/export", "GET", "service:quality-prompts:audit-logs:export"],
+  ["/service/quality-prompts/:id/versions", "GET", "service:quality-prompts:version:list"],
+  ["/service/quality-prompts/:id/versions/:versionId/rollback", "POST", "service:quality-prompts:version:rollback"],
+  ["/service/quality-prompts/batch/enable", "POST", "service:quality-prompts:batch:enable"],
+  ["/service/quality-prompts/batch/disable", "POST", "service:quality-prompts:batch:disable"],
+  ["/service/quality-prompts/import", "POST", "service:quality-prompts:import"],
+  ["/service/quality-prompts/export", "GET", "service:quality-prompts:export"],
+  ["/service/quality-prompts/preview", "POST", "service:quality-prompts:preview"],
 ];
 
 async function main() {
@@ -629,10 +721,21 @@ async function main() {
 
   const menus: Array<{ id: string; menu_code: string }> = [];
   for (const item of menuDefs) {
+    // 处理父子菜单关系
+    let parent_id = null;
+    if (item.menu_code.includes(":") && item.type === 2) {
+      // 子菜单,查找父菜单
+      const parentCode = item.menu_code.split(":").slice(0, -1).join(":");
+      const parentMenu = menus.find((m) => m.menu_code === parentCode);
+      if (parentMenu) {
+        parent_id = parentMenu.id;
+      }
+    }
+
     const menu = await prisma.sys_menu.upsert({
       where: { menu_code: item.menu_code },
-      update: { ...item, status: 1, is_deleted: 0 },
-      create: { ...item, status: 1 },
+      update: { ...item, parent_id, status: 1, is_deleted: 0 },
+      create: { ...item, parent_id, status: 1 },
     });
     menus.push({ id: menu.id, menu_code: menu.menu_code });
   }

@@ -170,7 +170,7 @@ export default function ApprovalCenterPage() {
     confirmBatchAction(
       selectedIds.length,
       act === "approved" ? "同意" : "驳回",
-      () => {
+      async () => {
         setBatchAction(act);
         setBatchOpen(true);
       },
@@ -214,16 +214,16 @@ export default function ApprovalCenterPage() {
       title: "申请人",
       dataIndex: "applicantName",
       width: 100,
-      render: (v) => <Text className="text-slate-700 font-bold">{v}</Text>,
+      render: (_: any, record: ApprovalRequest) => <Text className="text-slate-700 font-bold">{record.applicantName}</Text>,
     },
     {
       title: "金额",
       dataIndex: "amount",
       width: 110,
-      render: (v) =>
-        v ? (
+      render: (_: any, record: ApprovalRequest) =>
+        record.amount ? (
           <Text className="font-black text-red-600">
-            ￥{Number(v).toLocaleString()}
+            ￥{Number(record.amount).toLocaleString()}
           </Text>
         ) : (
           <Text className="text-slate-400">—</Text>
@@ -250,9 +250,9 @@ export default function ApprovalCenterPage() {
       title: "当前审批人",
       dataIndex: "currentApproverName",
       width: 110,
-      render: (v) =>
-        v ? (
-          <Text className="text-slate-600">{v}</Text>
+      render: (_: any, record: ApprovalRequest) =>
+        record.currentApproverName ? (
+          <Text className="text-slate-600">{record.currentApproverName}</Text>
         ) : (
           <Text className="text-slate-400">—</Text>
         ),
@@ -261,9 +261,9 @@ export default function ApprovalCenterPage() {
       title: "发起时间",
       dataIndex: "createdAt",
       width: 150,
-      render: (v) => (
+      render: (_: any, record: ApprovalRequest) => (
         <Text className="text-slate-400 text-xs">
-          {dayjs(v).format("YYYY-MM-DD HH:mm")}
+          {dayjs(record.createdAt).format("YYYY-MM-DD HH:mm")}
         </Text>
       ),
     },

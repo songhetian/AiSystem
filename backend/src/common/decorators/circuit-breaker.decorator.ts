@@ -41,7 +41,7 @@ export function CircuitBreaker(options: CircuitBreakerOptions) {
 
       try {
         const result = await originalMethod.apply(this, args);
-        
+
         // 执行成功，重置计数器
         if (state === 'HALF_OPEN') {
           logger.log(`[V5.0] 服务 ${propertyKey} 探测成功，恢复健康状态`);
@@ -51,7 +51,8 @@ export function CircuitBreaker(options: CircuitBreakerOptions) {
         return result;
       } catch (error) {
         failures++;
-        logger.error(`[V5.0] 服务 ${propertyKey} 调用异常 (${failures}/${options.failureThreshold}): ${error.message}`);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        logger.error(`[V5.0] 服务 ${propertyKey} 调用异常 (${failures}/${options.failureThreshold}): ${errorMessage}`);
 
         if (failures >= options.failureThreshold) {
           state = 'OPEN';
@@ -62,7 +63,7 @@ export function CircuitBreaker(options: CircuitBreakerOptions) {
         if (options.fallback) {
           return options.fallback.apply(this, args);
         }
-        throw error;
+        throw error instanceof Error ? error : new Error(String(error));
       }
     };
 

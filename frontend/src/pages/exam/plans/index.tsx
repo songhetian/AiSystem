@@ -124,8 +124,6 @@ export default function ExamPlansPage() {
       message.error(error?.message || "创建失败");
     },
   });
-    },
-  });
 
   const columns: ProColumns<ExamPlan>[] = useMemo(
     () => [

@@ -9,7 +9,17 @@ import { SnowflakeService } from '../common/utils/snowflake.util';
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   constructor(private readonly snowflakeService: SnowflakeService) {
-    super();
+    super({
+      datasources: {
+        db: {
+          url: process.env.DATABASE_URL,
+        },
+      },
+      // Connection pool configuration (Requirement 23.4)
+      // Min: 10 connections, Max: 50 connections
+      // Note: Prisma uses connection_limit in DATABASE_URL for max connections
+      // The pool_timeout and connect_timeout are also configured in DATABASE_URL
+    });
     // V6.0 高级加固：返回扩展后的代理客户端
     return this._extend() as any;
   }
@@ -34,25 +44,26 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
           // 1. 全局查询拦截：自动注入 is_deleted: 0
           async $allOperations({ model, operation, args, query }) {
             const readOperations = [
-              'findMany', 'findFirst', 'findUnique', 'count', 
+              'findMany', 'findFirst', 'findUnique', 'count',
               'findFirstOrThrow', 'findUniqueOrThrow', 'groupBy', 'aggregate'
             ];
 
             if (readOperations.includes(operation)) {
               // 声明支持软删除的表名
               const softDeleteModels = [
-                'sys_user', 'hr_employee', 'attendance_record', 'sys_role', 
+                'sys_user', 'hr_employee', 'attendance_record', 'sys_role',
                 'sys_menu', 'sys_button', 'sys_operation_log', 'sys_login_log',
                 'biz_platform', 'biz_department', 'biz_shop', 'fin_reimbursement', 'fin_purchase'
               ];
-              
+
               if (softDeleteModels.includes(model.toLowerCase())) {
                 // V7.0 精修：如果明确传了 includeDeleted: true，则跳过过滤
-                if (args.where?.includeDeleted) {
-                  const { includeDeleted, ...actualWhere } = args.where;
-                  args.where = actualWhere;
+                const argsWithWhere = args as any;
+                if (argsWithWhere?.where?.includeDeleted) {
+                  const { includeDeleted, ...actualWhere } = argsWithWhere.where;
+                  argsWithWhere.where = actualWhere;
                 } else {
-                  args.where = { ...args.where, is_deleted: 0 };
+                  argsWithWhere.where = { ...(argsWithWhere?.where || {}), is_deleted: 0 };
                 }
               }
             }

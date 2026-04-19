@@ -85,9 +85,9 @@ export const getEmployeeColumns = (
       title: "性别",
       dataIndex: "gender",
       width: 80,
-      render: (gender: number) => {
-        if (gender === 1) return "男";
-        if (gender === 2) return "女";
+      render: (_: any, record: EmployeeRecord) => {
+        if (record.gender === 1) return "男";
+        if (record.gender === 2) return "女";
         return "-";
       },
     },

@@ -825,7 +825,6 @@ export class FinanceService implements OnModuleInit {
       by_date: Object.values(byDate),
     };
   }
-}
 
   /**
    * 获取报销详情

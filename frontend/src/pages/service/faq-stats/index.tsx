@@ -9,11 +9,11 @@ import {
   Segmented,
   message,
 } from "antd";
-import { BaseTable } from "@/components/BaseTable";
-import { Permission } from "@/components/Permission";
+import { BaseTable } from "@/components/table/BaseTable";
+import { Permission } from "@/components/permission/Permission";
 import { serviceApi } from "@/api/service";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import GlobalLoading from "@/components/common/GlobalLoading";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 const { Text, Title } = Typography;
 
@@ -41,17 +41,17 @@ export default function FaqStatsPage() {
       title: "高频问题原声聚合",
       dataIndex: "faq_content",
       width: 400,
-      render: (val: string) => (
-        <Text className="text-slate-900 font-bold">{val}</Text>
+      render: (_: any, record: any) => (
+        <Text className="text-slate-900 font-bold">{record.faq_content}</Text>
       ),
     },
     {
       title: "累计触发频次",
       dataIndex: "hit_count",
       width: 150,
-      render: (val: number) => (
+      render: (_: any, record: any) => (
         <span className="bg-amber-100 text-amber-800 px-3 py-1 rounded font-black">
-          {val} 次
+          {record.hit_count} 次
         </span>
       ),
     },
@@ -59,9 +59,9 @@ export default function FaqStatsPage() {
       title: "已关联话术ID",
       dataIndex: "article_id",
       width: 200,
-      render: (val: string) => (
+      render: (_: any, record: any) => (
         <Text className="text-emerald-700 font-bold">
-          {val || "尚未配置自动回复标准话术"}
+          {record.article_id || "尚未配置自动回复标准话术"}
         </Text>
       ),
     },
@@ -69,9 +69,9 @@ export default function FaqStatsPage() {
       title: "生成时间",
       dataIndex: "create_time",
       width: 180,
-      render: (val: string) => (
+      render: (_: any, record: any) => (
         <Text className="text-slate-500 font-bold">
-          {new Date(val).toLocaleString()}
+          {new Date(record.create_time).toLocaleString()}
         </Text>
       ),
     },
@@ -80,7 +80,7 @@ export default function FaqStatsPage() {
       width: 150,
       fixed: "right",
       render: (_: any, record: any) => (
-        <Permission button_code="service:faq:map">
+        <Permission code="service:faq:map">
           <a
             className="text-indigo-600 hover:text-indigo-800 font-black"
             onClick={() => {

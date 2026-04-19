@@ -93,8 +93,12 @@ export class SystemDepartmentsService {
   @Cache({ ttl: 900, byUser: true, prefix: 'department-tree' })
   @QueryOptimize({ timeout: 3000, slowQueryThreshold: 200 })
   async findTree(userId: string) {
-    const items = await this.findAll(userId);
-    type DepartmentTreeNode = (typeof items)[number] & { children: DepartmentTreeNode[] };
+    const paginationDto = new PaginationDto();
+    paginationDto.page = 1;
+    paginationDto.pageSize = 100;
+    const result = await this.findAll(userId, paginationDto);
+    const items = result.data;
+    type DepartmentTreeNode = { id: string; parent_id: string | null; [key: string]: any } & { children: DepartmentTreeNode[] };
     const nodeMap = new Map<string, DepartmentTreeNode>(
       items.map((item) => [item.id, { ...item, children: [] as DepartmentTreeNode[] }])
     );
@@ -181,7 +185,6 @@ export class SystemDepartmentsService {
       data: { is_deleted: 1 }
     });
   }
-}
 
   /**
    * 排序部门（清除缓存）
@@ -219,3 +222,4 @@ export class SystemDepartmentsService {
 
     return { success: true };
   }
+}

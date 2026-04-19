@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, Empty, Skeleton, Statistic, Row, Col, Space } from 'antd';
+// @ts-ignore
 import { Column, Line, Pie } from '@ant-design/plots';
 import { financeApi } from '@/api/finance';
 
@@ -223,37 +224,37 @@ export function CashRecordStatsChart({ platformId, startDate, endDate, type }: C
       <Card title="收支统计汇总" size="small">
         <Row gutter={16}>
           <Col span={6}>
-            <Statistic 
-              title="总收入" 
-              value={data.summary.total_income} 
-              prefix="￥" 
+            <Statistic
+              title="总收入"
+              value={data.summary.total_income}
+              prefix="￥"
               precision={2}
               valueStyle={{ color: '#3f8600' }}
             />
           </Col>
           <Col span={6}>
-            <Statistic 
-              title="总支出" 
-              value={data.summary.total_expense} 
-              prefix="￥" 
+            <Statistic
+              title="总支出"
+              value={data.summary.total_expense}
+              prefix="￥"
               precision={2}
               valueStyle={{ color: '#cf1322' }}
             />
           </Col>
           <Col span={6}>
-            <Statistic 
-              title="净收支" 
-              value={data.summary.balance} 
-              prefix="￥" 
+            <Statistic
+              title="净收支"
+              value={data.summary.balance}
+              prefix="￥"
               precision={2}
               valueStyle={{ color: data.summary.balance >= 0 ? '#3f8600' : '#cf1322' }}
             />
           </Col>
           <Col span={6}>
-            <Statistic 
-              title="总笔数" 
-              value={data.summary.income_count + data.summary.expense_count} 
-              suffix="笔" 
+            <Statistic
+              title="总笔数"
+              value={data.summary.income_count + data.summary.expense_count}
+              suffix="笔"
             />
           </Col>
         </Row>

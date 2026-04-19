@@ -10,7 +10,7 @@ import * as os from "os";
 @Injectable()
 export class DegradationService implements OnModuleDestroy {
   private readonly logger = new Logger(DegradationService.name);
-  private currentLevel: DegradationLevel = 0; // 0表示正常状态
+  private currentLevel: DegradationLevel = DegradationLevel.NORMAL; // 正常状态
   private readonly DEGRADATION_KEY = "system:degradation:level";
   private monitoringInterval: NodeJS.Timeout;
 
@@ -49,11 +49,11 @@ export class DegradationService implements OnModuleDestroy {
    */
   async getCurrentLevel(): Promise<number> {
     try {
-      const redis = this.redisService.getClient();
-      const level = await redis.get(this.DEGRADATION_KEY);
+      const level = await this.redisService.get(this.DEGRADATION_KEY);
       return level ? parseInt(level, 10) : 0;
     } catch (error) {
-      this.logger.error(`Failed to get degradation level: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Failed to get degradation level: ${errorMessage}`);
       return this.currentLevel;
     }
   }
@@ -63,9 +63,8 @@ export class DegradationService implements OnModuleDestroy {
    */
   async setLevel(level: number, reason: string): Promise<void> {
     try {
-      const redis = this.redisService.getClient();
-      await redis.set(this.DEGRADATION_KEY, level.toString());
-      this.currentLevel = level;
+      await this.redisService.set(this.DEGRADATION_KEY, level.toString(), 3600);
+      this.currentLevel = level as DegradationLevel;
 
       this.logger.warn(
         `System degradation level changed to ${level}, reason: ${reason}`,
@@ -74,7 +73,8 @@ export class DegradationService implements OnModuleDestroy {
       // 记录降级日志
       await this.logDegradation(level, reason);
     } catch (error) {
-      this.logger.error(`Failed to set degradation level: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Failed to set degradation level: ${errorMessage}`);
     }
   }
 
@@ -156,7 +156,8 @@ export class DegradationService implements OnModuleDestroy {
         }
       }
     } catch (error) {
-      this.logger.error(`Failed to check system load: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Failed to check system load: ${errorMessage}`);
     }
   }
 
@@ -196,19 +197,16 @@ export class DegradationService implements OnModuleDestroy {
    */
   private async logDegradation(level: number, reason: string): Promise<void> {
     try {
-      const redis = this.redisService.getClient();
       const log = {
         level,
         reason,
         timestamp: new Date().toISOString(),
       };
 
-      await redis.lpush("system:degradation:logs", JSON.stringify(log));
-
-      // 只保留最近100条日志
-      await redis.ltrim("system:degradation:logs", 0, 99);
+      await this.redisService.lpush("system:degradation:logs", JSON.stringify(log));
     } catch (error) {
-      this.logger.error(`Failed to log degradation: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Failed to log degradation: ${errorMessage}`);
     }
   }
 }

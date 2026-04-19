@@ -53,7 +53,6 @@ export class AttendanceSchedulesService implements IAttendanceSchedulesService {
   private get scheduleChangeDelegate() {
     return this.prisma['attendance_schedule_change' as keyof typeof this.prisma] as any;
   }
-  ) {}
 
   /**
    * 获取排班看板（V2.0 性能优化）

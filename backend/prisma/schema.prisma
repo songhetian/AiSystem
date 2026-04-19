@@ -1946,3 +1946,132 @@ model sys_user_register {
   @@index([status, create_time])
   @@index([platform_id, dept_id])
 }
+
+// ==================== 质检Prompt集成功能表 ====================
+
+// 全局质检Prompt表
+model service_quality_prompt_global {
+  id                    String   @id @default(cuid())
+  create_time           DateTime @default(now())
+  update_time           DateTime @updatedAt
+  is_deleted            Int      @default(0)
+  name                  String   @db.VarChar(255)
+  content               String   @db.Text
+  applicable_scenarios  String?  @db.Text
+  enabled               Int      @default(1)
+  sort                  Int      @default(0)
+  version               Int      @default(1)
+  platform_id           String
+  created_by            String?
+  updated_by            String?
+  remark                String?  @db.Text
+
+  @@index([platform_id, enabled, sort], name: "idx_platform_enabled_sort")
+  @@index([name], name: "idx_name")
+  @@index([create_time], name: "idx_create_time")
+}
+
+// 部门质检Prompt表
+model service_quality_prompt_department {
+  id                      String   @id @default(cuid())
+  create_time             DateTime @default(now())
+  update_time             DateTime @updatedAt
+  is_deleted              Int      @default(0)
+  name                    String   @db.VarChar(255)
+  content                 String   @db.Text
+  applicable_scenarios    String?  @db.Text
+  enabled                 Int      @default(1)
+  sort                    Int      @default(0)
+  version                 Int      @default(1)
+  platform_id             String
+  dept_id                 String
+  parent_global_prompt_ids Json?
+  created_by              String?
+  updated_by              String?
+  remark                  String?  @db.Text
+
+  @@index([platform_id, dept_id, enabled, sort], name: "idx_platform_dept_enabled_sort")
+  @@index([dept_id], name: "idx_dept_id")
+  @@index([name], name: "idx_name")
+  @@index([create_time], name: "idx_create_time")
+}
+
+// 质检Prompt模板库表
+model service_quality_prompt_template {
+  id          String   @id @default(cuid())
+  create_time DateTime @default(now())
+  update_time DateTime @updatedAt
+  is_deleted  Int      @default(0)
+  name        String   @db.VarChar(255)
+  content     String   @db.Text
+  category    String   @db.VarChar(100)
+  industry    String?  @db.VarChar(100)
+  description String?  @db.Text
+  is_builtin  Int      @default(0)
+  sort        Int      @default(0)
+  platform_id String
+  created_by  String?
+
+  @@index([platform_id, category, industry], name: "idx_platform_category_industry")
+  @@index([sort], name: "idx_sort")
+  @@index([is_builtin], name: "idx_is_builtin")
+}
+
+// 质检Prompt版本历史表
+model service_quality_prompt_version {
+  id                   String   @id @default(cuid())
+  create_time          DateTime @default(now())
+  prompt_id            String
+  prompt_type          String   @db.VarChar(50)
+  version_number       Int
+  name                 String   @db.VarChar(255)
+  content              String   @db.Text
+  applicable_scenarios String?  @db.Text
+  change_description   String?  @db.Text
+  modified_by          String?
+  modified_by_name     String?  @db.VarChar(255)
+
+  @@index([prompt_id, version_number(sort: Desc)], name: "idx_prompt_id_version")
+  @@index([prompt_type], name: "idx_prompt_type")
+  @@index([create_time], name: "idx_create_time")
+}
+
+// 质检Prompt权限表
+model service_quality_prompt_permission {
+  id            String   @id @default(cuid())
+  create_time   DateTime @default(now())
+  update_time   DateTime @updatedAt
+  is_deleted    Int      @default(0)
+  user_id       String
+  role_code     String   @db.VarChar(100)
+  resource_type String   @db.VarChar(50)
+  permissions   Json
+  platform_id   String
+  dept_id       String?
+
+  @@unique([user_id, role_code, resource_type], name: "idx_user_role_resource")
+  @@index([platform_id, dept_id], name: "idx_platform_dept")
+}
+
+// 质检Prompt审计日志表
+model service_quality_prompt_audit_log {
+  id             String   @id @default(cuid())
+  create_time    DateTime @default(now())
+  operation_type String   @db.VarChar(50)
+  operator_id    String
+  operator_name  String   @db.VarChar(255)
+  prompt_id      String
+  prompt_type    String   @db.VarChar(50)
+  prompt_name    String   @db.VarChar(255)
+  before_content String?  @db.Text
+  after_content  String?  @db.Text
+  delete_reason  String?  @db.Text
+  platform_id    String
+  dept_id        String?
+  request_ip     String?  @db.VarChar(100)
+
+  @@index([operator_id, create_time(sort: Desc)], name: "idx_operator_time")
+  @@index([operation_type, create_time(sort: Desc)], name: "idx_operation_type_time")
+  @@index([prompt_id], name: "idx_prompt_id")
+  @@index([platform_id, dept_id], name: "idx_platform_dept")
+}

@@ -1,4 +1,4 @@
-import { request } from "@/utils/request";
+import request from "@/utils/request";
 import type { ReimbursementRecord, ExpenseType } from "./types";
 
 export const reimbursementApi = {

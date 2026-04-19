@@ -80,7 +80,8 @@ export class DegradationGuard implements CanActivate {
       if (error instanceof HttpException) {
         throw error;
       }
-      this.logger.error(`Degradation guard error: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Degradation guard error: ${errorMessage}`);
       // 降级服务故障时，允许请求通过
       return true;
     }

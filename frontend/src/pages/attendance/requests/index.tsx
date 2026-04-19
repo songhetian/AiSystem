@@ -34,7 +34,6 @@ const RequestTabContent = ({ type }: { type: RequestType }) => {
       <RequestFilterBar
         onSearch={setKeyword}
         onRefresh={refetch}
-        searchInputRef={searchInputRef}
       />
       <RequestTable data={data} loading={isLoading} columns={columns} />
     </GlobalLoading>

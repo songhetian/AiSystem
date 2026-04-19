@@ -5,7 +5,6 @@ import BaseTable from "@/components/table/BaseTable";
 import {
   ColumnCustomizer,
   loadColumnConfig,
-  saveColumnConfig,
   type ColumnConfig,
 } from "@/components/table/ColumnCustomizer";
 import { attendanceApi } from "@/api/attendance";
@@ -73,9 +72,9 @@ const AttendanceRecords: React.FC = () => {
   // 重置列配置
   const handleResetColumns = () => {
     resetColumnConfig(
+      "attendance-records-columns",
       defaultColumnConfig,
       setColumns,
-      "attendance-records-columns",
     );
   };
 

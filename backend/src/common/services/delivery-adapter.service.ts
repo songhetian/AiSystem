@@ -26,7 +26,7 @@ export class DeliveryAdapterService {
   constructor(private readonly realtimeService: RealtimeService) {}
 
   async deliver(input: DeliveryInput) {
-    const results = [];
+    const results: Array<{ channel: DeliveryChannel; success: boolean; error?: string }> = [];
 
     for (const channel of input.channels) {
       try {
@@ -44,8 +44,10 @@ export class DeliveryAdapterService {
         }
         results.push({ channel, success });
       } catch (error) {
-        this.logger.error(`Channel ${channel} delivery failed`, error.stack);
-        results.push({ channel, success: false, error: error.message });
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        const errorStack = error instanceof Error ? error.stack : undefined;
+        this.logger.error(`Channel ${channel} delivery failed`, errorStack);
+        results.push({ channel, success: false, error: errorMessage });
       }
     }
 

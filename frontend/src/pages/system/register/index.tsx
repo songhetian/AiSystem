@@ -135,48 +135,17 @@ export default function RegisterManagePage() {
       return;
     }
 
-    await confirmBatchAction({
-      selectedCount: selectedRowKeys.length,
-      actionName: status === "approved" ? "通过" : "拒绝",
-      onConfirm: async () => {
-        if (status === "rejected") {
-          // 需要填写拒绝原因
-          Modal.confirm({
-            title: "批量拒绝",
-            content: (
-              <Form>
-                <Form.Item
-                  label="拒绝原因"
-                  name="rejectReason"
-                  rules={[{ required: true, message: "请填写拒绝原因" }]}
-                >
-                  <TextArea rows={4} placeholder="请填写拒绝原因" />
-                </Form.Item>
-              </Form>
-            ),
-            onOk: async (close) => {
-              const form = Modal.useForm()[0];
-              try {
-                const values = await form.validateFields();
-                await batchApproveMutation.mutateAsync({
-                  ids: selectedRowKeys,
-                  status,
-                  rejectReason: values.rejectReason,
-                });
-                close();
-              } catch (error) {
-                return Promise.reject(error);
-              }
-            },
-          });
-        } else {
-          await batchApproveMutation.mutateAsync({
-            ids: selectedRowKeys,
-            status,
-          });
-        }
+    await confirmBatchAction(
+      selectedRowKeys.length,
+      status === "approved" ? "通过" : "拒绝",
+      async () => {
+        await batchApproveMutation.mutateAsync({
+          ids: selectedRowKeys,
+          status,
+        });
       },
-    });
+      "申请"
+    );
   };
 
   // 状态标签
@@ -358,7 +327,7 @@ export default function RegisterManagePage() {
           loading={isLoading}
           rowSelection={{
             selectedRowKeys,
-            onChange: setSelectedRowKeys,
+            onChange: (keys) => setSelectedRowKeys(keys as string[]),
             getCheckboxProps: (record: any) => ({
               disabled: record.status !== "pending",
             }),
@@ -386,32 +355,30 @@ export default function RegisterManagePage() {
           <Button key="close" onClick={() => setDetailModalVisible(false)}>
             关闭
           </Button>,
-          currentRecord?.status === "pending" && (
-            <>
-              <Button
-                key="approve"
-                type="primary"
-                icon={<CheckCircleOutlined />}
-                onClick={() => {
-                  setDetailModalVisible(false);
-                  handleApprove(currentRecord, "approved");
-                }}
-              >
-                通过
-              </Button>
-              <Button
-                key="reject"
-                danger
-                icon={<CloseCircleOutlined />}
-                onClick={() => {
-                  setDetailModalVisible(false);
-                  handleApprove(currentRecord, "rejected");
-                }}
-              >
-                拒绝
-              </Button>
-            </>,
-          ),
+          ...(currentRecord?.status === "pending" ? [
+            <Button
+              key="approve"
+              type="primary"
+              icon={<CheckCircleOutlined />}
+              onClick={() => {
+                setDetailModalVisible(false);
+                handleApprove(currentRecord, "approved");
+              }}
+            >
+              通过
+            </Button>,
+            <Button
+              key="reject"
+              danger
+              icon={<CloseCircleOutlined />}
+              onClick={() => {
+                setDetailModalVisible(false);
+                handleApprove(currentRecord, "rejected");
+              }}
+            >
+              拒绝
+            </Button>
+          ] : []),
         ]}
         width={700}
       >

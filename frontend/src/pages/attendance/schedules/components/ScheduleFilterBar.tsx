@@ -1,7 +1,7 @@
 import { Button, DatePicker, Select, Space, Tag, Typography } from 'antd';
 import { LeftOutlined, ReloadOutlined, RightOutlined, RobotOutlined, SettingOutlined } from '@ant-design/icons';
 import type { Dayjs } from 'dayjs';
-import { useNavigate } from 'umi';
+import { useNavigate } from 'react-router-dom';
 
 const { Text } = Typography;
 

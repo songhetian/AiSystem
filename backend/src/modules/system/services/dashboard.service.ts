@@ -186,7 +186,7 @@ export class DashboardService {
     const [sessionCount, analysisStats, satisfactionStats, passCount] =
       await Promise.all([
         this.serviceSessionDelegate().count({ where }),
-        this.serviceSessionDelegate()_analysis.aggregate({
+        this.serviceSessionDelegate().analysis.aggregate({
           where,
           _avg: { quality_score: true, response_timeout_count: true },
           _count: { id: true },
@@ -197,7 +197,7 @@ export class DashboardService {
           _count: { id: true },
         }),
         // V7.0 实战化：统计真实的质检合格数 (假设 status=1 为合格)
-        this.serviceSessionDelegate()_analysis.count({
+        this.serviceSessionDelegate().analysis.count({
           where: { ...where, status: 1 },
         }),
       ]);

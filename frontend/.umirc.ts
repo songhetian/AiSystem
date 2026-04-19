@@ -3,25 +3,19 @@ import { defineConfig } from 'umi';
 export default defineConfig({
   npmClient: 'npm',
   esbuildMinifyIIFE: true,
-  
+
   // V2.0 性能优化配置
-  // 1. 代码分割和懒加载
-  dynamicImport: {
-    loading: '@/components/common/LeixiLoading', // 加载组件
-  },
-  
-  // 2. 构建优化
+  // 1. 构建优化
   mfsu: {
     strategy: 'normal', // 模块联邦加速
   },
-  
-  // 3. 压缩优化
+
+  // 2. 压缩优化
   jsMinifier: 'esbuild', // 使用esbuild压缩（更快）
   cssMinifier: 'esbuild',
-  
-  // 4. 代码分割策略
-  chunks: ['vendors', 'umi'],
-  chainWebpack(config) {
+
+  // 3. 代码分割策略
+  chainWebpack(config: any) {
     // 优化代码分割
     config.optimization.splitChunks({
       chunks: 'all',
@@ -55,7 +49,7 @@ export default defineConfig({
       },
     });
   },
-  
+
   routes: [
     { path: '/login', component: '@/pages/login' },
     { path: '/maintenance', component: '@/pages/maintenance' },
@@ -80,9 +74,7 @@ export default defineConfig({
         { path: '/finance/purchases', component: '@/pages/finance/purchases' },
         { path: '/finance/purchases/stats', component: '@/pages/finance/purchases/stats' },
         { path: '/finance/cash-records/stats', component: '@/pages/finance/cash-records/stats' },
-        { path: '/approval/templates', component: '@/pages/approval/templates' },
         { path: '/org/departments', component: '@/pages/personnel/departments' },
-        { path: '/org/positions', component: '@/pages/personnel/positions' },
         { path: '/org/employees', component: '@/pages/personnel/employees' },
         { path: '/attendance/schedules', component: '@/pages/attendance/schedules' },
         { path: '/attendance/ai-schedule', component: '@/pages/attendance/ai-schedule' },
@@ -99,6 +91,10 @@ export default defineConfig({
         { path: '/service/sessions/:id', component: '@/pages/service/sessions/[id]' },
         { path: '/service/quality-rules', component: '@/pages/service/quality-rules' },
         { path: '/service/sensitive-terms', component: '@/pages/service/sensitive-terms' },
+        { path: '/service/quality-prompts/global', component: '@/pages/service/quality-prompts/global' },
+        { path: '/service/quality-prompts/department', component: '@/pages/service/quality-prompts/department' },
+        { path: '/service/quality-prompts/templates', component: '@/pages/service/quality-prompts/templates' },
+        { path: '/service/quality-prompts/audit-logs', component: '@/pages/service/quality-prompts/audit-logs' },
         { path: '/exam/papers', component: '@/pages/exam/papers' },
         { path: '/exam/plans', component: '@/pages/exam/plans' },
         { path: '/exam/plans/:id', component: '@/pages/exam/plans/[id]' },

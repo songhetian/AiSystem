@@ -5,7 +5,6 @@ import {
   CallHandler,
   HttpException,
   HttpStatus,
-  Logger,
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Observable } from "rxjs";
@@ -21,7 +20,6 @@ import {
  */
 @Injectable()
 export class ConcurrentControlInterceptor implements NestInterceptor {
-  private readonly logger = new Logger(ConcurrentControlInterceptor.name);
   private readonly queues = new Map<string, Promise<any>>();
 
   constructor(
@@ -53,7 +51,7 @@ export class ConcurrentControlInterceptor implements NestInterceptor {
         return this.handlePessimisticLock(lockKey, next, options);
 
       case ConcurrentControlType.QUEUE:
-        return this.handleQueue(lockKey, next, options);
+        return this.handleQueue(lockKey, next);
 
       default:
         return next.handle();
@@ -68,30 +66,40 @@ export class ConcurrentControlInterceptor implements NestInterceptor {
     next: CallHandler,
     options: ConcurrentControlOptions,
   ): Promise<Observable<any>> {
-    const redis = this.redisService.getClient();
     let retries = options.retryTimes || 3;
 
     while (retries > 0) {
       try {
         // 获取当前版本号
-        const version = await redis.get(`version:${key}`);
+        const version = await this.redisService.get(`version:${key}`);
         const currentVersion = version ? parseInt(version, 10) : 0;
 
         // 执行业务逻辑
         const result = await next.handle().toPromise();
 
-        // 尝试更新版本号（CAS操作）
+        // 尝试更新版本号（使用Lua脚本实现CAS操作）
         const newVersion = currentVersion + 1;
-        const updated = await redis.set(
-          `version:${key}`,
-          newVersion.toString(),
-          "XX", // 仅当key存在时更新
-        );
+        const script = `
+          local key = KEYS[1]
+          local expected = tonumber(ARGV[1])
+          local newVal = tonumber(ARGV[2])
+          local current = redis.call('GET', key)
+          if current == false or tonumber(current) == expected then
+            redis.call('SET', key, newVal)
+            return 1
+          else
+            return 0
+          end
+        `;
 
-        if (updated || !version) {
+        const updated = await this.redisService.eval(script, [
+          `version:${key}`,
+        ], [String(currentVersion), String(newVersion)]);
+
+        if (updated === 1 || !version) {
           // 更新成功或首次创建
           if (!version) {
-            await redis.set(`version:${key}`, "1");
+            await this.redisService.set(`version:${key}`, "1", 3600);
           }
           return new Observable((subscriber) => {
             subscriber.next(result);
@@ -127,7 +135,6 @@ export class ConcurrentControlInterceptor implements NestInterceptor {
     next: CallHandler,
     options: ConcurrentControlOptions,
   ): Promise<Observable<any>> {
-    const redis = this.redisService.getClient();
     const lockKey = `lock:${key}`;
     const lockValue = `${Date.now()}-${Math.random()}`;
     const timeout = options.timeout || 5000;
@@ -137,12 +144,10 @@ export class ConcurrentControlInterceptor implements NestInterceptor {
     while (retries > 0) {
       try {
         // 尝试获取锁
-        const acquired = await redis.set(
+        const acquired = await this.redisService.setNx(
           lockKey,
           lockValue,
-          "PX",
-          timeout,
-          "NX",
+          Math.ceil(timeout / 1000),
         );
 
         if (acquired) {
@@ -156,12 +161,14 @@ export class ConcurrentControlInterceptor implements NestInterceptor {
             });
           } finally {
             // 释放锁（使用Lua脚本确保原子性）
-            await redis.eval(
-              `if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end`,
-              1,
-              lockKey,
-              lockValue,
-            );
+            const script = `
+              if redis.call("get", KEYS[1]) == ARGV[1] then
+                return redis.call("del", KEYS[1])
+              else
+                return 0
+              end
+            `;
+            await this.redisService.eval(script, [lockKey], [lockValue]);
           }
         }
 
@@ -172,12 +179,14 @@ export class ConcurrentControlInterceptor implements NestInterceptor {
         }
       } catch (error) {
         // 确保释放锁
-        await redis.eval(
-          `if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end`,
-          1,
-          lockKey,
-          lockValue,
-        );
+        const script = `
+          if redis.call("get", KEYS[1]) == ARGV[1] then
+            return redis.call("del", KEYS[1])
+          else
+            return 0
+          end
+        `;
+        await this.redisService.eval(script, [lockKey], [lockValue]);
         throw error;
       }
     }
@@ -198,7 +207,6 @@ export class ConcurrentControlInterceptor implements NestInterceptor {
   private async handleQueue(
     key: string,
     next: CallHandler,
-    options: ConcurrentControlOptions,
   ): Promise<Observable<any>> {
     const queueKey = `queue:${key}`;
 

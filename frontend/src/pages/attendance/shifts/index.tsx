@@ -278,7 +278,5 @@ const AttendanceShifts: React.FC = () => {
     </div>
   );
 };
-  );
-};
 
 export default AttendanceShifts;

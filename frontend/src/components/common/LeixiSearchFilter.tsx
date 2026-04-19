@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Input, Select, DatePicker, Space, Button, Form } from 'antd';
 import { SearchOutlined, ReloadOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
@@ -21,7 +21,7 @@ interface LeixiSearchFilterProps {
   showQuickDate?: boolean;
 }
 
-const LeixiSearchFilter: React.FC<LeixiSearchFilterProps> = ({ fields, onSearch, onReset, showQuickDate = true }) => {
+const LeixiSearchFilter = forwardRef<any, LeixiSearchFilterProps>(({ fields, onSearch, onReset, showQuickDate = true }, ref) => {
   const [form] = Form.useForm();
 
   const handleQuickDate = (days: number) => {
@@ -37,7 +37,7 @@ const LeixiSearchFilter: React.FC<LeixiSearchFilterProps> = ({ fields, onSearch,
         {fields.map((field) => (
           <Form.Item key={field.name} name={field.name} className="flex-grow min-w-[200px] !mr-4" initialValue={field.initialValue}>
             {field.type === 'text' && (
-              <Input prefix={<SearchOutlined className="text-slate-400" />} placeholder={field.placeholder || `搜索${field.label || ''}`} className="h-11 rounded-xl border-slate-200 font-bold" />
+              <Input ref={field === fields[0] ? ref : undefined} prefix={<SearchOutlined className="text-slate-400" />} placeholder={field.placeholder || `搜索${field.label || ''}`} className="h-11 rounded-xl border-slate-200 font-bold" />
             )}
             {field.type === 'select' && (
               <Select placeholder={field.placeholder || `选择${field.label || ''}`} options={field.options} className="h-11 rounded-xl font-bold" />
@@ -82,6 +82,8 @@ const LeixiSearchFilter: React.FC<LeixiSearchFilterProps> = ({ fields, onSearch,
       )}
     </div>
   );
-};
+});
+
+LeixiSearchFilter.displayName = 'LeixiSearchFilter';
 
 export default LeixiSearchFilter;

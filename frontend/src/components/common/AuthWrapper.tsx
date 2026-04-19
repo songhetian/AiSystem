@@ -1,7 +1,7 @@
-import { Navigate, Outlet, useLocation } from 'umi';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { usePermission } from '@/hooks/usePermission';
 import { Result, Button } from 'antd';
-import { useNavigate } from 'umi';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * 路由权限守卫（V2.0 新增）
@@ -9,7 +9,7 @@ import { useNavigate } from 'umi';
  * 1. 检查用户是否有访问当前路由的权限
  * 2. 无权限时跳转到403页面
  * 3. 未登录时跳转到登录页
- * 
+ *
  * 使用方式：
  * 在路由配置中添加 wrappers: ['@/components/common/AuthWrapper']
  */
@@ -25,7 +25,7 @@ export function AuthWrapper() {
 
   // 检查路由权限
   const currentRoute = location.pathname;
-  
+
   // 公共路由（不需要权限检查）
   const publicRoutes = [
     '/login',
@@ -34,9 +34,9 @@ export function AuthWrapper() {
     '/maintenance',
     '/account',
   ];
-  
+
   const isPublicRoute = publicRoutes.some(route => currentRoute.startsWith(route));
-  
+
   if (isPublicRoute) {
     return <Outlet />;
   }

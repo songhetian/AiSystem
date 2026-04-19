@@ -29,7 +29,7 @@ import {
 } from "@/components/table/ColumnCustomizer";
 import { defaultMessageColumns, getMessageColumns } from "./components/columns";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import GlobalLoading from "@/components/common/GlobalLoading";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 const { Title, Text, Paragraph } = Typography;
 

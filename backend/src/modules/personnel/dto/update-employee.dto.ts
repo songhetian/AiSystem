@@ -6,6 +6,10 @@ export class UpdateEmployeeDto {
   name?: string;
 
   @IsOptional()
+  @IsString()
+  employee_no?: string;
+
+  @IsOptional()
   @IsInt()
   gender?: number;
 

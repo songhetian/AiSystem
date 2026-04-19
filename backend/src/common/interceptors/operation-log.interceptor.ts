@@ -80,6 +80,7 @@ export class OperationLogInterceptor implements NestInterceptor {
         operation_module: moduleName,
         request_ip: getRequestIp(request),
         user_agent: request.headers?.['user-agent'],
+        operation_status: status,
         operation_message: status === 1 ? message : `失败原因：${message}`,
         request_params: MaskUtil.maskObject({
           params: request.params,

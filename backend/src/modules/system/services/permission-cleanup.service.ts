@@ -132,7 +132,7 @@ export class PermissionCleanupService {
       return {
         success: false,
         message: "清理失败",
-        error: error.message,
+        error: error instanceof Error ? error.message : String(error),
       };
     }
   }
@@ -141,7 +141,12 @@ export class PermissionCleanupService {
    * 检测冗余配置（不执行清理）
    */
   async detectRedundantPermissions() {
-    const issues = {
+    const issues: {
+      redundantMenus: Array<{ resourceId: string; resourceName: string; count: number }>;
+      redundantButtons: Array<{ resourceId: string; resourceName: string; count: number }>;
+      invalidRoles: Array<{ roleId: string; roleName: string; count: number }>;
+      orphanedPermissions: Array<{ type: string; menuCount: number; buttonCount: number; total: number }>;
+    } = {
       redundantMenus: [],
       redundantButtons: [],
       invalidRoles: [],
@@ -259,11 +264,13 @@ export class PermissionCleanupService {
     try {
       await this.prisma.sys_operation_log.create({
         data: {
-          module: "permission",
-          operation: "cleanup",
-          content: JSON.stringify(results),
-          operator: "system",
-          ip: "127.0.0.1",
+          request_method: "POST",
+          api_path: "/system/permission-cleanup",
+          api_name: "权限配置清理",
+          operation_module: "permission",
+          operation_message: JSON.stringify(results),
+          username: "system",
+          request_ip: "127.0.0.1",
         },
       });
     } catch (error) {

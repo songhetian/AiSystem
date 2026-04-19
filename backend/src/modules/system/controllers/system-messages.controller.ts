@@ -8,10 +8,10 @@ import {
   Param,
   Query,
   UseGuards,
+  BadRequestException,
 } from "@nestjs/common";
-import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
-import { CurrentUser } from "../../../common/decorators/current-user.decorator";
-import { CurrentUserPayload } from "../../../common/interfaces/current-user.interface";
+import { JwtAuthGuard } from "../../../common/guards/jwt-auth.guard";
+import { CurrentUser, CurrentUserPayload } from "../../../common/current-user.decorator";
 import { QuerySystemMessagesDto } from "../dto/query-system-messages.dto";
 import { SystemMessagesService } from "../services/system-messages.service";
 
@@ -31,16 +31,25 @@ export class SystemMessagesController {
     @CurrentUser() user: CurrentUserPayload,
     @Query() query: QuerySystemMessagesDto,
   ) {
+    if (!user.id) {
+      throw new BadRequestException('用户ID不能为空');
+    }
     return this.systemMessagesService.list(user.id, query);
   }
 
   @Get("stats")
   stats(@CurrentUser() user: CurrentUserPayload) {
+    if (!user.id) {
+      throw new BadRequestException('用户ID不能为空');
+    }
     return this.systemMessagesService.stats(user.id);
   }
 
   @Patch(":id/read")
   markRead(@CurrentUser() user: CurrentUserPayload, @Param("id") id: string) {
+    if (!user.id) {
+      throw new BadRequestException('用户ID不能为空');
+    }
     return this.systemMessagesService.markRead(user.id, id);
   }
 
@@ -49,6 +58,9 @@ export class SystemMessagesController {
     @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
   ) {
+    if (!user.id) {
+      throw new BadRequestException('用户ID不能为空');
+    }
     return this.systemMessagesService.toggleFavorite(user.id, id);
   }
 
@@ -57,6 +69,9 @@ export class SystemMessagesController {
     @CurrentUser() user: CurrentUserPayload,
     @Body("ids") ids: string[],
   ) {
+    if (!user.id) {
+      throw new BadRequestException('用户ID不能为空');
+    }
     return this.systemMessagesService.moveToTrash(user.id, ids);
   }
 
@@ -65,16 +80,25 @@ export class SystemMessagesController {
     @CurrentUser() user: CurrentUserPayload,
     @Body("ids") ids: string[],
   ) {
+    if (!user.id) {
+      throw new BadRequestException('用户ID不能为空');
+    }
     return this.systemMessagesService.restoreFromTrash(user.id, ids);
   }
 
   @Patch("read-all")
   markAllRead(@CurrentUser() user: CurrentUserPayload) {
+    if (!user.id) {
+      throw new BadRequestException('用户ID不能为空');
+    }
     return this.systemMessagesService.markAllRead(user.id);
   }
 
   @Delete("trash")
   purgeTrash(@CurrentUser() user: CurrentUserPayload) {
+    if (!user.id) {
+      throw new BadRequestException('用户ID不能为空');
+    }
     return this.systemMessagesService.purgeTrash(user.id);
   }
 
@@ -92,6 +116,9 @@ export class SystemMessagesController {
 
   @Post("send-test")
   sendTest(@CurrentUser() user: CurrentUserPayload, @Body() data: any) {
+    if (!user.id) {
+      throw new BadRequestException('用户ID不能为空');
+    }
     return this.systemMessagesService.sendFromTemplate({
       templateName: data.templateName,
       recipientId: user.id, // 测试发给自己
@@ -103,11 +130,17 @@ export class SystemMessagesController {
   // ✅ 新增：消息设置（PRD 2.3.3）
   @Get("settings")
   getSettings(@CurrentUser() user: CurrentUserPayload) {
+    if (!user.id) {
+      throw new BadRequestException('用户ID不能为空');
+    }
     return this.systemMessagesService.getSettings(user.id);
   }
 
   @Post("settings")
   saveSettings(@CurrentUser() user: CurrentUserPayload, @Body() body: any) {
+    if (!user.id) {
+      throw new BadRequestException('用户ID不能为空');
+    }
     return this.systemMessagesService.saveSettings(user.id, body);
   }
 }

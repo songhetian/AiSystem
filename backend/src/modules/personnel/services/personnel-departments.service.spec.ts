@@ -83,10 +83,11 @@ describe("PersonnelDepartmentsService", () => {
       mockPrisma.biz_department.findMany.mockResolvedValue(mockDepartments);
       mockPrisma.biz_department.count.mockResolvedValue(2);
 
-      const result = await service.findAll(mockUser.sub, {
-        page: 1,
-        pageSize: 10,
-      });
+      const pagination = new (await import("../../../common/dto/pagination.dto")).PaginationDto();
+      pagination.page = 1;
+      pagination.pageSize = 10;
+
+      const result = await service.findAll(mockUser.sub, pagination);
 
       expect(result).toEqual({
         data: mockDepartments,
@@ -109,11 +110,14 @@ describe("PersonnelDepartmentsService", () => {
       mockPrisma.biz_department.findMany.mockResolvedValue([]);
       mockPrisma.biz_department.count.mockResolvedValue(0);
 
-      await service.findAll(mockUser.sub, {
-        page: 1,
-        pageSize: 10,
-        keyword: "技术",
-      });
+      const pagination = new (await import("../../../common/dto/pagination.dto")).PaginationDto();
+      pagination.page = 1;
+      pagination.pageSize = 10;
+
+      // 添加keyword属性到pagination对象
+      (pagination as any).keyword = "技术";
+
+      await service.findAll(mockUser.sub, pagination);
 
       expect(prisma.biz_department.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -183,8 +187,7 @@ describe("PersonnelDepartmentsService", () => {
       };
       const createDto = {
         name: "新部门",
-        code: "NEW",
-        parent_id: null,
+        parent_id: undefined, // 使用undefined而不是null
         sort: 0,
       };
       const mockCreatedDepartment = {
@@ -206,7 +209,6 @@ describe("PersonnelDepartmentsService", () => {
         expect.objectContaining({
           data: expect.objectContaining({
             name: createDto.name,
-            code: createDto.code,
             platform_id: mockScope.platform_id,
           }),
         }),

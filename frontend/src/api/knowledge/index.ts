@@ -1,4 +1,4 @@
-import { request } from "@/utils/request";
+import request from "@/utils/request";
 
 export interface KnowledgeArticle {
   id: string;
@@ -128,6 +128,8 @@ export interface KnowledgeDocument {
   create_time: string;
   update_time: string;
   uploader_id?: string;
+  is_public?: number;
+  progress?: number;
 }
 
 export interface KnowledgeChatSession {
@@ -254,8 +256,6 @@ export const knowledgeApi = {
     items: Array<{ id: string; parent_id: string | null; sort: number }>;
   }) => request.post("/knowledge/categories/sort", payload),
   // ✅ 新增：向量管理（知识库.md 3.4.2）
-  listVectors: (params?: any) => request.get("/knowledge/vectors", { params }),
-  deleteVector: (id: string) => request.delete(`/knowledge/vectors/${id}`),
   regenerateVector: (docId: string) =>
     request.post(`/knowledge/documents/${docId}/regenerate-vector`, {}),
 };

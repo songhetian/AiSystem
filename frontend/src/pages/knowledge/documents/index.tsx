@@ -23,7 +23,7 @@ import UploadProgressPanel, {
   UploadingFile,
 } from "@/components/common/UploadProgressPanel";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import GlobalLoading from "@/components/common/GlobalLoading";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 const KnowledgeDocuments: React.FC = () => {
   const [loading, setLoading] = useState(false);

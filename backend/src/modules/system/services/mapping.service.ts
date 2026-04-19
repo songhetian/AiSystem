@@ -163,7 +163,8 @@ export class MappingService {
         });
         results.updated++;
       } catch (error) {
-        this.logger.error(`Upsert order failed: ${error.message}`);
+        const message = error instanceof Error ? error.message : String(error);
+        this.logger.error(`Upsert order failed: ${message}`);
         results.failed++;
       }
     }
@@ -214,7 +215,8 @@ export class MappingService {
         });
         results.updated++;
       } catch (error) {
-        this.logger.error(`Upsert product failed: ${error.message}`);
+        const message = error instanceof Error ? error.message : String(error);
+        this.logger.error(`Upsert product failed: ${message}`);
         results.failed++;
       }
     }

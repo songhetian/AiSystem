@@ -1,11 +1,11 @@
 import { Table } from "antd";
-import type { ProColumns } from "@ant-design/pro-components";
+import type { ColumnType } from "antd/es/table";
 import { RequestStatusTag } from "./RequestStatusTag";
 
 interface RequestTableProps {
   data: any[];
   loading: boolean;
-  columns: ProColumns<any>[];
+  columns: ColumnType<any>[];
 }
 
 export const RequestTable = ({ data, loading, columns }: RequestTableProps) => {

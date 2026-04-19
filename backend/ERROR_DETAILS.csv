@@ -1,0 +1,110 @@
+错误类型,错误数量,百分比,严重程度,受影响文件数,主要原因,建议修复方案
+Prisma 类型错误,935,83.0%,CRITICAL,5,Prisma schema 定义与生成的类型不一致,重新生成 Prisma 客户端或更新 schema 定义
+装饰器参数错误,48,4.3%,HIGH,4,装饰器接口定义与实际使用不符,更新装饰器定义或统一使用方式
+缺少属性错误,38,3.4%,HIGH,4,对象或类型中不存在指定的属性,更新接口定义或实现缺失的方法
+类型不兼容错误,25,2.2%,HIGH,3,类型之间不兼容或无法转换,添加类型转换或更新类型定义
+未知类型错误,18,1.6%,MEDIUM,2,变量或参数类型为 unknown 或未定义,添加类型断言或类型守卫
+语法错误,15,1.3%,CRITICAL,3,代码语法错误,修复代码语法
+方法/属性不存在,15,1.3%,HIGH,4,调用不存在的方法或访问不存在的属性,实现缺失的方法或更新调用处
+模块导入错误,8,0.7%,CRITICAL,4,无法找到或导入所需的模块,安装依赖或修正导入路径
+其他错误,8,0.7%,MEDIUM,2,其他类型的编译错误,根据具体错误信息修复
+
+错误详情 - @RateLimit 装饰器缺少 'type' 属性
+文件,行号,错误信息,修复方案
+src/modules/service/controllers/service.controller.ts,262,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/service/controllers/service.controller.ts,275,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/service/controllers/service.controller.ts,286,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/service/controllers/service.controller.ts,299,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/service/controllers/service.controller.ts,311,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/service/controllers/service.controller.ts,323,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-menus.controller.ts,31,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-menus.controller.ts,40,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-menus.controller.ts,51,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-menus.controller.ts,60,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-menus.controller.ts,69,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-menus.controller.ts,78,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-roles.controller.ts,30,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-roles.controller.ts,41,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-roles.controller.ts,50,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-roles.controller.ts,59,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-roles.controller.ts,68,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-users.controller.ts,48,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-users.controller.ts,65,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-users.controller.ts,77,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-users.controller.ts,85,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-users.controller.ts,96,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-users.controller.ts,104,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-users.controller.ts,112,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-users.controller.ts,121,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-users.controller.ts,129,Property 'type' is missing,添加 type 属性或更新装饰器定义
+src/modules/system/controllers/system-users.controller.ts,138,Property 'type' is missing,添加 type 属性或更新装饰器定义
+
+错误详情 - @Cache 装饰器中 'key' 属性不存在
+文件,行号,错误信息,修复方案
+src/modules/service/controllers/service.controller.ts,263,Property 'key' does not exist,检查 CacheOptions 接口定义并更新属性名
+src/modules/service/controllers/service.controller.ts,287,Property 'key' does not exist,检查 CacheOptions 接口定义并更新属性名
+src/modules/system/controllers/system-menus.controller.ts,32,Property 'key' does not exist,检查 CacheOptions 接口定义并更新属性名
+src/modules/system/controllers/system-menus.controller.ts,41,Property 'key' does not exist,检查 CacheOptions 接口定义并更新属性名
+src/modules/system/controllers/system-roles.controller.ts,31,Property 'key' does not exist,检查 CacheOptions 接口定义并更新属性名
+src/modules/system/controllers/system-users.controller.ts,49,Property 'key' does not exist,检查 CacheOptions 接口定义并更新属性名
+
+错误详情 - @CacheEvict 装饰器中 'keys' 属性不存在
+文件,行号,错误信息,修复方案
+src/modules/service/controllers/service.controller.ts,276,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/service/controllers/service.controller.ts,300,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/service/controllers/service.controller.ts,312,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/service/controllers/service.controller.ts,324,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/system/controllers/system-menus.controller.ts,52,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/system/controllers/system-menus.controller.ts,61,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/system/controllers/system-menus.controller.ts,70,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/system/controllers/system-menus.controller.ts,79,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/system/controllers/system-roles.controller.ts,42,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/system/controllers/system-roles.controller.ts,51,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/system/controllers/system-roles.controller.ts,60,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/system/controllers/system-roles.controller.ts,69,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/system/controllers/system-users.controller.ts,66,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/system/controllers/system-users.controller.ts,78,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/system/controllers/system-users.controller.ts,86,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/system/controllers/system-users.controller.ts,113,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+src/modules/system/controllers/system-users.controller.ts,130,Property 'keys' does not exist,检查 CacheEvictOptions 接口定义并更新属性名
+
+错误详情 - 模块导入错误
+文件,行号,错误信息,修复方案
+src/modules/system/services/integration-monitor.service.ts,4,Cannot find module 'dayjs',npm install dayjs
+src/modules/system/services/system-logs.service.ts,9,Cannot find module 'dayjs',npm install dayjs
+src/modules/system/workers/cron.worker.ts,7,Cannot find module 'dayjs',npm install dayjs
+src/modules/system/controllers/dashboard.controller.ts,3,Cannot find module '../../auth/guards/jwt-auth.guard',检查文件位置并更新导入路径
+src/modules/system/controllers/dashboard.controller.ts,4,Cannot find module '../../../common/decorators/current-user.decorator',检查文件位置并更新导入路径
+src/modules/system/controllers/dashboard.controller.ts,5,Cannot find module '../../../common/interfaces/current-user.interface',检查文件位置并更新导入路径
+src/modules/system/controllers/system-messages.controller.ts,12,Cannot find module '../../auth/guards/jwt-auth.guard',检查文件位置并更新导入路径
+src/modules/system/controllers/system-messages.controller.ts,13,Cannot find module '../../../common/decorators/current-user.decorator',检查文件位置并更新导入路径
+
+错误详情 - 错误处理中的类型问题
+文件,行号,错误信息,修复方案
+src/modules/system/services/archive.service.ts,73,'error' is of type 'unknown',添加类型断言 (error as Error).message
+src/modules/system/services/mapping.service.ts,166,'error' is of type 'unknown',添加类型断言 (error as Error).message
+src/modules/system/services/mapping.service.ts,217,'error' is of type 'unknown',添加类型断言 (error as Error).message
+src/modules/system/services/permission-cleanup.service.ts,135,'error' is of type 'unknown',添加类型断言 (error as Error).message
+src/modules/system/services/permission-template.service.ts,379,'error' is of type 'unknown',添加类型断言 (error as Error).message
+src/modules/system/services/system-logs.service.ts,287,'error' is of type 'unknown',添加类型断言 (error as Error).message
+src/modules/system/workers/cron.worker.ts,55,'error' is of type 'unknown',添加类型断言 (error as Error).message
+src/modules/system/workers/cron.worker.ts,74,'error' is of type 'unknown',添加类型断言 (error as Error).message
+src/modules/system/workers/cron.worker.ts,91,'error' is of type 'unknown',添加类型断言 (error as Error).message
+src/modules/system/workers/cron.worker.ts,144,'error' is of type 'unknown',添加类型断言 (error as Error).message
+src/modules/system/workers/cron.worker.ts,155,'error' is of type 'unknown',添加类型断言 (error as Error).message
+src/modules/system/workers/cron.worker.ts,178,'error' is of type 'unknown',添加类型断言 (error as Error).message
+
+错误详情 - Jest 类型错误
+文件,行号,错误信息,修复方案
+test/helpers/test-utils.ts,34,'jest' is not defined,在 tsconfig.json 中添加 jest 类型
+test/helpers/test-utils.ts,35,'jest' is not defined,在 tsconfig.json 中添加 jest 类型
+test/helpers/test-utils.ts,36,'jest' is not defined,在 tsconfig.json 中添加 jest 类型
+test/helpers/test-utils.ts,37,'jest' is not defined,在 tsconfig.json 中添加 jest 类型
+test/helpers/test-utils.ts,38,'jest' is not defined,在 tsconfig.json 中添加 jest 类型
+test/helpers/test-utils.ts,76,'jest' is not defined,在 tsconfig.json 中添加 jest 类型
+test/setup.ts,11,'jest' is not defined,在 tsconfig.json 中添加 jest 类型
+test/setup.ts,17,'jest' is not defined,在 tsconfig.json 中添加 jest 类型
+test/setup.ts,18,'jest' is not defined,在 tsconfig.json 中添加 jest 类型
+test/setup.ts,19,'jest' is not defined,在 tsconfig.json 中添加 jest 类型
+test/setup.ts,20,'jest' is not defined,在 tsconfig.json 中添加 jest 类型
+test/setup.ts,21,'jest' is not defined,在 tsconfig.json 中添加 jest 类型

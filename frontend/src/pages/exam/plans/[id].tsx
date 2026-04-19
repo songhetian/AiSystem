@@ -47,8 +47,8 @@ export default function ExamPlanDetailPage() {
         <Space direction="vertical" style={{ width: '100%' }} size={16}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Space>
-              <Button 
-                icon={<ArrowLeftOutlined />} 
+              <Button
+                icon={<ArrowLeftOutlined />}
                 onClick={() => navigate('/exam/plans')}
               >
                 返回列表
@@ -113,7 +113,7 @@ export default function ExamPlanDetailPage() {
             <Statistic title="已交卷" value={stats.submitted_count || 0} />
           </Card>
           <Card size="small" style={{ minWidth: 180 }}>
-            <Statistic title="通过人数" value={stats.passed_count || 0} />
+            <Statistic title="通过人数" value={stats.pass_count || 0} />
           </Card>
           <Card size="small" style={{ minWidth: 180 }}>
             <Statistic title="缺考人数" value={stats.absent_count || 0} />
@@ -129,18 +129,18 @@ export default function ExamPlanDetailPage() {
         <Space style={{ marginBottom: 0 }} wrap size={24}>
           <Card size="small" title="整体通过率" style={{ minWidth: 280 }}>
             <Statistic value={stats.pass_rate?.toFixed(1) || 0} suffix="%" />
-            <Progress 
-              percent={Number(stats.pass_rate?.toFixed(1) || 0)} 
-              showInfo={false} 
-              strokeColor="#52c41a" 
+            <Progress
+              percent={Number(stats.pass_rate?.toFixed(1) || 0)}
+              showInfo={false}
+              strokeColor="#52c41a"
             />
           </Card>
           <Card size="small" title="整体缺考率" style={{ minWidth: 280 }}>
             <Statistic value={stats.absent_rate?.toFixed(1) || 0} suffix="%" />
-            <Progress 
-              percent={Number(stats.absent_rate?.toFixed(1) || 0)} 
-              showInfo={false} 
-              strokeColor="#fa8c16" 
+            <Progress
+              percent={Number(stats.absent_rate?.toFixed(1) || 0)}
+              showInfo={false}
+              strokeColor="#fa8c16"
             />
           </Card>
         </Space>
@@ -148,9 +148,9 @@ export default function ExamPlanDetailPage() {
 
       {/* Charts */}
       <ScoreDistributionChart planId={id!} />
-      
+
       <TimeTrendChart planId={id!} />
-      
+
       <DeptComparisonChart planId={id!} />
 
       {/* Paper Questions */}
@@ -158,10 +158,10 @@ export default function ExamPlanDetailPage() {
         <Card title={`试卷题目（共 ${plan.paper.questions.length} 题）`}>
           <Space direction="vertical" style={{ width: '100%' }} size={16}>
             {plan.paper.questions.map((q: any, index: number) => (
-              <Card 
-                key={q.id} 
-                size="small" 
-                style={{ 
+              <Card
+                key={q.id}
+                size="small"
+                style={{
                   backgroundColor: '#fafafa',
                   border: '1px solid #f0f0f0'
                 }}
@@ -172,13 +172,13 @@ export default function ExamPlanDetailPage() {
                       {index + 1}. {q.title}
                     </Text>
                     <Tag>
-                      {q.question_type === 'single' ? '单选题' : 
+                      {q.question_type === 'single' ? '单选题' :
                        q.question_type === 'multiple' ? '多选题' : '判断题'}
                     </Tag>
                     <Text className="font-bold text-slate-500">{q.score} 分</Text>
                   </Space>
                 </div>
-                
+
                 {q.options && q.options.length > 0 && (
                   <div style={{ marginLeft: 24, marginBottom: 8 }}>
                     {q.options.map((opt: any, optIndex: number) => (
@@ -190,18 +190,18 @@ export default function ExamPlanDetailPage() {
                     ))}
                   </div>
                 )}
-                
+
                 <div style={{ marginLeft: 24 }}>
                   <Text className="text-slate-500">
-                    正确答案: 
+                    正确答案:
                     <Text className="font-bold text-emerald-600" style={{ marginLeft: 8 }}>
-                      {Array.isArray(q.correct_answer) 
-                        ? q.correct_answer.join(', ') 
+                      {Array.isArray(q.correct_answer)
+                        ? q.correct_answer.join(', ')
                         : String(q.correct_answer)}
                     </Text>
                   </Text>
                 </div>
-                
+
                 {q.explanation && (
                   <div style={{ marginLeft: 24, marginTop: 8 }}>
                     <Text className="text-slate-500">

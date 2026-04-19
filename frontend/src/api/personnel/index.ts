@@ -1,7 +1,12 @@
-import { request } from "@/utils/request";
+import request from "@/utils/request";
 
 export const personnelApi = {
   listDepartments: () => request.get("/personnel/departments"),
+  createDepartment: (payload: Record<string, unknown>) =>
+    request.post("/personnel/departments", payload),
+  updateDepartment: (id: string, payload: Record<string, unknown>) =>
+    request.patch(`/personnel/departments/${id}`, payload),
+  deleteDepartment: (id: string) => request.delete(`/personnel/departments/${id}`),
   listPositions: () => request.get("/personnel/positions"),
   createPosition: (payload: Record<string, unknown>) =>
     request.post("/personnel/positions", payload),

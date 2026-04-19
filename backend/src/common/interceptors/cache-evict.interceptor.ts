@@ -13,7 +13,7 @@ import { CACHE_EVICT_KEY, CacheEvictOptions } from '../decorators/cache-evict.de
 
 /**
  * 缓存清除拦截器 (V1.0)
- * 
+ *
  * 职责：在数据更新时自动清除相关缓存
  */
 @Injectable()
@@ -48,14 +48,14 @@ export class CacheEvictInterceptor implements NestInterceptor {
 
     // 方法执行前清除缓存
     if (evictOptions.beforeInvocation) {
-      await this.evictCache(evictOptions.pattern);
+      await this.evictCache(evictOptions.pattern || '');
     }
 
     // 方法执行后清除缓存
     return next.handle().pipe(
       tap(async () => {
         if (!evictOptions.beforeInvocation) {
-          await this.evictCache(evictOptions.pattern);
+          await this.evictCache(evictOptions.pattern || '');
         }
       }),
     );

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, Empty, Skeleton, Statistic, Row, Col, Space } from 'antd';
+// @ts-ignore
 import { Column, Pie, Line } from '@ant-design/plots';
 import { financeApi } from '@/api/finance';
 
@@ -25,7 +26,7 @@ export function ReimbursementStatsChart({ platformId, startDate, endDate, deptId
       amount: item.amount,
       count: item.count,
       label: `￥${item.amount.toLocaleString()}`
-    })).sort((a, b) => b.amount - a.amount);
+    })).sort((a: any, b: any) => b.amount - a.amount);
   }, [data]);
 
   const departmentData = useMemo(() => {
@@ -35,7 +36,7 @@ export function ReimbursementStatsChart({ platformId, startDate, endDate, deptId
       amount: item.amount,
       count: item.count,
       label: `￥${item.amount.toLocaleString()}`
-    })).sort((a, b) => b.amount - a.amount);
+    })).sort((a: any, b: any) => b.amount - a.amount);
   }, [data]);
 
   const trendData = useMemo(() => {

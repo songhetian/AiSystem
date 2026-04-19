@@ -40,7 +40,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { attendanceApi } from "@/api/attendance";
 import { useGlobalStore } from "@/models/global";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import GlobalLoading from "@/components/common/GlobalLoading";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
@@ -673,9 +673,9 @@ const SwapRequestPanel: React.FC = () => {
                 const values = await swapForm.validateFields();
                 setGlobalLoading(true);
                 await submitSwap({
-                  date: values.schedule_date.format("YYYY-MM-DD"),
-                  before_shift: values.current_shift_name,
-                  after_shift: values.target_shift_name,
+                  schedule_date: values.schedule_date.format("YYYY-MM-DD"),
+                  current_shift_name: values.current_shift_name,
+                  target_shift_name: values.target_shift_name,
                   reason: values.reason,
                 });
               } catch (error) {

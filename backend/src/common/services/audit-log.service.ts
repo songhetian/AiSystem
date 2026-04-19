@@ -112,8 +112,9 @@ export class AuditLogService {
       void this.flushFallbackLogs();
     } catch (e) {
       // ✅ 故障兜底：数据库写入失败时，缓存到 Redis（PRD 2.1.2）
+      const errorMessage = e instanceof Error ? e.message : String(e);
       this.logger.error(
-        `logLogin DB write failed, caching to Redis: ${e?.message}`,
+        `logLogin DB write failed, caching to Redis: ${errorMessage}`,
       );
       try {
         await this.redisService.lpush(
@@ -121,8 +122,9 @@ export class AuditLogService {
           JSON.stringify({ ...payload, _cached_at: Date.now() }),
         );
       } catch (redisErr) {
+        const redisErrorMessage = redisErr instanceof Error ? redisErr.message : String(redisErr);
         this.logger.error(
-          `logLogin Redis fallback also failed: ${redisErr?.message}`,
+          `logLogin Redis fallback also failed: ${redisErrorMessage}`,
         );
       }
     }
@@ -223,8 +225,9 @@ export class AuditLogService {
       void this.flushFallbackLogs();
     } catch (e) {
       // ✅ 故障兜底：数据库写入失败时，缓存到 Redis（PRD 2.1.2）
+      const errorMessage = e instanceof Error ? e.message : String(e);
       this.logger.error(
-        `logOperation DB write failed, caching to Redis: ${e?.message}`,
+        `logOperation DB write failed, caching to Redis: ${errorMessage}`,
       );
       try {
         await this.redisService.lpush(
@@ -237,8 +240,9 @@ export class AuditLogService {
           }),
         );
       } catch (redisErr) {
+        const redisErrorMessage = redisErr instanceof Error ? redisErr.message : String(redisErr);
         this.logger.error(
-          `logOperation Redis fallback also failed: ${redisErr?.message}`,
+          `logOperation Redis fallback also failed: ${redisErrorMessage}`,
         );
       }
     }

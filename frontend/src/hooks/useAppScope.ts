@@ -1,4 +1,4 @@
-import { useSearchParams } from 'umi';
+import { useSearchParams } from 'react-router-dom';
 
 export const useAppScope = () => {
   const [searchParams] = useSearchParams();

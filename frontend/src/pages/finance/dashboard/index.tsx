@@ -26,7 +26,7 @@ import { useAppScope } from "@/hooks/useAppScope";
 import { FinanceFilterBar } from "./components/FinanceFilterBar";
 import { AuditLogModal } from "../components/AuditLogModal";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import GlobalLoading from "@/components/common/GlobalLoading";
+import { GlobalLoading } from "@/components/common/GlobalLoading";
 
 const { Title, Text } = Typography;
 

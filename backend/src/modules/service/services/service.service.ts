@@ -5,6 +5,8 @@ import { ScopeService } from "../../../common/services/scope.service";
 import { PrismaService } from "../../../prisma/prisma.service";
 import { Cacheable } from "../../../common/decorators/cache.decorator";
 import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
+import { QualityPromptService } from "./quality-prompt.service";
+import { QualityInspectionHelperService } from "./quality-inspection-helper.service";
 import { AnalyzeServiceSessionDto } from "../dto/analyze-service-session.dto";
 import { ArchiveServiceCaseDto } from "../dto/archive-service-case.dto";
 import { GenerateServiceCaseDraftDto } from "../dto/generate-service-case-draft.dto";
@@ -30,6 +32,8 @@ export class ServiceService {
     private readonly scopeService: ScopeService,
     private readonly businessLockService: BusinessLockService,
     private readonly realtimeService: RealtimeService,
+    private readonly qualityPromptService: QualityPromptService,
+    private readonly qualityInspectionHelperService: QualityInspectionHelperService,
   ) {}
 
   // Delegate methods for type-safe table access
@@ -245,6 +249,12 @@ export class ServiceService {
         const messages = session.messages || [];
         const content = messages.map((m: any) => m.content).join("\n");
 
+        // ✅ Task 3.1: 获取合并后的质检Prompt（包含来源标记）
+        const mergedPrompts = await this.qualityPromptService.getMergedPromptsForInspection(
+          session.platform_id,
+          session.dept_id,
+        );
+
         const terms = await (
           this.prisma as any
         ).service_sensitive_term.findMany({
@@ -271,7 +281,25 @@ export class ServiceService {
         });
 
         let score = 100;
-        const violations: string[] = [];
+        const violations: Array<{
+          source: string;
+          rule: string;
+          deduction: number;
+          promptId?: string;
+          promptName?: string;
+        }> = [];
+
+        // ✅ Task 3.1: 基于Prompt的质检逻辑（带来源标记）
+        const promptViolations = this.qualityInspectionHelperService.checkPromptViolations(
+          content,
+          mergedPrompts,
+        );
+        for (const violation of promptViolations) {
+          score -= violation.deduction;
+          violations.push(violation);
+        }
+
+        // 原有的规则检查逻辑
         for (const rule of rules) {
           if (
             rule.rule_type === "keyword_negative" &&
@@ -280,7 +308,11 @@ export class ServiceService {
             for (const keyword of rule.trigger_keywords as string[]) {
               if (content.includes(keyword)) {
                 score -= rule.deduct_score;
-                violations.push(rule.rule_name);
+                violations.push({
+                  source: 'rule',
+                  rule: rule.rule_name,
+                  deduction: rule.deduct_score,
+                });
               }
             }
           }
@@ -324,6 +356,13 @@ export class ServiceService {
         const lossRiskLevel =
           lossRiskScore >= 70 ? "high" : lossRiskScore >= 40 ? "medium" : "low";
         const suggestions: string[] = [];
+
+        // ✅ Task 3.1: 添加基于Prompt的建议
+        if (promptViolations.length > 0) {
+          const promptSuggestions = this.qualityInspectionHelperService.generatePromptSuggestions(promptViolations);
+          suggestions.push(...promptSuggestions);
+        }
+
         if (sensitiveHits.length > 0)
           suggestions.push("存在敏感词命中，建议复核客服用语并补充质检规则。");
         if (score < 80)

@@ -87,8 +87,7 @@ export class AntiReplayGuard implements CanActivate {
 
         // 检查nonce是否已使用
         const nonceKey = `anti_replay:nonce:${nonce}`;
-        const redis = this.redisService.getClient();
-        const exists = await redis.exists(nonceKey);
+        const exists = await this.redisService.get(nonceKey);
 
         if (exists) {
           this.logger.warn(`Duplicate nonce detected: ${nonce}`);
@@ -103,7 +102,7 @@ export class AntiReplayGuard implements CanActivate {
         }
 
         // 记录nonce，设置过期时间
-        await redis.setex(nonceKey, options.timeWindow || 300, "1");
+        await this.redisService.set(nonceKey, "1", options.timeWindow || 300);
       }
 
       return true;
@@ -111,7 +110,8 @@ export class AntiReplayGuard implements CanActivate {
       if (error instanceof HttpException) {
         throw error;
       }
-      this.logger.error(`Anti-replay guard error: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Anti-replay guard error: ${errorMessage}`);
       // Redis故障时降级，允许请求通过
       return true;
     }

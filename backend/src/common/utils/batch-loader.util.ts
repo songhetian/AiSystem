@@ -2,14 +2,14 @@ import { PrismaService } from '../../prisma/prisma.service';
 
 /**
  * 批量加载工具 (V1.0)
- * 
+ *
  * 职责：优化N+1查询问题，将多次单独查询合并为一次批量查询
- * 
+ *
  * 使用场景：
  * 1. 查询用户列表时，需要关联查询部门信息
  * 2. 查询订单列表时，需要关联查询用户信息
  * 3. 任何需要关联查询的场景
- * 
+ *
  * @example
  * ```typescript
  * // 不使用批量加载（N+1问题）
@@ -17,7 +17,7 @@ import { PrismaService } from '../../prisma/prisma.service';
  * for (const user of users) {
  *   user.department = await prisma.department.findUnique({ where: { id: user.dept_id } });
  * }
- * 
+ *
  * // 使用批量加载（优化后）
  * const users = await prisma.user.findMany();
  * const deptIds = users.map(u => u.dept_id).filter(Boolean);
@@ -182,7 +182,7 @@ export class BatchLoader {
 
   /**
    * 通用批量加载方法
-   * 
+   *
    * @param prisma Prisma实例
    * @param model 模型名称（如：'sys_user', 'biz_department'）
    * @param ids ID数组
@@ -208,15 +208,17 @@ export class BatchLoader {
 
   /**
    * 批量加载并映射到对象
-   * 
+   *
    * @example
    * ```typescript
    * const users = await prisma.user.findMany();
-   * await BatchLoader.mapRelations(prisma, users, 'dept_id', 'department', 
+   * await BatchLoader.mapRelations(prisma, users, 'dept_id', 'department',
    *   (ids) => BatchLoader.loadDepartments(prisma, ids)
    * );
    * // users[0].department 现在包含部门信息
    * ```
+  /**
+   * 映射关联数据
    */
   static async mapRelations<T extends Record<string, any>>(
     prisma: PrismaService,
@@ -227,8 +229,8 @@ export class BatchLoader {
   ): Promise<void> {
     // 收集所有外键ID
     const ids = items
-      .map((item) => item[foreignKey])
-      .filter((id): id is string => Boolean(id));
+      .map((item) => item[foreignKey] as any)
+      .filter((id): id is string => typeof id === 'string' && Boolean(id));
 
     if (ids.length === 0) {
       return;
@@ -239,11 +241,11 @@ export class BatchLoader {
 
     // 映射到对象
     items.forEach((item) => {
-      const id = item[foreignKey];
+      const id = item[foreignKey] as any;
       if (id) {
-        item[targetField] = relatedMap.get(id) || null;
+        (item as any)[targetField] = relatedMap.get(id) || null;
       } else {
-        item[targetField] = null;
+        (item as any)[targetField] = null;
       }
     });
   }

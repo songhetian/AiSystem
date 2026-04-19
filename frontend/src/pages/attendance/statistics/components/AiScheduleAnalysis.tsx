@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card, Row, Col, Progress, Tag, Typography, Space, Empty } from 'antd';
-import { 
-  ThunderboltOutlined, TeamOutlined, DollarOutlined, 
-  DashboardOutlined, InfoCircleOutlined, FireOutlined 
+import {
+  ThunderboltOutlined, TeamOutlined, DollarOutlined,
+  DashboardOutlined, InfoCircleOutlined, FireOutlined
 } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import { attendanceApi } from '@/api/attendance';
@@ -27,42 +27,42 @@ const AiScheduleAnalysis: React.FC<AiScheduleAnalysisProps> = ({ deptId, dateRan
     enabled: !!deptId,
   });
 
-  if (isLoading) return <Card loading borderless className="rounded-[32px]" />;
+  if (isLoading) return <Card loading bordered={false} className="rounded-[32px]" />;
   if (!analytics || !analytics.overview) return <Empty description="暂无排班分析数据" className="py-20" />;
 
   const { overview, employee_load, shift_distribution, load_balance_score } = analytics;
 
   const statItems = [
     {
-      key: 'fitting', 
-      title: '人力需求拟合度', 
-      value: overview.fitting_rate, 
-      suffix: '%', 
-      prefix: <DashboardOutlined />, 
+      key: 'fitting',
+      title: '人力需求拟合度',
+      value: overview.fitting_rate,
+      suffix: '%',
+      prefix: <DashboardOutlined />,
       color: '#0ea5e9',
       description: '实排班次与业务需求缺口的吻合程度'
     },
     {
-      key: 'hours', 
-      title: '总排班工时', 
-      value: overview.total_hours, 
-      suffix: 'h', 
-      prefix: <ThunderboltOutlined />, 
+      key: 'hours',
+      title: '总排班工时',
+      value: overview.total_hours,
+      suffix: 'h',
+      prefix: <ThunderboltOutlined />,
       color: '#6366f1'
     },
     {
-      key: 'avg_hours', 
-      title: '人均周工时', 
-      value: overview.avg_hours_per_person, 
-      suffix: 'h', 
-      prefix: <TeamOutlined />, 
+      key: 'avg_hours',
+      title: '人均周工时',
+      value: overview.avg_hours_per_person,
+      suffix: 'h',
+      prefix: <TeamOutlined />,
       color: '#10b981'
     },
     {
-      key: 'cost', 
-      title: '劳动力成本预估', 
-      value: overview.labor_cost_est, 
-      prefix: <DollarOutlined />, 
+      key: 'cost',
+      title: '劳动力成本预估',
+      value: overview.labor_cost_est,
+      prefix: <DollarOutlined />,
       color: '#f59e0b',
       description: '按默认平均时薪 (50元/h) 的估算值，未含补贴与加班修正'
     }
@@ -74,7 +74,7 @@ const AiScheduleAnalysis: React.FC<AiScheduleAnalysisProps> = ({ deptId, dateRan
 
       <Row gutter={24}>
         <Col span={14}>
-          <Card 
+          <Card
             title={<Space><FireOutlined className="text-orange-500" /><span className="font-black">员工工时负载天平</span></Space>}
             className="rounded-[32px] border-slate-100 shadow-sm h-full"
             extra={<Tag color="blue" className="font-black rounded-lg">负载均衡分: {load_balance_score}</Tag>}
@@ -86,9 +86,9 @@ const AiScheduleAnalysis: React.FC<AiScheduleAnalysisProps> = ({ deptId, dateRan
                     <Text className="font-black text-slate-900">{i + 1}. {emp.name}</Text>
                     <Text className="font-black text-slate-500">{emp.value} <small>h</small></Text>
                   </div>
-                  <Progress 
-                    percent={Math.min(100, (emp.value / 40) * 100)} 
-                    showInfo={false} 
+                  <Progress
+                    percent={Math.min(100, (emp.value / 40) * 100)}
+                    showInfo={false}
                     strokeColor={emp.value > 40 ? '#f43f5e' : '#0ea5e9'}
                     strokeWidth={12}
                     className="rounded-full"
@@ -101,7 +101,7 @@ const AiScheduleAnalysis: React.FC<AiScheduleAnalysisProps> = ({ deptId, dateRan
 
         <Col span={10}>
           <div className="flex flex-col gap-6">
-            <Card 
+            <Card
               title={<span className="font-black">班次分布结构</span>}
               className="rounded-[24px] border-slate-100 shadow-sm"
             >
@@ -118,7 +118,7 @@ const AiScheduleAnalysis: React.FC<AiScheduleAnalysisProps> = ({ deptId, dateRan
               </div>
             </Card>
 
-            <Card 
+            <Card
               className="rounded-[24px] bg-slate-900 border-none shadow-2xl relative overflow-hidden"
               bodyStyle={{ padding: 24 }}
             >

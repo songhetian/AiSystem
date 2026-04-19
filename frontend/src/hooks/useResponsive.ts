@@ -108,7 +108,7 @@ export function useResponsive() {
    * 获取响应式的模态框宽度
    */
   const getModalWidth = () => {
-    return getResponsiveValue({
+    return getResponsiveValue<string | number>({
       xs: "100%",
       sm: "90%",
       md: 720,

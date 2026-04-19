@@ -178,7 +178,12 @@ export class AiScheduleController {
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: GenerateAIScheduleDto
   ) {
-    return this.scheduleAsyncService.submitScheduleJob(user.sub, dto);
+    return this.scheduleAsyncService.submitScheduleJob(user.sub, {
+      dept_id: dto.dept_id,
+      start_date: dto.start_date,
+      end_date: dto.end_date,
+      config: dto.config || {},
+    });
   }
 
   /**

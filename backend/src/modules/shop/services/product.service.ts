@@ -102,12 +102,6 @@ export class ProductService {
           where: { is_deleted: 0 },
           orderBy: { sort: "asc" },
         },
-        biz_product_category: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
       },
     });
 
@@ -118,7 +112,22 @@ export class ProductService {
     this.scopeService.assertPlatformAccess(scope, product.platform_id);
     this.scopeService.assertDepartmentAccess(scope, product.department_id);
 
-    return product;
+    // Manually fetch category data if category_id exists
+    let category = null;
+    if (product.category_id) {
+      category = await this.prisma.biz_product_category.findUnique({
+        where: { id: product.category_id },
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+    }
+
+    return {
+      ...product,
+      biz_product_category: category,
+    };
   }
 
   /**
@@ -283,7 +292,7 @@ export class ProductService {
       items.map((item) =>
         this.prisma.biz_product.update({
           where: { id: item.id },
-          data: { sort: item.sort, update_time: new Date() },
+          data: { update_time: new Date() },
         }),
       ),
     );
@@ -364,9 +373,14 @@ export class ProductService {
     userId: string,
     params: { platform_id?: string; category_id?: string },
   ): Promise<Buffer> {
-    const products = await this.findAll(userId, params);
+    // Create a pagination object to get all products
+    const pagination = new PaginationDto();
+    pagination.page = 1;
+    pagination.pageSize = 10000; // Large number to get all products
 
-    const exportData = (products as any[]).map((product: any) => ({
+    const result = await this.findAll(userId, pagination, params);
+
+    const exportData = result.data.map((product: any) => ({
       商品编码: product.code || "",
       商品名称: product.name,
       分类: product.biz_product_category?.name || "",
@@ -374,7 +388,6 @@ export class ProductService {
       库存: product.stock || 0,
       状态: product.status === 1 ? "上架" : "下架",
       SKU数量: product.skus?.length || 0,
-      排序: product.sort || 0,
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(exportData);

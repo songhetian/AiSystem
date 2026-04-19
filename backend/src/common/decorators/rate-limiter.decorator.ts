@@ -14,7 +14,7 @@ export enum RateLimitType {
  * 限流配置接口
  */
 export interface RateLimitOptions {
-  type: RateLimitType; // 限流类型
+  type?: RateLimitType; // 限流类型（默认为 IP）
   limit: number; // 限流阈值（请求次数）
   window: number; // 时间窗口（秒）
   message?: string; // 限流提示信息

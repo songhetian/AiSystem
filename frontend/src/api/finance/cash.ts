@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import request from '@/utils/request';
 
 export const cashApi = {
   listCashRecords: (params?: any) => request.get('/finance/cash-records', { params }),

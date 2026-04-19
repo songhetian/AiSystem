@@ -74,7 +74,7 @@ export class PersonnelEmployeeHistoryService {
       this.scopeService.assertDepartmentAccess(scope, employee.department_id);
     }
 
-    return this.prisma.hr_employee_history.findMany({
+    const historyRecords = await this.prisma.hr_employee_history.findMany({
       where: {
         employee_id: employeeId,
         is_deleted: 0,
@@ -92,23 +92,39 @@ export class PersonnelEmployeeHistoryService {
         operator_id: true,
         operator_name: true,
         create_time: true,
-        biz_department: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        hr_position: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
       },
       orderBy: {
         event_date: "desc",
       },
     });
+
+    // Manually fetch department and position names for each record
+    const enrichedRecords = await Promise.all(
+      historyRecords.map(async (record) => {
+        const [department, position] = await Promise.all([
+          record.department_id
+            ? this.prisma.biz_department.findUnique({
+                where: { id: record.department_id },
+                select: { id: true, name: true },
+              })
+            : null,
+          record.position_id
+            ? this.prisma.hr_position.findUnique({
+                where: { id: record.position_id },
+                select: { id: true, name: true },
+              })
+            : null,
+        ]);
+
+        return {
+          ...record,
+          biz_department: department,
+          hr_position: position,
+        };
+      }),
+    );
+
+    return enrichedRecords;
   }
 
   /**

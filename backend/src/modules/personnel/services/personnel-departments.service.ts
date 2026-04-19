@@ -58,20 +58,46 @@ export class PersonnelDepartmentsService {
         skip,
         take,
         orderBy: [{ sort: "asc" }, { create_time: "desc" }],
-        include: {
-          _count: {
-            select: {
-              hr_employee: true,
-              hr_position: true,
-            },
-          },
+        select: {
+          id: true,
+          create_time: true,
+          update_time: true,
+          is_deleted: true,
+          name: true,
+          code: true,
+          parent_id: true,
+          sort: true,
+          status: true,
+          platform_id: true,
+          owner_id: true,
         },
       }),
       this.prisma.biz_department.count({ where }),
     ]);
 
+    // Manually count employees and positions for each department
+    const dataWithCounts = await Promise.all(
+      data.map(async (dept) => {
+        const [employeeCount, positionCount] = await Promise.all([
+          this.prisma.hr_employee.count({
+            where: { department_id: dept.id, is_deleted: 0 },
+          }),
+          this.prisma.hr_position.count({
+            where: { department_id: dept.id, is_deleted: 0 },
+          }),
+        ]);
+        return {
+          ...dept,
+          _count: {
+            hr_employee: employeeCount,
+            hr_position: positionCount,
+          },
+        };
+      }),
+    );
+
     return this.paginationService.createResponse(
-      data,
+      dataWithCounts,
       total,
       pagination.page,
       pagination.pageSize,
@@ -111,6 +137,7 @@ export class PersonnelDepartmentsService {
     return this.prisma.biz_department.create({
       data: {
         ...dto,
+        code: dto.code || `DEPT_${Date.now()}`, // Generate code if not provided
         platform_id: platformId,
         status: dto.status ?? 1,
       },
@@ -172,14 +199,6 @@ export class PersonnelDepartmentsService {
     const scope = await this.scopeService.resolveAccess(userId);
     const current = await this.prisma.biz_department.findUnique({
       where: { id },
-      include: {
-        _count: {
-          select: {
-            hr_employee: true,
-            hr_position: true,
-          },
-        },
-      },
     });
 
     if (!current) {
@@ -188,11 +207,21 @@ export class PersonnelDepartmentsService {
 
     this.scopeService.assertPlatformAccess(scope, current.platform_id);
 
+    // Manually count employees and positions
+    const [employeeCount, positionCount] = await Promise.all([
+      this.prisma.hr_employee.count({
+        where: { department_id: id, is_deleted: 0 },
+      }),
+      this.prisma.hr_position.count({
+        where: { department_id: id, is_deleted: 0 },
+      }),
+    ]);
+
     // 校验是否有关联员工或岗位
-    if (current._count.hr_employee > 0) {
+    if (employeeCount > 0) {
       throw new BadRequestException("该部门下存在员工，无法删除");
     }
-    if (current._count.hr_position > 0) {
+    if (positionCount > 0) {
       throw new BadRequestException("该部门下存在岗位，无法删除");
     }
 
@@ -259,12 +288,16 @@ export class PersonnelDepartmentsService {
    * 导出部门（补充功能）
    */
   async exportDepartments(userId: string): Promise<Buffer> {
-    const departments = await this.findAll(userId);
+    const paginationDto = new PaginationDto();
+    paginationDto.page = 1;
+    paginationDto.pageSize = 1000;
+    const result = await this.findAll(userId, paginationDto);
+    const departments = result.data;
 
-    const exportData = (departments as any[]).map((dept: any) => ({
+    const exportData = departments.map((dept: any) => ({
       部门名称: dept.name,
       父部门ID: dept.parent_id || "无",
-      负责人ID: dept.leader_id || "无",
+      负责人ID: dept.owner_id || "无",
       状态: dept.status === 1 ? "启用" : "禁用",
       描述: dept.description || "",
       员工数: dept._count?.hr_employee || 0,
@@ -290,41 +323,50 @@ export class PersonnelDepartmentsService {
         { id, is_deleted: 0 },
         { platform: "platform_id" },
       ),
-      include: {
-        _count: {
-          select: {
-            hr_employee: true,
-            hr_position: true,
-          },
-        },
-        hr_employee: {
-          where: { is_deleted: 0 },
-          select: {
-            id: true,
-            name: true,
-            employee_no: true,
-            status: true,
-          },
-          take: 10,
-        },
-        hr_position: {
-          where: { is_deleted: 0 },
-          select: {
-            id: true,
-            name: true,
-            code: true,
-            status: true,
-          },
-          take: 10,
-        },
-      },
     });
 
     if (!department) {
       throw new BadRequestException("部门不存在");
     }
 
-    return department;
+    // Manually count and fetch related data
+    const [employeeCount, positionCount, employees, positions] = await Promise.all([
+      this.prisma.hr_employee.count({
+        where: { department_id: id, is_deleted: 0 },
+      }),
+      this.prisma.hr_position.count({
+        where: { department_id: id, is_deleted: 0 },
+      }),
+      this.prisma.hr_employee.findMany({
+        where: { department_id: id, is_deleted: 0 },
+        select: {
+          id: true,
+          name: true,
+          employee_no: true,
+          status: true,
+        },
+        take: 10,
+      }),
+      this.prisma.hr_position.findMany({
+        where: { department_id: id, is_deleted: 0 },
+        select: {
+          id: true,
+          name: true,
+          code: true,
+        },
+        take: 10,
+      }),
+    ]);
+
+    return {
+      ...department,
+      _count: {
+        hr_employee: employeeCount,
+        hr_position: positionCount,
+      },
+      hr_employee: employees,
+      hr_position: positions,
+    };
   }
 
   /**
@@ -352,7 +394,7 @@ export class PersonnelDepartmentsService {
    * 批量导入部门
    */
   @CacheEvict({ pattern: "cache:department-list:*" })
-  async importDepartments(userId: string, file: Express.Multer.File) {
+  async importDepartments(userId: string, file: { buffer: Buffer }) {
     const scope = await this.scopeService.resolveAccess(userId);
     const platformId = scope.platform_id;
 

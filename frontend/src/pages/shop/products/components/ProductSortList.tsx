@@ -75,11 +75,6 @@ export const ProductSortList = ({
             </Text>
             <Space size={8} className="mt-1">
               <Text className="text-xs text-slate-400">{product.code}</Text>
-              {product.category_name && (
-                <Text className="text-xs text-slate-500">
-                  分类: {product.category_name}
-                </Text>
-              )}
             </Space>
           </div>
         </div>

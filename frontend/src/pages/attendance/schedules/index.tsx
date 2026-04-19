@@ -300,7 +300,7 @@ export default function AttendanceSchedulesPage() {
                     data={data}
                     loading={isLoading}
                     scheduleMode={scheduleMode}
-                    activeShift={activeShift ?? selectedShift}
+                    activeShift={(activeShift ?? selectedShift) as AttendanceScheduleShift | null}
                     previewTarget={previewTarget}
                     onCellClick={(payload) => {
                       void handleAssign(payload);

@@ -185,7 +185,25 @@ const handleHttpError = (error: AxiosError<ApiResponse>): void => {
 /**
  * 创建请求实例
  */
-const request = createAxiosInstance();
+const axiosInstance = createAxiosInstance();
+
+/**
+ * 类型安全的请求对象
+ * 拦截器已将 AxiosResponse<ApiResponse<T>> 解包为 T，
+ * 此处通过类型断言让 TypeScript 感知正确的返回类型。
+ */
+const request = {
+  get: <T = any>(url: string, config?: RequestConfig): Promise<T> =>
+    axiosInstance.get(url, config) as unknown as Promise<T>,
+  post: <T = any>(url: string, data?: any, config?: RequestConfig): Promise<T> =>
+    axiosInstance.post(url, data, config) as unknown as Promise<T>,
+  put: <T = any>(url: string, data?: any, config?: RequestConfig): Promise<T> =>
+    axiosInstance.put(url, data, config) as unknown as Promise<T>,
+  patch: <T = any>(url: string, data?: any, config?: RequestConfig): Promise<T> =>
+    axiosInstance.patch(url, data, config) as unknown as Promise<T>,
+  delete: <T = any>(url: string, config?: RequestConfig): Promise<T> =>
+    axiosInstance.delete(url, config) as unknown as Promise<T>,
+};
 
 /**
  * GET请求
