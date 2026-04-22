@@ -4,6 +4,10 @@
   "version": "1.0.0",
   "description": "雷犀 AI 客服系统 - 根目录管理脚本",
   "scripts": {
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install && cd ../dev-tools && npm install && cd ..",
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "install:mock": "cd dev-tools && npm install",
     "dev": "docker compose --profile dev up -d",
     "dev:base": "docker compose up -d mysql redis minio qdrant",
     "dev:mock": "docker compose --profile dev up -d mock-service",

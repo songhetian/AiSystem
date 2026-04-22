@@ -32,7 +32,7 @@ import {
   CloudUploadOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import { request } from 'umi';
+import { request } from '@umijs/max';
 import dayjs from 'dayjs';
 import { GlobalLoading } from '@/components/common/GlobalLoading';
 import { SmartSearch } from '@/components/common/SmartSearch';
