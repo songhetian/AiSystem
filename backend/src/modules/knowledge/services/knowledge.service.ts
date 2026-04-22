@@ -5,6 +5,8 @@ import { MinioService } from "../../../common/services/minio.service";
 import { RedisService } from "../../../common/services/redis.service";
 import { ScopeService } from "../../../common/services/scope.service";
 import { VectorService } from "../../../common/services/vector.service";
+import { EnhancedFileService } from "../../../common/services/enhanced-file.service";
+import { FilePathService } from "../../../common/services/file-path.service";
 import { PrismaService } from "../../../prisma/prisma.service";
 import { QueryKnowledgeArticlesDto } from "../dto/query-knowledge-articles.dto";
 import { QueryKnowledgeCategoriesDto } from "../dto/query-knowledge-categories.dto";
@@ -26,6 +28,8 @@ export class KnowledgeService {
     private readonly vectorService: VectorService,
     private readonly redisService: RedisService,
     private readonly minioService: MinioService,
+    private readonly enhancedFileService: EnhancedFileService,
+    private readonly filePathService: FilePathService,
     @InjectQueue("ai-analysis-queue") private readonly aiAnalysisQueue: Queue,
   ) {}
 
@@ -707,19 +711,29 @@ export class KnowledgeService {
   ) {
     const scope = await this.scopeService.resolveAccess(userId);
     const ext = file.originalname.split(".").pop()?.toLowerCase() || "";
-    const fileId = `kb-doc-${Date.now()}`;
-    const objectName = `knowledge/${fileId}.${ext}`;
 
-    await this.minioService.uploadObject(
-      objectName,
-      file.buffer,
-      file.mimetype,
-    );
+    // 使用增强文件服务上传
+    const uploadResult = await this.enhancedFileService.uploadFile(file, {
+      platformId: scope.platform_id as string,
+      departmentId: scope.dept_id,
+      category: this.filePathService.getFileTypeCategory(file.mimetype) === 'image' 
+        ? 'knowledge-image' as any
+        : this.filePathService.getFileTypeCategory(file.mimetype) === 'video'
+        ? 'knowledge-video' as any
+        : 'knowledge-document' as any,
+      entityType: 'knowledge_document',
+      uploadedBy: userId,
+      isPublic: isPublic === 1,
+      metadata: {
+        fileType: ext,
+        originalSize: file.size,
+      },
+    });
 
     const doc = await this.knowledgeDocumentDelegate().create({
       data: {
         file_name: file.originalname,
-        file_path: objectName,
+        file_path: uploadResult.storedPath,
         file_size: file.size,
         file_type: ext,
         status: "pending",

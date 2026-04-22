@@ -28,6 +28,9 @@ import { PermissionCacheSubscriber } from "./services/permission-cache-subscribe
 import { PaginationService } from "./services/pagination.service";
 import { CaptchaService } from "./services/captcha.service";
 import { ConfigCacheService } from "./services/config-cache.service";
+import { FilePathService } from "./services/file-path.service";
+import { EnhancedFileService } from "./services/enhanced-file.service";
+import { AIConfigService } from "./services/ai-config.service";
 
 @Module({
   imports: [
@@ -53,6 +56,9 @@ import { ConfigCacheService } from "./services/config-cache.service";
     PaginationService,
     CaptchaService,
     ConfigCacheService, // 配置缓存服务
+    FilePathService, // 文件路径服务
+    EnhancedFileService, // 增强文件服务
+    AIConfigService, // AI配置服务
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
@@ -111,6 +117,9 @@ import { ConfigCacheService } from "./services/config-cache.service";
     PaginationService,
     CaptchaService,
     ConfigCacheService, // 配置缓存服务
+    FilePathService, // 文件路径服务
+    EnhancedFileService, // 增强文件服务
+    AIConfigService, // AI配置服务
   ],
 })
 export class CommonModule {}

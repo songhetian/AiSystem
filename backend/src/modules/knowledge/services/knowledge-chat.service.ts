@@ -5,6 +5,7 @@ import { MinioService } from "../../../common/services/minio.service";
 import { ScopeService } from "../../../common/services/scope.service";
 import { VectorService } from "../../../common/services/vector.service";
 import { RedisService } from "../../../common/services/redis.service";
+import { AIConfigService } from "../../../common/services/ai-config.service";
 import { PrismaService } from "../../../prisma/prisma.service";
 import * as crypto from "crypto";
 
@@ -28,6 +29,7 @@ export class KnowledgeChatService {
     private readonly configService: ConfigService,
     private readonly minioService: MinioService,
     private readonly redisService: RedisService,
+    private readonly aiConfigService: AIConfigService,
   ) {}
 
   /**
@@ -166,10 +168,17 @@ export class KnowledgeChatService {
     subject: Subject<ChatEvent>,
     sessionId: string,
   ) {
-    const apiKey = this.configService.get<string>("OPENAI_API_KEY");
-    const baseUrl =
-      this.configService.get<string>("OPENAI_BASE_URL") ||
-      "https://api.openai.com/v1";
+    // 获取会话信息以确定部门
+    const session = await this.prisma.knowledge_chat_session.findUnique({
+      where: { id: sessionId },
+    });
+
+    // 获取部门级AI配置
+    const aiConfig = await this.aiConfigService.getAIConfig(
+      session?.platform_id,
+      session?.dept_id,
+    );
+
     let fullAnswer = "";
 
     try {
@@ -189,16 +198,17 @@ export class KnowledgeChatService {
 【参考资料】:
 ${context || "暂无参考资料"}`;
 
-      const response = await fetch(`${baseUrl}/chat/completions`, {
+      const response = await fetch(`${aiConfig.apiBaseUrl}/chat/completions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${aiConfig.apiKey}`,
         },
         body: JSON.stringify({
-          model: "gpt-4o-mini",
+          model: aiConfig.model,
           messages: [{ role: "system", content: systemPrompt }, ...messages],
-          temperature: 0.3,
+          temperature: aiConfig.temperature,
+          max_tokens: aiConfig.maxTokens,
           stream: true,
         }),
       });
@@ -271,7 +281,7 @@ ${context || "暂无参考资料"}`;
       .map((r) => (r.payload as any)?.text)
       .filter(Boolean)
       .join("\n---\n");
-    const answer = await this.callLLM(content, contextText);
+    const answer = await this.callLLM(content, contextText, scope.platform_id as string, scope.dept_id as string);
 
     const aiMsg = await this.prisma.knowledge_chat_message.create({
       data: {
@@ -290,13 +300,11 @@ ${context || "暂无参考资料"}`;
     return aiMsg;
   }
 
-  private async callLLM(question: string, context: string): Promise<string> {
-    const apiKey = this.configService.get<string>("OPENAI_API_KEY");
-    const baseUrl =
-      this.configService.get<string>("OPENAI_BASE_URL") ||
-      "https://api.openai.com/v1";
+  private async callLLM(question: string, context: string, platformId?: string, deptId?: string): Promise<string> {
+    // 获取部门级AI配置
+    const aiConfig = await this.aiConfigService.getAIConfig(platformId, deptId);
 
-    if (!apiKey || !apiKey.startsWith("sk-")) {
+    if (!aiConfig.apiKey || !aiConfig.apiKey.startsWith("sk-")) {
       return `[系统提示] 未配置有效的 AI 密钥。检索到的相关知识如下：\n\n${context || "未找到相关知识"}`;
     }
 
@@ -311,19 +319,20 @@ ${question}
 
 请务必保持专业、简洁。`;
 
-      const response = await fetch(`${baseUrl}/chat/completions`, {
+      const response = await fetch(`${aiConfig.apiBaseUrl}/chat/completions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${aiConfig.apiKey}`,
         },
         body: JSON.stringify({
-          model: "gpt-4o-mini",
+          model: aiConfig.model,
           messages: [
             { role: "system", content: "你是一个知识库助手" },
             { role: "user", content: prompt },
           ],
-          temperature: 0.3,
+          temperature: aiConfig.temperature,
+          max_tokens: aiConfig.maxTokens,
         }),
       });
 

@@ -3,7 +3,7 @@ import { PrismaService } from '../../../prisma/prisma.service';
 import { ScopeService } from '../../../common/services/scope.service';
 
 /**
- * 模板库服�?
+ * 模板库服务
  * 负责管理Prompt模板的CRUD操作
  */
 @Injectable()
@@ -55,26 +55,26 @@ export class TemplateLibraryService {
         content: `# 礼貌用语规范
 
 ## 基本要求
-1. 使用"�?而非"�?称呼客户
-2. 开场必须包含问候语�?您好"�?欢迎咨询"�?
-3. 结束时必须包含感谢语�?感谢您的咨询"�?祝您生活愉快"�?
+1. 使用"您"而非"你"称呼客户
+2. 开场必须包含问候语："您好"、"欢迎咨询"
+3. 结束时必须包含感谢语："感谢您的咨询"、"祝您生活愉快"
 
 ## 禁止用语
-- 不得使用"不知�?�?不清�?等推诿性语言
-- 不得使用"随便"�?无所�?等不负责任的表达
-- 不得使用"你自己看"�?说了多少遍了"等不耐烦的语�?
+- 不得使用"不知道"、"不清楚"等推诿性语言
+- 不得使用"随便"、"无所谓"等不负责任的表达
+- 不得使用"你自己看"、"说了多少遍了"等不耐烦的语气
 
 ## 建议用语
-- 遇到问题时使用："我帮您查询一�?�?请稍等，我为您核�?
-- 无法解决时使用："非常抱歉，这个问题我需要为您转接专业同事处�?`,
+- 遇到问题时使用："我帮您查询一下"、"请稍等，我为您核实"
+- 无法解决时使用："非常抱歉，这个问题我需要为您转接专业同事处理"`,
         category: 'politeness',
         industry: 'general',
-        description: '通用礼貌用语规范模板，适用于所有客服场�?,
+        description: '通用礼貌用语规范模板，适用于所有客服场景',
         sort: 1,
       },
       {
-        name: '合规性检�?,
-        content: `# 合规性检�?
+        name: '合规性检查',
+        content: `# 合规性检查
 
 ## 法律合规
 1. 不得承诺超出公司政策的退换货条件
@@ -86,13 +86,13 @@ export class TemplateLibraryService {
 2. 不得诱导客户线下交易
 3. 不得恶意差评竞争对手
 
-## 敏感词检�?
-- 禁止使用"最�?�?第一"等绝对化用语
-- 禁止使用"保证"�?承诺"等过度承诺词�?
+## 敏感词检查
+- 禁止使用"最好"、"第一"等绝对化用语
+- 禁止使用"保证"、"承诺"等过度承诺词汇
 - 禁止使用涉及政治、宗教、种族歧视的敏感词`,
         category: 'compliance',
         industry: 'general',
-        description: '合规性检查模板，确保客服对话符合法律法规和平台规�?,
+        description: '合规性检查模板，确保客服对话符合法律法规和平台规则',
         sort: 2,
       },
       {
@@ -100,19 +100,19 @@ export class TemplateLibraryService {
         content: `# 流程规范
 
 ## 接待流程
-1. 问候客�?
-2. 了解客户需�?
+1. 问候客户
+2. 了解客户需求
 3. 提供解决方案
-4. 确认客户满意�?
-5. 结束对话并感�?
+4. 确认客户满意度
+5. 结束对话并感谢
 
 ## 响应时效
-- 首次响应时间不超�?0�?
-- 每次回复间隔不超�?分钟
-- 如需查询信息，提前告知客户等待时�?
+- 首次响应时间不超过30秒
+- 每次回复间隔不超过2分钟
+- 如需查询信息，提前告知客户等待时间
 
 ## 转接规则
-- 超出权限范围的问题及时转�?
+- 超出权限范围的问题及时转接
 - 转接前向客户说明原因
 - 转接后跟进处理结果`,
         category: 'process',
@@ -127,16 +127,16 @@ export class TemplateLibraryService {
 ## 商品介绍
 1. 准确描述商品规格、材质、尺寸等信息
 2. 主动告知商品优惠活动和促销政策
-3. 提供商品使用场景和搭配建�?
+3. 提供商品使用场景和搭配建议
 
 ## 库存查询
 - 及时查询商品库存情况
-- 缺货时推荐替代商�?
+- 缺货时推荐替代商品
 - 告知补货时间或到货通知服务
 
 ## 价格说明
-- 明确标注商品价格和运�?
-- 说明优惠券使用规�?
+- 明确标注商品价格和运费
+- 说明优惠券使用规则
 - 解释价格差异原因`,
         category: 'pre_sales',
         industry: 'ecommerce',
@@ -149,24 +149,24 @@ export class TemplateLibraryService {
 
 ## 退换货处理
 1. 了解退换货原因
-2. 核实订单信息和商品状�?
-3. 说明退换货政策和流�?
+2. 核实订单信息和商品状态
+3. 说明退换货政策和流程
 4. 协助客户提交退换货申请
 5. 跟进退换货进度
 
 ## 物流查询
-- 提供物流单号和查询链�?
+- 提供物流单号和查询链接
 - 解释物流延迟原因
 - 协调物流异常问题
 
 ## 投诉处理
 - 耐心倾听客户诉求
-- 表达歉意和理�?
-- 提供合理的解决方�?
+- 表达歉意和理解
+- 提供合理的解决方案
 - 记录投诉内容并上报`,
         category: 'after_sales',
         industry: 'ecommerce',
-        description: '电商售后服务模板，规范退换货和投诉处理流�?,
+        description: '电商售后服务模板，规范退换货和投诉处理流程',
         sort: 5,
       },
       {
@@ -174,22 +174,22 @@ export class TemplateLibraryService {
         content: `# 金融产品咨询
 
 ## 产品介绍
-1. 详细说明产品类型、期限、收益率等关键信�?
+1. 详细说明产品类型、期限、收益率等关键信息
 2. 明确告知产品风险等级
-3. 说明产品适用人群和投资门�?
+3. 说明产品适用人群和投资门槛
 
 ## 风险提示
-- 必须进行风险提示�?投资有风险，入市需谨慎"
-- 不得承诺保本保收�?
-- 说明可能的损失情�?
+- 必须进行风险提示："投资有风险，入市需谨慎"
+- 不得承诺保本保收益
+- 说明可能的损失情况
 
 ## 合规要求
-- 不得诱导客户购买超出风险承受能力的产�?
+- 不得诱导客户购买超出风险承受能力的产品
 - 不得隐瞒产品费用和手续费
 - 必须记录客户风险评估结果`,
         category: 'product_consultation',
         industry: 'finance',
-        description: '金融产品咨询模板，确保金融服务合规�?,
+        description: '金融产品咨询模板，确保金融服务合规性',
         sort: 6,
       },
     ];
@@ -241,14 +241,14 @@ export class TemplateLibraryService {
     });
 
     if (!template) {
-      throw new NotFoundException('模板不存�?);
+      throw new NotFoundException('模板不存在');
     }
 
     return template;
   }
 
   /**
-   * 创建自定义模�?
+   * 创建自定义模板
    */
   async createTemplate(
     dto: {
@@ -262,7 +262,7 @@ export class TemplateLibraryService {
   ) {
     const scope = await this.scopeService.resolveAccess(userId);
 
-    // 检查名称是否重�?
+    // 检查名称是否重复
     const existing = await this.templateDelegate().findFirst({
       where: {
         name: dto.name,
@@ -272,7 +272,7 @@ export class TemplateLibraryService {
     });
 
     if (existing) {
-      throw new BadRequestException('模板名称已存�?);
+      throw new BadRequestException('模板名称已存在');
     }
 
     const template = await this.templateDelegate().create({
@@ -288,7 +288,7 @@ export class TemplateLibraryService {
   }
 
   /**
-   * 更新自定义模�?
+   * 更新自定义模板
    */
   async updateTemplate(
     id: string,
@@ -312,14 +312,14 @@ export class TemplateLibraryService {
     });
 
     if (!template) {
-      throw new NotFoundException('模板不存�?);
+      throw new NotFoundException('模板不存在');
     }
 
     if (template.is_builtin === 1) {
-      throw new BadRequestException('内置模板不允许修�?);
+      throw new BadRequestException('内置模板不允许修改');
     }
 
-    // 检查名称是否重复（排除自己�?
+    // 检查名称是否重复（排除自己）
     if (dto.name && dto.name !== template.name) {
       const existing = await this.templateDelegate().findFirst({
         where: {
@@ -331,7 +331,7 @@ export class TemplateLibraryService {
       });
 
       if (existing) {
-        throw new BadRequestException('模板名称已存�?);
+        throw new BadRequestException('模板名称已存在');
       }
     }
 
@@ -344,7 +344,7 @@ export class TemplateLibraryService {
   }
 
   /**
-   * 删除自定义模�?
+   * 删除自定义模板
    */
   async deleteTemplate(id: string, userId: string) {
     const scope = await this.scopeService.resolveAccess(userId);
@@ -358,11 +358,11 @@ export class TemplateLibraryService {
     });
 
     if (!template) {
-      throw new NotFoundException('模板不存�?);
+      throw new NotFoundException('模板不存在');
     }
 
     if (template.is_builtin === 1) {
-      throw new BadRequestException('内置模板不允许删�?);
+      throw new BadRequestException('内置模板不允许删除');
     }
 
     await this.templateDelegate().update({
@@ -410,12 +410,12 @@ export class TemplateLibraryService {
   getCategories() {
     return [
       { code: 'politeness', name: '礼貌用语' },
-      { code: 'compliance', name: '合规�? },
+      { code: 'compliance', name: '合规性' },
       { code: 'process', name: '流程规范' },
       { code: 'pre_sales', name: '售前咨询' },
       { code: 'after_sales', name: '售后服务' },
       { code: 'product_consultation', name: '产品咨询' },
-      { code: 'custom', name: '自定�? },
+      { code: 'custom', name: '自定义' },
     ];
   }
 
@@ -429,8 +429,7 @@ export class TemplateLibraryService {
       { code: 'finance', name: '金融' },
       { code: 'education', name: '教育' },
       { code: 'healthcare', name: '医疗' },
-      { code: 'real_estate', name: '房地�? },
+      { code: 'real_estate', name: '房地产' },
     ];
   }
 }
-

@@ -1,6 +1,7 @@
 import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { QdrantClient } from '@qdrant/js-client-rest';
+import { AIConfigService } from './ai-config.service';
 
 export interface VectorPayload {
   id: string;
@@ -18,7 +19,10 @@ export class VectorService implements OnModuleInit {
   private readonly collectionName = 'knowledge_collection';
   private readonly vectorSize = 1536;
 
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    private aiConfigService: AIConfigService,
+  ) {
     const url = this.configService.get<string>('QDRANT_URL') || 'http://localhost:6333';
     const apiKey = this.configService.get<string>('QDRANT_API_KEY');
     this.client = new QdrantClient({ url, apiKey });
@@ -38,13 +42,15 @@ export class VectorService implements OnModuleInit {
     }
   }
 
-  async generateEmbedding(text: string): Promise<number[]> {
-    const apiKey = this.configService.get<string>('OPENAI_API_KEY');
-    if (apiKey && apiKey.startsWith('sk-')) {
+  async generateEmbedding(text: string, platformId?: string, deptId?: string): Promise<number[]> {
+    // 获取AI配置
+    const aiConfig = await this.aiConfigService.getAIConfig(platformId, deptId);
+    
+    if (aiConfig.apiKey && aiConfig.apiKey.startsWith('sk-')) {
       try {
-        const response = await fetch('https://api.openai.com/v1/embeddings', {
+        const response = await fetch(`${aiConfig.apiBaseUrl}/embeddings`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${aiConfig.apiKey}` },
           body: JSON.stringify({ input: text.replace(/\n/g, ' '), model: 'text-embedding-3-small' }),
         });
         const json = await response.json();
@@ -77,7 +83,7 @@ export class VectorService implements OnModuleInit {
   }
 
   async upsertArticle(payload: VectorPayload) {
-    const vector = await this.generateEmbedding(payload.text);
+    const vector = await this.generateEmbedding(payload.text, payload.platform_id, payload.dept_id);
     await this.client.upsert(this.collectionName, {
       wait: true,
       points: [{
@@ -93,7 +99,7 @@ export class VectorService implements OnModuleInit {
   }
 
   async search(query: string, filter: { platform_id?: string; dept_id?: string; shop_id?: string }, limit = 10) {
-    const vector = await this.generateEmbedding(query);
+    const vector = await this.generateEmbedding(query, filter.platform_id, filter.dept_id);
     const must: any[] = [];
     if (filter.platform_id) must.push({ key: 'platform_id', match: { value: filter.platform_id } });
     

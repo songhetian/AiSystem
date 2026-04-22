@@ -13,6 +13,7 @@ import { SystemPlatformsController } from "./controllers/system-platforms.contro
 import { SystemRolesController } from "./controllers/system-roles.controller";
 import { SystemShopsController } from "./controllers/system-shops.controller";
 import { SystemUsersController } from "./controllers/system-users.controller";
+import { FileController } from "./controllers/file.controller";
 import { ExternalApiKeyService } from "./services/external-api-key.service";
 import { SystemApisService } from "./services/system-apis.service";
 import { SystemButtonsService } from "./services/system-buttons.service";
@@ -42,6 +43,7 @@ import { PermissionTemplateController } from "./controllers/permission-template.
 import { PermissionTemplateService } from "./services/permission-template.service";
 import { PermissionCleanupService } from "./services/permission-cleanup.service";
 import { PermissionCleanupController } from "./controllers/permission-cleanup.controller";
+import { AIConfigController } from "./controllers/ai-config.controller";
 
 @Module({
   imports: [CommonModule],
@@ -64,6 +66,8 @@ import { PermissionCleanupController } from "./controllers/permission-cleanup.co
     SystemPermissionControlController,
     PermissionTemplateController,
     PermissionCleanupController,
+    FileController,
+    AIConfigController,
   ],
   providers: [
     SystemUsersService,

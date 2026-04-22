@@ -19,6 +19,8 @@ export default defineConfig({
     // 优化代码分割
     config.optimization.splitChunks({
       chunks: 'all',
+      minSize: 20000,
+      maxSize: 244000,
       cacheGroups: {
         // 第三方库单独打包
         vendors: {
@@ -39,6 +41,18 @@ export default defineConfig({
           test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
           priority: 20,
         },
+        // 图表库单独打包
+        charts: {
+          name: 'charts',
+          test: /[\\/]node_modules[\\/](@ant-design\/plots|@antv)[\\/]/,
+          priority: 30,
+        },
+        // 工具库单独打包
+        utils: {
+          name: 'utils',
+          test: /[\\/]node_modules[\\/](lodash|dayjs|axios)[\\/]/,
+          priority: 25,
+        },
         // 公共组件
         common: {
           name: 'common',
@@ -48,7 +62,31 @@ export default defineConfig({
         },
       },
     });
+
+    // 生产环境优化
+    if (process.env.NODE_ENV === 'production') {
+      // 移除console
+      config.optimization.minimizer('terser').tap((args: any) => {
+        args[0].terserOptions.compress.drop_console = true;
+        args[0].terserOptions.compress.drop_debugger = true;
+        return args;
+      });
+    }
   },
+
+  // 4. 预加载和预连接
+  headScripts: [
+    // 预连接到API服务器
+    { content: `
+      const link = document.createElement('link');
+      link.rel = 'preconnect';
+      link.href = window.location.origin;
+      document.head.appendChild(link);
+    `},
+  ],
+
+  // 5. 构建缓存
+  hash: true,
 
   routes: [
     { path: '/login', component: '@/pages/login' },
@@ -67,6 +105,8 @@ export default defineConfig({
         { path: '/system/departments', component: '@/pages/system/departments' },
         { path: '/system/shops', component: '@/pages/system/shops' },
         { path: '/system/logs', component: '@/pages/system/logs' },
+        { path: '/system/files', component: '@/pages/system/files' },
+        { path: '/system/ai-config', component: '@/pages/system/ai-config' },
         { path: '/system/big-screen', component: '@/pages/system/big-screen' },
         { path: '/finance/dashboard', component: '@/pages/finance/dashboard' },
         { path: '/finance/reimbursements', component: '@/pages/finance/reimbursements' },

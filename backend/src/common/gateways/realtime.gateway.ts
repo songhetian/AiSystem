@@ -208,6 +208,74 @@ export class RealtimeGateway implements OnGatewayConnection, OnGatewayDisconnect
     this.broadcastPresence(sessionId);
   }
 
+  // ==================== 数据大屏功能 ====================
+
+  @SubscribeMessage('dashboard.subscribe')
+  handleDashboardSubscribe(@ConnectedSocket() client: Socket) {
+    const userId = client.data.userId;
+    if (!userId) {
+      client.emit('dashboard.error', { 
+        code: 'UNAUTHORIZED',
+        message: '未授权访问大屏数据' 
+      });
+      return;
+    }
+
+    client.join('dashboard:metrics');
+    this.logger.log(`User ${userId} subscribed to dashboard metrics`);
+    
+    return {
+      event: 'dashboard.subscribed',
+      data: { 
+        subscribed: true, 
+        room: 'dashboard:metrics',
+        userId,
+        subscribedAt: new Date().toISOString(),
+      }
+    };
+  }
+
+  @SubscribeMessage('dashboard.unsubscribe')
+  handleDashboardUnsubscribe(@ConnectedSocket() client: Socket) {
+    const userId = client.data.userId;
+    client.leave('dashboard:metrics');
+    
+    if (userId) {
+      this.logger.log(`User ${userId} unsubscribed from dashboard metrics`);
+    }
+    
+    return {
+      event: 'dashboard.unsubscribed',
+      data: { 
+        subscribed: false,
+        userId,
+        unsubscribedAt: new Date().toISOString(),
+      }
+    };
+  }
+
+  @SubscribeMessage('dashboard.request.refresh')
+  handleDashboardRefreshRequest(@ConnectedSocket() client: Socket) {
+    const userId = client.data.userId;
+    if (!userId) {
+      return { event: 'dashboard.error', data: { code: 'UNAUTHORIZED' } };
+    }
+
+    // 触发立即刷新（通过事件通知服务）
+    client.emit('dashboard.refresh.requested', {
+      userId,
+      requestedAt: new Date().toISOString(),
+    });
+
+    return {
+      event: 'dashboard.refresh.acknowledged',
+      data: {
+        message: '数据刷新请求已接收',
+        requestedBy: userId,
+      }
+    };
+  }
+
   private extractToken(client: Socket) {
     const authToken = client.handshake.auth?.token;
     if (typeof authToken === 'string' && authToken.trim()) {

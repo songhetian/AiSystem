@@ -2075,3 +2075,92 @@ model service_quality_prompt_audit_log {
   @@index([prompt_id], name: "idx_prompt_id")
   @@index([platform_id, dept_id], name: "idx_platform_dept")
 }
+
+// ==================== AI配置管理表 ====================
+
+// AI配置表 - 支持多级配置(全局/平台/部门/店铺)
+model sys_ai_config {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  
+  // 配置范围
+  scope_type      String   @db.VarChar(50)  // 'global', 'platform', 'department', 'shop'
+  scope_id        String?  @db.VarChar(50)  // platform_id, dept_id, shop_id
+  
+  // AI配置
+  provider        String   @db.VarChar(50)  // 'openai', 'azure', 'baidu', 'aliyun'
+  api_key         String   @db.Text         // API密钥
+  api_base_url    String?  @db.VarChar(500) // API地址
+  model           String   @db.VarChar(100) // 模型名称
+  max_tokens      Int      @default(2000)   // 最大Token数
+  temperature     Float    @default(0.7)    // 温度参数
+  
+  // 额外配置
+  extra_config    Json?                     // 其他AI服务商特定配置
+  
+  // 优先级
+  priority        Int      @default(0)      // 数字越大优先级越高
+  
+  // 状态
+  status          Int      @default(1)      // 1=启用, 0=禁用
+  
+  // 审计字段
+  created_by      String?  @db.VarChar(50)
+  remark          String?  @db.Text
+  
+  @@unique([scope_type, scope_id], name: "unique_scope")
+  @@index([scope_type, scope_id, status], name: "idx_scope_status")
+  @@index([provider, status], name: "idx_provider_status")
+}
+
+// ==================== 文件存储管理表 ====================
+
+// 文件元数据管理表
+model sys_file {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  
+  // 文件信息
+  original_name   String   @db.VarChar(255)  // 原始文件名
+  stored_name     String   @db.VarChar(500)  // 存储路径
+  file_size       BigInt                     // 文件大小(字节)
+  mime_type       String   @db.VarChar(100)  // MIME类型
+  extension       String   @db.VarChar(20)   // 文件扩展名
+  
+  // 分类信息
+  platform_id     String   @db.VarChar(50)
+  department_id   String?  @db.VarChar(50)
+  category        String   @db.VarChar(50)   // 文件分类
+  entity_type     String?  @db.VarChar(50)   // 关联实体类型
+  entity_id       String?  @db.VarChar(50)   // 关联实体ID
+  
+  // 存储信息
+  storage_type    String   @db.VarChar(20)   // local/minio/oss
+  bucket_name     String?  @db.VarChar(100)  // 存储桶名称
+  
+  // 访问控制
+  is_public       Int      @default(0)       // 是否公开
+  access_count    Int      @default(0)       // 访问次数
+  
+  // 状态信息
+  status          String   @default("active") @db.VarChar(20) // active/deleted/archived
+  
+  // 元数据
+  metadata        Json?                      // 额外元数据(宽高、时长等)
+  
+  // 审计字段
+  uploaded_by     String   @db.VarChar(50)
+  uploaded_at     DateTime @default(now())
+  deleted_at      DateTime?
+  deleted_by      String?  @db.VarChar(50)
+  
+  @@index([platform_id, department_id])
+  @@index([category, entity_type, entity_id])
+  @@index([uploaded_by])
+  @@index([status])
+  @@index([create_time])
+}

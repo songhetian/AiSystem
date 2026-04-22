@@ -5,6 +5,7 @@ import { ServiceController } from './controllers/service.controller';
 import { QualityPromptController } from './controllers/quality-prompt.controller';
 import { ServiceService } from './services/service.service';
 import { QualityPromptService } from './services/quality-prompt.service';
+import { DashboardRealtimeService } from './services/dashboard-realtime.service';
 import { ConflictValidatorService } from './services/conflict-validator.service';
 import { VersionManagerService } from './services/version-manager.service';
 import { TemplateLibraryService } from './services/template-library.service';
@@ -32,6 +33,7 @@ import { AiAnalysisWorker } from './workers/ai-analysis.worker';
   providers: [
     ServiceService,
     QualityPromptService,
+    DashboardRealtimeService,
     ConflictValidatorService,
     VersionManagerService,
     TemplateLibraryService,
@@ -40,6 +42,7 @@ import { AiAnalysisWorker } from './workers/ai-analysis.worker';
   ],
   exports: [
     QualityPromptService,
+    DashboardRealtimeService,
     ConflictValidatorService,
     VersionManagerService,
     TemplateLibraryService,

@@ -8,11 +8,17 @@ import {
   Put,
   Query,
 } from "@nestjs/common";
+import { ModuleRef } from "@nestjs/core";
 import {
   CurrentUser,
   type CurrentUserPayload,
 } from "../../../common/current-user.decorator";
 import { Permission } from "../../../common/permission.decorator";
+import { AntiShake } from "../../../common/decorators/antishake.decorator";
+import { RateLimit } from "../../../common/decorators/rate-limiter.decorator";
+import { Cache } from "../../../common/decorators/cache.decorator";
+import { CacheEvict } from "../../../common/decorators/cache-evict.decorator";
+import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
 import { AnalyzeServiceSessionDto } from "../dto/analyze-service-session.dto";
 import { ArchiveServiceCaseDto } from "../dto/archive-service-case.dto";
 import { GenerateServiceCaseDraftDto } from "../dto/generate-service-case-draft.dto";
@@ -31,16 +37,16 @@ import {
   DedupTagsDto,
 } from "../dto/quality-tag.dto";
 import { ServiceService } from "../services/service.service";
-import { AntiShake } from "../../../common/decorators/antishake.decorator";
+import { DashboardRealtimeService } from "../services/dashboard-realtime.service";
 import { Idempotent } from "../../../common/decorators/idempotent.decorator";
-import { RateLimit } from "../../../common/decorators/rate-limiter.decorator";
-import { Cache } from "../../../common/decorators/cache.decorator";
-import { CacheEvict } from "../../../common/decorators/cache-evict.decorator";
-import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
 
 @Controller("service")
 export class ServiceController {
-  constructor(private readonly serviceService: ServiceService) {}
+  constructor(
+    private readonly serviceService: ServiceService,
+    private readonly dashboardRealtimeService: DashboardRealtimeService,
+    private readonly moduleRef: ModuleRef,
+  ) {}
 
   @Get("sessions")
   @Permission("service:session:list")
@@ -230,6 +236,25 @@ export class ServiceController {
     @Query() query: QueryServiceSessionsDto,
   ) {
     return this.serviceService.getAiOverview(user.sub, query);
+  }
+
+  @Post("dashboard-metrics/refresh")
+  @Permission("service:dashboard:refresh")
+  @AntiShake(2000)
+  @RateLimit({ limit: 10, window: 60 })
+  @CacheEvict({ keys: ["service:dashboard-metrics:*"] })
+  async refreshDashboardMetrics(
+    @CurrentUser() user: CurrentUserPayload,
+  ) {
+    // 使用注入的 DashboardRealtimeService 触发刷新
+    const metrics = await this.dashboardRealtimeService.triggerPush();
+    return {
+      success: true,
+      message: '大屏数据已刷新',
+      data: metrics,
+      refreshedBy: user.username,
+      refreshedAt: new Date().toISOString(),
+    };
   }
 
   @Get("loss-inquiries")
