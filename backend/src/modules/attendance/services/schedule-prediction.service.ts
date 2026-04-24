@@ -58,7 +58,7 @@ export class SchedulePredictionService {
     const demandStats = this.analyzeHistoricalDemands(historicalDemands);
     
     // 4. 生成预测数据
-    const predictions = [];
+    const predictions: any[] = [];
     const dates = this.getDaysInBetween(start, end);
     
     for (const date of dates) {

@@ -57,7 +57,7 @@ export class DashboardService {
     const scope = await this.scopeService.resolveAccess(userId);
     return this.prisma.sys_dashboard_template.findMany({
       where: {
-        platform_ids: { has: scope.platform_id },
+        platform_ids: { path: [], array_contains: scope.platform_id } as any,
         is_deleted: 0,
         status: 1,
       },
@@ -70,8 +70,8 @@ export class DashboardService {
     return this.prisma.sys_dashboard_template.create({
       data: {
         ...data,
-        platform_ids: [scope.platform_id],
-        dept_ids: [scope.dept_id],
+        platform_ids: [scope.platform_id] as any,
+        dept_ids: [scope.dept_id] as any,
         created_by: userId,
       },
     });
@@ -100,7 +100,7 @@ export class DashboardService {
     const { id: _, create_time: __, update_time: ___, ...data } = original;
     return this.prisma.sys_dashboard_template.create({
       data: {
-        ...data,
+        ...(data as any),
         name: `${original.name}-副本`,
         created_by: userId,
       },

@@ -12,6 +12,14 @@ export interface IdempotentOptions {
    * 存储有效时长（秒），默认 300s (5分钟)
    */
   ttl?: number;
+  /**
+   * 窗口期（毫秒）
+   */
+  window?: number;
+  /**
+   * 用于哈希计算的字段名
+   */
+  keyFields?: string[];
 }
 
 /**

@@ -185,12 +185,12 @@ export class CoverageService {
         missing_details: {
           windows: missingDetails,
           total_minutes: totalMinutes - coveredMinutes,
-        },
+        } as any,
         overlapping_details: {
           windows: overlappingDetails,
           total_minutes: overlapExtraMinutes,
           matched_schedules: effectiveRanges,
-        },
+        } as any,
         platform_id: scope.platform_id as string,
         dept_id: scope.dept_id as string,
       },
@@ -204,7 +204,7 @@ export class CoverageService {
     query: { start_date?: string; end_date?: string },
   ) {
     const scope = await this.scopeService.resolveAccess(userId);
-    const where = this.scopeService.applyScope(
+    const where: any = this.scopeService.applyScope(
       scope,
       { is_deleted: 0 },
       { platform: "platform_id", department: "dept_id" },

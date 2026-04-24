@@ -140,7 +140,7 @@ export class AIConfigService {
       where: {
         unique_scope: {
           scope_type: scopeType,
-          scope_id: scopeId,
+          scope_id: scopeId as string,
         },
       },
       update: {

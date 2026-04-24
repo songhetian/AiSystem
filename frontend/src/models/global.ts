@@ -1,36 +1,59 @@
 import { create } from "zustand";
 
-interface GlobalState {
-  token?: string;
-  currentUser?: {
-    id: string;
-    username: string;
-    name: string;
-    avatar?: string;
-    phone?: string;
-    email?: string;
-    menus: Array<{
-      id: string;
-      menu_name: string;
-      route?: string;
-      menu_code: string;
-    }>;
-    buttons: Array<{ id: string; button_code: string }>;
-    // V2.0 性能优化：权限预处理
-    buttonCodesSet?: Set<string>;
-    menuCodesSet?: Set<string>;
-    routesSet?: Set<string>;
-  };
-  setToken: (token?: string) => void;
-  setCurrentUser: (currentUser?: GlobalState["currentUser"]) => void;
+type ButtonLike = { id?: string; button_code?: string } | string;
+
+interface MenuLike {
+  id: string;
+  menu_name: string;
+  route?: string;
+  menu_code: string;
 }
 
-/**
- * 全局状态管理（V2.0 性能优化）
- * 优化点：
- * 1. 权限数据预处理（转换为Set）
- * 2. 权限检查从O(n)降到O(1)
- */
+interface CurrentUser {
+  id: string;
+  username: string;
+  name: string;
+  avatar?: string;
+  phone?: string;
+  email?: string;
+  menus: MenuLike[];
+  buttons: ButtonLike[];
+  buttonCodesSet?: Set<string>;
+  menuCodesSet?: Set<string>;
+  routesSet?: Set<string>;
+}
+
+interface GlobalState {
+  token?: string;
+  currentUser?: CurrentUser;
+  setToken: (token?: string) => void;
+  setCurrentUser: (currentUser?: CurrentUser) => void;
+}
+
+const extractButtonCode = (button: ButtonLike): string | undefined =>
+  typeof button === "string" ? button : button?.button_code;
+
+const buildPermissionSets = (currentUser?: {
+  buttons?: ButtonLike[];
+  menus?: MenuLike[];
+}) => ({
+  buttonCodesSet: new Set(
+    (currentUser?.buttons ?? [])
+      .map(extractButtonCode)
+      .filter((code): code is string => Boolean(code)),
+  ),
+  menuCodesSet: new Set(
+    (currentUser?.menus ?? [])
+      .map((menu) => menu.menu_code)
+      .filter((code): code is string => Boolean(code)),
+  ),
+  routesSet: new Set(
+    (currentUser?.menus ?? [])
+      .map((menu) => menu.route)
+      .filter((route): route is string => Boolean(route)),
+  ),
+});
+
 export const useGlobalStore = create<GlobalState>((set) => ({
   token:
     typeof localStorage === "undefined"
@@ -42,14 +65,9 @@ export const useGlobalStore = create<GlobalState>((set) => ({
       : (() => {
           const stored = localStorage.getItem("currentUser");
           if (!stored) return undefined;
-          const user = JSON.parse(stored);
-          // 恢复时重新生成Set（Set不能序列化到localStorage）
-          if (user) {
-            user.buttonCodesSet = new Set(user.buttons?.map((b: any) => b.button_code) ?? []);
-            user.menuCodesSet = new Set(user.menus?.map((m: any) => m.menu_code) ?? []);
-            user.routesSet = new Set(user.menus?.map((m: any) => m.route).filter((r: any): r is string => Boolean(r)) ?? []);
-          }
-          return user;
+
+          const user = JSON.parse(stored) as CurrentUser;
+          return user ? { ...user, ...buildPermissionSets(user) } : undefined;
         })(),
   setToken: (token) => {
     if (typeof localStorage !== "undefined") {
@@ -59,33 +77,30 @@ export const useGlobalStore = create<GlobalState>((set) => ({
         localStorage.removeItem("token");
       }
     }
+
     set({ token });
   },
   setCurrentUser: (currentUser) => {
-    if (typeof localStorage !== "undefined") {
-      if (currentUser) {
-        // 预处理：转换为Set（提升查询性能）
-        currentUser.buttonCodesSet = new Set(
-          currentUser.buttons?.map(b => b.button_code) ?? []
-        );
-        currentUser.menuCodesSet = new Set(
-          currentUser.menus?.map(m => m.menu_code) ?? []
-        );
-        currentUser.routesSet = new Set(
-          currentUser.menus?.map(m => m.route).filter((r): r is string => Boolean(r)) ?? []
-        );
+    const normalizedUser = currentUser
+      ? { ...currentUser, ...buildPermissionSets(currentUser) }
+      : undefined;
 
-        // 存储到localStorage（Set会被忽略，恢复时重新生成）
-        localStorage.setItem("currentUser", JSON.stringify({
-          ...currentUser,
-          buttonCodesSet: undefined, // Set不能序列化
-          menuCodesSet: undefined,
-          routesSet: undefined,
-        }));
+    if (typeof localStorage !== "undefined") {
+      if (normalizedUser) {
+        localStorage.setItem(
+          "currentUser",
+          JSON.stringify({
+            ...normalizedUser,
+            buttonCodesSet: undefined,
+            menuCodesSet: undefined,
+            routesSet: undefined,
+          }),
+        );
       } else {
         localStorage.removeItem("currentUser");
       }
     }
-    set({ currentUser });
+
+    set({ currentUser: normalizedUser });
   },
 }));

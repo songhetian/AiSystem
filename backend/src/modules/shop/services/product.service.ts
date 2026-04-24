@@ -113,7 +113,7 @@ export class ProductService {
     this.scopeService.assertDepartmentAccess(scope, product.department_id);
 
     // Manually fetch category data if category_id exists
-    let category = null;
+    let category: any = null;
     if (product.category_id) {
       category = await this.prisma.biz_product_category.findUnique({
         where: { id: product.category_id },
@@ -337,7 +337,7 @@ export class ProductService {
     const scope = await this.scopeService.resolveAccess(userId);
 
     // 验证分类是否存在
-    const category = await this.prisma.biz_product_category.findUnique({
+    const category: any = await this.prisma.biz_product_category.findUnique({
       where: { id: categoryId },
     });
     if (!category) {

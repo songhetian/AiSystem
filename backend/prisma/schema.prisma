@@ -27,6 +27,7 @@ model knowledge_article {
   dept_id         String
   shop_id         String?
   published_at    DateTime?
+  sort            Int      @default(0)
 
   @@index([platform_id, dept_id, is_deleted, status])
   @@index([category_id, is_deleted])
@@ -198,6 +199,9 @@ model biz_department {
   owner_id        String?
   users           sys_user[] @relation("UserDepartment")
   registers       sys_user_register[]
+  hr_employees_main hr_employee[] @relation("EmployeeHrDept")
+  hr_employees_alias hr_employee[] @relation("EmployeeDept")
+  hr_positions      hr_position[]
 }
 
 model sys_role {
@@ -492,8 +496,13 @@ model hr_employee {
   education             String?
   graduate_school       String?
   major                 String?
-  social_security_base  Decimal? @db.Decimal(10, 2)
   social_security_city  String?
+  
+  hr_department         biz_department? @relation("EmployeeHrDept", fields: [department_id], references: [id], map: "hr_employee_hr_dept_fkey")
+  dept                  biz_department? @relation("EmployeeDept", fields: [department_id], references: [id], map: "hr_employee_dept_alias_fkey")
+  hr_position           hr_position?   @relation(fields: [position_id], references: [id])
+  attendance_records    attendance_record[]
+  schedule_changes      attendance_schedule_change[] @relation("EmployeeChanges")
 }
 
 model attendance_record {
@@ -518,6 +527,11 @@ model attendance_record {
   remark                 String?
   platform_id            String?
   dept_id                String?
+  approval_status        Int      @default(0)
+  approval_time          DateTime?
+  approval_user_id       String?
+
+  hr_employee            hr_employee @relation(fields: [employee_id], references: [id])
 
   @@index([employee_id, attendance_date])
   @@index([platform_id, dept_id, attendance_date])
@@ -532,11 +546,13 @@ model attendance_schedule {
   schedule_date DateTime
   shift_name    String
   dept_id       String?
+  platform_id   String?
   status        Int      @default(0) // 0: 待发布, 1: 已发布
   publish_time  DateTime?
 
   @@index([employee_id, schedule_date])
   @@index([dept_id, schedule_date])
+  @@index([platform_id, dept_id])
 }
 
 model sys_config {
@@ -647,6 +663,8 @@ model attendance_schedule_change {
   platform_id       String?
   dept_id           String?
 
+  employee          hr_employee @relation("EmployeeChanges", fields: [employee_id], references: [id])
+
   @@index([employee_id, change_date])
   @@index([notify_status, change_date])
 }
@@ -734,6 +752,7 @@ model fin_expense_type {
   platform_id String
   dept_id     String?
   status      Int      @default(1)
+  reimbursements fin_reimbursement[]
 
   @@unique([code, platform_id])
 }
@@ -757,6 +776,8 @@ model fin_reimbursement {
   paid_at             DateTime?
   pay_method          String?   // 银行转账, 支付宝, 微信, 现金
   remark              String?   @db.Text
+
+  fin_expense_type    fin_expense_type @relation(fields: [expense_type_id], references: [id])
 
   @@index([platform_id, dept_id, status])
 }
@@ -817,6 +838,10 @@ model hr_position {
   level         Int?
   sequence      String?
   platform_id   String?
+  sort          Int      @default(0)
+  status        Int      @default(1)
+  biz_department biz_department @relation(fields: [department_id], references: [id])
+  hr_employee   hr_employee[]
 }
 
 model attendance_rule {
@@ -835,6 +860,10 @@ model attendance_rule {
   status                Int      @default(1)
   platform_id           String?
   dept_id               String?
+  code                  String?
+  start_time            String?
+  end_time              String?
+  work_hours            Int      @default(0)
 }
 
 model approval_event {
@@ -2026,6 +2055,7 @@ model service_quality_prompt_version {
   version_number       Int
   name                 String   @db.VarChar(255)
   content              String   @db.Text
+  content_snapshot     String?  @db.Text
   applicable_scenarios String?  @db.Text
   change_description   String?  @db.Text
   modified_by          String?

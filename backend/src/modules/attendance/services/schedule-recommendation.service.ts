@@ -307,7 +307,7 @@ export class ScheduleRecommendationService {
     }
 
     // 生成推荐
-    const recommendations = [];
+    const recommendations: any[] = [];
     const start = new Date(startDate);
     const end = new Date(endDate);
 

@@ -32,7 +32,7 @@ import {
   CloudUploadOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import { request } from '@umijs/max';
+import request from '@/utils/request';
 import dayjs from 'dayjs';
 import { GlobalLoading } from '@/components/common/GlobalLoading';
 import { SmartSearch } from '@/components/common/SmartSearch';
@@ -169,7 +169,7 @@ const FilesManagement: React.FC = () => {
         pageSize,
         status: 'active',
       };
-      
+
       if (debouncedCategory) {
         params.category = debouncedCategory;
       }
@@ -195,7 +195,7 @@ const FilesManagement: React.FC = () => {
     try {
       // 这里需要根据实际的平台ID获取
       const platformId = 'seed-platform-main'; // 临时使用种子数据的平台ID
-      
+
       const [categoryStatsRes, platformStatsRes] = await Promise.all([
         request('/api/system/files/stats/category', {
           params: { platformId },
@@ -244,7 +244,7 @@ const FilesManagement: React.FC = () => {
 
     setUploading(true);
     setUploadProgress(0);
-    
+
     try {
       await request('/api/system/files/upload', {
         method: 'POST',
@@ -394,9 +394,9 @@ const FilesManagement: React.FC = () => {
               <Col span={24}>
                 <div style={{ marginBottom: 12 }}>
                   <div style={{ color: '#666', marginBottom: 4 }}>存储路径</div>
-                  <div style={{ 
-                    fontWeight: 500, 
-                    fontSize: 12, 
+                  <div style={{
+                    fontWeight: 500,
+                    fontSize: 12,
                     wordBreak: 'break-all',
                     background: '#f5f5f5',
                     padding: '8px 12px',
@@ -517,13 +517,13 @@ const FilesManagement: React.FC = () => {
   return (
     <div style={{ padding: 24, background: '#f0f2f5', minHeight: 'calc(100vh - 64px)' }}>
       <Tabs defaultActiveKey="files" type="card">
-        <TabPane 
+        <TabPane
           tab={
             <span>
               <FileOutlined />
               文件列表
             </span>
-          } 
+          }
           key="files"
         >
           <Card
@@ -546,7 +546,7 @@ const FilesManagement: React.FC = () => {
                   style={{ width: isMobile ? 200 : 250 }}
                   allowClear
                 />
-                
+
                 {/* 分类筛选 */}
                 <Select
                   placeholder="筛选分类"
@@ -564,7 +564,7 @@ const FilesManagement: React.FC = () => {
                     </Option>
                   ))}
                 </Select>
-                
+
                 {/* 刷新按钮 */}
                 <Tooltip title="刷新 (Ctrl+R)">
                   <Button
@@ -577,7 +577,7 @@ const FilesManagement: React.FC = () => {
                     {!isMobile && '刷新'}
                   </Button>
                 </Tooltip>
-                
+
                 {/* 上传按钮 */}
                 {hasPermission('system:file:upload') && (
                   <Tooltip title="上传文件 (Ctrl+U)">
@@ -635,19 +635,19 @@ const FilesManagement: React.FC = () => {
           </Card>
         </TabPane>
 
-        <TabPane 
+        <TabPane
           tab={
             <span>
               <PieChartOutlined />
               存储统计
             </span>
-          } 
+          }
           key="stats"
         >
           <Space direction="vertical" size="large" style={{ width: '100%' }}>
             {/* 总体统计 */}
             {platformStats && (
-              <Card 
+              <Card
                 title={
                   <Space>
                     <PieChartOutlined style={{ fontSize: 18, color: '#1890ff' }} />
@@ -691,7 +691,7 @@ const FilesManagement: React.FC = () => {
             )}
 
             {/* 分类统计 */}
-            <Card 
+            <Card
               title={
                 <Space>
                   <FolderOutlined style={{ fontSize: 18, color: '#1890ff' }} />
@@ -813,25 +813,25 @@ const FilesManagement: React.FC = () => {
             </Select>
           </Form.Item>
 
-          <Form.Item 
-            name="platformId" 
-            label="平台ID" 
+          <Form.Item
+            name="platformId"
+            label="平台ID"
             initialValue="seed-platform-main"
             tooltip="文件所属平台，默认为主平台"
           >
             <Input placeholder="平台ID" disabled />
           </Form.Item>
 
-          <Form.Item 
-            name="departmentId" 
+          <Form.Item
+            name="departmentId"
             label="部门ID"
             tooltip="可选，指定文件所属部门"
           >
             <Input placeholder="部门ID(可选)" />
           </Form.Item>
 
-          <Form.Item 
-            name="isPublic" 
+          <Form.Item
+            name="isPublic"
             label="访问权限"
             initialValue={false}
             tooltip="公开文件可被所有人访问，私有文件仅限有权限的用户访问"
@@ -845,8 +845,8 @@ const FilesManagement: React.FC = () => {
           {/* 上传进度 */}
           {uploading && uploadProgress > 0 && (
             <Form.Item label="上传进度">
-              <Progress 
-                percent={uploadProgress} 
+              <Progress
+                percent={uploadProgress}
                 status={uploadProgress === 100 ? 'success' : 'active'}
                 strokeColor={{
                   '0%': '#108ee9',

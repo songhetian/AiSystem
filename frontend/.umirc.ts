@@ -1,14 +1,20 @@
-import { defineConfig } from 'umi';
+import { defineConfig } from '@umijs/max';
+import { resolve } from 'path';
 
 export default defineConfig({
   npmClient: 'npm',
   esbuildMinifyIIFE: true,
+  extraPostCSSPlugins: [
+    require('tailwindcss'),
+    require('autoprefixer'),
+  ],
+
+  // 使用约定式路由，让Umi自动根据pages目录结构生成路由
+  // 这样更简单，不容易出错
 
   // V2.0 性能优化配置
   // 1. 构建优化
-  mfsu: {
-    strategy: 'normal', // 模块联邦加速
-  },
+  mfsu: false,
 
   // 2. 压缩优化
   jsMinifier: 'esbuild', // 使用esbuild压缩（更快）
@@ -66,11 +72,6 @@ export default defineConfig({
     // 生产环境优化
     if (process.env.NODE_ENV === 'production') {
       // 移除console
-      config.optimization.minimizer('terser').tap((args: any) => {
-        args[0].terserOptions.compress.drop_console = true;
-        args[0].terserOptions.compress.drop_debugger = true;
-        return args;
-      });
     }
   },
 
@@ -83,77 +84,73 @@ export default defineConfig({
       link.href = window.location.origin;
       document.head.appendChild(link);
     `},
+    // 添加调试信息
+    { content: `
+      console.log('=== UMI DEBUG START ===');
+      console.log('Page loaded at:', new Date().toISOString());
+      console.log('Location:', window.location.href);
+      console.log('User Agent:', navigator.userAgent);
+
+      // 监听DOM变化
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'childList') {
+            console.log('DOM changed:', mutation.target);
+          }
+        });
+      });
+
+      // 开始观察
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+
+      // 检查React是否加载
+      setTimeout(() => {
+        console.log('React loaded:', typeof window.React !== 'undefined');
+        console.log('Root element:', document.getElementById('root'));
+        console.log('Root innerHTML:', document.getElementById('root')?.innerHTML);
+      }, 1000);
+
+      console.log('=== UMI DEBUG END ===');
+    `},
   ],
 
   // 5. 构建缓存
   hash: true,
 
   routes: [
-    { path: '/login', component: '@/pages/login' },
-    { path: '/maintenance', component: '@/pages/maintenance' },
+    { path: '/test', component: 'test' },
+    { path: '/login', component: 'login/index' },
+    { path: '/register', component: 'register/index' },
+    { path: '/maintenance', component: 'maintenance' },
     {
       path: '/',
       component: '@/layouts/BasicLayout',
       routes: [
         { path: '/', redirect: '/system/users' },
-        { path: '/system/users', component: '@/pages/system/users' },
-        { path: '/system/roles', component: '@/pages/system/roles' },
-        { path: '/system/menus', component: '@/pages/system/menus' },
-        { path: '/system/buttons', component: '@/pages/system/buttons' },
-        { path: '/system/apis', component: '@/pages/system/apis' },
-        { path: '/system/platforms', component: '@/pages/system/platforms' },
-        { path: '/system/departments', component: '@/pages/system/departments' },
-        { path: '/system/shops', component: '@/pages/system/shops' },
-        { path: '/system/logs', component: '@/pages/system/logs' },
-        { path: '/system/files', component: '@/pages/system/files' },
-        { path: '/system/ai-config', component: '@/pages/system/ai-config' },
-        { path: '/system/big-screen', component: '@/pages/system/big-screen' },
-        { path: '/finance/dashboard', component: '@/pages/finance/dashboard' },
-        { path: '/finance/reimbursements', component: '@/pages/finance/reimbursements' },
-        { path: '/finance/reimbursements/stats', component: '@/pages/finance/reimbursements/stats' },
-        { path: '/finance/purchases', component: '@/pages/finance/purchases' },
-        { path: '/finance/purchases/stats', component: '@/pages/finance/purchases/stats' },
-        { path: '/finance/cash-records/stats', component: '@/pages/finance/cash-records/stats' },
-        { path: '/org/departments', component: '@/pages/personnel/departments' },
-        { path: '/org/employees', component: '@/pages/personnel/employees' },
-        { path: '/attendance/schedules', component: '@/pages/attendance/schedules' },
-        { path: '/attendance/ai-schedule', component: '@/pages/attendance/ai-schedule' },
-        { path: '/attendance/shifts', component: '@/pages/attendance/shifts' },
-        { path: '/attendance/records', component: '@/pages/attendance/records' },
-        { path: '/attendance/statistics', component: '@/pages/attendance/statistics' },
-        { path: '/attendance/requests', component: '@/pages/attendance/requests' },
-        { path: '/system/data-mapping', component: '@/pages/system/data-mapping' },
-        { path: '/approval/process', component: '@/pages/approval/process' },
-        { path: '/approval/requests', component: '@/pages/approval/requests' },
-        { path: '/system/messages', component: '@/pages/system/messages' },
-        { path: '/system/message-templates', component: '@/pages/system/message-templates' },
-        { path: '/service/sessions', component: '@/pages/service/sessions' },
-        { path: '/service/sessions/:id', component: '@/pages/service/sessions/[id]' },
-        { path: '/service/quality-rules', component: '@/pages/service/quality-rules' },
-        { path: '/service/sensitive-terms', component: '@/pages/service/sensitive-terms' },
-        { path: '/service/quality-prompts/global', component: '@/pages/service/quality-prompts/global' },
-        { path: '/service/quality-prompts/department', component: '@/pages/service/quality-prompts/department' },
-        { path: '/service/quality-prompts/templates', component: '@/pages/service/quality-prompts/templates' },
-        { path: '/service/quality-prompts/audit-logs', component: '@/pages/service/quality-prompts/audit-logs' },
-        { path: '/exam/papers', component: '@/pages/exam/papers' },
-        { path: '/exam/plans', component: '@/pages/exam/plans' },
-        { path: '/exam/plans/:id', component: '@/pages/exam/plans/[id]' },
-        { path: '/exam/my', component: '@/pages/exam/my' },
-        { path: '/exam/my/:id', component: '@/pages/exam/my/[id]' },
-        { path: '/exam/results', component: '@/pages/exam/results' },
-        { path: '/knowledge/faq-candidates', component: '@/pages/knowledge/faq-candidates' },
-        { path: '/knowledge/chat', component: '@/pages/knowledge/chat' },
-        { path: '/knowledge/articles', component: '@/pages/knowledge/articles' },
-        { path: '/knowledge/articles/:id', component: '@/pages/knowledge/articles/[id]' },
-        { path: '/knowledge/documents', component: '@/pages/knowledge/documents' },
-        { path: '/knowledge/categories', component: '@/pages/knowledge/categories' },
-        { path: '/knowledge/tags', component: '@/pages/knowledge/tags' },
-        { path: '/403', component: '@/pages/403' },
-        { path: '/*', component: '@/pages/404' }
+        { path: '/system/users', component: 'system/users/index' },
+        { path: '/system/roles', component: 'system/roles/index' },
+        { path: '/system/menus', component: 'system/menus/index' },
+        { path: '/system/apis', component: 'system/apis/index' },
+        { path: '/system/departments', component: 'system/departments/index' },
+        { path: '/system/shops', component: 'system/shops/index' },
+        { path: '/system/logs', component: 'system/logs/index' },
+        { path: '/system/files', component: 'system/files/index' },
+        { path: '/system/ai-config', component: 'system/ai-config/index' },
+        { path: '/finance/dashboard', component: 'finance/dashboard/index' },
+        { path: '/org/departments', component: 'personnel/departments/index' },
+        { path: '/org/employees', component: 'personnel/employees/index' },
+        { path: '/attendance/records', component: 'attendance/records/index' },
+        { path: '/knowledge/chat', component: 'knowledge/chat/index' },
+        { path: '/403', component: '403' },
+        { path: '/*', component: '404' }
       ]
     }
   ],
+
   alias: {
-    '@': '/src'
+    '@': resolve(__dirname, 'src')
   }
 });

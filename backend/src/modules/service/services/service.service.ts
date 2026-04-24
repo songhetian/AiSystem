@@ -806,7 +806,7 @@ export class ServiceService {
           created_by: userId,
         }));
 
-      const uniqueNewTags = [];
+      const uniqueNewTags: any[] = [];
       const seenNames = new Set();
       for (const nt of newTags) {
         if (!seenNames.has(nt.tag_name)) {

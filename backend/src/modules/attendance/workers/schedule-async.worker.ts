@@ -108,11 +108,11 @@ export class ScheduleAsyncWorker extends WorkerHost {
     await job.updateProgress(50);
 
     // 5. 生成日期列表
-    const days: string[] = [];
+    const days: Date[] = [];
     const startDate = new Date(start_date);
     const endDate = new Date(end_date);
     for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-      days.push(d.toISOString().split('T')[0]);
+      days.push(new Date(d));
     }
 
     // 6. 运行排班算法

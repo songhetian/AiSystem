@@ -111,7 +111,7 @@ export class ScheduleMlService {
       select: { name: true },
     });
 
-    const predictions = [];
+    const predictions: any[] = [];
     const start = new Date(startDate);
     const end = new Date(endDate);
 

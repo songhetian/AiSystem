@@ -144,7 +144,7 @@ export class KnowledgeService {
         ...dto,
         platform_id: scope.platform_id as string,
         dept_id: scope.dept_id as string,
-        published_at: dto.status === "published" ? new Date() : null,
+        published_at: dto.status === "published" ? new Date() : undefined,
       } as any,
     });
     this.triggerAsyncAiSync(article);
@@ -546,7 +546,7 @@ export class KnowledgeService {
       )
         continue;
 
-      const nextTags = Array.from(
+      const uniqueNewTags: any[] = Array.from(
         new Set(
           tags.map((item: string) =>
             item === sourceTag.tag_name || item === sourceTag.tag_code
@@ -557,7 +557,7 @@ export class KnowledgeService {
       );
       await this.serviceSessionDelegate().update({
         where: { id: session.id },
-        data: { tags: nextTags },
+        data: { tags: uniqueNewTags },
       });
       affected_sessions += 1;
     }
@@ -568,7 +568,7 @@ export class KnowledgeService {
         { is_deleted: 0 },
         { platform: "platform_id", department: "dept_id" },
       ) as any,
-      select: { id: true, keyword: true },
+      select: { id: true, keyword: true, attachment_urls: true },
     });
     let affected_articles = 0;
     for (const article of articles) {
@@ -582,8 +582,9 @@ export class KnowledgeService {
         where: { id: article.id },
         data: {
           keyword: keyword
-            .replaceAll(sourceTag.tag_name, targetTag.tag_name)
-            .replaceAll(sourceTag.tag_code, targetTag.tag_name),
+            .split(",")
+            .filter((k) => k !== sourceTag.tag_name && k !== sourceTag.tag_code)
+            .join(","),
         },
       });
       affected_articles += 1;
@@ -715,7 +716,7 @@ export class KnowledgeService {
     // 使用增强文件服务上传
     const uploadResult = await this.enhancedFileService.uploadFile(file, {
       platformId: scope.platform_id as string,
-      departmentId: scope.dept_id,
+      departmentId: scope.dept_id ?? undefined,
       category: this.filePathService.getFileTypeCategory(file.mimetype) === 'image' 
         ? 'knowledge-image' as any
         : this.filePathService.getFileTypeCategory(file.mimetype) === 'video'

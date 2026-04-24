@@ -81,7 +81,7 @@ export class ShiftCacheService implements OnModuleInit {
       );
 
       return shifts;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to get shifts: ${error.message}`);
       // 降级：直接查询数据库
       return this.getShiftsFromDb(platformId, deptId, options);
@@ -132,7 +132,7 @@ export class ShiftCacheService implements OnModuleInit {
       );
 
       return shift;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to get shift by id: ${error.message}`);
       return null;
     }
@@ -153,7 +153,7 @@ export class ShiftCacheService implements OnModuleInit {
       );
 
       return shifts.filter((shift) => shift !== null);
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to get shifts by ids: ${error.message}`);
       return [];
     }
@@ -166,15 +166,16 @@ export class ShiftCacheService implements OnModuleInit {
     try {
       const pattern = `${this.CACHE_PREFIX}${platformId}:${deptId}:*`;
       const redis = this.redisService.getClient();
+      if (!redis) return;
       const keys = await redis.keys(pattern);
 
       if (keys.length > 0) {
-        await redis.del(...keys);
+        await (redis?.del as any)(...keys);
         this.logger.log(
           `Cleared ${keys.length} shift cache entries for dept ${deptId}`,
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to clear dept cache: ${error.message}`);
     }
   }
@@ -198,7 +199,7 @@ export class ShiftCacheService implements OnModuleInit {
       }
 
       this.logger.log(`Cleared cache for shift ${shiftId}`);
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to clear shift cache: ${error.message}`);
     }
   }
@@ -209,13 +210,14 @@ export class ShiftCacheService implements OnModuleInit {
   async clearAllCache(): Promise<void> {
     try {
       const redis = this.redisService.getClient();
+      if (!redis) return;
       const keys = await redis.keys(`${this.CACHE_PREFIX}*`);
 
       if (keys.length > 0) {
-        await redis.del(...keys);
+        await (redis?.del as any)(...keys);
         this.logger.log(`Cleared ${keys.length} shift cache entries`);
       }
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to clear all cache: ${error.message}`);
     }
   }

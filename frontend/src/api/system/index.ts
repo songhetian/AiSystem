@@ -1,5 +1,25 @@
 import request from "@/utils/request";
 
+export interface PaginatedResponse<T> {
+  data: T[];
+  pagination: {
+    page: number;
+    pageSize: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
+const unwrapPaginated = <T>(
+  payload: T[] | PaginatedResponse<T>,
+): T[] => {
+  if (Array.isArray(payload)) {
+    return payload;
+  }
+
+  return Array.isArray(payload?.data) ? payload.data : [];
+};
+
 export interface UserRecord {
   id: string;
   username: string;
@@ -164,7 +184,12 @@ export interface MenuTreeNode {
 }
 
 export const systemApi = {
-  listPlatforms: () => request.get<PlatformRecord[]>("/system/platforms"),
+  listPlatforms: () =>
+    request
+      .get<PlatformRecord[] | PaginatedResponse<PlatformRecord>>(
+        "/system/platforms",
+      )
+      .then(unwrapPaginated),
   createPlatform: (payload: any) => request.post("/system/platforms", payload),
   updatePlatform: (id: string, payload: any) =>
     request.patch(`/system/platforms/${id}`, payload),
@@ -173,7 +198,12 @@ export const systemApi = {
     request.patch("/system/platforms/batch/status", payload),
   savePlatform: (payload: any) => request.post("/system/platforms", payload),
 
-  listDepartments: () => request.get<DepartmentRecord[]>("/system/departments"),
+  listDepartments: () =>
+    request
+      .get<DepartmentRecord[] | PaginatedResponse<DepartmentRecord>>(
+        "/system/departments",
+      )
+      .then(unwrapPaginated),
   getPublicDepartments: () =>
     request.get<{ code: number; message: string; data: DepartmentRecord[] }>(
       "/system/departments/public",
@@ -191,7 +221,10 @@ export const systemApi = {
     items: Array<{ id: string; parent_id?: string | null; sort: number }>,
   ) => request.post("/system/departments/sort", { items }),
 
-  listShops: () => request.get<ShopRecord[]>("/system/shops"),
+  listShops: () =>
+    request
+      .get<ShopRecord[] | PaginatedResponse<ShopRecord>>("/system/shops")
+      .then(unwrapPaginated),
   createShop: (payload: any) => request.post("/system/shops", payload),
   updateShop: (id: string, payload: any) =>
     request.patch(`/system/shops/${id}`, payload),
@@ -286,7 +319,10 @@ export const systemApi = {
     request.patch(`/system/buttons/${id}`, payload),
   deleteButton: (id: string) => request.delete(`/system/buttons/${id}`),
 
-  listMenus: () => request.get<MenuRecord[]>("/system/menus"),
+  listMenus: () =>
+    request
+      .get<MenuRecord[] | PaginatedResponse<MenuRecord>>("/system/menus")
+      .then(unwrapPaginated),
   listMenuTree: (roleId?: string) =>
     request.get<{ items: MenuTreeNode[] }>("/system/menus/tree", {
       params: roleId ? { role_id: roleId } : {},
@@ -301,7 +337,10 @@ export const systemApi = {
   ) => request.post("/system/menus/sort", { items }),
 
   // 用户管理
-  listUsers: () => request.get<UserRecord[]>("/system/users"),
+  listUsers: () =>
+    request
+      .get<UserRecord[] | PaginatedResponse<UserRecord>>("/system/users")
+      .then(unwrapPaginated),
   createUser: (payload: Partial<UserRecord>) =>
     request.post("/system/users", payload),
   updateUser: (id: string, payload: Partial<UserRecord>) =>
@@ -317,7 +356,10 @@ export const systemApi = {
     request.post("/system/users/batch/assign-roles", payload),
 
   // 角色管理
-  listRoles: () => request.get<RoleRecord[]>("/system/roles"),
+  listRoles: () =>
+    request
+      .get<RoleRecord[] | PaginatedResponse<RoleRecord>>("/system/roles")
+      .then(unwrapPaginated),
   createRole: (payload: Partial<RoleRecord>) =>
     request.post("/system/roles", payload),
   updateRole: (id: string, payload: Partial<RoleRecord>) =>

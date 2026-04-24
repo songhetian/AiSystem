@@ -63,7 +63,6 @@ export class PermissionTemplateService {
         category: true,
         description: true,
         is_default: true,
-        status: true,
         create_time: true,
         update_time: true,
       },
@@ -254,10 +253,10 @@ export class PermissionTemplateService {
         // 部分套用
         if (dto.partial === 1 && dto.selectedPermissionIds) {
           menuIds = menuIds.filter((id: string) =>
-            dto.selectedPermissionIds.includes(id),
+            dto.selectedPermissionIds!.includes(id),
           );
           buttonIds = buttonIds.filter((id: string) =>
-            dto.selectedPermissionIds.includes(id),
+            dto.selectedPermissionIds!.includes(id),
           );
         }
 

@@ -40,6 +40,10 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
+  getClient() {
+    return this.client;
+  }
+
   isReady() {
     return this.ready && this.client?.isReady;
   }
@@ -95,6 +99,14 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     }
 
     return this.client.expire(key, ttlSeconds);
+  }
+
+  async keys(pattern: string) {
+    if (!this.isReady() || !this.client) {
+      return [];
+    }
+
+    return this.client.keys(pattern);
   }
 
   async deleteByPattern(pattern: string) {

@@ -7,6 +7,14 @@ import axios, {
 import { message } from "antd";
 import { v4 as uuidv4 } from "uuid";
 
+const redirectToLogin = (): void => {
+  if (typeof window === "undefined") return;
+  if (window.location.pathname === "/login") return;
+
+  window.history.replaceState(null, "", "/login");
+  window.dispatchEvent(new PopStateEvent("popstate"));
+};
+
 /**
  * 标准化API响应格式
  */
@@ -34,7 +42,7 @@ export interface RequestConfig extends AxiosRequestConfig {
  */
 const createAxiosInstance = (): AxiosInstance => {
   const instance = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL || "/api",
+    baseURL: process.env.VITE_API_BASE_URL || "/api/v1",
     timeout: 30000,
     headers: {
       "Content-Type": "application/json",
@@ -135,7 +143,8 @@ const handleBusinessError = (code: number, msg: string): void => {
       // 清除token
       localStorage.removeItem("token");
       // 跳转到登录页
-      window.location.href = "/login";
+      localStorage.removeItem("currentUser");
+      redirectToLogin();
       break;
     case 403:
       message.error("无权限访问该资源");

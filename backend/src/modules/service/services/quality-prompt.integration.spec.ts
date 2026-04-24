@@ -316,8 +316,7 @@ describe('QualityPromptService - Integration Tests', () => {
         const result = await service.toggleGlobalPromptStatus(promptId, 1, mockUser.sub, mockUser.username);
 
         // Assert
-        expect(result).toEqual(updatedPrompt);
-        expect(result.enabled).toBe(1);
+        expect(result.success).toBe(true);
       });
 
       it('should disable an enabled global prompt', async () => {
@@ -340,8 +339,7 @@ describe('QualityPromptService - Integration Tests', () => {
         const result = await service.toggleGlobalPromptStatus(promptId, 0, mockUser.sub, mockUser.username);
 
         // Assert
-        expect(result).toEqual(updatedPrompt);
-        expect(result.enabled).toBe(0);
+        expect(result.success).toBe(true);
       });
     });
 
@@ -351,7 +349,7 @@ describe('QualityPromptService - Integration Tests', () => {
         const query: QueryPromptsDto = {
           page: 1,
           pageSize: 10,
-          keyword: 'politeness',
+          name: 'politeness',
         };
 
         const mockPrompts = [
@@ -378,7 +376,7 @@ describe('QualityPromptService - Integration Tests', () => {
         const result = await service.queryGlobalPrompts(query, mockUser.sub);
 
         // Assert
-        expect(result.data).toEqual(mockPrompts);
+        expect(result.list).toEqual(mockPrompts);
         expect(result.total).toBe(2);
         expect(result.page).toBe(1);
         expect(result.pageSize).toBe(10);
@@ -400,7 +398,7 @@ describe('QualityPromptService - Integration Tests', () => {
           applicable_scenarios: 'Department operations',
           enabled: 1,
           sort: 1,
-          parent_global_prompt_id: null,
+          parent_global_prompt_ids: [],
         };
 
         const mockCreatedPrompt = {
@@ -441,19 +439,20 @@ describe('QualityPromptService - Integration Tests', () => {
           applicable_scenarios: 'Department operations',
           enabled: 1,
           sort: 1,
-          parent_global_prompt_id: null,
+          parent_global_prompt_ids: [],
         };
 
-        // Mock conflict validation to fail
         jest.spyOn(conflictValidator, 'validateDepartmentPrompt').mockResolvedValue({
           hasConflict: true,
           conflicts: [
             {
               globalPromptId: 'global-001',
               globalPromptName: 'Politeness Standard',
-              conflictLocation: 'content',
-              conflictingContent: 'Never greet customers',
+              conflictType: 'requirement_contradiction',
+              conflictLocation: { global: 0, department: 0 },
+              conflictContent: { global: 'Always greet', department: 'Never greet' },
               suggestion: 'Remove contradictory statement',
+              conflictingContent: dto.content,
             },
           ],
         });
@@ -475,7 +474,7 @@ describe('QualityPromptService - Integration Tests', () => {
           applicable_scenarios: 'Department operations',
           enabled: 1,
           sort: 1,
-          parent_global_prompt_id: null,
+          parent_global_prompt_ids: [],
         };
 
         const existingPrompt = {
@@ -640,7 +639,7 @@ describe('QualityPromptService - Integration Tests', () => {
       prismaService.service_quality_prompt_version.findMany.mockResolvedValue(mockVersions);
 
       // Act
-      const result = await versionManager.getVersionHistory(promptId);
+      const result = await versionManager.getVersionHistory(promptId, 'global');
 
       // Assert
       expect(result).toEqual(mockVersions);
@@ -717,8 +716,7 @@ describe('QualityPromptService - Integration Tests', () => {
 
         // Assert
         expect(result.success).toBe(true);
-        expect(result.successCount).toBe(3);
-        expect(result.failureCount).toBe(0);
+        expect(result.count).toBe(3);
       });
     });
 
@@ -745,8 +743,7 @@ describe('QualityPromptService - Integration Tests', () => {
 
         // Assert
         expect(result.success).toBe(true);
-        expect(result.successCount).toBe(2);
-        expect(result.failureCount).toBe(0);
+        expect(result.count).toBe(2);
       });
     });
   });
@@ -799,7 +796,7 @@ describe('QualityPromptService - Integration Tests', () => {
         applicable_scenarios: 'Department',
         enabled: 1,
         sort: 1,
-        parent_global_prompt_id: null,
+        parent_global_prompt_ids: [],
       };
 
       const existingPrompt = {

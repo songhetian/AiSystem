@@ -33,11 +33,7 @@ import { EnhancedFileService } from "./services/enhanced-file.service";
 import { AIConfigService } from "./services/ai-config.service";
 
 @Module({
-  imports: [
-    JwtModule.register({
-      secret: process.env.JWT_SECRET ?? "changeme",
-    }),
-  ],
+  imports: [],
   providers: [
     MinioService,
     MessageService,

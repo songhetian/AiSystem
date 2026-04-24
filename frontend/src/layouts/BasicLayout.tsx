@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, Outlet, useLocation, useNavigate } from "@umijs/max";
 import { ProLayout, PageContainer } from "@ant-design/pro-components";
 import {
   Space,
@@ -38,7 +38,7 @@ import {
 } from "@/components/common/RealtimeNotificationCenter";
 import { useGlobalStore } from "@/models/global";
 import { useTheme } from "@/hooks/useTheme";
-import zhCN from "antd/lib/locale/zh_CN";
+import zhCN from "antd/locale/zh_CN";
 import FloatingChat from "@/components/common/FloatingChat";
 
 const { Text } = Typography;
@@ -118,7 +118,7 @@ export default function BasicLayout() {
   // 3. 处理菜单数据 (严格适配 ProLayout)
   const menuData =
     currentUser?.menus
-      ?.filter((m) => m.route)
+      ?.filter((m) => m?.route)
       .map((m) => ({
         path: m.route,
         name: m.menu_name,
@@ -126,6 +126,22 @@ export default function BasicLayout() {
           <AppstoreOutlined />
         ),
       })) || [];
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // 如果正在加载关键用户信息，可以显示一个加载状态，防止部分组件因缺少数据崩溃
+  if (!currentUser && token) {
+    return (
+      <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f8fafc' }}>
+        <Space direction="vertical" align="center">
+          <RobotOutlined style={{ fontSize: 48, color: '#3b82f6' }} />
+          <Text strong>正在初始化系统...</Text>
+        </Space>
+      </div>
+    );
+  }
 
   return (
     <ConfigProvider

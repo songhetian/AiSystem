@@ -135,10 +135,10 @@ export class AuthService {
     await this.redisService.del(lockedKey);
 
     // 从配置读取 JWT 过期时间（使用缓存优化）
-    const expiresIn = await this.configCacheService.get(
+    const expiresIn = (await this.configCacheService.get(
       "auth.jwt_expires",
       "2h",
-    );
+    )) || "2h";
 
     const accessToken = await this.jwtService.signAsync(
       {
@@ -148,7 +148,7 @@ export class AuthService {
         dept_id: user.dept_id,
         shop_id: user.shop_id,
       },
-      { expiresIn },
+      { expiresIn: expiresIn as any },
     );
 
     await this.auditLogService.logLogin({

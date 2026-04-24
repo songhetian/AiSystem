@@ -21,6 +21,10 @@ export class RealtimeService {
     });
   }
 
+  sendToUser(userId: string, event: string, payload: Record<string, unknown> = {}) {
+    return this.emitToUser(userId, event, payload);
+  }
+
   emitToRoom(room: string, event: string, payload: Record<string, unknown> = {}) {
     if (!this.server || !room) {
       return;

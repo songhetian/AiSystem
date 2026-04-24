@@ -20,6 +20,7 @@
     "logs:mock": "docker compose logs -f mock-service",
     "ps": "docker compose ps",
     "db:migrate": "docker exec backend-service npx prisma migrate deploy",
+    "db:sync": "docker exec backend-service npx prisma db push --accept-data-loss",
     "db:seed": "docker exec backend-service npx ts-node prisma/seed.ts",
     "db:studio": "cd backend && npx prisma studio"
   },

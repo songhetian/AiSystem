@@ -53,10 +53,7 @@ describe('Quality Prompt Workflows (E2E)', () => {
 
   beforeEach(async () => {
     // Clear Redis cache before each test
-    const keys = await redisService.keys(`quality-inspection:${testPlatformId}:*`);
-    if (keys.length > 0) {
-      await Promise.all(keys.map((key) => redisService.del(key)));
-    }
+    await redisService.deleteByPattern(`quality-inspection:${testPlatformId}:*`);
   });
 
   /**
@@ -73,7 +70,7 @@ describe('Quality Prompt Workflows (E2E)', () => {
         name: 'E2E Super Admin',
         platform_id: testPlatformId,
         dept_id: testDeptId,
-        enabled: 1,
+        status: 1,
       },
     });
 
@@ -81,13 +78,16 @@ describe('Quality Prompt Workflows (E2E)', () => {
     const deptManager = await prismaService.sys_user.upsert({
       where: { username: 'e2e-dept-manager' },
       update: {},
+      include: {
+        employee: { select: { name: true } },
+      } as any,
       create: {
         username: 'e2e-dept-manager',
         password: 'hashed-password',
         name: 'E2E Dept Manager',
         platform_id: testPlatformId,
         dept_id: testDeptId,
-        enabled: 1,
+        status: 1,
       },
     });
 
@@ -369,12 +369,14 @@ describe('Quality Prompt Workflows (E2E)', () => {
           prompt_id: promptId,
           prompt_type: 'global',
           version_number: 1,
+          name: 'E2E Version Test',
+          content: 'Version 1 content',
           content_snapshot: JSON.stringify({
             name: 'E2E Version Test',
             content: 'Version 1 content',
           }),
-          created_by: 'test-user',
-        },
+          modified_by: 'test-user',
+        } as any,
       });
     });
 
@@ -466,7 +468,7 @@ describe('Quality Prompt Workflows (E2E)', () => {
       expect(versions.length).toBe(4);
       expect(versions[3].version_number).toBe(4);
 
-      const v4Snapshot = JSON.parse(versions[3].content_snapshot);
+      const v4Snapshot = JSON.parse((versions[3] as any).content_snapshot);
       expect(v4Snapshot.content).toBe('Version 1 content');
     });
 

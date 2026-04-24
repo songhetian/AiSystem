@@ -100,8 +100,8 @@ export class ScheduleIncrementalService {
   ) {
     this.logger.log(`批量增量更新排班: ${updates.length} 条记录`);
 
-    const results = [];
-    const conflicts = [];
+    const results: any[] = [];
+    const conflicts: any[] = [];
 
     // 1. 检测所有冲突
     for (const update of updates) {
@@ -216,7 +216,7 @@ export class ScheduleIncrementalService {
     });
 
     // 3. 计算缺口
-    const gaps = [];
+    const gaps: any[] = [];
     for (const demand of demands) {
       const dateStr = demand.date.toISOString().split('T')[0];
       const currentCount = currentSchedules.filter(
@@ -257,7 +257,7 @@ export class ScheduleIncrementalService {
     );
 
     // 5. 智能填充
-    const fills = [];
+    const fills: any[] = [];
     for (const gap of gaps) {
       const candidates = await this.findBestCandidates(
         employees,
@@ -409,7 +409,7 @@ export class ScheduleIncrementalService {
     config: any
   ): Promise<Array<{ id: string; name: string; score: number }>> {
     const dateObj = new Date(date);
-    const candidates = [];
+    const candidates: any[] = [];
 
     for (const emp of employees) {
       // 检查是否已排班

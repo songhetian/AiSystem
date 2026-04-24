@@ -303,8 +303,8 @@ export class EmployeeScheduleService {
         is_deleted: 0,
       },
       include: {
-        hr_employee: { select: { name: true } },
-      },
+        employee: { select: { name: true } },
+      } as any,
       orderBy: { create_time: "desc" },
     });
   }
@@ -325,7 +325,7 @@ export class EmployeeScheduleService {
         platform_id: scope.platform_id as string,
       },
       data: {
-        shift_name: change.after_shift_name,
+        shift_name: change.after_shift_name || '',
       },
     });
 

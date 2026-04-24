@@ -95,7 +95,7 @@ export class EnhancedFileService {
         storage_type: 'minio',
         bucket_name: uploadResult.bucket,
         is_public: options.isPublic ? 1 : 0,
-        metadata: options.metadata || null,
+        metadata: (options.metadata as any) || undefined,
         uploaded_by: options.uploadedBy,
       },
     });

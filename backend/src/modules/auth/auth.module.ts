@@ -14,6 +14,7 @@ import { JwtStrategy } from "./strategies/jwt.strategy";
     PassportModule,
     CommonModule,
     JwtModule.register({
+      global: true,
       secret: process.env.JWT_SECRET ?? "changeme",
       signOptions: { expiresIn: (process.env.JWT_EXPIRES_IN ?? "2h") as never },
     }),

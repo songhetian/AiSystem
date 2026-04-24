@@ -52,3 +52,13 @@ export class CheckPhoneDto {
   @Matches(/^1[3-9]\d{9}$/, { message: "请输入有效的11位手机号" })
   phone: string;
 }
+ 
+/**
+ * 发送验证码DTO
+ */
+export class SendCodeDto {
+  @IsString({ message: "手机号必须是字符串" })
+  @IsNotEmpty({ message: "手机号不能为空" })
+  @Matches(/^1[3-9]\d{9}$/, { message: "请输入有效的11位手机号" })
+  phone: string;
+}

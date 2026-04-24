@@ -259,7 +259,10 @@ export class PersonnelPositionsService {
    * 导出岗位（补充功能）
    */
   async exportPositions(userId: string): Promise<Buffer> {
-    const positions = await this.findAll(userId);
+    const pagination = new PaginationDto();
+    pagination.page = 1;
+    pagination.pageSize = 1000;
+    const { data: positions } = await this.findAll(userId, pagination);
 
     const exportData = (positions as any[]).map((pos: any) => ({
       岗位名称: pos.name,
@@ -456,13 +459,13 @@ export class PersonnelPositionsService {
         await this.prisma.hr_position.create({
           data: {
             name: String(row["岗位名称"]),
-            code: row["岗位编码"] ? String(row["岗位编码"]) : undefined,
-            department_id: departmentId ?? scope.dept_id ?? undefined,
-            level: row["岗位等级"] ? String(row["岗位等级"]) : undefined,
+            code: row["岗位编码"] ? String(row["岗位编码"]) : `POS_${Date.now()}_${i}`,
+            department_id: (departmentId ?? scope.dept_id ?? "") as string,
+            level: row["岗位等级"] ? Number(row["岗位等级"]) : undefined,
             sequence: row["岗位序列"] ? String(row["岗位序列"]) : undefined,
             description: row["描述"] ? String(row["描述"]) : undefined,
             sort: row["排序"] ? Number(row["排序"]) : 0,
-            platform_id: scope.platform_id ?? undefined,
+            platform_id: (scope.platform_id ?? "") as string,
           },
         });
         success++;

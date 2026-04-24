@@ -366,7 +366,7 @@ export class DashboardRealtimeService implements OnModuleInit {
     `;
 
     // 合并数据
-    const trends = [];
+    const trends: any[] = [];
     for (let i = 6; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);

@@ -161,7 +161,7 @@ export class VersionManagerService {
       data: {
         name: targetVersionData.name,
         content: targetVersionData.content,
-        applicable_scenarios: targetVersionData.applicable_scenarios,
+        applicable_scenarios: targetVersionData.applicable_scenarios || null,
         version: currentPrompt.version + 1,
         updated_by: userId,
       },
@@ -175,7 +175,8 @@ export class VersionManagerService {
         version_number: updatedPrompt.version,
         name: updatedPrompt.name,
         content: updatedPrompt.content,
-        applicable_scenarios: updatedPrompt.applicable_scenarios,
+        applicable_scenarios: updatedPrompt.applicable_scenarios || null,
+        content_snapshot: JSON.stringify(updatedPrompt),
         change_description: `回滚到版本 ${targetVersion}`,
         modified_by: userId,
         modified_by_name: userName,
@@ -222,12 +223,29 @@ export class VersionManagerService {
 
     return { success: true };
   }
+
+  /**
+   * 创建版本记录 (用于测试兼容性)
+   */
+  async createVersion(promptId: string, promptType: 'global' | 'department', versionNumber: number, content: any, userId: string) {
+    return this.versionDelegate().create({
+      data: {
+        prompt_id: promptId,
+        prompt_type: promptType,
+        version_number: versionNumber,
+        content_snapshot: JSON.stringify(content),
+        modified_by: userId,
+        name: content.name || '',
+        content: content.content || '',
+      },
+    });
+  }
 }
 
 /**
  * 内容差异接口
  */
-interface ContentDiff {
+export interface ContentDiff {
   type: 'no_change' | 'changed';
   additions: string[];
   deletions: string[];

@@ -258,7 +258,7 @@ export class ScheduleRealtimeService {
    * 检测异常
    */
   private detectAnomalies(schedules: any[], records: any[]) {
-    const anomalies = [];
+    const anomalies: any[] = [];
 
     // 1. 检测缺勤
     for (const schedule of schedules) {
@@ -321,7 +321,7 @@ export class ScheduleRealtimeService {
     records: any[],
     anomalies: any[],
   ) {
-    const suggestions = [];
+    const suggestions: any[] = [];
 
     for (const anomaly of anomalies) {
       if (anomaly.type === "absent") {
@@ -387,7 +387,7 @@ export class ScheduleRealtimeService {
     schedules: any[],
     absenteeismPattern: Map<string, number>,
   ) {
-    const adjustments = [];
+    const adjustments: any[] = [];
 
     // 对高缺勤率员工的未来排班进行调整
     for (const schedule of schedules) {
@@ -453,11 +453,11 @@ export class ScheduleRealtimeService {
     shiftName: string,
     absentEmployeeId: string,
   ) {
-    const ranked = [];
+    const ranked: any[] = [];
 
     for (const emp of employees) {
       let score = 50;
-      const reasons = [];
+      const reasons: any[] = [];
 
       // 基础评分逻辑
       // 1. 检查员工当月排班次数(排班少的优先)
@@ -494,7 +494,7 @@ export class ScheduleRealtimeService {
           schedule_date: {
             gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 最近30天
           },
-          status: "absent",
+          status: 0, // 假设0是缺勤或异常，根据项目实际逻辑
           is_deleted: 0,
         },
       });

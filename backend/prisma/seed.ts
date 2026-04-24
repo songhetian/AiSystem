@@ -763,7 +763,7 @@ async function main() {
   const menus: Array<{ id: string; menu_code: string }> = [];
   for (const item of menuDefs) {
     // 处理父子菜单关系
-    let parent_id = null;
+    let parent_id: string | null = null;
     if (item.menu_code.includes(":") && item.type === 2) {
       // 子菜单,查找父菜单
       const parentCode = item.menu_code.split(":").slice(0, -1).join(":");

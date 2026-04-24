@@ -27,7 +27,7 @@ import {
   SearchOutlined,
 } from '@ant-design/icons';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { request } from '@umijs/max';
+import request from '@/utils/request';
 import { GlobalLoading } from '@/components/common/GlobalLoading';
 import { SmartSearch } from '@/components/common/SmartSearch';
 import { useDebounce } from '@/hooks/useDebounce';
@@ -66,19 +66,19 @@ interface AIConfigDetail extends AIConfig {
 const aiConfigService = {
   list: (params: any) =>
     request('/api/system/ai-config/list', { method: 'GET', params }),
-  
+
   detail: (id: string) =>
     request(`/api/system/ai-config/detail/${id}`, { method: 'GET' }),
-  
+
   current: (params: any) =>
     request('/api/system/ai-config/current', { method: 'GET', params }),
-  
+
   upsert: (data: any) =>
     request('/api/system/ai-config/upsert', { method: 'POST', data }),
-  
+
   updateStatus: (data: any) =>
     request('/api/system/ai-config/status', { method: 'PUT', data }),
-  
+
   delete: (id: string) =>
     request(`/api/system/ai-config/${id}`, { method: 'DELETE' }),
 };

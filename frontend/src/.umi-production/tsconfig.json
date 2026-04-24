@@ -15,22 +15,21 @@
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "sourceMap": true,
-    "baseUrl": "../../",
     "strict": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
       "@/*": [
-        "src/*"
+        "../../src/*"
       ],
       "@@/*": [
-        "src/.umi/*"
+        "../../src/.umi/*"
       ],
-      "umi": [
+      "@umijs/max": [
         "../../node_modules/umi"
       ],
-      "umi/typings": [
-        "src/.umi/typings"
+      "@umijs/max/typings": [
+        "../../src/.umi/typings"
       ]
     }
   },

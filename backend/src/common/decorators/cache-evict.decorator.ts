@@ -17,6 +17,10 @@ export interface CacheEvictOptions {
    * 是否在方法执行前清除缓存，默认 false（方法执行后清除）
    */
   beforeInvocation?: boolean;
+  /**
+   * 缓存前缀
+   */
+  prefix?: string | string[];
 }
 
 /**

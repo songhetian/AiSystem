@@ -36,7 +36,6 @@ export class ScheduleMultiObjectiveService {
   ) {
     this.logger.log(`多目标优化排班: 部门=${deptId}, 周期=${startDate}~${endDate}`);
 
-    // 1. 获取基础数据
     const employees = await this.prisma.hr_employee.findMany({
       where: {
         department_id: deptId,
@@ -44,6 +43,12 @@ export class ScheduleMultiObjectiveService {
         status: 1,
       },
     });
+
+    const mappedEmployees = employees.map(e => ({
+      id: e.id,
+      name: e.name,
+      department_id: e.department_id || '',
+    }));
 
     const preferencesMap = await this.employeeScheduleService.getPreferencesBatch(
       employees.map(e => e.id)
@@ -72,21 +77,21 @@ export class ScheduleMultiObjectiveService {
     });
 
     // 2. 生成日期列表
-    const days: string[] = [];
+    const days: Date[] = [];
     const start = new Date(startDate);
     const end = new Date(endDate);
     for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-      days.push(d.toISOString().split('T')[0]);
+      days.push(new Date(d));
     }
 
     // 3. 生成多个候选方案（使用不同的参数组合）
-    const solutions = [];
+    const solutions: any[] = [];
     const paramCombinations = this.generateParamCombinations(config);
 
     for (const params of paramCombinations) {
       const scheduleData = this.scheduleAlgorithmService.runSchedulingEngine(
-        employees,
-        shifts,
+        mappedEmployees,
+        shifts as any,
         days,
         params.priority,
         config.lock_employee_ids || [],
@@ -98,7 +103,7 @@ export class ScheduleMultiObjectiveService {
       // 计算多个目标的得分
       const objectives = this.calculateObjectives(
         scheduleData,
-        employees,
+        mappedEmployees,
         preferencesMap,
         demandMap,
         days
@@ -167,7 +172,7 @@ export class ScheduleMultiObjectiveService {
    * 生成参数组合
    */
   private generateParamCombinations(baseConfig: any) {
-    const combinations = [];
+    const combinations: any[] = [];
 
     // 优先级组合
     const priorities = ['fairness', 'coverage'];
@@ -204,7 +209,7 @@ export class ScheduleMultiObjectiveService {
     employees: any[],
     preferencesMap: Map<string, any>,
     demandMap: Map<string, number>,
-    days: string[]
+    days: Date[]
   ) {
     // 1. 公平性得分（工作量分布均匀度）
     const fairnessScore = this.calculateFairnessScore(scheduleData, employees);
@@ -257,15 +262,16 @@ export class ScheduleMultiObjectiveService {
   /**
    * 计算覆盖率得分
    */
-  private calculateCoverageScore(scheduleData: any[], demandMap: Map<string, number>, days: string[]): number {
+  private calculateCoverageScore(scheduleData: any[], demandMap: Map<string, number>, days: Date[]): number {
     let totalDemand = 0;
     let totalCovered = 0;
 
     for (const day of days) {
-      const daySchedules = scheduleData.filter(s => s.schedule_date === day);
+      const dateStr = day.toISOString().split('T')[0];
+      const daySchedules = scheduleData.filter(s => s.schedule_date === dateStr);
       
       for (const [key, demand] of demandMap.entries()) {
-        if (key.startsWith(day)) {
+        if (key.startsWith(dateStr)) {
           const shiftName = key.split('_')[1];
           const actual = daySchedules.filter(s => s.shift_name === shiftName).length;
           
@@ -367,7 +373,7 @@ export class ScheduleMultiObjectiveService {
    * 找出帕累托最优解
    */
   private findParetoFront(solutions: any[]): any[] {
-    const paretoFront = [];
+    const paretoFront: any[] = [];
 
     for (const solution of solutions) {
       let isDominated = false;

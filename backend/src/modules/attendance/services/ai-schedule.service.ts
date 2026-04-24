@@ -4,6 +4,7 @@ import { ScopeService } from '../../../common/services/scope.service';
 import { EmployeeScheduleService, type SchedulePreference } from './employee-schedule.service';
 import { ScheduleAlgorithmService } from './schedule-algorithm.service';
 import { SchedulePredictionService } from './schedule-prediction.service';
+import { ApprovalService } from '../../approval/services/approval.service';
 import { GenerateAIScheduleDto } from '../dto/ai-schedule.dto';
 import { QueryOptimize } from '../../../common/decorators/query-optimize.decorator';
 import { Cache } from '../../../common/decorators/cache.decorator';
@@ -29,6 +30,8 @@ export interface ScheduleDraft {
   total_scheduled: number;
   warning_count: number;
   compliance_rate: number;
+  satisfaction_rate: number;
+  fitting_rate: number;
   data: ScheduleResultItem[];
 }
 
@@ -42,7 +45,7 @@ export class AiScheduleService implements OnModuleInit {
     private readonly employeeScheduleService: EmployeeScheduleService,
     private readonly scheduleAlgorithmService: ScheduleAlgorithmService,
     private readonly schedulePredictionService: SchedulePredictionService,
-    private readonly approvalService: any,
+    private readonly approvalService: ApprovalService,
   ) {}
 
   onModuleInit() {
@@ -258,7 +261,6 @@ export class AiScheduleService implements OnModuleInit {
             applied_at: new Date(),
             items_count: count,
             schedule_data: validData, // 存储完整的排班数据
-            config_params: null, // 可以存储生成时的配置参数
           },
         });
       } catch (err) {
@@ -567,8 +569,8 @@ export class AiScheduleService implements OnModuleInit {
     const empStats = new Map<string, { id: string; name: string; count: number; totalHours: number }>();
     const shiftStats = new Map<string, number>();
     const dailySupply = new Map<string, Map<string, number>>(); // date -> shift -> count
+    const solutions: any[] = [];
     let totalHours = 0;
-
     for (const s of schedules) {
       const dateKey = s.schedule_date.toISOString().split('T')[0];
       const shiftName = s.shift_name;
@@ -599,13 +601,13 @@ export class AiScheduleService implements OnModuleInit {
     }
 
     // 3. 需求拟合度计算
-    const demandTrend = [];
-    const supplyTrend = [];
+    const demandTrend: any[] = [];
+    const supplyTrend: any[] = [];
     let totalDemand = 0;
     let totalCoverage = 0;
 
     // 按日期/班次对齐需求与供给
-    const dates = [];
+    const dates: string[] = [];
     for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
       dates.push(d.toISOString().split('T')[0]);
     }
@@ -771,9 +773,15 @@ export class AiScheduleService implements OnModuleInit {
 
     // 1. 获取员工与部门信息用于审批流
     const employee = await this.prisma.hr_employee.findUnique({
-      where: { id: userId },
-      include: { dept: true }
+      where: { id: userId }
     });
+
+    let department: any = null;
+    if (employee?.department_id) {
+      department = await this.prisma.biz_department.findUnique({
+        where: { id: employee.department_id }
+      });
+    }
 
     const change = await this.prisma.attendance_schedule_change.create({
       data: {
@@ -797,7 +805,7 @@ export class AiScheduleService implements OnModuleInit {
         applicantId: userId,
         applicantName: employee?.name || '未知员工',
         platformName: '雷犀系统',
-        departmentName: employee?.dept?.name || '默认部门',
+        departmentName: department?.name || '默认部门',
         summary: `员工[${employee?.name}]申请将 ${data.date} 的班次由 [${data.before_shift}] 调整为 [${data.after_shift}]`,
         currentApproverId: employee?.manager_employee_id || undefined, // 默认推给直属主管
       });
@@ -824,7 +832,7 @@ export class AiScheduleService implements OnModuleInit {
       where: {
         employee_id: change.employee_id,
         schedule_date: change.change_date,
-        shift_name: change.before_shift_name,
+        shift_name: change.before_shift_name || undefined,
         is_deleted: 0
       }
     });
@@ -833,7 +841,7 @@ export class AiScheduleService implements OnModuleInit {
       await this.prisma.attendance_schedule.update({
         where: { id: schedule.id },
         data: {
-          shift_name: change.after_shift_name,
+          shift_name: change.after_shift_name || '',
           update_time: new Date()
         }
       });
@@ -843,11 +851,10 @@ export class AiScheduleService implements OnModuleInit {
       await this.prisma.attendance_schedule.create({
         data: {
           employee_id: change.employee_id,
-          employee_name: employee?.name || '未知',
           dept_id: employee?.department_id || '',
           platform_id: employee?.platform_id || '',
           schedule_date: change.change_date,
-          shift_name: change.after_shift_name,
+          shift_name: change.after_shift_name || '',
           status: 1, // 直接发布
         }
       });
@@ -876,7 +883,7 @@ export class AiScheduleService implements OnModuleInit {
     const scope = await this.scopeService.resolveAccess(userId);
 
     // 1. 拉取属于该部门且处于待审批状态的调班单
-    const changes = await this.prisma.attendance_schedule_change.findMany({
+    const changes = await (this.prisma.attendance_schedule_change as any).findMany({
       where: {
         employee: { department_id: deptId, platform_id: scope.platform_id as string },
         notify_status: 0,
