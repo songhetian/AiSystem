@@ -65,22 +65,22 @@ interface AIConfigDetail extends AIConfig {
 // API服务
 const aiConfigService = {
   list: (params: any) =>
-    request('/api/system/ai-config/list', { method: 'GET', params }),
+    request.get('/api/system/ai-config/list', { params }),
 
   detail: (id: string) =>
-    request(`/api/system/ai-config/detail/${id}`, { method: 'GET' }),
+    request.get(`/api/system/ai-config/detail/${id}`),
 
   current: (params: any) =>
-    request('/api/system/ai-config/current', { method: 'GET', params }),
+    request.get('/api/system/ai-config/current', { params }),
 
   upsert: (data: any) =>
-    request('/api/system/ai-config/upsert', { method: 'POST', data }),
+    request.post('/api/system/ai-config/upsert', data),
 
   updateStatus: (data: any) =>
-    request('/api/system/ai-config/status', { method: 'PUT', data }),
+    request.put('/api/system/ai-config/status', data),
 
   delete: (id: string) =>
-    request(`/api/system/ai-config/${id}`, { method: 'DELETE' }),
+    request.delete(`/api/system/ai-config/${id}`),
 };
 
 const AIConfigManagement: React.FC = () => {

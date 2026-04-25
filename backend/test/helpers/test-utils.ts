@@ -1,66 +1,43 @@
 /**
  * 测试工具函数
+ * 用于创建测试所需的mock数据
  */
-
-import { Test, TestingModule } from "@nestjs/testing";
-import { PrismaService } from "../../src/prisma/prisma.service";
 
 /**
- * 创建测试模块
+ * 创建模拟用户对象
  */
-export async function createTestingModule(
-  imports: any[],
-  providers: any[] = [],
-  controllers: any[] = [],
-): Promise<TestingModule> {
-  return await Test.createTestingModule({
-    imports,
-    controllers,
-    providers: [
-      ...providers,
-      {
-        provide: PrismaService,
-        useValue: createMockPrismaService(),
-      },
-    ],
-  }).compile();
-}
-
-/**
- * 创建 Mock Prisma Service
- */
-export function createMockPrismaService() {
+export function createMockUser(overrides?: Partial<MockUser>): MockUser {
   return {
-    $connect: jest.fn(),
-    $disconnect: jest.fn(),
-    $transaction: jest.fn((callback) => callback({})),
-    $queryRaw: jest.fn(),
-    $executeRaw: jest.fn(),
-  };
-}
-
-/**
- * 创建 Mock 用户
- */
-export function createMockUser(overrides: Partial<any> = {}) {
-  return {
-    sub: "test-user-id",
-    username: "testuser",
-    name: "Test User",
-    platform_id: "test-platform",
-    dept_id: "test-dept",
-    shop_id: "test-shop",
-    roles: ["admin"],
+    sub: overrides?.sub || 'test-user-id',
+    username: overrides?.username || 'testuser',
+    email: overrides?.email || 'test@example.com',
+    roles: overrides?.roles || ['user'],
+    permissions: overrides?.permissions || [],
+    platform_id: overrides?.platform_id || 'test-platform',
+    dept_id: overrides?.dept_id || 'test-dept',
     ...overrides,
   };
 }
 
 /**
- * 创建 Mock Request
+ * 模拟用户类型
  */
-export function createMockRequest(user: any = createMockUser()) {
+export interface MockUser {
+  sub: string;
+  username: string;
+  email: string;
+  roles: string[];
+  permissions: string[];
+  platform_id?: string;
+  dept_id?: string;
+}
+
+/**
+ * 创建模拟请求对象
+ */
+export function createMockRequest(user?: MockUser) {
   return {
-    user,
+    user: user || createMockUser(),
     headers: {},
     query: {},
     params: {},
@@ -69,7 +46,7 @@ export function createMockRequest(user: any = createMockUser()) {
 }
 
 /**
- * 创建 Mock Response
+ * 创建模拟响应对象
  */
 export function createMockResponse() {
   const res: any = {
@@ -79,27 +56,4 @@ export function createMockResponse() {
     setHeader: jest.fn().mockReturnThis(),
   };
   return res;
-}
-
-/**
- * 等待异步操作
- */
-export function waitFor(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-/**
- * 生成随机字符串
- */
-export function randomString(length: number = 10): string {
-  return Math.random()
-    .toString(36)
-    .substring(2, length + 2);
-}
-
-/**
- * 生成随机数字
- */
-export function randomNumber(min: number = 0, max: number = 100): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
 }

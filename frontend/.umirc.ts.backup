@@ -1,0 +1,126 @@
+import { defineConfig } from '@umijs/max';
+import { resolve } from 'path';
+
+export default defineConfig({
+  npmClient: 'npm',
+  esbuildMinifyIIFE: true,
+  extraPostCSSPlugins: [
+    require('tailwindcss'),
+    require('autoprefixer'),
+  ],
+
+  // 使用约定式路由，让Umi自动根据pages目录结构生成路由
+  // 这样更简单，不容易出错
+
+  // V2.0 性能优化配置
+  // 1. 构建优化
+  mfsu: false,
+
+  // 2. 压缩优化
+  jsMinifier: 'esbuild', // 使用esbuild压缩（更快）
+  cssMinifier: 'esbuild',
+
+  // 3. 代码分割策略
+  chainWebpack(config: any) {
+    // 优化代码分割
+    config.optimization.splitChunks({
+      chunks: 'all',
+      minSize: 20000,
+      maxSize: 244000,
+      cacheGroups: {
+        // 第三方库单独打包
+        vendors: {
+          name: 'vendors',
+          test: /[\\/]node_modules[\\/]/,
+          priority: 10,
+          reuseExistingChunk: true,
+        },
+        // Ant Design单独打包
+        antd: {
+          name: 'antd',
+          test: /[\\/]node_modules[\\/](antd|@ant-design)[\\/]/,
+          priority: 20,
+        },
+        // React相关单独打包
+        react: {
+          name: 'react',
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
+          priority: 20,
+        },
+        // 图表库单独打包
+        charts: {
+          name: 'charts',
+          test: /[\\/]node_modules[\\/](@ant-design\/plots|@antv)[\\/]/,
+          priority: 30,
+        },
+        // 工具库单独打包
+        utils: {
+          name: 'utils',
+          test: /[\\/]node_modules[\\/](lodash|dayjs|axios)[\\/]/,
+          priority: 25,
+        },
+        // 公共组件
+        common: {
+          name: 'common',
+          minChunks: 2,
+          priority: 5,
+          reuseExistingChunk: true,
+        },
+      },
+    });
+
+    // 生产环境优化
+    if (process.env.NODE_ENV === 'production') {
+      // 移除console
+    }
+  },
+
+  // 4. 预加载和预连接
+  headScripts: [
+    // 预连接到API服务器
+    { content: `
+      const link = document.createElement('link');
+      link.rel = 'preconnect';
+      link.href = window.location.origin;
+      document.head.appendChild(link);
+    `},
+  ],
+
+  // 5. 构建缓存
+  hash: true,
+
+  routes: [
+    { path: '/test', component: 'test' },
+    { path: '/login', component: 'login/index' },
+    { path: '/register', component: 'register/index' },
+    { path: '/maintenance', component: 'maintenance' },
+    { path: '/debug', component: 'debug' },
+    {
+      path: '/',
+      component: '@/layouts/BasicLayout',
+      routes: [
+        { path: '/', component: 'index' },
+        { path: '/system/users', component: 'system/users/index' },
+        { path: '/system/roles', component: 'system/roles/index' },
+        { path: '/system/menus', component: 'system/menus/index' },
+        { path: '/system/apis', component: 'system/apis/index' },
+        { path: '/system/departments', component: 'system/departments/index' },
+        { path: '/system/shops', component: 'system/shops/index' },
+        { path: '/system/logs', component: 'system/logs/index' },
+        { path: '/system/files', component: 'system/files/index' },
+        { path: '/system/ai-config', component: 'system/ai-config/index' },
+        { path: '/finance/dashboard', component: 'finance/dashboard/index' },
+        { path: '/org/departments', component: 'personnel/departments/index' },
+        { path: '/org/employees', component: 'personnel/employees/index' },
+        { path: '/attendance/records', component: 'attendance/records/index' },
+        { path: '/knowledge/chat', component: 'knowledge/chat/index' },
+        { path: '/403', component: '403' },
+        { path: '/*', component: '404' }
+      ]
+    }
+  ],
+
+  alias: {
+    '@': resolve(__dirname, 'src')
+  }
+});

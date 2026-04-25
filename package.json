@@ -8,12 +8,14 @@
     "install:backend": "cd backend && npm install",
     "install:frontend": "cd frontend && npm install",
     "install:mock": "cd dev-tools && npm install",
-    "dev": "docker compose --profile dev up -d",
+    "dev": "docker compose up -d && docker compose --profile dev up -d",
     "dev:base": "docker compose up -d mysql redis minio qdrant",
     "dev:mock": "docker compose --profile dev up -d mock-service",
     "prod": "docker compose --profile prod up -d",
     "stop": "docker compose down",
     "restart": "docker compose --profile dev restart",
+    "rebuild:frontend": "docker stop frontend-service && docker rm frontend-service && cd frontend && docker build -t aisystem-frontend-v8:latest . --no-cache && cd .. && docker compose --profile dev up -d frontend",
+    "rebuild:all": "docker compose down && docker compose --profile dev build --no-cache && docker compose --profile dev up -d",
     "logs": "docker compose logs -f",
     "logs:backend": "docker compose logs -f backend",
     "logs:frontend": "docker compose logs -f frontend",
@@ -24,7 +26,6 @@
     "db:seed": "docker exec backend-service npx ts-node prisma/seed.ts",
     "db:studio": "cd backend && npx prisma studio"
   },
-
   "keywords": [
     "aisystem",
     "nestjs",
@@ -36,5 +37,8 @@
     "qdrant"
   ],
   "author": "雷犀科技",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@prisma/client": "^7.8.0"
+  }
 }

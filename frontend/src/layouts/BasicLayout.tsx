@@ -127,21 +127,32 @@ export default function BasicLayout() {
         ),
       })) || [];
 
+  // 调试信息
+  console.log('BasicLayout - token:', token ? 'exists' : 'none');
+  console.log('BasicLayout - currentUser:', currentUser ? currentUser.username : 'none');
+  console.log('BasicLayout - location:', location.pathname);
+
   if (!token) {
+    console.log('BasicLayout - No token, redirecting to login');
     return <Navigate to="/login" replace />;
   }
 
   // 如果正在加载关键用户信息，可以显示一个加载状态，防止部分组件因缺少数据崩溃
   if (!currentUser && token) {
+    console.log('BasicLayout - Loading user info...');
     return (
       <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f8fafc' }}>
         <Space direction="vertical" align="center">
           <RobotOutlined style={{ fontSize: 48, color: '#3b82f6' }} />
           <Text strong>正在初始化系统...</Text>
+          <Text type="secondary">Token: {token ? '已存在' : '无'}</Text>
+          <Text type="secondary">正在获取用户信息...</Text>
         </Space>
       </div>
     );
   }
+
+  console.log('BasicLayout - Rendering layout');
 
   return (
     <ConfigProvider

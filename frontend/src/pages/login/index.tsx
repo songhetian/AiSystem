@@ -44,9 +44,9 @@ export default function LoginPage() {
       navigate("/");
     },
     onError: (error: any) => {
-      message.error(
-        error.response?.data?.message || "登录失败，请检查账号密码",
-      );
+      // 显示后端返回的具体错误信息
+      const errorMessage = error.response?.data?.message || error.message || "登录失败，请检查账号密码";
+      message.error(errorMessage);
     },
   });
 
@@ -73,20 +73,12 @@ export default function LoginPage() {
           styles={{ body: { padding: "40px 48px" } }}
         >
           <div className="text-center mb-10">
-            <div className="flex justify-center mb-4">
-              <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
-                <ThunderboltOutlined className="text-white text-2xl" />
-              </div>
-            </div>
             <Title
               level={2}
               className="m-0 font-black text-slate-900 tracking-tight"
             >
-              雷犀 AI 客服系统
+              雷犀AI客服系统
             </Title>
-            <Text className="text-slate-500 mt-2 block font-medium">
-              LEIXI AI CUSTOMER SERVICE SYSTEM
-            </Text>
           </div>
 
           <Form
@@ -156,17 +148,14 @@ export default function LoginPage() {
           </Form>
 
           <div className="mt-8 text-center">
-            <Space className="text-slate-400 text-xs">
-              <SafetyCertificateOutlined />
-              <Text className="text-slate-400 text-xs">企业级安全加密保护</Text>
-            </Space>
+            <Text className="text-slate-400 text-xs">企业级安全加密保护</Text>
           </div>
         </Card>
 
         {/* 页脚版权 */}
         <div className="absolute bottom-8 w-full text-center">
-          <Text className="text-slate-500 font-bold text-xs uppercase tracking-widest opacity-60">
-            © 2026 LEIXI INTELLIGENT TECHNOLOGY ALL RIGHTS RESERVED
+          <Text className="text-slate-500 font-bold text-xs tracking-widest opacity-60">
+            © 2026 雷犀智能科技 版权所有
           </Text>
         </div>
       </div>

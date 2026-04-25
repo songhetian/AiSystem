@@ -3,133 +3,23 @@ import { resolve } from 'path';
 
 export default defineConfig({
   npmClient: 'npm',
-  esbuildMinifyIIFE: true,
-  extraPostCSSPlugins: [
-    require('tailwindcss'),
-    require('autoprefixer'),
-  ],
-
-  // 使用约定式路由，让Umi自动根据pages目录结构生成路由
-  // 这样更简单，不容易出错
-
-  // V2.0 性能优化配置
-  // 1. 构建优化
+  
+  // 禁用MFSU，提升Docker中的编译速度
   mfsu: false,
-
-  // 2. 压缩优化
-  jsMinifier: 'esbuild', // 使用esbuild压缩（更快）
-  cssMinifier: 'esbuild',
-
-  // 3. 代码分割策略
-  chainWebpack(config: any) {
-    // 优化代码分割
-    config.optimization.splitChunks({
-      chunks: 'all',
-      minSize: 20000,
-      maxSize: 244000,
-      cacheGroups: {
-        // 第三方库单独打包
-        vendors: {
-          name: 'vendors',
-          test: /[\\/]node_modules[\\/]/,
-          priority: 10,
-          reuseExistingChunk: true,
-        },
-        // Ant Design单独打包
-        antd: {
-          name: 'antd',
-          test: /[\\/]node_modules[\\/](antd|@ant-design)[\\/]/,
-          priority: 20,
-        },
-        // React相关单独打包
-        react: {
-          name: 'react',
-          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
-          priority: 20,
-        },
-        // 图表库单独打包
-        charts: {
-          name: 'charts',
-          test: /[\\/]node_modules[\\/](@ant-design\/plots|@antv)[\\/]/,
-          priority: 30,
-        },
-        // 工具库单独打包
-        utils: {
-          name: 'utils',
-          test: /[\\/]node_modules[\\/](lodash|dayjs|axios)[\\/]/,
-          priority: 25,
-        },
-        // 公共组件
-        common: {
-          name: 'common',
-          minChunks: 2,
-          priority: 5,
-          reuseExistingChunk: true,
-        },
-      },
-    });
-
-    // 生产环境优化
-    if (process.env.NODE_ENV === 'production') {
-      // 移除console
-    }
-  },
-
-  // 4. 预加载和预连接
-  headScripts: [
-    // 预连接到API服务器
-    { content: `
-      const link = document.createElement('link');
-      link.rel = 'preconnect';
-      link.href = window.location.origin;
-      document.head.appendChild(link);
-    `},
-    // 添加调试信息
-    { content: `
-      console.log('=== UMI DEBUG START ===');
-      console.log('Page loaded at:', new Date().toISOString());
-      console.log('Location:', window.location.href);
-      console.log('User Agent:', navigator.userAgent);
-
-      // 监听DOM变化
-      const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-          if (mutation.type === 'childList') {
-            console.log('DOM changed:', mutation.target);
-          }
-        });
-      });
-
-      // 开始观察
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true
-      });
-
-      // 检查React是否加载
-      setTimeout(() => {
-        console.log('React loaded:', typeof window.React !== 'undefined');
-        console.log('Root element:', document.getElementById('root'));
-        console.log('Root innerHTML:', document.getElementById('root')?.innerHTML);
-      }, 1000);
-
-      console.log('=== UMI DEBUG END ===');
-    `},
-  ],
-
-  // 5. 构建缓存
-  hash: true,
-
+  
+  // 启用Tailwind CSS（使用Umi内置支持）
+  tailwindcss: {},
+  
   routes: [
     { path: '/test', component: 'test' },
     { path: '/login', component: 'login/index' },
     { path: '/register', component: 'register/index' },
-    { path: '/maintenance', component: 'maintenance' },
+    { path: '/debug', component: 'debug' },
     {
       path: '/',
       component: '@/layouts/BasicLayout',
       routes: [
-        { path: '/', redirect: '/system/users' },
+        { path: '/', component: 'index' },
         { path: '/system/users', component: 'system/users/index' },
         { path: '/system/roles', component: 'system/roles/index' },
         { path: '/system/menus', component: 'system/menus/index' },

@@ -3,7 +3,17 @@ import { NotFoundException, ForbiddenException } from "@nestjs/common";
 import { PersonnelDepartmentsService } from "./personnel-departments.service";
 import { PrismaService } from "../../../prisma/prisma.service";
 import { ScopeService } from "../../../common/services/scope.service";
-import { createMockUser } from "../../../../test/helpers/test-utils";
+
+// 创建模拟用户
+const createMockUser = () => ({
+  sub: 'test-user-id',
+  username: 'testuser',
+  email: 'test@example.com',
+  roles: ['user'],
+  permissions: [],
+  platform_id: 'test-platform',
+  dept_id: 'test-dept',
+});
 
 describe("PersonnelDepartmentsService", () => {
   let service: PersonnelDepartmentsService;

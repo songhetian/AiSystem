@@ -1,17 +1,29 @@
 import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+console.log("[App] 应用开始初始化");
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5 * 60 * 1000,
+      gcTime: 10 * 60 * 1000,
       retry: 1,
+      retryDelay: 1000,
       refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchOnMount: false,
+    },
+    mutations: {
+      retry: 0,
     },
   },
 });
 
+console.log("[App] React Query 客户端创建完成");
+
 export function rootContainer(container: React.ReactNode) {
+  console.log("[App] 根容器初始化");
   return (
     <QueryClientProvider client={queryClient}>
       {container}

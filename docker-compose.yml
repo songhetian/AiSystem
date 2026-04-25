@@ -216,13 +216,23 @@ services:
     env_file:
       - .env
     environment:
-      - NODE_ENV=${NODE_ENV:-production}
-      - VITE_API_BASE_URL=${VITE_API_BASE_URL}
-      - PORT=${FRONTEND_PORT:-8000}
+      - NODE_ENV=development
+      # API基础URL - 运行时配置，可以随时修改
+      # 开发环境：直接访问后端服务
+      - VITE_API_BASE_URL=http://localhost:${PORT:-3000}/api/v1
+      - PORT=8000
     depends_on:
       - backend
     ports:
-      - "${FRONTEND_PORT:-8000}:${FRONTEND_PORT:-8000}"
+      - "8000:8000"
+    volumes:
+      # 挂载源代码，修改后自动生效
+      - ./frontend/src:/app/src
+      - ./frontend/.umirc.ts:/app/.umirc.ts
+      - ./frontend/tailwind.config.js:/app/tailwind.config.js
+      - ./frontend/tsconfig.json:/app/tsconfig.json
+      # 挂载运行时配置文件
+      - ./frontend/public/config.js:/app/public/config.js
     networks:
       - backend-network
 

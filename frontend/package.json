@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "max dev",
     "build": "max build",
-    "lint": "eslint \"src/**/*.{ts,tsx}\""
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "serve": "serve dist -l 8000"
   },
   "dependencies": {
     "@ant-design/plots": "^2.6.8",
@@ -21,6 +22,7 @@
     "react": "^18.3.1",
     "react-diff-viewer-continued": "^4.2.0",
     "react-dom": "^18.3.1",
+    "serve": "^14.2.1",
     "socket.io-client": "^4.8.3",
     "uuid": "^13.0.0",
     "zustand": "^5.0.3"

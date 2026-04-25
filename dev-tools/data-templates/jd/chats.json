@@ -11,22 +11,22 @@
       {
         "role": "customer",
         "content": "你好，我要退款！你们发货太慢了！",
-        "timestamp": "2026-04-17T13:01:38.846Z"
+        "timestamp": "2026-03-31T14:04:39.742Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不便。请问您的订单号是多少？",
-        "timestamp": "2026-04-17T13:02:38.846Z"
+        "timestamp": "2026-03-31T14:05:39.742Z"
       },
       {
         "role": "customer",
         "content": "都等了5天了，还没发货！我不要了！",
-        "timestamp": "2026-04-17T13:03:38.846Z"
+        "timestamp": "2026-03-31T14:06:39.742Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉让您久等了，我马上为您核实物流情况并处理退款。",
-        "timestamp": "2026-04-17T13:04:38.846Z"
+        "timestamp": "2026-03-31T14:07:39.742Z"
       }
     ]
   },
@@ -42,22 +42,22 @@
       {
         "role": "customer",
         "content": "收到的商品有划痕，这是怎么回事？",
-        "timestamp": "2026-04-23T07:31:02.107Z"
+        "timestamp": "2026-04-04T00:44:17.385Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不好的体验。能否拍照给我看一下？",
-        "timestamp": "2026-04-23T07:32:02.107Z"
+        "timestamp": "2026-04-04T00:45:17.385Z"
       },
       {
         "role": "customer",
         "content": "好的，我发给你。",
-        "timestamp": "2026-04-23T07:33:02.107Z"
+        "timestamp": "2026-04-04T00:46:17.385Z"
       },
       {
         "role": "agent",
         "content": "收到照片了，确实有瑕疵。我们立即为您安排换货或退款。",
-        "timestamp": "2026-04-23T07:34:02.107Z"
+        "timestamp": "2026-04-04T00:47:17.385Z"
       }
     ]
   },
@@ -73,22 +73,22 @@
       {
         "role": "customer",
         "content": "什么时候发货啊？",
-        "timestamp": "2026-04-23T02:54:16.438Z"
+        "timestamp": "2026-04-02T14:56:57.860Z"
       },
       {
         "role": "agent",
         "content": "您好，您的订单预计今天下午发货。",
-        "timestamp": "2026-04-23T02:55:16.438Z"
+        "timestamp": "2026-04-02T14:57:57.860Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-23T02:56:16.438Z"
+        "timestamp": "2026-04-02T14:58:57.860Z"
       },
       {
         "role": "agent",
         "content": "不客气，发货后会第一时间通知您。",
-        "timestamp": "2026-04-23T02:57:16.438Z"
+        "timestamp": "2026-04-02T14:59:57.860Z"
       }
     ]
   },
@@ -104,22 +104,22 @@
       {
         "role": "customer",
         "content": "我昨天买的，今天就降价了！能退差价吗？",
-        "timestamp": "2026-04-19T08:36:14.683Z"
+        "timestamp": "2026-03-26T06:24:19.954Z"
       },
       {
         "role": "agent",
         "content": "您好，我们有价格保护政策。请稍等，我帮您核实。",
-        "timestamp": "2026-04-19T08:37:14.683Z"
+        "timestamp": "2026-03-26T06:25:19.954Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-19T08:38:14.683Z"
+        "timestamp": "2026-03-26T06:26:19.954Z"
       },
       {
         "role": "agent",
         "content": "核实完毕，差价会在3个工作日内退回您的账户。",
-        "timestamp": "2026-04-19T08:39:14.683Z"
+        "timestamp": "2026-03-26T06:27:19.954Z"
       }
     ]
   },
@@ -135,22 +135,22 @@
       {
         "role": "customer",
         "content": "你们的商品描述和实物完全不符！",
-        "timestamp": "2026-04-13T14:53:23.686Z"
+        "timestamp": "2026-04-06T11:06:34.220Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉。能否详细说明一下哪里不符？",
-        "timestamp": "2026-04-13T14:54:23.686Z"
+        "timestamp": "2026-04-06T11:07:34.220Z"
       },
       {
         "role": "customer",
         "content": "说好的原装正品，结果是高仿！",
-        "timestamp": "2026-04-13T14:55:23.686Z"
+        "timestamp": "2026-04-06T11:08:34.220Z"
       },
       {
         "role": "agent",
         "content": "这个情况非常严重，我们立即为您退款并上报处理。",
-        "timestamp": "2026-04-13T14:56:23.686Z"
+        "timestamp": "2026-04-06T11:09:34.220Z"
       }
     ]
   },
@@ -166,22 +166,22 @@
       {
         "role": "customer",
         "content": "快递显示已签收，但我没收到！",
-        "timestamp": "2026-03-26T08:06:07.408Z"
+        "timestamp": "2026-04-08T15:31:03.484Z"
       },
       {
         "role": "agent",
         "content": "您好，这个情况我们非常重视。我立即联系快递公司核实。",
-        "timestamp": "2026-03-26T08:07:07.408Z"
+        "timestamp": "2026-04-08T15:32:03.484Z"
       },
       {
         "role": "customer",
         "content": "好的，尽快处理。",
-        "timestamp": "2026-03-26T08:08:07.408Z"
+        "timestamp": "2026-04-08T15:33:03.484Z"
       },
       {
         "role": "agent",
         "content": "已联系快递，如果确认丢失，我们会立即补发或退款。",
-        "timestamp": "2026-03-26T08:09:07.408Z"
+        "timestamp": "2026-04-08T15:34:03.484Z"
       }
     ]
   },
@@ -197,22 +197,22 @@
       {
         "role": "customer",
         "content": "这款手机支持5G吗？",
-        "timestamp": "2026-04-18T01:47:05.954Z"
+        "timestamp": "2026-04-09T06:05:06.381Z"
       },
       {
         "role": "agent",
         "content": "您好！支持5G全网通，SA/NSA双模。",
-        "timestamp": "2026-04-18T01:48:05.954Z"
+        "timestamp": "2026-04-09T06:06:06.381Z"
       },
       {
         "role": "customer",
         "content": "好的，那我下单了。",
-        "timestamp": "2026-04-18T01:49:05.954Z"
+        "timestamp": "2026-04-09T06:07:06.381Z"
       },
       {
         "role": "agent",
         "content": "感谢您的支持！有任何问题随时联系我。",
-        "timestamp": "2026-04-18T01:50:05.954Z"
+        "timestamp": "2026-04-09T06:08:06.381Z"
       }
     ]
   },
@@ -228,22 +228,22 @@
       {
         "role": "customer",
         "content": "这个功能怎么用？",
-        "timestamp": "2026-04-12T14:09:09.493Z"
+        "timestamp": "2026-04-09T17:50:36.227Z"
       },
       {
         "role": "agent",
         "content": "您好，我来教您。首先打开设置...",
-        "timestamp": "2026-04-12T14:10:09.493Z"
+        "timestamp": "2026-04-09T17:51:36.227Z"
       },
       {
         "role": "customer",
         "content": "明白了，谢谢！",
-        "timestamp": "2026-04-12T14:11:09.493Z"
+        "timestamp": "2026-04-09T17:52:36.227Z"
       },
       {
         "role": "agent",
         "content": "不客气，有问题随时咨询。",
-        "timestamp": "2026-04-12T14:12:09.493Z"
+        "timestamp": "2026-04-09T17:53:36.227Z"
       }
     ]
   },
@@ -259,22 +259,22 @@
       {
         "role": "customer",
         "content": "保修期是多久？",
-        "timestamp": "2026-04-02T22:50:43.129Z"
+        "timestamp": "2026-04-08T19:34:46.223Z"
       },
       {
         "role": "agent",
         "content": "您好，全国联保一年，主要部件三年。",
-        "timestamp": "2026-04-02T22:51:43.129Z"
+        "timestamp": "2026-04-08T19:35:46.223Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-02T22:52:43.129Z"
+        "timestamp": "2026-04-08T19:36:46.223Z"
       },
       {
         "role": "agent",
         "content": "不客气，保修卡请妥善保管。",
-        "timestamp": "2026-04-02T22:53:43.129Z"
+        "timestamp": "2026-04-08T19:37:46.223Z"
       }
     ]
   },
@@ -290,22 +290,22 @@
       {
         "role": "customer",
         "content": "能开发票吗？",
-        "timestamp": "2026-04-01T05:33:03.618Z"
+        "timestamp": "2026-03-26T05:59:42.418Z"
       },
       {
         "role": "agent",
         "content": "您好，可以开具电子发票或纸质发票。",
-        "timestamp": "2026-04-01T05:34:03.618Z"
+        "timestamp": "2026-03-26T06:00:42.418Z"
       },
       {
         "role": "customer",
         "content": "我要纸质发票。",
-        "timestamp": "2026-04-01T05:35:03.618Z"
+        "timestamp": "2026-03-26T06:01:42.418Z"
       },
       {
         "role": "agent",
         "content": "好的，请提供发票抬头和税号，我们随货寄出。",
-        "timestamp": "2026-04-01T05:36:03.618Z"
+        "timestamp": "2026-03-26T06:02:42.418Z"
       }
     ]
   },
@@ -321,22 +321,22 @@
       {
         "role": "customer",
         "content": "老客户有优惠吗？",
-        "timestamp": "2026-04-12T22:13:30.840Z"
+        "timestamp": "2026-04-18T10:09:06.930Z"
       },
       {
         "role": "agent",
         "content": "您好！感谢您的支持！有专属优惠券，我发给您。",
-        "timestamp": "2026-04-12T22:14:30.840Z"
+        "timestamp": "2026-04-18T10:10:06.930Z"
       },
       {
         "role": "customer",
         "content": "太好了，谢谢！",
-        "timestamp": "2026-04-12T22:15:30.840Z"
+        "timestamp": "2026-04-18T10:11:06.930Z"
       },
       {
         "role": "agent",
         "content": "不客气，欢迎常来！",
-        "timestamp": "2026-04-12T22:16:30.840Z"
+        "timestamp": "2026-04-18T10:12:06.930Z"
       }
     ]
   },
@@ -352,22 +352,22 @@
       {
         "role": "customer",
         "content": "你们的服务太差了！",
-        "timestamp": "2026-04-12T21:29:19.484Z"
+        "timestamp": "2026-04-15T02:22:17.415Z"
       },
       {
         "role": "agent",
         "content": "你瞎说什么呢？我们服务很好！",
-        "timestamp": "2026-04-12T21:30:19.484Z"
+        "timestamp": "2026-04-15T02:23:17.415Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？",
-        "timestamp": "2026-04-12T21:31:19.484Z"
+        "timestamp": "2026-04-15T02:24:17.415Z"
       },
       {
         "role": "agent",
         "content": "就这态度，不买拉倒！",
-        "timestamp": "2026-04-12T21:32:19.484Z"
+        "timestamp": "2026-04-15T02:25:17.415Z"
       }
     ]
   },
@@ -383,22 +383,22 @@
       {
         "role": "customer",
         "content": "能便宜点吗？",
-        "timestamp": "2026-04-03T19:01:12.450Z"
+        "timestamp": "2026-04-11T22:44:19.195Z"
       },
       {
         "role": "agent",
         "content": "加我微信，私下转账给你优惠。",
-        "timestamp": "2026-04-03T19:02:12.450Z"
+        "timestamp": "2026-04-11T22:45:19.195Z"
       },
       {
         "role": "customer",
         "content": "好的。",
-        "timestamp": "2026-04-03T19:03:12.450Z"
+        "timestamp": "2026-04-11T22:46:19.195Z"
       },
       {
         "role": "agent",
         "content": "微信号：xxxxx，转账后我直接发货。",
-        "timestamp": "2026-04-03T19:04:12.450Z"
+        "timestamp": "2026-04-11T22:47:19.195Z"
       }
     ]
   },
@@ -414,22 +414,22 @@
       {
         "role": "customer",
         "content": "质量怎么样？",
-        "timestamp": "2026-04-14T04:07:23.183Z"
+        "timestamp": "2026-03-30T01:24:04.876Z"
       },
       {
         "role": "agent",
         "content": "宇宙第一！终身质保！绝对不会坏！",
-        "timestamp": "2026-04-14T04:08:23.183Z"
+        "timestamp": "2026-03-30T01:25:04.876Z"
       },
       {
         "role": "customer",
         "content": "真的吗？",
-        "timestamp": "2026-04-14T04:09:23.183Z"
+        "timestamp": "2026-03-30T01:26:04.876Z"
       },
       {
         "role": "agent",
         "content": "100%保证，用一辈子都没问题！",
-        "timestamp": "2026-04-14T04:10:23.183Z"
+        "timestamp": "2026-03-30T01:27:04.876Z"
       }
     ]
   },
@@ -445,22 +445,22 @@
       {
         "role": "customer",
         "content": "你好，我要退款！你们发货太慢了！",
-        "timestamp": "2026-03-31T02:48:39.374Z"
+        "timestamp": "2026-04-01T03:10:27.654Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不便。请问您的订单号是多少？",
-        "timestamp": "2026-03-31T02:49:39.374Z"
+        "timestamp": "2026-04-01T03:11:27.654Z"
       },
       {
         "role": "customer",
         "content": "都等了5天了，还没发货！我不要了！",
-        "timestamp": "2026-03-31T02:50:39.374Z"
+        "timestamp": "2026-04-01T03:12:27.654Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉让您久等了，我马上为您核实物流情况并处理退款。",
-        "timestamp": "2026-03-31T02:51:39.374Z"
+        "timestamp": "2026-04-01T03:13:27.654Z"
       }
     ]
   },
@@ -476,22 +476,22 @@
       {
         "role": "customer",
         "content": "收到的商品有划痕，这是怎么回事？",
-        "timestamp": "2026-04-13T05:21:52.450Z"
+        "timestamp": "2026-03-30T01:32:31.344Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不好的体验。能否拍照给我看一下？",
-        "timestamp": "2026-04-13T05:22:52.450Z"
+        "timestamp": "2026-03-30T01:33:31.344Z"
       },
       {
         "role": "customer",
         "content": "好的，我发给你。",
-        "timestamp": "2026-04-13T05:23:52.450Z"
+        "timestamp": "2026-03-30T01:34:31.344Z"
       },
       {
         "role": "agent",
         "content": "收到照片了，确实有瑕疵。我们立即为您安排换货或退款。",
-        "timestamp": "2026-04-13T05:24:52.450Z"
+        "timestamp": "2026-03-30T01:35:31.344Z"
       }
     ]
   },
@@ -507,22 +507,22 @@
       {
         "role": "customer",
         "content": "什么时候发货啊？",
-        "timestamp": "2026-04-08T00:49:36.433Z"
+        "timestamp": "2026-04-16T01:10:07.204Z"
       },
       {
         "role": "agent",
         "content": "您好，您的订单预计今天下午发货。",
-        "timestamp": "2026-04-08T00:50:36.433Z"
+        "timestamp": "2026-04-16T01:11:07.204Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-08T00:51:36.433Z"
+        "timestamp": "2026-04-16T01:12:07.204Z"
       },
       {
         "role": "agent",
         "content": "不客气，发货后会第一时间通知您。",
-        "timestamp": "2026-04-08T00:52:36.433Z"
+        "timestamp": "2026-04-16T01:13:07.204Z"
       }
     ]
   },
@@ -538,22 +538,22 @@
       {
         "role": "customer",
         "content": "我昨天买的，今天就降价了！能退差价吗？",
-        "timestamp": "2026-04-10T12:02:43.324Z"
+        "timestamp": "2026-04-19T20:28:58.041Z"
       },
       {
         "role": "agent",
         "content": "您好，我们有价格保护政策。请稍等，我帮您核实。",
-        "timestamp": "2026-04-10T12:03:43.324Z"
+        "timestamp": "2026-04-19T20:29:58.041Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-10T12:04:43.324Z"
+        "timestamp": "2026-04-19T20:30:58.041Z"
       },
       {
         "role": "agent",
         "content": "核实完毕，差价会在3个工作日内退回您的账户。",
-        "timestamp": "2026-04-10T12:05:43.324Z"
+        "timestamp": "2026-04-19T20:31:58.041Z"
       }
     ]
   },
@@ -569,22 +569,22 @@
       {
         "role": "customer",
         "content": "你们的商品描述和实物完全不符！",
-        "timestamp": "2026-03-29T13:13:32.465Z"
+        "timestamp": "2026-04-05T05:29:17.616Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉。能否详细说明一下哪里不符？",
-        "timestamp": "2026-03-29T13:14:32.465Z"
+        "timestamp": "2026-04-05T05:30:17.616Z"
       },
       {
         "role": "customer",
         "content": "说好的原装正品，结果是高仿！",
-        "timestamp": "2026-03-29T13:15:32.465Z"
+        "timestamp": "2026-04-05T05:31:17.616Z"
       },
       {
         "role": "agent",
         "content": "这个情况非常严重，我们立即为您退款并上报处理。",
-        "timestamp": "2026-03-29T13:16:32.465Z"
+        "timestamp": "2026-04-05T05:32:17.616Z"
       }
     ]
   },
@@ -600,22 +600,22 @@
       {
         "role": "customer",
         "content": "快递显示已签收，但我没收到！",
-        "timestamp": "2026-03-28T03:47:55.461Z"
+        "timestamp": "2026-04-06T16:17:57.569Z"
       },
       {
         "role": "agent",
         "content": "您好，这个情况我们非常重视。我立即联系快递公司核实。",
-        "timestamp": "2026-03-28T03:48:55.461Z"
+        "timestamp": "2026-04-06T16:18:57.569Z"
       },
       {
         "role": "customer",
         "content": "好的，尽快处理。",
-        "timestamp": "2026-03-28T03:49:55.461Z"
+        "timestamp": "2026-04-06T16:19:57.569Z"
       },
       {
         "role": "agent",
         "content": "已联系快递，如果确认丢失，我们会立即补发或退款。",
-        "timestamp": "2026-03-28T03:50:55.461Z"
+        "timestamp": "2026-04-06T16:20:57.569Z"
       }
     ]
   },
@@ -631,22 +631,22 @@
       {
         "role": "customer",
         "content": "这款手机支持5G吗？",
-        "timestamp": "2026-04-22T01:09:57.622Z"
+        "timestamp": "2026-03-28T06:59:16.011Z"
       },
       {
         "role": "agent",
         "content": "您好！支持5G全网通，SA/NSA双模。",
-        "timestamp": "2026-04-22T01:10:57.622Z"
+        "timestamp": "2026-03-28T07:00:16.011Z"
       },
       {
         "role": "customer",
         "content": "好的，那我下单了。",
-        "timestamp": "2026-04-22T01:11:57.622Z"
+        "timestamp": "2026-03-28T07:01:16.011Z"
       },
       {
         "role": "agent",
         "content": "感谢您的支持！有任何问题随时联系我。",
-        "timestamp": "2026-04-22T01:12:57.622Z"
+        "timestamp": "2026-03-28T07:02:16.011Z"
       }
     ]
   },
@@ -662,22 +662,22 @@
       {
         "role": "customer",
         "content": "这个功能怎么用？",
-        "timestamp": "2026-04-08T05:48:46.498Z"
+        "timestamp": "2026-04-02T12:59:22.697Z"
       },
       {
         "role": "agent",
         "content": "您好，我来教您。首先打开设置...",
-        "timestamp": "2026-04-08T05:49:46.498Z"
+        "timestamp": "2026-04-02T13:00:22.697Z"
       },
       {
         "role": "customer",
         "content": "明白了，谢谢！",
-        "timestamp": "2026-04-08T05:50:46.498Z"
+        "timestamp": "2026-04-02T13:01:22.697Z"
       },
       {
         "role": "agent",
         "content": "不客气，有问题随时咨询。",
-        "timestamp": "2026-04-08T05:51:46.498Z"
+        "timestamp": "2026-04-02T13:02:22.697Z"
       }
     ]
   },
@@ -693,22 +693,22 @@
       {
         "role": "customer",
         "content": "保修期是多久？",
-        "timestamp": "2026-04-19T10:52:28.240Z"
+        "timestamp": "2026-04-19T14:43:25.784Z"
       },
       {
         "role": "agent",
         "content": "您好，全国联保一年，主要部件三年。",
-        "timestamp": "2026-04-19T10:53:28.240Z"
+        "timestamp": "2026-04-19T14:44:25.784Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-19T10:54:28.240Z"
+        "timestamp": "2026-04-19T14:45:25.784Z"
       },
       {
         "role": "agent",
         "content": "不客气，保修卡请妥善保管。",
-        "timestamp": "2026-04-19T10:55:28.240Z"
+        "timestamp": "2026-04-19T14:46:25.784Z"
       }
     ]
   },
@@ -724,22 +724,22 @@
       {
         "role": "customer",
         "content": "能开发票吗？",
-        "timestamp": "2026-04-20T07:18:13.597Z"
+        "timestamp": "2026-04-24T02:49:59.037Z"
       },
       {
         "role": "agent",
         "content": "您好，可以开具电子发票或纸质发票。",
-        "timestamp": "2026-04-20T07:19:13.597Z"
+        "timestamp": "2026-04-24T02:50:59.037Z"
       },
       {
         "role": "customer",
         "content": "我要纸质发票。",
-        "timestamp": "2026-04-20T07:20:13.597Z"
+        "timestamp": "2026-04-24T02:51:59.037Z"
       },
       {
         "role": "agent",
         "content": "好的，请提供发票抬头和税号，我们随货寄出。",
-        "timestamp": "2026-04-20T07:21:13.597Z"
+        "timestamp": "2026-04-24T02:52:59.037Z"
       }
     ]
   },
@@ -755,22 +755,22 @@
       {
         "role": "customer",
         "content": "老客户有优惠吗？",
-        "timestamp": "2026-04-09T04:17:04.827Z"
+        "timestamp": "2026-04-22T03:33:10.209Z"
       },
       {
         "role": "agent",
         "content": "您好！感谢您的支持！有专属优惠券，我发给您。",
-        "timestamp": "2026-04-09T04:18:04.827Z"
+        "timestamp": "2026-04-22T03:34:10.209Z"
       },
       {
         "role": "customer",
         "content": "太好了，谢谢！",
-        "timestamp": "2026-04-09T04:19:04.827Z"
+        "timestamp": "2026-04-22T03:35:10.209Z"
       },
       {
         "role": "agent",
         "content": "不客气，欢迎常来！",
-        "timestamp": "2026-04-09T04:20:04.827Z"
+        "timestamp": "2026-04-22T03:36:10.209Z"
       }
     ]
   },
@@ -786,22 +786,22 @@
       {
         "role": "customer",
         "content": "你们的服务太差了！",
-        "timestamp": "2026-03-27T21:08:09.766Z"
+        "timestamp": "2026-04-21T23:09:40.147Z"
       },
       {
         "role": "agent",
         "content": "你瞎说什么呢？我们服务很好！",
-        "timestamp": "2026-03-27T21:09:09.766Z"
+        "timestamp": "2026-04-21T23:10:40.147Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？",
-        "timestamp": "2026-03-27T21:10:09.766Z"
+        "timestamp": "2026-04-21T23:11:40.147Z"
       },
       {
         "role": "agent",
         "content": "就这态度，不买拉倒！",
-        "timestamp": "2026-03-27T21:11:09.766Z"
+        "timestamp": "2026-04-21T23:12:40.147Z"
       }
     ]
   },
@@ -817,22 +817,22 @@
       {
         "role": "customer",
         "content": "能便宜点吗？",
-        "timestamp": "2026-03-27T08:03:39.008Z"
+        "timestamp": "2026-03-26T12:42:50.437Z"
       },
       {
         "role": "agent",
         "content": "加我微信，私下转账给你优惠。",
-        "timestamp": "2026-03-27T08:04:39.008Z"
+        "timestamp": "2026-03-26T12:43:50.437Z"
       },
       {
         "role": "customer",
         "content": "好的。",
-        "timestamp": "2026-03-27T08:05:39.008Z"
+        "timestamp": "2026-03-26T12:44:50.437Z"
       },
       {
         "role": "agent",
         "content": "微信号：xxxxx，转账后我直接发货。",
-        "timestamp": "2026-03-27T08:06:39.008Z"
+        "timestamp": "2026-03-26T12:45:50.437Z"
       }
     ]
   },
@@ -848,22 +848,22 @@
       {
         "role": "customer",
         "content": "质量怎么样？",
-        "timestamp": "2026-03-25T17:46:24.086Z"
+        "timestamp": "2026-04-07T05:54:52.308Z"
       },
       {
         "role": "agent",
         "content": "宇宙第一！终身质保！绝对不会坏！",
-        "timestamp": "2026-03-25T17:47:24.086Z"
+        "timestamp": "2026-04-07T05:55:52.308Z"
       },
       {
         "role": "customer",
         "content": "真的吗？",
-        "timestamp": "2026-03-25T17:48:24.086Z"
+        "timestamp": "2026-04-07T05:56:52.308Z"
       },
       {
         "role": "agent",
         "content": "100%保证，用一辈子都没问题！",
-        "timestamp": "2026-03-25T17:49:24.086Z"
+        "timestamp": "2026-04-07T05:57:52.308Z"
       }
     ]
   },
@@ -879,22 +879,22 @@
       {
         "role": "customer",
         "content": "你好，我要退款！你们发货太慢了！",
-        "timestamp": "2026-03-30T05:08:50.319Z"
+        "timestamp": "2026-04-04T15:09:26.103Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不便。请问您的订单号是多少？",
-        "timestamp": "2026-03-30T05:09:50.319Z"
+        "timestamp": "2026-04-04T15:10:26.103Z"
       },
       {
         "role": "customer",
         "content": "都等了5天了，还没发货！我不要了！",
-        "timestamp": "2026-03-30T05:10:50.319Z"
+        "timestamp": "2026-04-04T15:11:26.103Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉让您久等了，我马上为您核实物流情况并处理退款。",
-        "timestamp": "2026-03-30T05:11:50.319Z"
+        "timestamp": "2026-04-04T15:12:26.103Z"
       }
     ]
   },
@@ -910,22 +910,22 @@
       {
         "role": "customer",
         "content": "收到的商品有划痕，这是怎么回事？",
-        "timestamp": "2026-03-25T16:36:49.057Z"
+        "timestamp": "2026-03-29T21:55:08.205Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不好的体验。能否拍照给我看一下？",
-        "timestamp": "2026-03-25T16:37:49.057Z"
+        "timestamp": "2026-03-29T21:56:08.205Z"
       },
       {
         "role": "customer",
         "content": "好的，我发给你。",
-        "timestamp": "2026-03-25T16:38:49.057Z"
+        "timestamp": "2026-03-29T21:57:08.205Z"
       },
       {
         "role": "agent",
         "content": "收到照片了，确实有瑕疵。我们立即为您安排换货或退款。",
-        "timestamp": "2026-03-25T16:39:49.057Z"
+        "timestamp": "2026-03-29T21:58:08.205Z"
       }
     ]
   },
@@ -941,22 +941,22 @@
       {
         "role": "customer",
         "content": "什么时候发货啊？",
-        "timestamp": "2026-04-13T06:12:03.043Z"
+        "timestamp": "2026-03-30T06:43:04.127Z"
       },
       {
         "role": "agent",
         "content": "您好，您的订单预计今天下午发货。",
-        "timestamp": "2026-04-13T06:13:03.043Z"
+        "timestamp": "2026-03-30T06:44:04.127Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-13T06:14:03.043Z"
+        "timestamp": "2026-03-30T06:45:04.127Z"
       },
       {
         "role": "agent",
         "content": "不客气，发货后会第一时间通知您。",
-        "timestamp": "2026-04-13T06:15:03.043Z"
+        "timestamp": "2026-03-30T06:46:04.127Z"
       }
     ]
   },
@@ -972,22 +972,22 @@
       {
         "role": "customer",
         "content": "我昨天买的，今天就降价了！能退差价吗？",
-        "timestamp": "2026-04-03T17:59:37.118Z"
+        "timestamp": "2026-04-14T16:16:58.120Z"
       },
       {
         "role": "agent",
         "content": "您好，我们有价格保护政策。请稍等，我帮您核实。",
-        "timestamp": "2026-04-03T18:00:37.118Z"
+        "timestamp": "2026-04-14T16:17:58.120Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-03T18:01:37.118Z"
+        "timestamp": "2026-04-14T16:18:58.120Z"
       },
       {
         "role": "agent",
         "content": "核实完毕，差价会在3个工作日内退回您的账户。",
-        "timestamp": "2026-04-03T18:02:37.118Z"
+        "timestamp": "2026-04-14T16:19:58.120Z"
       }
     ]
   },
@@ -1003,22 +1003,22 @@
       {
         "role": "customer",
         "content": "你们的商品描述和实物完全不符！",
-        "timestamp": "2026-04-17T14:27:20.387Z"
+        "timestamp": "2026-04-03T11:45:56.907Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉。能否详细说明一下哪里不符？",
-        "timestamp": "2026-04-17T14:28:20.387Z"
+        "timestamp": "2026-04-03T11:46:56.907Z"
       },
       {
         "role": "customer",
         "content": "说好的原装正品，结果是高仿！",
-        "timestamp": "2026-04-17T14:29:20.387Z"
+        "timestamp": "2026-04-03T11:47:56.907Z"
       },
       {
         "role": "agent",
         "content": "这个情况非常严重，我们立即为您退款并上报处理。",
-        "timestamp": "2026-04-17T14:30:20.387Z"
+        "timestamp": "2026-04-03T11:48:56.907Z"
       }
     ]
   },
@@ -1034,22 +1034,22 @@
       {
         "role": "customer",
         "content": "快递显示已签收，但我没收到！",
-        "timestamp": "2026-04-05T11:25:35.425Z"
+        "timestamp": "2026-03-30T02:39:35.203Z"
       },
       {
         "role": "agent",
         "content": "您好，这个情况我们非常重视。我立即联系快递公司核实。",
-        "timestamp": "2026-04-05T11:26:35.425Z"
+        "timestamp": "2026-03-30T02:40:35.203Z"
       },
       {
         "role": "customer",
         "content": "好的，尽快处理。",
-        "timestamp": "2026-04-05T11:27:35.425Z"
+        "timestamp": "2026-03-30T02:41:35.203Z"
       },
       {
         "role": "agent",
         "content": "已联系快递，如果确认丢失，我们会立即补发或退款。",
-        "timestamp": "2026-04-05T11:28:35.425Z"
+        "timestamp": "2026-03-30T02:42:35.203Z"
       }
     ]
   },
@@ -1065,22 +1065,22 @@
       {
         "role": "customer",
         "content": "这款手机支持5G吗？",
-        "timestamp": "2026-04-13T04:05:10.037Z"
+        "timestamp": "2026-04-12T08:23:28.878Z"
       },
       {
         "role": "agent",
         "content": "您好！支持5G全网通，SA/NSA双模。",
-        "timestamp": "2026-04-13T04:06:10.037Z"
+        "timestamp": "2026-04-12T08:24:28.878Z"
       },
       {
         "role": "customer",
         "content": "好的，那我下单了。",
-        "timestamp": "2026-04-13T04:07:10.037Z"
+        "timestamp": "2026-04-12T08:25:28.878Z"
       },
       {
         "role": "agent",
         "content": "感谢您的支持！有任何问题随时联系我。",
-        "timestamp": "2026-04-13T04:08:10.037Z"
+        "timestamp": "2026-04-12T08:26:28.878Z"
       }
     ]
   },
@@ -1096,22 +1096,22 @@
       {
         "role": "customer",
         "content": "这个功能怎么用？",
-        "timestamp": "2026-04-22T23:05:21.892Z"
+        "timestamp": "2026-04-23T05:34:01.036Z"
       },
       {
         "role": "agent",
         "content": "您好，我来教您。首先打开设置...",
-        "timestamp": "2026-04-22T23:06:21.892Z"
+        "timestamp": "2026-04-23T05:35:01.036Z"
       },
       {
         "role": "customer",
         "content": "明白了，谢谢！",
-        "timestamp": "2026-04-22T23:07:21.892Z"
+        "timestamp": "2026-04-23T05:36:01.036Z"
       },
       {
         "role": "agent",
         "content": "不客气，有问题随时咨询。",
-        "timestamp": "2026-04-22T23:08:21.892Z"
+        "timestamp": "2026-04-23T05:37:01.036Z"
       }
     ]
   },
@@ -1127,22 +1127,22 @@
       {
         "role": "customer",
         "content": "保修期是多久？",
-        "timestamp": "2026-04-04T06:03:21.732Z"
+        "timestamp": "2026-04-01T19:56:10.666Z"
       },
       {
         "role": "agent",
         "content": "您好，全国联保一年，主要部件三年。",
-        "timestamp": "2026-04-04T06:04:21.732Z"
+        "timestamp": "2026-04-01T19:57:10.666Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-04T06:05:21.732Z"
+        "timestamp": "2026-04-01T19:58:10.666Z"
       },
       {
         "role": "agent",
         "content": "不客气，保修卡请妥善保管。",
-        "timestamp": "2026-04-04T06:06:21.732Z"
+        "timestamp": "2026-04-01T19:59:10.666Z"
       }
     ]
   },
@@ -1158,22 +1158,22 @@
       {
         "role": "customer",
         "content": "能开发票吗？",
-        "timestamp": "2026-04-18T14:49:20.998Z"
+        "timestamp": "2026-03-28T07:00:45.835Z"
       },
       {
         "role": "agent",
         "content": "您好，可以开具电子发票或纸质发票。",
-        "timestamp": "2026-04-18T14:50:20.998Z"
+        "timestamp": "2026-03-28T07:01:45.835Z"
       },
       {
         "role": "customer",
         "content": "我要纸质发票。",
-        "timestamp": "2026-04-18T14:51:20.998Z"
+        "timestamp": "2026-03-28T07:02:45.835Z"
       },
       {
         "role": "agent",
         "content": "好的，请提供发票抬头和税号，我们随货寄出。",
-        "timestamp": "2026-04-18T14:52:20.998Z"
+        "timestamp": "2026-03-28T07:03:45.835Z"
       }
     ]
   },
@@ -1189,22 +1189,22 @@
       {
         "role": "customer",
         "content": "老客户有优惠吗？",
-        "timestamp": "2026-04-07T08:34:24.470Z"
+        "timestamp": "2026-04-07T09:33:14.965Z"
       },
       {
         "role": "agent",
         "content": "您好！感谢您的支持！有专属优惠券，我发给您。",
-        "timestamp": "2026-04-07T08:35:24.470Z"
+        "timestamp": "2026-04-07T09:34:14.965Z"
       },
       {
         "role": "customer",
         "content": "太好了，谢谢！",
-        "timestamp": "2026-04-07T08:36:24.470Z"
+        "timestamp": "2026-04-07T09:35:14.965Z"
       },
       {
         "role": "agent",
         "content": "不客气，欢迎常来！",
-        "timestamp": "2026-04-07T08:37:24.470Z"
+        "timestamp": "2026-04-07T09:36:14.965Z"
       }
     ]
   },
@@ -1220,22 +1220,22 @@
       {
         "role": "customer",
         "content": "你们的服务太差了！",
-        "timestamp": "2026-04-19T08:23:51.752Z"
+        "timestamp": "2026-04-12T11:16:59.373Z"
       },
       {
         "role": "agent",
         "content": "你瞎说什么呢？我们服务很好！",
-        "timestamp": "2026-04-19T08:24:51.752Z"
+        "timestamp": "2026-04-12T11:17:59.373Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？",
-        "timestamp": "2026-04-19T08:25:51.752Z"
+        "timestamp": "2026-04-12T11:18:59.373Z"
       },
       {
         "role": "agent",
         "content": "就这态度，不买拉倒！",
-        "timestamp": "2026-04-19T08:26:51.752Z"
+        "timestamp": "2026-04-12T11:19:59.373Z"
       }
     ]
   },
@@ -1251,22 +1251,22 @@
       {
         "role": "customer",
         "content": "能便宜点吗？",
-        "timestamp": "2026-03-28T00:08:37.710Z"
+        "timestamp": "2026-03-26T21:15:23.010Z"
       },
       {
         "role": "agent",
         "content": "加我微信，私下转账给你优惠。",
-        "timestamp": "2026-03-28T00:09:37.710Z"
+        "timestamp": "2026-03-26T21:16:23.010Z"
       },
       {
         "role": "customer",
         "content": "好的。",
-        "timestamp": "2026-03-28T00:10:37.710Z"
+        "timestamp": "2026-03-26T21:17:23.010Z"
       },
       {
         "role": "agent",
         "content": "微信号：xxxxx，转账后我直接发货。",
-        "timestamp": "2026-03-28T00:11:37.710Z"
+        "timestamp": "2026-03-26T21:18:23.010Z"
       }
     ]
   },
@@ -1282,22 +1282,22 @@
       {
         "role": "customer",
         "content": "质量怎么样？",
-        "timestamp": "2026-03-27T17:01:16.182Z"
+        "timestamp": "2026-03-27T20:52:23.479Z"
       },
       {
         "role": "agent",
         "content": "宇宙第一！终身质保！绝对不会坏！",
-        "timestamp": "2026-03-27T17:02:16.182Z"
+        "timestamp": "2026-03-27T20:53:23.479Z"
       },
       {
         "role": "customer",
         "content": "真的吗？",
-        "timestamp": "2026-03-27T17:03:16.182Z"
+        "timestamp": "2026-03-27T20:54:23.479Z"
       },
       {
         "role": "agent",
         "content": "100%保证，用一辈子都没问题！",
-        "timestamp": "2026-03-27T17:04:16.182Z"
+        "timestamp": "2026-03-27T20:55:23.479Z"
       }
     ]
   },
@@ -1313,22 +1313,22 @@
       {
         "role": "customer",
         "content": "你好，我要退款！你们发货太慢了！",
-        "timestamp": "2026-04-15T01:50:16.938Z"
+        "timestamp": "2026-04-20T05:30:29.196Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不便。请问您的订单号是多少？",
-        "timestamp": "2026-04-15T01:51:16.938Z"
+        "timestamp": "2026-04-20T05:31:29.196Z"
       },
       {
         "role": "customer",
         "content": "都等了5天了，还没发货！我不要了！",
-        "timestamp": "2026-04-15T01:52:16.938Z"
+        "timestamp": "2026-04-20T05:32:29.196Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉让您久等了，我马上为您核实物流情况并处理退款。",
-        "timestamp": "2026-04-15T01:53:16.938Z"
+        "timestamp": "2026-04-20T05:33:29.196Z"
       }
     ]
   },
@@ -1344,22 +1344,22 @@
       {
         "role": "customer",
         "content": "收到的商品有划痕，这是怎么回事？",
-        "timestamp": "2026-04-22T02:15:01.551Z"
+        "timestamp": "2026-04-17T10:24:13.497Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不好的体验。能否拍照给我看一下？",
-        "timestamp": "2026-04-22T02:16:01.551Z"
+        "timestamp": "2026-04-17T10:25:13.497Z"
       },
       {
         "role": "customer",
         "content": "好的，我发给你。",
-        "timestamp": "2026-04-22T02:17:01.551Z"
+        "timestamp": "2026-04-17T10:26:13.497Z"
       },
       {
         "role": "agent",
         "content": "收到照片了，确实有瑕疵。我们立即为您安排换货或退款。",
-        "timestamp": "2026-04-22T02:18:01.551Z"
+        "timestamp": "2026-04-17T10:27:13.497Z"
       }
     ]
   },
@@ -1375,22 +1375,22 @@
       {
         "role": "customer",
         "content": "什么时候发货啊？",
-        "timestamp": "2026-04-04T07:24:49.353Z"
+        "timestamp": "2026-04-01T13:02:34.410Z"
       },
       {
         "role": "agent",
         "content": "您好，您的订单预计今天下午发货。",
-        "timestamp": "2026-04-04T07:25:49.353Z"
+        "timestamp": "2026-04-01T13:03:34.410Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-04T07:26:49.353Z"
+        "timestamp": "2026-04-01T13:04:34.410Z"
       },
       {
         "role": "agent",
         "content": "不客气，发货后会第一时间通知您。",
-        "timestamp": "2026-04-04T07:27:49.353Z"
+        "timestamp": "2026-04-01T13:05:34.410Z"
       }
     ]
   },
@@ -1406,22 +1406,22 @@
       {
         "role": "customer",
         "content": "我昨天买的，今天就降价了！能退差价吗？",
-        "timestamp": "2026-04-11T23:09:45.795Z"
+        "timestamp": "2026-04-11T01:31:14.900Z"
       },
       {
         "role": "agent",
         "content": "您好，我们有价格保护政策。请稍等，我帮您核实。",
-        "timestamp": "2026-04-11T23:10:45.795Z"
+        "timestamp": "2026-04-11T01:32:14.900Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-11T23:11:45.795Z"
+        "timestamp": "2026-04-11T01:33:14.900Z"
       },
       {
         "role": "agent",
         "content": "核实完毕，差价会在3个工作日内退回您的账户。",
-        "timestamp": "2026-04-11T23:12:45.795Z"
+        "timestamp": "2026-04-11T01:34:14.900Z"
       }
     ]
   },
@@ -1437,22 +1437,22 @@
       {
         "role": "customer",
         "content": "你们的商品描述和实物完全不符！",
-        "timestamp": "2026-03-27T13:42:56.644Z"
+        "timestamp": "2026-04-14T12:44:02.434Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉。能否详细说明一下哪里不符？",
-        "timestamp": "2026-03-27T13:43:56.644Z"
+        "timestamp": "2026-04-14T12:45:02.434Z"
       },
       {
         "role": "customer",
         "content": "说好的原装正品，结果是高仿！",
-        "timestamp": "2026-03-27T13:44:56.644Z"
+        "timestamp": "2026-04-14T12:46:02.434Z"
       },
       {
         "role": "agent",
         "content": "这个情况非常严重，我们立即为您退款并上报处理。",
-        "timestamp": "2026-03-27T13:45:56.644Z"
+        "timestamp": "2026-04-14T12:47:02.434Z"
       }
     ]
   },
@@ -1468,22 +1468,22 @@
       {
         "role": "customer",
         "content": "快递显示已签收，但我没收到！",
-        "timestamp": "2026-04-12T04:16:21.520Z"
+        "timestamp": "2026-04-10T00:08:56.793Z"
       },
       {
         "role": "agent",
         "content": "您好，这个情况我们非常重视。我立即联系快递公司核实。",
-        "timestamp": "2026-04-12T04:17:21.520Z"
+        "timestamp": "2026-04-10T00:09:56.793Z"
       },
       {
         "role": "customer",
         "content": "好的，尽快处理。",
-        "timestamp": "2026-04-12T04:18:21.520Z"
+        "timestamp": "2026-04-10T00:10:56.793Z"
       },
       {
         "role": "agent",
         "content": "已联系快递，如果确认丢失，我们会立即补发或退款。",
-        "timestamp": "2026-04-12T04:19:21.520Z"
+        "timestamp": "2026-04-10T00:11:56.793Z"
       }
     ]
   },
@@ -1499,22 +1499,22 @@
       {
         "role": "customer",
         "content": "这款手机支持5G吗？",
-        "timestamp": "2026-04-01T22:43:49.494Z"
+        "timestamp": "2026-04-19T09:29:09.201Z"
       },
       {
         "role": "agent",
         "content": "您好！支持5G全网通，SA/NSA双模。",
-        "timestamp": "2026-04-01T22:44:49.494Z"
+        "timestamp": "2026-04-19T09:30:09.201Z"
       },
       {
         "role": "customer",
         "content": "好的，那我下单了。",
-        "timestamp": "2026-04-01T22:45:49.494Z"
+        "timestamp": "2026-04-19T09:31:09.201Z"
       },
       {
         "role": "agent",
         "content": "感谢您的支持！有任何问题随时联系我。",
-        "timestamp": "2026-04-01T22:46:49.494Z"
+        "timestamp": "2026-04-19T09:32:09.201Z"
       }
     ]
   },
@@ -1530,22 +1530,22 @@
       {
         "role": "customer",
         "content": "这个功能怎么用？",
-        "timestamp": "2026-04-14T14:36:17.117Z"
+        "timestamp": "2026-04-10T02:10:41.906Z"
       },
       {
         "role": "agent",
         "content": "您好，我来教您。首先打开设置...",
-        "timestamp": "2026-04-14T14:37:17.117Z"
+        "timestamp": "2026-04-10T02:11:41.906Z"
       },
       {
         "role": "customer",
         "content": "明白了，谢谢！",
-        "timestamp": "2026-04-14T14:38:17.117Z"
+        "timestamp": "2026-04-10T02:12:41.906Z"
       },
       {
         "role": "agent",
         "content": "不客气，有问题随时咨询。",
-        "timestamp": "2026-04-14T14:39:17.117Z"
+        "timestamp": "2026-04-10T02:13:41.906Z"
       }
     ]
   },
@@ -1561,22 +1561,22 @@
       {
         "role": "customer",
         "content": "保修期是多久？",
-        "timestamp": "2026-03-26T07:47:22.812Z"
+        "timestamp": "2026-03-27T18:30:04.418Z"
       },
       {
         "role": "agent",
         "content": "您好，全国联保一年，主要部件三年。",
-        "timestamp": "2026-03-26T07:48:22.812Z"
+        "timestamp": "2026-03-27T18:31:04.418Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-03-26T07:49:22.812Z"
+        "timestamp": "2026-03-27T18:32:04.418Z"
       },
       {
         "role": "agent",
         "content": "不客气，保修卡请妥善保管。",
-        "timestamp": "2026-03-26T07:50:22.812Z"
+        "timestamp": "2026-03-27T18:33:04.418Z"
       }
     ]
   },
@@ -1592,22 +1592,22 @@
       {
         "role": "customer",
         "content": "能开发票吗？",
-        "timestamp": "2026-04-17T13:02:47.744Z"
+        "timestamp": "2026-04-05T11:26:27.846Z"
       },
       {
         "role": "agent",
         "content": "您好，可以开具电子发票或纸质发票。",
-        "timestamp": "2026-04-17T13:03:47.744Z"
+        "timestamp": "2026-04-05T11:27:27.846Z"
       },
       {
         "role": "customer",
         "content": "我要纸质发票。",
-        "timestamp": "2026-04-17T13:04:47.744Z"
+        "timestamp": "2026-04-05T11:28:27.846Z"
       },
       {
         "role": "agent",
         "content": "好的，请提供发票抬头和税号，我们随货寄出。",
-        "timestamp": "2026-04-17T13:05:47.744Z"
+        "timestamp": "2026-04-05T11:29:27.846Z"
       }
     ]
   },
@@ -1623,22 +1623,22 @@
       {
         "role": "customer",
         "content": "老客户有优惠吗？",
-        "timestamp": "2026-04-12T00:10:01.342Z"
+        "timestamp": "2026-04-14T22:55:26.678Z"
       },
       {
         "role": "agent",
         "content": "您好！感谢您的支持！有专属优惠券，我发给您。",
-        "timestamp": "2026-04-12T00:11:01.342Z"
+        "timestamp": "2026-04-14T22:56:26.678Z"
       },
       {
         "role": "customer",
         "content": "太好了，谢谢！",
-        "timestamp": "2026-04-12T00:12:01.342Z"
+        "timestamp": "2026-04-14T22:57:26.678Z"
       },
       {
         "role": "agent",
         "content": "不客气，欢迎常来！",
-        "timestamp": "2026-04-12T00:13:01.342Z"
+        "timestamp": "2026-04-14T22:58:26.678Z"
       }
     ]
   },
@@ -1654,22 +1654,22 @@
       {
         "role": "customer",
         "content": "你们的服务太差了！",
-        "timestamp": "2026-03-30T17:13:30.300Z"
+        "timestamp": "2026-03-29T16:58:05.893Z"
       },
       {
         "role": "agent",
         "content": "你瞎说什么呢？我们服务很好！",
-        "timestamp": "2026-03-30T17:14:30.300Z"
+        "timestamp": "2026-03-29T16:59:05.893Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？",
-        "timestamp": "2026-03-30T17:15:30.300Z"
+        "timestamp": "2026-03-29T17:00:05.893Z"
       },
       {
         "role": "agent",
         "content": "就这态度，不买拉倒！",
-        "timestamp": "2026-03-30T17:16:30.300Z"
+        "timestamp": "2026-03-29T17:01:05.893Z"
       }
     ]
   },
@@ -1685,22 +1685,22 @@
       {
         "role": "customer",
         "content": "能便宜点吗？",
-        "timestamp": "2026-04-01T13:16:23.606Z"
+        "timestamp": "2026-04-02T04:02:26.532Z"
       },
       {
         "role": "agent",
         "content": "加我微信，私下转账给你优惠。",
-        "timestamp": "2026-04-01T13:17:23.606Z"
+        "timestamp": "2026-04-02T04:03:26.532Z"
       },
       {
         "role": "customer",
         "content": "好的。",
-        "timestamp": "2026-04-01T13:18:23.606Z"
+        "timestamp": "2026-04-02T04:04:26.532Z"
       },
       {
         "role": "agent",
         "content": "微信号：xxxxx，转账后我直接发货。",
-        "timestamp": "2026-04-01T13:19:23.606Z"
+        "timestamp": "2026-04-02T04:05:26.532Z"
       }
     ]
   },
@@ -1716,22 +1716,22 @@
       {
         "role": "customer",
         "content": "质量怎么样？",
-        "timestamp": "2026-03-29T18:39:03.554Z"
+        "timestamp": "2026-04-21T21:14:18.079Z"
       },
       {
         "role": "agent",
         "content": "宇宙第一！终身质保！绝对不会坏！",
-        "timestamp": "2026-03-29T18:40:03.554Z"
+        "timestamp": "2026-04-21T21:15:18.079Z"
       },
       {
         "role": "customer",
         "content": "真的吗？",
-        "timestamp": "2026-03-29T18:41:03.554Z"
+        "timestamp": "2026-04-21T21:16:18.079Z"
       },
       {
         "role": "agent",
         "content": "100%保证，用一辈子都没问题！",
-        "timestamp": "2026-03-29T18:42:03.554Z"
+        "timestamp": "2026-04-21T21:17:18.079Z"
       }
     ]
   },
@@ -1747,22 +1747,22 @@
       {
         "role": "customer",
         "content": "你好，我要退款！你们发货太慢了！",
-        "timestamp": "2026-04-22T15:11:25.151Z"
+        "timestamp": "2026-03-31T04:19:38.850Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不便。请问您的订单号是多少？",
-        "timestamp": "2026-04-22T15:12:25.151Z"
+        "timestamp": "2026-03-31T04:20:38.850Z"
       },
       {
         "role": "customer",
         "content": "都等了5天了，还没发货！我不要了！",
-        "timestamp": "2026-04-22T15:13:25.151Z"
+        "timestamp": "2026-03-31T04:21:38.850Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉让您久等了，我马上为您核实物流情况并处理退款。",
-        "timestamp": "2026-04-22T15:14:25.151Z"
+        "timestamp": "2026-03-31T04:22:38.850Z"
       }
     ]
   },
@@ -1778,22 +1778,22 @@
       {
         "role": "customer",
         "content": "收到的商品有划痕，这是怎么回事？",
-        "timestamp": "2026-04-14T00:33:56.791Z"
+        "timestamp": "2026-03-26T23:06:54.756Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不好的体验。能否拍照给我看一下？",
-        "timestamp": "2026-04-14T00:34:56.791Z"
+        "timestamp": "2026-03-26T23:07:54.756Z"
       },
       {
         "role": "customer",
         "content": "好的，我发给你。",
-        "timestamp": "2026-04-14T00:35:56.791Z"
+        "timestamp": "2026-03-26T23:08:54.756Z"
       },
       {
         "role": "agent",
         "content": "收到照片了，确实有瑕疵。我们立即为您安排换货或退款。",
-        "timestamp": "2026-04-14T00:36:56.791Z"
+        "timestamp": "2026-03-26T23:09:54.756Z"
       }
     ]
   },
@@ -1809,22 +1809,22 @@
       {
         "role": "customer",
         "content": "什么时候发货啊？",
-        "timestamp": "2026-04-21T11:38:35.517Z"
+        "timestamp": "2026-03-26T14:53:46.253Z"
       },
       {
         "role": "agent",
         "content": "您好，您的订单预计今天下午发货。",
-        "timestamp": "2026-04-21T11:39:35.517Z"
+        "timestamp": "2026-03-26T14:54:46.253Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-21T11:40:35.517Z"
+        "timestamp": "2026-03-26T14:55:46.253Z"
       },
       {
         "role": "agent",
         "content": "不客气，发货后会第一时间通知您。",
-        "timestamp": "2026-04-21T11:41:35.517Z"
+        "timestamp": "2026-03-26T14:56:46.253Z"
       }
     ]
   },
@@ -1840,22 +1840,22 @@
       {
         "role": "customer",
         "content": "我昨天买的，今天就降价了！能退差价吗？",
-        "timestamp": "2026-03-30T02:45:07.373Z"
+        "timestamp": "2026-03-27T07:42:12.421Z"
       },
       {
         "role": "agent",
         "content": "您好，我们有价格保护政策。请稍等，我帮您核实。",
-        "timestamp": "2026-03-30T02:46:07.373Z"
+        "timestamp": "2026-03-27T07:43:12.421Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-03-30T02:47:07.373Z"
+        "timestamp": "2026-03-27T07:44:12.421Z"
       },
       {
         "role": "agent",
         "content": "核实完毕，差价会在3个工作日内退回您的账户。",
-        "timestamp": "2026-03-30T02:48:07.373Z"
+        "timestamp": "2026-03-27T07:45:12.421Z"
       }
     ]
   },
@@ -1871,22 +1871,22 @@
       {
         "role": "customer",
         "content": "你们的商品描述和实物完全不符！",
-        "timestamp": "2026-04-10T02:04:46.101Z"
+        "timestamp": "2026-04-24T20:47:01.778Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉。能否详细说明一下哪里不符？",
-        "timestamp": "2026-04-10T02:05:46.101Z"
+        "timestamp": "2026-04-24T20:48:01.778Z"
       },
       {
         "role": "customer",
         "content": "说好的原装正品，结果是高仿！",
-        "timestamp": "2026-04-10T02:06:46.101Z"
+        "timestamp": "2026-04-24T20:49:01.778Z"
       },
       {
         "role": "agent",
         "content": "这个情况非常严重，我们立即为您退款并上报处理。",
-        "timestamp": "2026-04-10T02:07:46.101Z"
+        "timestamp": "2026-04-24T20:50:01.778Z"
       }
     ]
   },
@@ -1902,22 +1902,22 @@
       {
         "role": "customer",
         "content": "快递显示已签收，但我没收到！",
-        "timestamp": "2026-03-30T09:56:51.314Z"
+        "timestamp": "2026-03-31T14:40:35.041Z"
       },
       {
         "role": "agent",
         "content": "您好，这个情况我们非常重视。我立即联系快递公司核实。",
-        "timestamp": "2026-03-30T09:57:51.314Z"
+        "timestamp": "2026-03-31T14:41:35.041Z"
       },
       {
         "role": "customer",
         "content": "好的，尽快处理。",
-        "timestamp": "2026-03-30T09:58:51.314Z"
+        "timestamp": "2026-03-31T14:42:35.041Z"
       },
       {
         "role": "agent",
         "content": "已联系快递，如果确认丢失，我们会立即补发或退款。",
-        "timestamp": "2026-03-30T09:59:51.314Z"
+        "timestamp": "2026-03-31T14:43:35.041Z"
       }
     ]
   },
@@ -1933,22 +1933,22 @@
       {
         "role": "customer",
         "content": "这款手机支持5G吗？",
-        "timestamp": "2026-04-01T16:53:14.901Z"
+        "timestamp": "2026-04-14T19:53:13.508Z"
       },
       {
         "role": "agent",
         "content": "您好！支持5G全网通，SA/NSA双模。",
-        "timestamp": "2026-04-01T16:54:14.901Z"
+        "timestamp": "2026-04-14T19:54:13.508Z"
       },
       {
         "role": "customer",
         "content": "好的，那我下单了。",
-        "timestamp": "2026-04-01T16:55:14.901Z"
+        "timestamp": "2026-04-14T19:55:13.508Z"
       },
       {
         "role": "agent",
         "content": "感谢您的支持！有任何问题随时联系我。",
-        "timestamp": "2026-04-01T16:56:14.901Z"
+        "timestamp": "2026-04-14T19:56:13.508Z"
       }
     ]
   },
@@ -1964,22 +1964,22 @@
       {
         "role": "customer",
         "content": "这个功能怎么用？",
-        "timestamp": "2026-04-03T14:31:51.952Z"
+        "timestamp": "2026-04-08T14:25:18.564Z"
       },
       {
         "role": "agent",
         "content": "您好，我来教您。首先打开设置...",
-        "timestamp": "2026-04-03T14:32:51.952Z"
+        "timestamp": "2026-04-08T14:26:18.564Z"
       },
       {
         "role": "customer",
         "content": "明白了，谢谢！",
-        "timestamp": "2026-04-03T14:33:51.952Z"
+        "timestamp": "2026-04-08T14:27:18.564Z"
       },
       {
         "role": "agent",
         "content": "不客气，有问题随时咨询。",
-        "timestamp": "2026-04-03T14:34:51.952Z"
+        "timestamp": "2026-04-08T14:28:18.564Z"
       }
     ]
   },
@@ -1995,22 +1995,22 @@
       {
         "role": "customer",
         "content": "保修期是多久？",
-        "timestamp": "2026-04-20T14:45:54.777Z"
+        "timestamp": "2026-04-25T00:40:14.783Z"
       },
       {
         "role": "agent",
         "content": "您好，全国联保一年，主要部件三年。",
-        "timestamp": "2026-04-20T14:46:54.777Z"
+        "timestamp": "2026-04-25T00:41:14.783Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-20T14:47:54.777Z"
+        "timestamp": "2026-04-25T00:42:14.783Z"
       },
       {
         "role": "agent",
         "content": "不客气，保修卡请妥善保管。",
-        "timestamp": "2026-04-20T14:48:54.777Z"
+        "timestamp": "2026-04-25T00:43:14.783Z"
       }
     ]
   },
@@ -2026,22 +2026,22 @@
       {
         "role": "customer",
         "content": "能开发票吗？",
-        "timestamp": "2026-04-15T21:16:06.325Z"
+        "timestamp": "2026-04-04T17:59:59.135Z"
       },
       {
         "role": "agent",
         "content": "您好，可以开具电子发票或纸质发票。",
-        "timestamp": "2026-04-15T21:17:06.325Z"
+        "timestamp": "2026-04-04T18:00:59.135Z"
       },
       {
         "role": "customer",
         "content": "我要纸质发票。",
-        "timestamp": "2026-04-15T21:18:06.325Z"
+        "timestamp": "2026-04-04T18:01:59.135Z"
       },
       {
         "role": "agent",
         "content": "好的，请提供发票抬头和税号，我们随货寄出。",
-        "timestamp": "2026-04-15T21:19:06.325Z"
+        "timestamp": "2026-04-04T18:02:59.135Z"
       }
     ]
   },
@@ -2057,22 +2057,22 @@
       {
         "role": "customer",
         "content": "老客户有优惠吗？",
-        "timestamp": "2026-04-23T03:26:53.863Z"
+        "timestamp": "2026-04-17T17:46:59.888Z"
       },
       {
         "role": "agent",
         "content": "您好！感谢您的支持！有专属优惠券，我发给您。",
-        "timestamp": "2026-04-23T03:27:53.863Z"
+        "timestamp": "2026-04-17T17:47:59.888Z"
       },
       {
         "role": "customer",
         "content": "太好了，谢谢！",
-        "timestamp": "2026-04-23T03:28:53.863Z"
+        "timestamp": "2026-04-17T17:48:59.888Z"
       },
       {
         "role": "agent",
         "content": "不客气，欢迎常来！",
-        "timestamp": "2026-04-23T03:29:53.863Z"
+        "timestamp": "2026-04-17T17:49:59.888Z"
       }
     ]
   },
@@ -2088,22 +2088,22 @@
       {
         "role": "customer",
         "content": "你们的服务太差了！",
-        "timestamp": "2026-04-19T12:07:39.593Z"
+        "timestamp": "2026-04-19T01:22:34.633Z"
       },
       {
         "role": "agent",
         "content": "你瞎说什么呢？我们服务很好！",
-        "timestamp": "2026-04-19T12:08:39.593Z"
+        "timestamp": "2026-04-19T01:23:34.633Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？",
-        "timestamp": "2026-04-19T12:09:39.593Z"
+        "timestamp": "2026-04-19T01:24:34.633Z"
       },
       {
         "role": "agent",
         "content": "就这态度，不买拉倒！",
-        "timestamp": "2026-04-19T12:10:39.593Z"
+        "timestamp": "2026-04-19T01:25:34.633Z"
       }
     ]
   },
@@ -2119,22 +2119,22 @@
       {
         "role": "customer",
         "content": "能便宜点吗？",
-        "timestamp": "2026-04-02T04:45:52.017Z"
+        "timestamp": "2026-04-11T15:40:05.027Z"
       },
       {
         "role": "agent",
         "content": "加我微信，私下转账给你优惠。",
-        "timestamp": "2026-04-02T04:46:52.017Z"
+        "timestamp": "2026-04-11T15:41:05.027Z"
       },
       {
         "role": "customer",
         "content": "好的。",
-        "timestamp": "2026-04-02T04:47:52.017Z"
+        "timestamp": "2026-04-11T15:42:05.027Z"
       },
       {
         "role": "agent",
         "content": "微信号：xxxxx，转账后我直接发货。",
-        "timestamp": "2026-04-02T04:48:52.017Z"
+        "timestamp": "2026-04-11T15:43:05.027Z"
       }
     ]
   },
@@ -2150,22 +2150,22 @@
       {
         "role": "customer",
         "content": "质量怎么样？",
-        "timestamp": "2026-04-14T18:50:31.909Z"
+        "timestamp": "2026-04-22T04:16:05.906Z"
       },
       {
         "role": "agent",
         "content": "宇宙第一！终身质保！绝对不会坏！",
-        "timestamp": "2026-04-14T18:51:31.909Z"
+        "timestamp": "2026-04-22T04:17:05.906Z"
       },
       {
         "role": "customer",
         "content": "真的吗？",
-        "timestamp": "2026-04-14T18:52:31.909Z"
+        "timestamp": "2026-04-22T04:18:05.906Z"
       },
       {
         "role": "agent",
         "content": "100%保证，用一辈子都没问题！",
-        "timestamp": "2026-04-14T18:53:31.909Z"
+        "timestamp": "2026-04-22T04:19:05.906Z"
       }
     ]
   },
@@ -2181,22 +2181,22 @@
       {
         "role": "customer",
         "content": "你好，我要退款！你们发货太慢了！",
-        "timestamp": "2026-04-20T00:32:21.661Z"
+        "timestamp": "2026-03-26T15:59:46.668Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不便。请问您的订单号是多少？",
-        "timestamp": "2026-04-20T00:33:21.661Z"
+        "timestamp": "2026-03-26T16:00:46.668Z"
       },
       {
         "role": "customer",
         "content": "都等了5天了，还没发货！我不要了！",
-        "timestamp": "2026-04-20T00:34:21.661Z"
+        "timestamp": "2026-03-26T16:01:46.668Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉让您久等了，我马上为您核实物流情况并处理退款。",
-        "timestamp": "2026-04-20T00:35:21.661Z"
+        "timestamp": "2026-03-26T16:02:46.668Z"
       }
     ]
   },
@@ -2212,22 +2212,22 @@
       {
         "role": "customer",
         "content": "收到的商品有划痕，这是怎么回事？",
-        "timestamp": "2026-04-05T11:49:39.456Z"
+        "timestamp": "2026-04-13T19:11:32.864Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不好的体验。能否拍照给我看一下？",
-        "timestamp": "2026-04-05T11:50:39.456Z"
+        "timestamp": "2026-04-13T19:12:32.864Z"
       },
       {
         "role": "customer",
         "content": "好的，我发给你。",
-        "timestamp": "2026-04-05T11:51:39.456Z"
+        "timestamp": "2026-04-13T19:13:32.864Z"
       },
       {
         "role": "agent",
         "content": "收到照片了，确实有瑕疵。我们立即为您安排换货或退款。",
-        "timestamp": "2026-04-05T11:52:39.456Z"
+        "timestamp": "2026-04-13T19:14:32.864Z"
       }
     ]
   },
@@ -2243,22 +2243,22 @@
       {
         "role": "customer",
         "content": "什么时候发货啊？",
-        "timestamp": "2026-04-11T12:37:56.270Z"
+        "timestamp": "2026-03-31T21:35:57.070Z"
       },
       {
         "role": "agent",
         "content": "您好，您的订单预计今天下午发货。",
-        "timestamp": "2026-04-11T12:38:56.270Z"
+        "timestamp": "2026-03-31T21:36:57.070Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-11T12:39:56.270Z"
+        "timestamp": "2026-03-31T21:37:57.070Z"
       },
       {
         "role": "agent",
         "content": "不客气，发货后会第一时间通知您。",
-        "timestamp": "2026-04-11T12:40:56.270Z"
+        "timestamp": "2026-03-31T21:38:57.070Z"
       }
     ]
   },
@@ -2274,22 +2274,22 @@
       {
         "role": "customer",
         "content": "我昨天买的，今天就降价了！能退差价吗？",
-        "timestamp": "2026-03-30T09:37:54.632Z"
+        "timestamp": "2026-03-31T02:27:47.167Z"
       },
       {
         "role": "agent",
         "content": "您好，我们有价格保护政策。请稍等，我帮您核实。",
-        "timestamp": "2026-03-30T09:38:54.632Z"
+        "timestamp": "2026-03-31T02:28:47.167Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-03-30T09:39:54.632Z"
+        "timestamp": "2026-03-31T02:29:47.167Z"
       },
       {
         "role": "agent",
         "content": "核实完毕，差价会在3个工作日内退回您的账户。",
-        "timestamp": "2026-03-30T09:40:54.632Z"
+        "timestamp": "2026-03-31T02:30:47.167Z"
       }
     ]
   },
@@ -2305,22 +2305,22 @@
       {
         "role": "customer",
         "content": "你们的商品描述和实物完全不符！",
-        "timestamp": "2026-04-02T06:19:20.689Z"
+        "timestamp": "2026-04-24T11:54:33.689Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉。能否详细说明一下哪里不符？",
-        "timestamp": "2026-04-02T06:20:20.689Z"
+        "timestamp": "2026-04-24T11:55:33.689Z"
       },
       {
         "role": "customer",
         "content": "说好的原装正品，结果是高仿！",
-        "timestamp": "2026-04-02T06:21:20.689Z"
+        "timestamp": "2026-04-24T11:56:33.689Z"
       },
       {
         "role": "agent",
         "content": "这个情况非常严重，我们立即为您退款并上报处理。",
-        "timestamp": "2026-04-02T06:22:20.689Z"
+        "timestamp": "2026-04-24T11:57:33.689Z"
       }
     ]
   },
@@ -2336,22 +2336,22 @@
       {
         "role": "customer",
         "content": "快递显示已签收，但我没收到！",
-        "timestamp": "2026-04-15T13:27:45.730Z"
+        "timestamp": "2026-04-22T00:08:21.165Z"
       },
       {
         "role": "agent",
         "content": "您好，这个情况我们非常重视。我立即联系快递公司核实。",
-        "timestamp": "2026-04-15T13:28:45.730Z"
+        "timestamp": "2026-04-22T00:09:21.165Z"
       },
       {
         "role": "customer",
         "content": "好的，尽快处理。",
-        "timestamp": "2026-04-15T13:29:45.730Z"
+        "timestamp": "2026-04-22T00:10:21.165Z"
       },
       {
         "role": "agent",
         "content": "已联系快递，如果确认丢失，我们会立即补发或退款。",
-        "timestamp": "2026-04-15T13:30:45.730Z"
+        "timestamp": "2026-04-22T00:11:21.165Z"
       }
     ]
   },
@@ -2367,22 +2367,22 @@
       {
         "role": "customer",
         "content": "这款手机支持5G吗？",
-        "timestamp": "2026-04-22T06:49:00.721Z"
+        "timestamp": "2026-03-27T09:11:20.753Z"
       },
       {
         "role": "agent",
         "content": "您好！支持5G全网通，SA/NSA双模。",
-        "timestamp": "2026-04-22T06:50:00.721Z"
+        "timestamp": "2026-03-27T09:12:20.753Z"
       },
       {
         "role": "customer",
         "content": "好的，那我下单了。",
-        "timestamp": "2026-04-22T06:51:00.721Z"
+        "timestamp": "2026-03-27T09:13:20.753Z"
       },
       {
         "role": "agent",
         "content": "感谢您的支持！有任何问题随时联系我。",
-        "timestamp": "2026-04-22T06:52:00.721Z"
+        "timestamp": "2026-03-27T09:14:20.753Z"
       }
     ]
   },
@@ -2398,22 +2398,22 @@
       {
         "role": "customer",
         "content": "这个功能怎么用？",
-        "timestamp": "2026-04-19T12:23:22.309Z"
+        "timestamp": "2026-03-29T18:10:20.725Z"
       },
       {
         "role": "agent",
         "content": "您好，我来教您。首先打开设置...",
-        "timestamp": "2026-04-19T12:24:22.309Z"
+        "timestamp": "2026-03-29T18:11:20.725Z"
       },
       {
         "role": "customer",
         "content": "明白了，谢谢！",
-        "timestamp": "2026-04-19T12:25:22.309Z"
+        "timestamp": "2026-03-29T18:12:20.725Z"
       },
       {
         "role": "agent",
         "content": "不客气，有问题随时咨询。",
-        "timestamp": "2026-04-19T12:26:22.309Z"
+        "timestamp": "2026-03-29T18:13:20.725Z"
       }
     ]
   },
@@ -2429,22 +2429,22 @@
       {
         "role": "customer",
         "content": "保修期是多久？",
-        "timestamp": "2026-04-02T12:20:30.965Z"
+        "timestamp": "2026-04-01T01:58:02.211Z"
       },
       {
         "role": "agent",
         "content": "您好，全国联保一年，主要部件三年。",
-        "timestamp": "2026-04-02T12:21:30.965Z"
+        "timestamp": "2026-04-01T01:59:02.211Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-02T12:22:30.965Z"
+        "timestamp": "2026-04-01T02:00:02.211Z"
       },
       {
         "role": "agent",
         "content": "不客气，保修卡请妥善保管。",
-        "timestamp": "2026-04-02T12:23:30.965Z"
+        "timestamp": "2026-04-01T02:01:02.211Z"
       }
     ]
   },
@@ -2460,22 +2460,22 @@
       {
         "role": "customer",
         "content": "能开发票吗？",
-        "timestamp": "2026-04-08T10:27:53.908Z"
+        "timestamp": "2026-03-26T10:07:27.008Z"
       },
       {
         "role": "agent",
         "content": "您好，可以开具电子发票或纸质发票。",
-        "timestamp": "2026-04-08T10:28:53.908Z"
+        "timestamp": "2026-03-26T10:08:27.008Z"
       },
       {
         "role": "customer",
         "content": "我要纸质发票。",
-        "timestamp": "2026-04-08T10:29:53.908Z"
+        "timestamp": "2026-03-26T10:09:27.008Z"
       },
       {
         "role": "agent",
         "content": "好的，请提供发票抬头和税号，我们随货寄出。",
-        "timestamp": "2026-04-08T10:30:53.908Z"
+        "timestamp": "2026-03-26T10:10:27.008Z"
       }
     ]
   },
@@ -2491,22 +2491,22 @@
       {
         "role": "customer",
         "content": "老客户有优惠吗？",
-        "timestamp": "2026-04-12T18:55:43.040Z"
+        "timestamp": "2026-04-07T23:15:22.855Z"
       },
       {
         "role": "agent",
         "content": "您好！感谢您的支持！有专属优惠券，我发给您。",
-        "timestamp": "2026-04-12T18:56:43.040Z"
+        "timestamp": "2026-04-07T23:16:22.855Z"
       },
       {
         "role": "customer",
         "content": "太好了，谢谢！",
-        "timestamp": "2026-04-12T18:57:43.040Z"
+        "timestamp": "2026-04-07T23:17:22.855Z"
       },
       {
         "role": "agent",
         "content": "不客气，欢迎常来！",
-        "timestamp": "2026-04-12T18:58:43.040Z"
+        "timestamp": "2026-04-07T23:18:22.855Z"
       }
     ]
   },
@@ -2522,22 +2522,22 @@
       {
         "role": "customer",
         "content": "你们的服务太差了！",
-        "timestamp": "2026-04-07T01:52:27.946Z"
+        "timestamp": "2026-04-18T19:20:01.482Z"
       },
       {
         "role": "agent",
         "content": "你瞎说什么呢？我们服务很好！",
-        "timestamp": "2026-04-07T01:53:27.946Z"
+        "timestamp": "2026-04-18T19:21:01.482Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？",
-        "timestamp": "2026-04-07T01:54:27.946Z"
+        "timestamp": "2026-04-18T19:22:01.482Z"
       },
       {
         "role": "agent",
         "content": "就这态度，不买拉倒！",
-        "timestamp": "2026-04-07T01:55:27.946Z"
+        "timestamp": "2026-04-18T19:23:01.482Z"
       }
     ]
   },
@@ -2553,22 +2553,22 @@
       {
         "role": "customer",
         "content": "能便宜点吗？",
-        "timestamp": "2026-03-28T22:32:09.692Z"
+        "timestamp": "2026-03-29T10:51:13.656Z"
       },
       {
         "role": "agent",
         "content": "加我微信，私下转账给你优惠。",
-        "timestamp": "2026-03-28T22:33:09.692Z"
+        "timestamp": "2026-03-29T10:52:13.656Z"
       },
       {
         "role": "customer",
         "content": "好的。",
-        "timestamp": "2026-03-28T22:34:09.692Z"
+        "timestamp": "2026-03-29T10:53:13.656Z"
       },
       {
         "role": "agent",
         "content": "微信号：xxxxx，转账后我直接发货。",
-        "timestamp": "2026-03-28T22:35:09.692Z"
+        "timestamp": "2026-03-29T10:54:13.656Z"
       }
     ]
   },
@@ -2584,22 +2584,22 @@
       {
         "role": "customer",
         "content": "质量怎么样？",
-        "timestamp": "2026-04-08T19:38:00.623Z"
+        "timestamp": "2026-04-03T16:18:19.051Z"
       },
       {
         "role": "agent",
         "content": "宇宙第一！终身质保！绝对不会坏！",
-        "timestamp": "2026-04-08T19:39:00.623Z"
+        "timestamp": "2026-04-03T16:19:19.051Z"
       },
       {
         "role": "customer",
         "content": "真的吗？",
-        "timestamp": "2026-04-08T19:40:00.623Z"
+        "timestamp": "2026-04-03T16:20:19.051Z"
       },
       {
         "role": "agent",
         "content": "100%保证，用一辈子都没问题！",
-        "timestamp": "2026-04-08T19:41:00.623Z"
+        "timestamp": "2026-04-03T16:21:19.051Z"
       }
     ]
   },
@@ -2615,22 +2615,22 @@
       {
         "role": "customer",
         "content": "你好，我要退款！你们发货太慢了！",
-        "timestamp": "2026-04-14T01:34:29.688Z"
+        "timestamp": "2026-04-18T18:54:48.962Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不便。请问您的订单号是多少？",
-        "timestamp": "2026-04-14T01:35:29.688Z"
+        "timestamp": "2026-04-18T18:55:48.962Z"
       },
       {
         "role": "customer",
         "content": "都等了5天了，还没发货！我不要了！",
-        "timestamp": "2026-04-14T01:36:29.688Z"
+        "timestamp": "2026-04-18T18:56:48.962Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉让您久等了，我马上为您核实物流情况并处理退款。",
-        "timestamp": "2026-04-14T01:37:29.688Z"
+        "timestamp": "2026-04-18T18:57:48.962Z"
       }
     ]
   },
@@ -2646,22 +2646,22 @@
       {
         "role": "customer",
         "content": "收到的商品有划痕，这是怎么回事？",
-        "timestamp": "2026-04-21T10:35:03.349Z"
+        "timestamp": "2026-03-29T21:34:01.204Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不好的体验。能否拍照给我看一下？",
-        "timestamp": "2026-04-21T10:36:03.349Z"
+        "timestamp": "2026-03-29T21:35:01.204Z"
       },
       {
         "role": "customer",
         "content": "好的，我发给你。",
-        "timestamp": "2026-04-21T10:37:03.349Z"
+        "timestamp": "2026-03-29T21:36:01.204Z"
       },
       {
         "role": "agent",
         "content": "收到照片了，确实有瑕疵。我们立即为您安排换货或退款。",
-        "timestamp": "2026-04-21T10:38:03.349Z"
+        "timestamp": "2026-03-29T21:37:01.204Z"
       }
     ]
   },
@@ -2677,22 +2677,22 @@
       {
         "role": "customer",
         "content": "什么时候发货啊？",
-        "timestamp": "2026-04-11T21:36:29.256Z"
+        "timestamp": "2026-04-06T13:51:06.593Z"
       },
       {
         "role": "agent",
         "content": "您好，您的订单预计今天下午发货。",
-        "timestamp": "2026-04-11T21:37:29.256Z"
+        "timestamp": "2026-04-06T13:52:06.593Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-11T21:38:29.256Z"
+        "timestamp": "2026-04-06T13:53:06.593Z"
       },
       {
         "role": "agent",
         "content": "不客气，发货后会第一时间通知您。",
-        "timestamp": "2026-04-11T21:39:29.256Z"
+        "timestamp": "2026-04-06T13:54:06.593Z"
       }
     ]
   },
@@ -2708,22 +2708,22 @@
       {
         "role": "customer",
         "content": "我昨天买的，今天就降价了！能退差价吗？",
-        "timestamp": "2026-04-12T17:24:53.158Z"
+        "timestamp": "2026-04-19T06:43:10.272Z"
       },
       {
         "role": "agent",
         "content": "您好，我们有价格保护政策。请稍等，我帮您核实。",
-        "timestamp": "2026-04-12T17:25:53.158Z"
+        "timestamp": "2026-04-19T06:44:10.272Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-12T17:26:53.158Z"
+        "timestamp": "2026-04-19T06:45:10.272Z"
       },
       {
         "role": "agent",
         "content": "核实完毕，差价会在3个工作日内退回您的账户。",
-        "timestamp": "2026-04-12T17:27:53.158Z"
+        "timestamp": "2026-04-19T06:46:10.272Z"
       }
     ]
   },
@@ -2739,22 +2739,22 @@
       {
         "role": "customer",
         "content": "你们的商品描述和实物完全不符！",
-        "timestamp": "2026-03-25T14:38:38.300Z"
+        "timestamp": "2026-04-22T19:49:47.921Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉。能否详细说明一下哪里不符？",
-        "timestamp": "2026-03-25T14:39:38.300Z"
+        "timestamp": "2026-04-22T19:50:47.921Z"
       },
       {
         "role": "customer",
         "content": "说好的原装正品，结果是高仿！",
-        "timestamp": "2026-03-25T14:40:38.300Z"
+        "timestamp": "2026-04-22T19:51:47.921Z"
       },
       {
         "role": "agent",
         "content": "这个情况非常严重，我们立即为您退款并上报处理。",
-        "timestamp": "2026-03-25T14:41:38.300Z"
+        "timestamp": "2026-04-22T19:52:47.921Z"
       }
     ]
   },
@@ -2770,22 +2770,22 @@
       {
         "role": "customer",
         "content": "快递显示已签收，但我没收到！",
-        "timestamp": "2026-03-31T17:07:21.643Z"
+        "timestamp": "2026-04-12T17:07:14.364Z"
       },
       {
         "role": "agent",
         "content": "您好，这个情况我们非常重视。我立即联系快递公司核实。",
-        "timestamp": "2026-03-31T17:08:21.643Z"
+        "timestamp": "2026-04-12T17:08:14.364Z"
       },
       {
         "role": "customer",
         "content": "好的，尽快处理。",
-        "timestamp": "2026-03-31T17:09:21.643Z"
+        "timestamp": "2026-04-12T17:09:14.364Z"
       },
       {
         "role": "agent",
         "content": "已联系快递，如果确认丢失，我们会立即补发或退款。",
-        "timestamp": "2026-03-31T17:10:21.643Z"
+        "timestamp": "2026-04-12T17:10:14.364Z"
       }
     ]
   },
@@ -2801,22 +2801,22 @@
       {
         "role": "customer",
         "content": "这款手机支持5G吗？",
-        "timestamp": "2026-03-30T01:48:33.948Z"
+        "timestamp": "2026-03-26T13:46:01.588Z"
       },
       {
         "role": "agent",
         "content": "您好！支持5G全网通，SA/NSA双模。",
-        "timestamp": "2026-03-30T01:49:33.948Z"
+        "timestamp": "2026-03-26T13:47:01.588Z"
       },
       {
         "role": "customer",
         "content": "好的，那我下单了。",
-        "timestamp": "2026-03-30T01:50:33.948Z"
+        "timestamp": "2026-03-26T13:48:01.588Z"
       },
       {
         "role": "agent",
         "content": "感谢您的支持！有任何问题随时联系我。",
-        "timestamp": "2026-03-30T01:51:33.948Z"
+        "timestamp": "2026-03-26T13:49:01.588Z"
       }
     ]
   },
@@ -2832,22 +2832,22 @@
       {
         "role": "customer",
         "content": "这个功能怎么用？",
-        "timestamp": "2026-04-01T09:24:31.807Z"
+        "timestamp": "2026-04-21T20:54:42.584Z"
       },
       {
         "role": "agent",
         "content": "您好，我来教您。首先打开设置...",
-        "timestamp": "2026-04-01T09:25:31.807Z"
+        "timestamp": "2026-04-21T20:55:42.584Z"
       },
       {
         "role": "customer",
         "content": "明白了，谢谢！",
-        "timestamp": "2026-04-01T09:26:31.807Z"
+        "timestamp": "2026-04-21T20:56:42.584Z"
       },
       {
         "role": "agent",
         "content": "不客气，有问题随时咨询。",
-        "timestamp": "2026-04-01T09:27:31.807Z"
+        "timestamp": "2026-04-21T20:57:42.584Z"
       }
     ]
   },
@@ -2863,22 +2863,22 @@
       {
         "role": "customer",
         "content": "保修期是多久？",
-        "timestamp": "2026-04-22T16:06:41.853Z"
+        "timestamp": "2026-04-04T19:11:17.675Z"
       },
       {
         "role": "agent",
         "content": "您好，全国联保一年，主要部件三年。",
-        "timestamp": "2026-04-22T16:07:41.853Z"
+        "timestamp": "2026-04-04T19:12:17.675Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-22T16:08:41.853Z"
+        "timestamp": "2026-04-04T19:13:17.675Z"
       },
       {
         "role": "agent",
         "content": "不客气，保修卡请妥善保管。",
-        "timestamp": "2026-04-22T16:09:41.853Z"
+        "timestamp": "2026-04-04T19:14:17.675Z"
       }
     ]
   },
@@ -2894,22 +2894,22 @@
       {
         "role": "customer",
         "content": "能开发票吗？",
-        "timestamp": "2026-04-21T06:52:42.053Z"
+        "timestamp": "2026-04-15T01:14:04.431Z"
       },
       {
         "role": "agent",
         "content": "您好，可以开具电子发票或纸质发票。",
-        "timestamp": "2026-04-21T06:53:42.053Z"
+        "timestamp": "2026-04-15T01:15:04.431Z"
       },
       {
         "role": "customer",
         "content": "我要纸质发票。",
-        "timestamp": "2026-04-21T06:54:42.053Z"
+        "timestamp": "2026-04-15T01:16:04.431Z"
       },
       {
         "role": "agent",
         "content": "好的，请提供发票抬头和税号，我们随货寄出。",
-        "timestamp": "2026-04-21T06:55:42.053Z"
+        "timestamp": "2026-04-15T01:17:04.431Z"
       }
     ]
   },
@@ -2925,22 +2925,22 @@
       {
         "role": "customer",
         "content": "老客户有优惠吗？",
-        "timestamp": "2026-04-03T01:08:43.655Z"
+        "timestamp": "2026-04-03T14:53:40.505Z"
       },
       {
         "role": "agent",
         "content": "您好！感谢您的支持！有专属优惠券，我发给您。",
-        "timestamp": "2026-04-03T01:09:43.655Z"
+        "timestamp": "2026-04-03T14:54:40.505Z"
       },
       {
         "role": "customer",
         "content": "太好了，谢谢！",
-        "timestamp": "2026-04-03T01:10:43.655Z"
+        "timestamp": "2026-04-03T14:55:40.505Z"
       },
       {
         "role": "agent",
         "content": "不客气，欢迎常来！",
-        "timestamp": "2026-04-03T01:11:43.655Z"
+        "timestamp": "2026-04-03T14:56:40.505Z"
       }
     ]
   },
@@ -2956,22 +2956,22 @@
       {
         "role": "customer",
         "content": "你们的服务太差了！",
-        "timestamp": "2026-04-05T21:10:28.409Z"
+        "timestamp": "2026-04-12T03:34:54.743Z"
       },
       {
         "role": "agent",
         "content": "你瞎说什么呢？我们服务很好！",
-        "timestamp": "2026-04-05T21:11:28.409Z"
+        "timestamp": "2026-04-12T03:35:54.743Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？",
-        "timestamp": "2026-04-05T21:12:28.409Z"
+        "timestamp": "2026-04-12T03:36:54.743Z"
       },
       {
         "role": "agent",
         "content": "就这态度，不买拉倒！",
-        "timestamp": "2026-04-05T21:13:28.409Z"
+        "timestamp": "2026-04-12T03:37:54.743Z"
       }
     ]
   },
@@ -2987,22 +2987,22 @@
       {
         "role": "customer",
         "content": "能便宜点吗？",
-        "timestamp": "2026-04-14T06:24:16.495Z"
+        "timestamp": "2026-04-03T02:53:29.398Z"
       },
       {
         "role": "agent",
         "content": "加我微信，私下转账给你优惠。",
-        "timestamp": "2026-04-14T06:25:16.495Z"
+        "timestamp": "2026-04-03T02:54:29.398Z"
       },
       {
         "role": "customer",
         "content": "好的。",
-        "timestamp": "2026-04-14T06:26:16.495Z"
+        "timestamp": "2026-04-03T02:55:29.398Z"
       },
       {
         "role": "agent",
         "content": "微信号：xxxxx，转账后我直接发货。",
-        "timestamp": "2026-04-14T06:27:16.495Z"
+        "timestamp": "2026-04-03T02:56:29.398Z"
       }
     ]
   },
@@ -3018,22 +3018,22 @@
       {
         "role": "customer",
         "content": "质量怎么样？",
-        "timestamp": "2026-03-27T21:07:24.704Z"
+        "timestamp": "2026-04-12T12:12:33.788Z"
       },
       {
         "role": "agent",
         "content": "宇宙第一！终身质保！绝对不会坏！",
-        "timestamp": "2026-03-27T21:08:24.704Z"
+        "timestamp": "2026-04-12T12:13:33.788Z"
       },
       {
         "role": "customer",
         "content": "真的吗？",
-        "timestamp": "2026-03-27T21:09:24.704Z"
+        "timestamp": "2026-04-12T12:14:33.788Z"
       },
       {
         "role": "agent",
         "content": "100%保证，用一辈子都没问题！",
-        "timestamp": "2026-03-27T21:10:24.704Z"
+        "timestamp": "2026-04-12T12:15:33.788Z"
       }
     ]
   },
@@ -3049,22 +3049,22 @@
       {
         "role": "customer",
         "content": "你好，我要退款！你们发货太慢了！",
-        "timestamp": "2026-04-15T11:19:14.002Z"
+        "timestamp": "2026-04-02T20:05:19.729Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不便。请问您的订单号是多少？",
-        "timestamp": "2026-04-15T11:20:14.002Z"
+        "timestamp": "2026-04-02T20:06:19.729Z"
       },
       {
         "role": "customer",
         "content": "都等了5天了，还没发货！我不要了！",
-        "timestamp": "2026-04-15T11:21:14.002Z"
+        "timestamp": "2026-04-02T20:07:19.729Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉让您久等了，我马上为您核实物流情况并处理退款。",
-        "timestamp": "2026-04-15T11:22:14.002Z"
+        "timestamp": "2026-04-02T20:08:19.729Z"
       }
     ]
   },
@@ -3080,22 +3080,22 @@
       {
         "role": "customer",
         "content": "收到的商品有划痕，这是怎么回事？",
-        "timestamp": "2026-03-27T10:07:38.641Z"
+        "timestamp": "2026-04-12T12:24:49.806Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不好的体验。能否拍照给我看一下？",
-        "timestamp": "2026-03-27T10:08:38.641Z"
+        "timestamp": "2026-04-12T12:25:49.806Z"
       },
       {
         "role": "customer",
         "content": "好的，我发给你。",
-        "timestamp": "2026-03-27T10:09:38.641Z"
+        "timestamp": "2026-04-12T12:26:49.806Z"
       },
       {
         "role": "agent",
         "content": "收到照片了，确实有瑕疵。我们立即为您安排换货或退款。",
-        "timestamp": "2026-03-27T10:10:38.641Z"
+        "timestamp": "2026-04-12T12:27:49.806Z"
       }
     ]
   },
@@ -3111,22 +3111,22 @@
       {
         "role": "customer",
         "content": "什么时候发货啊？",
-        "timestamp": "2026-03-30T20:41:35.074Z"
+        "timestamp": "2026-03-31T06:34:55.733Z"
       },
       {
         "role": "agent",
         "content": "您好，您的订单预计今天下午发货。",
-        "timestamp": "2026-03-30T20:42:35.074Z"
+        "timestamp": "2026-03-31T06:35:55.733Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-03-30T20:43:35.074Z"
+        "timestamp": "2026-03-31T06:36:55.733Z"
       },
       {
         "role": "agent",
         "content": "不客气，发货后会第一时间通知您。",
-        "timestamp": "2026-03-30T20:44:35.074Z"
+        "timestamp": "2026-03-31T06:37:55.733Z"
       }
     ]
   },
@@ -3142,22 +3142,22 @@
       {
         "role": "customer",
         "content": "我昨天买的，今天就降价了！能退差价吗？",
-        "timestamp": "2026-04-20T19:03:05.859Z"
+        "timestamp": "2026-04-22T05:52:53.898Z"
       },
       {
         "role": "agent",
         "content": "您好，我们有价格保护政策。请稍等，我帮您核实。",
-        "timestamp": "2026-04-20T19:04:05.859Z"
+        "timestamp": "2026-04-22T05:53:53.898Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-20T19:05:05.859Z"
+        "timestamp": "2026-04-22T05:54:53.898Z"
       },
       {
         "role": "agent",
         "content": "核实完毕，差价会在3个工作日内退回您的账户。",
-        "timestamp": "2026-04-20T19:06:05.859Z"
+        "timestamp": "2026-04-22T05:55:53.898Z"
       }
     ]
   },
@@ -3173,22 +3173,22 @@
       {
         "role": "customer",
         "content": "你们的商品描述和实物完全不符！",
-        "timestamp": "2026-04-02T08:59:08.525Z"
+        "timestamp": "2026-04-18T21:37:23.928Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉。能否详细说明一下哪里不符？",
-        "timestamp": "2026-04-02T09:00:08.525Z"
+        "timestamp": "2026-04-18T21:38:23.928Z"
       },
       {
         "role": "customer",
         "content": "说好的原装正品，结果是高仿！",
-        "timestamp": "2026-04-02T09:01:08.525Z"
+        "timestamp": "2026-04-18T21:39:23.928Z"
       },
       {
         "role": "agent",
         "content": "这个情况非常严重，我们立即为您退款并上报处理。",
-        "timestamp": "2026-04-02T09:02:08.525Z"
+        "timestamp": "2026-04-18T21:40:23.928Z"
       }
     ]
   },
@@ -3204,22 +3204,22 @@
       {
         "role": "customer",
         "content": "快递显示已签收，但我没收到！",
-        "timestamp": "2026-03-28T07:34:03.860Z"
+        "timestamp": "2026-03-26T18:05:20.077Z"
       },
       {
         "role": "agent",
         "content": "您好，这个情况我们非常重视。我立即联系快递公司核实。",
-        "timestamp": "2026-03-28T07:35:03.860Z"
+        "timestamp": "2026-03-26T18:06:20.077Z"
       },
       {
         "role": "customer",
         "content": "好的，尽快处理。",
-        "timestamp": "2026-03-28T07:36:03.860Z"
+        "timestamp": "2026-03-26T18:07:20.077Z"
       },
       {
         "role": "agent",
         "content": "已联系快递，如果确认丢失，我们会立即补发或退款。",
-        "timestamp": "2026-03-28T07:37:03.860Z"
+        "timestamp": "2026-03-26T18:08:20.077Z"
       }
     ]
   },
@@ -3235,22 +3235,22 @@
       {
         "role": "customer",
         "content": "这款手机支持5G吗？",
-        "timestamp": "2026-03-26T15:40:48.751Z"
+        "timestamp": "2026-04-19T09:45:18.172Z"
       },
       {
         "role": "agent",
         "content": "您好！支持5G全网通，SA/NSA双模。",
-        "timestamp": "2026-03-26T15:41:48.751Z"
+        "timestamp": "2026-04-19T09:46:18.172Z"
       },
       {
         "role": "customer",
         "content": "好的，那我下单了。",
-        "timestamp": "2026-03-26T15:42:48.751Z"
+        "timestamp": "2026-04-19T09:47:18.172Z"
       },
       {
         "role": "agent",
         "content": "感谢您的支持！有任何问题随时联系我。",
-        "timestamp": "2026-03-26T15:43:48.751Z"
+        "timestamp": "2026-04-19T09:48:18.172Z"
       }
     ]
   },
@@ -3266,22 +3266,22 @@
       {
         "role": "customer",
         "content": "这个功能怎么用？",
-        "timestamp": "2026-03-30T22:50:28.671Z"
+        "timestamp": "2026-04-02T14:58:48.295Z"
       },
       {
         "role": "agent",
         "content": "您好，我来教您。首先打开设置...",
-        "timestamp": "2026-03-30T22:51:28.671Z"
+        "timestamp": "2026-04-02T14:59:48.295Z"
       },
       {
         "role": "customer",
         "content": "明白了，谢谢！",
-        "timestamp": "2026-03-30T22:52:28.671Z"
+        "timestamp": "2026-04-02T15:00:48.295Z"
       },
       {
         "role": "agent",
         "content": "不客气，有问题随时咨询。",
-        "timestamp": "2026-03-30T22:53:28.671Z"
+        "timestamp": "2026-04-02T15:01:48.295Z"
       }
     ]
   },
@@ -3297,22 +3297,22 @@
       {
         "role": "customer",
         "content": "保修期是多久？",
-        "timestamp": "2026-04-13T06:29:14.162Z"
+        "timestamp": "2026-04-05T18:22:20.987Z"
       },
       {
         "role": "agent",
         "content": "您好，全国联保一年，主要部件三年。",
-        "timestamp": "2026-04-13T06:30:14.162Z"
+        "timestamp": "2026-04-05T18:23:20.987Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-13T06:31:14.162Z"
+        "timestamp": "2026-04-05T18:24:20.987Z"
       },
       {
         "role": "agent",
         "content": "不客气，保修卡请妥善保管。",
-        "timestamp": "2026-04-13T06:32:14.162Z"
+        "timestamp": "2026-04-05T18:25:20.987Z"
       }
     ]
   },
@@ -3328,22 +3328,22 @@
       {
         "role": "customer",
         "content": "能开发票吗？",
-        "timestamp": "2026-03-30T03:05:36.328Z"
+        "timestamp": "2026-04-14T02:45:59.874Z"
       },
       {
         "role": "agent",
         "content": "您好，可以开具电子发票或纸质发票。",
-        "timestamp": "2026-03-30T03:06:36.328Z"
+        "timestamp": "2026-04-14T02:46:59.874Z"
       },
       {
         "role": "customer",
         "content": "我要纸质发票。",
-        "timestamp": "2026-03-30T03:07:36.328Z"
+        "timestamp": "2026-04-14T02:47:59.874Z"
       },
       {
         "role": "agent",
         "content": "好的，请提供发票抬头和税号，我们随货寄出。",
-        "timestamp": "2026-03-30T03:08:36.328Z"
+        "timestamp": "2026-04-14T02:48:59.874Z"
       }
     ]
   },
@@ -3359,22 +3359,22 @@
       {
         "role": "customer",
         "content": "老客户有优惠吗？",
-        "timestamp": "2026-04-13T09:49:12.125Z"
+        "timestamp": "2026-04-21T15:54:37.906Z"
       },
       {
         "role": "agent",
         "content": "您好！感谢您的支持！有专属优惠券，我发给您。",
-        "timestamp": "2026-04-13T09:50:12.125Z"
+        "timestamp": "2026-04-21T15:55:37.906Z"
       },
       {
         "role": "customer",
         "content": "太好了，谢谢！",
-        "timestamp": "2026-04-13T09:51:12.125Z"
+        "timestamp": "2026-04-21T15:56:37.906Z"
       },
       {
         "role": "agent",
         "content": "不客气，欢迎常来！",
-        "timestamp": "2026-04-13T09:52:12.125Z"
+        "timestamp": "2026-04-21T15:57:37.906Z"
       }
     ]
   },
@@ -3390,22 +3390,22 @@
       {
         "role": "customer",
         "content": "你们的服务太差了！",
-        "timestamp": "2026-04-04T02:00:11.155Z"
+        "timestamp": "2026-03-31T05:14:03.794Z"
       },
       {
         "role": "agent",
         "content": "你瞎说什么呢？我们服务很好！",
-        "timestamp": "2026-04-04T02:01:11.155Z"
+        "timestamp": "2026-03-31T05:15:03.794Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？",
-        "timestamp": "2026-04-04T02:02:11.155Z"
+        "timestamp": "2026-03-31T05:16:03.794Z"
       },
       {
         "role": "agent",
         "content": "就这态度，不买拉倒！",
-        "timestamp": "2026-04-04T02:03:11.155Z"
+        "timestamp": "2026-03-31T05:17:03.794Z"
       }
     ]
   },
@@ -3421,22 +3421,22 @@
       {
         "role": "customer",
         "content": "能便宜点吗？",
-        "timestamp": "2026-04-01T16:54:09.975Z"
+        "timestamp": "2026-03-28T15:17:25.804Z"
       },
       {
         "role": "agent",
         "content": "加我微信，私下转账给你优惠。",
-        "timestamp": "2026-04-01T16:55:09.975Z"
+        "timestamp": "2026-03-28T15:18:25.804Z"
       },
       {
         "role": "customer",
         "content": "好的。",
-        "timestamp": "2026-04-01T16:56:09.975Z"
+        "timestamp": "2026-03-28T15:19:25.804Z"
       },
       {
         "role": "agent",
         "content": "微信号：xxxxx，转账后我直接发货。",
-        "timestamp": "2026-04-01T16:57:09.975Z"
+        "timestamp": "2026-03-28T15:20:25.804Z"
       }
     ]
   },
@@ -3452,22 +3452,22 @@
       {
         "role": "customer",
         "content": "质量怎么样？",
-        "timestamp": "2026-04-10T17:40:50.251Z"
+        "timestamp": "2026-04-13T03:02:07.992Z"
       },
       {
         "role": "agent",
         "content": "宇宙第一！终身质保！绝对不会坏！",
-        "timestamp": "2026-04-10T17:41:50.251Z"
+        "timestamp": "2026-04-13T03:03:07.992Z"
       },
       {
         "role": "customer",
         "content": "真的吗？",
-        "timestamp": "2026-04-10T17:42:50.251Z"
+        "timestamp": "2026-04-13T03:04:07.992Z"
       },
       {
         "role": "agent",
         "content": "100%保证，用一辈子都没问题！",
-        "timestamp": "2026-04-10T17:43:50.251Z"
+        "timestamp": "2026-04-13T03:05:07.992Z"
       }
     ]
   },
@@ -3483,22 +3483,22 @@
       {
         "role": "customer",
         "content": "你好，我要退款！你们发货太慢了！",
-        "timestamp": "2026-04-10T14:58:07.495Z"
+        "timestamp": "2026-04-22T13:43:39.670Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不便。请问您的订单号是多少？",
-        "timestamp": "2026-04-10T14:59:07.495Z"
+        "timestamp": "2026-04-22T13:44:39.670Z"
       },
       {
         "role": "customer",
         "content": "都等了5天了，还没发货！我不要了！",
-        "timestamp": "2026-04-10T15:00:07.495Z"
+        "timestamp": "2026-04-22T13:45:39.670Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉让您久等了，我马上为您核实物流情况并处理退款。",
-        "timestamp": "2026-04-10T15:01:07.495Z"
+        "timestamp": "2026-04-22T13:46:39.670Z"
       }
     ]
   },
@@ -3514,22 +3514,22 @@
       {
         "role": "customer",
         "content": "收到的商品有划痕，这是怎么回事？",
-        "timestamp": "2026-04-14T23:53:31.823Z"
+        "timestamp": "2026-03-27T02:41:50.688Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉给您带来不好的体验。能否拍照给我看一下？",
-        "timestamp": "2026-04-14T23:54:31.823Z"
+        "timestamp": "2026-03-27T02:42:50.688Z"
       },
       {
         "role": "customer",
         "content": "好的，我发给你。",
-        "timestamp": "2026-04-14T23:55:31.823Z"
+        "timestamp": "2026-03-27T02:43:50.688Z"
       },
       {
         "role": "agent",
         "content": "收到照片了，确实有瑕疵。我们立即为您安排换货或退款。",
-        "timestamp": "2026-04-14T23:56:31.823Z"
+        "timestamp": "2026-03-27T02:44:50.688Z"
       }
     ]
   },
@@ -3545,22 +3545,22 @@
       {
         "role": "customer",
         "content": "什么时候发货啊？",
-        "timestamp": "2026-04-18T17:46:59.777Z"
+        "timestamp": "2026-04-12T09:52:38.893Z"
       },
       {
         "role": "agent",
         "content": "您好，您的订单预计今天下午发货。",
-        "timestamp": "2026-04-18T17:47:59.777Z"
+        "timestamp": "2026-04-12T09:53:38.893Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-18T17:48:59.777Z"
+        "timestamp": "2026-04-12T09:54:38.893Z"
       },
       {
         "role": "agent",
         "content": "不客气，发货后会第一时间通知您。",
-        "timestamp": "2026-04-18T17:49:59.777Z"
+        "timestamp": "2026-04-12T09:55:38.893Z"
       }
     ]
   },
@@ -3576,22 +3576,22 @@
       {
         "role": "customer",
         "content": "我昨天买的，今天就降价了！能退差价吗？",
-        "timestamp": "2026-04-07T13:39:47.950Z"
+        "timestamp": "2026-04-21T15:57:57.943Z"
       },
       {
         "role": "agent",
         "content": "您好，我们有价格保护政策。请稍等，我帮您核实。",
-        "timestamp": "2026-04-07T13:40:47.950Z"
+        "timestamp": "2026-04-21T15:58:57.943Z"
       },
       {
         "role": "customer",
         "content": "好的，谢谢。",
-        "timestamp": "2026-04-07T13:41:47.950Z"
+        "timestamp": "2026-04-21T15:59:57.943Z"
       },
       {
         "role": "agent",
         "content": "核实完毕，差价会在3个工作日内退回您的账户。",
-        "timestamp": "2026-04-07T13:42:47.950Z"
+        "timestamp": "2026-04-21T16:00:57.943Z"
       }
     ]
   },
@@ -3607,22 +3607,22 @@
       {
         "role": "customer",
         "content": "你们的商品描述和实物完全不符！",
-        "timestamp": "2026-03-25T22:09:26.588Z"
+        "timestamp": "2026-03-27T11:35:31.064Z"
       },
       {
         "role": "agent",
         "content": "您好，非常抱歉。能否详细说明一下哪里不符？",
-        "timestamp": "2026-03-25T22:10:26.588Z"
+        "timestamp": "2026-03-27T11:36:31.064Z"
       },
       {
         "role": "customer",
         "content": "说好的原装正品，结果是高仿！",
-        "timestamp": "2026-03-25T22:11:26.588Z"
+        "timestamp": "2026-03-27T11:37:31.064Z"
       },
       {
         "role": "agent",
         "content": "这个情况非常严重，我们立即为您退款并上报处理。",
-        "timestamp": "2026-03-25T22:12:26.588Z"
+        "timestamp": "2026-03-27T11:38:31.064Z"
       }
     ]
   },
@@ -3638,22 +3638,22 @@
       {
         "role": "customer",
         "content": "快递显示已签收，但我没收到！",
-        "timestamp": "2026-04-16T00:25:42.030Z"
+        "timestamp": "2026-04-18T05:07:22.705Z"
       },
       {
         "role": "agent",
         "content": "您好，这个情况我们非常重视。我立即联系快递公司核实。",
-        "timestamp": "2026-04-16T00:26:42.030Z"
+        "timestamp": "2026-04-18T05:08:22.705Z"
       },
       {
         "role": "customer",
         "content": "好的，尽快处理。",
-        "timestamp": "2026-04-16T00:27:42.030Z"
+        "timestamp": "2026-04-18T05:09:22.705Z"
       },
       {
         "role": "agent",
         "content": "已联系快递，如果确认丢失，我们会立即补发或退款。",
-        "timestamp": "2026-04-16T00:28:42.030Z"
+        "timestamp": "2026-04-18T05:10:22.705Z"
       }
     ]
   },
@@ -3669,22 +3669,22 @@
       {
         "role": "customer",
         "content": "这款手机支持5G吗？",
-        "timestamp": "2026-04-08T21:56:20.014Z"
+        "timestamp": "2026-04-02T06:11:47.883Z"
       },
       {
         "role": "agent",
         "content": "您好！支持5G全网通，SA/NSA双模。",
-        "timestamp": "2026-04-08T21:57:20.014Z"
+        "timestamp": "2026-04-02T06:12:47.883Z"
       },
       {
         "role": "customer",
         "content": "好的，那我下单了。",
-        "timestamp": "2026-04-08T21:58:20.014Z"
+        "timestamp": "2026-04-02T06:13:47.883Z"
       },
       {
         "role": "agent",
         "content": "感谢您的支持！有任何问题随时联系我。",
-        "timestamp": "2026-04-08T21:59:20.014Z"
+        "timestamp": "2026-04-02T06:14:47.883Z"
       }
     ]
   },
@@ -3700,22 +3700,22 @@
       {
         "role": "customer",
         "content": "这个功能怎么用？",
-        "timestamp": "2026-04-15T19:21:29.235Z"
+        "timestamp": "2026-03-27T07:08:01.316Z"
       },
       {
         "role": "agent",
         "content": "您好，我来教您。首先打开设置...",
-        "timestamp": "2026-04-15T19:22:29.235Z"
+        "timestamp": "2026-03-27T07:09:01.316Z"
       },
       {
         "role": "customer",
         "content": "明白了，谢谢！",
-        "timestamp": "2026-04-15T19:23:29.235Z"
+        "timestamp": "2026-03-27T07:10:01.316Z"
       },
       {
         "role": "agent",
         "content": "不客气，有问题随时咨询。",
-        "timestamp": "2026-04-15T19:24:29.235Z"
+        "timestamp": "2026-03-27T07:11:01.316Z"
       }
     ]
   }

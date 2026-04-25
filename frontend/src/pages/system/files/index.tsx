@@ -148,7 +148,7 @@ const FilesManagement: React.FC = () => {
   // 获取文件分类列表
   const fetchCategories = async () => {
     try {
-      const response = await request('/api/system/files/categories');
+      const response = await request.get('/api/system/files/categories');
       setCategories(response.categories || []);
     } catch (error) {
       console.error('获取分类失败:', error);
@@ -178,7 +178,7 @@ const FilesManagement: React.FC = () => {
         params.search = debouncedSearch;
       }
 
-      const response = await request('/api/system/files', {
+      const response = await request.get('/api/system/files', {
         params,
       });
       setFiles(response.data || []);
@@ -197,10 +197,10 @@ const FilesManagement: React.FC = () => {
       const platformId = 'seed-platform-main'; // 临时使用种子数据的平台ID
 
       const [categoryStatsRes, platformStatsRes] = await Promise.all([
-        request('/api/system/files/stats/category', {
+        request.get('/api/system/files/stats/category', {
           params: { platformId },
         }),
-        request('/api/system/files/stats/platform', {
+        request.get('/api/system/files/stats/platform', {
           params: { platformId },
         }),
       ]);
@@ -246,15 +246,13 @@ const FilesManagement: React.FC = () => {
     setUploadProgress(0);
 
     try {
-      await request('/api/system/files/upload', {
-        method: 'POST',
+      await request.post('/api/system/files/upload', formData, {
         params: {
           platformId: platformId || 'seed-platform-main',
           departmentId,
           category,
           isPublic: isPublic ? 'true' : 'false',
         },
-        data: formData,
         onUploadProgress: (progressEvent: any) => {
           if (progressEvent.total) {
             const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -286,7 +284,7 @@ const FilesManagement: React.FC = () => {
     }
 
     try {
-      const response = await request(`/api/system/files/${record.id}/url`);
+      const response = await request.get(`/api/system/files/${record.id}/url`);
       if (response.url) {
         // 创建一个隐藏的a标签来触发下载
         const link = document.createElement('a');
@@ -310,9 +308,7 @@ const FilesManagement: React.FC = () => {
     }
 
     try {
-      await request(`/api/system/files/${id}`, {
-        method: 'DELETE',
-      });
+      await request.delete(`/api/system/files/${id}`);
       message.success('文件删除成功');
       fetchFiles();
       fetchStats();
@@ -324,7 +320,7 @@ const FilesManagement: React.FC = () => {
   // 查看文件详情
   const handleViewDetail = async (record: FileRecord) => {
     try {
-      const detail = await request(`/api/system/files/${record.id}`);
+      const detail = await request.get(`/api/system/files/${record.id}`);
       Modal.info({
         title: (
           <Space>
@@ -616,18 +612,18 @@ const FilesManagement: React.FC = () => {
                   emptyText: (
                     <EmptyState
                       description={searchText || selectedCategory ? '未找到匹配的文件' : '暂无文件'}
-                      action={
-                        hasPermission('system:file:upload') && !searchText && !selectedCategory ? (
-                          <Button
-                            type="primary"
-                            icon={<CloudUploadOutlined />}
-                            onClick={() => setUploadModalVisible(true)}
-                          >
-                            上传第一个文件
-                          </Button>
-                        ) : undefined
-                      }
-                    />
+                      showCreateButton={false}
+                    >
+                      {hasPermission('system:file:upload') && !searchText && !selectedCategory && (
+                        <Button
+                          type="primary"
+                          icon={<CloudUploadOutlined />}
+                          onClick={() => setUploadModalVisible(true)}
+                        >
+                          上传第一个文件
+                        </Button>
+                      )}
+                    </EmptyState>
                   ),
                 }}
               />
