@@ -36,4 +36,4 @@ COPY --from=builder /app/prisma ./prisma
 EXPOSE 3000
 
 # 启动命令
-CMD ["node", "dist/src/main"]
+CMD ["node", "dist/main.js"]

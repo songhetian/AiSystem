@@ -3,13 +3,16 @@ import { resolve } from 'path';
 
 export default defineConfig({
   npmClient: 'npm',
-  
+
   // 禁用MFSU，提升Docker中的编译速度
   mfsu: false,
-  
+
   // 启用Tailwind CSS（使用Umi内置支持）
   tailwindcss: {},
-  
+
+  // 修复 esbuild helpers 冲突问题
+  esbuildMinifyIIFE: true,
+
   routes: [
     { path: '/test', component: 'test' },
     { path: '/login', component: 'login/index' },

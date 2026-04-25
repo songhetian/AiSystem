@@ -27,7 +27,7 @@ export class ApiMonitorService {
 
     // 1. 拉取最近 10 分钟日志并在应用层完成聚合。
     // 当前实现已使用真实日志数据，只是聚合过程尚未下沉到数据库层。
-    const recentLogs = await this.operationLogDelegate().findMany({
+    const recentLogs = await this.operationLogDelegate.findMany({
       where: {
         create_time: { gte: tenMinutesAgo },
         is_deleted: 0,

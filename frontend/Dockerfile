@@ -29,5 +29,5 @@ COPY --from=builder /app/dist ./dist
 # 暴露端口
 EXPOSE 8000
 
-# 启动服务
-CMD ["serve", "dist", "-l", "8000"]
+# 启动服务（-s 参数支持 SPA 路由）
+CMD ["serve", "-s", "dist", "-l", "8000"]

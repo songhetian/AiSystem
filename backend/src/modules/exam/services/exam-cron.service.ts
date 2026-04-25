@@ -31,7 +31,7 @@ export class ExamCronService {
     const now = new Date();
 
     // 查找所有进行中的考试计划
-    const plans = await this.examPlanDelegate().findMany({
+    const plans = await this.examPlanDelegate.findMany({
       where: {
         status: "published",
         start_time: { lte: now },
@@ -59,7 +59,7 @@ export class ExamCronService {
       if (now < absentThreshold) continue;
 
       // 查找该计划中未开始考试的分配记录
-      const assignments = await this.examAssignmentDelegate().findMany({
+      const assignments = await this.examAssignmentDelegate.findMany({
         where: {
           plan_id: plan.id,
           status: "pending",
@@ -78,7 +78,7 @@ export class ExamCronService {
 
       // 批量标记缺考
       const assignmentIds = assignments.map((a: any) => a.id);
-      await this.examAssignmentDelegate().updateMany({
+      await this.examAssignmentDelegate.updateMany({
         where: { id: { in: assignmentIds } },
         data: {
           status: "absent",
