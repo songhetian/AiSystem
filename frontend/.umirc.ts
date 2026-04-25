@@ -3,6 +3,7 @@ import { resolve } from 'path';
 
 export default defineConfig({
   npmClient: 'npm',
+  headScripts: [{ src: '/config.js' }],
 
   // 禁用MFSU，提升Docker中的编译速度
   mfsu: false,
