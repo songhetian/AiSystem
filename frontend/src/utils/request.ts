@@ -42,7 +42,7 @@ export interface RequestConfig extends AxiosRequestConfig {
  */
 const createAxiosInstance = (): AxiosInstance => {
   const instance = axios.create({
-    baseURL: process.env.VITE_API_BASE_URL || "/api/v1",
+    baseURL: (window as any).APP_CONFIG?.apiBaseUrl || process.env.VITE_API_BASE_URL || "/api/v1",
     timeout: 30000,
     headers: {
       "Content-Type": "application/json",

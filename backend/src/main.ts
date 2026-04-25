@@ -10,6 +10,7 @@ import { StandardResponseInterceptor } from './common/interceptors/standard-resp
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api/v1');
+  app.enableCors(); // 允许跨域请求
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   // V6.0 高级加固：注册全局异常追踪过滤器与响应脱敏拦截器

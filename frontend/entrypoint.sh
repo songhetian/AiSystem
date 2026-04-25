@@ -5,11 +5,9 @@
 
 CONFIG_FILE="/app/dist/config.js"
 
-# 如果config.js不存在，从public目录复制
-if [ ! -f "$CONFIG_FILE" ]; then
-  if [ -f "/app/public/config.js" ]; then
-    cp /app/public/config.js "$CONFIG_FILE"
-  fi
+# 总是从public目录复制最新的配置模板
+if [ -f "/app/public/config.js" ]; then
+  cp /app/public/config.js "$CONFIG_FILE"
 fi
 
 # 替换API基础URL
