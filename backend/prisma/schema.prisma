@@ -1135,6 +1135,8 @@ model exam_paper {
   shop_id      String?
   created_by   String?
 
+  assignments  exam_assignment[]
+
   @@index([platform_id, dept_id, shop_id, enabled])
 }
 
@@ -1182,6 +1184,8 @@ model exam_plan {
   shop_id             String?
   created_by          String?
 
+  assignments         exam_assignment[]
+
   @@index([paper_id])
   @@index([platform_id, dept_id, shop_id, start_time, end_time])
 }
@@ -1216,6 +1220,9 @@ model exam_assignment {
   shop_id              String?
   reminder_mode        String   @default("notice")
   force_enter          Int      @default(0)
+
+  plan                 exam_plan  @relation(fields: [plan_id], references: [id])
+  paper                exam_paper @relation(fields: [paper_id], references: [id])
 
   @@unique([plan_id, user_id])
   @@index([user_id, status, submitted_at])

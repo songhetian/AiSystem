@@ -3,16 +3,10 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# 复制依赖配置文件
-COPY package.json package-lock.json* ./
-
-# 安装依赖
-RUN npm install
-
-# 复制项目源码
+# 直接复制所有内容（包含已经在本地安装好的 node_modules）
 COPY . .
 
-# 构建生产版本
+# 构建生产版本 (不再在容器内运行 npm install)
 RUN npm run build
 
 # --- 第二阶段：生产运行层 (Runner Stage) ---
@@ -20,8 +14,8 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-# 全局安装serve，并安装dos2unix转换格式
-RUN npm install -g serve && apk add --no-cache dos2unix
+# 全局安装serve（这个很快，通常没问题）
+RUN npm config set registry https://registry.npmmirror.com && npm install -g serve && apk add --no-cache dos2unix
 
 # 从构建阶段复制构建产物
 COPY --from=builder /app/dist ./dist
@@ -33,6 +27,6 @@ RUN dos2unix /app/entrypoint.sh && chmod +x /app/entrypoint.sh
 # 暴露端口
 EXPOSE 8000
 
-# 启动服务（-s 参数支持 SPA 路由）
+# 启动服务
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["serve", "-s", "dist", "-l", "8000"]

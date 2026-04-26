@@ -31,12 +31,13 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       return true;
     }
 
+    const request = context.switchToHttp().getRequest();
+    console.log(`📡 [JwtAuthGuard] 拦截到请求: ${request.method} ${request.url}`);
     const canActivate = await super.canActivate(context);
     if (!canActivate) {
       return false;
     }
 
-    const request = context.switchToHttp().getRequest();
     const response = context.switchToHttp().getResponse();
     const authHeader = request.headers.authorization;
     const token = authHeader?.replace('Bearer ', '');
@@ -89,7 +90,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         }
 
         // 检查密码/资料修改导致的版本失效 (payload.iat 是秒)
-        if (payload.iat * 1000 < userData.updateTime - 1000) {
+        // 增加 60s 容差时间，防止服务器/数据库时钟不同步或 seed 后立刻登录导致的失效
+        if (payload.iat * 1000 < userData.updateTime - 60000) {
+          console.log(`[JwtAuthGuard] Token invalid: iat=${payload.iat * 1000}, updateTime=${userData.updateTime}`);
           throw new UnauthorizedException('安全信息已变更，请重新登录');
         }
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Link, Navigate, Outlet, useLocation, useNavigate } from "@umijs/max";
 import { ProLayout, PageContainer } from "@ant-design/pro-components";
 import {
@@ -8,12 +8,12 @@ import {
   Badge,
   ConfigProvider,
   Modal,
-  Switch,
-  Tooltip,
+  Button,
+  theme,
+  Input,
 } from "antd";
 import {
   LogoutOutlined,
-  UserOutlined,
   BellOutlined,
   RobotOutlined,
   DashboardOutlined,
@@ -25,6 +25,9 @@ import {
   AppstoreOutlined,
   TeamOutlined,
   SafetyCertificateOutlined,
+  SearchOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
 } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import { authApi } from "@/api/auth";
@@ -40,17 +43,21 @@ import { useGlobalStore } from "@/models/global";
 import { useTheme } from "@/hooks/useTheme";
 import zhCN from "antd/locale/zh_CN";
 import FloatingChat from "@/components/common/FloatingChat";
+import { MenuSearch } from "@/components/common/MenuSearch";
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
+const { useToken } = theme;
 
 export default function BasicLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const { token, currentUser, setCurrentUser, setToken } = useGlobalStore();
   const { isDark, toggleTheme, algorithm } = useTheme();
-  const [lastMessageEvent, setLastMessageEvent] =
-    useState<RealtimeMessageEvent>();
+  const { token: antdToken } = useToken();
+  
+  const [lastMessageEvent, setLastMessageEvent] = useState<RealtimeMessageEvent>();
   const [activeExamModalOpen, setActiveExamModalOpen] = useState(false);
+  const [searchVisible, setSearchVisible] = useState(false);
 
   // 1. 数据查询
   const { data: me } = useQuery({
@@ -89,20 +96,30 @@ export default function BasicLayout() {
       setActiveExamModalOpen(false);
       return;
     }
-
     const storageKey = `exam-active-notice:${activeExam.id}`;
     if (activeExam.reminder_mode === "force") {
       setActiveExamModalOpen(true);
       return;
     }
-
     if (!sessionStorage.getItem(storageKey)) {
       sessionStorage.setItem(storageKey, "1");
       setActiveExamModalOpen(true);
     }
   }, [activeExam]);
 
-  // 2. 菜单图标映射
+  // 快捷键监听 (Ctrl + K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchVisible(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // 2. 菜单树构建逻辑 (支持一级二级)
   const menuIconMap: Record<string, React.ReactNode> = {
     "/system": <AppstoreOutlined />,
     "/org": <TeamOutlined />,
@@ -111,71 +128,86 @@ export default function BasicLayout() {
     "/exam": <SafetyCertificateOutlined />,
     "/finance": <DashboardOutlined />,
     "/shop": <ShopOutlined />,
-    "/system/data-mapping": <ControlOutlined />,
-    "/attendance/ai-schedule": <ThunderboltOutlined />,
   };
 
-  // 3. 处理菜单数据 (严格适配 ProLayout)
-  const menuData =
-    currentUser?.menus
-      ?.filter((m) => m?.route)
-      .map((m) => ({
+  const menuTree = useMemo(() => {
+    if (!currentUser?.menus) return [];
+    
+    // 基础固定菜单
+    const baseMenus = [
+      {
+        path: "/finance/dashboard",
+        name: "工作台大屏",
+        icon: <DashboardOutlined />,
+      }
+    ];
+
+    const list = currentUser.menus.filter(m => m.route);
+    const tree: any[] = [...baseMenus];
+    const map = new Map();
+
+    // 先把所有菜单放进 Map
+    list.forEach(m => {
+      map.set(m.id, {
         path: m.route,
         name: m.menu_name,
-        icon: menuIconMap[m.route!.split("/").slice(0, 2).join("/")] || (
-          <AppstoreOutlined />
-        ),
-      })) || [];
+        id: m.id,
+        parentId: m.parent_id,
+        icon: menuIconMap[m.route!.split("/").slice(0, 2).join("/")] || <AppstoreOutlined />,
+        children: []
+      });
+    });
 
-  // 调试信息
-  console.log('BasicLayout - token:', token ? 'exists' : 'none');
-  console.log('BasicLayout - currentUser:', currentUser ? currentUser.username : 'none');
-  console.log('BasicLayout - location:', location.pathname);
+    // 构建树
+    map.forEach(node => {
+      if (node.parentId && map.has(node.parentId)) {
+        map.get(node.parentId).children.push(node);
+      } else {
+        tree.push(node);
+      }
+    });
 
-  if (!token) {
-    console.log('BasicLayout - No token, redirecting to login');
-    return <Navigate to="/login" replace />;
-  }
+    return tree;
+  }, [currentUser]);
 
-  // 如果正在加载关键用户信息，可以显示一个加载状态，防止部分组件因缺少数据崩溃
+  if (!token) return <Navigate to="/login" replace />;
+
   if (!currentUser && token) {
-    console.log('BasicLayout - Loading user info...');
     return (
-      <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f8fafc' }}>
+      <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: isDark ? '#141414' : '#f8fafc' }}>
         <Space direction="vertical" align="center">
-          <RobotOutlined style={{ fontSize: 48, color: '#3b82f6' }} />
-          <Text strong>正在初始化系统...</Text>
-          <Text type="secondary">Token: {token ? '已存在' : '无'}</Text>
-          <Text type="secondary">正在获取用户信息...</Text>
+          <RobotOutlined style={{ fontSize: 48, color: antdToken.colorPrimary }} />
+          <Text strong style={{ fontWeight: 400 }}>系统正在加载...</Text>
         </Space>
       </div>
     );
   }
-
-  console.log('BasicLayout - Rendering layout');
 
   return (
     <ConfigProvider
       locale={zhCN}
       theme={{
         algorithm: algorithm,
+        token: {
+          borderRadius: 8,
+          fontFamily: "'Inter', 'PingFang SC', sans-serif",
+        },
       }}
     >
       <div id="pro-layout-container" style={{ height: "100vh" }}>
         <RealtimeNotificationCenter lastEvent={lastMessageEvent} />
+        
+        <MenuSearch 
+          menuData={menuTree} 
+          visible={searchVisible} 
+          onCancel={() => setSearchVisible(false)} 
+        />
+
         <Modal
           open={activeExamModalOpen}
           closable={activeExam?.reminder_mode !== "force"}
           maskClosable={activeExam?.reminder_mode !== "force"}
-          cancelButtonProps={{
-            style: {
-              display:
-                activeExam?.reminder_mode === "force" ? "none" : undefined,
-            },
-          }}
-          title={
-            activeExam?.reminder_mode === "force" ? "强制考试提醒" : "考试提醒"
-          }
+          title="系统任务通知"
           onCancel={() => setActiveExamModalOpen(false)}
           onOk={() => {
             if (activeExam) {
@@ -184,64 +216,65 @@ export default function BasicLayout() {
             }
           }}
         >
-          <p>{activeExam?.plan.plan_name}</p>
-          <p>{activeExam?.plan.paper?.paper_name}</p>
-          <p>
-            {activeExam?.reminder_mode === "force"
-              ? "当前考试已开始，请立即进入考试页面。"
-              : "当前有一场考试正在进行，请按时完成。"}
+          <Text strong style={{ fontSize: 16 }}>{activeExam?.plan.plan_name}</Text>
+          <p style={{ marginTop: 12, color: antdToken.colorTextSecondary }}>
+            {activeExam?.reminder_mode === "force" 
+              ? "这是一项强制任务，请立即处理。" 
+              : "您有一项新的任务需要跟进。"}
           </p>
         </Modal>
+
         <ProLayout
-          title="雷犀系统 AiSystem"
-          logo="/logo.png" // 假设有Logo
-          layout="mix" // 混合布局，AD Pro 5 推荐
+          title="雷犀AI客服管理系统"
+          logo={null}
+          layout="mix"
           fixedHeader
           fixSiderbar
           location={location}
-          menuDataRender={() => [
-            {
-              path: "/finance/dashboard",
-              name: "财务大屏",
-              icon: <DashboardOutlined />,
-            },
-            ...menuData,
-          ]}
+          menuDataRender={() => menuTree}
           menuItemRender={(item, dom) => (
-            <Link to={item.path || "/"} className="font-bold text-slate-700">
+            <Link to={item.path || "/"} style={{ color: 'inherit', fontWeight: 400 }}>
               {dom}
             </Link>
           )}
-          subMenuItemRender={(_, dom) => (
-            <span className="font-black text-slate-900">{dom}</span>
+          subMenuItemRender={(item, dom) => (
+            <span style={{ fontWeight: 500 }}>{dom}</span>
+          )}
+          // 头部内容自定义
+          headerContentRender={() => (
+            <div 
+              style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                background: isDark ? 'rgba(255,255,255,0.05)' : '#f1f5f9',
+                padding: '4px 12px',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                width: '280px',
+                marginLeft: '24px'
+              }}
+              onClick={() => setSearchVisible(true)}
+            >
+              <SearchOutlined style={{ color: antdToken.colorTextSecondary, marginRight: 8 }} />
+              <Text type="secondary" style={{ fontSize: '13px' }}>快速搜索功能... (Ctrl + K)</Text>
+            </div>
           )}
           // 头部右侧工具栏
           actionsRender={() => [
-            <Tooltip
-              key="theme-toggle"
-              title={isDark ? "切换到浅色模式" : "切换到深色模式"}
-            >
-              <Switch
-                checked={isDark}
-                onChange={toggleTheme}
-                checkedChildren={<BulbFilled />}
-                unCheckedChildren={<BulbOutlined />}
-                style={{ marginRight: 16 }}
+            <HeaderMessageHub key="message-hub" enabled={Boolean(token)} />,
+            <Tooltip key="theme" title="外观切换">
+              <Button 
+                type="text" 
+                icon={isDark ? <BulbFilled style={{ color: '#fbbf24' }} /> : <BulbOutlined />} 
+                onClick={toggleTheme}
+                style={{ fontSize: '18px' }}
               />
             </Tooltip>,
-            <HeaderMessageHub key="message-hub" enabled={Boolean(token)} />,
-            <Badge
-              key="pending-approval"
-              count={approvalStats?.pendingCount}
-              size="small"
-            >
-              <BellOutlined className="text-slate-600 text-lg cursor-pointer" />
-            </Badge>,
           ]}
           avatarProps={{
-            src: "https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png",
+            src: "https://api.dicebear.com/7.x/avataaars/svg?seed=" + currentUser?.username,
             title: (
-              <Text className="font-black text-slate-900">
+              <Text style={{ fontWeight: 500, marginLeft: 8 }}>
                 {currentUser?.name || "管理员"}
               </Text>
             ),
@@ -251,9 +284,16 @@ export default function BasicLayout() {
                 menu={{
                   items: [
                     {
+                      key: "profile",
+                      icon: <UserOutlined />,
+                      label: "个人设置",
+                    },
+                    { type: 'divider' },
+                    {
                       key: "logout",
                       icon: <LogoutOutlined />,
                       label: "退出登录",
+                      danger: true,
                       onClick: () => {
                         setToken(undefined);
                         setCurrentUser(undefined);
@@ -263,35 +303,55 @@ export default function BasicLayout() {
                   ],
                 }}
               >
-                {dom}
+                <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                  {dom}
+                </div>
               </Dropdown>
             ),
           }}
-          siderWidth={240}
+          siderWidth={220}
           token={{
             sider: {
-              colorMenuBackground: "#ffffff",
-              colorTextMenuSelected: "#0f172a", // slate-900
-              colorBgMenuItemSelected: "#f1f5f9", // slate-100
+              colorMenuBackground: isDark ? "#141414" : "#ffffff",
+              colorTextMenu: antdToken.colorText,
+              colorTextMenuSelected: antdToken.colorPrimary,
+              colorBgMenuItemSelected: isDark ? "rgba(255,255,255,0.05)" : "#e6f7ff",
             },
             header: {
-              colorBgHeader: "#ffffff",
-              colorHeaderTitle: "#0f172a",
+              colorBgHeader: isDark ? "#141414" : "#ffffff",
+              colorHeaderTitle: antdToken.colorText,
             },
           }}
         >
           <PageContainer
             header={{
-              title: null, // 隐藏默认标题，使用页面内自定义
-              breadcrumb: {}, // 开启面包屑
+              title: null,
+              breadcrumb: {},
             }}
-            style={{ padding: 0 }}
+            style={{ padding: '16px' }}
           >
             <Outlet />
           </PageContainer>
         </ProLayout>
         <FloatingChat />
       </div>
+      
+      <style>{`
+        /* 全局字体磅值微调，去除厚重感 */
+        body {
+          font-weight: 400;
+          -webkit-font-smoothing: antialiased;
+        }
+        .ant-menu-title-content {
+          font-weight: 400 !important;
+        }
+        .ant-layout-sider {
+          border-right: 1px solid ${isDark ? 'rgba(255,255,255,0.05)' : '#f1f5f9'} !important;
+        }
+        .ant-pro-layout-header {
+          border-bottom: 1px solid ${isDark ? 'rgba(255,255,255,0.05)' : '#f1f5f9'} !important;
+        }
+      `}</style>
     </ConfigProvider>
   );
 }

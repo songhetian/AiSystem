@@ -16,9 +16,13 @@ import { MaskUtil } from '../utils/mask.util';
 export class ResponseMaskInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
+    const url = request.url;
     
-    // V7.0 精修：实现细粒度权限判定
-    // 逻辑：超级管理员 或 拥有 'SYS_DATA_PII_VIEW' 权限的账号免除脱敏
+    // V7.1 修复：登录接口严禁脱敏，否则前端无法获取真实 Token
+    if (url.includes('/auth/login')) {
+      return next.handle();
+    }
+
     const isSuper = request.user?.is_super;
     const permissions = request.user?.permissions || [];
     const hasPiiPermission = permissions.includes('SYS_DATA_PII_VIEW');

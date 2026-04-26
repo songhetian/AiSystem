@@ -9,14 +9,21 @@ import { AuthService } from "./services/auth.service";
 import { RegisterService } from "./services/register.service";
 import { JwtStrategy } from "./strategies/jwt.strategy";
 
+import { ConfigService } from "@nestjs/config";
+
 @Module({
   imports: [
     PassportModule,
     CommonModule,
-    JwtModule.register({
+    JwtModule.registerAsync({
       global: true,
-      secret: process.env.JWT_SECRET ?? "changeme",
-      signOptions: { expiresIn: (process.env.JWT_EXPIRES_IN ?? "2h") as never },
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get("JWT_SECRET") || "changeme",
+        signOptions: {
+          expiresIn: configService.get("JWT_EXPIRES_IN") || "2h",
+        },
+      }),
+      inject: [ConfigService],
     }),
   ],
   controllers: [AuthController, CaptchaController, RegisterController],

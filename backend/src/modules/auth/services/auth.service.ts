@@ -148,7 +148,9 @@ export class AuthService {
         dept_id: user.dept_id,
         shop_id: user.shop_id,
       },
-      { expiresIn: expiresIn as any },
+      { 
+        expiresIn: expiresIn as any,
+      },
     );
 
     await this.auditLogService.logLogin({

@@ -135,18 +135,38 @@ export class ApprovalController {
     return this.approvalService.listRequests(user?.sub, query);
   }
 
-  @Get("requests/:id")
-  @Permission("approval:request:detail")
-  @RateLimit({ type: RateLimitType.USER, limit: 50, window: 60 })
-  getRequest(@CurrentUser() user: CurrentUserPayload, @Param("id") id: string) {
-    return this.approvalService.getRequest(user?.sub, id);
-  }
-
   @Get("requests/stats")
   @Permission("approval:request:list")
   @RateLimit({ type: RateLimitType.USER, limit: 20, window: 60 })
   stats(@CurrentUser() user: CurrentUserPayload) {
     return this.approvalService.stats(user?.sub);
+  }
+
+  @Get("requests/export")
+  @Permission("approval:request:export")
+  @RateLimit({ type: RateLimitType.USER, limit: 5, window: 60 })
+  async exportRequests(
+    @CurrentUser() user: CurrentUserPayload,
+    @Query() query: QueryApprovalRequestsDto,
+    @Res() res: Response,
+  ) {
+    const buffer = await this.approvalService.exportRequests(user?.sub, query);
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=approval_requests_${Date.now()}.xlsx`,
+    );
+    res.end(buffer);
+  }
+
+  @Get("requests/:id")
+  @Permission("approval:request:detail")
+  @RateLimit({ type: RateLimitType.USER, limit: 50, window: 60 })
+  getRequest(@CurrentUser() user: CurrentUserPayload, @Param("id") id: string) {
+    return this.approvalService.getRequest(user?.sub, id);
   }
 
   @Post("requests/:id/approve")
@@ -207,23 +227,5 @@ export class ApprovalController {
     return this.approvalService.batchReject(user?.sub, dto.ids, dto.comment);
   }
 
-  @Get("requests/export")
-  @Permission("approval:request:export")
-  @RateLimit({ type: RateLimitType.USER, limit: 5, window: 60 })
-  async exportRequests(
-    @CurrentUser() user: CurrentUserPayload,
-    @Query() query: QueryApprovalRequestsDto,
-    @Res() res: Response,
-  ) {
-    const buffer = await this.approvalService.exportRequests(user?.sub, query);
-    res.setHeader(
-      "Content-Type",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    );
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename=approval_requests_${Date.now()}.xlsx`,
-    );
-    res.end(buffer);
-  }
+
 }

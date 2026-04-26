@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@umijs/max";
 import { useMutation } from "@tanstack/react-query";
 import {
   Form,

@@ -56,7 +56,8 @@ const createAxiosInstance = (): AxiosInstance => {
       if (!config.skipAuth) {
         const token = localStorage.getItem("token");
         if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
+          const authHeader = `Bearer ${token}`;
+          config.headers.Authorization = authHeader;
         }
       }
 
@@ -134,6 +135,7 @@ const createAxiosInstance = (): AxiosInstance => {
  * 处理业务错误
  */
 const handleBusinessError = (code: number, msg: string): void => {
+  console.error(`[Request Error] ${code} at ${window.location.href}. Message: ${msg}`);
   switch (code) {
     case 400:
       message.error(msg || "请求参数错误");
@@ -177,6 +179,8 @@ const handleHttpError = (error: AxiosError<ApiResponse>): void => {
     // 服务器返回错误状态码
     const { status, data } = error.response;
     const msg = data?.message || error.message;
+    const url = error.config?.url || 'unknown';
+    console.error(`[Axios Error] Status: ${status}, URL: ${url}, Msg: ${msg}`);
     handleBusinessError(status, msg);
   } else if (error.request) {
     // 请求已发送但没有收到响应
