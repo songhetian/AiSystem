@@ -90,6 +90,13 @@ const createAxiosInstance = (): AxiosInstance => {
         // hideGlobalLoading();
       }
 
+      // 检查是否有新Token（自动刷新）
+      const newToken = response.headers['x-refresh-token'];
+      if (newToken) {
+        localStorage.setItem('token', newToken);
+        console.log('[Token] 自动刷新成功');
+      }
+
       const { code, message: msg, data } = response.data;
 
       // 成功响应
@@ -103,7 +110,7 @@ const createAxiosInstance = (): AxiosInstance => {
 
       // 业务错误
       if (!config.skipErrorHandler) {
-        handleBusinessError(code, msg);
+        handleBusinessError(code, msg, config.url);
       }
 
       return Promise.reject(new Error(msg || "请求失败"));
@@ -134,17 +141,29 @@ const createAxiosInstance = (): AxiosInstance => {
 /**
  * 处理业务错误
  */
-const handleBusinessError = (code: number, msg: string): void => {
+const handleBusinessError = (code: number, msg: string, url?: string): void => {
+  // 1. 终极静默逻辑：如果在登录页，且请求的不是登录接口本身，则彻底静默
+  const isLoginPage = window.location.pathname === "/login" || window.location.hash.includes("/login");
+  const isLoginRequest = url?.includes("/auth/login");
+
+  if (isLoginPage && !isLoginRequest) {
+    if (code === 401 || code === 403) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("currentUser");
+    }
+    return;
+  }
+
+  // 2. 只有非登录页或登录请求失败时，才打印控制台错误
   console.error(`[Request Error] ${code} at ${window.location.href}. Message: ${msg}`);
+
   switch (code) {
     case 400:
       message.error(msg || "请求参数错误");
       break;
     case 401:
       message.error("登录已过期，请重新登录");
-      // 清除token
       localStorage.removeItem("token");
-      // 跳转到登录页
       localStorage.removeItem("currentUser");
       redirectToLogin();
       break;
@@ -181,7 +200,7 @@ const handleHttpError = (error: AxiosError<ApiResponse>): void => {
     const msg = data?.message || error.message;
     const url = error.config?.url || 'unknown';
     console.error(`[Axios Error] Status: ${status}, URL: ${url}, Msg: ${msg}`);
-    handleBusinessError(status, msg);
+    handleBusinessError(status, msg, url);
   } else if (error.request) {
     // 请求已发送但没有收到响应
     if (error.code === "ECONNABORTED") {

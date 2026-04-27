@@ -326,6 +326,29 @@ const menuDefs: MenuDef[] = [
     sort: 39,
     type: 2,
   },
+  // 系统日志管理菜单 (父菜单)
+  {
+    menu_name: "系统日志",
+    menu_code: "system:logs",
+    route: "",
+    sort: 40,
+    type: 1,
+  },
+  // 系统日志管理子菜单
+  {
+    menu_name: "操作日志",
+    menu_code: "system:logs:operation",
+    route: "/system/logs/operation",
+    sort: 41,
+    type: 2,
+  },
+  {
+    menu_name: "登录日志",
+    menu_code: "system:logs:login",
+    route: "/system/logs/login",
+    sort: 42,
+    type: 2,
+  },
 ];
 
 const buttonDefs: ButtonDef[] = [
@@ -526,6 +549,13 @@ const buttonDefs: ButtonDef[] = [
   ["system:ai-config:edit", "Edit AI Config", "system:ai-config"],
   ["system:ai-config:delete", "Delete AI Config", "system:ai-config"],
   ["system:ai-config:status", "Update AI Config Status", "system:ai-config"],
+  // 系统日志管理按钮
+  ["system:logs:operation:list", "View Operation Logs", "system:logs:operation"],
+  ["system:logs:operation:detail", "View Operation Log Detail", "system:logs:operation"],
+  ["system:logs:operation:export", "Export Operation Logs", "system:logs:operation"],
+  ["system:logs:login:list", "View Login Logs", "system:logs:login"],
+  ["system:logs:login:detail", "View Login Log Detail", "system:logs:login"],
+  ["system:logs:login:export", "Export Login Logs", "system:logs:login"],
 ];
 
 const apiDefs: ApiDef[] = [
@@ -740,6 +770,11 @@ const apiDefs: ApiDef[] = [
   ["/system/ai-config/upsert", "POST", "system:ai-config:create"],
   ["/system/ai-config/status", "PUT", "system:ai-config:status"],
   ["/system/ai-config/:id", "DELETE", "system:ai-config:delete"],
+  // 系统日志管理API
+  ["/system/logs/operation", "GET", "system:logs:operation:list"],
+  ["/system/logs/operation/export", "GET", "system:logs:operation:export"],
+  ["/system/logs/login", "GET", "system:logs:login:list"],
+  ["/system/logs/login/export", "GET", "system:logs:login:export"],
 ];
 
 async function main() {

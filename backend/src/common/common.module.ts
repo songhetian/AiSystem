@@ -16,6 +16,8 @@ import { AuditLogService } from "./services/audit-log.service";
 import { BusinessLockService } from "./services/business-lock.service";
 import { CacheSubscriber } from "./services/cache-subscriber.service";
 import { IdempotencyService } from "./services/idempotency.service";
+import { JwtAuthService } from "./services/jwt-auth.service";
+import { LoginLogService } from "./services/login-log.service";
 import { MessageService } from "./services/message.service";
 import { MinioService } from "./services/minio.service";
 import { RealtimeService } from "./services/realtime.service";
@@ -46,6 +48,8 @@ import { AIConfigService } from "./services/ai-config.service";
     CacheSubscriber,
     PermissionCacheSubscriber, // V2.0 新增：权限缓存订阅
     IdempotencyService,
+    JwtAuthService, // JWT认证服务
+    LoginLogService, // 登录日志服务
     VectorService,
     DeliveryAdapterService,
     TemplateEngineHelper,
@@ -107,6 +111,8 @@ import { AIConfigService } from "./services/ai-config.service";
     CacheSubscriber,
     PermissionCacheSubscriber,
     IdempotencyService,
+    JwtAuthService, // JWT认证服务
+    LoginLogService, // 登录日志服务
     VectorService,
     DeliveryAdapterService,
     TemplateEngineHelper,

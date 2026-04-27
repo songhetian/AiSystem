@@ -15,15 +15,23 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   validate(payload: any) {
+    console.log('🔑 [JwtStrategy] Validating Payload:', JSON.stringify(payload));
+    
     if (!payload.sub || !payload.username) {
+      console.error('❌ [JwtStrategy] Invalid Payload: sub or username missing');
       return null;
     }
-    // 将 sub 映射为 id，确保后端 Service 能通过 user.id 拿到数据
-    return { 
+
+    const user = { 
       id: payload.sub, 
+      sub: payload.sub, // 兼容某些使用了 req.user.sub 的旧代码
       username: payload.username,
-      role: payload.role,
-      is_super: payload.is_super 
+      platform_id: payload.platform_id,
+      dept_id: payload.dept_id,
+      shop_id: payload.shop_id,
     };
+    
+    console.log('✅ [JwtStrategy] User injected into request:', JSON.stringify(user));
+    return user;
   }
 }

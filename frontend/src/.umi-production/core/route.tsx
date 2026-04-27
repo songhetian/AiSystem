@@ -4,16 +4,16 @@
 import React from 'react';
 
 export async function getRoutes() {
-  const routes = {"1":{"path":"/test","id":"1"},"2":{"path":"/login","id":"2"},"3":{"path":"/register","id":"3"},"4":{"path":"/maintenance","id":"4"},"5":{"path":"/","id":"5"},"6":{"path":"/","redirect":"/system/users","parentId":"5","id":"6"},"7":{"path":"/system/users","parentId":"5","id":"7"},"8":{"path":"/system/roles","parentId":"5","id":"8"},"9":{"path":"/system/menus","parentId":"5","id":"9"},"10":{"path":"/system/apis","parentId":"5","id":"10"},"11":{"path":"/system/departments","parentId":"5","id":"11"},"12":{"path":"/system/shops","parentId":"5","id":"12"},"13":{"path":"/system/logs","parentId":"5","id":"13"},"14":{"path":"/system/files","parentId":"5","id":"14"},"15":{"path":"/system/ai-config","parentId":"5","id":"15"},"16":{"path":"/finance/dashboard","parentId":"5","id":"16"},"17":{"path":"/org/departments","parentId":"5","id":"17"},"18":{"path":"/org/employees","parentId":"5","id":"18"},"19":{"path":"/attendance/records","parentId":"5","id":"19"},"20":{"path":"/knowledge/chat","parentId":"5","id":"20"},"21":{"path":"/403","parentId":"5","id":"21"},"22":{"path":"/*","parentId":"5","id":"22"}} as const;
+  const routes = {"1":{"path":"/test","id":"1"},"2":{"path":"/login","id":"2"},"3":{"path":"/register","id":"3"},"4":{"path":"/debug","id":"4"},"5":{"path":"/","id":"5"},"6":{"path":"/","parentId":"5","id":"6"},"7":{"path":"/system/users","parentId":"5","id":"7"},"8":{"path":"/system/roles","parentId":"5","id":"8"},"9":{"path":"/system/menus","parentId":"5","id":"9"},"10":{"path":"/system/apis","parentId":"5","id":"10"},"11":{"path":"/system/departments","parentId":"5","id":"11"},"12":{"path":"/system/shops","parentId":"5","id":"12"},"13":{"path":"/system/logs","parentId":"5","id":"13"},"14":{"path":"/system/files","parentId":"5","id":"14"},"15":{"path":"/system/ai-config","parentId":"5","id":"15"},"16":{"path":"/finance/dashboard","parentId":"5","id":"16"},"17":{"path":"/org/departments","parentId":"5","id":"17"},"18":{"path":"/org/employees","parentId":"5","id":"18"},"19":{"path":"/attendance/records","parentId":"5","id":"19"},"20":{"path":"/knowledge/chat","parentId":"5","id":"20"},"21":{"path":"/403","parentId":"5","id":"21"},"22":{"path":"/*","parentId":"5","id":"22"}} as const;
   return {
     routes,
     routeComponents: {
 '1': React.lazy(() => import(/* webpackChunkName: "p__test" */'@/pages/test.tsx')),
 '2': React.lazy(() => import(/* webpackChunkName: "p__login__index" */'@/pages/login/index.tsx')),
 '3': React.lazy(() => import(/* webpackChunkName: "p__register__index" */'@/pages/register/index.tsx')),
-'4': React.lazy(() => import(/* webpackChunkName: "p__maintenance" */'@/pages/maintenance.tsx')),
+'4': React.lazy(() => import(/* webpackChunkName: "p__debug" */'@/pages/debug.tsx')),
 '5': React.lazy(() => import(/* webpackChunkName: "layouts__BasicLayout" */'@/layouts/BasicLayout.tsx')),
-'6': React.lazy(() => import('./EmptyRoute')),
+'6': React.lazy(() => import(/* webpackChunkName: "p__index" */'@/pages/index.tsx')),
 '7': React.lazy(() => import(/* webpackChunkName: "p__system__users__index" */'@/pages/system/users/index.tsx')),
 '8': React.lazy(() => import(/* webpackChunkName: "p__system__roles__index" */'@/pages/system/roles/index.tsx')),
 '9': React.lazy(() => import(/* webpackChunkName: "p__system__menus__index" */'@/pages/system/menus/index.tsx')),

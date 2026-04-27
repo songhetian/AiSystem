@@ -1,317 +1,268 @@
-import { Descriptions, Divider, Drawer, Space, Tag, Typography } from "antd";
-import { HistoryOutlined } from "@ant-design/icons";
-import dayjs from "dayjs";
+import React from 'react';
+import { Drawer, Descriptions, Tag, Typography, Card, Space } from 'antd';
+import dayjs from 'dayjs';
 
-const { Text } = Typography;
+const { Text, Paragraph } = Typography;
 
-interface LogDetailDrawerProps {
-  open: boolean;
-  record: any;
-  type: "operation" | "login";
+export interface LogDetailDrawerProps {
+  visible: boolean;
   onClose: () => void;
+  record: any;
+  detailType: 'operation' | 'login';
 }
 
-export function LogDetailDrawer({
-  open,
-  record,
-  type,
+/**
+ * 日志详情抽屉组件（可复用）
+ * 支持操作日志和登录日志两种类型
+ */
+export const LogDetailDrawer: React.FC<LogDetailDrawerProps> = ({
+  visible,
   onClose,
-}: LogDetailDrawerProps) {
+  record,
+  detailType,
+}) => {
   if (!record) return null;
 
-  const METHOD_COLORS: Record<string, string> = {
-    POST: "blue",
-    DELETE: "red",
-    PUT: "orange",
-    GET: "green",
-    PATCH: "purple",
-  };
+  // 渲染操作日志详情
+  const renderOperationDetail = () => (
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      <Card title="基本信息" size="small">
+        <Descriptions column={1} bordered size="small">
+          <Descriptions.Item label="操作时间">
+            {dayjs(record.create_time).format('YYYY-MM-DD HH:mm:ss')}
+          </Descriptions.Item>
+          <Descriptions.Item label="操作人">
+            {record.operator_name || record.username || '-'}
+          </Descriptions.Item>
+          <Descriptions.Item label="操作模块">
+            {record.operation_module || '-'}
+          </Descriptions.Item>
+          <Descriptions.Item label="请求方式">
+            <Tag color={getMethodColor(record.request_method)}>
+              {record.request_method}
+            </Tag>
+          </Descriptions.Item>
+          <Descriptions.Item label="操作接口">
+            {record.api_path}
+          </Descriptions.Item>
+          <Descriptions.Item label="操作状态">
+            <Tag color={record.operation_status === 1 ? 'success' : 'error'}>
+              {record.operation_status === 1 ? '成功' : '失败'}
+            </Tag>
+          </Descriptions.Item>
+          <Descriptions.Item label="执行时间">
+            {record.execution_time ? `${record.execution_time}ms` : '-'}
+          </Descriptions.Item>
+          <Descriptions.Item label="操作IP">
+            {record.request_ip || '-'}
+          </Descriptions.Item>
+          <Descriptions.Item label="操作描述">
+            {record.operation_message || '-'}
+          </Descriptions.Item>
+        </Descriptions>
+      </Card>
+
+      {record.request_params && (
+        <Card title="请求参数" size="small">
+          <Paragraph>
+            <pre style={{
+              background: '#f5f5f5',
+              padding: '12px',
+              borderRadius: '4px',
+              maxHeight: '300px',
+              overflow: 'auto'
+            }}>
+              {JSON.stringify(record.request_params, null, 2)}
+            </pre>
+          </Paragraph>
+        </Card>
+      )}
+
+      {record.response_summary && (
+        <Card title="响应摘要" size="small">
+          <Paragraph>
+            <pre style={{
+              background: '#f5f5f5',
+              padding: '12px',
+              borderRadius: '4px',
+              maxHeight: '300px',
+              overflow: 'auto'
+            }}>
+              {JSON.stringify(record.response_summary, null, 2)}
+            </pre>
+          </Paragraph>
+        </Card>
+      )}
+
+      {record.diff_content && record.diff_content.length > 0 && (
+        <Card title="字段变更详情" size="small">
+          <Space direction="vertical" style={{ width: '100%' }}>
+            {record.diff_content.map((change: any, index: number) => (
+              <Card key={index} size="small" type="inner">
+                <Descriptions column={1} size="small">
+                  <Descriptions.Item label="字段名称">
+                    <Text strong>{change.fieldName || change.field}</Text>
+                  </Descriptions.Item>
+                  <Descriptions.Item label="旧值">
+                    <Text delete type="danger">
+                      {change.oldName || formatValue(change.oldValue)}
+                    </Text>
+                  </Descriptions.Item>
+                  <Descriptions.Item label="新值">
+                    <Text type="success">
+                      {change.newName || formatValue(change.newValue)}
+                    </Text>
+                  </Descriptions.Item>
+                </Descriptions>
+              </Card>
+            ))}
+          </Space>
+        </Card>
+      )}
+
+      <Card title="其他信息" size="small">
+        <Descriptions column={1} bordered size="small">
+          <Descriptions.Item label="所属平台">
+            {record.platform_name || '-'}
+          </Descriptions.Item>
+          <Descriptions.Item label="所属部门">
+            {record.dept_name || '-'}
+          </Descriptions.Item>
+          <Descriptions.Item label="所属店铺">
+            {record.shop_name || '-'}
+          </Descriptions.Item>
+          <Descriptions.Item label="用户代理">
+            <Text ellipsis style={{ maxWidth: '100%' }}>
+              {record.user_agent || '-'}
+            </Text>
+          </Descriptions.Item>
+        </Descriptions>
+      </Card>
+    </Space>
+  );
+
+  // 渲染登录日志详情
+  const renderLoginDetail = () => (
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      <Card title="基本信息" size="small">
+        <Descriptions column={1} bordered size="small">
+          <Descriptions.Item label="登录时间">
+            {dayjs(record.create_time).format('YYYY-MM-DD HH:mm:ss')}
+          </Descriptions.Item>
+          <Descriptions.Item label="登录人">
+            {record.operator_name || record.username || '-'}
+          </Descriptions.Item>
+          <Descriptions.Item label="用户名">
+            {record.username}
+          </Descriptions.Item>
+          <Descriptions.Item label="登录IP">
+            {record.login_ip || '-'}
+          </Descriptions.Item>
+          <Descriptions.Item label="登录方式">
+            <Tag color={getLoginMethodColor(record.login_method)}>
+              {getLoginMethodText(record.login_method)}
+            </Tag>
+          </Descriptions.Item>
+          <Descriptions.Item label="设备类型">
+            <Tag color={getDeviceTypeColor(record.device_type)}>
+              {getDeviceTypeText(record.device_type)}
+            </Tag>
+          </Descriptions.Item>
+          <Descriptions.Item label="登录状态">
+            <Tag color={record.login_status === 1 ? 'success' : 'error'}>
+              {record.login_status === 1 ? '成功' : '失败'}
+            </Tag>
+          </Descriptions.Item>
+          <Descriptions.Item label="结果描述">
+            {record.login_message || '-'}
+          </Descriptions.Item>
+        </Descriptions>
+      </Card>
+
+      <Card title="其他信息" size="small">
+        <Descriptions column={1} bordered size="small">
+          <Descriptions.Item label="所属平台">
+            {record.platform_name || '-'}
+          </Descriptions.Item>
+          <Descriptions.Item label="所属部门">
+            {record.dept_name || '-'}
+          </Descriptions.Item>
+          <Descriptions.Item label="所属店铺">
+            {record.shop_name || '-'}
+          </Descriptions.Item>
+          <Descriptions.Item label="用户代理">
+            <Paragraph ellipsis={{ rows: 3, expandable: true }}>
+              {record.user_agent || '-'}
+            </Paragraph>
+          </Descriptions.Item>
+        </Descriptions>
+      </Card>
+    </Space>
+  );
 
   return (
     <Drawer
-      title={
-        <Space>
-          <HistoryOutlined className="text-slate-900" />
-          <Text className="font-black text-lg text-slate-900">
-            {type === "operation" ? "操作日志详情" : "登录日志详情"}
-          </Text>
-        </Space>
-      }
-      width={750}
-      open={open}
+      title={detailType === 'operation' ? '操作日志详情' : '登录日志详情'}
+      placement="right"
+      width={720}
       onClose={onClose}
-      styles={{
-        header: { borderBottom: "1px solid #e2e8f0", background: "#f8fafc" },
-      }}
+      open={visible}
     >
-      {/* 基础信息 */}
-      <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 mb-5">
-        <Descriptions
-          title={
-            <Text className="font-black text-slate-900 border-l-4 border-slate-900 pl-3">
-              基础信息
-            </Text>
-          }
-          column={2}
-          size="middle"
-        >
-          <Descriptions.Item
-            label={<Text className="font-black text-slate-500">操作人</Text>}
-          >
-            <Text className="font-black text-slate-900">
-              {record.operator_name}
-            </Text>
-          </Descriptions.Item>
-          <Descriptions.Item
-            label={<Text className="font-black text-slate-500">操作时间</Text>}
-          >
-            <Text className="font-mono text-slate-700">
-              {dayjs(record.create_time).format("YYYY-MM-DD HH:mm:ss")}
-            </Text>
-          </Descriptions.Item>
-          <Descriptions.Item
-            label={<Text className="font-black text-slate-500">所属平台</Text>}
-          >
-            <Text className="font-bold text-slate-900">
-              {record.platform_name || "-"}
-            </Text>
-          </Descriptions.Item>
-          <Descriptions.Item
-            label={<Text className="font-black text-slate-500">所属部门</Text>}
-          >
-            <Text className="font-bold text-slate-900">
-              {record.dept_name || "-"}
-            </Text>
-          </Descriptions.Item>
-          {record.shop_name && (
-            <Descriptions.Item
-              label={
-                <Text className="font-black text-slate-500">所属店铺</Text>
-              }
-            >
-              <Text className="font-bold text-slate-900">
-                {record.shop_name}
-              </Text>
-            </Descriptions.Item>
-          )}
-
-          {type === "operation" && (
-            <>
-              <Descriptions.Item
-                label={
-                  <Text className="font-black text-slate-500">操作模块</Text>
-                }
-              >
-                <Text className="font-bold text-slate-900">
-                  {record.operation_module || "未知模块"}
-                </Text>
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={
-                  <Text className="font-black text-slate-500">请求方式</Text>
-                }
-              >
-                <Tag
-                  color={METHOD_COLORS[record.request_method] || "default"}
-                  className="font-black border-2"
-                >
-                  {record.request_method}
-                </Tag>
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={
-                  <Text className="font-black text-slate-500">执行状态</Text>
-                }
-              >
-                <Tag
-                  color={record.operation_status === 1 ? "success" : "error"}
-                  className="font-bold"
-                >
-                  {record.operation_status === 1 ? "成功" : "失败"}
-                </Tag>
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={
-                  <Text className="font-black text-slate-500">请求IP</Text>
-                }
-                span={2}
-              >
-                <Text className="font-mono text-slate-700">
-                  {record.request_ip || "IP获取失败"}
-                </Text>
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={
-                  <Text className="font-black text-slate-500">API路径</Text>
-                }
-                span={2}
-              >
-                <Text className="font-mono text-xs bg-white px-3 py-1.5 rounded border border-slate-200 block">
-                  {record.api_path}
-                </Text>
-              </Descriptions.Item>
-            </>
-          )}
-
-          {type === "login" && (
-            <>
-              <Descriptions.Item
-                label={
-                  <Text className="font-black text-slate-500">登录账号</Text>
-                }
-              >
-                <Text className="font-bold text-slate-900">
-                  {record.username}
-                </Text>
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={
-                  <Text className="font-black text-slate-500">登录状态</Text>
-                }
-              >
-                <Tag
-                  color={record.login_status === 1 ? "success" : "error"}
-                  className="font-bold"
-                >
-                  {record.login_status === 1 ? "成功" : "失败"}
-                </Tag>
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={
-                  <Text className="font-black text-slate-500">登录IP</Text>
-                }
-              >
-                <Text className="font-mono text-slate-700">
-                  {record.login_ip || "IP获取失败"}
-                </Text>
-              </Descriptions.Item>
-              {record.login_message && (
-                <Descriptions.Item
-                  label={
-                    <Text className="font-black text-slate-500">结果描述</Text>
-                  }
-                  span={2}
-                >
-                  <Text className="text-slate-700">{record.login_message}</Text>
-                </Descriptions.Item>
-              )}
-            </>
-          )}
-        </Descriptions>
-      </div>
-
-      {/* 操作内容 */}
-      {type === "operation" && (
-        <div className="bg-white p-5 rounded-xl border-2 border-slate-900 shadow-sm mb-5">
-          <Text className="text-slate-900 font-black block mb-2 text-sm">
-            操作内容：
-          </Text>
-          <Text className="text-slate-900 font-bold block bg-slate-100 p-4 rounded-lg border border-slate-200">
-            {record.operation_message || "未获取到操作详情"}
-          </Text>
-        </div>
-      )}
-
-      {/* 字段变更对比（diff_content）*/}
-      {type === "operation" && record.diff_content && (
-        <>
-          <Divider orientation="left">
-            <Text className="font-black text-slate-900 uppercase tracking-widest text-xs">
-              字段变更对比
-            </Text>
-          </Divider>
-          <div className="rounded-xl overflow-hidden border border-slate-200 mb-5">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-slate-100">
-                  <th className="text-left px-4 py-2 font-black text-slate-600 w-1/4">
-                    字段
-                  </th>
-                  <th className="text-left px-4 py-2 font-black text-red-500 w-[37.5%]">
-                    变更前
-                  </th>
-                  <th className="text-left px-4 py-2 font-black text-green-600 w-[37.5%]">
-                    变更后
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.entries(
-                  record.diff_content as Record<
-                    string,
-                    { before: any; after: any }
-                  >,
-                ).map(([field, diff]) => (
-                  <tr
-                    key={field}
-                    className="border-t border-slate-100 hover:bg-slate-50"
-                  >
-                    <td className="px-4 py-2 font-bold text-slate-700">
-                      {field}
-                    </td>
-                    <td className="px-4 py-2 font-mono text-red-600 bg-red-50">
-                      {diff.before === null || diff.before === undefined ? (
-                        <span className="text-slate-400 italic">空</span>
-                      ) : (
-                        String(diff.before)
-                      )}
-                    </td>
-                    <td className="px-4 py-2 font-mono text-green-700 bg-green-50">
-                      {diff.after === null || diff.after === undefined ? (
-                        <span className="text-slate-400 italic">空</span>
-                      ) : (
-                        String(diff.after)
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      )}
-
-      {/* 请求参数 */}
-      {type === "operation" && (
-        <>
-          <Divider orientation="left">
-            <Text className="font-black text-slate-900 uppercase tracking-widest text-xs">
-              Request Payload
-            </Text>
-          </Divider>
-          <div className="bg-slate-900 p-5 rounded-xl shadow-xl overflow-auto max-h-[300px] mb-5">
-            <pre className="text-emerald-400 text-xs m-0 font-mono leading-relaxed">
-              {JSON.stringify(record.request_params || {}, null, 2)}
-            </pre>
-          </div>
-        </>
-      )}
-
-      {/* 响应摘要 */}
-      {type === "operation" && record.response_summary && (
-        <>
-          <Divider orientation="left">
-            <Text className="font-black text-slate-900 uppercase tracking-widest text-xs">
-              Response Summary
-            </Text>
-          </Divider>
-          <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 mb-5">
-            <pre className="text-xs text-slate-600 font-bold m-0 overflow-auto">
-              {JSON.stringify(record.response_summary, null, 2)}
-            </pre>
-          </div>
-        </>
-      )}
-
-      {/* User Agent */}
-      <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-        <Text className="font-black text-slate-500 text-xs uppercase block mb-1">
-          Browser / Device Info
-        </Text>
-        <Text className="text-slate-700 text-xs font-bold font-mono italic break-all">
-          {record.user_agent || "未知设备"}
-        </Text>
-      </div>
+      {detailType === 'operation' ? renderOperationDetail() : renderLoginDetail()}
     </Drawer>
   );
-}
+};
+
+// 辅助函数
+const getMethodColor = (method: string) => {
+  const colorMap: Record<string, string> = {
+    GET: 'blue',
+    POST: 'green',
+    PUT: 'orange',
+    DELETE: 'red',
+    PATCH: 'purple',
+  };
+  return colorMap[method] || 'default';
+};
+
+const getLoginMethodColor = (method: string) => {
+  const colorMap: Record<string, string> = {
+    password: 'blue',
+    sms: 'green',
+    wechat: 'orange',
+  };
+  return colorMap[method] || 'blue';
+};
+
+const getLoginMethodText = (method: string) => {
+  const textMap: Record<string, string> = {
+    password: '密码登录',
+    sms: '短信登录',
+    wechat: '微信登录',
+  };
+  return textMap[method] || '密码登录';
+};
+
+const getDeviceTypeColor = (type: string) => {
+  const colorMap: Record<string, string> = {
+    pc: 'blue',
+    mobile: 'green',
+    tablet: 'orange',
+  };
+  return colorMap[type] || 'blue';
+};
+
+const getDeviceTypeText = (type: string) => {
+  const textMap: Record<string, string> = {
+    pc: 'PC',
+    mobile: '移动端',
+    tablet: '平板',
+  };
+  return textMap[type] || 'PC';
+};
+
+const formatValue = (value: any) => {
+  if (value === null || value === undefined) return '-';
+  if (typeof value === 'object') return JSON.stringify(value);
+  return String(value);
+};

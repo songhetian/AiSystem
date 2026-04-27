@@ -41,8 +41,9 @@ export class AuthController {
   @Get("me")
   @Cache({ ttl: 300, byUser: true, prefix: "user-info" })
   @RateLimit({ type: RateLimitType.USER, limit: 30, window: 60 })
-  me(@Req() req: { user: { sub: string } }) {
-    return this.authService.me(req.user.sub);
+  me(@Req() req: any) {
+    const userId = req.user?.id || req.user?.sub;
+    return this.authService.me(userId);
   }
 
   /**
@@ -56,5 +57,17 @@ export class AuthController {
   async logout(@Req() req: any) {
     const token = req.headers.authorization?.replace("Bearer ", "");
     return this.authService.logout(token);
+  }
+
+  /**
+   * Token刷新接口（V5.0 新增）
+   * 用于手动刷新Token，延长登录状态
+   */
+  @Post("refresh")
+  @AntiShake(1000)
+  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
+  async refreshToken(@Req() req: any) {
+    const token = req.headers.authorization?.replace("Bearer ", "");
+    return this.authService.refreshToken(token);
   }
 }

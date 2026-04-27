@@ -16,6 +16,7 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "ts-node prisma/seed.ts",
+    "prisma:seed-advanced": "ts-node prisma/seed-advanced.ts",
     "cleanup": "ts-node scripts/cleanup/index.ts run",
     "cleanup:dry-run": "ts-node scripts/cleanup/index.ts run --dry-run",
     "cleanup:restore": "ts-node scripts/cleanup/index.ts restore",

@@ -3,10 +3,10 @@ import { JwtService } from "@nestjs/jwt";
 import { AuditLogService } from "../../../common/services/audit-log.service";
 import { RedisService } from "../../../common/services/redis.service";
 import { ConfigCacheService } from "../../../common/services/config-cache.service";
+import { JwtAuthService } from "../../../common/services/jwt-auth.service";
 import { comparePassword } from "../../../common/utils/password.util";
 import { PrismaService } from "../../../prisma/prisma.service";
 import { Cache } from "../../../common/decorators/cache.decorator";
-import { CacheEvict } from "../../../common/decorators/cache-evict.decorator";
 import { QueryOptimize } from "../../../common/decorators/query-optimize.decorator";
 
 interface LoginContext {
@@ -19,6 +19,7 @@ export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    private readonly jwtAuthService: JwtAuthService,
     private readonly auditLogService: AuditLogService,
     private readonly redisService: RedisService,
     private readonly configCacheService: ConfigCacheService,
@@ -26,18 +27,11 @@ export class AuthService {
 
   async login(dto: any, context: LoginContext = {}) {
     const username = dto.username;
-    const lockedKey = `login_locked:${username}`;
-    const failedCountKey = `login_failed_count:${username}`;
 
-    // 获取动态配置 (使用缓存优化)
-    const [lockoutThreshold, lockoutDuration] = await Promise.all([
-      this.configCacheService.getNumber("auth.lockout_threshold", 5),
-      this.configCacheService.getNumber("auth.lockout_duration", 900),
-    ]);
-
-    // 1. 检查是否锁定
-    const isLocked = await this.redisService.get(lockedKey);
+    // 1. 检查账号是否锁定（使用JwtAuthService）
+    const isLocked = await this.jwtAuthService.isAccountLocked(username);
     if (isLocked) {
+      const lockoutDuration = await this.configCacheService.getNumber("auth.lockout_duration", 900);
       throw new UnauthorizedException(
         `账号已锁定，请 ${Math.ceil(lockoutDuration / 60)} 分钟后再试`,
       );
@@ -73,15 +67,13 @@ export class AuthService {
         );
       }
 
-      // 增加失败次数
-      const count = await this.redisService.incr(failedCountKey);
-      if (count === 1) {
-        await this.redisService.expire(failedCountKey, 3600); // 1小时内计数
-      }
+      // 记录登录失败（使用JwtAuthService）
+      const failCount = await this.jwtAuthService.recordLoginFailure(username, context.ip);
+      const lockoutThreshold = await this.configCacheService.getNumber("auth.lockout_threshold", 5);
 
-      if (count && count >= lockoutThreshold) {
-        await this.redisService.set(lockedKey, "1", lockoutDuration);
-        await this.redisService.del(failedCountKey);
+      if (failCount >= lockoutThreshold) {
+        const lockoutDuration = await this.configCacheService.getNumber("auth.lockout_duration", 900);
+        await this.jwtAuthService.lockAccount(username, lockoutDuration);
 
         // 账号锁定告警
         void this.auditLogService.alarmAdmins(
@@ -130,28 +122,17 @@ export class AuthService {
       return handleFailure("密码错误");
     }
 
-    // 登录成功，清除失败记录
-    await this.redisService.del(failedCountKey);
-    await this.redisService.del(lockedKey);
+    // 登录成功，清除失败记录（使用JwtAuthService）
+    await this.jwtAuthService.recordLoginSuccess(username, context.ip);
 
-    // 从配置读取 JWT 过期时间（使用缓存优化）
-    const expiresIn = (await this.configCacheService.get(
-      "auth.jwt_expires",
-      "2h",
-    )) || "2h";
-
-    const accessToken = await this.jwtService.signAsync(
-      {
-        sub: user.id,
-        username: user.username,
-        platform_id: user.platform_id,
-        dept_id: user.dept_id,
-        shop_id: user.shop_id,
-      },
-      { 
-        expiresIn: expiresIn as any,
-      },
-    );
+    // 生成JWT Token（使用JwtAuthService）
+    const accessToken = await this.jwtAuthService.generateToken({
+      sub: user.id,
+      username: user.username,
+      platform_id: user.platform_id,
+      dept_id: user.dept_id,
+      shop_id: user.shop_id,
+    });
 
     await this.auditLogService.logLogin({
       user_id: user.id,
@@ -173,9 +154,36 @@ export class AuthService {
   }
 
   async logout(token: string) {
-    if (!token) return;
-    await this.redisService.set(`blacklist:token:${token}`, "1", 24 * 60 * 60);
+    if (!token) return { success: true };
+
+    // 使用JwtAuthService将Token加入黑名单
+    try {
+      const payload = this.jwtService.decode(token) as any;
+      if (payload?.sub) {
+        await this.jwtAuthService.addTokenToBlacklist(token, payload.sub, 'logout');
+      }
+    } catch (error) {
+      // Token解析失败，忽略
+    }
+
     return { success: true };
+  }
+
+  async refreshToken(token: string) {
+    if (!token) {
+      throw new UnauthorizedException('未提供Token');
+    }
+
+    try {
+      // 使用JwtAuthService刷新Token
+      const newToken = await this.jwtAuthService.refreshToken(token);
+      return {
+        access_token: newToken,
+        accessToken: newToken,
+      };
+    } catch (error) {
+      throw new UnauthorizedException('Token刷新失败：' + error.message);
+    }
   }
 
   /**
@@ -186,6 +194,9 @@ export class AuthService {
   @Cache({ ttl: 300, byUser: true, prefix: "user-info" })
   @QueryOptimize({ timeout: 3000, slowQueryThreshold: 200 })
   async me(id: string) {
+    if (!id) {
+      throw new UnauthorizedException('用户信息获取失败，凭证无效');
+    }
     const user = await this.prisma.sys_user.findUnique({
       where: { id },
     });

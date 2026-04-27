@@ -26,8 +26,10 @@ interface CurrentUser {
 interface GlobalState {
   token?: string;
   currentUser?: CurrentUser;
+  theme: 'light' | 'dark';
   setToken: (token?: string) => void;
   setCurrentUser: (currentUser?: CurrentUser) => void;
+  setTheme: (theme: 'light' | 'dark') => void;
 }
 
 const extractButtonCode = (button: ButtonLike): string | undefined =>
@@ -102,5 +104,12 @@ export const useGlobalStore = create<GlobalState>((set) => ({
     }
 
     set({ currentUser: normalizedUser });
+  },
+  theme: typeof localStorage !== "undefined" && localStorage.getItem("theme") === "dark" ? "dark" : "light",
+  setTheme: (theme) => {
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem("theme", theme);
+    }
+    set({ theme });
   },
 }));

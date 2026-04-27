@@ -1,27 +1,32 @@
-import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ExecutionContext, Injectable, UnauthorizedException, Logger } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { IS_PUBLIC_KEY } from '../public.decorator';
-import { RedisService } from '../services/redis.service';
-import { JwtService } from '@nestjs/jwt';
+import { JwtAuthService } from '../services/jwt-auth.service';
 import { PrismaService } from '../../prisma/prisma.service';
 
 /**
- * 高性能 JWT 认证守卫 (V4.0)
- * 核心优化：引入 Redis 缓存用户信息，避免主业务链路对数据库的频繁冲击。
+ * 高性能 JWT 认证守卫 (V5.0)
+ * 核心优化：
+ * 1. 使用统一的 JwtAuthService 进行 Token 验证和黑名单检查
+ * 2. 引入 Redis 缓存用户信息，避免主业务链路对数据库的频繁冲击
+ * 3. 支持 Token 自动刷新（滑动过期）
+ * 4. 完整的安全日志记录
  */
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
+  private readonly logger = new Logger(JwtAuthGuard.name);
+
   constructor(
     private readonly reflector: Reflector,
-    private readonly redisService: RedisService,
-    private readonly jwtService: JwtService,
+    private readonly jwtAuthService: JwtAuthService,
     private readonly prisma: PrismaService,
   ) {
     super();
   }
 
   async canActivate(context: ExecutionContext) {
+    // 1. 检查是否为公开接口
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass()
@@ -32,87 +37,80 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     }
 
     const request = context.switchToHttp().getRequest();
-    console.log(`📡 [JwtAuthGuard] 拦截到请求: ${request.method} ${request.url}`);
-    const canActivate = await super.canActivate(context);
-    if (!canActivate) {
-      return false;
+    const response = context.switchToHttp().getResponse();
+
+    // 2. 提取 Token（支持多种方式）
+    const token = this.extractToken(request);
+
+    if (!token) {
+      this.logger.warn(`未提供Token: ${request.method} ${request.url}`);
+      throw new UnauthorizedException('未提供身份认证凭证，请先登录');
     }
 
-    const response = context.switchToHttp().getResponse();
-    const authHeader = request.headers.authorization;
-    const token = authHeader?.replace('Bearer ', '');
-    
-    if (token) {
-      // 1. 检查 Token 是否在黑名单 (Redis)
-      const isBlacklisted = await this.redisService.get(`blacklist:token:${token}`);
-      if (isBlacklisted) {
-        throw new UnauthorizedException('登录状态已失效，请重新登录');
+    try {
+      // 3. 验证 Token（包含黑名单检查）
+      const payload = await this.jwtAuthService.verifyToken(token);
+
+      // 4. 检查用户状态
+      const user = await this.prisma.sys_user.findUnique({
+        where: { id: payload.sub },
+        select: { status: true, is_deleted: true }
+      });
+
+      if (!user || user.is_deleted === 1) {
+        throw new UnauthorizedException('账号不存在');
       }
 
-      const payload = this.jwtService.decode(token) as any;
-      if (payload && payload.sub) {
-        // 2. 高频校验优化：优先从 Redis 读取用户元数据
-        const cacheKey = `user_cache:${payload.sub}`;
-        let userData: { status: number; updateTime: number } | null = null;
-        
+      if (user.status !== 1) {
+        throw new UnauthorizedException('账号已被禁用');
+      }
+
+      // 5. 将用户信息附加到请求对象
+      request.user = payload;
+
+      // 6. Token 自动刷新（滑动过期）
+      const shouldRefresh = await this.jwtAuthService.shouldRefreshToken(token);
+      if (shouldRefresh) {
         try {
-          const cached = await this.redisService.get(cacheKey);
-          if (cached) {
-            userData = JSON.parse(cached as string);
-          }
-        } catch (e) {
-          // 缓存异常不影响业务
-        }
-
-        if (!userData) {
-          // 缓存未命中，回源数据库
-          const user = await this.prisma.sys_user.findUnique({
-            where: { id: payload.sub },
-            select: { update_time: true, status: true }
-          });
-
-          if (!user) {
-            throw new UnauthorizedException('账号不存在');
-          }
-
-          userData = {
-            status: user.status,
-            updateTime: user.update_time.getTime()
-          };
-
-          // 将元数据存入 Redis，TTL 10分钟
-          await this.redisService.set(cacheKey, JSON.stringify(userData), 600);
-        }
-
-        // 3. 极速校验状态与版本
-        if (userData.status !== 1) {
-          throw new UnauthorizedException('账号已被禁用');
-        }
-
-        // 检查密码/资料修改导致的版本失效 (payload.iat 是秒)
-        // 增加 60s 容差时间，防止服务器/数据库时钟不同步或 seed 后立刻登录导致的失效
-        if (payload.iat * 1000 < userData.updateTime - 60000) {
-          console.log(`[JwtAuthGuard] Token invalid: iat=${payload.iat * 1000}, updateTime=${userData.updateTime}`);
-          throw new UnauthorizedException('安全信息已变更，请重新登录');
-        }
-
-        // 4. Token 自动滚动刷新 (滑动过期)
-        const now = Math.floor(Date.now() / 1000);
-        const remaining = payload.exp - now;
-        if (remaining > 0 && remaining < 1800) {
-          const newToken = await this.jwtService.signAsync({
-            sub: payload.sub,
-            username: payload.username,
-            platform_id: payload.platform_id,
-            dept_id: payload.dept_id,
-            shop_id: payload.shop_id,
-          });
+          const newToken = await this.jwtAuthService.refreshToken(token);
           response.setHeader('X-Refresh-Token', newToken);
           response.setHeader('Access-Control-Expose-Headers', 'X-Refresh-Token');
+          this.logger.log(`Token自动刷新: 用户 ${payload.sub}`);
+        } catch (error) {
+          // Token刷新失败不影响当前请求
+          this.logger.warn(`Token自动刷新失败: ${error.message}`);
         }
       }
+
+      return true;
+    } catch (error) {
+      // 7. 记录安全日志
+      this.logger.error(`Token验证失败: ${error.message} | ${request.method} ${request.url} | IP: ${request.ip}`);
+      throw error;
+    }
+  }
+
+  /**
+   * 提取 Token（支持多种方式）
+   * 优先级：Header > Query > Body
+   */
+  private extractToken(request: any): string | null {
+    // 1. 从 Authorization Header 提取
+    const authHeader = request.headers?.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      return authHeader.substring(7);
     }
 
-    return true;
+    // 2. 从 Query 参数提取（用于文件下载等场景）
+    if (request.query?.token) {
+      return request.query.token;
+    }
+
+    // 3. 从 Body 提取（用于特殊场景）
+    if (request.body?.token) {
+      return request.body.token;
+    }
+
+    return null;
   }
 }

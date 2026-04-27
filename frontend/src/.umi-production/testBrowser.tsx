@@ -10,7 +10,7 @@ import { getRoutes } from './core/route';
 import type { Location } from 'history';
 
 
-import 'E:/code/AiSystem/frontend/src/global.less';
+import 'E:/code/AiSystem/frontend/src/global.css';
 const publicPath = '/';
 const runtimePublicPath = false;
 

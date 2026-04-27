@@ -7,7 +7,8 @@
     "scripts": {
       "dev": "max dev",
       "build": "max build",
-      "lint": "eslint \"src/**/*.{ts,tsx}\""
+      "lint": "eslint \"src/**/*.{ts,tsx}\"",
+      "serve": "serve dist -l 8000"
     },
     "dependencies": {
       "@ant-design/plots": "^2.6.8",
@@ -23,6 +24,7 @@
       "react": "^18.3.1",
       "react-diff-viewer-continued": "^4.2.0",
       "react-dom": "^18.3.1",
+      "serve": "^14.2.1",
       "socket.io-client": "^4.8.3",
       "uuid": "^13.0.0",
       "zustand": "^5.0.3"
@@ -51,7 +53,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -64,7 +66,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 27
+        "register": 8
       },
       "enableBy": "register"
     },
@@ -77,7 +79,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 7
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -94,7 +96,7 @@
             0
           ]
         },
-        "register": 7
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -111,7 +113,7 @@
             4
           ]
         },
-        "register": 5
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -141,7 +143,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -155,10 +157,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            332
+            306
           ]
         },
-        "register": 35
+        "register": 26
       },
       "enableBy": "register"
     },
@@ -185,13 +187,13 @@
       "time": {
         "hooks": {
           "onCheckConfig": [
-            0
+            1
           ],
           "onCheck": [
             1
           ]
         },
-        "register": 3
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -208,7 +210,7 @@
             0
           ]
         },
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -221,7 +223,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -238,7 +240,7 @@
             0
           ]
         },
-        "register": 12
+        "register": 11
       },
       "enableBy": "register"
     },
@@ -1090,7 +1092,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1104,7 +1106,7 @@
       "time": {
         "hooks": {
           "onStart": [
-            1
+            0
           ]
         },
         "register": 1
@@ -1133,7 +1135,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 120
+        "register": 95
       },
       "enableBy": "register"
     },
@@ -1146,7 +1148,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 73
+        "register": 62
       },
       "enableBy": "config"
     },
@@ -1159,7 +1161,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 22
+        "register": 18
       },
       "enableBy": "config"
     },
@@ -1215,7 +1217,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 53
+        "register": 38
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mpa/mpa": {
@@ -1240,7 +1242,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 2
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/overrides/overrides": {
@@ -1252,7 +1254,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1265,7 +1267,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1279,10 +1281,10 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            0
+            1
           ]
         },
-        "register": 3
+        "register": 2
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/polyfill/publicPathPolyfill": {
@@ -1294,7 +1296,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1320,7 +1322,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1333,7 +1335,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1346,7 +1348,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1359,7 +1361,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 6
+        "register": 7
       },
       "enableBy": "register"
     },
@@ -1372,7 +1374,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1397,7 +1399,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 8
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -1410,7 +1412,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 5
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -1423,7 +1425,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 6
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1436,7 +1438,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 7
+        "register": 5
       },
       "enableBy": "config"
     },
@@ -1462,7 +1464,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 17
+        "register": 7
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/monorepo/redirect": {
@@ -1474,7 +1476,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 32
+        "register": 26
       },
       "enableBy": "config"
     },
@@ -1487,7 +1489,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/clickToComponent/clickToComponent": {
@@ -1537,7 +1539,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/swc/swc": {
@@ -1566,7 +1568,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 9
+        "register": 3
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mako/mako": {
@@ -1578,7 +1580,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1591,7 +1593,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 6
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/hmrGuardian/hmrGuardian": {
@@ -1603,7 +1605,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 3
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/routePreloadOnLoad/routePreloadOnLoad": {
@@ -1615,7 +1617,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 54
+        "register": 35
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/forget/forget": {
@@ -1627,7 +1629,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1640,7 +1642,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1653,7 +1655,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 5
+        "register": 9
       },
       "enableBy": "register"
     },
@@ -1666,7 +1668,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 81
+        "register": 48
       },
       "enableBy": "register"
     },
@@ -1679,7 +1681,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 39
+        "register": 55
       }
     },
     "./node_modules/@umijs/preset-umi/dist/commands/help": {
@@ -1691,7 +1693,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1704,7 +1706,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1730,7 +1732,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1756,7 +1758,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1782,7 +1784,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1834,7 +1836,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1847,7 +1849,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1886,7 +1888,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1912,7 +1914,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1925,7 +1927,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 32
+        "register": 23
       },
       "enableBy": "register"
     },
@@ -1938,7 +1940,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1951,7 +1953,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1991,7 +1993,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 13
+        "register": 16
       }
     },
     "./node_modules/@umijs/plugins/dist/dva": {
@@ -2003,7 +2005,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 11
+        "register": 7
       },
       "enableBy": "config"
     },
@@ -2016,7 +2018,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -2031,7 +2033,7 @@
       },
       "time": {
         "hooks": {},
-        "register": 5
+        "register": 4
       },
       "enableBy": "config"
     },
@@ -2044,7 +2046,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -2057,7 +2059,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 5
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -2070,7 +2072,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -2083,7 +2085,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2096,7 +2098,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -2109,7 +2111,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       }
     },
     "./node_modules/@umijs/plugins/dist/qiankun/slave": {
@@ -2121,7 +2123,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 3
       }
     },
     "./node_modules/@umijs/plugins/dist/react-query": {
@@ -2133,7 +2135,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2146,7 +2148,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 8
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2159,7 +2161,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -2172,7 +2174,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2185,7 +2187,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -2202,7 +2204,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -2219,7 +2221,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -2236,7 +2238,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -2261,23 +2263,14 @@
   },
   "userConfig": {
     "npmClient": "npm",
-    "esbuildMinifyIIFE": true,
-    "extraPostCSSPlugins": [
-      null,
-      null
-    ],
-    "mfsu": false,
-    "jsMinifier": "esbuild",
-    "cssMinifier": "esbuild",
     "headScripts": [
       {
-        "content": "\n      const link = document.createElement('link');\n      link.rel = 'preconnect';\n      link.href = window.location.origin;\n      document.head.appendChild(link);\n    "
-      },
-      {
-        "content": "\n      console.log('=== UMI DEBUG START ===');\n      console.log('Page loaded at:', new Date().toISOString());\n      console.log('Location:', window.location.href);\n      console.log('User Agent:', navigator.userAgent);\n\n      // 监听DOM变化\n      const observer = new MutationObserver(function(mutations) {\n        mutations.forEach(function(mutation) {\n          if (mutation.type === 'childList') {\n            console.log('DOM changed:', mutation.target);\n          }\n        });\n      });\n\n      // 开始观察\n      observer.observe(document.body, {\n        childList: true,\n        subtree: true\n      });\n\n      // 检查React是否加载\n      setTimeout(() => {\n        console.log('React loaded:', typeof window.React !== 'undefined');\n        console.log('Root element:', document.getElementById('root'));\n        console.log('Root innerHTML:', document.getElementById('root')?.innerHTML);\n      }, 1000);\n\n      console.log('=== UMI DEBUG END ===');\n    "
+        "src": "/config.js"
       }
     ],
-    "hash": true,
+    "mfsu": false,
+    "tailwindcss": {},
+    "esbuildMinifyIIFE": true,
     "routes": [
       {
         "path": "/test",
@@ -2292,8 +2285,8 @@
         "component": "register/index"
       },
       {
-        "path": "/maintenance",
-        "component": "maintenance"
+        "path": "/debug",
+        "component": "debug"
       },
       {
         "path": "/",
@@ -2301,7 +2294,7 @@
         "routes": [
           {
             "path": "/",
-            "redirect": "/system/users"
+            "component": "index"
           },
           {
             "path": "/system/users",
@@ -2402,22 +2395,13 @@
       "@umijs/max": "@@/exports"
     },
     "npmClient": "npm",
-    "esbuildMinifyIIFE": true,
-    "extraPostCSSPlugins": [
-      null,
-      null
-    ],
-    "jsMinifier": "esbuild",
-    "cssMinifier": "esbuild",
     "headScripts": [
       {
-        "content": "\n      const link = document.createElement('link');\n      link.rel = 'preconnect';\n      link.href = window.location.origin;\n      document.head.appendChild(link);\n    "
-      },
-      {
-        "content": "\n      console.log('=== UMI DEBUG START ===');\n      console.log('Page loaded at:', new Date().toISOString());\n      console.log('Location:', window.location.href);\n      console.log('User Agent:', navigator.userAgent);\n\n      // 监听DOM变化\n      const observer = new MutationObserver(function(mutations) {\n        mutations.forEach(function(mutation) {\n          if (mutation.type === 'childList') {\n            console.log('DOM changed:', mutation.target);\n          }\n        });\n      });\n\n      // 开始观察\n      observer.observe(document.body, {\n        childList: true,\n        subtree: true\n      });\n\n      // 检查React是否加载\n      setTimeout(() => {\n        console.log('React loaded:', typeof window.React !== 'undefined');\n        console.log('Root element:', document.getElementById('root'));\n        console.log('Root innerHTML:', document.getElementById('root')?.innerHTML);\n      }, 1000);\n\n      console.log('=== UMI DEBUG END ===');\n    "
+        "src": "/config.js"
       }
     ],
-    "hash": true,
+    "tailwindcss": {},
+    "esbuildMinifyIIFE": true,
     "routes": [
       {
         "path": "/test",
@@ -2432,8 +2416,8 @@
         "component": "register/index"
       },
       {
-        "path": "/maintenance",
-        "component": "maintenance"
+        "path": "/debug",
+        "component": "debug"
       },
       {
         "path": "/",
@@ -2441,7 +2425,7 @@
         "routes": [
           {
             "path": "/",
-            "redirect": "/system/users"
+            "component": "index"
           },
           {
             "path": "/system/users",
@@ -2529,7 +2513,7 @@
       "file": "@/pages/login/index.tsx",
       "id": "2",
       "absPath": "/login",
-      "__content": "import { useState, useRef } from \"react\";\r\nimport { useNavigate } from \"react-router-dom\";\r\nimport { useMutation } from \"@tanstack/react-query\";\r\nimport {\r\n  Form,\r\n  Input,\r\n  Button,\r\n  Card,\r\n  Typography,\r\n  Checkbox,\r\n  Space,\r\n  Watermark,\r\n  message,\r\n} from \"antd\";\r\nimport {\r\n  UserOutlined,\r\n  LockOutlined,\r\n  SafetyCertificateOutlined,\r\n  ThunderboltOutlined,\r\n} from \"@ant-design/icons\";\r\nimport { authApi } from \"@/api/auth\";\r\nimport { useGlobalStore } from \"@/models/global\";\r\nimport { useKeyboardShortcuts } from \"@/hooks/useKeyboardShortcuts\";\r\n\r\nconst { Title, Text } = Typography;\r\n\r\nexport default function LoginPage() {\r\n  const [form] = Form.useForm();\r\n  const { setToken } = useGlobalStore();\r\n  const navigate = useNavigate();\r\n  const usernameInputRef = useRef<any>(null);\r\n\r\n  useKeyboardShortcuts({\r\n    \"Ctrl+Enter\": () => form.submit(),\r\n    \"Ctrl+r\": () => navigate(\"/register\"),\r\n  });\r\n\r\n  const loginMutation = useMutation({\r\n    mutationFn: authApi.login,\r\n    onSuccess: (data) => {\r\n      setToken(data.access_token);\r\n      localStorage.setItem(\"token\", data.access_token);\r\n      message.success(\"登录成功，欢迎回来\");\r\n      navigate(\"/\");\r\n    },\r\n    onError: (error: any) => {\r\n      message.error(\r\n        error.response?.data?.message || \"登录失败，请检查账号密码\",\r\n      );\r\n    },\r\n  });\r\n\r\n  return (\r\n    <Watermark\r\n      content=\"雷犀 AI 客服系统\"\r\n      font={{ color: \"rgba(0,0,0,0.05)\", fontSize: 16 }}\r\n    >\r\n      <div\r\n        className=\"min-h-screen flex items-center justify-center\"\r\n        style={{\r\n          background: \"linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)\",\r\n          position: \"relative\",\r\n          overflow: \"hidden\",\r\n        }}\r\n      >\r\n        {/* 背景光影装饰 */}\r\n        <div className=\"absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-200 opacity-20 blur-[120px] rounded-full\" />\r\n        <div className=\"absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-200 opacity-20 blur-[120px] rounded-full\" />\r\n\r\n        <Card\r\n          bordered={false}\r\n          className=\"w-full max-w-[440px] shadow-2xl rounded-2xl\"\r\n          styles={{ body: { padding: \"40px 48px\" } }}\r\n        >\r\n          <div className=\"text-center mb-10\">\r\n            <div className=\"flex justify-center mb-4\">\r\n              <div className=\"w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200\">\r\n                <ThunderboltOutlined className=\"text-white text-2xl\" />\r\n              </div>\r\n            </div>\r\n            <Title\r\n              level={2}\r\n              className=\"m-0 font-black text-slate-900 tracking-tight\"\r\n            >\r\n              雷犀 AI 客服系统\r\n            </Title>\r\n            <Text className=\"text-slate-500 mt-2 block font-medium\">\r\n              LEIXI AI CUSTOMER SERVICE SYSTEM\r\n            </Text>\r\n          </div>\r\n\r\n          <Form\r\n            form={form}\r\n            layout=\"vertical\"\r\n            size=\"large\"\r\n            onFinish={loginMutation.mutate}\r\n            autoComplete=\"off\"\r\n          >\r\n            <Form.Item\r\n              name=\"username\"\r\n              rules={[{ required: true, message: \"请输入登录账号\" }]}\r\n            >\r\n              <Input\r\n                prefix={<UserOutlined className=\"text-slate-400\" />}\r\n                placeholder=\"用户名 / 账号\"\r\n                className=\"h-[44px] rounded-lg border-slate-200 font-bold text-slate-900\"\r\n              />\r\n            </Form.Item>\r\n\r\n            <Form.Item\r\n              name=\"password\"\r\n              rules={[{ required: true, message: \"请输入登录密码\" }]}\r\n            >\r\n              <Input.Password\r\n                prefix={<LockOutlined className=\"text-slate-400\" />}\r\n                placeholder=\"密码\"\r\n                className=\"h-[44px] rounded-lg border-slate-200\"\r\n              />\r\n            </Form.Item>\r\n\r\n            <div className=\"flex justify-between items-center mb-6\">\r\n              <Form.Item name=\"remember\" valuePropName=\"checked\" noStyle>\r\n                <Checkbox className=\"font-bold text-slate-600\">\r\n                  自动登录\r\n                </Checkbox>\r\n              </Form.Item>\r\n              <Text className=\"text-blue-600 cursor-pointer font-bold hover:text-blue-500\">\r\n                忘记密码?\r\n              </Text>\r\n            </div>\r\n\r\n            <Form.Item className=\"mb-0\">\r\n              <Button\r\n                type=\"primary\"\r\n                htmlType=\"submit\"\r\n                block\r\n                loading={loginMutation.isPending}\r\n                className=\"h-[44px] rounded-lg font-black text-lg shadow-lg shadow-blue-100\"\r\n              >\r\n                立即登录\r\n              </Button>\r\n            </Form.Item>\r\n\r\n            {/* 注册入口 */}\r\n            <div className=\"mt-4 text-center\">\r\n              <Text className=\"text-slate-500\">\r\n                还没有账号？\r\n                <Text\r\n                  className=\"text-blue-600 cursor-pointer font-bold hover:text-blue-500 ml-1\"\r\n                  onClick={() => navigate(\"/register\")}\r\n                >\r\n                  立即注册\r\n                </Text>\r\n              </Text>\r\n            </div>\r\n          </Form>\r\n\r\n          <div className=\"mt-8 text-center\">\r\n            <Space className=\"text-slate-400 text-xs\">\r\n              <SafetyCertificateOutlined />\r\n              <Text className=\"text-slate-400 text-xs\">企业级安全加密保护</Text>\r\n            </Space>\r\n          </div>\r\n        </Card>\r\n\r\n        {/* 页脚版权 */}\r\n        <div className=\"absolute bottom-8 w-full text-center\">\r\n          <Text className=\"text-slate-500 font-bold text-xs uppercase tracking-widest opacity-60\">\r\n            © 2026 LEIXI INTELLIGENT TECHNOLOGY ALL RIGHTS RESERVED\r\n          </Text>\r\n        </div>\r\n      </div>\r\n    </Watermark>\r\n  );\r\n}\r\n",
+      "__content": "import { useState, useRef } from \"react\";\nimport { useNavigate } from \"@umijs/max\";\nimport { useMutation } from \"@tanstack/react-query\";\nimport {\n  Form,\n  Input,\n  Button,\n  Card,\n  Typography,\n  Checkbox,\n  Space,\n  ConfigProvider,\n  theme,\n  message,\n} from \"antd\";\nimport {\n  UserOutlined,\n  LockOutlined,\n} from \"@ant-design/icons\";\nimport { authApi } from \"@/api/auth\";\nimport { useGlobalStore } from \"@/models/global\";\nimport { useKeyboardShortcuts } from \"@/hooks/useKeyboardShortcuts\";\n\nconst { Title, Text } = Typography;\n\nexport default function LoginPage() {\n  const [form] = Form.useForm();\n  const { setToken, setCurrentUser } = useGlobalStore();\n  const navigate = useNavigate();\n  \n  useKeyboardShortcuts({\n    \"Ctrl+Enter\": () => form.submit(),\n    \"Ctrl+r\": () => navigate(\"/register\"),\n  });\n\n  const loginMutation = useMutation({\n    mutationFn: authApi.login,\n    onSuccess: (data) => {\n      // 1. 同步状态到 Store 和 localStorage\n      setToken(data.access_token);\n      setCurrentUser(data.user);\n      \n      message.success(\"登录成功，欢迎回来\");\n      \n      // 2. 给状态同步留出一点微小的反应时间，防止拦截器竞态\n      setTimeout(() => {\n        navigate(\"/\", { replace: true });\n      }, 100);\n    },\n    onError: (error: any) => {\n      const errorMessage = error.response?.data?.message || error.message || \"登录失败，请检查账号密码\";\n      message.error(errorMessage);\n    },\n  });\n\n  return (\n    <ConfigProvider\n      theme={{\n        token: {\n          borderRadius: 12,\n          colorPrimary: '#2563eb',\n        },\n      }}\n    >\n      <div\n        className=\"min-h-screen flex items-center justify-center\"\n        style={{\n          background: \"#f0f2f5\",\n          backgroundImage: `radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.1) 0px, transparent 50%), \n                          radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.1) 0px, transparent 50%)`,\n          position: \"relative\",\n          overflow: \"hidden\",\n        }}\n      >\n        <div className=\"relative z-10 w-full max-w-[420px] px-6\">\n          <div className=\"text-center mb-8\">\n            <div className=\"inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-6 shadow-xl shadow-blue-200\">\n              <LockOutlined style={{ fontSize: 32, color: '#fff' }} />\n            </div>\n            <Title level={3} style={{ fontWeight: 600, margin: 0, letterSpacing: '-0.02em' }}>\n              雷犀AI客服管理系统\n            </Title>\n            <Text type=\"secondary\" style={{ marginTop: 8, display: 'block' }}>\n              企业级 AI 驱动的客服效能平台\n            </Text>\n          </div>\n\n          <Card\n            bordered={false}\n            style={{ \n              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)',\n              borderRadius: '24px'\n            }}\n            styles={{ body: { padding: \"40px\" } }}\n          >\n            <Form\n              form={form}\n              layout=\"vertical\"\n              size=\"large\"\n              onFinish={loginMutation.mutate}\n              autoComplete=\"off\"\n            >\n              <Form.Item\n                name=\"username\"\n                rules={[{ required: true, message: \"请输入登录账号\" }]}\n              >\n                <Input\n                  prefix={<UserOutlined style={{ color: '#94a3b8' }} />}\n                  placeholder=\"用户名 / 账号\"\n                  style={{ height: '48px', background: '#f8fafc' }}\n                />\n              </Form.Item>\n\n              <Form.Item\n                name=\"password\"\n                rules={[{ required: true, message: \"请输入登录密码\" }]}\n                style={{ marginBottom: 12 }}\n              >\n                <Input.Password\n                  prefix={<LockOutlined style={{ color: '#94a3b8' }} />}\n                  placeholder=\"密码\"\n                  style={{ height: '48px', background: '#f8fafc' }}\n                />\n              </Form.Item>\n\n              <div className=\"flex justify-between items-center mb-8\">\n                <Form.Item name=\"remember\" valuePropName=\"checked\" noStyle>\n                  <Checkbox style={{ fontSize: '13px' }}>自动登录</Checkbox>\n                </Form.Item>\n                <Text style={{ fontSize: '13px', color: '#2563eb', cursor: 'pointer' }}>\n                  忘记密码?\n                </Text>\n              </div>\n\n              <Form.Item className=\"mb-0\">\n                <Button\n                  type=\"primary\"\n                  htmlType=\"submit\"\n                  block\n                  loading={loginMutation.isPending}\n                  style={{ \n                    height: '48px', \n                    fontSize: '16px', \n                    fontWeight: 600,\n                    boxShadow: '0 4px 12px rgba(37, 99, 235, 0.2)' \n                  }}\n                >\n                  进入系统\n                </Button>\n              </Form.Item>\n            </Form>\n          </Card>\n\n          <div className=\"mt-8 text-center\">\n            <Space size=\"middle\">\n              <Text type=\"secondary\" style={{ fontSize: '13px' }}>\n                还没有账号？\n              </Text>\n              <Button type=\"link\" style={{ padding: 0, fontSize: '13px' }} onClick={() => navigate(\"/register\")}>\n                立即注册\n              </Button>\n            </Space>\n          </div>\n        </div>\n\n        {/* 底部装饰 */}\n        <div className=\"absolute bottom-8 text-center w-full\">\n          <Text type=\"secondary\" style={{ fontSize: '12px', opacity: 0.5, letterSpacing: '0.1em' }}>\n            Powered by LeiXi Intelligence © 2026\n          </Text>\n        </div>\n      </div>\n    </ConfigProvider>\n  );\n}\n",
       "__isJSFile": true,
       "__absFile": "E:/code/AiSystem/frontend/src/pages/login/index.tsx"
     },
@@ -2543,29 +2527,32 @@
       "__absFile": "E:/code/AiSystem/frontend/src/pages/register/index.tsx"
     },
     "4": {
-      "path": "/maintenance",
-      "file": "@/pages/maintenance.tsx",
+      "path": "/debug",
+      "file": "@/pages/debug.tsx",
       "id": "4",
-      "absPath": "/maintenance",
-      "__content": "import React from 'react';\r\n\r\nexport default function MaintenancePage() {\r\n  console.log('MaintenancePage rendered');\r\n  return (\r\n    <div style={{ padding: '20px', fontSize: '18px', textAlign: 'center' }}>\r\n      <h1>系统维护中</h1>\r\n      <p>系统正在维护，请稍后再试</p>\r\n    </div>\r\n  );\r\n}\r\n",
+      "absPath": "/debug",
+      "__content": "import React from 'react';\r\n\r\n// 最简单的调试页面，不依赖任何复杂组件\r\nexport default function DebugPage() {\r\n  // 在页面加载时立即输出调试信息\r\n  console.log('=== DEBUG PAGE LOADED ===');\r\n  console.log('React version:', React.version);\r\n  console.log('Environment:', process.env.NODE_ENV);\r\n  console.log('API Base URL:', process.env.VITE_API_BASE_URL);\r\n  console.log('Window location:', window.location.href);\r\n  console.log('=== DEBUG INFO END ===');\r\n\r\n  return (\r\n    <div style={{\r\n      padding: '20px',\r\n      backgroundColor: '#f0f0f0',\r\n      border: '2px solid red',\r\n      fontSize: '16px',\r\n      fontFamily: 'monospace'\r\n    }}>\r\n      <h1 style={{ color: 'red' }}>🔧 调试页面</h1>\r\n      <p><strong>如果你看到这个页面，说明React应用已经启动！</strong></p>\r\n      <hr />\r\n      <p>React版本: {React.version}</p>\r\n      <p>环境: {process.env.NODE_ENV}</p>\r\n      <p>API地址: {process.env.VITE_API_BASE_URL}</p>\r\n      <p>当前URL: {window.location.href}</p>\r\n      <p>当前时间: {new Date().toLocaleString()}</p>\r\n      <hr />\r\n      <p style={{ color: 'green' }}>✅ React应用正常工作</p>\r\n    </div>\r\n  );\r\n}\r\n",
       "__isJSFile": true,
-      "__absFile": "E:/code/AiSystem/frontend/src/pages/maintenance.tsx"
+      "__absFile": "E:/code/AiSystem/frontend/src/pages/debug.tsx"
     },
     "5": {
       "path": "/",
       "file": "@/layouts/BasicLayout.tsx",
       "id": "5",
       "absPath": "/",
-      "__content": "import { useEffect, useState } from \"react\";\r\nimport { Link, Navigate, Outlet, useLocation, useNavigate } from \"@umijs/max\";\r\nimport { ProLayout, PageContainer } from \"@ant-design/pro-components\";\r\nimport {\r\n  Space,\r\n  Typography,\r\n  Dropdown,\r\n  Badge,\r\n  ConfigProvider,\r\n  Modal,\r\n  Switch,\r\n  Tooltip,\r\n} from \"antd\";\r\nimport {\r\n  LogoutOutlined,\r\n  UserOutlined,\r\n  BellOutlined,\r\n  RobotOutlined,\r\n  DashboardOutlined,\r\n  ShopOutlined,\r\n  ControlOutlined,\r\n  ThunderboltOutlined,\r\n  BulbOutlined,\r\n  BulbFilled,\r\n  AppstoreOutlined,\r\n  TeamOutlined,\r\n  SafetyCertificateOutlined,\r\n} from \"@ant-design/icons\";\r\nimport { useQuery } from \"@tanstack/react-query\";\r\nimport { authApi } from \"@/api/auth\";\r\nimport { systemApi } from \"@/api/system\";\r\nimport { approvalApi } from \"@/api/approval\";\r\nimport { examApi, type ExamAssignment } from \"@/api/exam\";\r\nimport { HeaderMessageHub } from \"@/components/common/HeaderMessageHub\";\r\nimport {\r\n  RealtimeNotificationCenter,\r\n  type RealtimeMessageEvent,\r\n} from \"@/components/common/RealtimeNotificationCenter\";\r\nimport { useGlobalStore } from \"@/models/global\";\r\nimport { useTheme } from \"@/hooks/useTheme\";\r\nimport zhCN from \"antd/locale/zh_CN\";\r\nimport FloatingChat from \"@/components/common/FloatingChat\";\r\n\r\nconst { Text } = Typography;\r\n\r\nexport default function BasicLayout() {\r\n  const navigate = useNavigate();\r\n  const location = useLocation();\r\n  const { token, currentUser, setCurrentUser, setToken } = useGlobalStore();\r\n  const { isDark, toggleTheme, algorithm } = useTheme();\r\n  const [lastMessageEvent, setLastMessageEvent] =\r\n    useState<RealtimeMessageEvent>();\r\n  const [activeExamModalOpen, setActiveExamModalOpen] = useState(false);\r\n\r\n  // 1. 数据查询\r\n  const { data: me } = useQuery({\r\n    queryKey: [\"auth-me\"],\r\n    queryFn: authApi.me,\r\n    enabled: Boolean(token),\r\n  });\r\n\r\n  const { data: messageStats } = useQuery({\r\n    queryKey: [\"system-message-stats\"],\r\n    queryFn: systemApi.messageStats,\r\n    enabled: Boolean(token),\r\n  });\r\n\r\n  const { data: approvalStats } = useQuery({\r\n    queryKey: [\"approval-request-stats\"],\r\n    queryFn: approvalApi.requestStats,\r\n    enabled: Boolean(token),\r\n  });\r\n\r\n  const { data: activeExam } = useQuery<ExamAssignment | null>({\r\n    queryKey: [\"exam-active\"],\r\n    queryFn: examApi.getMyActiveExam,\r\n    enabled: Boolean(token),\r\n    refetchInterval: 30000,\r\n    retry: false,\r\n  });\r\n\r\n  useEffect(() => {\r\n    if (!token) navigate(\"/login\");\r\n    if (me) setCurrentUser(me);\r\n  }, [me, token, setCurrentUser, navigate]);\r\n\r\n  useEffect(() => {\r\n    if (!activeExam) {\r\n      setActiveExamModalOpen(false);\r\n      return;\r\n    }\r\n\r\n    const storageKey = `exam-active-notice:${activeExam.id}`;\r\n    if (activeExam.reminder_mode === \"force\") {\r\n      setActiveExamModalOpen(true);\r\n      return;\r\n    }\r\n\r\n    if (!sessionStorage.getItem(storageKey)) {\r\n      sessionStorage.setItem(storageKey, \"1\");\r\n      setActiveExamModalOpen(true);\r\n    }\r\n  }, [activeExam]);\r\n\r\n  // 2. 菜单图标映射\r\n  const menuIconMap: Record<string, React.ReactNode> = {\r\n    \"/system\": <AppstoreOutlined />,\r\n    \"/org\": <TeamOutlined />,\r\n    \"/approval\": <SafetyCertificateOutlined />,\r\n    \"/service\": <RobotOutlined />,\r\n    \"/exam\": <SafetyCertificateOutlined />,\r\n    \"/finance\": <DashboardOutlined />,\r\n    \"/shop\": <ShopOutlined />,\r\n    \"/system/data-mapping\": <ControlOutlined />,\r\n    \"/attendance/ai-schedule\": <ThunderboltOutlined />,\r\n  };\r\n\r\n  // 3. 处理菜单数据 (严格适配 ProLayout)\r\n  const menuData =\r\n    currentUser?.menus\r\n      ?.filter((m) => m?.route)\r\n      .map((m) => ({\r\n        path: m.route,\r\n        name: m.menu_name,\r\n        icon: menuIconMap[m.route!.split(\"/\").slice(0, 2).join(\"/\")] || (\r\n          <AppstoreOutlined />\r\n        ),\r\n      })) || [];\r\n\r\n  if (!token) {\r\n    return <Navigate to=\"/login\" replace />;\r\n  }\r\n\r\n  // 如果正在加载关键用户信息，可以显示一个加载状态，防止部分组件因缺少数据崩溃\r\n  if (!currentUser && token) {\r\n    return (\r\n      <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f8fafc' }}>\r\n        <Space direction=\"vertical\" align=\"center\">\r\n          <RobotOutlined style={{ fontSize: 48, color: '#3b82f6' }} />\r\n          <Text strong>正在初始化系统...</Text>\r\n        </Space>\r\n      </div>\r\n    );\r\n  }\r\n\r\n  return (\r\n    <ConfigProvider\r\n      locale={zhCN}\r\n      theme={{\r\n        algorithm: algorithm,\r\n      }}\r\n    >\r\n      <div id=\"pro-layout-container\" style={{ height: \"100vh\" }}>\r\n        <RealtimeNotificationCenter lastEvent={lastMessageEvent} />\r\n        <Modal\r\n          open={activeExamModalOpen}\r\n          closable={activeExam?.reminder_mode !== \"force\"}\r\n          maskClosable={activeExam?.reminder_mode !== \"force\"}\r\n          cancelButtonProps={{\r\n            style: {\r\n              display:\r\n                activeExam?.reminder_mode === \"force\" ? \"none\" : undefined,\r\n            },\r\n          }}\r\n          title={\r\n            activeExam?.reminder_mode === \"force\" ? \"强制考试提醒\" : \"考试提醒\"\r\n          }\r\n          onCancel={() => setActiveExamModalOpen(false)}\r\n          onOk={() => {\r\n            if (activeExam) {\r\n              setActiveExamModalOpen(false);\r\n              navigate(`/exam/my/${activeExam.id}`);\r\n            }\r\n          }}\r\n        >\r\n          <p>{activeExam?.plan.plan_name}</p>\r\n          <p>{activeExam?.plan.paper?.paper_name}</p>\r\n          <p>\r\n            {activeExam?.reminder_mode === \"force\"\r\n              ? \"当前考试已开始，请立即进入考试页面。\"\r\n              : \"当前有一场考试正在进行，请按时完成。\"}\r\n          </p>\r\n        </Modal>\r\n        <ProLayout\r\n          title=\"雷犀系统 AiSystem\"\r\n          logo=\"/logo.png\" // 假设有Logo\r\n          layout=\"mix\" // 混合布局，AD Pro 5 推荐\r\n          fixedHeader\r\n          fixSiderbar\r\n          location={location}\r\n          menuDataRender={() => [\r\n            {\r\n              path: \"/finance/dashboard\",\r\n              name: \"财务大屏\",\r\n              icon: <DashboardOutlined />,\r\n            },\r\n            ...menuData,\r\n          ]}\r\n          menuItemRender={(item, dom) => (\r\n            <Link to={item.path || \"/\"} className=\"font-bold text-slate-700\">\r\n              {dom}\r\n            </Link>\r\n          )}\r\n          subMenuItemRender={(_, dom) => (\r\n            <span className=\"font-black text-slate-900\">{dom}</span>\r\n          )}\r\n          // 头部右侧工具栏\r\n          actionsRender={() => [\r\n            <Tooltip\r\n              key=\"theme-toggle\"\r\n              title={isDark ? \"切换到浅色模式\" : \"切换到深色模式\"}\r\n            >\r\n              <Switch\r\n                checked={isDark}\r\n                onChange={toggleTheme}\r\n                checkedChildren={<BulbFilled />}\r\n                unCheckedChildren={<BulbOutlined />}\r\n                style={{ marginRight: 16 }}\r\n              />\r\n            </Tooltip>,\r\n            <HeaderMessageHub key=\"message-hub\" enabled={Boolean(token)} />,\r\n            <Badge\r\n              key=\"pending-approval\"\r\n              count={approvalStats?.pendingCount}\r\n              size=\"small\"\r\n            >\r\n              <BellOutlined className=\"text-slate-600 text-lg cursor-pointer\" />\r\n            </Badge>,\r\n          ]}\r\n          avatarProps={{\r\n            src: \"https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png\",\r\n            title: (\r\n              <Text className=\"font-black text-slate-900\">\r\n                {currentUser?.name || \"管理员\"}\r\n              </Text>\r\n            ),\r\n            size: \"small\",\r\n            render: (_props, dom) => (\r\n              <Dropdown\r\n                menu={{\r\n                  items: [\r\n                    {\r\n                      key: \"logout\",\r\n                      icon: <LogoutOutlined />,\r\n                      label: \"退出登录\",\r\n                      onClick: () => {\r\n                        setToken(undefined);\r\n                        setCurrentUser(undefined);\r\n                        navigate(\"/login\");\r\n                      },\r\n                    },\r\n                  ],\r\n                }}\r\n              >\r\n                {dom}\r\n              </Dropdown>\r\n            ),\r\n          }}\r\n          siderWidth={240}\r\n          token={{\r\n            sider: {\r\n              colorMenuBackground: \"#ffffff\",\r\n              colorTextMenuSelected: \"#0f172a\", // slate-900\r\n              colorBgMenuItemSelected: \"#f1f5f9\", // slate-100\r\n            },\r\n            header: {\r\n              colorBgHeader: \"#ffffff\",\r\n              colorHeaderTitle: \"#0f172a\",\r\n            },\r\n          }}\r\n        >\r\n          <PageContainer\r\n            header={{\r\n              title: null, // 隐藏默认标题，使用页面内自定义\r\n              breadcrumb: {}, // 开启面包屑\r\n            }}\r\n            style={{ padding: 0 }}\r\n          >\r\n            <Outlet />\r\n          </PageContainer>\r\n        </ProLayout>\r\n        <FloatingChat />\r\n      </div>\r\n    </ConfigProvider>\r\n  );\r\n}\r\n",
+      "__content": "import { useEffect, useState, useMemo } from \"react\";\nimport { Link, Navigate, Outlet, useLocation, useNavigate } from \"@umijs/max\";\nimport { ProLayout, PageContainer } from \"@ant-design/pro-components\";\nimport {\n  Space,\n  Typography,\n  Dropdown,\n  Badge,\n  ConfigProvider,\n  Modal,\n  Button,\n  theme,\n  Input,\n  Tooltip,\n} from \"antd\";\nimport {\n  LogoutOutlined,\n  UserOutlined,\n  BellOutlined,\n  RobotOutlined,\n  DashboardOutlined,\n  ShopOutlined,\n  ControlOutlined,\n  ThunderboltOutlined,\n  BulbOutlined,\n  BulbFilled,\n  AppstoreOutlined,\n  TeamOutlined,\n  SafetyCertificateOutlined,\n  SearchOutlined,\n  MenuFoldOutlined,\n  MenuUnfoldOutlined,\n} from \"@ant-design/icons\";\nimport { useQuery } from \"@tanstack/react-query\";\nimport { authApi } from \"@/api/auth\";\nimport { systemApi } from \"@/api/system\";\nimport { approvalApi } from \"@/api/approval\";\nimport { examApi, type ExamAssignment } from \"@/api/exam\";\nimport { HeaderMessageHub } from \"@/components/common/HeaderMessageHub\";\nimport {\n  RealtimeNotificationCenter,\n  type RealtimeMessageEvent,\n} from \"@/components/common/RealtimeNotificationCenter\";\nimport { useGlobalStore } from \"@/models/global\";\nimport { useTheme } from \"@/hooks/useTheme\";\nimport zhCN from \"antd/locale/zh_CN\";\nimport FloatingChat from \"@/components/common/FloatingChat\";\nimport { MenuSearch } from \"@/components/common/MenuSearch\";\nimport { RightContent } from \"@/components/RightContent\";\n\nconst { Text, Title } = Typography;\nconst { useToken } = theme;\n\n// ─── 静态常量移出组件，避免每次渲染重新创建 ───────────────────────────────\nconst ROUTE_DICTIONARY: Record<string, { name: string; group: string; subGroup?: string }> = {\n  // 人员管理\n  \"/system/users\": { name: \"系统用户\", group: \"人员管理\" },\n  \"/org/employees\": { name: \"员工档案\", group: \"人员管理\" },\n  \"/org/staff\": { name: \"员工配置\", group: \"人员管理\" },\n\n  // 架构管理\n  \"/org/departments\": { name: \"业务部门\", group: \"架构管理\" },\n  \"/system/departments\": { name: \"系统部门\", group: \"架构管理\" },\n  \"/org/positions\": { name: \"职位设置\", group: \"架构管理\" },\n  \"/system/roles\": { name: \"角色与权限\", group: \"架构管理\" },\n\n  // AI设置\n  \"/system/ai-config\": { name: \"大模型引擎\", group: \"AI设置\" },\n  \"/service/quality-prompts/global\": { name: \"全局Prompt\", group: \"AI设置\", subGroup: \"提示词工程\" },\n  \"/service/quality-prompts/department\": { name: \"部门Prompt\", group: \"AI设置\", subGroup: \"提示词工程\" },\n  \"/service/quality-prompts/templates\": { name: \"Prompt模板\", group: \"AI设置\", subGroup: \"提示词工程\" },\n  \"/service/quality-prompts/audit-logs\": { name: \"Prompt日志\", group: \"AI设置\", subGroup: \"提示词工程\" },\n\n  // 智能客服系统\n  \"/service/dashboard\": { name: \"服务大屏\", group: \"智能客服系统\" },\n  \"/service/sessions\": { name: \"会话质检\", group: \"智能客服系统\", subGroup: \"质检体系\" },\n  \"/service/quality-rules\": { name: \"质检规则\", group: \"智能客服系统\", subGroup: \"质检体系\" },\n  \"/service/tags\": { name: \"质检标签\", group: \"智能客服系统\", subGroup: \"质检体系\" },\n  \"/service/sensitive-terms\": { name: \"敏感词库\", group: \"智能客服系统\", subGroup: \"质检体系\" },\n  \"/service/loss-analysis\": { name: \"流失分析\", group: \"智能客服系统\", subGroup: \"数据洞察\" },\n  \"/service/faq-stats\": { name: \"问答统计\", group: \"智能客服系统\", subGroup: \"数据洞察\" },\n\n  // 知识与培训\n  \"/knowledge/categories\": { name: \"知识库分类\", group: \"知识与培训\", subGroup: \"知识库\" },\n  \"/knowledge/faq-candidates\": { name: \"问答库\", group: \"知识与培训\", subGroup: \"知识库\" },\n  \"/knowledge/articles\": { name: \"文章管理\", group: \"知识与培训\", subGroup: \"知识库\" },\n  \"/exam/papers\": { name: \"试卷管理\", group: \"知识与培训\", subGroup: \"考试测评\" },\n  \"/exam/plans\": { name: \"考试计划\", group: \"知识与培训\", subGroup: \"考试测评\" },\n  \"/exam/my\": { name: \"我的考试\", group: \"知识与培训\", subGroup: \"考试测评\" },\n  \"/exam/results\": { name: \"考试结果\", group: \"知识与培训\", subGroup: \"考试测评\" },\n\n  // 考勤与审批\n  \"/attendance/groups\": { name: \"考勤组配置\", group: \"考勤与审批\", subGroup: \"考勤管理\" },\n  \"/attendance/shifts\": { name: \"班次管理\", group: \"考勤与审批\", subGroup: \"考勤管理\" },\n  \"/attendance/schedules\": { name: \"排班计划\", group: \"考勤与审批\", subGroup: \"考勤管理\" },\n  \"/attendance/records\": { name: \"打卡记录\", group: \"考勤与审批\", subGroup: \"考勤管理\" },\n  \"/attendance/requests\": { name: \"考勤申请\", group: \"考勤与审批\", subGroup: \"考勤管理\" },\n  \"/approval/process\": { name: \"流程配置\", group: \"考勤与审批\", subGroup: \"审批中心\" },\n  \"/approval/requests\": { name: \"我的审批\", group: \"考勤与审批\", subGroup: \"审批中心\" },\n\n  // 系统底层\n  \"/system/messages\": { name: \"消息中心\", group: \"系统底层\" },\n  \"/system/menus\": { name: \"菜单路由\", group: \"系统底层\", subGroup: \"开发配置\" },\n  \"/system/apis\": { name: \"API管理\", group: \"系统底层\", subGroup: \"开发配置\" },\n  \"/system/buttons\": { name: \"按钮级权限\", group: \"系统底层\", subGroup: \"开发配置\" },\n  \"/system/platforms\": { name: \"多租户与平台\", group: \"系统底层\", subGroup: \"环境配置\" },\n  \"/system/shops\": { name: \"店铺授权\", group: \"系统底层\", subGroup: \"环境配置\" },\n  \"/system/files\": { name: \"存储与文件\", group: \"系统底层\", subGroup: \"环境配置\" },\n};\n\nconst SORT_ORDER = [\n  \"人员管理\", \"架构管理\", \"AI设置\", \"智能客服系统\",\n  \"知识与培训\", \"考勤与审批\", \"系统底层\", \"其他功能\",\n];\n\n// 记录所有手动构造的占位路径（用于在点击时拦截导航）\nconst placeholderPaths = new Set<string>();\n\nconst isGroupPath = (path?: string) => !path || placeholderPaths.has(path);\n// ──────────────────────────────────────────────────────────────────────────────\n\nexport default function BasicLayout() {\n  const navigate = useNavigate();\n  const location = useLocation();\n  const { token, currentUser, setCurrentUser, setToken } = useGlobalStore();\n  const { isDark, toggleTheme, algorithm } = useTheme();\n  const { token: antdToken } = useToken();\n  \n  const [lastMessageEvent, setLastMessageEvent] = useState<RealtimeMessageEvent>();\n  const [activeExamModalOpen, setActiveExamModalOpen] = useState(false);\n  const [searchVisible, setSearchVisible] = useState(false);\n\n  // 1. 数据查询\n  const { data: me } = useQuery({\n    queryKey: [\"auth-me\"],\n    queryFn: authApi.me,\n    enabled: Boolean(token),\n  });\n\n  const { data: messageStats } = useQuery({\n    queryKey: [\"system-message-stats\"],\n    queryFn: systemApi.messageStats,\n    enabled: Boolean(token),\n  });\n\n  const { data: approvalStats } = useQuery({\n    queryKey: [\"approval-request-stats\"],\n    queryFn: approvalApi.requestStats,\n    enabled: Boolean(token),\n  });\n\n  const { data: activeExam } = useQuery<ExamAssignment | null>({\n    queryKey: [\"exam-active\"],\n    queryFn: examApi.getMyActiveExam,\n    enabled: Boolean(token),\n    refetchInterval: 30000,\n    retry: false,\n  });\n\n  useEffect(() => {\n    if (!token) navigate(\"/login\");\n    if (me) setCurrentUser(me);\n  }, [me, token, setCurrentUser, navigate]);\n\n  useEffect(() => {\n    if (!activeExam) {\n      setActiveExamModalOpen(false);\n      return;\n    }\n    const storageKey = `exam-active-notice:${activeExam.id}`;\n    if (activeExam.reminder_mode === \"force\") {\n      setActiveExamModalOpen(true);\n      return;\n    }\n    if (!sessionStorage.getItem(storageKey)) {\n      sessionStorage.setItem(storageKey, \"1\");\n      setActiveExamModalOpen(true);\n    }\n  }, [activeExam]);\n\n  // 快捷键监听 (Ctrl + K)\n  useEffect(() => {\n    const handleKeyDown = (e: KeyboardEvent) => {\n      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {\n        e.preventDefault();\n        setSearchVisible(true);\n      }\n    };\n    window.addEventListener('keydown', handleKeyDown);\n    return () => window.removeEventListener('keydown', handleKeyDown);\n  }, []);\n\n  // 2. 菜单树构建\n  const menuTree = useMemo(() => {\n    if (!currentUser?.menus) return [];\n\n    const groupIconMap: Record<string, React.ReactNode> = {\n      \"人员管理\": <UserOutlined />,\n      \"架构管理\": <TeamOutlined />,\n      \"AI设置\": <ThunderboltOutlined />,\n      \"智能客服系统\": <RobotOutlined />,\n      \"知识与培训\": <BulbOutlined />,\n      \"考勤与审批\": <SafetyCertificateOutlined />,\n      \"系统底层\": <ControlOutlined />,\n    };\n    \n    const baseMenus = [\n      { path: \"/\", name: \"工作台概览\", icon: <DashboardOutlined /> }\n    ];\n\n    const list = currentUser.menus.filter(m => m.route);\n    const groupedMenuMap = new Map<string, any>();\n    \n    // 清空旧的占位路径记录\n    placeholderPaths.clear();\n    \n    list.forEach(m => {\n      const routeInfo = ROUTE_DICTIONARY[m.route!] || { name: m.menu_name, group: \"其他功能\" };\n      const groupName = routeInfo.group;\n      const subGroupName = routeInfo.subGroup;\n      \n      const groupPath = `/${groupName}`;\n      if (!groupedMenuMap.has(groupName)) {\n        placeholderPaths.add(groupPath);\n        groupedMenuMap.set(groupName, {\n          path: groupPath,\n          name: groupName,\n          icon: groupIconMap[groupName] || <AppstoreOutlined />,\n          children: [],\n        });\n      }\n      \n      const groupNode = groupedMenuMap.get(groupName);\n\n      if (subGroupName) {\n        const subGroupPath = `/${groupName}/${subGroupName}`;\n        let subGroupNode = groupNode.children.find((c: any) => c.name === subGroupName);\n        if (!subGroupNode) {\n          placeholderPaths.add(subGroupPath);\n          subGroupNode = {\n            path: subGroupPath,\n            name: subGroupName,\n            children: [],\n          };\n          groupNode.children.push(subGroupNode);\n        }\n        subGroupNode.children.push({ path: m.route, name: routeInfo.name, icon: null });\n      } else {\n        groupNode.children.push({ path: m.route, name: routeInfo.name, icon: null });\n      }\n    });\n\n    const groupedMenus = Array.from(groupedMenuMap.values());\n    groupedMenus.sort((a, b) => {\n      const wA = SORT_ORDER.indexOf(a.name) === -1 ? 999 : SORT_ORDER.indexOf(a.name);\n      const wB = SORT_ORDER.indexOf(b.name) === -1 ? 999 : SORT_ORDER.indexOf(b.name);\n      return wA - wB;\n    });\n\n    return [...baseMenus, ...groupedMenus.filter(g => g.children.length > 0)];\n  }, [currentUser]);\n\n  if (!token) return <Navigate to=\"/login\" replace />;\n\n  if (!currentUser && token) {\n    return (\n      <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: isDark ? '#141414' : '#f8fafc' }}>\n        <Space direction=\"vertical\" align=\"center\">\n          <RobotOutlined style={{ fontSize: 48, color: antdToken.colorPrimary }} />\n          <Text strong style={{ fontWeight: 400 }}>系统正在加载...</Text>\n        </Space>\n      </div>\n    );\n  }\n\n  return (\n    <ConfigProvider\n      locale={zhCN}\n      theme={{\n        algorithm: algorithm,\n        token: {\n          borderRadius: 6,\n          fontFamily: \"'Inter', 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif\",\n          colorPrimary: '#2563eb',\n          ...(isDark && {\n            colorBgElevated: '#1e293b',\n            colorBgContainer: '#0f172a',\n            colorBorder: '#334155',\n            colorBorderSecondary: '#1e293b',\n            colorText: 'rgba(255,255,255,0.85)',\n          })\n        },\n      }}\n    >\n      <div id=\"pro-layout-container\" style={{ height: \"100vh\" }}>\n        <RealtimeNotificationCenter lastEvent={lastMessageEvent} />\n        \n        <MenuSearch \n          menuData={menuTree} \n          visible={searchVisible} \n          onCancel={() => setSearchVisible(false)} \n        />\n\n        <Modal\n          open={activeExamModalOpen}\n          closable={activeExam?.reminder_mode !== \"force\"}\n          maskClosable={activeExam?.reminder_mode !== \"force\"}\n          title=\"系统任务通知\"\n          onCancel={() => setActiveExamModalOpen(false)}\n          onOk={() => {\n            if (activeExam) {\n              setActiveExamModalOpen(false);\n              navigate(`/exam/my/${activeExam.id}`);\n            }\n          }}\n        >\n          <Text strong style={{ fontSize: 16 }}>{activeExam?.plan.plan_name}</Text>\n          <p style={{ marginTop: 12, color: antdToken.colorTextSecondary }}>\n            {activeExam?.reminder_mode === \"force\" \n              ? \"这是一项强制任务，请立即处理。\" \n              : \"您有一项新的任务需要跟进。\"}\n          </p>\n        </Modal>\n\n        <ProLayout\n          title=\"雷犀\"\n          logo={\n            <div style={{\n              width: 32, height: 32,\n              background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',\n              borderRadius: '9px',\n              display: 'flex', alignItems: 'center', justifyContent: 'center',\n              boxShadow: '0 4px 12px rgba(37,99,235,0.3)',\n              position: 'relative',\n              overflow: 'hidden'\n            }}>\n              {/* Decorative light effect */}\n              <div style={{ position: 'absolute', top: '-20%', left: '-20%', width: '140%', height: '140%', background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)', pointerEvents: 'none' }} />\n              <svg width=\"20\" height=\"14\" viewBox=\"0 0 22 16\" fill=\"none\">\n                <text x=\"0\" y=\"13\" fontFamily=\"'Inter','PingFang SC',sans-serif\" fontWeight=\"800\" fontSize=\"14\" fill=\"white\" letterSpacing=\"-0.5\">AI</text>\n              </svg>\n              {/* Corner dot for \"design sense\" */}\n              <div style={{ position: 'absolute', top: 3, right: 3, width: 3, height: 3, borderRadius: '50%', background: 'rgba(255,255,255,0.8)' }} />\n            </div>\n          }\n          layout=\"mix\"\n          fixedHeader\n          fixSiderbar\n          location={location}\n          menu={{\n            accordion: true,\n          }}\n          menuDataRender={() => menuTree}\n          menuItemRender={(_item, dom) => (\n            // 不使用 Link，避免与 ProLayout 内部导航双重触发冲突\n            // 导航由下方 menuProps.onClick 统一处理\n            <span style={{ display: 'block', width: '100%' }}>{dom}</span>\n          )}\n          menuProps={{\n            onClick: ({ key }: { key: string }) => {\n              // 只对真实路由节点执行跳转，分组/子分组标题不跳转\n              if (!isGroupPath(key)) {\n                navigate(key);\n              }\n            },\n          }}\n          headerContentRender={() => (\n            <div \n              style={{ \n                display: 'flex', \n                alignItems: 'center', \n                background: 'rgba(255,255,255,0.1)',\n                padding: '0 10px 0 12px',\n                borderRadius: '10px',\n                cursor: 'pointer',\n                width: '220px',\n                height: '34px',\n                marginLeft: '16px',\n                border: '1px solid rgba(255,255,255,0.12)',\n                backdropFilter: 'blur(10px)',\n                transition: 'all 0.2s ease',\n              }}\n              className=\"top-search-trigger\"\n              onClick={() => setSearchVisible(true)}\n            >\n              <SearchOutlined style={{ color: 'rgba(255,255,255,0.65)', marginRight: 8, fontSize: 13 }} />\n              <span style={{ fontSize: '12.5px', flex: 1, color: 'rgba(255,255,255,0.65)', fontWeight: 400 }}>搜索功能</span>\n              <div style={{\n                fontSize: '10px', \n                color: 'rgba(255,255,255,0.5)',\n                background: 'rgba(255,255,255,0.08)',\n                padding: '1px 4px', \n                borderRadius: '4px',\n                border: '1px solid rgba(255,255,255,0.1)',\n                fontFamily: 'system-ui', \n                fontWeight: 600,\n                lineHeight: '1',\n                height: '18px',\n                display: 'flex',\n                alignItems: 'center',\n                justifyContent: 'center',\n                minWidth: '28px'\n              }}>⌘K</div>\n            </div>\n          )}\n          actionsRender={() => [<RightContent key=\"right-content\" />]}\n          avatarProps={false}\n          siderWidth={220}\n          token={{\n            sider: {\n              colorMenuBackground: isDark ? \"#0f172a\" : \"#ffffff\",\n              colorTextMenu: isDark ? \"rgba(255,255,255,0.65)\" : \"rgba(0,0,0,0.72)\",\n              colorTextMenuSelected: \"#ffffff\",\n              colorBgMenuItemSelected: isDark ? \"#1d4ed8\" : \"#2f7af7\",\n              colorTextMenuItemHover: isDark ? \"#ffffff\" : \"#2f7af7\",\n            },\n            header: {\n              heightLayoutHeader: 64,\n              colorBgHeader: isDark ? \"#1e293b\" : \"#2f7af7\", // 暗色模式用 slate-800 保持品牌感\n              colorHeaderTitle: \"#ffffff\",\n              colorTextRightActionsItem: \"#ffffff\",\n            },\n          }}\n        >\n          <PageContainer\n            header={{\n              title: null,\n              breadcrumb: {},\n            }}\n            style={{ padding: '16px' }}\n          >\n            {/* 使用 key 强制刷新 Outlet，解决路由卡死在错误页面的问题 */}\n            <Outlet key={location.pathname} />\n          </PageContainer>\n        </ProLayout>\n        <FloatingChat />\n      </div>\n      \n      <style>{`\n        body {\n          font-weight: 400;\n          -webkit-font-smoothing: antialiased;\n          -moz-osx-font-smoothing: grayscale;\n          color: ${isDark ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.85)'};\n        }\n        \n        .top-search-trigger:hover {\n          background: ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.25)'} !important;\n          border-color: rgba(255,255,255,0.3) !important;\n        }\n\n        /* 菜单字重 */\n        .ant-menu-title-content {\n          font-weight: 450 !important;\n        }\n        \n        /* 菜单项与子菜单标题：背景色渐变，字色瞬切（避免字色滴在背景唙转中对齐失调） */\n        .ant-menu-item,\n        .ant-menu-submenu-title {\n          transition: background-color 0.15s ease-in-out !important;\n          border-radius: 6px !important;\n        }\n        \n        /* 叶子节点悬停：轻蓝背景提示 */\n        .ant-menu-item:not(.ant-menu-item-selected):hover {\n          background-color: ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(47,122,247,0.08)'} !important;\n        }\n        \n        /* 子菜单分组标题悬停 */\n        .ant-menu-submenu-title:hover {\n          background-color: ${isDark ? 'rgba(255,255,255,0.04)' : 'rgba(47,122,247,0.06)'} !important;\n        }\n\n        /* 内部文字、图标：直接瞬切，不做渐变，避免与背景渐变不同步 */\n        .ant-menu-item .ant-menu-title-content,\n        .ant-menu-item .anticon,\n        .ant-menu-submenu-title .anticon {\n          transition: none !important;\n        }\n\n        /* 侧边栏与头部边框 */\n        .ant-layout-sider {\n          border-right: 1px solid ${isDark ? 'rgba(255,255,255,0.06)' : '#e2e8f0'} !important;\n        }\n        .ant-pro-layout-header {\n          border-bottom: 1px solid ${isDark ? 'rgba(255,255,255,0.06)' : '#2e79f6'} !important;\n          padding: 0 16px !important;\n        }\n        \n        .ant-pro-global-header-layout-mix .ant-pro-global-header-logo h1 {\n          color: #ffffff !important;\n        }\n\n        /* 顶部动作项悬停 */\n        .header-action-item {\n          transition: background-color 0.2s ease-in-out;\n        }\n        .header-action-item:hover {\n          background: ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.2)'};\n        }\n        \n        .header-action-item .ant-btn-text {\n          color: #ffffff !important;\n        }\n        .header-action-item .ant-btn-text:hover {\n          background: transparent !important;\n        }\n      `}</style>\n    </ConfigProvider>\n  );\n}\n",
       "__isJSFile": true,
       "__absFile": "E:/code/AiSystem/frontend/src/layouts/BasicLayout.tsx"
     },
     "6": {
       "path": "/",
-      "redirect": "/system/users",
+      "file": "@/pages/index.tsx",
       "parentId": "5",
       "id": "6",
-      "absPath": "/"
+      "absPath": "/",
+      "__content": "import React from 'react';\nimport { Card, Row, Col, Statistic, Typography } from 'antd';\nimport { UserOutlined, RobotOutlined, CheckCircleOutlined, DashboardOutlined } from '@ant-design/icons';\n\nconst { Title } = Typography;\n\nexport default function IndexPage() {\n  return (\n    <div style={{ padding: '24px' }}>\n      <Title level={2} style={{ marginBottom: '24px' }}>工作台</Title>\n      \n      <Row gutter={[16, 16]}>\n        <Col span={6}>\n          <Card bordered={false}>\n            <Statistic\n              title=\"在线用户\"\n              value={12}\n              prefix={<UserOutlined style={{ color: '#1890ff' }} />}\n            />\n          </Card>\n        </Col>\n        <Col span={6}>\n          <Card bordered={false}>\n            <Statistic\n              title=\"AI 助手状态\"\n              value=\"运行中\"\n              valueStyle={{ color: '#3f8600' }}\n              prefix={<RobotOutlined />}\n            />\n          </Card>\n        </Col>\n        <Col span={6}>\n          <Card bordered={false}>\n            <Statistic\n              title=\"今日处理请求\"\n              value={1254}\n              prefix={<CheckCircleOutlined style={{ color: '#52c41a' }} />}\n            />\n          </Card>\n        </Col>\n        <Col span={6}>\n          <Card bordered={false}>\n            <Statistic\n              title=\"系统版本\"\n              value=\"V1.2.0\"\n              prefix={<DashboardOutlined />}\n            />\n          </Card>\n        </Col>\n      </Row>\n\n      <Card title=\"欢迎回来\" style={{ marginTop: '24px' }} bordered={false}>\n        <p>欢迎使用雷犀AI客服管理系统，在这里您可以管理系统用户、配置AI能力并监控实时数据。</p>\n        <p>请点击左侧菜单开始您的工作。</p>\n      </Card>\n    </div>\n  );\n}\n",
+      "__isJSFile": true,
+      "__absFile": "E:/code/AiSystem/frontend/src/pages/index.tsx"
     },
     "7": {
       "path": "/system/users",
@@ -2643,7 +2630,7 @@
       "parentId": "5",
       "id": "14",
       "absPath": "/system/files",
-      "__content": "import React, { useState, useEffect } from 'react';\r\nimport {\r\n  Card,\r\n  Table,\r\n  Button,\r\n  Space,\r\n  Upload,\r\n  Modal,\r\n  Form,\r\n  Select,\r\n  Input,\r\n  message,\r\n  Tag,\r\n  Popconfirm,\r\n  Row,\r\n  Col,\r\n  Statistic,\r\n  Tabs,\r\n  Tooltip,\r\n  Progress,\r\n  Empty,\r\n} from 'antd';\r\nimport {\r\n  UploadOutlined,\r\n  DeleteOutlined,\r\n  DownloadOutlined,\r\n  EyeOutlined,\r\n  FolderOutlined,\r\n  FileOutlined,\r\n  PieChartOutlined,\r\n  ReloadOutlined,\r\n  CloudUploadOutlined,\r\n} from '@ant-design/icons';\r\nimport type { ColumnsType } from 'antd/es/table';\r\nimport request from '@/utils/request';\r\nimport dayjs from 'dayjs';\r\nimport { GlobalLoading } from '@/components/common/GlobalLoading';\r\nimport { SmartSearch } from '@/components/common/SmartSearch';\r\nimport { EmptyState } from '@/components/common/EmptyState';\r\nimport { useDebounce } from '@/hooks/useDebounce';\r\nimport { useFormDraft } from '@/hooks/useFormDraft';\r\nimport { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';\r\nimport { useResponsive } from '@/hooks/useResponsive';\r\n\r\nconst { Option } = Select;\r\nconst { TabPane } = Tabs;\r\n\r\ninterface FileRecord {\r\n  id: string;\r\n  original_name: string;\r\n  stored_name: string;\r\n  file_size: number;\r\n  fileSizeReadable: string;\r\n  mime_type: string;\r\n  extension: string;\r\n  platform_id: string;\r\n  department_id: string | null;\r\n  category: string;\r\n  entity_type: string | null;\r\n  entity_id: string | null;\r\n  storage_type: string;\r\n  is_public: number;\r\n  access_count: number;\r\n  status: string;\r\n  uploaded_by: string;\r\n  uploaded_at: string;\r\n  create_time: string;\r\n}\r\n\r\ninterface CategoryStats {\r\n  category: string;\r\n  fileCount: number;\r\n  totalSize: number;\r\n  totalSizeReadable: string;\r\n}\r\n\r\ninterface FileCategory {\r\n  code: string;\r\n  name: string;\r\n  module: string;\r\n}\r\n\r\nconst FilesManagement: React.FC = () => {\r\n  const [loading, setLoading] = useState(false);\r\n  const [uploading, setUploading] = useState(false);\r\n  const [uploadProgress, setUploadProgress] = useState(0);\r\n  const [files, setFiles] = useState<FileRecord[]>([]);\r\n  const [total, setTotal] = useState(0);\r\n  const [page, setPage] = useState(1);\r\n  const [pageSize, setPageSize] = useState(20);\r\n  const [uploadModalVisible, setUploadModalVisible] = useState(false);\r\n  const [categories, setCategories] = useState<FileCategory[]>([]);\r\n  const [categoryStats, setCategoryStats] = useState<CategoryStats[]>([]);\r\n  const [platformStats, setPlatformStats] = useState<any>(null);\r\n  const [selectedCategory, setSelectedCategory] = useState<string | undefined>();\r\n  const [searchText, setSearchText] = useState('');\r\n  const [form] = Form.useForm();\r\n\r\n  // 权限检查 - 从localStorage获取用户权限\r\n  const [permissions, setPermissions] = useState<string[]>([]);\r\n\r\n  // 响应式设计\r\n  const { isMobile } = useResponsive();\r\n\r\n  // 防抖优化\r\n  const debouncedSearch = useDebounce(searchText, 500);\r\n  const debouncedCategory = useDebounce(selectedCategory, 300);\r\n\r\n  // 表单草稿保存\r\n  const { clearDraft } = useFormDraft(form, 'file-upload-form', 30000);\r\n\r\n  useEffect(() => {\r\n    // 从localStorage获取用户权限\r\n    const userInfo = localStorage.getItem('userInfo');\r\n    if (userInfo) {\r\n      try {\r\n        const user = JSON.parse(userInfo);\r\n        setPermissions(user.permissions || []);\r\n      } catch (error) {\r\n        console.error('解析用户信息失败:', error);\r\n      }\r\n    }\r\n  }, []);\r\n\r\n  const hasPermission = (permission: string) => {\r\n    return permissions.includes(permission) || permissions.includes('*:*:*');\r\n  };\r\n\r\n  // 快捷键支持\r\n  useKeyboardShortcuts({\r\n    'Ctrl+u': () => {\r\n      if (hasPermission('system:file:upload') && !uploadModalVisible) {\r\n        setUploadModalVisible(true);\r\n      }\r\n    },\r\n    'Ctrl+r': () => {\r\n      fetchFiles();\r\n      fetchStats();\r\n    },\r\n    'Escape': () => {\r\n      if (uploadModalVisible && !uploading) {\r\n        setUploadModalVisible(false);\r\n        form.resetFields();\r\n      }\r\n    },\r\n  });\r\n\r\n  // 获取文件分类列表\r\n  const fetchCategories = async () => {\r\n    try {\r\n      const response = await request('/api/system/files/categories');\r\n      setCategories(response.categories || []);\r\n    } catch (error) {\r\n      console.error('获取分类失败:', error);\r\n    }\r\n  };\r\n\r\n  // 获取文件列表\r\n  const fetchFiles = async () => {\r\n    if (!hasPermission('system:file:list')) {\r\n      message.warning('您没有查看文件列表的权限');\r\n      return;\r\n    }\r\n\r\n    setLoading(true);\r\n    try {\r\n      const params: any = {\r\n        page,\r\n        pageSize,\r\n        status: 'active',\r\n      };\r\n\r\n      if (debouncedCategory) {\r\n        params.category = debouncedCategory;\r\n      }\r\n\r\n      if (debouncedSearch) {\r\n        params.search = debouncedSearch;\r\n      }\r\n\r\n      const response = await request('/api/system/files', {\r\n        params,\r\n      });\r\n      setFiles(response.data || []);\r\n      setTotal(response.total || 0);\r\n    } catch (error) {\r\n      message.error('获取文件列表失败');\r\n    } finally {\r\n      setLoading(false);\r\n    }\r\n  };\r\n\r\n  // 获取存储统计\r\n  const fetchStats = async () => {\r\n    try {\r\n      // 这里需要根据实际的平台ID获取\r\n      const platformId = 'seed-platform-main'; // 临时使用种子数据的平台ID\r\n\r\n      const [categoryStatsRes, platformStatsRes] = await Promise.all([\r\n        request('/api/system/files/stats/category', {\r\n          params: { platformId },\r\n        }),\r\n        request('/api/system/files/stats/platform', {\r\n          params: { platformId },\r\n        }),\r\n      ]);\r\n\r\n      setCategoryStats(categoryStatsRes || []);\r\n      setPlatformStats(platformStatsRes || null);\r\n    } catch (error) {\r\n      console.error('获取统计数据失败:', error);\r\n    }\r\n  };\r\n\r\n  useEffect(() => {\r\n    if (permissions.length > 0) {\r\n      fetchCategories();\r\n      fetchStats();\r\n    }\r\n  }, [permissions]);\r\n\r\n  useEffect(() => {\r\n    if (permissions.length > 0) {\r\n      fetchFiles();\r\n    }\r\n  }, [page, pageSize, debouncedSearch, debouncedCategory, permissions]);\r\n\r\n  // 上传文件\r\n  const handleUpload = async (values: any) => {\r\n    if (!hasPermission('system:file:upload')) {\r\n      message.warning('您没有上传文件的权限');\r\n      return;\r\n    }\r\n\r\n    const { file, category, platformId, departmentId, isPublic } = values;\r\n\r\n    if (!file || file.length === 0) {\r\n      message.error('请选择要上传的文件');\r\n      return;\r\n    }\r\n\r\n    const formData = new FormData();\r\n    formData.append('file', file[0].originFileObj);\r\n\r\n    setUploading(true);\r\n    setUploadProgress(0);\r\n\r\n    try {\r\n      await request('/api/system/files/upload', {\r\n        method: 'POST',\r\n        params: {\r\n          platformId: platformId || 'seed-platform-main',\r\n          departmentId,\r\n          category,\r\n          isPublic: isPublic ? 'true' : 'false',\r\n        },\r\n        data: formData,\r\n        onUploadProgress: (progressEvent: any) => {\r\n          if (progressEvent.total) {\r\n            const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);\r\n            setUploadProgress(percent);\r\n          }\r\n        },\r\n      });\r\n\r\n      message.success('文件上传成功');\r\n      clearDraft(); // 清除草稿\r\n      setUploadModalVisible(false);\r\n      form.resetFields();\r\n      setUploadProgress(0);\r\n      fetchFiles();\r\n      fetchStats();\r\n    } catch (error: any) {\r\n      message.error(error?.message || '文件上传失败');\r\n      setUploadProgress(0);\r\n    } finally {\r\n      setUploading(false);\r\n    }\r\n  };\r\n\r\n  // 下载文件\r\n  const handleDownload = async (record: FileRecord) => {\r\n    if (!hasPermission('system:file:download')) {\r\n      message.warning('您没有下载文件的权限');\r\n      return;\r\n    }\r\n\r\n    try {\r\n      const response = await request(`/api/system/files/${record.id}/url`);\r\n      if (response.url) {\r\n        // 创建一个隐藏的a标签来触发下载\r\n        const link = document.createElement('a');\r\n        link.href = response.url;\r\n        link.download = response.filename || record.original_name;\r\n        document.body.appendChild(link);\r\n        link.click();\r\n        document.body.removeChild(link);\r\n        message.success('文件下载已开始');\r\n      }\r\n    } catch (error: any) {\r\n      message.error(error?.message || '获取文件URL失败');\r\n    }\r\n  };\r\n\r\n  // 删除文件\r\n  const handleDelete = async (id: string) => {\r\n    if (!hasPermission('system:file:delete')) {\r\n      message.warning('您没有删除文件的权限');\r\n      return;\r\n    }\r\n\r\n    try {\r\n      await request(`/api/system/files/${id}`, {\r\n        method: 'DELETE',\r\n      });\r\n      message.success('文件删除成功');\r\n      fetchFiles();\r\n      fetchStats();\r\n    } catch (error: any) {\r\n      message.error(error?.message || '文件删除失败');\r\n    }\r\n  };\r\n\r\n  // 查看文件详情\r\n  const handleViewDetail = async (record: FileRecord) => {\r\n    try {\r\n      const detail = await request(`/api/system/files/${record.id}`);\r\n      Modal.info({\r\n        title: (\r\n          <Space>\r\n            <FileOutlined style={{ color: '#1890ff' }} />\r\n            <span>文件详情</span>\r\n          </Space>\r\n        ),\r\n        width: 650,\r\n        icon: null,\r\n        content: (\r\n          <div style={{ marginTop: 16 }}>\r\n            <Row gutter={[16, 16]}>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>文件名</div>\r\n                  <div style={{ fontWeight: 500 }}>{detail.original_name}</div>\r\n                </div>\r\n              </Col>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>文件大小</div>\r\n                  <div style={{ fontWeight: 500 }}>{detail.fileSizeReadable}</div>\r\n                </div>\r\n              </Col>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>文件类型</div>\r\n                  <div style={{ fontWeight: 500 }}>{detail.mime_type}</div>\r\n                </div>\r\n              </Col>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>文件扩展名</div>\r\n                  <div style={{ fontWeight: 500 }}>{detail.extension.toUpperCase()}</div>\r\n                </div>\r\n              </Col>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>分类</div>\r\n                  <div style={{ fontWeight: 500 }}>\r\n                    {categories.find(c => c.code === detail.category)?.name || detail.category}\r\n                  </div>\r\n                </div>\r\n              </Col>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>访问次数</div>\r\n                  <div style={{ fontWeight: 500 }}>{detail.access_count} 次</div>\r\n                </div>\r\n              </Col>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>访问权限</div>\r\n                  <div style={{ fontWeight: 500 }}>\r\n                    {detail.is_public ? '🌐 公开' : '🔒 私有'}\r\n                  </div>\r\n                </div>\r\n              </Col>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>上传时间</div>\r\n                  <div style={{ fontWeight: 500 }}>\r\n                    {dayjs(detail.uploaded_at).format('YYYY-MM-DD HH:mm:ss')}\r\n                  </div>\r\n                </div>\r\n              </Col>\r\n              <Col span={24}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>存储路径</div>\r\n                  <div style={{\r\n                    fontWeight: 500,\r\n                    fontSize: 12,\r\n                    wordBreak: 'break-all',\r\n                    background: '#f5f5f5',\r\n                    padding: '8px 12px',\r\n                    borderRadius: 4,\r\n                  }}>\r\n                    {detail.stored_name}\r\n                  </div>\r\n                </div>\r\n              </Col>\r\n            </Row>\r\n          </div>\r\n        ),\r\n        okText: '关闭',\r\n      });\r\n    } catch (error: any) {\r\n      message.error(error?.message || '获取文件详情失败');\r\n    }\r\n  };\r\n\r\n  const columns: ColumnsType<FileRecord> = [\r\n    {\r\n      title: '文件名',\r\n      dataIndex: 'original_name',\r\n      key: 'original_name',\r\n      width: 250,\r\n      ellipsis: {\r\n        showTitle: false,\r\n      },\r\n      render: (text) => (\r\n        <Tooltip placement=\"topLeft\" title={text}>\r\n          <Space>\r\n            <FileOutlined style={{ color: '#1890ff' }} />\r\n            <span>{text}</span>\r\n          </Space>\r\n        </Tooltip>\r\n      ),\r\n    },\r\n    {\r\n      title: '文件大小',\r\n      dataIndex: 'fileSizeReadable',\r\n      key: 'fileSizeReadable',\r\n      width: 100,\r\n    },\r\n    {\r\n      title: '分类',\r\n      dataIndex: 'category',\r\n      key: 'category',\r\n      width: 150,\r\n      render: (text) => {\r\n        const category = categories.find((c) => c.code === text);\r\n        return <Tag color=\"blue\">{category?.name || text}</Tag>;\r\n      },\r\n    },\r\n    {\r\n      title: '文件类型',\r\n      dataIndex: 'extension',\r\n      key: 'extension',\r\n      width: 80,\r\n      render: (text) => <Tag>{text.toUpperCase()}</Tag>,\r\n    },\r\n    {\r\n      title: '访问次数',\r\n      dataIndex: 'access_count',\r\n      key: 'access_count',\r\n      width: 100,\r\n      align: 'center',\r\n    },\r\n    {\r\n      title: '上传时间',\r\n      dataIndex: 'uploaded_at',\r\n      key: 'uploaded_at',\r\n      width: 180,\r\n      render: (text) => dayjs(text).format('YYYY-MM-DD HH:mm:ss'),\r\n    },\r\n    {\r\n      title: '操作',\r\n      key: 'action',\r\n      width: 200,\r\n      fixed: 'right',\r\n      render: (_, record) => (\r\n        <Space size=\"small\">\r\n          <Tooltip title=\"查看详情\">\r\n            <Button\r\n              type=\"link\"\r\n              size=\"small\"\r\n              icon={<EyeOutlined />}\r\n              onClick={() => handleViewDetail(record)}\r\n            />\r\n          </Tooltip>\r\n          {hasPermission('system:file:download') && (\r\n            <Tooltip title=\"下载文件\">\r\n              <Button\r\n                type=\"link\"\r\n                size=\"small\"\r\n                icon={<DownloadOutlined />}\r\n                onClick={() => handleDownload(record)}\r\n              />\r\n            </Tooltip>\r\n          )}\r\n          {hasPermission('system:file:delete') && (\r\n            <Popconfirm\r\n              title=\"确定要删除这个文件吗?\"\r\n              description=\"删除后可在30天内恢复\"\r\n              onConfirm={() => handleDelete(record.id)}\r\n              okText=\"确定\"\r\n              cancelText=\"取消\"\r\n            >\r\n              <Tooltip title=\"删除文件\">\r\n                <Button type=\"link\" size=\"small\" danger icon={<DeleteOutlined />} />\r\n              </Tooltip>\r\n            </Popconfirm>\r\n          )}\r\n        </Space>\r\n      ),\r\n    },\r\n  ];\r\n\r\n  return (\r\n    <div style={{ padding: 24, background: '#f0f2f5', minHeight: 'calc(100vh - 64px)' }}>\r\n      <Tabs defaultActiveKey=\"files\" type=\"card\">\r\n        <TabPane\r\n          tab={\r\n            <span>\r\n              <FileOutlined />\r\n              文件列表\r\n            </span>\r\n          }\r\n          key=\"files\"\r\n        >\r\n          <Card\r\n            title={\r\n              <Space>\r\n                <FolderOutlined style={{ fontSize: 18, color: '#1890ff' }} />\r\n                <span style={{ fontSize: 16, fontWeight: 500 }}>文件管理</span>\r\n              </Space>\r\n            }\r\n            extra={\r\n              <Space wrap>\r\n                {/* 智能搜索 */}\r\n                <SmartSearch\r\n                  onSearch={(value) => {\r\n                    setSearchText(value);\r\n                    setPage(1); // 搜索时重置到第一页\r\n                  }}\r\n                  storageKey=\"file-search-history\"\r\n                  placeholder=\"搜索文件名...\"\r\n                  style={{ width: isMobile ? 200 : 250 }}\r\n                  allowClear\r\n                />\r\n\r\n                {/* 分类筛选 */}\r\n                <Select\r\n                  placeholder=\"筛选分类\"\r\n                  allowClear\r\n                  style={{ width: isMobile ? 150 : 200 }}\r\n                  value={selectedCategory}\r\n                  onChange={(value) => {\r\n                    setSelectedCategory(value);\r\n                    setPage(1); // 筛选时重置到第一页\r\n                  }}\r\n                >\r\n                  {categories.map((cat) => (\r\n                    <Option key={cat.code} value={cat.code}>\r\n                      {cat.name}\r\n                    </Option>\r\n                  ))}\r\n                </Select>\r\n\r\n                {/* 刷新按钮 */}\r\n                <Tooltip title=\"刷新 (Ctrl+R)\">\r\n                  <Button\r\n                    icon={<ReloadOutlined />}\r\n                    onClick={() => {\r\n                      fetchFiles();\r\n                      fetchStats();\r\n                    }}\r\n                  >\r\n                    {!isMobile && '刷新'}\r\n                  </Button>\r\n                </Tooltip>\r\n\r\n                {/* 上传按钮 */}\r\n                {hasPermission('system:file:upload') && (\r\n                  <Tooltip title=\"上传文件 (Ctrl+U)\">\r\n                    <Button\r\n                      type=\"primary\"\r\n                      icon={<CloudUploadOutlined />}\r\n                      onClick={() => setUploadModalVisible(true)}\r\n                    >\r\n                      {!isMobile && '上传文件'}\r\n                    </Button>\r\n                  </Tooltip>\r\n                )}\r\n              </Space>\r\n            }\r\n            bordered={false}\r\n          >\r\n            <GlobalLoading loading={loading} tip=\"加载文件列表...\" minHeight=\"400px\">\r\n              <Table\r\n                columns={columns}\r\n                dataSource={files}\r\n                rowKey=\"id\"\r\n                pagination={{\r\n                  current: page,\r\n                  pageSize: isMobile ? 10 : pageSize,\r\n                  total,\r\n                  showSizeChanger: !isMobile,\r\n                  showQuickJumper: !isMobile,\r\n                  showTotal: (total) => `共 ${total} 个文件`,\r\n                  onChange: (page, pageSize) => {\r\n                    setPage(page);\r\n                    setPageSize(pageSize || 20);\r\n                  },\r\n                }}\r\n                scroll={{ x: isMobile ? 800 : 1200 }}\r\n                locale={{\r\n                  emptyText: (\r\n                    <EmptyState\r\n                      description={searchText || selectedCategory ? '未找到匹配的文件' : '暂无文件'}\r\n                      action={\r\n                        hasPermission('system:file:upload') && !searchText && !selectedCategory ? (\r\n                          <Button\r\n                            type=\"primary\"\r\n                            icon={<CloudUploadOutlined />}\r\n                            onClick={() => setUploadModalVisible(true)}\r\n                          >\r\n                            上传第一个文件\r\n                          </Button>\r\n                        ) : undefined\r\n                      }\r\n                    />\r\n                  ),\r\n                }}\r\n              />\r\n            </GlobalLoading>\r\n          </Card>\r\n        </TabPane>\r\n\r\n        <TabPane\r\n          tab={\r\n            <span>\r\n              <PieChartOutlined />\r\n              存储统计\r\n            </span>\r\n          }\r\n          key=\"stats\"\r\n        >\r\n          <Space direction=\"vertical\" size=\"large\" style={{ width: '100%' }}>\r\n            {/* 总体统计 */}\r\n            {platformStats && (\r\n              <Card\r\n                title={\r\n                  <Space>\r\n                    <PieChartOutlined style={{ fontSize: 18, color: '#1890ff' }} />\r\n                    <span style={{ fontSize: 16, fontWeight: 500 }}>总体统计</span>\r\n                  </Space>\r\n                }\r\n                bordered={false}\r\n              >\r\n                <Row gutter={[16, 16]}>\r\n                  <Col xs={24} sm={12} md={8}>\r\n                    <Card>\r\n                      <Statistic\r\n                        title=\"文件总数\"\r\n                        value={platformStats.total?.fileCount || 0}\r\n                        suffix=\"个\"\r\n                        valueStyle={{ color: '#3f8600' }}\r\n                      />\r\n                    </Card>\r\n                  </Col>\r\n                  <Col xs={24} sm={12} md={8}>\r\n                    <Card>\r\n                      <Statistic\r\n                        title=\"总存储空间\"\r\n                        value={platformStats.total?.totalSizeReadable || '0 B'}\r\n                        valueStyle={{ color: '#1890ff' }}\r\n                      />\r\n                    </Card>\r\n                  </Col>\r\n                  <Col xs={24} sm={12} md={8}>\r\n                    <Card>\r\n                      <Statistic\r\n                        title=\"部门数量\"\r\n                        value={platformStats.byDepartment?.length || 0}\r\n                        suffix=\"个\"\r\n                        valueStyle={{ color: '#cf1322' }}\r\n                      />\r\n                    </Card>\r\n                  </Col>\r\n                </Row>\r\n              </Card>\r\n            )}\r\n\r\n            {/* 分类统计 */}\r\n            <Card\r\n              title={\r\n                <Space>\r\n                  <FolderOutlined style={{ fontSize: 18, color: '#1890ff' }} />\r\n                  <span style={{ fontSize: 16, fontWeight: 500 }}>分类统计</span>\r\n                </Space>\r\n              }\r\n              bordered={false}\r\n            >\r\n              <Table\r\n                dataSource={categoryStats}\r\n                rowKey=\"category\"\r\n                pagination={false}\r\n                size=\"middle\"\r\n                columns={[\r\n                  {\r\n                    title: '分类',\r\n                    dataIndex: 'category',\r\n                    key: 'category',\r\n                    render: (text) => {\r\n                      const category = categories.find((c) => c.code === text);\r\n                      return (\r\n                        <Space>\r\n                          <FolderOutlined />\r\n                          <span>{category?.name || text}</span>\r\n                        </Space>\r\n                      );\r\n                    },\r\n                  },\r\n                  {\r\n                    title: '文件数量',\r\n                    dataIndex: 'fileCount',\r\n                    key: 'fileCount',\r\n                    align: 'right',\r\n                    render: (text) => `${text} 个`,\r\n                  },\r\n                  {\r\n                    title: '存储空间',\r\n                    dataIndex: 'totalSizeReadable',\r\n                    key: 'totalSizeReadable',\r\n                    align: 'right',\r\n                  },\r\n                ]}\r\n              />\r\n            </Card>\r\n          </Space>\r\n        </TabPane>\r\n      </Tabs>\r\n\r\n      {/* 上传文件模态框 */}\r\n      <Modal\r\n        title={\r\n          <Space>\r\n            <CloudUploadOutlined style={{ color: '#1890ff' }} />\r\n            <span>上传文件</span>\r\n            {uploading && <span style={{ fontSize: 12, color: '#999' }}>(上传中，请勿关闭)</span>}\r\n          </Space>\r\n        }\r\n        open={uploadModalVisible}\r\n        onCancel={() => {\r\n          if (!uploading) {\r\n            setUploadModalVisible(false);\r\n            form.resetFields();\r\n            setUploadProgress(0);\r\n          }\r\n        }}\r\n        onOk={() => form.submit()}\r\n        confirmLoading={uploading}\r\n        width={600}\r\n        maskClosable={!uploading}\r\n        closable={!uploading}\r\n        keyboard={!uploading}\r\n      >\r\n        <Form form={form} layout=\"vertical\" onFinish={handleUpload}>\r\n          <Form.Item\r\n            name=\"file\"\r\n            label=\"选择文件\"\r\n            rules={[{ required: true, message: '请选择文件' }]}\r\n            valuePropName=\"fileList\"\r\n            getValueFromEvent={(e) => {\r\n              if (Array.isArray(e)) {\r\n                return e;\r\n              }\r\n              return e?.fileList;\r\n            }}\r\n            extra=\"支持上传任意格式文件，单个文件最大50MB\"\r\n          >\r\n            <Upload\r\n              beforeUpload={(file) => {\r\n                const isLt50M = file.size / 1024 / 1024 < 50;\r\n                if (!isLt50M) {\r\n                  message.error('文件大小不能超过50MB');\r\n                }\r\n                return false;\r\n              }}\r\n              maxCount={1}\r\n              accept=\"*/*\"\r\n            >\r\n              <Button icon={<UploadOutlined />} block>\r\n                点击选择文件\r\n              </Button>\r\n            </Upload>\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"category\"\r\n            label=\"文件分类\"\r\n            rules={[{ required: true, message: '请选择文件分类' }]}\r\n          >\r\n            <Select\r\n              placeholder=\"请选择文件分类\"\r\n              showSearch\r\n              optionFilterProp=\"children\"\r\n            >\r\n              {categories.map((cat) => (\r\n                <Option key={cat.code} value={cat.code}>\r\n                  {cat.name} ({cat.module})\r\n                </Option>\r\n              ))}\r\n            </Select>\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"platformId\"\r\n            label=\"平台ID\"\r\n            initialValue=\"seed-platform-main\"\r\n            tooltip=\"文件所属平台，默认为主平台\"\r\n          >\r\n            <Input placeholder=\"平台ID\" disabled />\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"departmentId\"\r\n            label=\"部门ID\"\r\n            tooltip=\"可选，指定文件所属部门\"\r\n          >\r\n            <Input placeholder=\"部门ID(可选)\" />\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"isPublic\"\r\n            label=\"访问权限\"\r\n            initialValue={false}\r\n            tooltip=\"公开文件可被所有人访问，私有文件仅限有权限的用户访问\"\r\n          >\r\n            <Select>\r\n              <Option value={false}>🔒 私有</Option>\r\n              <Option value={true}>🌐 公开</Option>\r\n            </Select>\r\n          </Form.Item>\r\n\r\n          {/* 上传进度 */}\r\n          {uploading && uploadProgress > 0 && (\r\n            <Form.Item label=\"上传进度\">\r\n              <Progress\r\n                percent={uploadProgress}\r\n                status={uploadProgress === 100 ? 'success' : 'active'}\r\n                strokeColor={{\r\n                  '0%': '#108ee9',\r\n                  '100%': '#87d068',\r\n                }}\r\n              />\r\n            </Form.Item>\r\n          )}\r\n        </Form>\r\n      </Modal>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default FilesManagement;\r\n",
+      "__content": "import React, { useState, useEffect } from 'react';\r\nimport {\r\n  Card,\r\n  Table,\r\n  Button,\r\n  Space,\r\n  Upload,\r\n  Modal,\r\n  Form,\r\n  Select,\r\n  Input,\r\n  message,\r\n  Tag,\r\n  Popconfirm,\r\n  Row,\r\n  Col,\r\n  Statistic,\r\n  Tabs,\r\n  Tooltip,\r\n  Progress,\r\n  Empty,\r\n} from 'antd';\r\nimport {\r\n  UploadOutlined,\r\n  DeleteOutlined,\r\n  DownloadOutlined,\r\n  EyeOutlined,\r\n  FolderOutlined,\r\n  FileOutlined,\r\n  PieChartOutlined,\r\n  ReloadOutlined,\r\n  CloudUploadOutlined,\r\n} from '@ant-design/icons';\r\nimport type { ColumnsType } from 'antd/es/table';\r\nimport request from '@/utils/request';\r\nimport dayjs from 'dayjs';\r\nimport { GlobalLoading } from '@/components/common/GlobalLoading';\r\nimport { SmartSearch } from '@/components/common/SmartSearch';\r\nimport { EmptyState } from '@/components/common/EmptyState';\r\nimport { useDebounce } from '@/hooks/useDebounce';\r\nimport { useFormDraft } from '@/hooks/useFormDraft';\r\nimport { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';\r\nimport { useResponsive } from '@/hooks/useResponsive';\r\n\r\nconst { Option } = Select;\r\nconst { TabPane } = Tabs;\r\n\r\ninterface FileRecord {\r\n  id: string;\r\n  original_name: string;\r\n  stored_name: string;\r\n  file_size: number;\r\n  fileSizeReadable: string;\r\n  mime_type: string;\r\n  extension: string;\r\n  platform_id: string;\r\n  department_id: string | null;\r\n  category: string;\r\n  entity_type: string | null;\r\n  entity_id: string | null;\r\n  storage_type: string;\r\n  is_public: number;\r\n  access_count: number;\r\n  status: string;\r\n  uploaded_by: string;\r\n  uploaded_at: string;\r\n  create_time: string;\r\n}\r\n\r\ninterface CategoryStats {\r\n  category: string;\r\n  fileCount: number;\r\n  totalSize: number;\r\n  totalSizeReadable: string;\r\n}\r\n\r\ninterface FileCategory {\r\n  code: string;\r\n  name: string;\r\n  module: string;\r\n}\r\n\r\nconst FilesManagement: React.FC = () => {\r\n  const [loading, setLoading] = useState(false);\r\n  const [uploading, setUploading] = useState(false);\r\n  const [uploadProgress, setUploadProgress] = useState(0);\r\n  const [files, setFiles] = useState<FileRecord[]>([]);\r\n  const [total, setTotal] = useState(0);\r\n  const [page, setPage] = useState(1);\r\n  const [pageSize, setPageSize] = useState(20);\r\n  const [uploadModalVisible, setUploadModalVisible] = useState(false);\r\n  const [categories, setCategories] = useState<FileCategory[]>([]);\r\n  const [categoryStats, setCategoryStats] = useState<CategoryStats[]>([]);\r\n  const [platformStats, setPlatformStats] = useState<any>(null);\r\n  const [selectedCategory, setSelectedCategory] = useState<string | undefined>();\r\n  const [searchText, setSearchText] = useState('');\r\n  const [form] = Form.useForm();\r\n\r\n  // 权限检查 - 从localStorage获取用户权限\r\n  const [permissions, setPermissions] = useState<string[]>([]);\r\n\r\n  // 响应式设计\r\n  const { isMobile } = useResponsive();\r\n\r\n  // 防抖优化\r\n  const debouncedSearch = useDebounce(searchText, 500);\r\n  const debouncedCategory = useDebounce(selectedCategory, 300);\r\n\r\n  // 表单草稿保存\r\n  const { clearDraft } = useFormDraft(form, 'file-upload-form', 30000);\r\n\r\n  useEffect(() => {\r\n    // 从localStorage获取用户权限\r\n    const userInfo = localStorage.getItem('userInfo');\r\n    if (userInfo) {\r\n      try {\r\n        const user = JSON.parse(userInfo);\r\n        setPermissions(user.permissions || []);\r\n      } catch (error) {\r\n        console.error('解析用户信息失败:', error);\r\n      }\r\n    }\r\n  }, []);\r\n\r\n  const hasPermission = (permission: string) => {\r\n    return permissions.includes(permission) || permissions.includes('*:*:*');\r\n  };\r\n\r\n  // 快捷键支持\r\n  useKeyboardShortcuts({\r\n    'Ctrl+u': () => {\r\n      if (hasPermission('system:file:upload') && !uploadModalVisible) {\r\n        setUploadModalVisible(true);\r\n      }\r\n    },\r\n    'Ctrl+r': () => {\r\n      fetchFiles();\r\n      fetchStats();\r\n    },\r\n    'Escape': () => {\r\n      if (uploadModalVisible && !uploading) {\r\n        setUploadModalVisible(false);\r\n        form.resetFields();\r\n      }\r\n    },\r\n  });\r\n\r\n  // 获取文件分类列表\r\n  const fetchCategories = async () => {\r\n    try {\r\n      const response = await request.get('/api/system/files/categories');\r\n      setCategories(response.categories || []);\r\n    } catch (error) {\r\n      console.error('获取分类失败:', error);\r\n    }\r\n  };\r\n\r\n  // 获取文件列表\r\n  const fetchFiles = async () => {\r\n    if (!hasPermission('system:file:list')) {\r\n      message.warning('您没有查看文件列表的权限');\r\n      return;\r\n    }\r\n\r\n    setLoading(true);\r\n    try {\r\n      const params: any = {\r\n        page,\r\n        pageSize,\r\n        status: 'active',\r\n      };\r\n\r\n      if (debouncedCategory) {\r\n        params.category = debouncedCategory;\r\n      }\r\n\r\n      if (debouncedSearch) {\r\n        params.search = debouncedSearch;\r\n      }\r\n\r\n      const response = await request.get('/api/system/files', {\r\n        params,\r\n      });\r\n      setFiles(response.data || []);\r\n      setTotal(response.total || 0);\r\n    } catch (error) {\r\n      message.error('获取文件列表失败');\r\n    } finally {\r\n      setLoading(false);\r\n    }\r\n  };\r\n\r\n  // 获取存储统计\r\n  const fetchStats = async () => {\r\n    try {\r\n      // 这里需要根据实际的平台ID获取\r\n      const platformId = 'seed-platform-main'; // 临时使用种子数据的平台ID\r\n\r\n      const [categoryStatsRes, platformStatsRes] = await Promise.all([\r\n        request.get('/api/system/files/stats/category', {\r\n          params: { platformId },\r\n        }),\r\n        request.get('/api/system/files/stats/platform', {\r\n          params: { platformId },\r\n        }),\r\n      ]);\r\n\r\n      setCategoryStats(categoryStatsRes || []);\r\n      setPlatformStats(platformStatsRes || null);\r\n    } catch (error) {\r\n      console.error('获取统计数据失败:', error);\r\n    }\r\n  };\r\n\r\n  useEffect(() => {\r\n    if (permissions.length > 0) {\r\n      fetchCategories();\r\n      fetchStats();\r\n    }\r\n  }, [permissions]);\r\n\r\n  useEffect(() => {\r\n    if (permissions.length > 0) {\r\n      fetchFiles();\r\n    }\r\n  }, [page, pageSize, debouncedSearch, debouncedCategory, permissions]);\r\n\r\n  // 上传文件\r\n  const handleUpload = async (values: any) => {\r\n    if (!hasPermission('system:file:upload')) {\r\n      message.warning('您没有上传文件的权限');\r\n      return;\r\n    }\r\n\r\n    const { file, category, platformId, departmentId, isPublic } = values;\r\n\r\n    if (!file || file.length === 0) {\r\n      message.error('请选择要上传的文件');\r\n      return;\r\n    }\r\n\r\n    const formData = new FormData();\r\n    formData.append('file', file[0].originFileObj);\r\n\r\n    setUploading(true);\r\n    setUploadProgress(0);\r\n\r\n    try {\r\n      await request.post('/api/system/files/upload', formData, {\r\n        params: {\r\n          platformId: platformId || 'seed-platform-main',\r\n          departmentId,\r\n          category,\r\n          isPublic: isPublic ? 'true' : 'false',\r\n        },\r\n        onUploadProgress: (progressEvent: any) => {\r\n          if (progressEvent.total) {\r\n            const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);\r\n            setUploadProgress(percent);\r\n          }\r\n        },\r\n      });\r\n\r\n      message.success('文件上传成功');\r\n      clearDraft(); // 清除草稿\r\n      setUploadModalVisible(false);\r\n      form.resetFields();\r\n      setUploadProgress(0);\r\n      fetchFiles();\r\n      fetchStats();\r\n    } catch (error: any) {\r\n      message.error(error?.message || '文件上传失败');\r\n      setUploadProgress(0);\r\n    } finally {\r\n      setUploading(false);\r\n    }\r\n  };\r\n\r\n  // 下载文件\r\n  const handleDownload = async (record: FileRecord) => {\r\n    if (!hasPermission('system:file:download')) {\r\n      message.warning('您没有下载文件的权限');\r\n      return;\r\n    }\r\n\r\n    try {\r\n      const response = await request.get(`/api/system/files/${record.id}/url`);\r\n      if (response.url) {\r\n        // 创建一个隐藏的a标签来触发下载\r\n        const link = document.createElement('a');\r\n        link.href = response.url;\r\n        link.download = response.filename || record.original_name;\r\n        document.body.appendChild(link);\r\n        link.click();\r\n        document.body.removeChild(link);\r\n        message.success('文件下载已开始');\r\n      }\r\n    } catch (error: any) {\r\n      message.error(error?.message || '获取文件URL失败');\r\n    }\r\n  };\r\n\r\n  // 删除文件\r\n  const handleDelete = async (id: string) => {\r\n    if (!hasPermission('system:file:delete')) {\r\n      message.warning('您没有删除文件的权限');\r\n      return;\r\n    }\r\n\r\n    try {\r\n      await request.delete(`/api/system/files/${id}`);\r\n      message.success('文件删除成功');\r\n      fetchFiles();\r\n      fetchStats();\r\n    } catch (error: any) {\r\n      message.error(error?.message || '文件删除失败');\r\n    }\r\n  };\r\n\r\n  // 查看文件详情\r\n  const handleViewDetail = async (record: FileRecord) => {\r\n    try {\r\n      const detail = await request.get(`/api/system/files/${record.id}`);\r\n      Modal.info({\r\n        title: (\r\n          <Space>\r\n            <FileOutlined style={{ color: '#1890ff' }} />\r\n            <span>文件详情</span>\r\n          </Space>\r\n        ),\r\n        width: 650,\r\n        icon: null,\r\n        content: (\r\n          <div style={{ marginTop: 16 }}>\r\n            <Row gutter={[16, 16]}>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>文件名</div>\r\n                  <div style={{ fontWeight: 500 }}>{detail.original_name}</div>\r\n                </div>\r\n              </Col>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>文件大小</div>\r\n                  <div style={{ fontWeight: 500 }}>{detail.fileSizeReadable}</div>\r\n                </div>\r\n              </Col>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>文件类型</div>\r\n                  <div style={{ fontWeight: 500 }}>{detail.mime_type}</div>\r\n                </div>\r\n              </Col>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>文件扩展名</div>\r\n                  <div style={{ fontWeight: 500 }}>{detail.extension.toUpperCase()}</div>\r\n                </div>\r\n              </Col>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>分类</div>\r\n                  <div style={{ fontWeight: 500 }}>\r\n                    {categories.find(c => c.code === detail.category)?.name || detail.category}\r\n                  </div>\r\n                </div>\r\n              </Col>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>访问次数</div>\r\n                  <div style={{ fontWeight: 500 }}>{detail.access_count} 次</div>\r\n                </div>\r\n              </Col>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>访问权限</div>\r\n                  <div style={{ fontWeight: 500 }}>\r\n                    {detail.is_public ? '🌐 公开' : '🔒 私有'}\r\n                  </div>\r\n                </div>\r\n              </Col>\r\n              <Col span={12}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>上传时间</div>\r\n                  <div style={{ fontWeight: 500 }}>\r\n                    {dayjs(detail.uploaded_at).format('YYYY-MM-DD HH:mm:ss')}\r\n                  </div>\r\n                </div>\r\n              </Col>\r\n              <Col span={24}>\r\n                <div style={{ marginBottom: 12 }}>\r\n                  <div style={{ color: '#666', marginBottom: 4 }}>存储路径</div>\r\n                  <div style={{\r\n                    fontWeight: 500,\r\n                    fontSize: 12,\r\n                    wordBreak: 'break-all',\r\n                    background: '#f5f5f5',\r\n                    padding: '8px 12px',\r\n                    borderRadius: 4,\r\n                  }}>\r\n                    {detail.stored_name}\r\n                  </div>\r\n                </div>\r\n              </Col>\r\n            </Row>\r\n          </div>\r\n        ),\r\n        okText: '关闭',\r\n      });\r\n    } catch (error: any) {\r\n      message.error(error?.message || '获取文件详情失败');\r\n    }\r\n  };\r\n\r\n  const columns: ColumnsType<FileRecord> = [\r\n    {\r\n      title: '文件名',\r\n      dataIndex: 'original_name',\r\n      key: 'original_name',\r\n      width: 250,\r\n      ellipsis: {\r\n        showTitle: false,\r\n      },\r\n      render: (text) => (\r\n        <Tooltip placement=\"topLeft\" title={text}>\r\n          <Space>\r\n            <FileOutlined style={{ color: '#1890ff' }} />\r\n            <span>{text}</span>\r\n          </Space>\r\n        </Tooltip>\r\n      ),\r\n    },\r\n    {\r\n      title: '文件大小',\r\n      dataIndex: 'fileSizeReadable',\r\n      key: 'fileSizeReadable',\r\n      width: 100,\r\n    },\r\n    {\r\n      title: '分类',\r\n      dataIndex: 'category',\r\n      key: 'category',\r\n      width: 150,\r\n      render: (text) => {\r\n        const category = categories.find((c) => c.code === text);\r\n        return <Tag color=\"blue\">{category?.name || text}</Tag>;\r\n      },\r\n    },\r\n    {\r\n      title: '文件类型',\r\n      dataIndex: 'extension',\r\n      key: 'extension',\r\n      width: 80,\r\n      render: (text) => <Tag>{text.toUpperCase()}</Tag>,\r\n    },\r\n    {\r\n      title: '访问次数',\r\n      dataIndex: 'access_count',\r\n      key: 'access_count',\r\n      width: 100,\r\n      align: 'center',\r\n    },\r\n    {\r\n      title: '上传时间',\r\n      dataIndex: 'uploaded_at',\r\n      key: 'uploaded_at',\r\n      width: 180,\r\n      render: (text) => dayjs(text).format('YYYY-MM-DD HH:mm:ss'),\r\n    },\r\n    {\r\n      title: '操作',\r\n      key: 'action',\r\n      width: 200,\r\n      fixed: 'right',\r\n      render: (_, record) => (\r\n        <Space size=\"small\">\r\n          <Tooltip title=\"查看详情\">\r\n            <Button\r\n              type=\"link\"\r\n              size=\"small\"\r\n              icon={<EyeOutlined />}\r\n              onClick={() => handleViewDetail(record)}\r\n            />\r\n          </Tooltip>\r\n          {hasPermission('system:file:download') && (\r\n            <Tooltip title=\"下载文件\">\r\n              <Button\r\n                type=\"link\"\r\n                size=\"small\"\r\n                icon={<DownloadOutlined />}\r\n                onClick={() => handleDownload(record)}\r\n              />\r\n            </Tooltip>\r\n          )}\r\n          {hasPermission('system:file:delete') && (\r\n            <Popconfirm\r\n              title=\"确定要删除这个文件吗?\"\r\n              description=\"删除后可在30天内恢复\"\r\n              onConfirm={() => handleDelete(record.id)}\r\n              okText=\"确定\"\r\n              cancelText=\"取消\"\r\n            >\r\n              <Tooltip title=\"删除文件\">\r\n                <Button type=\"link\" size=\"small\" danger icon={<DeleteOutlined />} />\r\n              </Tooltip>\r\n            </Popconfirm>\r\n          )}\r\n        </Space>\r\n      ),\r\n    },\r\n  ];\r\n\r\n  return (\r\n    <div style={{ padding: 24, background: '#f0f2f5', minHeight: 'calc(100vh - 64px)' }}>\r\n      <Tabs defaultActiveKey=\"files\" type=\"card\">\r\n        <TabPane\r\n          tab={\r\n            <span>\r\n              <FileOutlined />\r\n              文件列表\r\n            </span>\r\n          }\r\n          key=\"files\"\r\n        >\r\n          <Card\r\n            title={\r\n              <Space>\r\n                <FolderOutlined style={{ fontSize: 18, color: '#1890ff' }} />\r\n                <span style={{ fontSize: 16, fontWeight: 500 }}>文件管理</span>\r\n              </Space>\r\n            }\r\n            extra={\r\n              <Space wrap>\r\n                {/* 智能搜索 */}\r\n                <SmartSearch\r\n                  onSearch={(value) => {\r\n                    setSearchText(value);\r\n                    setPage(1); // 搜索时重置到第一页\r\n                  }}\r\n                  storageKey=\"file-search-history\"\r\n                  placeholder=\"搜索文件名...\"\r\n                  style={{ width: isMobile ? 200 : 250 }}\r\n                  allowClear\r\n                />\r\n\r\n                {/* 分类筛选 */}\r\n                <Select\r\n                  placeholder=\"筛选分类\"\r\n                  allowClear\r\n                  style={{ width: isMobile ? 150 : 200 }}\r\n                  value={selectedCategory}\r\n                  onChange={(value) => {\r\n                    setSelectedCategory(value);\r\n                    setPage(1); // 筛选时重置到第一页\r\n                  }}\r\n                >\r\n                  {categories.map((cat) => (\r\n                    <Option key={cat.code} value={cat.code}>\r\n                      {cat.name}\r\n                    </Option>\r\n                  ))}\r\n                </Select>\r\n\r\n                {/* 刷新按钮 */}\r\n                <Tooltip title=\"刷新 (Ctrl+R)\">\r\n                  <Button\r\n                    icon={<ReloadOutlined />}\r\n                    onClick={() => {\r\n                      fetchFiles();\r\n                      fetchStats();\r\n                    }}\r\n                  >\r\n                    {!isMobile && '刷新'}\r\n                  </Button>\r\n                </Tooltip>\r\n\r\n                {/* 上传按钮 */}\r\n                {hasPermission('system:file:upload') && (\r\n                  <Tooltip title=\"上传文件 (Ctrl+U)\">\r\n                    <Button\r\n                      type=\"primary\"\r\n                      icon={<CloudUploadOutlined />}\r\n                      onClick={() => setUploadModalVisible(true)}\r\n                    >\r\n                      {!isMobile && '上传文件'}\r\n                    </Button>\r\n                  </Tooltip>\r\n                )}\r\n              </Space>\r\n            }\r\n            bordered={false}\r\n          >\r\n            <GlobalLoading loading={loading} tip=\"加载文件列表...\" minHeight=\"400px\">\r\n              <Table\r\n                columns={columns}\r\n                dataSource={files}\r\n                rowKey=\"id\"\r\n                pagination={{\r\n                  current: page,\r\n                  pageSize: isMobile ? 10 : pageSize,\r\n                  total,\r\n                  showSizeChanger: !isMobile,\r\n                  showQuickJumper: !isMobile,\r\n                  showTotal: (total) => `共 ${total} 个文件`,\r\n                  onChange: (page, pageSize) => {\r\n                    setPage(page);\r\n                    setPageSize(pageSize || 20);\r\n                  },\r\n                }}\r\n                scroll={{ x: isMobile ? 800 : 1200 }}\r\n                locale={{\r\n                  emptyText: (\r\n                    <EmptyState\r\n                      description={searchText || selectedCategory ? '未找到匹配的文件' : '暂无文件'}\r\n                      showCreateButton={false}\r\n                    >\r\n                      {hasPermission('system:file:upload') && !searchText && !selectedCategory && (\r\n                        <Button\r\n                          type=\"primary\"\r\n                          icon={<CloudUploadOutlined />}\r\n                          onClick={() => setUploadModalVisible(true)}\r\n                        >\r\n                          上传第一个文件\r\n                        </Button>\r\n                      )}\r\n                    </EmptyState>\r\n                  ),\r\n                }}\r\n              />\r\n            </GlobalLoading>\r\n          </Card>\r\n        </TabPane>\r\n\r\n        <TabPane\r\n          tab={\r\n            <span>\r\n              <PieChartOutlined />\r\n              存储统计\r\n            </span>\r\n          }\r\n          key=\"stats\"\r\n        >\r\n          <Space direction=\"vertical\" size=\"large\" style={{ width: '100%' }}>\r\n            {/* 总体统计 */}\r\n            {platformStats && (\r\n              <Card\r\n                title={\r\n                  <Space>\r\n                    <PieChartOutlined style={{ fontSize: 18, color: '#1890ff' }} />\r\n                    <span style={{ fontSize: 16, fontWeight: 500 }}>总体统计</span>\r\n                  </Space>\r\n                }\r\n                bordered={false}\r\n              >\r\n                <Row gutter={[16, 16]}>\r\n                  <Col xs={24} sm={12} md={8}>\r\n                    <Card>\r\n                      <Statistic\r\n                        title=\"文件总数\"\r\n                        value={platformStats.total?.fileCount || 0}\r\n                        suffix=\"个\"\r\n                        valueStyle={{ color: '#3f8600' }}\r\n                      />\r\n                    </Card>\r\n                  </Col>\r\n                  <Col xs={24} sm={12} md={8}>\r\n                    <Card>\r\n                      <Statistic\r\n                        title=\"总存储空间\"\r\n                        value={platformStats.total?.totalSizeReadable || '0 B'}\r\n                        valueStyle={{ color: '#1890ff' }}\r\n                      />\r\n                    </Card>\r\n                  </Col>\r\n                  <Col xs={24} sm={12} md={8}>\r\n                    <Card>\r\n                      <Statistic\r\n                        title=\"部门数量\"\r\n                        value={platformStats.byDepartment?.length || 0}\r\n                        suffix=\"个\"\r\n                        valueStyle={{ color: '#cf1322' }}\r\n                      />\r\n                    </Card>\r\n                  </Col>\r\n                </Row>\r\n              </Card>\r\n            )}\r\n\r\n            {/* 分类统计 */}\r\n            <Card\r\n              title={\r\n                <Space>\r\n                  <FolderOutlined style={{ fontSize: 18, color: '#1890ff' }} />\r\n                  <span style={{ fontSize: 16, fontWeight: 500 }}>分类统计</span>\r\n                </Space>\r\n              }\r\n              bordered={false}\r\n            >\r\n              <Table\r\n                dataSource={categoryStats}\r\n                rowKey=\"category\"\r\n                pagination={false}\r\n                size=\"middle\"\r\n                columns={[\r\n                  {\r\n                    title: '分类',\r\n                    dataIndex: 'category',\r\n                    key: 'category',\r\n                    render: (text) => {\r\n                      const category = categories.find((c) => c.code === text);\r\n                      return (\r\n                        <Space>\r\n                          <FolderOutlined />\r\n                          <span>{category?.name || text}</span>\r\n                        </Space>\r\n                      );\r\n                    },\r\n                  },\r\n                  {\r\n                    title: '文件数量',\r\n                    dataIndex: 'fileCount',\r\n                    key: 'fileCount',\r\n                    align: 'right',\r\n                    render: (text) => `${text} 个`,\r\n                  },\r\n                  {\r\n                    title: '存储空间',\r\n                    dataIndex: 'totalSizeReadable',\r\n                    key: 'totalSizeReadable',\r\n                    align: 'right',\r\n                  },\r\n                ]}\r\n              />\r\n            </Card>\r\n          </Space>\r\n        </TabPane>\r\n      </Tabs>\r\n\r\n      {/* 上传文件模态框 */}\r\n      <Modal\r\n        title={\r\n          <Space>\r\n            <CloudUploadOutlined style={{ color: '#1890ff' }} />\r\n            <span>上传文件</span>\r\n            {uploading && <span style={{ fontSize: 12, color: '#999' }}>(上传中，请勿关闭)</span>}\r\n          </Space>\r\n        }\r\n        open={uploadModalVisible}\r\n        onCancel={() => {\r\n          if (!uploading) {\r\n            setUploadModalVisible(false);\r\n            form.resetFields();\r\n            setUploadProgress(0);\r\n          }\r\n        }}\r\n        onOk={() => form.submit()}\r\n        confirmLoading={uploading}\r\n        width={600}\r\n        maskClosable={!uploading}\r\n        closable={!uploading}\r\n        keyboard={!uploading}\r\n      >\r\n        <Form form={form} layout=\"vertical\" onFinish={handleUpload}>\r\n          <Form.Item\r\n            name=\"file\"\r\n            label=\"选择文件\"\r\n            rules={[{ required: true, message: '请选择文件' }]}\r\n            valuePropName=\"fileList\"\r\n            getValueFromEvent={(e) => {\r\n              if (Array.isArray(e)) {\r\n                return e;\r\n              }\r\n              return e?.fileList;\r\n            }}\r\n            extra=\"支持上传任意格式文件，单个文件最大50MB\"\r\n          >\r\n            <Upload\r\n              beforeUpload={(file) => {\r\n                const isLt50M = file.size / 1024 / 1024 < 50;\r\n                if (!isLt50M) {\r\n                  message.error('文件大小不能超过50MB');\r\n                }\r\n                return false;\r\n              }}\r\n              maxCount={1}\r\n              accept=\"*/*\"\r\n            >\r\n              <Button icon={<UploadOutlined />} block>\r\n                点击选择文件\r\n              </Button>\r\n            </Upload>\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"category\"\r\n            label=\"文件分类\"\r\n            rules={[{ required: true, message: '请选择文件分类' }]}\r\n          >\r\n            <Select\r\n              placeholder=\"请选择文件分类\"\r\n              showSearch\r\n              optionFilterProp=\"children\"\r\n            >\r\n              {categories.map((cat) => (\r\n                <Option key={cat.code} value={cat.code}>\r\n                  {cat.name} ({cat.module})\r\n                </Option>\r\n              ))}\r\n            </Select>\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"platformId\"\r\n            label=\"平台ID\"\r\n            initialValue=\"seed-platform-main\"\r\n            tooltip=\"文件所属平台，默认为主平台\"\r\n          >\r\n            <Input placeholder=\"平台ID\" disabled />\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"departmentId\"\r\n            label=\"部门ID\"\r\n            tooltip=\"可选，指定文件所属部门\"\r\n          >\r\n            <Input placeholder=\"部门ID(可选)\" />\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"isPublic\"\r\n            label=\"访问权限\"\r\n            initialValue={false}\r\n            tooltip=\"公开文件可被所有人访问，私有文件仅限有权限的用户访问\"\r\n          >\r\n            <Select>\r\n              <Option value={false}>🔒 私有</Option>\r\n              <Option value={true}>🌐 公开</Option>\r\n            </Select>\r\n          </Form.Item>\r\n\r\n          {/* 上传进度 */}\r\n          {uploading && uploadProgress > 0 && (\r\n            <Form.Item label=\"上传进度\">\r\n              <Progress\r\n                percent={uploadProgress}\r\n                status={uploadProgress === 100 ? 'success' : 'active'}\r\n                strokeColor={{\r\n                  '0%': '#108ee9',\r\n                  '100%': '#87d068',\r\n                }}\r\n              />\r\n            </Form.Item>\r\n          )}\r\n        </Form>\r\n      </Modal>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default FilesManagement;\r\n",
       "__isJSFile": true,
       "__absFile": "E:/code/AiSystem/frontend/src/pages/system/files/index.tsx"
     },
@@ -2653,7 +2640,7 @@
       "parentId": "5",
       "id": "15",
       "absPath": "/system/ai-config",
-      "__content": "import React, { useState, useRef, useEffect } from 'react';\r\nimport {\r\n  Card,\r\n  Table,\r\n  Button,\r\n  Space,\r\n  Tag,\r\n  Modal,\r\n  Form,\r\n  Input,\r\n  Select,\r\n  InputNumber,\r\n  Switch,\r\n  message,\r\n  Popconfirm,\r\n  Empty,\r\n  Tooltip,\r\n  Alert,\r\n} from 'antd';\r\nimport {\r\n  PlusOutlined,\r\n  EditOutlined,\r\n  DeleteOutlined,\r\n  ReloadOutlined,\r\n  RobotOutlined,\r\n  EyeOutlined,\r\n  SearchOutlined,\r\n} from '@ant-design/icons';\r\nimport { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';\r\nimport request from '@/utils/request';\r\nimport { GlobalLoading } from '@/components/common/GlobalLoading';\r\nimport { SmartSearch } from '@/components/common/SmartSearch';\r\nimport { useDebounce } from '@/hooks/useDebounce';\r\nimport { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';\r\nimport { useFormDraft } from '@/hooks/useFormDraft';\r\nimport type { ColumnsType } from 'antd/es/table';\r\n\r\nconst { TextArea } = Input;\r\nconst { Option } = Select;\r\n\r\n// 类型定义\r\ninterface AIConfig {\r\n  id: string;\r\n  scopeType: string;\r\n  scopeId?: string;\r\n  provider: string;\r\n  apiBaseUrl?: string;\r\n  model: string;\r\n  maxTokens: number;\r\n  temperature: number;\r\n  priority: number;\r\n  status: number;\r\n  remark?: string;\r\n  hasApiKey: boolean;\r\n  createdBy?: string;\r\n  createTime: string;\r\n  updateTime: string;\r\n}\r\n\r\ninterface AIConfigDetail extends AIConfig {\r\n  apiKey: string;\r\n  extraConfig?: any;\r\n}\r\n\r\n// API服务\r\nconst aiConfigService = {\r\n  list: (params: any) =>\r\n    request('/api/system/ai-config/list', { method: 'GET', params }),\r\n\r\n  detail: (id: string) =>\r\n    request(`/api/system/ai-config/detail/${id}`, { method: 'GET' }),\r\n\r\n  current: (params: any) =>\r\n    request('/api/system/ai-config/current', { method: 'GET', params }),\r\n\r\n  upsert: (data: any) =>\r\n    request('/api/system/ai-config/upsert', { method: 'POST', data }),\r\n\r\n  updateStatus: (data: any) =>\r\n    request('/api/system/ai-config/status', { method: 'PUT', data }),\r\n\r\n  delete: (id: string) =>\r\n    request(`/api/system/ai-config/${id}`, { method: 'DELETE' }),\r\n};\r\n\r\nconst AIConfigManagement: React.FC = () => {\r\n  const [form] = Form.useForm();\r\n  const queryClient = useQueryClient();\r\n  const searchInputRef = useRef<any>(null);\r\n\r\n  // 状态管理\r\n  const [modalVisible, setModalVisible] = useState(false);\r\n  const [editingId, setEditingId] = useState<string | null>(null);\r\n  const [searchText, setSearchText] = useState('');\r\n  const [page, setPage] = useState(1);\r\n  const [pageSize, setPageSize] = useState(20);\r\n  const [currentConfigVisible, setCurrentConfigVisible] = useState(false);\r\n\r\n  // 搜索防抖\r\n  const debouncedSearchText = useDebounce(searchText, 500);\r\n\r\n  // 表单草稿保存\r\n  const { clearDraft } = useFormDraft(form, 'ai-config-form', 30000);\r\n\r\n  // 快捷键支持\r\n  useKeyboardShortcuts({\r\n    'Ctrl+n': () => handleCreate(),\r\n    'Ctrl+f': () => searchInputRef.current?.focus(),\r\n    'Ctrl+r': () => queryClient.invalidateQueries({ queryKey: ['ai-configs'] }),\r\n    'Escape': () => setModalVisible(false),\r\n  });\r\n\r\n  // 查询AI配置列表\r\n  const { data, isLoading, refetch } = useQuery({\r\n    queryKey: ['ai-configs', page, pageSize, debouncedSearchText],\r\n    queryFn: () =>\r\n      aiConfigService.list({\r\n        page,\r\n        pageSize,\r\n        searchText: debouncedSearchText,\r\n      }),\r\n    staleTime: 5 * 60 * 1000,\r\n    refetchOnWindowFocus: false,\r\n  });\r\n\r\n  // 创建/更新配置\r\n  const upsertMutation = useMutation({\r\n    mutationFn: aiConfigService.upsert,\r\n    onSuccess: () => {\r\n      message.success(editingId ? '更新成功' : '创建成功');\r\n      setModalVisible(false);\r\n      clearDraft();\r\n      queryClient.invalidateQueries({ queryKey: ['ai-configs'] });\r\n    },\r\n    onError: (error: any) => {\r\n      message.error(error.message || '操作失败');\r\n    },\r\n  });\r\n\r\n  // 更新状态\r\n  const updateStatusMutation = useMutation({\r\n    mutationFn: aiConfigService.updateStatus,\r\n    onSuccess: () => {\r\n      message.success('状态更新成功');\r\n      queryClient.invalidateQueries({ queryKey: ['ai-configs'] });\r\n    },\r\n    onError: (error: any) => {\r\n      message.error(error.message || '状态更新失败');\r\n    },\r\n  });\r\n\r\n  // 删除配置\r\n  const deleteMutation = useMutation({\r\n    mutationFn: aiConfigService.delete,\r\n    onSuccess: () => {\r\n      message.success('删除成功');\r\n      queryClient.invalidateQueries({ queryKey: ['ai-configs'] });\r\n    },\r\n    onError: (error: any) => {\r\n      message.error(error.message || '删除失败');\r\n    },\r\n  });\r\n\r\n  // 处理创建\r\n  const handleCreate = () => {\r\n    setEditingId(null);\r\n    form.resetFields();\r\n    setModalVisible(true);\r\n  };\r\n\r\n  // 处理编辑\r\n  const handleEdit = async (record: AIConfig) => {\r\n    const hide = message.loading('加载配置详情...', 0);\r\n    try {\r\n      const detail = await aiConfigService.detail(record.id);\r\n      setEditingId(record.id);\r\n      form.setFieldsValue({\r\n        scopeType: detail.scopeType,\r\n        scopeId: detail.scopeId,\r\n        provider: detail.provider,\r\n        apiKey: detail.apiKey,\r\n        apiBaseUrl: detail.apiBaseUrl,\r\n        model: detail.model,\r\n        maxTokens: detail.maxTokens,\r\n        temperature: detail.temperature,\r\n        remark: detail.remark,\r\n      });\r\n      setModalVisible(true);\r\n      hide();\r\n    } catch (error: any) {\r\n      hide();\r\n      message.error(error.message || '加载失败');\r\n    }\r\n  };\r\n\r\n  // 处理提交\r\n  const handleSubmit = async () => {\r\n    try {\r\n      const values = await form.validateFields();\r\n      await upsertMutation.mutateAsync(values);\r\n    } catch (error) {\r\n      console.error('表单验证失败:', error);\r\n    }\r\n  };\r\n\r\n  // 处理删除\r\n  const handleDelete = (id: string) => {\r\n    Modal.confirm({\r\n      title: '确认删除',\r\n      content: '确定要删除这个AI配置吗？此操作不可恢复。',\r\n      okText: '确认删除',\r\n      okType: 'danger',\r\n      cancelText: '取消',\r\n      onOk: () => deleteMutation.mutateAsync(id),\r\n    });\r\n  };\r\n\r\n  // 处理状态切换\r\n  const handleStatusToggle = (record: AIConfig) => {\r\n    updateStatusMutation.mutate({\r\n      id: record.id,\r\n      status: record.status === 1 ? 0 : 1,\r\n    });\r\n  };\r\n\r\n  // 查看当前生效配置\r\n  const handleViewCurrent = async () => {\r\n    const hide = message.loading('加载当前配置...', 0);\r\n    try {\r\n      const config = await aiConfigService.current({});\r\n      hide();\r\n      Modal.info({\r\n        title: '当前生效的AI配置',\r\n        width: 600,\r\n        content: (\r\n          <div style={{ marginTop: 16 }}>\r\n            <p><strong>服务商:</strong> {config.provider}</p>\r\n            <p><strong>模型:</strong> {config.model}</p>\r\n            <p><strong>API地址:</strong> {config.apiBaseUrl}</p>\r\n            <p><strong>最大Token:</strong> {config.maxTokens}</p>\r\n            <p><strong>温度参数:</strong> {config.temperature}</p>\r\n          </div>\r\n        ),\r\n      });\r\n    } catch (error: any) {\r\n      hide();\r\n      message.error(error.message || '加载失败');\r\n    }\r\n  };\r\n\r\n  // 表格列定义\r\n  const columns: ColumnsType<AIConfig> = [\r\n    {\r\n      title: '配置范围',\r\n      dataIndex: 'scopeType',\r\n      key: 'scopeType',\r\n      width: 150,\r\n      render: (scopeType, record) => {\r\n        const scopeMap: Record<string, { text: string; color: string }> = {\r\n          global: { text: '全局', color: 'blue' },\r\n          platform: { text: '平台', color: 'green' },\r\n          department: { text: '部门', color: 'orange' },\r\n          shop: { text: '店铺', color: 'purple' },\r\n        };\r\n        const scope = scopeMap[scopeType] || { text: scopeType, color: 'default' };\r\n        return (\r\n          <Space>\r\n            <Tag color={scope.color}>{scope.text}</Tag>\r\n            {record.scopeId && <span style={{ fontSize: 12, color: '#999' }}>{record.scopeId}</span>}\r\n          </Space>\r\n        );\r\n      },\r\n    },\r\n    {\r\n      title: 'AI服务商',\r\n      dataIndex: 'provider',\r\n      key: 'provider',\r\n      width: 120,\r\n      render: (provider) => {\r\n        const providerMap: Record<string, { text: string; color: string }> = {\r\n          openai: { text: 'OpenAI', color: 'green' },\r\n          azure: { text: 'Azure', color: 'blue' },\r\n          baidu: { text: '文心一言', color: 'red' },\r\n          aliyun: { text: '通义千问', color: 'orange' },\r\n        };\r\n        const p = providerMap[provider] || { text: provider, color: 'default' };\r\n        return <Tag color={p.color}>{p.text}</Tag>;\r\n      },\r\n    },\r\n    {\r\n      title: '模型',\r\n      dataIndex: 'model',\r\n      key: 'model',\r\n      width: 150,\r\n      ellipsis: true,\r\n    },\r\n    {\r\n      title: 'API地址',\r\n      dataIndex: 'apiBaseUrl',\r\n      key: 'apiBaseUrl',\r\n      width: 200,\r\n      ellipsis: true,\r\n      render: (url) => (\r\n        <Tooltip title={url}>\r\n          <span>{url || '-'}</span>\r\n        </Tooltip>\r\n      ),\r\n    },\r\n    {\r\n      title: 'API Key',\r\n      key: 'hasApiKey',\r\n      width: 100,\r\n      render: (_, record) => (\r\n        record.hasApiKey ? (\r\n          <Tag color=\"success\">已配置</Tag>\r\n        ) : (\r\n          <Tag color=\"error\">未配置</Tag>\r\n        )\r\n      ),\r\n    },\r\n    {\r\n      title: '参数',\r\n      key: 'params',\r\n      width: 150,\r\n      render: (_, record) => (\r\n        <div style={{ fontSize: 12 }}>\r\n          <div>Token: {record.maxTokens}</div>\r\n          <div>温度: {record.temperature}</div>\r\n        </div>\r\n      ),\r\n    },\r\n    {\r\n      title: '状态',\r\n      dataIndex: 'status',\r\n      key: 'status',\r\n      width: 100,\r\n      render: (status, record) => (\r\n        <Switch\r\n          checked={status === 1}\r\n          onChange={() => handleStatusToggle(record)}\r\n          checkedChildren=\"启用\"\r\n          unCheckedChildren=\"禁用\"\r\n        />\r\n      ),\r\n    },\r\n    {\r\n      title: '备注',\r\n      dataIndex: 'remark',\r\n      key: 'remark',\r\n      width: 200,\r\n      ellipsis: true,\r\n      render: (remark) => (\r\n        <Tooltip title={remark}>\r\n          <span>{remark || '-'}</span>\r\n        </Tooltip>\r\n      ),\r\n    },\r\n    {\r\n      title: '操作',\r\n      key: 'action',\r\n      fixed: 'right',\r\n      width: 150,\r\n      render: (_, record) => (\r\n        <Space size=\"small\">\r\n          <Button\r\n            type=\"link\"\r\n            size=\"small\"\r\n            icon={<EditOutlined />}\r\n            onClick={() => handleEdit(record)}\r\n          >\r\n            编辑\r\n          </Button>\r\n          <Popconfirm\r\n            title=\"确定要删除吗？\"\r\n            onConfirm={() => handleDelete(record.id)}\r\n            okText=\"确定\"\r\n            cancelText=\"取消\"\r\n          >\r\n            <Button\r\n              type=\"link\"\r\n              size=\"small\"\r\n              danger\r\n              icon={<DeleteOutlined />}\r\n            >\r\n              删除\r\n            </Button>\r\n          </Popconfirm>\r\n        </Space>\r\n      ),\r\n    },\r\n  ];\r\n\r\n  return (\r\n    <Card\r\n      title={\r\n        <Space>\r\n          <RobotOutlined />\r\n          <span>AI配置管理</span>\r\n        </Space>\r\n      }\r\n      extra={\r\n        <Space>\r\n          <Tooltip title=\"Ctrl+N\">\r\n            <Button\r\n              type=\"primary\"\r\n              icon={<PlusOutlined />}\r\n              onClick={handleCreate}\r\n            >\r\n              新增配置\r\n            </Button>\r\n          </Tooltip>\r\n          <Button\r\n            icon={<EyeOutlined />}\r\n            onClick={handleViewCurrent}\r\n          >\r\n            查看当前配置\r\n          </Button>\r\n          <Tooltip title=\"Ctrl+R\">\r\n            <Button\r\n              icon={<ReloadOutlined />}\r\n              onClick={() => refetch()}\r\n            >\r\n              刷新\r\n            </Button>\r\n          </Tooltip>\r\n        </Space>\r\n      }\r\n    >\r\n      <Alert\r\n        message=\"配置优先级说明\"\r\n        description=\"店铺配置 > 部门配置 > 平台配置 > 全局配置 > 环境变量。系统会自动选择优先级最高的配置。\"\r\n        type=\"info\"\r\n        showIcon\r\n        closable\r\n        style={{ marginBottom: 16 }}\r\n      />\r\n\r\n      <div style={{ marginBottom: 16 }}>\r\n        <SmartSearch\r\n          onSearch={setSearchText}\r\n          storageKey=\"ai-config-search-history\"\r\n          ref={searchInputRef}\r\n        />\r\n      </div>\r\n\r\n      <GlobalLoading loading={isLoading}>\r\n        {data?.list?.length === 0 ? (\r\n          <Empty\r\n            image={Empty.PRESENTED_IMAGE_SIMPLE}\r\n            description=\"暂无AI配置\"\r\n            style={{ marginTop: 100 }}\r\n          >\r\n            <Button\r\n              type=\"primary\"\r\n              icon={<PlusOutlined />}\r\n              onClick={handleCreate}\r\n            >\r\n              创建第一个配置\r\n            </Button>\r\n          </Empty>\r\n        ) : (\r\n          <Table\r\n            columns={columns}\r\n            dataSource={data?.list || []}\r\n            rowKey=\"id\"\r\n            scroll={{ x: 1400 }}\r\n            pagination={{\r\n              current: page,\r\n              pageSize,\r\n              total: data?.total || 0,\r\n              showSizeChanger: true,\r\n              showQuickJumper: true,\r\n              showTotal: (total) => `共 ${total} 条`,\r\n              onChange: (newPage, newPageSize) => {\r\n                setPage(newPage);\r\n                setPageSize(newPageSize);\r\n              },\r\n            }}\r\n          />\r\n        )}\r\n      </GlobalLoading>\r\n\r\n      {/* 创建/编辑弹窗 */}\r\n      <Modal\r\n        title={editingId ? '编辑AI配置' : '新增AI配置'}\r\n        open={modalVisible}\r\n        onOk={handleSubmit}\r\n        onCancel={() => {\r\n          setModalVisible(false);\r\n          form.resetFields();\r\n        }}\r\n        width={700}\r\n        confirmLoading={upsertMutation.isPending}\r\n        destroyOnClose\r\n      >\r\n        <Form\r\n          form={form}\r\n          layout=\"vertical\"\r\n          initialValues={{\r\n            provider: 'openai',\r\n            maxTokens: 2000,\r\n            temperature: 0.7,\r\n            scopeType: 'global',\r\n          }}\r\n        >\r\n          <Form.Item\r\n            name=\"scopeType\"\r\n            label=\"配置范围\"\r\n            rules={[{ required: true, message: '请选择配置范围' }]}\r\n          >\r\n            <Select placeholder=\"请选择配置范围\">\r\n              <Option value=\"global\">全局配置</Option>\r\n              <Option value=\"platform\">平台配置</Option>\r\n              <Option value=\"department\">部门配置</Option>\r\n              <Option value=\"shop\">店铺配置</Option>\r\n            </Select>\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            noStyle\r\n            shouldUpdate={(prevValues, currentValues) =>\r\n              prevValues.scopeType !== currentValues.scopeType\r\n            }\r\n          >\r\n            {({ getFieldValue }) =>\r\n              getFieldValue('scopeType') !== 'global' ? (\r\n                <Form.Item\r\n                  name=\"scopeId\"\r\n                  label=\"范围ID\"\r\n                  rules={[{ required: true, message: '请输入范围ID' }]}\r\n                >\r\n                  <Input placeholder=\"请输入平台ID/部门ID/店铺ID\" />\r\n                </Form.Item>\r\n              ) : null\r\n            }\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"provider\"\r\n            label=\"AI服务商\"\r\n            rules={[{ required: true, message: '请选择AI服务商' }]}\r\n          >\r\n            <Select placeholder=\"请选择AI服务商\">\r\n              <Option value=\"openai\">OpenAI</Option>\r\n              <Option value=\"azure\">Azure OpenAI</Option>\r\n              <Option value=\"baidu\">百度文心一言</Option>\r\n              <Option value=\"aliyun\">阿里通义千问</Option>\r\n            </Select>\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"apiKey\"\r\n            label=\"API Key\"\r\n            rules={[{ required: true, message: '请输入API Key' }]}\r\n          >\r\n            <Input.Password placeholder=\"请输入API Key\" />\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"apiBaseUrl\"\r\n            label=\"API地址\"\r\n            tooltip=\"留空则使用默认地址\"\r\n          >\r\n            <Input placeholder=\"https://api.openai.com/v1\" />\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"model\"\r\n            label=\"模型名称\"\r\n            rules={[{ required: true, message: '请输入模型名称' }]}\r\n          >\r\n            <Input placeholder=\"gpt-3.5-turbo\" />\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"maxTokens\"\r\n            label=\"最大Token数\"\r\n            rules={[\r\n              { required: true, message: '请输入最大Token数' },\r\n              { type: 'number', min: 100, max: 100000, message: '范围: 100-100000' },\r\n            ]}\r\n          >\r\n            <InputNumber\r\n              style={{ width: '100%' }}\r\n              placeholder=\"2000\"\r\n              min={100}\r\n              max={100000}\r\n            />\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"temperature\"\r\n            label=\"温度参数\"\r\n            tooltip=\"控制输出的随机性，0-2之间\"\r\n            rules={[\r\n              { required: true, message: '请输入温度参数' },\r\n              { type: 'number', min: 0, max: 2, message: '范围: 0-2' },\r\n            ]}\r\n          >\r\n            <InputNumber\r\n              style={{ width: '100%' }}\r\n              placeholder=\"0.7\"\r\n              min={0}\r\n              max={2}\r\n              step={0.1}\r\n            />\r\n          </Form.Item>\r\n\r\n          <Form.Item name=\"remark\" label=\"备注\">\r\n            <TextArea\r\n              rows={3}\r\n              placeholder=\"请输入备注信息\"\r\n              maxLength={500}\r\n              showCount\r\n            />\r\n          </Form.Item>\r\n        </Form>\r\n      </Modal>\r\n    </Card>\r\n  );\r\n};\r\n\r\nexport default AIConfigManagement;\r\n",
+      "__content": "import React, { useState, useRef, useEffect } from 'react';\r\nimport {\r\n  Card,\r\n  Table,\r\n  Button,\r\n  Space,\r\n  Tag,\r\n  Modal,\r\n  Form,\r\n  Input,\r\n  Select,\r\n  InputNumber,\r\n  Switch,\r\n  message,\r\n  Popconfirm,\r\n  Empty,\r\n  Tooltip,\r\n  Alert,\r\n} from 'antd';\r\nimport {\r\n  PlusOutlined,\r\n  EditOutlined,\r\n  DeleteOutlined,\r\n  ReloadOutlined,\r\n  RobotOutlined,\r\n  EyeOutlined,\r\n  SearchOutlined,\r\n} from '@ant-design/icons';\r\nimport { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';\r\nimport request from '@/utils/request';\r\nimport { GlobalLoading } from '@/components/common/GlobalLoading';\r\nimport { SmartSearch } from '@/components/common/SmartSearch';\r\nimport { useDebounce } from '@/hooks/useDebounce';\r\nimport { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';\r\nimport { useFormDraft } from '@/hooks/useFormDraft';\r\nimport type { ColumnsType } from 'antd/es/table';\r\n\r\nconst { TextArea } = Input;\r\nconst { Option } = Select;\r\n\r\n// 类型定义\r\ninterface AIConfig {\r\n  id: string;\r\n  scopeType: string;\r\n  scopeId?: string;\r\n  provider: string;\r\n  apiBaseUrl?: string;\r\n  model: string;\r\n  maxTokens: number;\r\n  temperature: number;\r\n  priority: number;\r\n  status: number;\r\n  remark?: string;\r\n  hasApiKey: boolean;\r\n  createdBy?: string;\r\n  createTime: string;\r\n  updateTime: string;\r\n}\r\n\r\ninterface AIConfigDetail extends AIConfig {\r\n  apiKey: string;\r\n  extraConfig?: any;\r\n}\r\n\r\n// API服务\r\nconst aiConfigService = {\r\n  list: (params: any) =>\r\n    request.get('/api/system/ai-config/list', { params }),\r\n\r\n  detail: (id: string) =>\r\n    request.get(`/api/system/ai-config/detail/${id}`),\r\n\r\n  current: (params: any) =>\r\n    request.get('/api/system/ai-config/current', { params }),\r\n\r\n  upsert: (data: any) =>\r\n    request.post('/api/system/ai-config/upsert', data),\r\n\r\n  updateStatus: (data: any) =>\r\n    request.put('/api/system/ai-config/status', data),\r\n\r\n  delete: (id: string) =>\r\n    request.delete(`/api/system/ai-config/${id}`),\r\n};\r\n\r\nconst AIConfigManagement: React.FC = () => {\r\n  const [form] = Form.useForm();\r\n  const queryClient = useQueryClient();\r\n  const searchInputRef = useRef<any>(null);\r\n\r\n  // 状态管理\r\n  const [modalVisible, setModalVisible] = useState(false);\r\n  const [editingId, setEditingId] = useState<string | null>(null);\r\n  const [searchText, setSearchText] = useState('');\r\n  const [page, setPage] = useState(1);\r\n  const [pageSize, setPageSize] = useState(20);\r\n  const [currentConfigVisible, setCurrentConfigVisible] = useState(false);\r\n\r\n  // 搜索防抖\r\n  const debouncedSearchText = useDebounce(searchText, 500);\r\n\r\n  // 表单草稿保存\r\n  const { clearDraft } = useFormDraft(form, 'ai-config-form', 30000);\r\n\r\n  // 快捷键支持\r\n  useKeyboardShortcuts({\r\n    'Ctrl+n': () => handleCreate(),\r\n    'Ctrl+f': () => searchInputRef.current?.focus(),\r\n    'Ctrl+r': () => queryClient.invalidateQueries({ queryKey: ['ai-configs'] }),\r\n    'Escape': () => setModalVisible(false),\r\n  });\r\n\r\n  // 查询AI配置列表\r\n  const { data, isLoading, refetch } = useQuery({\r\n    queryKey: ['ai-configs', page, pageSize, debouncedSearchText],\r\n    queryFn: () =>\r\n      aiConfigService.list({\r\n        page,\r\n        pageSize,\r\n        searchText: debouncedSearchText,\r\n      }),\r\n    staleTime: 5 * 60 * 1000,\r\n    refetchOnWindowFocus: false,\r\n  });\r\n\r\n  // 创建/更新配置\r\n  const upsertMutation = useMutation({\r\n    mutationFn: aiConfigService.upsert,\r\n    onSuccess: () => {\r\n      message.success(editingId ? '更新成功' : '创建成功');\r\n      setModalVisible(false);\r\n      clearDraft();\r\n      queryClient.invalidateQueries({ queryKey: ['ai-configs'] });\r\n    },\r\n    onError: (error: any) => {\r\n      message.error(error.message || '操作失败');\r\n    },\r\n  });\r\n\r\n  // 更新状态\r\n  const updateStatusMutation = useMutation({\r\n    mutationFn: aiConfigService.updateStatus,\r\n    onSuccess: () => {\r\n      message.success('状态更新成功');\r\n      queryClient.invalidateQueries({ queryKey: ['ai-configs'] });\r\n    },\r\n    onError: (error: any) => {\r\n      message.error(error.message || '状态更新失败');\r\n    },\r\n  });\r\n\r\n  // 删除配置\r\n  const deleteMutation = useMutation({\r\n    mutationFn: aiConfigService.delete,\r\n    onSuccess: () => {\r\n      message.success('删除成功');\r\n      queryClient.invalidateQueries({ queryKey: ['ai-configs'] });\r\n    },\r\n    onError: (error: any) => {\r\n      message.error(error.message || '删除失败');\r\n    },\r\n  });\r\n\r\n  // 处理创建\r\n  const handleCreate = () => {\r\n    setEditingId(null);\r\n    form.resetFields();\r\n    setModalVisible(true);\r\n  };\r\n\r\n  // 处理编辑\r\n  const handleEdit = async (record: AIConfig) => {\r\n    const hide = message.loading('加载配置详情...', 0);\r\n    try {\r\n      const detail = await aiConfigService.detail(record.id);\r\n      setEditingId(record.id);\r\n      form.setFieldsValue({\r\n        scopeType: detail.scopeType,\r\n        scopeId: detail.scopeId,\r\n        provider: detail.provider,\r\n        apiKey: detail.apiKey,\r\n        apiBaseUrl: detail.apiBaseUrl,\r\n        model: detail.model,\r\n        maxTokens: detail.maxTokens,\r\n        temperature: detail.temperature,\r\n        remark: detail.remark,\r\n      });\r\n      setModalVisible(true);\r\n      hide();\r\n    } catch (error: any) {\r\n      hide();\r\n      message.error(error.message || '加载失败');\r\n    }\r\n  };\r\n\r\n  // 处理提交\r\n  const handleSubmit = async () => {\r\n    try {\r\n      const values = await form.validateFields();\r\n      await upsertMutation.mutateAsync(values);\r\n    } catch (error) {\r\n      console.error('表单验证失败:', error);\r\n    }\r\n  };\r\n\r\n  // 处理删除\r\n  const handleDelete = (id: string) => {\r\n    Modal.confirm({\r\n      title: '确认删除',\r\n      content: '确定要删除这个AI配置吗？此操作不可恢复。',\r\n      okText: '确认删除',\r\n      okType: 'danger',\r\n      cancelText: '取消',\r\n      onOk: () => deleteMutation.mutateAsync(id),\r\n    });\r\n  };\r\n\r\n  // 处理状态切换\r\n  const handleStatusToggle = (record: AIConfig) => {\r\n    updateStatusMutation.mutate({\r\n      id: record.id,\r\n      status: record.status === 1 ? 0 : 1,\r\n    });\r\n  };\r\n\r\n  // 查看当前生效配置\r\n  const handleViewCurrent = async () => {\r\n    const hide = message.loading('加载当前配置...', 0);\r\n    try {\r\n      const config = await aiConfigService.current({});\r\n      hide();\r\n      Modal.info({\r\n        title: '当前生效的AI配置',\r\n        width: 600,\r\n        content: (\r\n          <div style={{ marginTop: 16 }}>\r\n            <p><strong>服务商:</strong> {config.provider}</p>\r\n            <p><strong>模型:</strong> {config.model}</p>\r\n            <p><strong>API地址:</strong> {config.apiBaseUrl}</p>\r\n            <p><strong>最大Token:</strong> {config.maxTokens}</p>\r\n            <p><strong>温度参数:</strong> {config.temperature}</p>\r\n          </div>\r\n        ),\r\n      });\r\n    } catch (error: any) {\r\n      hide();\r\n      message.error(error.message || '加载失败');\r\n    }\r\n  };\r\n\r\n  // 表格列定义\r\n  const columns: ColumnsType<AIConfig> = [\r\n    {\r\n      title: '配置范围',\r\n      dataIndex: 'scopeType',\r\n      key: 'scopeType',\r\n      width: 150,\r\n      render: (scopeType, record) => {\r\n        const scopeMap: Record<string, { text: string; color: string }> = {\r\n          global: { text: '全局', color: 'blue' },\r\n          platform: { text: '平台', color: 'green' },\r\n          department: { text: '部门', color: 'orange' },\r\n          shop: { text: '店铺', color: 'purple' },\r\n        };\r\n        const scope = scopeMap[scopeType] || { text: scopeType, color: 'default' };\r\n        return (\r\n          <Space>\r\n            <Tag color={scope.color}>{scope.text}</Tag>\r\n            {record.scopeId && <span style={{ fontSize: 12, color: '#999' }}>{record.scopeId}</span>}\r\n          </Space>\r\n        );\r\n      },\r\n    },\r\n    {\r\n      title: 'AI服务商',\r\n      dataIndex: 'provider',\r\n      key: 'provider',\r\n      width: 120,\r\n      render: (provider) => {\r\n        const providerMap: Record<string, { text: string; color: string }> = {\r\n          openai: { text: 'OpenAI', color: 'green' },\r\n          azure: { text: 'Azure', color: 'blue' },\r\n          baidu: { text: '文心一言', color: 'red' },\r\n          aliyun: { text: '通义千问', color: 'orange' },\r\n        };\r\n        const p = providerMap[provider] || { text: provider, color: 'default' };\r\n        return <Tag color={p.color}>{p.text}</Tag>;\r\n      },\r\n    },\r\n    {\r\n      title: '模型',\r\n      dataIndex: 'model',\r\n      key: 'model',\r\n      width: 150,\r\n      ellipsis: true,\r\n    },\r\n    {\r\n      title: 'API地址',\r\n      dataIndex: 'apiBaseUrl',\r\n      key: 'apiBaseUrl',\r\n      width: 200,\r\n      ellipsis: true,\r\n      render: (url) => (\r\n        <Tooltip title={url}>\r\n          <span>{url || '-'}</span>\r\n        </Tooltip>\r\n      ),\r\n    },\r\n    {\r\n      title: 'API Key',\r\n      key: 'hasApiKey',\r\n      width: 100,\r\n      render: (_, record) => (\r\n        record.hasApiKey ? (\r\n          <Tag color=\"success\">已配置</Tag>\r\n        ) : (\r\n          <Tag color=\"error\">未配置</Tag>\r\n        )\r\n      ),\r\n    },\r\n    {\r\n      title: '参数',\r\n      key: 'params',\r\n      width: 150,\r\n      render: (_, record) => (\r\n        <div style={{ fontSize: 12 }}>\r\n          <div>Token: {record.maxTokens}</div>\r\n          <div>温度: {record.temperature}</div>\r\n        </div>\r\n      ),\r\n    },\r\n    {\r\n      title: '状态',\r\n      dataIndex: 'status',\r\n      key: 'status',\r\n      width: 100,\r\n      render: (status, record) => (\r\n        <Switch\r\n          checked={status === 1}\r\n          onChange={() => handleStatusToggle(record)}\r\n          checkedChildren=\"启用\"\r\n          unCheckedChildren=\"禁用\"\r\n        />\r\n      ),\r\n    },\r\n    {\r\n      title: '备注',\r\n      dataIndex: 'remark',\r\n      key: 'remark',\r\n      width: 200,\r\n      ellipsis: true,\r\n      render: (remark) => (\r\n        <Tooltip title={remark}>\r\n          <span>{remark || '-'}</span>\r\n        </Tooltip>\r\n      ),\r\n    },\r\n    {\r\n      title: '操作',\r\n      key: 'action',\r\n      fixed: 'right',\r\n      width: 150,\r\n      render: (_, record) => (\r\n        <Space size=\"small\">\r\n          <Button\r\n            type=\"link\"\r\n            size=\"small\"\r\n            icon={<EditOutlined />}\r\n            onClick={() => handleEdit(record)}\r\n          >\r\n            编辑\r\n          </Button>\r\n          <Popconfirm\r\n            title=\"确定要删除吗？\"\r\n            onConfirm={() => handleDelete(record.id)}\r\n            okText=\"确定\"\r\n            cancelText=\"取消\"\r\n          >\r\n            <Button\r\n              type=\"link\"\r\n              size=\"small\"\r\n              danger\r\n              icon={<DeleteOutlined />}\r\n            >\r\n              删除\r\n            </Button>\r\n          </Popconfirm>\r\n        </Space>\r\n      ),\r\n    },\r\n  ];\r\n\r\n  return (\r\n    <Card\r\n      title={\r\n        <Space>\r\n          <RobotOutlined />\r\n          <span>AI配置管理</span>\r\n        </Space>\r\n      }\r\n      extra={\r\n        <Space>\r\n          <Tooltip title=\"Ctrl+N\">\r\n            <Button\r\n              type=\"primary\"\r\n              icon={<PlusOutlined />}\r\n              onClick={handleCreate}\r\n            >\r\n              新增配置\r\n            </Button>\r\n          </Tooltip>\r\n          <Button\r\n            icon={<EyeOutlined />}\r\n            onClick={handleViewCurrent}\r\n          >\r\n            查看当前配置\r\n          </Button>\r\n          <Tooltip title=\"Ctrl+R\">\r\n            <Button\r\n              icon={<ReloadOutlined />}\r\n              onClick={() => refetch()}\r\n            >\r\n              刷新\r\n            </Button>\r\n          </Tooltip>\r\n        </Space>\r\n      }\r\n    >\r\n      <Alert\r\n        message=\"配置优先级说明\"\r\n        description=\"店铺配置 > 部门配置 > 平台配置 > 全局配置 > 环境变量。系统会自动选择优先级最高的配置。\"\r\n        type=\"info\"\r\n        showIcon\r\n        closable\r\n        style={{ marginBottom: 16 }}\r\n      />\r\n\r\n      <div style={{ marginBottom: 16 }}>\r\n        <SmartSearch\r\n          onSearch={setSearchText}\r\n          storageKey=\"ai-config-search-history\"\r\n          ref={searchInputRef}\r\n        />\r\n      </div>\r\n\r\n      <GlobalLoading loading={isLoading}>\r\n        {data?.list?.length === 0 ? (\r\n          <Empty\r\n            image={Empty.PRESENTED_IMAGE_SIMPLE}\r\n            description=\"暂无AI配置\"\r\n            style={{ marginTop: 100 }}\r\n          >\r\n            <Button\r\n              type=\"primary\"\r\n              icon={<PlusOutlined />}\r\n              onClick={handleCreate}\r\n            >\r\n              创建第一个配置\r\n            </Button>\r\n          </Empty>\r\n        ) : (\r\n          <Table\r\n            columns={columns}\r\n            dataSource={data?.list || []}\r\n            rowKey=\"id\"\r\n            scroll={{ x: 1400 }}\r\n            pagination={{\r\n              current: page,\r\n              pageSize,\r\n              total: data?.total || 0,\r\n              showSizeChanger: true,\r\n              showQuickJumper: true,\r\n              showTotal: (total) => `共 ${total} 条`,\r\n              onChange: (newPage, newPageSize) => {\r\n                setPage(newPage);\r\n                setPageSize(newPageSize);\r\n              },\r\n            }}\r\n          />\r\n        )}\r\n      </GlobalLoading>\r\n\r\n      {/* 创建/编辑弹窗 */}\r\n      <Modal\r\n        title={editingId ? '编辑AI配置' : '新增AI配置'}\r\n        open={modalVisible}\r\n        onOk={handleSubmit}\r\n        onCancel={() => {\r\n          setModalVisible(false);\r\n          form.resetFields();\r\n        }}\r\n        width={700}\r\n        confirmLoading={upsertMutation.isPending}\r\n        destroyOnClose\r\n      >\r\n        <Form\r\n          form={form}\r\n          layout=\"vertical\"\r\n          initialValues={{\r\n            provider: 'openai',\r\n            maxTokens: 2000,\r\n            temperature: 0.7,\r\n            scopeType: 'global',\r\n          }}\r\n        >\r\n          <Form.Item\r\n            name=\"scopeType\"\r\n            label=\"配置范围\"\r\n            rules={[{ required: true, message: '请选择配置范围' }]}\r\n          >\r\n            <Select placeholder=\"请选择配置范围\">\r\n              <Option value=\"global\">全局配置</Option>\r\n              <Option value=\"platform\">平台配置</Option>\r\n              <Option value=\"department\">部门配置</Option>\r\n              <Option value=\"shop\">店铺配置</Option>\r\n            </Select>\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            noStyle\r\n            shouldUpdate={(prevValues, currentValues) =>\r\n              prevValues.scopeType !== currentValues.scopeType\r\n            }\r\n          >\r\n            {({ getFieldValue }) =>\r\n              getFieldValue('scopeType') !== 'global' ? (\r\n                <Form.Item\r\n                  name=\"scopeId\"\r\n                  label=\"范围ID\"\r\n                  rules={[{ required: true, message: '请输入范围ID' }]}\r\n                >\r\n                  <Input placeholder=\"请输入平台ID/部门ID/店铺ID\" />\r\n                </Form.Item>\r\n              ) : null\r\n            }\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"provider\"\r\n            label=\"AI服务商\"\r\n            rules={[{ required: true, message: '请选择AI服务商' }]}\r\n          >\r\n            <Select placeholder=\"请选择AI服务商\">\r\n              <Option value=\"openai\">OpenAI</Option>\r\n              <Option value=\"azure\">Azure OpenAI</Option>\r\n              <Option value=\"baidu\">百度文心一言</Option>\r\n              <Option value=\"aliyun\">阿里通义千问</Option>\r\n            </Select>\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"apiKey\"\r\n            label=\"API Key\"\r\n            rules={[{ required: true, message: '请输入API Key' }]}\r\n          >\r\n            <Input.Password placeholder=\"请输入API Key\" />\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"apiBaseUrl\"\r\n            label=\"API地址\"\r\n            tooltip=\"留空则使用默认地址\"\r\n          >\r\n            <Input placeholder=\"https://api.openai.com/v1\" />\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"model\"\r\n            label=\"模型名称\"\r\n            rules={[{ required: true, message: '请输入模型名称' }]}\r\n          >\r\n            <Input placeholder=\"gpt-3.5-turbo\" />\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"maxTokens\"\r\n            label=\"最大Token数\"\r\n            rules={[\r\n              { required: true, message: '请输入最大Token数' },\r\n              { type: 'number', min: 100, max: 100000, message: '范围: 100-100000' },\r\n            ]}\r\n          >\r\n            <InputNumber\r\n              style={{ width: '100%' }}\r\n              placeholder=\"2000\"\r\n              min={100}\r\n              max={100000}\r\n            />\r\n          </Form.Item>\r\n\r\n          <Form.Item\r\n            name=\"temperature\"\r\n            label=\"温度参数\"\r\n            tooltip=\"控制输出的随机性，0-2之间\"\r\n            rules={[\r\n              { required: true, message: '请输入温度参数' },\r\n              { type: 'number', min: 0, max: 2, message: '范围: 0-2' },\r\n            ]}\r\n          >\r\n            <InputNumber\r\n              style={{ width: '100%' }}\r\n              placeholder=\"0.7\"\r\n              min={0}\r\n              max={2}\r\n              step={0.1}\r\n            />\r\n          </Form.Item>\r\n\r\n          <Form.Item name=\"remark\" label=\"备注\">\r\n            <TextArea\r\n              rows={3}\r\n              placeholder=\"请输入备注信息\"\r\n              maxLength={500}\r\n              showCount\r\n            />\r\n          </Form.Item>\r\n        </Form>\r\n      </Modal>\r\n    </Card>\r\n  );\r\n};\r\n\r\nexport default AIConfigManagement;\r\n",
       "__isJSFile": true,
       "__absFile": "E:/code/AiSystem/frontend/src/pages/system/ai-config/index.tsx"
     },
@@ -2941,12 +2928,12 @@
   "appJS": {
     "path": "E:\\code\\AiSystem\\frontend\\src\\app.tsx",
     "exports": [
-      "modifyClientRenderOpts",
       "rootContainer"
     ]
   },
   "locale": "zh-CN",
   "globalCSS": [
+    "E:\\code\\AiSystem\\frontend\\src\\global.css",
     "E:\\code\\AiSystem\\frontend\\src\\global.less"
   ],
   "globalJS": [],

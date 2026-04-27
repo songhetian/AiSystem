@@ -127,7 +127,7 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
       .map((channel) => ({
         ...channel,
         items: channel.items.sort((left, right) =>
-          right.create_time.localeCompare(left.create_time),
+          new Date(right.create_time).getTime() - new Date(left.create_time).getTime()
         ),
       }))
       .sort((left, right) => {
@@ -135,9 +135,8 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
           return right.priority - left.priority;
         }
 
-        return right.items[0]!.create_time.localeCompare(
-          left.items[0]!.create_time,
-        );
+        return new Date(right.items[0]!.create_time).getTime() - 
+               new Date(left.items[0]!.create_time).getTime();
       });
   }, [unreadMessages]);
 
@@ -195,14 +194,15 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
 
   return (
     <>
-      <Badge count={stats?.unreadCount ?? 0} size="small">
-        <Button
-          className={styles.trigger}
-          type="text"
+      <Badge count={stats?.unreadCount ?? 0} size="small" offset={[-4, 4]}>
+        <div
+          className={`header-action-item ${styles.trigger}`}
           aria-label="消息中心"
-          icon={<BellOutlined />}
           onClick={() => setOpen(true)}
-        />
+          style={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff', borderRadius: 6 }}
+        >
+          <BellOutlined style={{ fontSize: 20 }} />
+        </div>
       </Badge>
 
       <Drawer

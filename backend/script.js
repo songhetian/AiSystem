@@ -1,0 +1,1 @@
+const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient(); async function main() { const menus = await prisma.sys_menu.findMany(); console.log(JSON.stringify(menus, null, 2)); } main().finally(() => prisma.$disconnect());

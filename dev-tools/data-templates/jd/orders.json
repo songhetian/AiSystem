@@ -1,2402 +1,2002 @@
 [
   {
-    "order_sn": "JD202604000000",
-    "pin": "张伟",
-    "order_total_price": 2999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-14T00:42:58.534Z",
-    "consignee_info": {
-      "fullname": "张伟",
-      "mobile": "138000",
-      "address": "北京市朝阳区建国路88号SOHO现代城A座1201"
-    },
-    "sku_list": [
-      {
-        "sku_id": "100000",
-        "sku_name": "小米13 Pro 12GB+256GB 天玑版",
-        "price": 2999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000001",
-    "pin": "王芳",
-    "order_total_price": 9999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-18T19:59:23.520Z",
-    "consignee_info": {
-      "fullname": "王芳",
-      "mobile": "138001",
-      "address": "上海市浦东新区陆家嘴环路1000号恒生银行大厦32层"
-    },
-    "sku_list": [
-      {
-        "sku_id": "200000",
-        "sku_name": "iPhone 15 Pro Max 256GB 钛金属",
-        "price": 9999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000002",
-    "pin": "李娜",
-    "order_total_price": 6999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-27T06:31:11.567Z",
-    "consignee_info": {
-      "fullname": "李娜",
-      "mobile": "138002",
-      "address": "广州市天河区天河路208号天河城购物中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "300000",
-        "sku_name": "华为Mate 60 Pro 12GB+512GB",
-        "price": 6999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000003",
-    "pin": "刘洋",
-    "order_total_price": 5999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-14T10:45:17.842Z",
-    "consignee_info": {
-      "fullname": "刘洋",
-      "mobile": "138003",
-      "address": "深圳市南山区科技园南区深圳湾科技生态园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "400000",
-        "sku_name": "OPPO Find X7 Ultra 16GB+512GB",
-        "price": 5999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000004",
-    "pin": "陈静",
-    "order_total_price": 4999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-27T11:44:51.035Z",
-    "consignee_info": {
-      "fullname": "陈静",
-      "mobile": "138004",
-      "address": "杭州市西湖区文三路90号东部软件园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "500000",
-        "sku_name": "vivo X100 Pro 16GB+512GB",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000005",
-    "pin": "杨帆",
-    "order_total_price": 12999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-22T05:05:43.873Z",
-    "consignee_info": {
-      "fullname": "杨帆",
-      "mobile": "138005",
-      "address": "成都市武侯区天府大道中段666号希顿国际广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "600000",
-        "sku_name": "联想ThinkPad X1 Carbon i7/16GB/512GB",
-        "price": 12999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000006",
-    "pin": "赵敏",
-    "order_total_price": 8999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-03T19:32:23.083Z",
-    "consignee_info": {
-      "fullname": "赵敏",
-      "mobile": "138006",
-      "address": "重庆市渝北区龙溪街道金开大道西段106号"
-    },
-    "sku_list": [
-      {
-        "sku_id": "700000",
-        "sku_name": "戴尔XPS 13 i7/16GB/1TB",
-        "price": 8999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000007",
-    "pin": "孙悦",
-    "order_total_price": 16999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-29T17:06:50.832Z",
-    "consignee_info": {
-      "fullname": "孙悦",
-      "mobile": "138007",
-      "address": "武汉市洪山区光谷大道61号智慧园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "800000",
-        "sku_name": "MacBook Pro 14英寸 M3 Pro 18GB/512GB",
-        "price": 16999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000008",
-    "pin": "周杰",
-    "order_total_price": 6999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-15T01:13:58.850Z",
-    "consignee_info": {
-      "fullname": "周杰",
-      "mobile": "138008",
-      "address": "南京市玄武区中山东路18号国际贸易中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "900000",
-        "sku_name": "华硕天选4 RTX4060 i7/16GB/1TB",
-        "price": 6999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000009",
-    "pin": "吴磊",
-    "order_total_price": 4999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-15T10:18:38.327Z",
-    "consignee_info": {
-      "fullname": "吴磊",
-      "mobile": "138009",
-      "address": "西安市雁塔区高新路88号尚品国际"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1000000",
-        "sku_name": "惠普战66六代 i5/16GB/512GB",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000010",
-    "pin": "郑强",
-    "order_total_price": 2999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-07T19:05:12.745Z",
-    "consignee_info": {
-      "fullname": "郑强",
-      "mobile": "138010",
-      "address": "苏州市工业园区星湖街328号创意产业园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1100000",
-        "sku_name": "美的空调 1.5匹 新一级能效 变频",
-        "price": 2999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000011",
-    "pin": "王丽",
-    "order_total_price": 4999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-23T17:00:52.954Z",
-    "consignee_info": {
-      "fullname": "王丽",
-      "mobile": "138011",
-      "address": "天津市和平区南京路189号津汇广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1200000",
-        "sku_name": "海尔冰箱 500L 十字对开门",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000012",
-    "pin": "李明",
-    "order_total_price": 5999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-11T06:20:06.234Z",
-    "consignee_info": {
-      "fullname": "李明",
-      "mobile": "138012",
-      "address": "青岛市市南区香港中路8号青岛中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1300000",
-        "sku_name": "格力空调 3匹 柜机 新一级",
-        "price": 5999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000013",
-    "pin": "刘芳",
-    "order_total_price": 3999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-16T14:10:15.304Z",
-    "consignee_info": {
-      "fullname": "刘芳",
-      "mobile": "138013",
-      "address": "长沙市岳麓区麓谷大道658号软件园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1400000",
-        "sku_name": "西门子洗衣机 10kg 滚筒",
-        "price": 3999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000014",
-    "pin": "陈伟",
-    "order_total_price": 4999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-12T01:36:27.456Z",
-    "consignee_info": {
-      "fullname": "陈伟",
-      "mobile": "138014",
-      "address": "郑州市金水区花园路39号国贸中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1500000",
-        "sku_name": "海信电视 75英寸 4K 120Hz",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000015",
-    "pin": "杨静",
-    "order_total_price": 899,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-03T18:26:02.923Z",
-    "consignee_info": {
-      "fullname": "杨静",
-      "mobile": "138015",
-      "address": "济南市历下区泉城路180号齐鲁国际大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1600000",
-        "sku_name": "耐克Air Max 270 男款运动鞋",
-        "price": 899,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000016",
-    "pin": "赵刚",
-    "order_total_price": 1299,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-07T05:41:58.352Z",
-    "consignee_info": {
-      "fullname": "赵刚",
-      "mobile": "138016",
-      "address": "福州市鼓楼区五四路158号环球广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1700000",
-        "sku_name": "阿迪达斯Ultra Boost 跑步鞋",
-        "price": 1299,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000017",
-    "pin": "孙丽",
-    "order_total_price": 99,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-31T09:23:40.152Z",
-    "consignee_info": {
-      "fullname": "孙丽",
-      "mobile": "138017",
-      "address": "厦门市思明区鹭江道8号国际银行大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1800000",
-        "sku_name": "优衣库纯棉T恤 男女同款",
-        "price": 99,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000018",
-    "pin": "周敏",
-    "order_total_price": 599,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-03-26T14:03:38.608Z",
-    "consignee_info": {
-      "fullname": "周敏",
-      "mobile": "138018",
-      "address": "沈阳市沈河区青年大街286号华润大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1900000",
-        "sku_name": "Levi's 501经典牛仔裤",
-        "price": 599,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000019",
-    "pin": "吴强",
-    "order_total_price": 1999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-01T06:12:00.702Z",
-    "consignee_info": {
-      "fullname": "吴强",
-      "mobile": "138019",
-      "address": "大连市中山区人民路15号国际金融中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2000000",
-        "sku_name": "The North Face 冲锋衣 防水透气",
-        "price": 1999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000020",
-    "pin": "冯芳",
-    "order_total_price": 199,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-28T08:08:07.228Z",
-    "consignee_info": {
-      "fullname": "冯芳",
-      "mobile": "138020",
-      "address": "北京市朝阳区建国路88号SOHO现代城A座1201"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2100000",
-        "sku_name": "三只松鼠每日坚果 750g",
-        "price": 199,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000021",
-    "pin": "陈涛",
-    "order_total_price": 299,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-08T15:18:05.232Z",
-    "consignee_info": {
-      "fullname": "陈涛",
-      "mobile": "138021",
-      "address": "上海市浦东新区陆家嘴环路1000号恒生银行大厦32层"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2200000",
-        "sku_name": "良品铺子零食大礼包 1500g",
-        "price": 299,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000022",
-    "pin": "褚卫",
-    "order_total_price": 89,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-27T01:34:31.869Z",
-    "consignee_info": {
-      "fullname": "褚卫",
-      "mobile": "138022",
-      "address": "广州市天河区天河路208号天河城购物中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2300000",
-        "sku_name": "蒙牛特仑苏纯牛奶 250ml*16盒",
-        "price": 89,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000023",
-    "pin": "卫强",
-    "order_total_price": 159,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-01T15:56:10.155Z",
-    "consignee_info": {
-      "fullname": "卫强",
-      "mobile": "138023",
-      "address": "深圳市南山区科技园南区深圳湾科技生态园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2400000",
-        "sku_name": "五芳斋粽子礼盒 1200g",
-        "price": 159,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000024",
-    "pin": "蒋敏",
-    "order_total_price": 2999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-24T17:13:29.155Z",
-    "consignee_info": {
-      "fullname": "蒋敏",
-      "mobile": "138024",
-      "address": "杭州市西湖区文三路90号东部软件园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2500000",
-        "sku_name": "茅台飞天53度 500ml",
-        "price": 2999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000025",
-    "pin": "沈芳",
-    "order_total_price": 4999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-26T20:02:25.199Z",
-    "consignee_info": {
-      "fullname": "沈芳",
-      "mobile": "138025",
-      "address": "成都市武侯区天府大道中段666号希顿国际广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2600000",
-        "sku_name": "戴森V15吸尘器 无线手持",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000026",
-    "pin": "韩涛",
-    "order_total_price": 2999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-30T08:31:13.726Z",
-    "consignee_info": {
-      "fullname": "韩涛",
-      "mobile": "138026",
-      "address": "重庆市渝北区龙溪街道金开大道西段106号"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2700000",
-        "sku_name": "小米扫地机器人 X10+",
-        "price": 2999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000027",
-    "pin": "杨磊",
-    "order_total_price": 599,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-18T13:23:08.849Z",
-    "consignee_info": {
-      "fullname": "杨磊",
-      "mobile": "138027",
-      "address": "武汉市洪山区光谷大道61号智慧园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2800000",
-        "sku_name": "九阳破壁机 Y88",
-        "price": 599,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000028",
-    "pin": "朱静",
-    "order_total_price": 799,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-10T16:39:07.676Z",
-    "consignee_info": {
-      "fullname": "朱静",
-      "mobile": "138028",
-      "address": "南京市玄武区中山东路18号国际贸易中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2900000",
-        "sku_name": "美的电饭煲 5L IH加热",
-        "price": 799,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000029",
-    "pin": "秦伟",
-    "order_total_price": 299,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-10T16:08:42.893Z",
-    "consignee_info": {
-      "fullname": "秦伟",
-      "mobile": "138029",
-      "address": "西安市雁塔区高新路88号尚品国际"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3000000",
-        "sku_name": "苏泊尔炒锅 32cm 不粘锅",
-        "price": 299,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000030",
-    "pin": "尤娜",
-    "order_total_price": 1899,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-03-26T17:25:25.071Z",
-    "consignee_info": {
-      "fullname": "尤娜",
-      "mobile": "138030",
-      "address": "苏州市工业园区星湖街328号创意产业园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3100000",
-        "sku_name": "AirPods Pro 2代 主动降噪",
-        "price": 1899,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000031",
-    "pin": "许洋",
-    "order_total_price": 2499,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-05T21:03:25.309Z",
-    "consignee_info": {
-      "fullname": "许洋",
-      "mobile": "138031",
-      "address": "天津市和平区南京路189号津汇广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3200000",
-        "sku_name": "索尼WH-1000XM5 降噪耳机",
-        "price": 2499,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000032",
-    "pin": "何芳",
-    "order_total_price": 3499,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-28T23:46:37.399Z",
-    "consignee_info": {
-      "fullname": "何芳",
-      "mobile": "138032",
-      "address": "青岛市市南区香港中路8号青岛中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3300000",
-        "sku_name": "GoPro Hero 12 运动相机",
-        "price": 3499,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000033",
-    "pin": "吕刚",
-    "order_total_price": 4999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-23T08:05:32.291Z",
-    "consignee_info": {
-      "fullname": "吕刚",
-      "mobile": "138033",
-      "address": "长沙市岳麓区麓谷大道658号软件园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3400000",
-        "sku_name": "大疆Mini 4 Pro 无人机",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000034",
-    "pin": "施丽",
-    "order_total_price": 799,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-14T18:03:29.217Z",
-    "consignee_info": {
-      "fullname": "施丽",
-      "mobile": "138034",
-      "address": "郑州市金水区花园路39号国贸中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3500000",
-        "sku_name": "罗技MX Master 3S 无线鼠标",
-        "price": 799,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000035",
-    "pin": "张敏",
-    "order_total_price": 899,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-24T06:14:52.656Z",
-    "consignee_info": {
-      "fullname": "张敏",
-      "mobile": "138035",
-      "address": "济南市历下区泉城路180号齐鲁国际大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3600000",
-        "sku_name": "雅诗兰黛小棕瓶精华 50ml",
-        "price": 899,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000036",
-    "pin": "孔强",
-    "order_total_price": 1599,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-12T21:17:53.281Z",
-    "consignee_info": {
-      "fullname": "孔强",
-      "mobile": "138036",
-      "address": "福州市鼓楼区五四路158号环球广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3700000",
-        "sku_name": "SK-II神仙水 230ml",
-        "price": 1599,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000037",
-    "pin": "曹娜",
-    "order_total_price": 1299,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-29T20:03:03.480Z",
-    "consignee_info": {
-      "fullname": "曹娜",
-      "mobile": "138037",
-      "address": "厦门市思明区鹭江道8号国际银行大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3800000",
-        "sku_name": "兰蔻小黑瓶精华 100ml",
-        "price": 1299,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000038",
-    "pin": "严磊",
-    "order_total_price": 299,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-03T01:05:17.584Z",
-    "consignee_info": {
-      "fullname": "严磊",
-      "mobile": "138038",
-      "address": "沈阳市沈河区青年大街286号华润大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3900000",
-        "sku_name": "欧莱雅紫熨斗眼霜 15ml",
-        "price": 299,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000039",
-    "pin": "华静",
-    "order_total_price": 199,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-03-28T03:14:19.382Z",
-    "consignee_info": {
-      "fullname": "华静",
-      "mobile": "138039",
-      "address": "大连市中山区人民路15号国际金融中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4000000",
-        "sku_name": "完美日记口红礼盒 5支装",
-        "price": 199,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000040",
-    "pin": "金伟",
-    "order_total_price": 5999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-21T11:16:48.653Z",
-    "consignee_info": {
-      "fullname": "金伟",
-      "mobile": "138040",
-      "address": "北京市朝阳区建国路88号SOHO现代城A座1201"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4100000",
-        "sku_name": "乐高星球大战 千年隼号",
-        "price": 5999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000041",
-    "pin": "魏芳",
-    "order_total_price": 79,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-09T05:36:00.057Z",
-    "consignee_info": {
-      "fullname": "魏芳",
-      "mobile": "138041",
-      "address": "上海市浦东新区陆家嘴环路1000号恒生银行大厦32层"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4200000",
-        "sku_name": "泡泡玛特MOLLY星座系列",
-        "price": 79,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000042",
-    "pin": "陶刚",
-    "order_total_price": 399,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-03-28T02:42:30.848Z",
-    "consignee_info": {
-      "fullname": "陶刚",
-      "mobile": "138042",
-      "address": "广州市天河区天河路208号天河城购物中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4300000",
-        "sku_name": "万代高达模型 RG独角兽",
-        "price": 399,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000043",
-    "pin": "姜丽",
-    "order_total_price": 299,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-13T21:58:28.392Z",
-    "consignee_info": {
-      "fullname": "姜丽",
-      "mobile": "138043",
-      "address": "深圳市南山区科技园南区深圳湾科技生态园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4400000",
-        "sku_name": "费雪婴儿健身架",
-        "price": 299,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000044",
-    "pin": "戚敏",
-    "order_total_price": 899,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-26T18:24:30.290Z",
-    "consignee_info": {
-      "fullname": "戚敏",
-      "mobile": "138044",
-      "address": "杭州市西湖区文三路90号东部软件园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4500000",
-        "sku_name": "芭比娃娃梦想豪宅",
-        "price": 899,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000045",
-    "pin": "谢强",
-    "order_total_price": 1999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-15T21:26:53.277Z",
-    "consignee_info": {
-      "fullname": "谢强",
-      "mobile": "138045",
-      "address": "成都市武侯区天府大道中段666号希顿国际广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4600000",
-        "sku_name": "宜家马尔姆床架 1.8m",
-        "price": 1999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000046",
-    "pin": "邹娜",
-    "order_total_price": 8999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-23T17:52:11.167Z",
-    "consignee_info": {
-      "fullname": "邹娜",
-      "mobile": "138046",
-      "address": "重庆市渝北区龙溪街道金开大道西段106号"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4700000",
-        "sku_name": "顾家家居真皮沙发 三人位",
-        "price": 8999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000047",
-    "pin": "喻磊",
-    "order_total_price": 6999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-29T21:30:30.994Z",
-    "consignee_info": {
-      "fullname": "喻磊",
-      "mobile": "138047",
-      "address": "武汉市洪山区光谷大道61号智慧园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4800000",
-        "sku_name": "慕思床垫 乳胶独立弹簧 1.8m",
-        "price": 6999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000048",
-    "pin": "柏静",
-    "order_total_price": 2999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-12T03:30:35.812Z",
-    "consignee_info": {
-      "fullname": "柏静",
-      "mobile": "138048",
-      "address": "南京市玄武区中山东路18号国际贸易中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4900000",
-        "sku_name": "林氏木业实木餐桌 1.4m",
-        "price": 2999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000049",
-    "pin": "水伟",
-    "order_total_price": 3999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-07T10:47:48.457Z",
-    "consignee_info": {
-      "fullname": "水伟",
-      "mobile": "138049",
-      "address": "西安市雁塔区高新路88号尚品国际"
-    },
-    "sku_list": [
-      {
-        "sku_id": "5000000",
-        "sku_name": "全友家居衣柜 2.4m 推拉门",
-        "price": 3999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000050",
-    "pin": "窦芳",
-    "order_total_price": 2999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-19T13:26:19.489Z",
-    "consignee_info": {
-      "fullname": "窦芳",
-      "mobile": "138050",
-      "address": "苏州市工业园区星湖街328号创意产业园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "100000",
-        "sku_name": "小米13 Pro 12GB+256GB 天玑版",
-        "price": 2999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000051",
-    "pin": "章刚",
-    "order_total_price": 9999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-17T00:23:03.412Z",
-    "consignee_info": {
-      "fullname": "章刚",
-      "mobile": "138051",
-      "address": "天津市和平区南京路189号津汇广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "200000",
-        "sku_name": "iPhone 15 Pro Max 256GB 钛金属",
-        "price": 9999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000052",
-    "pin": "云丽",
-    "order_total_price": 6999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-27T05:38:15.168Z",
-    "consignee_info": {
-      "fullname": "云丽",
-      "mobile": "138052",
-      "address": "青岛市市南区香港中路8号青岛中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "300000",
-        "sku_name": "华为Mate 60 Pro 12GB+512GB",
-        "price": 6999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000053",
-    "pin": "苏敏",
-    "order_total_price": 5999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-05T15:00:20.262Z",
-    "consignee_info": {
-      "fullname": "苏敏",
-      "mobile": "138053",
-      "address": "长沙市岳麓区麓谷大道658号软件园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "400000",
-        "sku_name": "OPPO Find X7 Ultra 16GB+512GB",
-        "price": 5999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000054",
-    "pin": "潘强",
-    "order_total_price": 4999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-16T13:03:48.442Z",
-    "consignee_info": {
-      "fullname": "潘强",
-      "mobile": "138054",
-      "address": "郑州市金水区花园路39号国贸中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "500000",
-        "sku_name": "vivo X100 Pro 16GB+512GB",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000055",
-    "pin": "葛娜",
-    "order_total_price": 12999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-23T10:02:28.976Z",
-    "consignee_info": {
-      "fullname": "葛娜",
-      "mobile": "138055",
-      "address": "济南市历下区泉城路180号齐鲁国际大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "600000",
-        "sku_name": "联想ThinkPad X1 Carbon i7/16GB/512GB",
-        "price": 12999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000056",
-    "pin": "奚磊",
-    "order_total_price": 8999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-20T22:20:50.567Z",
-    "consignee_info": {
-      "fullname": "奚磊",
-      "mobile": "138056",
-      "address": "福州市鼓楼区五四路158号环球广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "700000",
-        "sku_name": "戴尔XPS 13 i7/16GB/1TB",
-        "price": 8999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000057",
-    "pin": "范静",
-    "order_total_price": 16999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-03-30T19:15:17.074Z",
-    "consignee_info": {
-      "fullname": "范静",
-      "mobile": "138057",
-      "address": "厦门市思明区鹭江道8号国际银行大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "800000",
-        "sku_name": "MacBook Pro 14英寸 M3 Pro 18GB/512GB",
-        "price": 16999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000058",
-    "pin": "彭伟",
-    "order_total_price": 6999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-04T05:17:37.704Z",
-    "consignee_info": {
-      "fullname": "彭伟",
-      "mobile": "138058",
-      "address": "沈阳市沈河区青年大街286号华润大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "900000",
-        "sku_name": "华硕天选4 RTX4060 i7/16GB/1TB",
-        "price": 6999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000059",
-    "pin": "郎芳",
-    "order_total_price": 4999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-14T20:19:10.632Z",
-    "consignee_info": {
-      "fullname": "郎芳",
-      "mobile": "138059",
-      "address": "大连市中山区人民路15号国际金融中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1000000",
-        "sku_name": "惠普战66六代 i5/16GB/512GB",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000060",
-    "pin": "鲁刚",
-    "order_total_price": 2999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-18T08:42:17.519Z",
-    "consignee_info": {
-      "fullname": "鲁刚",
-      "mobile": "138060",
-      "address": "北京市朝阳区建国路88号SOHO现代城A座1201"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1100000",
-        "sku_name": "美的空调 1.5匹 新一级能效 变频",
-        "price": 2999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000061",
-    "pin": "韦丽",
-    "order_total_price": 4999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-16T09:45:20.548Z",
-    "consignee_info": {
-      "fullname": "韦丽",
-      "mobile": "138061",
-      "address": "上海市浦东新区陆家嘴环路1000号恒生银行大厦32层"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1200000",
-        "sku_name": "海尔冰箱 500L 十字对开门",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000062",
-    "pin": "昌敏",
-    "order_total_price": 5999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-14T22:39:17.040Z",
-    "consignee_info": {
-      "fullname": "昌敏",
-      "mobile": "138062",
-      "address": "广州市天河区天河路208号天河城购物中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1300000",
-        "sku_name": "格力空调 3匹 柜机 新一级",
-        "price": 5999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000063",
-    "pin": "马强",
-    "order_total_price": 3999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-03-31T20:55:01.258Z",
-    "consignee_info": {
-      "fullname": "马强",
-      "mobile": "138063",
-      "address": "深圳市南山区科技园南区深圳湾科技生态园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1400000",
-        "sku_name": "西门子洗衣机 10kg 滚筒",
-        "price": 3999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000064",
-    "pin": "苗娜",
-    "order_total_price": 4999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-10T16:14:26.506Z",
-    "consignee_info": {
-      "fullname": "苗娜",
-      "mobile": "138064",
-      "address": "杭州市西湖区文三路90号东部软件园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1500000",
-        "sku_name": "海信电视 75英寸 4K 120Hz",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000065",
-    "pin": "凤磊",
-    "order_total_price": 899,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-07T23:14:27.715Z",
-    "consignee_info": {
-      "fullname": "凤磊",
-      "mobile": "138065",
-      "address": "成都市武侯区天府大道中段666号希顿国际广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1600000",
-        "sku_name": "耐克Air Max 270 男款运动鞋",
-        "price": 899,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000066",
-    "pin": "花静",
-    "order_total_price": 1299,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-17T11:13:08.599Z",
-    "consignee_info": {
-      "fullname": "花静",
-      "mobile": "138066",
-      "address": "重庆市渝北区龙溪街道金开大道西段106号"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1700000",
-        "sku_name": "阿迪达斯Ultra Boost 跑步鞋",
-        "price": 1299,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000067",
-    "pin": "方伟",
-    "order_total_price": 99,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-12T13:37:01.259Z",
-    "consignee_info": {
-      "fullname": "方伟",
-      "mobile": "138067",
-      "address": "武汉市洪山区光谷大道61号智慧园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1800000",
-        "sku_name": "优衣库纯棉T恤 男女同款",
-        "price": 99,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000068",
-    "pin": "俞芳",
-    "order_total_price": 599,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-05T09:11:39.930Z",
-    "consignee_info": {
-      "fullname": "俞芳",
-      "mobile": "138068",
-      "address": "南京市玄武区中山东路18号国际贸易中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1900000",
-        "sku_name": "Levi's 501经典牛仔裤",
-        "price": 599,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000069",
-    "pin": "任刚",
-    "order_total_price": 1999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-20T00:11:52.972Z",
-    "consignee_info": {
-      "fullname": "任刚",
-      "mobile": "138069",
-      "address": "西安市雁塔区高新路88号尚品国际"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2000000",
-        "sku_name": "The North Face 冲锋衣 防水透气",
-        "price": 1999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000070",
-    "pin": "袁丽",
-    "order_total_price": 199,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-23T19:27:50.388Z",
-    "consignee_info": {
-      "fullname": "袁丽",
-      "mobile": "138070",
-      "address": "苏州市工业园区星湖街328号创意产业园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2100000",
-        "sku_name": "三只松鼠每日坚果 750g",
-        "price": 199,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000071",
-    "pin": "柳敏",
-    "order_total_price": 299,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-12T23:59:41.124Z",
-    "consignee_info": {
-      "fullname": "柳敏",
-      "mobile": "138071",
-      "address": "天津市和平区南京路189号津汇广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2200000",
-        "sku_name": "良品铺子零食大礼包 1500g",
-        "price": 299,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000072",
-    "pin": "酆强",
-    "order_total_price": 89,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-01T11:58:12.660Z",
-    "consignee_info": {
-      "fullname": "酆强",
-      "mobile": "138072",
-      "address": "青岛市市南区香港中路8号青岛中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2300000",
-        "sku_name": "蒙牛特仑苏纯牛奶 250ml*16盒",
-        "price": 89,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000073",
-    "pin": "鲍娜",
-    "order_total_price": 159,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-09T17:56:05.149Z",
-    "consignee_info": {
-      "fullname": "鲍娜",
-      "mobile": "138073",
-      "address": "长沙市岳麓区麓谷大道658号软件园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2400000",
-        "sku_name": "五芳斋粽子礼盒 1200g",
-        "price": 159,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000074",
-    "pin": "史磊",
-    "order_total_price": 2999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-27T23:05:35.435Z",
-    "consignee_info": {
-      "fullname": "史磊",
-      "mobile": "138074",
-      "address": "郑州市金水区花园路39号国贸中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2500000",
-        "sku_name": "茅台飞天53度 500ml",
-        "price": 2999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000075",
-    "pin": "唐静",
-    "order_total_price": 4999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-19T10:35:30.145Z",
-    "consignee_info": {
-      "fullname": "唐静",
-      "mobile": "138075",
-      "address": "济南市历下区泉城路180号齐鲁国际大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2600000",
-        "sku_name": "戴森V15吸尘器 无线手持",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000076",
-    "pin": "费伟",
-    "order_total_price": 2999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-08T21:58:18.854Z",
-    "consignee_info": {
-      "fullname": "费伟",
-      "mobile": "138076",
-      "address": "福州市鼓楼区五四路158号环球广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2700000",
-        "sku_name": "小米扫地机器人 X10+",
-        "price": 2999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000077",
-    "pin": "廉芳",
-    "order_total_price": 599,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-18T10:05:13.904Z",
-    "consignee_info": {
-      "fullname": "廉芳",
-      "mobile": "138077",
-      "address": "厦门市思明区鹭江道8号国际银行大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2800000",
-        "sku_name": "九阳破壁机 Y88",
-        "price": 599,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000078",
-    "pin": "岑刚",
-    "order_total_price": 799,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-03T22:04:29.220Z",
-    "consignee_info": {
-      "fullname": "岑刚",
-      "mobile": "138078",
-      "address": "沈阳市沈河区青年大街286号华润大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2900000",
-        "sku_name": "美的电饭煲 5L IH加热",
-        "price": 799,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000079",
-    "pin": "薛丽",
-    "order_total_price": 299,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-03-30T02:50:22.490Z",
-    "consignee_info": {
-      "fullname": "薛丽",
-      "mobile": "138079",
-      "address": "大连市中山区人民路15号国际金融中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3000000",
-        "sku_name": "苏泊尔炒锅 32cm 不粘锅",
-        "price": 299,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000080",
-    "pin": "雷敏",
-    "order_total_price": 1899,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-09T02:03:06.853Z",
-    "consignee_info": {
-      "fullname": "雷敏",
-      "mobile": "138080",
-      "address": "北京市朝阳区建国路88号SOHO现代城A座1201"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3100000",
-        "sku_name": "AirPods Pro 2代 主动降噪",
-        "price": 1899,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000081",
-    "pin": "贺强",
-    "order_total_price": 2499,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-03-30T13:34:22.277Z",
-    "consignee_info": {
-      "fullname": "贺强",
-      "mobile": "138081",
-      "address": "上海市浦东新区陆家嘴环路1000号恒生银行大厦32层"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3200000",
-        "sku_name": "索尼WH-1000XM5 降噪耳机",
-        "price": 2499,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000082",
-    "pin": "倪娜",
-    "order_total_price": 3499,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-22T08:22:49.984Z",
-    "consignee_info": {
-      "fullname": "倪娜",
-      "mobile": "138082",
-      "address": "广州市天河区天河路208号天河城购物中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3300000",
-        "sku_name": "GoPro Hero 12 运动相机",
-        "price": 3499,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000083",
-    "pin": "汤磊",
-    "order_total_price": 4999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-16T07:17:15.102Z",
-    "consignee_info": {
-      "fullname": "汤磊",
-      "mobile": "138083",
-      "address": "深圳市南山区科技园南区深圳湾科技生态园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3400000",
-        "sku_name": "大疆Mini 4 Pro 无人机",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000084",
-    "pin": "滕静",
-    "order_total_price": 799,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-10T20:48:16.459Z",
-    "consignee_info": {
-      "fullname": "滕静",
-      "mobile": "138084",
-      "address": "杭州市西湖区文三路90号东部软件园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3500000",
-        "sku_name": "罗技MX Master 3S 无线鼠标",
-        "price": 799,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000085",
-    "pin": "殷伟",
-    "order_total_price": 899,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-15T20:29:17.045Z",
-    "consignee_info": {
-      "fullname": "殷伟",
-      "mobile": "138085",
-      "address": "成都市武侯区天府大道中段666号希顿国际广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3600000",
-        "sku_name": "雅诗兰黛小棕瓶精华 50ml",
-        "price": 899,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000086",
-    "pin": "罗芳",
-    "order_total_price": 1599,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-01T13:43:45.962Z",
-    "consignee_info": {
-      "fullname": "罗芳",
-      "mobile": "138086",
-      "address": "重庆市渝北区龙溪街道金开大道西段106号"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3700000",
-        "sku_name": "SK-II神仙水 230ml",
-        "price": 1599,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000087",
-    "pin": "毕刚",
-    "order_total_price": 1299,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-04T16:54:58.450Z",
-    "consignee_info": {
-      "fullname": "毕刚",
-      "mobile": "138087",
-      "address": "武汉市洪山区光谷大道61号智慧园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3800000",
-        "sku_name": "兰蔻小黑瓶精华 100ml",
-        "price": 1299,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000088",
-    "pin": "郝丽",
-    "order_total_price": 299,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-21T22:52:43.163Z",
-    "consignee_info": {
-      "fullname": "郝丽",
-      "mobile": "138088",
-      "address": "南京市玄武区中山东路18号国际贸易中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "3900000",
-        "sku_name": "欧莱雅紫熨斗眼霜 15ml",
-        "price": 299,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000089",
-    "pin": "邬敏",
-    "order_total_price": 199,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-12T13:30:07.514Z",
-    "consignee_info": {
-      "fullname": "邬敏",
-      "mobile": "138089",
-      "address": "西安市雁塔区高新路88号尚品国际"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4000000",
-        "sku_name": "完美日记口红礼盒 5支装",
-        "price": 199,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000090",
-    "pin": "安强",
-    "order_total_price": 5999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-21T06:06:06.671Z",
-    "consignee_info": {
-      "fullname": "安强",
-      "mobile": "138090",
-      "address": "苏州市工业园区星湖街328号创意产业园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4100000",
-        "sku_name": "乐高星球大战 千年隼号",
-        "price": 5999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000091",
-    "pin": "常娜",
-    "order_total_price": 79,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-23T05:18:07.632Z",
-    "consignee_info": {
-      "fullname": "常娜",
-      "mobile": "138091",
-      "address": "天津市和平区南京路189号津汇广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4200000",
-        "sku_name": "泡泡玛特MOLLY星座系列",
-        "price": 79,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000092",
-    "pin": "乐磊",
-    "order_total_price": 399,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-23T00:31:38.249Z",
-    "consignee_info": {
-      "fullname": "乐磊",
-      "mobile": "138092",
-      "address": "青岛市市南区香港中路8号青岛中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4300000",
-        "sku_name": "万代高达模型 RG独角兽",
-        "price": 399,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000093",
-    "pin": "于静",
-    "order_total_price": 299,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-10T04:49:23.866Z",
-    "consignee_info": {
-      "fullname": "于静",
-      "mobile": "138093",
-      "address": "长沙市岳麓区麓谷大道658号软件园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4400000",
-        "sku_name": "费雪婴儿健身架",
-        "price": 299,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000094",
-    "pin": "时伟",
-    "order_total_price": 899,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-20T15:29:53.668Z",
-    "consignee_info": {
-      "fullname": "时伟",
-      "mobile": "138094",
-      "address": "郑州市金水区花园路39号国贸中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4500000",
-        "sku_name": "芭比娃娃梦想豪宅",
-        "price": 899,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000095",
-    "pin": "傅芳",
-    "order_total_price": 1999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-21T08:53:55.986Z",
-    "consignee_info": {
-      "fullname": "傅芳",
-      "mobile": "138095",
-      "address": "济南市历下区泉城路180号齐鲁国际大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4600000",
-        "sku_name": "宜家马尔姆床架 1.8m",
-        "price": 1999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000096",
-    "pin": "皮刚",
-    "order_total_price": 8999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-13T07:42:01.628Z",
-    "consignee_info": {
-      "fullname": "皮刚",
-      "mobile": "138096",
-      "address": "福州市鼓楼区五四路158号环球广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4700000",
-        "sku_name": "顾家家居真皮沙发 三人位",
-        "price": 8999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000097",
-    "pin": "卞丽",
-    "order_total_price": 6999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-08T23:56:57.227Z",
-    "consignee_info": {
-      "fullname": "卞丽",
-      "mobile": "138097",
-      "address": "厦门市思明区鹭江道8号国际银行大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4800000",
-        "sku_name": "慕思床垫 乳胶独立弹簧 1.8m",
-        "price": 6999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000098",
-    "pin": "齐敏",
-    "order_total_price": 2999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-04T09:26:22.543Z",
-    "consignee_info": {
-      "fullname": "齐敏",
-      "mobile": "138098",
-      "address": "沈阳市沈河区青年大街286号华润大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "4900000",
-        "sku_name": "林氏木业实木餐桌 1.4m",
-        "price": 2999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000099",
-    "pin": "康强",
-    "order_total_price": 3999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-03-31T19:49:15.708Z",
-    "consignee_info": {
-      "fullname": "康强",
-      "mobile": "138099",
-      "address": "大连市中山区人民路15号国际金融中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "5000000",
-        "sku_name": "全友家居衣柜 2.4m 推拉门",
-        "price": 3999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000100",
-    "pin": "张伟",
-    "order_total_price": 2999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-20T02:39:41.493Z",
-    "consignee_info": {
-      "fullname": "张伟",
-      "mobile": "138100",
-      "address": "北京市朝阳区建国路88号SOHO现代城A座1201"
-    },
-    "sku_list": [
-      {
-        "sku_id": "100000",
-        "sku_name": "小米13 Pro 12GB+256GB 天玑版",
-        "price": 2999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000101",
-    "pin": "王芳",
-    "order_total_price": 9999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-09T06:59:36.485Z",
-    "consignee_info": {
-      "fullname": "王芳",
-      "mobile": "138101",
-      "address": "上海市浦东新区陆家嘴环路1000号恒生银行大厦32层"
-    },
-    "sku_list": [
-      {
-        "sku_id": "200000",
-        "sku_name": "iPhone 15 Pro Max 256GB 钛金属",
-        "price": 9999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202603000102",
-    "pin": "李娜",
-    "order_total_price": 6999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-03-28T02:53:34.874Z",
-    "consignee_info": {
-      "fullname": "李娜",
-      "mobile": "138102",
-      "address": "广州市天河区天河路208号天河城购物中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "300000",
-        "sku_name": "华为Mate 60 Pro 12GB+512GB",
-        "price": 6999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000103",
-    "pin": "刘洋",
-    "order_total_price": 5999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-15T08:03:02.532Z",
-    "consignee_info": {
-      "fullname": "刘洋",
-      "mobile": "138103",
-      "address": "深圳市南山区科技园南区深圳湾科技生态园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "400000",
-        "sku_name": "OPPO Find X7 Ultra 16GB+512GB",
-        "price": 5999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000104",
-    "pin": "陈静",
-    "order_total_price": 4999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-13T18:38:52.329Z",
-    "consignee_info": {
-      "fullname": "陈静",
-      "mobile": "138104",
-      "address": "杭州市西湖区文三路90号东部软件园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "500000",
-        "sku_name": "vivo X100 Pro 16GB+512GB",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000105",
-    "pin": "杨帆",
-    "order_total_price": 12999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-12T14:34:37.432Z",
-    "consignee_info": {
-      "fullname": "杨帆",
-      "mobile": "138105",
-      "address": "成都市武侯区天府大道中段666号希顿国际广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "600000",
-        "sku_name": "联想ThinkPad X1 Carbon i7/16GB/512GB",
-        "price": 12999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000106",
-    "pin": "赵敏",
-    "order_total_price": 8999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-25T02:20:18.122Z",
-    "consignee_info": {
-      "fullname": "赵敏",
-      "mobile": "138106",
-      "address": "重庆市渝北区龙溪街道金开大道西段106号"
-    },
-    "sku_list": [
-      {
-        "sku_id": "700000",
-        "sku_name": "戴尔XPS 13 i7/16GB/1TB",
-        "price": 8999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000107",
-    "pin": "孙悦",
-    "order_total_price": 16999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-06T20:35:38.287Z",
-    "consignee_info": {
-      "fullname": "孙悦",
-      "mobile": "138107",
-      "address": "武汉市洪山区光谷大道61号智慧园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "800000",
-        "sku_name": "MacBook Pro 14英寸 M3 Pro 18GB/512GB",
-        "price": 16999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000108",
-    "pin": "周杰",
-    "order_total_price": 6999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-01T21:11:05.979Z",
-    "consignee_info": {
-      "fullname": "周杰",
-      "mobile": "138108",
-      "address": "南京市玄武区中山东路18号国际贸易中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "900000",
-        "sku_name": "华硕天选4 RTX4060 i7/16GB/1TB",
-        "price": 6999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000109",
-    "pin": "吴磊",
-    "order_total_price": 4999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-16T06:26:19.321Z",
-    "consignee_info": {
-      "fullname": "吴磊",
-      "mobile": "138109",
-      "address": "西安市雁塔区高新路88号尚品国际"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1000000",
-        "sku_name": "惠普战66六代 i5/16GB/512GB",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000110",
-    "pin": "郑强",
-    "order_total_price": 2999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-23T06:37:21.379Z",
-    "consignee_info": {
-      "fullname": "郑强",
-      "mobile": "138110",
-      "address": "苏州市工业园区星湖街328号创意产业园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1100000",
-        "sku_name": "美的空调 1.5匹 新一级能效 变频",
-        "price": 2999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000111",
-    "pin": "王丽",
-    "order_total_price": 4999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-23T18:05:51.018Z",
-    "consignee_info": {
-      "fullname": "王丽",
-      "mobile": "138111",
-      "address": "天津市和平区南京路189号津汇广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1200000",
-        "sku_name": "海尔冰箱 500L 十字对开门",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000112",
-    "pin": "李明",
-    "order_total_price": 5999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-22T18:19:56.584Z",
-    "consignee_info": {
-      "fullname": "李明",
-      "mobile": "138112",
-      "address": "青岛市市南区香港中路8号青岛中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1300000",
-        "sku_name": "格力空调 3匹 柜机 新一级",
-        "price": 5999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000113",
-    "pin": "刘芳",
-    "order_total_price": 3999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-01T21:36:52.945Z",
-    "consignee_info": {
-      "fullname": "刘芳",
-      "mobile": "138113",
-      "address": "长沙市岳麓区麓谷大道658号软件园"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1400000",
-        "sku_name": "西门子洗衣机 10kg 滚筒",
-        "price": 3999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000114",
-    "pin": "陈伟",
-    "order_total_price": 4999,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-16T20:59:13.676Z",
-    "consignee_info": {
-      "fullname": "陈伟",
-      "mobile": "138114",
-      "address": "郑州市金水区花园路39号国贸中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1500000",
-        "sku_name": "海信电视 75英寸 4K 120Hz",
-        "price": 4999,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000115",
-    "pin": "杨静",
-    "order_total_price": 899,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-23T09:40:33.414Z",
-    "consignee_info": {
-      "fullname": "杨静",
-      "mobile": "138115",
-      "address": "济南市历下区泉城路180号齐鲁国际大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1600000",
-        "sku_name": "耐克Air Max 270 男款运动鞋",
-        "price": 899,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000116",
-    "pin": "赵刚",
-    "order_total_price": 1299,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-01T08:16:11.486Z",
-    "consignee_info": {
-      "fullname": "赵刚",
-      "mobile": "138116",
-      "address": "福州市鼓楼区五四路158号环球广场"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1700000",
-        "sku_name": "阿迪达斯Ultra Boost 跑步鞋",
-        "price": 1299,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000117",
-    "pin": "孙丽",
-    "order_total_price": 99,
-    "order_state": "WAIT_SELLER_SEND_GOODS",
-    "order_time": "2026-04-07T06:26:50.291Z",
-    "consignee_info": {
-      "fullname": "孙丽",
-      "mobile": "138117",
-      "address": "厦门市思明区鹭江道8号国际银行大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1800000",
-        "sku_name": "优衣库纯棉T恤 男女同款",
-        "price": 99,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000118",
-    "pin": "周敏",
-    "order_total_price": 599,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-05T05:01:54.985Z",
-    "consignee_info": {
-      "fullname": "周敏",
-      "mobile": "138118",
-      "address": "沈阳市沈河区青年大街286号华润大厦"
-    },
-    "sku_list": [
-      {
-        "sku_id": "1900000",
-        "sku_name": "Levi's 501经典牛仔裤",
-        "price": 599,
-        "num": 1
-      }
-    ]
-  },
-  {
-    "order_sn": "JD202604000119",
-    "pin": "吴强",
-    "order_total_price": 1999,
-    "order_state": "TRADE_FINISHED",
-    "order_time": "2026-04-06T10:12:32.711Z",
-    "consignee_info": {
-      "fullname": "吴强",
-      "mobile": "138119",
-      "address": "大连市中山区人民路15号国际金融中心"
-    },
-    "sku_list": [
-      {
-        "sku_id": "2000000",
-        "sku_name": "The North Face 冲锋衣 防水透气",
-        "price": 1999,
-        "num": 1
-      }
-    ]
+    "order_sn": "JD_1777251001551_0",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-26T17:04:51.135Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_1",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-23T12:20:20.876Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_2",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-25T01:01:54.094Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_3",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-25T05:04:21.580Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_4",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-23T04:30:14.785Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_5",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-24T18:52:09.924Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_6",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-24T02:36:23.256Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_7",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-26T03:24:07.060Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_8",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-23T05:38:18.758Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_9",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-17T23:26:59.715Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_10",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-25T09:52:56.381Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_11",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-19T13:29:15.429Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_12",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-20T22:34:42.470Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_13",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-21T07:31:18.322Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_14",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-18T22:07:28.591Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_15",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-19T14:12:42.532Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_16",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-19T02:41:13.274Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_17",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-18T19:44:52.846Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_18",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-21T00:11:24.095Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_19",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-25T08:15:03.593Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_20",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-20T16:51:16.046Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_21",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-21T01:55:38.982Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_22",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-21T19:22:38.431Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_23",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-18T03:59:23.790Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_24",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-25T14:36:01.828Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_25",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-21T13:37:47.782Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_26",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-17T06:46:50.340Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_27",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-26T09:37:04.100Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_28",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-24T11:35:55.857Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_29",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-22T15:02:35.555Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_30",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-20T10:44:47.628Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_31",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-24T03:51:23.324Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_32",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-18T01:25:19.257Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_33",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-20T21:14:49.188Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_34",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-24T20:31:42.817Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_35",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-22T12:44:06.659Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_36",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-21T14:00:21.554Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_37",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-24T17:53:23.207Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_38",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-26T22:32:10.005Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_39",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-25T21:17:52.478Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_40",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-21T12:54:07.467Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_41",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-22T22:37:47.085Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_42",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-21T18:29:24.372Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_43",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-21T22:02:05.783Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_44",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-20T01:52:07.793Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_45",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-23T15:10:11.138Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_46",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-23T01:19:55.092Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_47",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-25T19:30:06.967Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_48",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-22T12:56:07.284Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_49",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-24T23:54:19.404Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_50",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-24T11:45:40.943Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_51",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-17T01:07:20.849Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_52",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-18T04:34:44.035Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_53",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-23T18:28:19.740Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_54",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-21T19:41:07.049Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_55",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-21T00:51:33.165Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_56",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-20T07:00:37.912Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_57",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-22T10:57:37.025Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_58",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-22T13:09:33.480Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_59",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-22T11:03:45.705Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_60",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-18T21:01:27.837Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_61",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-21T11:12:55.318Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_62",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-26T18:18:58.357Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_63",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-23T04:56:58.664Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_64",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-22T06:45:33.848Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_65",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-20T14:51:55.313Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_66",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-24T01:49:49.451Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_67",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-25T22:01:22.263Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_68",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-19T21:30:50.358Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_69",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-18T04:28:55.733Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_70",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-25T03:59:33.967Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_71",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-22T05:42:03.160Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_72",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-20T06:43:36.045Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_73",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-19T05:50:34.588Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_74",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-21T16:11:05.726Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_75",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-20T10:42:26.929Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_76",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-19T21:18:38.335Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_77",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-23T10:08:13.258Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_78",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-22T13:49:17.631Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_79",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-22T02:33:28.841Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_80",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-18T22:57:08.842Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_81",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-26T23:54:56.572Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_82",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-18T12:25:59.124Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_83",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-25T12:53:56.233Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_84",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-23T17:25:29.623Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_85",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-23T11:23:16.724Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_86",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-19T17:52:55.655Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_87",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-22T09:19:07.400Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_88",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-25T19:51:51.268Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_89",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-17T09:45:07.582Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_90",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-23T00:04:43.837Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_91",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-21T18:17:42.781Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_92",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-17T07:34:13.104Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_93",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-18T19:34:25.037Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_94",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-18T19:24:43.110Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_95",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-21T17:18:21.890Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_96",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-18T00:46:30.389Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_97",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-17T11:45:23.475Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_98",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-17T11:14:58.957Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_99",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-20T03:26:25.219Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_100",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-24T00:01:42.026Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_101",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-22T11:31:48.308Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_102",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-26T11:42:27.720Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_103",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-21T11:54:27.067Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_104",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-25T21:48:50.172Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_105",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-23T10:04:25.328Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_106",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-22T11:51:31.870Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_107",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-20T10:41:15.288Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_108",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-23T12:49:24.781Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_109",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-19T16:00:22.242Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_110",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-20T08:41:39.520Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_111",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-24T02:47:03.778Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_112",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-18T04:18:32.569Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_113",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-18T12:08:03.323Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_114",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-24T22:13:58.933Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_115",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-25T21:23:14.768Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_116",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-23T04:44:32.873Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_117",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-23T17:17:02.742Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_118",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-17T05:05:17.712Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_119",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-26T16:12:20.645Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_120",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-25T14:06:28.957Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_121",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-26T14:39:41.812Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_122",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-22T22:18:42.846Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_123",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-22T20:11:59.328Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_124",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-26T17:09:30.982Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_125",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-18T01:36:00.431Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_126",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-25T03:28:21.000Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_127",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-26T18:21:27.107Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_128",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-25T16:44:37.992Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_129",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-20T03:50:45.453Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_130",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-20T18:00:00.883Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_131",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-22T05:33:45.308Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_132",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-26T06:50:04.721Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_133",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-18T01:22:24.516Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_134",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-25T03:36:02.291Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_135",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-25T10:56:04.118Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_136",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-22T15:22:43.913Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_137",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-20T23:54:59.013Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_138",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-19T01:52:14.183Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_139",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-25T00:25:57.585Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_140",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-17T20:06:56.958Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_141",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-21T11:22:16.207Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_142",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-20T11:08:31.781Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_143",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-23T03:12:10.680Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_144",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-20T16:06:27.167Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_145",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-24T12:31:12.373Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_146",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-18T05:02:31.833Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_147",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-21T18:34:08.714Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_148",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-19T16:25:50.194Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_149",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-21T21:52:11.424Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_150",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-23T23:29:37.183Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_151",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-19T15:41:00.400Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_152",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-22T17:30:43.296Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_153",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-17T19:08:27.288Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_154",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-18T06:22:37.875Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_155",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-26T11:15:42.885Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_156",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-17T18:02:44.913Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_157",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-26T08:00:42.741Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_158",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-23T11:48:56.468Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_159",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-26T13:33:26.750Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_160",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-26T01:20:26.665Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_161",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-18T01:11:51.969Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_162",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-22T17:08:23.022Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_163",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-19T13:14:03.010Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_164",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-19T07:21:42.306Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_165",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-25T06:33:36.969Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_166",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-24T21:26:10.615Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_167",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-21T08:05:12.494Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_168",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-23T10:07:07.917Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_169",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-21T18:16:58.719Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_170",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-22T06:20:49.313Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_171",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-17T17:06:27.739Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_172",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-17T08:30:32.889Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_173",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-18T21:56:47.184Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_174",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-25T08:34:20.385Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_175",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-17T11:31:35.654Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_176",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-20T15:54:51.956Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_177",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-24T05:15:44.270Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_178",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-17T17:54:58.503Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_179",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-22T07:45:33.231Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_180",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-18T03:24:58.934Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_181",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-21T05:35:51.952Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_182",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-20T13:59:02.720Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_183",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_BUYER_PAY",
+    "create_time": "2026-04-18T01:50:23.423Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_184",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-20T04:35:16.220Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_185",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-18T06:38:16.368Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_186",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-25T00:00:21.977Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_187",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-22T14:01:56.714Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_188",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-26T00:25:22.356Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_189",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-26T04:59:28.900Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_190",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-26T09:05:16.567Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_191",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-21T10:36:13.357Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_192",
+    "buyer_name": "张三",
+    "city": "北京",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-22T11:24:58.934Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_193",
+    "buyer_name": "李四",
+    "city": "上海",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-19T12:08:37.869Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_194",
+    "buyer_name": "王五",
+    "city": "广州",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "create_time": "2026-04-19T21:45:07.102Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_195",
+    "buyer_name": "赵六",
+    "city": "深圳",
+    "product_id": "P001",
+    "product_name": "雷犀 Pro 降噪耳机",
+    "order_amount": 1299,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-26T10:26:18.390Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_196",
+    "buyer_name": "陈七",
+    "city": "杭州",
+    "product_id": "P002",
+    "product_name": "智能客服机器人 X1",
+    "order_amount": 9999,
+    "order_status": "WAIT_SELLER_SEND_GOODS",
+    "create_time": "2026-04-18T20:47:10.330Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_197",
+    "buyer_name": "刘八",
+    "city": "成都",
+    "product_id": "P003",
+    "product_name": "无线机械键盘 G5",
+    "order_amount": 599,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-17T16:16:40.996Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_198",
+    "buyer_name": "孙九",
+    "city": "武汉",
+    "product_id": "P004",
+    "product_name": "人体工学办公椅",
+    "order_amount": 1580,
+    "order_status": "TRADE_CLOSED",
+    "create_time": "2026-04-25T15:11:45.496Z"
+  },
+  {
+    "order_sn": "JD_1777251001552_199",
+    "buyer_name": "周十",
+    "city": "西安",
+    "product_id": "P005",
+    "product_name": "4K 超清显示器 27寸",
+    "order_amount": 2499,
+    "order_status": "TRADE_FINISHED",
+    "create_time": "2026-04-18T03:29:04.740Z"
   }
 ]

@@ -1,3 +1,76 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --primary-color: #3b82f6;
+}
+
+/* 全局字体美化 */
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  color: #1e293b;
+}
+
+/* 消除全局加粗感，响应用户“字体太粗”的反馈 */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600 !important;
+}
+
+b, strong {
+  font-weight: 600 !important;
+}
+
+/* 丝滑滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 页面平滑滚动 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 高级选区颜色 */
+::selection {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+}
+
+/* Ant Design 样式微调 - 去除多余边框阴影 */
+.ant-card {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+}
+
+.ant-btn {
+  box-shadow: none !important;
+  font-weight: 500 !important;
+}

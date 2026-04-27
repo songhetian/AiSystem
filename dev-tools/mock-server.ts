@@ -36,6 +36,8 @@ const PLATFORM_CREDENTIALS = {
 app.use(cors());
 app.use(express.json());
 
+const NAMES = ['张三', '李四', '王五', '赵六', '陈七', '刘八', '孙九', '周十'];
+
 // MD5 签名算法：MD5(app_key + timestamp + nonce + app_secret)
 const calculateSign = (
   appKey: string,
@@ -376,6 +378,35 @@ app.get(
   },
 );
 
+// 全局大屏统计 Mock 数据
+app.get("/api/stats/overview", (req: Request, res: Response) => {
+  res.json({
+    code: 200,
+    message: "success",
+    data: {
+      total_sessions: 12580,
+      total_orders: 8560,
+      avg_satisfaction: 4.82,
+      risk_session_count: 12,
+      platform_distribution: [
+        { name: "京东", value: 4500 },
+        { name: "拼多多", value: 3800 },
+        { name: "淘宝", value: 4280 },
+      ],
+      hourly_sessions: Array.from({ length: 24 }, (_, i) => ({
+        hour: `${i}:00`,
+        value: Math.floor(Math.random() * 500) + 100,
+      })),
+      loss_reasons: [
+        { type: "价格太高", count: 120 },
+        { type: "物流太慢", count: 85 },
+        { type: "服务态度差", count: 45 },
+        { type: "款式不符", count: 30 },
+      ],
+    },
+  });
+});
+
 // ============================================================================
 // 通用接口
 // ============================================================================
@@ -433,19 +464,46 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-// 启动服务器
-app.listen(PORT, () => {
-  console.log("\n🚀 雷犀 Mock API Server 启动成功！");
-  console.log(`📍 服务地址: http://localhost:${PORT}`);
-  console.log(`📖 API 文档: http://localhost:${PORT}/`);
-  console.log(`💚 健康检查: http://localhost:${PORT}/health\n`);
-  console.log("🔐 平台凭证:");
-  Object.entries(PLATFORM_CREDENTIALS).forEach(([key, value]) => {
-    console.log(`   ${value.name}:`);
-    console.log(`     app_key: ${value.app_key}`);
-    console.log(`     app_secret: ${value.app_secret}\n`);
-  });
+import { Server } from "socket.io";
+import http from "http";
 
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
+
+// 启动服务器
+server.listen(PORT, () => {
+  console.log("\n🚀 雷犀 Mock API & Real-time Server 启动成功！");
+  console.log(`📍 服务地址: http://localhost:${PORT}`);
+  console.log(`📡 WebSocket: ws://localhost:${PORT}`);
+  console.log(`📖 API 文档: http://localhost:${PORT}/`);
+  
   // 加载测试数据
   loadData();
+
+  // 实时流模拟 (WebSocket)
+  console.log("⏱️  启动实时消息流模拟...");
+  setInterval(() => {
+    const platforms = ["jd", "pdd", "taobao"];
+    const platform = platforms[Math.floor(Math.random() * platforms.length)];
+    const sessionNo = `LIVE_SESS_${platform.toUpperCase()}_${Date.now()}`;
+    
+    const event = {
+      type: "NEW_MESSAGE",
+      timestamp: new Date().toISOString(),
+      data: {
+        platform,
+        session_no: sessionNo,
+        customer_name: NAMES[Math.floor(Math.random() * NAMES.length)],
+        content: ["请问还有货吗？", "什么时候发货？", "支持退款吗？", "给个优惠呗", "收到货了，质量很好！"][Math.floor(Math.random() * 5)],
+        risk_level: Math.random() > 0.9 ? "high" : "low",
+      }
+    };
+    
+    io.emit("realtime_event", event);
+  }, 5000); // 每 5 秒推送一次
 });
+

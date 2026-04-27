@@ -1,18 +1,12 @@
-import { useState, useEffect } from "react";
 import { theme } from "antd";
+import { useGlobalStore } from "@/models/global";
 
 export function useTheme() {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("theme");
-    setIsDark(saved === "dark");
-  }, []);
+  const { theme: currentTheme, setTheme } = useGlobalStore();
+  const isDark = currentTheme === "dark";
 
   const toggleTheme = () => {
-    const newTheme = !isDark;
-    setIsDark(newTheme);
-    localStorage.setItem("theme", newTheme ? "dark" : "light");
+    setTheme(isDark ? "light" : "dark");
   };
 
   return {

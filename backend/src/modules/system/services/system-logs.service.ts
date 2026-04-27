@@ -5,6 +5,7 @@ import { FrontendErrorReportDto } from "../dto/frontend-error-report.dto";
 import { CurrentUserPayload } from "../../../common/current-user.decorator";
 import { ScopeService } from "../../../common/services/scope.service";
 import { AuditLogService } from "../../../common/services/audit-log.service";
+import { LoginLogService } from "../../../common/services/login-log.service";
 import * as XLSX from "xlsx";
 import dayjs from "dayjs";
 
@@ -27,6 +28,7 @@ export class SystemLogsService {
     private readonly prisma: PrismaService,
     private readonly scopeService: ScopeService,
     private readonly auditLogService: AuditLogService,
+    private readonly loginLogService: LoginLogService,
   ) {}
 
   // ✅ 优化：使用 select 只查询需要的字段，减少数据传输量

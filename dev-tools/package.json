@@ -6,14 +6,19 @@
   "scripts": {
     "generate": "ts-node generate.ts",
     "mock": "ts-node mock-server.ts",
+    "sync": "ts-node sync-to-db.ts",
     "start": "npm run generate && npm run mock",
     "test": "bash test-api.sh"
   },
   "dependencies": {
     "@prisma/client": "^6.5.0",
+    "@types/axios": "^0.9.36",
+    "@types/socket.io": "^3.0.1",
+    "axios": "^1.15.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "socket.io": "^4.8.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
