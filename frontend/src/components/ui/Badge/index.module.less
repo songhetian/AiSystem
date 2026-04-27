@@ -1,0 +1,57 @@
+/**
+ * Badge组件样式
+ */
+
+@import '@/styles/variables.less';
+@import '@/styles/mixins.less';
+
+.badgeWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.badge {
+  .badge-base();
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  transform-origin: 100% 0%;
+  z-index: @z-index-dropdown;
+
+  // 徽章颜色
+  &.badge-primary {
+    .badge-primary();
+  }
+
+  &.badge-success {
+    .badge-success();
+  }
+
+  &.badge-warning {
+    .badge-warning();
+  }
+
+  &.badge-danger {
+    .badge-danger();
+  }
+
+  &.badge-info {
+    .badge-info();
+  }
+
+  // 小红点
+  &.dot {
+    min-width: 6px;
+    width: 6px;
+    height: 6px;
+    padding: 0;
+    border-radius: @radius-full;
+  }
+
+  // 独立显示（无子元素）
+  &.standalone {
+    position: static;
+    transform: none;
+  }
+}

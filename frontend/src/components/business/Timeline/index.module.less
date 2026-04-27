@@ -1,0 +1,93 @@
+/**
+ * Timeline组件样式
+ */
+
+@import '@/styles/variables.less';
+@import '@/styles/mixins.less';
+
+.timeline {
+  background: @bg-container;
+  border-radius: @radius-lg;
+  padding: @spacing-5;
+  box-shadow: @shadow-sm;
+
+  // 毛玻璃效果
+  &.glass {
+    .glassmorphism();
+  }
+
+  :global {
+    .ant-timeline {
+      .ant-timeline-item {
+        padding-bottom: @spacing-5;
+
+        &:last-child {
+          padding-bottom: 0;
+        }
+
+        .ant-timeline-item-tail {
+          border-left-color: @border-color;
+        }
+
+        .ant-timeline-item-head {
+          background: @bg-container;
+        }
+      }
+    }
+  }
+}
+
+.timelineItem {
+  padding-left: @spacing-3;
+}
+
+.itemHeader {
+  .flex-between();
+  margin-bottom: @spacing-2;
+}
+
+.itemTime {
+  font-size: @font-size-xs;
+  color: @text-tertiary;
+  font-weight: @font-weight-medium;
+}
+
+.itemExtra {
+  font-size: @font-size-xs;
+  color: @text-tertiary;
+}
+
+.itemTitle {
+  font-size: @font-size-base;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+  margin-bottom: @spacing-1;
+  line-height: @line-height-normal;
+}
+
+.itemDescription {
+  font-size: @font-size-sm;
+  color: @text-secondary;
+  line-height: @line-height-relaxed;
+}
+
+// 状态图标颜色
+.iconSuccess {
+  color: @success-600;
+  font-size: @font-size-lg;
+}
+
+.iconProcessing {
+  color: @info-600;
+  font-size: @font-size-lg;
+}
+
+.iconError {
+  color: @danger-600;
+  font-size: @font-size-lg;
+}
+
+.iconWarning {
+  color: @warning-600;
+  font-size: @font-size-lg;
+}

@@ -1,0 +1,166 @@
+/**
+ * Drawer组件样式
+ */
+
+@import '@/styles/variables.less';
+@import '@/styles/mixins.less';
+
+.drawer {
+  // 毛玻璃效果
+  &.glass {
+    :global {
+      .ant-drawer-content-wrapper {
+        .ant-drawer-content {
+          .glassmorphism();
+        }
+      }
+    }
+  }
+
+  :global {
+    // 抽屉内容
+    .ant-drawer-content {
+      background: @bg-container;
+      box-shadow: @shadow-2xl;
+    }
+
+    // 抽屉头部
+    .ant-drawer-header {
+      background: transparent;
+      border-bottom: 1px solid @border-color-light;
+      padding: @spacing-5 @spacing-6;
+
+      .ant-drawer-title {
+        font-size: @font-size-xl;
+        font-weight: @font-weight-semibold;
+        color: @text-primary;
+      }
+
+      .ant-drawer-extra {
+        color: @text-secondary;
+      }
+    }
+
+    // 关闭按钮
+    .ant-drawer-close {
+      width: 32px;
+      height: 32px;
+      border-radius: @radius-md;
+      .transition(all);
+
+      &:hover {
+        background: @bg-hover;
+      }
+
+      .ant-drawer-close-x {
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        font-size: @font-size-lg;
+        color: @text-secondary;
+
+        &:hover {
+          color: @text-primary;
+        }
+      }
+    }
+
+    // 抽屉内容区
+    .ant-drawer-body {
+      padding: @spacing-6;
+      color: @text-primary;
+      font-size: @font-size-base;
+      line-height: @line-height-relaxed;
+    }
+
+    // 抽屉底部
+    .ant-drawer-footer {
+      background: transparent;
+      border-top: 1px solid @border-color-light;
+      padding: @spacing-4 @spacing-6;
+      text-align: right;
+
+      .ant-btn {
+        margin-left: @spacing-2;
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+
+    // 遮罩层
+    .ant-drawer-mask {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+  }
+}
+
+// 抽屉动画优化
+:global {
+  // 右侧抽屉
+  .ant-drawer-right {
+    .ant-drawer-content-wrapper {
+      animation: drawerSlideInRight 0.3s @transition-timing;
+    }
+  }
+
+  @keyframes drawerSlideInRight {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  // 左侧抽屉
+  .ant-drawer-left {
+    .ant-drawer-content-wrapper {
+      animation: drawerSlideInLeft 0.3s @transition-timing;
+    }
+  }
+
+  @keyframes drawerSlideInLeft {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  // 顶部抽屉
+  .ant-drawer-top {
+    .ant-drawer-content-wrapper {
+      animation: drawerSlideInTop 0.3s @transition-timing;
+    }
+  }
+
+  @keyframes drawerSlideInTop {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  // 底部抽屉
+  .ant-drawer-bottom {
+    .ant-drawer-content-wrapper {
+      animation: drawerSlideInBottom 0.3s @transition-timing;
+    }
+  }
+
+  @keyframes drawerSlideInBottom {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+}

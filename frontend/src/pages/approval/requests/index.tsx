@@ -1,15 +1,16 @@
-import { useState } from "react";
+/**
+ * 审批中心页面（优化版）
+ * 使用新的组件库重构，提供更好的视觉效果和用户体验
+ */
+
+import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { ProColumns } from "@ant-design/pro-components";
 import {
-  Button,
-  Card,
   Form,
   Input,
   Select,
   Space,
   Typography,
-  Tag,
   Tabs,
   message,
   Badge,
@@ -23,16 +24,17 @@ import {
   DownloadOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
+import { PageContainer, SectionCard } from '@/components/layout';
+import { ActionBar, StatusTag, MetricsCard } from '@/components/business';
+import { Table, Button, Modal } from '@/components/ui';
 import {
   approvalApi,
   type ApprovalRequest,
   type ApprovalPerson,
 } from "@/api/approval";
-import { BaseTable } from "@/components/table/BaseTable";
-import { BaseModal } from "@/components/common/BaseModal";
 import { downloadCSV } from "@/utils/exportUtils";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import { GlobalLoading } from "@/components/common/GlobalLoading";
+import { formatDate, formatCurrency } from '@/utils/format';
 import {
   confirmBatchAction,
   handleExportWithProgress,
@@ -42,20 +44,33 @@ const { Text } = Typography;
 
 type ActionType = "approved" | "rejected" | "transferred";
 
+// 审批状态配置
 const STATUS_CONFIG: Record<
   string,
-  { color: string; text: string; icon: React.ReactNode }
+  { status: 'success' | 'error' | 'warning' | 'processing' | 'default'; text: string; icon?: React.ReactNode }
 > = {
   pending: {
-    color: "processing",
+    status: 'processing',
     text: "审批中",
     icon: <ReloadOutlined spin />,
   },
-  approved: { color: "success", text: "已通过", icon: <CheckCircleOutlined /> },
-  rejected: { color: "error", text: "已驳回", icon: <CloseCircleOutlined /> },
-  withdrawn: { color: "default", text: "已撤回", icon: null },
+  approved: {
+    status: 'success',
+    text: "已通过",
+    icon: <CheckCircleOutlined />
+  },
+  rejected: {
+    status: 'error',
+    text: "已驳回",
+    icon: <CloseCircleOutlined />
+  },
+  withdrawn: {
+    status: 'default',
+    text: "已撤回"
+  },
 };
 
+// 审批中心页面组件
 export default function ApprovalCenterPage() {
   const [activeTab, setActiveTab] = useState("pending");
   const [open, setOpen] = useState(false);
@@ -70,6 +85,7 @@ export default function ApprovalCenterPage() {
   const [batchForm] = Form.useForm();
   const queryClient = useQueryClient();
 
+  // 数据查询
   const { data: requests = [], isLoading } = useQuery({
     queryKey: ["approval-requests", activeTab],
     queryFn: () => {
@@ -79,11 +95,13 @@ export default function ApprovalCenterPage() {
     },
   });
 
+  // 统计数据查询
   const { data: stats } = useQuery({
     queryKey: ["approval-stats"],
     queryFn: approvalApi.requestStats,
   });
 
+  // 审批人员查询
   const { data: people = [] } = useQuery<ApprovalPerson[]>({
     queryKey: ["approval-people"],
     queryFn: approvalApi.listPeople,
@@ -96,17 +114,22 @@ export default function ApprovalCenterPage() {
       refresh();
       message.success("已刷新");
     },
+    "Ctrl+e": () => {
+      handleExport();
+    },
     Escape: () => {
       setOpen(false);
       setBatchOpen(false);
     },
   });
 
+  // 刷新数据
   const refresh = () => {
     setSelectedIds([]);
     queryClient.invalidateQueries({ queryKey: ["approval-requests"] });
   };
 
+  // 单个审批操作
   const actionMutation = useMutation({
     mutationFn: ({ id, payload }: { id: string; payload: any }) => {
       if (payload.action === "approved")
@@ -128,6 +151,7 @@ export default function ApprovalCenterPage() {
       message.error(e?.response?.data?.message || "操作失败"),
   });
 
+  // 批量审批操作
   const batchActionMutation = useMutation({
     mutationFn: (payload: {
       action: "approved" | "rejected";
@@ -156,12 +180,14 @@ export default function ApprovalCenterPage() {
       message.error(e?.response?.data?.message || "批量操作失败"),
   });
 
+  // 打开单个操作弹窗
   const openAction = (record: ApprovalRequest, act: ActionType) => {
     setSelectedReq(record);
     setAction(act);
     setOpen(true);
   };
 
+  // 打开批量操作弹窗
   const openBatchAction = (act: "approved" | "rejected") => {
     if (selectedIds.length === 0) {
       message.warning("请先选择要操作的审批单");
@@ -177,6 +203,7 @@ export default function ApprovalCenterPage() {
     );
   };
 
+  // 导出数据
   const handleExport = () => {
     handleExportWithProgress(async () => {
       downloadCSV(requests, `审批记录_${dayjs().format("YYYYMMDD")}`, [
@@ -190,19 +217,23 @@ export default function ApprovalCenterPage() {
     });
   };
 
-  const columns: ProColumns<ApprovalRequest>[] = [
+  // 表格列配置
+  const columns = [
     {
       title: "审批单信息",
       dataIndex: "requestNo",
-      render: (_, record) => (
+      key: "requestNo",
+      render: (_: any, record: ApprovalRequest) => (
         <Space direction="vertical" size={2}>
-          <Text className="font-black text-slate-900">{record.requestNo}</Text>
-          <Text className="text-slate-500 text-xs">{record.templateName}</Text>
+          <Text strong>{record.requestNo}</Text>
+          <Text type="secondary" style={{ fontSize: '12px' }}>
+            {record.templateName}
+          </Text>
           {record.summary && (
             <Text
-              className="text-slate-400 text-xs"
-              ellipsis
-              style={{ maxWidth: 260 }}
+              type="secondary"
+              style={{ fontSize: '12px', maxWidth: 260 }}
+              ellipsis={{ tooltip: record.summary }}
             >
               {record.summary}
             </Text>
@@ -213,65 +244,70 @@ export default function ApprovalCenterPage() {
     {
       title: "申请人",
       dataIndex: "applicantName",
+      key: "applicantName",
       width: 100,
-      render: (_: any, record: ApprovalRequest) => <Text className="text-slate-700 font-bold">{record.applicantName}</Text>,
+      render: (_: any, record: ApprovalRequest) => (
+        <Text strong>{record.applicantName}</Text>
+      ),
     },
     {
       title: "金额",
       dataIndex: "amount",
+      key: "amount",
       width: 110,
       render: (_: any, record: ApprovalRequest) =>
         record.amount ? (
-          <Text className="font-black text-red-600">
-            ￥{Number(record.amount).toLocaleString()}
+          <Text strong style={{ color: '#dc2626' }}>
+            {formatCurrency(record.amount)}
           </Text>
         ) : (
-          <Text className="text-slate-400">—</Text>
+          <Text type="secondary">—</Text>
         ),
     },
     {
       title: "状态",
       dataIndex: "status",
+      key: "status",
       width: 110,
-      render: (_, record) => {
+      render: (_: any, record: ApprovalRequest) => {
         const cfg = STATUS_CONFIG[record.status] || STATUS_CONFIG.pending;
         return (
-          <Tag
-            color={cfg.color}
+          <StatusTag
+            status={cfg.status}
+            text={cfg.text}
             icon={cfg.icon}
-            className="font-black border-2"
-          >
-            {cfg.text}
-          </Tag>
+          />
         );
       },
     },
     {
       title: "当前审批人",
       dataIndex: "currentApproverName",
+      key: "currentApproverName",
       width: 110,
       render: (_: any, record: ApprovalRequest) =>
         record.currentApproverName ? (
-          <Text className="text-slate-600">{record.currentApproverName}</Text>
+          <Text>{record.currentApproverName}</Text>
         ) : (
-          <Text className="text-slate-400">—</Text>
+          <Text type="secondary">—</Text>
         ),
     },
     {
       title: "发起时间",
       dataIndex: "createdAt",
+      key: "createdAt",
       width: 150,
       render: (_: any, record: ApprovalRequest) => (
-        <Text className="text-slate-400 text-xs">
-          {dayjs(record.createdAt).format("YYYY-MM-DD HH:mm")}
+        <Text type="secondary" style={{ fontSize: '12px' }}>
+          {formatDate(record.createdAt)}
         </Text>
       ),
     },
     {
       title: "操作",
-      valueType: "option",
+      key: "action",
       width: 180,
-      render: (_, record) => {
+      render: (_: any, record: ApprovalRequest) => {
         if (activeTab !== "pending") return null;
         return (
           <Space size={6}>
@@ -285,7 +321,7 @@ export default function ApprovalCenterPage() {
             </Button>
             <Button
               size="small"
-              danger
+              type="danger"
               icon={<CloseCircleOutlined />}
               onClick={() => openAction(record, "rejected")}
             >
@@ -304,116 +340,128 @@ export default function ApprovalCenterPage() {
     },
   ];
 
+  // 页面渲染
   return (
-    <div className="leixi-page-container">
-      {/* 统计卡片 */}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        {[
-          {
-            label: "待我审批",
-            value: stats?.pending ?? 0,
-            color: "text-orange-500",
-          },
-          {
-            label: "我发起的",
-            value: stats?.mine ?? 0,
-            color: "text-blue-600",
-          },
-          {
-            label: "已处理",
-            value: stats?.processed ?? 0,
-            color: "text-green-600",
-          },
-        ].map((item) => (
-          <Card key={item.label} size="small" className="shadow-sm text-center">
-            <div className={`text-3xl font-black ${item.color}`}>
-              {item.value}
-            </div>
-            <div className="text-slate-500 text-sm mt-1">{item.label}</div>
-          </Card>
-        ))}
+    <PageContainer
+      title="审批中心"
+      subTitle="处理待审批事项，查看审批记录"
+      breadcrumb={{
+        items: [
+          { title: '首页', path: '/' },
+          { title: '审批管理' },
+          { title: '审批中心' },
+        ],
+      }}
+    >
+      {/* 统计指标 */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '16px' }}>
+        <MetricsCard
+          title="待我审批"
+          value={stats?.pending ?? 0}
+          valueColor="#d97706"
+          glass
+        />
+        <MetricsCard
+          title="我发起的"
+          value={stats?.mine ?? 0}
+          valueColor="#2563eb"
+          glass
+        />
+        <MetricsCard
+          title="已处理"
+          value={stats?.processed ?? 0}
+          valueColor="#059669"
+          glass
+        />
       </div>
 
-      <Card
-        bordered={false}
-        styles={{ body: { padding: "0 24px" } }}
-        className="shadow-sm mb-4"
-        extra={
-          <Space>
-            {activeTab === "pending" && (
-              <>
-                <Button
-                  type="primary"
-                  icon={<CheckCircleOutlined />}
-                  disabled={selectedIds.length === 0}
-                  onClick={() => openBatchAction("approved")}
-                  className="font-bold"
-                >
-                  批量同意 {selectedIds.length > 0 && `(${selectedIds.length})`}
-                </Button>
-                <Button
-                  danger
-                  icon={<CloseCircleOutlined />}
-                  disabled={selectedIds.length === 0}
-                  onClick={() => openBatchAction("rejected")}
-                  className="font-bold"
-                >
-                  批量驳回 {selectedIds.length > 0 && `(${selectedIds.length})`}
-                </Button>
-              </>
-            )}
-            <Button
-              icon={<DownloadOutlined />}
-              onClick={handleExport}
-              className="font-bold"
-            >
-              导出记录
-            </Button>
-          </Space>
-        }
-      >
-        <Tabs
-          activeKey={activeTab}
-          onChange={setActiveTab}
-          className="font-black text-slate-900"
-          size="large"
-          items={[
+      {/* 审批列表 */}
+      <SectionCard glass>
+        <ActionBar
+          actions={[
+            ...(activeTab === "pending" ? [
+              {
+                key: 'batch-approve',
+                label: `批量同意${selectedIds.length > 0 ? ` (${selectedIds.length})` : ''}`,
+                icon: <CheckCircleOutlined />,
+                type: 'primary' as const,
+                disabled: selectedIds.length === 0,
+                onClick: () => openBatchAction("approved"),
+              },
+              {
+                key: 'batch-reject',
+                label: `批量驳回${selectedIds.length > 0 ? ` (${selectedIds.length})` : ''}`,
+                icon: <CloseCircleOutlined />,
+                type: 'danger' as const,
+                disabled: selectedIds.length === 0,
+                onClick: () => openBatchAction("rejected"),
+              },
+            ] : []),
             {
-              key: "pending",
-              label: (
-                <Badge count={stats?.pending ?? 0} offset={[12, 0]}>
-                  <span className="px-2">待我审批</span>
-                </Badge>
-              ),
+              key: 'export',
+              label: '导出记录',
+              icon: <DownloadOutlined />,
+              onClick: handleExport,
             },
-            { key: "done", label: <span className="px-2">已审批</span> },
-            { key: "my", label: <span className="px-2">我发起的</span> },
           ]}
+          extra={
+            <Tabs
+              activeKey={activeTab}
+              onChange={setActiveTab}
+              size="large"
+              items={[
+                {
+                  key: "pending",
+                  label: (
+                    <Badge count={stats?.pending ?? 0} offset={[12, 0]}>
+                      <span style={{ padding: '0 8px' }}>待我审批</span>
+                    </Badge>
+                  ),
+                },
+                {
+                  key: "done",
+                  label: <span style={{ padding: '0 8px' }}>已审批</span>
+                },
+                {
+                  key: "my",
+                  label: <span style={{ padding: '0 8px' }}>我发起的</span>
+                },
+              ]}
+            />
+          }
+          align="space-between"
+          glass
         />
-      </Card>
 
-      <Card bordered={false} className="shadow-sm">
-        <GlobalLoading loading={isLoading}>
-          <BaseTable<ApprovalRequest>
-            columns={columns}
-            dataSource={requests}
-            loading={isLoading}
-            rowKey="id"
-            rowSelection={
-              activeTab === "pending"
-                ? {
-                    selectedRowKeys: selectedIds,
-                    onChange: (keys: React.Key[]) =>
-                      setSelectedIds(keys as string[]),
-                  }
-                : undefined
-            }
-          />
-        </GlobalLoading>
-      </Card>
+        <Table
+          columns={columns}
+          dataSource={requests}
+          loading={isLoading}
+          rowKey="id"
+          glass
+          density="compact"
+          striped
+          hoverable
+          rowSelection={
+            activeTab === "pending"
+              ? {
+                  selectedRowKeys: selectedIds,
+                  onChange: (keys: React.Key[]) =>
+                    setSelectedIds(keys as string[]),
+                }
+              : undefined
+          }
+          pagination={{
+            showSizeChanger: true,
+            showQuickJumper: true,
+            showTotal: (total, range) =>
+              `第 ${range[0]}-${range[1]} 条/总共 ${total} 条`,
+          }}
+        />
+      </SectionCard>
 
-      {/* 操作弹窗 */}
-      <BaseModal
+      {/* 单个审批操作弹窗 */}
+      <Modal
         open={open}
         title={
           action === "approved"
@@ -435,19 +483,26 @@ export default function ApprovalCenterPage() {
           )
         }
         confirmLoading={actionMutation.isPending}
+        glass
       >
         <Form form={form} layout="vertical">
           {/* 审批单摘要 */}
-          <div className="mb-4 p-3 bg-slate-50 rounded-lg border border-slate-200">
-            <Text className="font-bold text-slate-900 block">
+          <div style={{
+            marginBottom: '16px',
+            padding: '12px',
+            backgroundColor: '#f8fafc',
+            borderRadius: '8px',
+            border: '1px solid #e2e8f0'
+          }}>
+            <Text strong style={{ display: 'block' }}>
               {selectedReq?.requestNo}
             </Text>
-            <Text className="text-slate-500 text-sm">
+            <Text type="secondary" style={{ fontSize: '14px' }}>
               {selectedReq?.summary}
             </Text>
             {selectedReq?.amount && (
-              <Text className="font-black text-red-600 block mt-1">
-                ￥{Number(selectedReq.amount).toLocaleString()}
+              <Text strong style={{ color: '#dc2626', display: 'block', marginTop: '4px' }}>
+                {formatCurrency(selectedReq.amount)}
               </Text>
             )}
           </div>
@@ -492,10 +547,10 @@ export default function ApprovalCenterPage() {
             />
           </Form.Item>
         </Form>
-      </BaseModal>
+      </Modal>
 
       {/* 批量操作弹窗 */}
-      <BaseModal
+      <Modal
         open={batchOpen}
         title={
           batchAction === "approved"
@@ -515,14 +570,21 @@ export default function ApprovalCenterPage() {
           )
         }
         confirmLoading={batchActionMutation.isPending}
+        glass
       >
         <Form form={batchForm} layout="vertical">
-          <div className="mb-4 p-3 bg-slate-50 rounded-lg border border-slate-200">
-            <Text className="font-bold text-slate-900 block mb-2">
+          <div style={{
+            marginBottom: '16px',
+            padding: '12px',
+            backgroundColor: '#f8fafc',
+            borderRadius: '8px',
+            border: '1px solid #e2e8f0'
+          }}>
+            <Text strong style={{ display: 'block', marginBottom: '8px' }}>
               即将{batchAction === "approved" ? "同意" : "驳回"}{" "}
               {selectedIds.length} 条审批单
             </Text>
-            <Text className="text-slate-500 text-sm">
+            <Text type="secondary" style={{ fontSize: '14px' }}>
               请确认您有权限处理这些审批单，批量操作将对所有选中的审批单生效
             </Text>
           </div>
@@ -546,7 +608,7 @@ export default function ApprovalCenterPage() {
             />
           </Form.Item>
         </Form>
-      </BaseModal>
-    </div>
+      </Modal>
+    </PageContainer>
   );
 }

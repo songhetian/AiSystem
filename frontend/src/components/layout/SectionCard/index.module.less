@@ -1,0 +1,141 @@
+/**
+ * SectionCard组件样式
+ */
+
+@import '@/styles/variables.less';
+@import '@/styles/mixins.less';
+
+.sectionCard {
+  background: @bg-container;
+  border-radius: @radius-lg;
+  box-shadow: @shadow-sm;
+  margin-bottom: @spacing-6;
+  overflow: hidden;
+  .transition(all);
+
+  // 毛玻璃效果
+  &.glass {
+    .glassmorphism();
+  }
+
+  // 可折叠
+  &.collapsible {
+    .sectionHeader {
+      cursor: pointer;
+      user-select: none;
+
+      &:hover {
+        background: @bg-hover;
+      }
+    }
+  }
+
+  // 折叠状态
+  &.collapsed {
+    .sectionBody {
+      display: none;
+    }
+  }
+
+  // 内边距
+  &.padding-sm {
+    .sectionHeader {
+      padding: @card-padding-sm;
+    }
+    .sectionBody {
+      padding: @card-padding-sm;
+    }
+  }
+
+  &.padding-base {
+    .sectionHeader {
+      padding: @card-padding;
+    }
+    .sectionBody {
+      padding: @card-padding;
+    }
+  }
+
+  &.padding-lg {
+    .sectionHeader {
+      padding: @card-padding-lg;
+    }
+    .sectionBody {
+      padding: @card-padding-lg;
+    }
+  }
+
+  &.padding-none {
+    .sectionHeader {
+      padding: 0;
+    }
+    .sectionBody {
+      padding: 0;
+    }
+  }
+}
+
+.sectionHeader {
+  .flex-between();
+  gap: @spacing-4;
+  padding: @card-padding;
+  .transition(all);
+
+  &.divider {
+    border-bottom: 1px solid @border-color-light;
+  }
+}
+
+.headerLeft {
+  flex: 1;
+  min-width: 0;
+}
+
+.headerTitle {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: @font-size-xl;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+  line-height: @line-height-tight;
+  margin: 0;
+  .text-ellipsis();
+}
+
+.description {
+  font-size: @font-size-sm;
+  color: @text-secondary;
+  margin-top: @spacing-1;
+  line-height: @line-height-normal;
+}
+
+.headerRight {
+  .flex-end();
+  gap: @spacing-3;
+  flex-shrink: 0;
+}
+
+.extra {
+  color: @text-secondary;
+}
+
+.collapseIcon {
+  .flex-center();
+  width: 24px;
+  height: 24px;
+  color: @text-tertiary;
+  font-size: @font-size-sm;
+  .transition(all);
+
+  &:hover {
+    color: @brand-600;
+  }
+}
+
+.sectionBody {
+  padding: @card-padding;
+  animation: fadeInDown 0.3s @transition-timing;
+}

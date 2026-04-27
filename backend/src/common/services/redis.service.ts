@@ -141,9 +141,24 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     return this.client.lPush(key, value);
   }
 
+  async rpush(key: string, value: string) {
+    if (!this.isReady() || !this.client) return null;
+    return this.client.rPush(key, value);
+  }
+
+  async lpop(key: string): Promise<string | null> {
+    if (!this.isReady() || !this.client) return null;
+    return this.client.lPop(key);
+  }
+
   async rpop(key: string): Promise<string | null> {
     if (!this.isReady() || !this.client) return null;
     return this.client.rPop(key);
+  }
+
+  async llen(key: string): Promise<number> {
+    if (!this.isReady() || !this.client) return 0;
+    return this.client.lLen(key);
   }
 
   async subscribe(channel: string, callback: (message: string) => void) {

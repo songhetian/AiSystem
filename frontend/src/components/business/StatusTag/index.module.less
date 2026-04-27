@@ -1,0 +1,123 @@
+/**
+ * StatusTag组件样式
+ */
+
+@import '@/styles/variables.less';
+@import '@/styles/mixins.less';
+
+.statusTag {
+  display: inline-flex;
+  align-items: center;
+  gap: @spacing-1;
+  padding: 0 @spacing-2;
+  height: 24px;
+  font-size: @font-size-xs;
+  font-weight: @font-weight-medium;
+  line-height: 1;
+  border-radius: @radius-base;
+  white-space: nowrap;
+  .transition(all);
+
+  // 尺寸
+  &.size-small {
+    height: 20px;
+    padding: 0 @spacing-1;
+    font-size: 11px;
+
+    .dot {
+      width: 4px;
+      height: 4px;
+    }
+  }
+
+  &.size-default {
+    height: 24px;
+    padding: 0 @spacing-2;
+    font-size: @font-size-xs;
+
+    .dot {
+      width: 6px;
+      height: 6px;
+    }
+  }
+
+  &.size-large {
+    height: 28px;
+    padding: 0 @spacing-3;
+    font-size: @font-size-sm;
+
+    .dot {
+      width: 8px;
+      height: 8px;
+    }
+  }
+
+  // 颜色
+  &.color-success {
+    background: @success-100;
+    color: @success-700;
+
+    .dot {
+      background: @success-600;
+    }
+  }
+
+  &.color-info {
+    background: @info-100;
+    color: @info-700;
+
+    .dot {
+      background: @info-600;
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  }
+
+  &.color-warning {
+    background: @warning-100;
+    color: @warning-700;
+
+    .dot {
+      background: @warning-600;
+    }
+  }
+
+  &.color-danger {
+    background: @danger-100;
+    color: @danger-700;
+
+    .dot {
+      background: @danger-600;
+    }
+  }
+
+  &.color-default {
+    background: @gray-100;
+    color: @gray-700;
+
+    .dot {
+      background: @gray-500;
+    }
+  }
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: @radius-full;
+  flex-shrink: 0;
+}
+
+.text {
+  display: inline-flex;
+  align-items: center;
+}
+
+// 脉冲动画（用于处理中状态）
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

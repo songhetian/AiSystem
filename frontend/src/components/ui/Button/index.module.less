@@ -1,0 +1,244 @@
+/**
+ * Button组件样式
+ */
+
+@import '@/styles/variables.less';
+@import '@/styles/mixins.less';
+
+.button {
+  .button-base();
+  gap: @spacing-2;
+
+  // 按钮类型
+  &.button-primary {
+    background: @brand-600;
+    color: @text-inverse;
+
+    &:hover:not(.disabled):not(.loading) {
+      background: @brand-700;
+      box-shadow: @shadow-lg;
+      transform: translateY(-1px);
+    }
+
+    &:active:not(.disabled):not(.loading) {
+      background: @brand-800;
+      transform: translateY(0);
+    }
+  }
+
+  &.button-secondary {
+    background: @gray-100;
+    color: @text-primary;
+
+    &:hover:not(.disabled):not(.loading) {
+      background: @gray-200;
+      transform: translateY(-1px);
+    }
+
+    &:active:not(.disabled):not(.loading) {
+      background: @gray-300;
+      transform: translateY(0);
+    }
+  }
+
+  &.button-success {
+    background: @success-600;
+    color: @text-inverse;
+
+    &:hover:not(.disabled):not(.loading) {
+      background: @success-700;
+      box-shadow: @shadow-lg;
+      transform: translateY(-1px);
+    }
+
+    &:active:not(.disabled):not(.loading) {
+      background: @success-800;
+      transform: translateY(0);
+    }
+  }
+
+  &.button-warning {
+    background: @warning-600;
+    color: @text-inverse;
+
+    &:hover:not(.disabled):not(.loading) {
+      background: @warning-700;
+      box-shadow: @shadow-lg;
+      transform: translateY(-1px);
+    }
+
+    &:active:not(.disabled):not(.loading) {
+      background: @warning-800;
+      transform: translateY(0);
+    }
+  }
+
+  &.button-danger {
+    background: @danger-600;
+    color: @text-inverse;
+
+    &:hover:not(.disabled):not(.loading) {
+      background: @danger-700;
+      box-shadow: @shadow-lg;
+      transform: translateY(-1px);
+    }
+
+    &:active:not(.disabled):not(.loading) {
+      background: @danger-800;
+      transform: translateY(0);
+    }
+  }
+
+  &.button-ghost {
+    background: transparent;
+    border: @border-width @border-style @border-color;
+    color: @text-primary;
+
+    &:hover:not(.disabled):not(.loading) {
+      border-color: @brand-600;
+      color: @brand-600;
+      transform: translateY(-1px);
+    }
+
+    &:active:not(.disabled):not(.loading) {
+      border-color: @brand-700;
+      color: @brand-700;
+      transform: translateY(0);
+    }
+  }
+
+  &.button-link {
+    background: transparent;
+    color: @link-color;
+    padding: 0;
+    height: auto;
+
+    &:hover:not(.disabled):not(.loading) {
+      color: @link-hover-color;
+      text-decoration: underline;
+    }
+
+    &:active:not(.disabled):not(.loading) {
+      color: @link-active-color;
+    }
+  }
+
+  // 按钮尺寸
+  &.button-sm {
+    height: @button-height-sm;
+    padding: 0 @button-padding-horizontal-sm;
+    font-size: @font-size-sm;
+  }
+
+  &.button-base {
+    height: @button-height;
+    padding: 0 @button-padding-horizontal;
+    font-size: @font-size-base;
+  }
+
+  &.button-lg {
+    height: @button-height-lg;
+    padding: 0 @button-padding-horizontal-lg;
+    font-size: @font-size-lg;
+  }
+
+  // 按钮形状
+  &.button-round {
+    border-radius: @radius-full;
+  }
+
+  &.button-circle {
+    border-radius: @radius-full;
+    padding: 0;
+
+    &.button-sm {
+      width: @button-height-sm;
+    }
+
+    &.button-base {
+      width: @button-height;
+    }
+
+    &.button-lg {
+      width: @button-height-lg;
+    }
+  }
+
+  // 禁用状态
+  &.disabled {
+    opacity: @disabled-opacity;
+    cursor: @disabled-cursor;
+  }
+
+  // 加载状态
+  &.loading {
+    cursor: not-allowed;
+  }
+
+  // 块级按钮
+  &.block {
+    width: 100%;
+    display: flex;
+  }
+
+  // 危险按钮
+  &.danger {
+    &.button-primary {
+      background: @danger-600;
+
+      &:hover:not(.disabled):not(.loading) {
+        background: @danger-700;
+      }
+
+      &:active:not(.disabled):not(.loading) {
+        background: @danger-800;
+      }
+    }
+
+    &.button-ghost {
+      border-color: @danger-600;
+      color: @danger-600;
+
+      &:hover:not(.disabled):not(.loading) {
+        border-color: @danger-700;
+        color: @danger-700;
+      }
+
+      &:active:not(.disabled):not(.loading) {
+        border-color: @danger-800;
+        color: @danger-800;
+      }
+    }
+  }
+
+  // 只有图标
+  &.iconOnly {
+    &.button-sm {
+      width: @button-height-sm;
+      padding: 0;
+    }
+
+    &.button-base {
+      width: @button-height;
+      padding: 0;
+    }
+
+    &.button-lg {
+      width: @button-height-lg;
+      padding: 0;
+    }
+  }
+}
+
+.loadingIcon,
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: inherit;
+}
+
+.content {
+  display: inline-flex;
+  align-items: center;
+}

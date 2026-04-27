@@ -1,21 +1,34 @@
 import React from "react";
 import { Result, Button } from "antd";
 
-export class ErrorBoundary extends React.Component<
-  { children: React.ReactNode },
-  { hasError: boolean }
-> {
-  constructor(props: any) {
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error?: Error;
+}
+
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError() {
-    return { hasError: true };
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error("Error caught by boundary:", error, errorInfo);
+  }
+
+  // 关键修复：当props变化时（通常是路由变化），重置错误状态
+  componentDidUpdate(prevProps: ErrorBoundaryProps) {
+    if (this.state.hasError && prevProps.children !== this.props.children) {
+      this.setState({ hasError: false, error: undefined });
+    }
   }
 
   render() {

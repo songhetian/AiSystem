@@ -1,30 +1,34 @@
-import { useMemo, useState, useRef } from "react";
+/**
+ * 敏感词管理页面（优化版）
+ * 使用新的组件库重构，提供更好的视觉效果和用户体验
+ */
+
+import React, { useMemo, useState, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { ProColumns } from "@ant-design/pro-components";
 import {
-  Button,
-  Card,
   Form,
   Input,
   InputNumber,
   Select,
   Space,
   Switch,
-  Tag,
   message,
 } from "antd";
+import { PlusOutlined, ReloadOutlined, EditOutlined } from "@ant-design/icons";
+import { PageContainer, SectionCard } from '@/components/layout';
+import { ActionBar, StatusTag } from '@/components/business';
+import { Table, Button, Modal } from '@/components/ui';
 import {
   serviceApi,
   type SaveServiceSensitiveTermPayload,
   type ServiceSensitiveTerm,
 } from "@/api/service";
-import { BaseModal } from "@/components/common/BaseModal";
 import { Permission } from "@/components/permission/Permission";
-import { BaseTable } from "@/components/table/BaseTable";
 import { useFormDraft } from "@/hooks/useFormDraft";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import { GlobalLoading } from "@/components/common/GlobalLoading";
+import { formatDate } from '@/utils/format';
 
+// 敏感词分类配置
 const categoryOptions = [
   { label: "辱骂类", value: "abuse" },
   { label: "推诿类", value: "shirking" },
@@ -32,6 +36,16 @@ const categoryOptions = [
   { label: "平台违规", value: "platform_risk" },
 ];
 
+// 严重级别配置
+const severityConfig = {
+  1: { status: 'success' as const, text: '轻微' },
+  2: { status: 'warning' as const, text: '一般' },
+  3: { status: 'warning' as const, text: '中等' },
+  4: { status: 'error' as const, text: '严重' },
+  5: { status: 'error' as const, text: '极严重' },
+};
+
+// 敏感词管理页面组件
 export default function ServiceSensitiveTermsPage() {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
@@ -62,6 +76,7 @@ export default function ServiceSensitiveTermsPage() {
     },
   });
 
+  // 数据查询
   const { data = [], isLoading } = useQuery<ServiceSensitiveTerm[]>({
     queryKey: ["service-sensitive-terms"],
     queryFn: serviceApi.listSensitiveTerms,
@@ -69,12 +84,14 @@ export default function ServiceSensitiveTermsPage() {
     refetchOnWindowFocus: false,
   });
 
+  // 刷新数据
   const refresh = async () => {
     await queryClient.invalidateQueries({
       queryKey: ["service-sensitive-terms"],
     });
   };
 
+  // 保存敏感词
   const saveMutation = useMutation({
     mutationFn: async (values: SaveServiceSensitiveTermPayload) => {
       if (editing) {
@@ -96,6 +113,7 @@ export default function ServiceSensitiveTermsPage() {
     },
   });
 
+  // 切换敏感词状态
   const toggleMutation = useMutation({
     mutationFn: async ({
       record,
@@ -124,98 +142,176 @@ export default function ServiceSensitiveTermsPage() {
     },
   });
 
-  const columns: ProColumns<ServiceSensitiveTerm>[] = useMemo(
-    () => [
-      { title: "敏感词", dataIndex: "term" },
-      {
-        title: "分类",
-        dataIndex: "category",
-        render: (_, record) =>
-          categoryOptions.find((item) => item.value === record.category)
-            ?.label ?? record.category,
-      },
-      { title: "严重级别", dataIndex: "severity", width: 100 },
-      {
-        title: "替代文本",
-        dataIndex: "replace_text",
-        width: 160,
-        render: (_, record) => record.replace_text || "-",
-      },
-      {
-        title: "状态",
-        dataIndex: "enabled",
-        width: 100,
-        render: (_, record) => (
-          <Tag color={record.enabled ? "success" : "default"}>
-            {record.enabled ? "启用" : "停用"}
-          </Tag>
-        ),
-      },
-      {
-        title: "操作",
-        width: 220,
-        render: (_, record) => (
-          <Space>
-            <Permission code="service:sensitive-term:update">
-              <Button
-                type="link"
-                onClick={() => {
-                  setEditing(record);
-                  setOpen(true);
-                  form.setFieldsValue(record);
-                }}
-              >
-                编辑
-              </Button>
-            </Permission>
-            <Permission code="service:sensitive-term:update">
-              <Switch
-                checked={record.enabled === 1}
-                checkedChildren="启用"
-                unCheckedChildren="停用"
-                onChange={(checked) =>
-                  toggleMutation.mutate({ record, enabled: checked })
-                }
-              />
-            </Permission>
-          </Space>
-        ),
-      },
-    ],
-    [form, toggleMutation],
-  );
+  // 打开编辑弹窗
+  const handleEdit = (record: ServiceSensitiveTerm) => {
+    setEditing(record);
+    setOpen(true);
+    form.setFieldsValue(record);
+  };
 
-  return (
-    <>
-      <Card
-        title="敏感词管理"
-        extra={
-          <Permission code="service:sensitive-term:create">
+  // 新增敏感词
+  const handleAdd = () => {
+    setEditing(null);
+    setOpen(true);
+    form.resetFields();
+  };
+
+  // 表格列配置
+  const columns = [
+    {
+      title: "敏感词",
+      dataIndex: "term",
+      key: "term",
+      render: (_: any, record: ServiceSensitiveTerm) => (
+        <span style={{ fontWeight: 'bold', color: '#dc2626' }}>
+          {record.term}
+        </span>
+      ),
+    },
+    {
+      title: "分类",
+      dataIndex: "category",
+      key: "category",
+      width: 120,
+      render: (_: any, record: ServiceSensitiveTerm) => {
+        const categoryConfig = categoryOptions.find(
+          (item) => item.value === record.category
+        );
+        return (
+          <StatusTag
+            status="default"
+            text={categoryConfig?.label ?? record.category}
+          />
+        );
+      },
+    },
+    {
+      title: "严重级别",
+      dataIndex: "severity",
+      key: "severity",
+      width: 100,
+      render: (_: any, record: ServiceSensitiveTerm) => {
+        const config = severityConfig[record.severity as keyof typeof severityConfig];
+        return config ? (
+          <StatusTag
+            status={config.status}
+            text={`${record.severity}级 ${config.text}`}
+          />
+        ) : (
+          <span>{record.severity}</span>
+        );
+      },
+    },
+    {
+      title: "替代文本",
+      dataIndex: "replace_text",
+      key: "replace_text",
+      width: 160,
+      render: (_: any, record: ServiceSensitiveTerm) => (
+        <span style={{ fontSize: '12px', color: '#64748b' }}>
+          {record.replace_text || '-'}
+        </span>
+      ),
+    },
+    {
+      title: "状态",
+      dataIndex: "enabled",
+      key: "enabled",
+      width: 100,
+      render: (_: any, record: ServiceSensitiveTerm) => (
+        <StatusTag
+          status={record.enabled ? "success" : "default"}
+          text={record.enabled ? "启用" : "停用"}
+        />
+      ),
+    },
+    {
+      title: "操作",
+      key: "action",
+      width: 200,
+      render: (_: any, record: ServiceSensitiveTerm) => (
+        <Space size={4}>
+          <Permission code="service:sensitive-term:update">
             <Button
-              type="primary"
-              onClick={() => {
-                setEditing(null);
-                setOpen(true);
-                form.resetFields();
-              }}
-              title="快捷键: Ctrl+N"
+              size="small"
+              icon={<EditOutlined />}
+              onClick={() => handleEdit(record)}
             >
-              新建敏感词
+              编辑
             </Button>
           </Permission>
-        }
-      >
-        <GlobalLoading loading={isLoading}>
-          <BaseTable<ServiceSensitiveTerm>
-            rowKey="id"
-            columns={columns}
-            dataSource={data}
-            loading={isLoading}
-          />
-        </GlobalLoading>
-      </Card>
+          <Permission code="service:sensitive-term:update">
+            <Switch
+              size="small"
+              checked={record.enabled === 1}
+              checkedChildren="启用"
+              unCheckedChildren="停用"
+              onChange={(checked) =>
+                toggleMutation.mutate({ record, enabled: checked })
+              }
+            />
+          </Permission>
+        </Space>
+      ),
+    },
+  ];
 
-      <BaseModal
+  // 页面渲染
+  return (
+    <PageContainer
+      title="敏感词管理"
+      subTitle="管理客服对话中的敏感词汇，自动检测和替换"
+      breadcrumb={{
+        items: [
+          { title: '首页', path: '/' },
+          { title: 'AI质检' },
+          { title: '敏感词管理' },
+        ],
+      }}
+    >
+      <SectionCard glass>
+        <ActionBar
+          actions={[
+            {
+              key: 'add',
+              label: '新建敏感词',
+              icon: <PlusOutlined />,
+              type: 'primary',
+              onClick: handleAdd,
+              permission: 'service:sensitive-term:create',
+            },
+            {
+              key: 'refresh',
+              label: '刷新',
+              icon: <ReloadOutlined />,
+              onClick: refresh,
+            },
+          ]}
+          extra={<span>共 {data.length} 个敏感词</span>}
+          align="space-between"
+          glass
+        />
+
+        <Table
+          columns={columns}
+          dataSource={data}
+          loading={isLoading}
+          rowKey="id"
+          glass
+          density="compact"
+          striped
+          hoverable
+          pagination={{
+            showSizeChanger: true,
+            showQuickJumper: true,
+            showTotal: (total, range) =>
+              `第 ${range[0]}-${range[1]} 条/总共 ${total} 个敏感词`,
+          }}
+        />
+      </SectionCard>
+
+      {/* 敏感词编辑弹窗 */}
+      <Modal
         open={open}
         title={editing ? "编辑敏感词" : "新建敏感词"}
         confirmLoading={saveMutation.isPending}
@@ -227,33 +323,58 @@ export default function ServiceSensitiveTermsPage() {
         onOk={() => {
           form.validateFields().then((values) => saveMutation.mutate(values));
         }}
+        glass
       >
         <Form
           form={form}
           layout="vertical"
           initialValues={{ severity: 1, enabled: 1 }}
         >
-          <Form.Item label="敏感词" name="term" rules={[{ required: true }]}>
-            <Input />
+          <Form.Item
+            label="敏感词"
+            name="term"
+            rules={[{ required: true, message: '请输入敏感词' }]}
+          >
+            <Input placeholder="请输入敏感词" />
           </Form.Item>
-          <Form.Item label="分类" name="category" rules={[{ required: true }]}>
-            <Select options={categoryOptions} />
+
+          <Form.Item
+            label="分类"
+            name="category"
+            rules={[{ required: true, message: '请选择分类' }]}
+          >
+            <Select options={categoryOptions} placeholder="请选择分类" />
           </Form.Item>
+
           <Form.Item
             label="严重级别"
             name="severity"
-            rules={[{ required: true }]}
+            rules={[{ required: true, message: '请选择严重级别' }]}
           >
-            <InputNumber min={1} max={5} style={{ width: "100%" }} />
+            <Select
+              placeholder="请选择严重级别"
+              options={[
+                { label: '1级 轻微', value: 1 },
+                { label: '2级 一般', value: 2 },
+                { label: '3级 中等', value: 3 },
+                { label: '4级 严重', value: 4 },
+                { label: '5级 极严重', value: 5 },
+              ]}
+            />
           </Form.Item>
+
           <Form.Item label="替代文本" name="replace_text">
-            <Input />
+            <Input placeholder="检测到敏感词时的替代文本" />
           </Form.Item>
+
           <Form.Item label="描述" name="description">
-            <Input.TextArea rows={3} />
+            <Input.TextArea
+              rows={3}
+              placeholder="敏感词的详细描述或使用说明"
+            />
           </Form.Item>
         </Form>
-      </BaseModal>
-    </>
+      </Modal>
+    </PageContainer>
   );
 }

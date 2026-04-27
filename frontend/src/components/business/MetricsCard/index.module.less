@@ -1,0 +1,156 @@
+/**
+ * MetricsCard组件样式
+ */
+
+@import '@/styles/variables.less';
+@import '@/styles/mixins.less';
+
+.metricsCard {
+  background: @bg-container;
+  border-radius: @radius-lg;
+  padding: @spacing-5;
+  box-shadow: @shadow-md;
+  .transition(all);
+
+  // 毛玻璃效果
+  &.glass {
+    .glassmorphism();
+  }
+
+  // 可点击
+  &.clickable {
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: @shadow-xl;
+    }
+  }
+}
+
+.cardHeader {
+  .flex-between();
+  margin-bottom: @spacing-4;
+}
+
+.title {
+  font-size: @font-size-sm;
+  color: @text-secondary;
+  font-weight: @font-weight-medium;
+}
+
+.extra {
+  font-size: @font-size-xs;
+  color: @text-tertiary;
+}
+
+.cardBody {
+  display: flex;
+  align-items: center;
+  gap: @spacing-4;
+}
+
+.icon {
+  .flex-center();
+  width: 48px;
+  height: 48px;
+  border-radius: @radius-lg;
+  font-size: @font-size-2xl;
+  flex-shrink: 0;
+
+  &.icon-primary {
+    background: @brand-100;
+    color: @brand-600;
+  }
+
+  &.icon-success {
+    background: @success-100;
+    color: @success-600;
+  }
+
+  &.icon-warning {
+    background: @warning-100;
+    color: @warning-600;
+  }
+
+  &.icon-danger {
+    background: @danger-100;
+    color: @danger-600;
+  }
+
+  &.icon-info {
+    background: @info-100;
+    color: @info-600;
+  }
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.valueWrapper {
+  display: flex;
+  align-items: baseline;
+  gap: @spacing-1;
+  margin-bottom: @spacing-1;
+}
+
+.value {
+  font-size: @font-size-4xl;
+  font-weight: @font-weight-bold;
+  color: @text-primary;
+  line-height: @line-height-tight;
+}
+
+.unit {
+  font-size: @font-size-base;
+  color: @text-secondary;
+  font-weight: @font-weight-normal;
+}
+
+.trend {
+  display: flex;
+  align-items: center;
+  gap: @spacing-1;
+  font-size: @font-size-xs;
+  font-weight: @font-weight-medium;
+
+  &.trendUp {
+    color: @success-600;
+
+    .trendIcon {
+      color: @success-600;
+    }
+  }
+
+  &.trendDown {
+    color: @danger-600;
+
+    .trendIcon {
+      color: @danger-600;
+    }
+  }
+
+  &.trendFlat {
+    color: @text-tertiary;
+
+    .trendIcon {
+      color: @text-tertiary;
+    }
+  }
+}
+
+.trendIcon {
+  display: inline-flex;
+  align-items: center;
+  font-size: @font-size-xs;
+}
+
+.trendValue {
+  font-weight: @font-weight-semibold;
+}
+
+.trendText {
+  color: @text-tertiary;
+}

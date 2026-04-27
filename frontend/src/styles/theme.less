@@ -1,0 +1,375 @@
+/**
+ * 主题配置
+ * 覆盖Ant Design默认主题，应用企业级设计系统
+ */
+
+@import './variables.less';
+
+// ==================== Ant Design主题变量覆盖 ====================
+
+// 主色
+@primary-color: @brand-600;
+@link-color: @brand-600;
+@success-color: @success-600;
+@warning-color: @warning-600;
+@error-color: @danger-600;
+@info-color: @info-600;
+
+// 字体
+@font-family: @font-family-base;
+@code-family: @font-family-code;
+@font-size-base: @font-size-base;
+@font-size-lg: @font-size-lg;
+@font-size-sm: @font-size-sm;
+
+// 行高
+@line-height-base: @line-height-normal;
+
+// 边框
+@border-radius-base: @radius-md;
+@border-color-base: @border-color;
+@border-width-base: @border-width;
+@border-style-base: @border-style;
+
+// 阴影
+@box-shadow-base: @shadow-md;
+@shadow-1-up: @shadow-sm;
+@shadow-1-down: @shadow-sm;
+@shadow-1-left: @shadow-sm;
+@shadow-1-right: @shadow-sm;
+@shadow-2: @shadow-lg;
+
+// 背景色
+@body-background: @bg-body;
+@component-background: @bg-container;
+@background-color-light: @gray-50;
+@background-color-base: @gray-100;
+
+// 文字颜色
+@text-color: @text-primary;
+@text-color-secondary: @text-secondary;
+@heading-color: @text-primary;
+@disabled-color: @text-disabled;
+
+// 布局
+@layout-body-background: @bg-body;
+@layout-header-background: @bg-container;
+@layout-header-height: @layout-header-height;
+@layout-header-padding: 0 @spacing-6;
+@layout-sider-background: @bg-container;
+@layout-trigger-height: 48px;
+@layout-trigger-background: @primary-700;
+@layout-trigger-color: @text-inverse;
+
+// 表格
+@table-header-bg: @table-header-bg;
+@table-header-color: @text-primary;
+@table-header-sort-bg: @gray-100;
+@table-body-sort-bg: @gray-50;
+@table-row-hover-bg: @bg-hover;
+@table-selected-row-bg: @brand-50;
+@table-expanded-row-bg: @gray-50;
+@table-padding-vertical: 12px;
+@table-padding-horizontal: 16px;
+@table-border-color: @table-border-color;
+@table-border-radius-base: @radius-lg;
+
+// 按钮
+@btn-height-base: @button-height;
+@btn-height-lg: @button-height-lg;
+@btn-height-sm: @button-height-sm;
+@btn-padding-horizontal-base: @button-padding-horizontal;
+@btn-padding-horizontal-lg: @button-padding-horizontal-lg;
+@btn-padding-horizontal-sm: @button-padding-horizontal-sm;
+@btn-font-weight: @font-weight-medium;
+@btn-border-radius-base: @radius-md;
+@btn-border-radius-sm: @radius-base;
+@btn-shadow: @shadow-sm;
+@btn-primary-shadow: @shadow-md;
+@btn-text-shadow: none;
+
+// 输入框
+@input-height-base: @input-height;
+@input-height-lg: @input-height-lg;
+@input-height-sm: @input-height-sm;
+@input-padding-horizontal: @spacing-3;
+@input-padding-horizontal-base: @spacing-3;
+@input-padding-horizontal-sm: @spacing-2;
+@input-padding-horizontal-lg: @spacing-4;
+@input-padding-vertical-base: 8px;
+@input-padding-vertical-sm: 4px;
+@input-padding-vertical-lg: 12px;
+@input-border-color: @border-color;
+@input-bg: @bg-container;
+@input-hover-border-color: @brand-400;
+@input-disabled-bg: @bg-disabled;
+@input-placeholder-color: @text-tertiary;
+
+// 表单
+@form-item-margin-bottom: @form-item-margin-bottom;
+@form-item-trailing-colon: false;
+@form-vertical-label-padding: 0 0 8px;
+@form-vertical-label-margin: 0;
+@label-required-color: @danger-600;
+@label-color: @text-primary;
+
+// 卡片
+@card-head-color: @text-primary;
+@card-head-background: transparent;
+@card-head-font-size: @font-size-lg;
+@card-head-font-size-sm: @font-size-base;
+@card-head-padding: @spacing-4;
+@card-head-padding-sm: @spacing-3;
+@card-head-height: 48px;
+@card-head-height-sm: 36px;
+@card-inner-head-padding: @spacing-3;
+@card-padding-base: @card-padding;
+@card-padding-base-sm: @card-padding-sm;
+@card-actions-background: @bg-container;
+@card-actions-li-margin: 12px 0;
+@card-skeleton-bg: @gray-100;
+@card-background: @card-bg;
+@card-shadow: @shadow-md;
+@card-radius: @card-border-radius;
+@card-head-tabs-margin-bottom: -17px;
+@card-head-extra-color: @text-primary;
+
+// 模态框
+@modal-header-bg: @bg-container;
+@modal-header-padding: @spacing-4 @spacing-6;
+@modal-header-border-width: 0;
+@modal-header-border-style: @border-style;
+@modal-header-title-line-height: 22px;
+@modal-header-title-font-size: @font-size-xl;
+@modal-header-border-color-split: @border-color;
+@modal-header-close-size: 56px;
+@modal-content-bg: @bg-container;
+@modal-heading-color: @text-primary;
+@modal-close-color: @text-secondary;
+@modal-footer-bg: transparent;
+@modal-footer-border-color-split: @border-color;
+@modal-footer-border-style: @border-style;
+@modal-footer-padding-vertical: 10px;
+@modal-footer-padding-horizontal: 16px;
+@modal-footer-border-width: 0;
+@modal-mask-bg: rgba(0, 0, 0, 0.45);
+@modal-confirm-body-padding: 32px 32px 24px;
+@modal-border-radius: @radius-xl;
+
+// 抽屉
+@drawer-bg: @bg-container;
+@drawer-header-padding: @spacing-4 @spacing-6;
+@drawer-body-padding: @spacing-6;
+@drawer-header-close-size: 56px;
+@drawer-title-font-size: @font-size-xl;
+@drawer-title-line-height: 22px;
+
+// 标签
+@tag-default-bg: @gray-100;
+@tag-default-color: @gray-700;
+@tag-font-size: @font-size-xs;
+@tag-line-height: 20px;
+
+// 徽章
+@badge-height: 20px;
+@badge-dot-size: 6px;
+@badge-font-size: @font-size-xs;
+@badge-font-weight: @font-weight-semibold;
+@badge-status-size: 6px;
+@badge-text-color: @text-inverse;
+
+// 消息提示
+@message-notice-content-padding: 10px 16px;
+@message-notice-content-bg: @bg-container;
+
+// 通知
+@notification-bg: @bg-container;
+@notification-padding-vertical: 16px;
+@notification-padding-horizontal: 24px;
+
+// 进度条
+@progress-default-color: @brand-600;
+@progress-remaining-color: @gray-200;
+@progress-text-color: @text-primary;
+@progress-radius: @radius-full;
+@progress-steps-item-bg: @gray-200;
+
+// 菜单
+@menu-bg: @bg-container;
+@menu-popup-bg: @bg-container;
+@menu-item-color: @text-primary;
+@menu-highlight-color: @brand-600;
+@menu-item-active-bg: @brand-50;
+@menu-item-active-border-width: 3px;
+@menu-item-group-title-color: @text-secondary;
+@menu-icon-size: 16px;
+@menu-icon-size-lg: 20px;
+@menu-item-vertical-margin: 4px;
+@menu-item-boundary-margin: 8px;
+
+// 分页
+@pagination-item-bg: @bg-container;
+@pagination-item-size: 32px;
+@pagination-item-size-sm: 24px;
+@pagination-font-family: @font-family-base;
+@pagination-font-weight-active: @font-weight-semibold;
+@pagination-item-bg-active: @brand-600;
+@pagination-item-link-bg: @bg-container;
+@pagination-item-disabled-color-active: @text-disabled;
+@pagination-item-disabled-bg-active: @bg-disabled;
+@pagination-item-input-bg: @bg-container;
+
+// 选择器
+@select-border-color: @border-color;
+@select-item-selected-color: @text-primary;
+@select-item-selected-font-weight: @font-weight-semibold;
+@select-dropdown-bg: @bg-container;
+@select-item-selected-bg: @brand-50;
+@select-item-active-bg: @bg-hover;
+@select-dropdown-vertical-padding: 4px;
+@select-dropdown-font-size: @font-size-base;
+@select-dropdown-line-height: 22px;
+@select-dropdown-height: 32px;
+@select-background: @bg-container;
+@select-clear-background: @bg-container;
+@select-selection-item-bg: @gray-100;
+@select-selection-item-border-color: @border-color;
+@select-single-item-height-lg: 40px;
+@select-multiple-item-height: 24px;
+@select-multiple-item-height-lg: 32px;
+@select-multiple-item-spacing-half: 4px;
+
+// 开关
+@switch-height: 22px;
+@switch-sm-height: 16px;
+@switch-min-width: 44px;
+@switch-sm-min-width: 28px;
+@switch-disabled-opacity: @disabled-opacity;
+@switch-color: @brand-600;
+@switch-bg: @gray-300;
+@switch-shadow-color: fade(#00230b, 20%);
+@switch-padding: 2px;
+@switch-inner-margin-min: ceil(@switch-height * 0.3);
+@switch-inner-margin-max: ceil(@switch-height * 1.1);
+@switch-sm-inner-margin-min: ceil(@switch-sm-height * 0.3);
+@switch-sm-inner-margin-max: ceil(@switch-sm-height * 1.1);
+
+// 滑块
+@slider-rail-background-color: @gray-200;
+@slider-rail-background-color-hover: @gray-300;
+@slider-track-background-color: @brand-500;
+@slider-track-background-color-hover: @brand-600;
+@slider-handle-background-color: @bg-container;
+@slider-handle-color: @brand-600;
+@slider-handle-color-hover: @brand-700;
+@slider-handle-color-focus: @brand-700;
+@slider-handle-color-focus-shadow: fade(@brand-600, 20%);
+@slider-handle-color-tooltip-open: @brand-600;
+@slider-handle-size: 14px;
+@slider-handle-margin-top: -5px;
+@slider-handle-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+@slider-dot-border-color: @border-color;
+@slider-dot-border-color-active: @brand-500;
+@slider-disabled-color: @text-disabled;
+@slider-disabled-background-color: @bg-disabled;
+
+// 时间选择器
+@picker-bg: @bg-container;
+@picker-basic-cell-hover-color: @bg-hover;
+@picker-basic-cell-active-with-range-color: @brand-100;
+@picker-basic-cell-hover-with-range-color: lighten(@brand-600, 35%);
+@picker-basic-cell-disabled-bg: @bg-disabled;
+@picker-border-color: @border-color;
+@picker-date-hover-range-border-color: lighten(@brand-600, 20%);
+@picker-date-hover-range-color: @picker-basic-cell-hover-with-range-color;
+@picker-time-panel-column-width: 56px;
+@picker-time-panel-column-height: 224px;
+@picker-time-panel-cell-height: 28px;
+@picker-panel-cell-height: 24px;
+@picker-panel-cell-width: 36px;
+@picker-text-height: 40px;
+@picker-panel-without-time-cell-height: 66px;
+
+// 工具提示
+@tooltip-max-width: 250px;
+@tooltip-color: @text-inverse;
+@tooltip-bg: rgba(0, 0, 0, 0.85);
+@tooltip-arrow-width: 5px;
+@tooltip-distance: @tooltip-arrow-width - 1px + 4px;
+@tooltip-arrow-color: @tooltip-bg;
+@tooltip-border-radius: @radius-md;
+
+// 气泡卡片
+@popover-bg: @bg-container;
+@popover-color: @text-primary;
+@popover-min-width: 177px;
+@popover-min-height: 32px;
+@popover-arrow-width: 6px;
+@popover-arrow-color: @popover-bg;
+@popover-arrow-outer-color: @popover-bg;
+@popover-distance: @popover-arrow-width + 4px;
+@popover-padding-horizontal: @spacing-4;
+
+// 步骤条
+@steps-nav-arrow-color: fade(@text-secondary, 25%);
+@steps-background: @bg-container;
+@steps-icon-size: 32px;
+@steps-icon-custom-size: @steps-icon-size;
+@steps-icon-custom-top: 0px;
+@steps-icon-custom-font-size: 24px;
+@steps-icon-top: -1px;
+@steps-icon-font-size: @font-size-lg;
+@steps-icon-margin: 0 8px 0 0;
+@steps-title-line-height: 32px;
+@steps-small-icon-size: 24px;
+@steps-small-icon-margin: 0 8px 0 0;
+@steps-dot-size: 8px;
+@steps-dot-top: 2px;
+@steps-current-dot-size: 10px;
+@steps-description-max-width: 140px;
+@steps-nav-content-max-width: auto;
+@steps-vertical-icon-width: 16px;
+@steps-vertical-tail-width: 16px;
+@steps-vertical-tail-width-sm: 12px;
+
+// 树形控件
+@tree-bg: @bg-container;
+@tree-title-height: 24px;
+@tree-child-padding: 18px;
+@tree-directory-selected-color: @text-inverse;
+@tree-directory-selected-bg: @brand-600;
+@tree-node-hover-bg: @bg-hover;
+@tree-node-selected-bg: @brand-50;
+
+// 折叠面板
+@collapse-header-padding: 12px 16px;
+@collapse-header-padding-extra: 40px;
+@collapse-header-bg: @bg-container;
+@collapse-content-padding: @spacing-4;
+@collapse-content-bg: @bg-container;
+@collapse-header-arrow-left: 16px;
+
+// 骨架屏
+@skeleton-color: @gray-100;
+@skeleton-to-color: shade(@skeleton-color, 5%);
+@skeleton-paragraph-margin-top: 28px;
+@skeleton-paragraph-li-margin-top: 16px;
+@skeleton-paragraph-li-height: 16px;
+@skeleton-title-height: 16px;
+@skeleton-title-paragraph-margin-top: 24px;
+
+// 转换
+@ease-base-out: cubic-bezier(0.7, 0.3, 0.1, 1);
+@ease-base-in: cubic-bezier(0.9, 0, 0.3, 0.7);
+@ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+@ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+@ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+@ease-out-back: cubic-bezier(0.12, 0.4, 0.29, 1.46);
+@ease-in-back: cubic-bezier(0.71, -0.46, 0.88, 0.6);
+@ease-in-out-back: cubic-bezier(0.71, -0.46, 0.29, 1.46);
+@ease-out-circ: cubic-bezier(0.08, 0.82, 0.17, 1);
+@ease-in-circ: cubic-bezier(0.6, 0.04, 0.98, 0.34);
+@ease-in-out-circ: cubic-bezier(0.78, 0.14, 0.15, 0.86);
+@ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+@ease-in-quint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+@ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);

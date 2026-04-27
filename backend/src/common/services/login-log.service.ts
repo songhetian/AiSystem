@@ -54,7 +54,7 @@ export class LoginLogService {
       // 异步记录（不阻塞）
       this.asyncLogLogin(logData);
     } catch (error) {
-      this.logger.error(`登录日志记录失败: ${error.message}`);
+      this.logger.error(`登录日志记录失败: ${(error as Error).message}`);
     }
   }
 
@@ -83,13 +83,13 @@ export class LoginLogService {
 
       this.logger.log(`登录日志记录成功: ${data.username} - ${data.login_status === 1 ? '成功' : '失败'}`);
     } catch (error) {
-      this.logger.warn(`数据库写入失败，使用Redis队列兜底: ${error.message}`);
+      this.logger.warn(`数据库写入失败，使用Redis队列兜底: ${(error as Error).message}`);
 
       try {
         // Redis故障兜底：将日志推入队列
         await this.redisService.rpush(this.LOG_QUEUE_KEY, JSON.stringify(data));
       } catch (redisError) {
-        this.logger.error(`Redis队列写入也失败: ${redisError.message}`);
+        this.logger.error(`Redis队列写入也失败: ${(redisError as Error).message}`);
       }
     }
   }
@@ -237,7 +237,7 @@ export class LoginLogService {
           const logData = JSON.parse(logStr as string);
           await this.prisma.sys_login_log.create({ data: logData });
         } catch (error) {
-          this.logger.error(`处理队列日志失败: ${error.message}`);
+          this.logger.error(`处理队列日志失败: ${(error as Error).message}`);
           // 失败的日志重新推回队列
           await this.redisService.rpush(this.LOG_QUEUE_KEY, logStr as string);
         }
@@ -245,7 +245,7 @@ export class LoginLogService {
 
       this.logger.log(`登录日志队列处理完成，处理了 ${logsToProcess} 条`);
     } catch (error) {
-      this.logger.error(`处理登录日志队列失败: ${error.message}`);
+      this.logger.error(`处理登录日志队列失败: ${(error as Error).message}`);
     }
   }
 }

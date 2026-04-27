@@ -1,0 +1,283 @@
+/**
+ * Form组件样式
+ */
+
+@import '@/styles/variables.less';
+@import '@/styles/mixins.less';
+
+.form {
+  // 毛玻璃效果
+  &.glass {
+    .glassmorphism();
+    padding: @spacing-6;
+    border-radius: @radius-lg;
+  }
+
+  // 垂直布局
+  &.layout-vertical {
+    :global {
+      .ant-form-item {
+        margin-bottom: @spacing-5;
+      }
+    }
+  }
+
+  // 水平布局
+  &.layout-horizontal {
+    :global {
+      .ant-form-item {
+        margin-bottom: @spacing-4;
+      }
+    }
+  }
+
+  // 行内布局
+  &.layout-inline {
+    :global {
+      .ant-form-item {
+        margin-right: @spacing-4;
+        margin-bottom: @spacing-3;
+      }
+    }
+  }
+
+  :global {
+    // 表单项
+    .ant-form-item {
+      .ant-form-item-label {
+        > label {
+          font-size: @font-size-sm;
+          font-weight: @font-weight-medium;
+          color: @text-primary;
+          height: auto;
+
+          // 必填标记
+          &.ant-form-item-required {
+            &::before {
+              color: @danger-600;
+              font-size: @font-size-base;
+            }
+          }
+
+          // 提示图标
+          .ant-form-item-tooltip {
+            color: @text-tertiary;
+            margin-left: @spacing-1;
+            cursor: help;
+
+            &:hover {
+              color: @text-secondary;
+            }
+          }
+        }
+      }
+
+      // 表单控件
+      .ant-form-item-control {
+        .ant-form-item-control-input {
+          min-height: @input-height;
+        }
+
+        // 错误提示
+        .ant-form-item-explain-error {
+          font-size: @font-size-xs;
+          color: @danger-600;
+          margin-top: @spacing-1;
+        }
+
+        // 额外提示
+        .ant-form-item-extra {
+          font-size: @font-size-xs;
+          color: @text-tertiary;
+          margin-top: @spacing-1;
+        }
+      }
+    }
+
+    // 输入框
+    .ant-input,
+    .ant-input-number,
+    .ant-picker,
+    .ant-select-selector {
+      .input-base();
+    }
+
+    // 文本域
+    .ant-input-textarea {
+      .ant-input {
+        padding: @spacing-2 @spacing-3;
+      }
+    }
+
+    // 选择器
+    .ant-select {
+      .ant-select-selector {
+        height: @input-height;
+        padding: 0 @spacing-3;
+
+        .ant-select-selection-search {
+          .ant-select-selection-search-input {
+            height: @input-height - 2px;
+          }
+        }
+
+        .ant-select-selection-item,
+        .ant-select-selection-placeholder {
+          line-height: @input-height - 2px;
+        }
+      }
+
+      &.ant-select-multiple {
+        .ant-select-selector {
+          height: auto;
+          min-height: @input-height;
+          padding: 2px @spacing-2;
+
+          .ant-select-selection-item {
+            height: 24px;
+            line-height: 22px;
+            margin: 2px 4px 2px 0;
+            padding: 0 @spacing-2;
+            background: @brand-100;
+            border-color: @brand-200;
+            border-radius: @radius-base;
+
+            .ant-select-selection-item-content {
+              color: @brand-700;
+            }
+
+            .ant-select-selection-item-remove {
+              color: @brand-600;
+
+              &:hover {
+                color: @brand-700;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // 日期选择器
+    .ant-picker {
+      width: 100%;
+
+      .ant-picker-input {
+        > input {
+          font-size: @font-size-base;
+        }
+      }
+    }
+
+    // 数字输入框
+    .ant-input-number {
+      width: 100%;
+
+      .ant-input-number-input {
+        height: @input-height - 2px;
+      }
+    }
+
+    // 开关
+    .ant-switch {
+      background: @gray-300;
+
+      &.ant-switch-checked {
+        background: @brand-600;
+      }
+    }
+
+    // 单选框
+    .ant-radio-wrapper {
+      font-size: @font-size-base;
+      color: @text-primary;
+
+      .ant-radio {
+        .ant-radio-inner {
+          border-color: @border-color;
+          .transition(all);
+        }
+
+        &.ant-radio-checked {
+          .ant-radio-inner {
+            border-color: @brand-600;
+            background: @brand-600;
+          }
+        }
+      }
+
+      &:hover {
+        .ant-radio-inner {
+          border-color: @brand-600;
+        }
+      }
+    }
+
+    // 复选框
+    .ant-checkbox-wrapper {
+      font-size: @font-size-base;
+      color: @text-primary;
+
+      .ant-checkbox {
+        .ant-checkbox-inner {
+          border-color: @border-color;
+          border-radius: @radius-sm;
+          .transition(all);
+        }
+
+        &.ant-checkbox-checked {
+          .ant-checkbox-inner {
+            border-color: @brand-600;
+            background: @brand-600;
+          }
+        }
+      }
+
+      &:hover {
+        .ant-checkbox-inner {
+          border-color: @brand-600;
+        }
+      }
+    }
+
+    // 上传组件
+    .ant-upload {
+      &.ant-upload-select {
+        .ant-upload {
+          border-color: @border-color;
+          border-radius: @radius-md;
+          .transition(all);
+
+          &:hover {
+            border-color: @brand-600;
+          }
+        }
+      }
+    }
+
+    // 滑块
+    .ant-slider {
+      .ant-slider-rail {
+        background: @gray-200;
+      }
+
+      .ant-slider-track {
+        background: @brand-600;
+      }
+
+      .ant-slider-handle {
+        border-color: @brand-600;
+
+        &:hover,
+        &:focus {
+          border-color: @brand-700;
+          box-shadow: 0 0 0 5px fade(@brand-600, 20%);
+        }
+      }
+    }
+  }
+}
+
+.formItem {
+  // 表单项样式可以在这里扩展
+}

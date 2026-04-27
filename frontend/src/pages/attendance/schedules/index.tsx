@@ -1,45 +1,70 @@
-import { useMemo, useState } from "react";
-import dayjs, { type Dayjs } from "dayjs";
+/**
+ * 排班管理页面（优化版）
+ * 使用新的组件库重构，提供更好的视觉效果和用户体验
+ */
+
+import React, { useMemo, useState } from 'react';
+import dayjs, { type Dayjs } from 'dayjs';
 import {
   DndContext,
   PointerSensor,
   useSensor,
   useSensors,
-} from "@dnd-kit/core";
-import { Card, Layout, Modal, Space, Typography, message } from "antd";
-import { useQuery } from "@tanstack/react-query";
-import { attendanceApi } from "@/api/attendance";
-import type { AttendanceScheduleShift } from "@/api/attendance/types";
-import { personnelApi } from "@/api/personnel";
-import { systemApi } from "@/api/system";
-import { useGlobalStore } from "@/models/global";
-import { GlobalLoading } from "@/components/common/GlobalLoading";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import { ScheduleFilterBar } from "./components/ScheduleFilterBar";
-import { ScheduleTable } from "./components/ScheduleTable";
-import { DraggableShiftCard } from "./components/DraggableShiftCard";
-import { useScheduleDnD } from "./hooks/useScheduleDnD";
-import { ScheduleSettingsDrawer } from "./components/ScheduleSettingsDrawer";
-import { SettingOutlined } from "@ant-design/icons";
+} from '@dnd-kit/core';
+import { Layout, Space, Typography, message, Card } from 'antd';
+import { useQuery } from '@tanstack/react-query';
+import {
+  CalendarOutlined,
+  SettingOutlined,
+  TeamOutlined,
+  ClockCircleOutlined,
+  ReloadOutlined,
+  RobotOutlined,
+} from '@ant-design/icons';
+import { PageContainer, SectionCard } from '@/components/layout';
+import { FilterBar, ActionBar } from '@/components/business';
+import { Modal, Button } from '@/components/ui';
+import { attendanceApi } from '@/api/attendance';
+import type { AttendanceScheduleShift } from '@/api/attendance/types';
+import { personnelApi } from '@/api/personnel';
+import { systemApi } from '@/api/system';
+import { useGlobalStore } from '@/models/global';
+import { useDebounce } from '@/hooks/useDebounce';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
+import { ScheduleFilterBar } from './components/ScheduleFilterBar';
+import { ScheduleTable } from './components/ScheduleTable';
+import { DraggableShiftCard } from './components/DraggableShiftCard';
+import { useScheduleDnD } from './hooks/useScheduleDnD';
+import { ScheduleSettingsDrawer } from './components/ScheduleSettingsDrawer';
+import { formatDate } from '@/utils/format';
 
 const { Text, Title } = Typography;
 
+/**
+ * 构建月份范围
+ */
 function buildMonthRange(month: Dayjs) {
   return {
-    start_date: month.startOf("month").format("YYYY-MM-DD"),
-    end_date: month.endOf("month").format("YYYY-MM-DD"),
+    start_date: month.startOf('month').format('YYYY-MM-DD'),
+    end_date: month.endOf('month').format('YYYY-MM-DD'),
   };
 }
 
-export default function AttendanceSchedulesPage() {
+const ScheduleManagementPage: React.FC = () => {
   const currentUser = useGlobalStore((state) => state.currentUser);
+
+  // 状态管理
   const [month, setMonth] = useState(dayjs());
-  const [deptId, setDeptId] = useState<string>();
-  const [employeeKeyword, setEmployeeKeyword] = useState<string>();
-  const debouncedEmployeeKeyword = useDebounce(employeeKeyword, 500);
+  const [filters, setFilters] = useState<any>({});
   const [scheduleMode, setScheduleMode] = useState(false);
   const [selectedShiftId, setSelectedShiftId] = useState<string>();
+  const [aiModalOpen, setAiModalOpen] = useState(false);
+  const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
+
+  // 防抖搜索
+  const debouncedEmployeeKeyword = useDebounce(filters.employeeKeyword, 500);
+
+  // 拖拽功能
   const {
     activeShift,
     previewTarget,
@@ -49,15 +74,14 @@ export default function AttendanceSchedulesPage() {
     saving,
     saveSchedule,
   } = useScheduleDnD();
+
   const sensors = useSensors(useSensor(PointerSensor));
   const dateRange = buildMonthRange(month);
 
-  const [aiModalOpen, setAiModalOpen] = useState(false);
-  const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
-
   // 快捷键支持
   useKeyboardShortcuts({
-    "Ctrl+r": () => refetch(),
+    'Ctrl+r': () => refetch(),
+    'Ctrl+s': () => setScheduleMode(!scheduleMode),
     Escape: () => {
       setScheduleMode(false);
       setSelectedShiftId(undefined);
@@ -65,17 +89,18 @@ export default function AttendanceSchedulesPage() {
     },
   });
 
+  // 查询排班数据
   const { data, isLoading, refetch } = useQuery({
     queryKey: [
-      "attendance-schedules",
-      month.format("YYYY-MM"),
-      deptId,
+      'attendance-schedules',
+      month.format('YYYY-MM'),
+      filters.deptId,
       debouncedEmployeeKeyword,
     ],
     queryFn: () =>
       attendanceApi.getDashboard({
         ...dateRange,
-        ...(deptId ? { dept_id: deptId } : {}),
+        ...(filters.deptId ? { dept_id: filters.deptId } : {}),
         ...(debouncedEmployeeKeyword
           ? { keyword: debouncedEmployeeKeyword }
           : {}),
@@ -84,23 +109,27 @@ export default function AttendanceSchedulesPage() {
     refetchOnWindowFocus: false,
   });
 
+  // 查询部门列表
   const { data: departments = [] } = useQuery({
-    queryKey: ["system-departments"],
+    queryKey: ['system-departments'],
     queryFn: systemApi.listDepartments,
     staleTime: 5 * 60 * 1000,
   });
 
+  // 查询员工列表
   const { data: employees = [] } = useQuery({
-    queryKey: ["personnel-employees"],
+    queryKey: ['personnel-employees'],
     queryFn: personnelApi.listEmployees,
     staleTime: 5 * 60 * 1000,
   });
 
+  // 计算选中的班次
   const selectedShift = useMemo(
     () => data?.shifts?.find((item) => item.id === selectedShiftId) ?? null,
     [data?.shifts, selectedShiftId],
   );
 
+  // 部门选项
   const departmentOptions = useMemo(
     () =>
       departments.map((item: { id: string; name: string }) => ({
@@ -110,25 +139,52 @@ export default function AttendanceSchedulesPage() {
     [departments],
   );
 
+  // 员工选项
   const employeeOptions = useMemo(
     () =>
       employees
         .filter((item: { department_id?: string }) =>
-          !deptId ? true : item.department_id === deptId,
+          !filters.deptId ? true : item.department_id === filters.deptId,
         )
         .map((item: { name: string; employee_no?: string }) => ({
-          label: `${item.name}${item.employee_no ? ` / ${item.employee_no}` : ""}`,
+          label: `${item.name}${item.employee_no ? ` / ${item.employee_no}` : ''}`,
           value: item.employee_no || item.name,
         })),
-    [deptId, employees],
+    [filters.deptId, employees],
   );
 
+  // 权限范围标签
   const scopeLabel = currentUser?.name
     ? `当前查看：${currentUser.name} 可见范围内排班`
-    : "当前查看：权限范围内排班";
+    : '当前查看：权限范围内排班';
 
+  // 月份切换
   const handleMonthChange = (value: Dayjs) => {
     setMonth(value);
+  };
+
+  // 筛选处理
+  const handleSearch = (values: any) => {
+    setFilters(values);
+  };
+
+  // 重置筛选
+  const handleReset = () => {
+    setFilters({});
+  };
+
+  // 切换排班模式
+  const handleToggleScheduleMode = () => {
+    setScheduleMode((current) => {
+      if (current) setSelectedShiftId(undefined);
+      return !current;
+    });
+  };
+
+  // 刷新数据
+  const handleRefresh = () => {
+    refetch();
+    message.success('数据已刷新');
   };
 
   const handleAssign = async ({
@@ -193,55 +249,129 @@ export default function AttendanceSchedulesPage() {
   };
 
   return (
-    <GlobalLoading loading={isLoading}>
-      <div className="leixi-page-container bg-slate-50">
-        <ScheduleFilterBar
-          month={month}
-          scheduleMode={scheduleMode}
-          departments={departmentOptions}
-          employees={employeeOptions}
-          deptId={deptId}
-          employeeKeyword={employeeKeyword}
-          scopeLabel={scopeLabel}
-          onMonthChange={handleMonthChange}
-          onPrevMonth={() =>
-            setMonth((current) => current.subtract(1, "month"))
+    <PageContainer
+      title="排班管理"
+      subTitle="智能排班系统，支持拖拽操作和批量排班"
+      breadcrumb={{
+        items: [
+          { title: '首页', path: '/' },
+          { title: '考勤管理' },
+          { title: '排班管理' },
+        ],
+      }}
+    >
+      {/* 筛选区域 */}
+      <SectionCard title="筛选条件" collapsible defaultCollapsed={false}>
+        <FilterBar
+          items={[
+            {
+              name: 'month',
+              label: '月份',
+              type: 'custom',
+              render: () => (
+                <Space.Compact>
+                  <Button
+                    icon={<LeftOutlined />}
+                    onClick={() => setMonth((current) => current.subtract(1, 'month'))}
+                  />
+                  <DatePicker
+                    picker="month"
+                    value={month}
+                    onChange={(value) => value && handleMonthChange(value)}
+                    format="YYYY年MM月"
+                    allowClear={false}
+                  />
+                  <Button
+                    icon={<RightOutlined />}
+                    onClick={() => setMonth((current) => current.add(1, 'month'))}
+                  />
+                </Space.Compact>
+              ),
+            },
+            {
+              name: 'deptId',
+              label: '部门',
+              type: 'select',
+              placeholder: '请选择部门',
+              options: [
+                { label: '全部部门', value: undefined },
+                ...departmentOptions,
+              ],
+            },
+            {
+              name: 'employeeKeyword',
+              label: '员工',
+              type: 'input',
+              placeholder: '请输入员工姓名或工号',
+            },
+          ]}
+          glass
+          onSearch={handleSearch}
+          onReset={handleReset}
+        />
+      </SectionCard>
+
+      {/* 操作区域 */}
+      <SectionCard>
+        <ActionBar
+          actions={[
+            {
+              key: 'toggle-mode',
+              label: scheduleMode ? '退出排班模式' : '进入排班模式',
+              icon: <CalendarOutlined />,
+              type: scheduleMode ? 'default' : 'primary',
+              onClick: handleToggleScheduleMode,
+            },
+            {
+              key: 'refresh',
+              label: '刷新数据',
+              icon: <ReloadOutlined />,
+              onClick: handleRefresh,
+            },
+            {
+              key: 'ai-schedule',
+              label: 'AI智能排班',
+              icon: <RobotOutlined />,
+              onClick: () => setAiModalOpen(true),
+            },
+            {
+              key: 'settings',
+              label: '排班设置',
+              icon: <SettingOutlined />,
+              onClick: () => setSettingsDrawerOpen(true),
+            },
+          ]}
+          extra={
+            <Space>
+              <Text type="secondary">{scopeLabel}</Text>
+              {scheduleMode && selectedShift && (
+                <Text type="success">
+                  当前激活班次：{selectedShift.name}
+                </Text>
+              )}
+              {saving && (
+                <Text type="warning">保存中...</Text>
+              )}
+            </Space>
           }
-          onNextMonth={() => setMonth((current) => current.add(1, "month"))}
-          onDepartmentChange={(value) => {
-            setDeptId(value);
-          }}
-          onEmployeeChange={(value) => {
-            setEmployeeKeyword(value);
-          }}
-          onRefresh={() => {
-            void refetch();
-          }}
-          onToggleScheduleMode={() => {
-            setScheduleMode((current) => {
-              if (current) setSelectedShiftId(undefined);
-              return !current;
-            });
-          }}
-          onOpenAiSettings={() => setAiModalOpen(true)}
-          onOpenGlobalSettings={() => setSettingsDrawerOpen(true)}
+          align="space-between"
+          glass
         />
 
-        <div className="mb-4 grid gap-4 xl:grid-cols-[300px_minmax(0,1fr)]">
-          <Card
-            className="rounded-2xl border-slate-200 shadow-sm"
-            bodyStyle={{ padding: 18 }}
-          >
-            <div className="mb-4">
-              <Title level={5} className="!mb-1">
+        {/* 排班看板 */}
+        <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: 16, marginTop: 16 }}>
+          {/* 班次列表 */}
+          <Card glass shadow="md">
+            <div style={{ marginBottom: 16 }}>
+              <Title level={5} style={{ margin: 0, marginBottom: 4 }}>
                 班次列表
               </Title>
               <Text type="secondary">
-                点击激活班次，拖拽或点击表格单元格即可排班。
+                点击激活班次，拖拽或点击表格单元格即可排班
               </Text>
             </div>
 
-            <Space direction="vertical" size={4} style={{ width: "100%" }}>
+            <Space direction="vertical" size={8} style={{ width: '100%' }}>
               {data?.shifts?.map((shift: AttendanceScheduleShift) => (
                 <DraggableShiftCard
                   key={shift.id}
@@ -250,7 +380,7 @@ export default function AttendanceSchedulesPage() {
                   disabled={!scheduleMode}
                   onSelect={() => {
                     if (!scheduleMode) {
-                      message.info("请先进入排班模式");
+                      message.info('请先进入排班模式');
                       return;
                     }
                     setSelectedShiftId((current) =>
@@ -262,6 +392,7 @@ export default function AttendanceSchedulesPage() {
             </Space>
           </Card>
 
+          {/* 排班表格 */}
           <DndContext
             sensors={sensors}
             onDragStart={onDragStart}
@@ -270,56 +401,85 @@ export default function AttendanceSchedulesPage() {
               void onDragEnd(event);
             }}
           >
-            <Layout className="bg-transparent">
-              <Layout.Content>
-                <Card
-                  className="rounded-2xl border-slate-200 shadow-sm"
-                  bodyStyle={{ padding: 0 }}
-                  extra={
-                    saving ? (
-                      <span className="text-xs text-slate-500">保存中...</span>
-                    ) : null
-                  }
-                >
-                  <div className="border-b border-slate-200 bg-slate-50 px-5 py-3">
-                    <Space direction="vertical" size={0}>
-                      <Text strong>
-                        {month.format("YYYY 年 MM 月排班看板")}
-                      </Text>
-                      <Text type="secondary">
-                        {scheduleMode
-                          ? selectedShift
-                            ? `当前激活班次：${selectedShift.name}`
-                            : "当前未激活班次，点击左侧班次后可快速排班"
-                          : "当前为只读状态，进入排班模式后可编辑"}
-                      </Text>
-                    </Space>
-                  </div>
+            <Card glass shadow="md">
+              <div style={{
+                borderBottom: '1px solid #f0f0f0',
+                padding: '16px 0',
+                marginBottom: 16,
+              }}>
+                <Space direction="vertical" size={0}>
+                  <Text strong>
+                    {month.format('YYYY 年 MM 月排班看板')}
+                  </Text>
+                  <Text type="secondary">
+                    {scheduleMode
+                      ? selectedShift
+                        ? `当前激活班次：${selectedShift.name}`
+                        : '当前未激活班次，点击左侧班次后可快速排班'
+                      : '当前为只读状态，进入排班模式后可编辑'}
+                  </Text>
+                </Space>
+              </div>
 
-                  <ScheduleTable
-                    data={data}
-                    loading={isLoading}
-                    scheduleMode={scheduleMode}
-                    activeShift={(activeShift ?? selectedShift) as AttendanceScheduleShift | null}
-                    previewTarget={previewTarget}
-                    onCellClick={(payload) => {
-                      void handleAssign(payload);
-                    }}
-                    onCellDoubleClick={(payload) => {
-                      void handleClear(payload);
-                    }}
-                  />
-                </Card>
-              </Layout.Content>
-            </Layout>
+              <ScheduleTable
+                data={data}
+                loading={isLoading}
+                scheduleMode={scheduleMode}
+                activeShift={(activeShift ?? selectedShift) as AttendanceScheduleShift | null}
+                previewTarget={previewTarget}
+                onCellClick={(payload) => {
+                  void handleAssign(payload);
+                }}
+                onCellDoubleClick={(payload) => {
+                  void handleClear(payload);
+                }}
+              />
+            </Card>
           </DndContext>
         </div>
+      </SectionCard>
 
-        <ScheduleSettingsDrawer
-          open={settingsDrawerOpen}
-          onClose={() => setSettingsDrawerOpen(false)}
-        />
-      </div>
-    </GlobalLoading>
+      {/* AI排班弹窗 */}
+      <Modal
+        visible={aiModalOpen}
+        title="AI智能排班"
+        width={600}
+        glass
+        onCancel={() => setAiModalOpen(false)}
+        footer={[
+          <Button key="cancel" onClick={() => setAiModalOpen(false)}>
+            取消
+          </Button>,
+          <Button key="ok" type="primary" onClick={() => setAiModalOpen(false)}>
+            开始AI排班
+          </Button>,
+        ]}
+      >
+        <div style={{ textAlign: 'center', padding: '40px 0' }}>
+          <RobotOutlined style={{ fontSize: 48, color: '#1890ff', marginBottom: 16 }} />
+          <Title level={4}>AI智能排班功能</Title>
+          <Text type="secondary">
+            基于员工技能、工作负荷和历史数据，智能生成最优排班方案
+          </Text>
+          <div style={{ marginTop: 24, textAlign: 'left' }}>
+            <Text strong>功能特点：</Text>
+            <ul style={{ marginTop: 8, paddingLeft: 20 }}>
+              <li>考虑员工技能匹配度</li>
+              <li>平衡工作负荷分配</li>
+              <li>遵循劳动法规要求</li>
+              <li>优化人力成本</li>
+            </ul>
+          </div>
+        </div>
+      </Modal>
+
+      {/* 排班设置抽屉 */}
+      <ScheduleSettingsDrawer
+        open={settingsDrawerOpen}
+        onClose={() => setSettingsDrawerOpen(false)}
+      />
+    </PageContainer>
   );
-}
+};
+
+export default ScheduleManagementPage;

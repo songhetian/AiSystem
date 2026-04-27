@@ -1,99 +1,143 @@
+/**
+ * AI质检大屏页面（优化版）
+ * 使用新的组件库重构，提供更好的视觉效果和用户体验
+ */
+
 import React, { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { 
-  Card, 
-  Statistic, 
-  Row, 
-  Col, 
-  Space, 
-  Typography, 
-  Badge, 
-  Button,
-  Alert,
+import {
+  Row,
+  Col,
+  Space,
+  Typography,
+  Badge,
   Spin,
-  Tooltip,
-  Progress
 } from "antd";
 import {
-  BulbOutlined,
-  AlertOutlined,
-  SafetyCertificateOutlined,
-  MessageOutlined,
   ReloadOutlined,
   WifiOutlined,
   DisconnectOutlined,
-  TrendingUpOutlined,
-  TrendingDownOutlined,
+  ThunderboltOutlined,
+  SafetyCertificateOutlined,
+  AlertOutlined,
+  MessageOutlined,
+  DashboardOutlined,
 } from "@ant-design/icons";
 import { Line, Pie } from '@ant-design/plots';
+import { PageContainer, SectionCard } from '@/components/layout';
+import { MetricsCard, StatusTag } from '@/components/business';
+import { Card, Button } from '@/components/ui';
 import { serviceApi } from "@/api/service";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { useRealtimeDashboard } from "@/hooks/useRealtimeDashboard";
+import { formatNumber, formatPercent } from '@/utils/format';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
-export default function ServiceDashboard() {
-  // 实时数据
-  const { 
-    metrics: realtimeMetrics, 
-    isConnected, 
-    isSubscribed,
+/**
+ * 仪表板指标数据类型
+ */
+interface DashboardMetrics {
+  totalSessions: number;
+  lossSessionCount: number;
+  qualityPassRate: number;
+  sensitiveHitCount: number;
+  comparison?: {
+    sessionsGrowth?: number;
+    lossGrowth?: number;
+    qualityGrowth?: number;
+  };
+  trends?: Array<{
+    date: string;
+    sessions: number;
+  }>;
+  riskBuckets?: {
+    high: number;
+    medium: number;
+    low: number;
+  };
+  topFaqs?: Array<{
+    question: string;
+    count: number;
+  }>;
+}
+
+/**
+ * 连接状态标签组件
+ */
+const ConnectionStatus: React.FC<{
+  connected: boolean;
+  lastSync?: string;
+}> = ({ connected, lastSync }) => (
+  <Space size="small">
+    <StatusTag
+      status={connected ? 'success' : 'error'}
+      text={connected ? '实时连接' : '离线模式'}
+      icon={connected ? <WifiOutlined /> : <DisconnectOutlined />}
+      pulse={connected}
+    />
+    {lastSync && (
+      <Text type="secondary" style={{ fontSize: 12 }}>
+        最后更新: {lastSync}
+      </Text>
+    )}
+  </Space>
+);
+
+const ServiceDashboard: React.FC = () => {
+  const {
+    metrics: realtimeMetrics,
+    isConnected,
     lastUpdate,
-    updateCount,
-    performance,
-    refresh 
+    refresh
   } = useRealtimeDashboard();
 
-  // 降级到静态数据查询
   const { data: fallbackMetrics, refetch, isLoading } = useQuery({
     queryKey: ["service.dashboardMetrics"],
     queryFn: () => serviceApi.getDashboardMetrics(),
     staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
-    enabled: !isConnected, // 仅在 WebSocket 未连接时启用
+    enabled: !isConnected,
   });
 
-  // 使用实时数据或降级数据
-  const metrics = realtimeMetrics || fallbackMetrics;
+  const metrics: DashboardMetrics | undefined = realtimeMetrics || fallbackMetrics;
 
-  // 快捷键支持
+  // 键盘快捷键
   useKeyboardShortcuts({
-    "ctrl+r": () => {
-      if (isConnected) {
-        refresh();
-      } else {
-        refetch();
-      }
-    },
+    "ctrl+r": () => isConnected ? refresh() : refetch(),
   });
 
-  // 趋势图配置
+  // 会话趋势图表配置
   const trendConfig = useMemo(() => {
     if (!metrics?.trends) return null;
-
     return {
       data: metrics.trends,
       xField: 'date',
       yField: 'sessions',
       smooth: true,
+      height: 300,
+      line: {
+        color: '#0089FF',
+        size: 2
+      },
+      area: {
+        style: {
+          fill: 'l(90) 0:#0089FF 0.5:#ffffff 1:#ffffff',
+          opacity: 0.1
+        }
+      },
       point: {
         size: 4,
         shape: 'circle',
-      },
-      line: {
-        color: '#1890ff',
-        size: 2,
-      },
-      animation: {
-        appear: {
-          animation: 'path-in',
-          duration: 1000,
+        style: {
+          fill: '#0089FF',
+          stroke: '#ffffff',
+          lineWidth: 2,
         },
       },
       tooltip: {
         formatter: (datum: any) => ({
           name: '会话数',
-          value: `${datum.sessions} 个`,
+          value: formatNumber(datum.sessions),
         }),
       },
     };
@@ -102,370 +146,245 @@ export default function ServiceDashboard() {
   // 风险分布饼图配置
   const riskPieConfig = useMemo(() => {
     if (!metrics?.riskBuckets) return null;
-
     const riskData = [
-      { type: '高风险', value: metrics.riskBuckets.high, color: '#ff4d4f' },
-      { type: '中等风险', value: metrics.riskBuckets.medium, color: '#faad14' },
-      { type: '低风险', value: metrics.riskBuckets.low, color: '#52c41a' },
-    ].filter(item => item.value > 0);
-
+      { type: '高风险', value: metrics.riskBuckets.high, color: '#F5222D' },
+      { type: '中风险', value: metrics.riskBuckets.medium, color: '#FF943E' },
+      { type: '低风险', value: metrics.riskBuckets.low, color: '#00B322' },
+    ];
     return {
       data: riskData,
       angleField: 'value',
       colorField: 'type',
       radius: 0.8,
-      innerRadius: 0.4,
-      label: {
-        type: 'outer',
-        content: '{name}\n{percentage}',
+      innerRadius: 0.6,
+      color: riskData.map(d => d.color),
+      legend: {
+        position: 'bottom' as const,
+        itemName: {
+          style: {
+            fontSize: 12,
+          },
+        },
       },
-      color: riskData.map(item => item.color),
-      interactions: [{ type: 'element-active' }],
+      label: {
+        type: 'inner',
+        offset: '-30%',
+        content: ({ percent }: any) => `${(percent * 100).toFixed(0)}%`,
+        style: {
+          fontSize: 12,
+          textAlign: 'center',
+          fill: '#ffffff',
+          fontWeight: 'bold',
+        },
+      },
       tooltip: {
         formatter: (datum: any) => ({
           name: datum.type,
-          value: `${datum.value} 个会话`,
+          value: formatNumber(datum.value),
         }),
       },
     };
   }, [metrics?.riskBuckets]);
 
-  // 增长率指示器
-  const GrowthIndicator = ({ value, label }: { value: number; label: string }) => {
-    const isPositive = value > 0;
-    const isNegative = value < 0;
-    
-    return (
-      <div className="flex items-center gap-1">
-        <span className="text-xs text-gray-500">{label}</span>
-        {isPositive && <TrendingUpOutlined className="text-green-500" />}
-        {isNegative && <TrendingDownOutlined className="text-red-500" />}
-        <span className={`text-xs font-bold ${
-          isPositive ? 'text-green-500' : isNegative ? 'text-red-500' : 'text-gray-500'
-        }`}>
-          {value > 0 ? '+' : ''}{value}%
-        </span>
-      </div>
-    );
-  };
-
   if (isLoading && !metrics) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <Spin size="large" tip="加载大屏数据中..." />
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '60vh'
+      }}>
+        <Spin size="large" tip="加载中..." />
       </div>
     );
   }
 
   return (
-    <div className="p-6 h-full flex flex-col gap-6 bg-gray-50 min-h-screen">
-      {/* 头部状态栏 */}
-      <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-        <Title
-          level={4}
-          className="!m-0 text-slate-900 font-black tracking-tight"
-        >
-          智能质检实时大屏
-        </Title>
+    <PageContainer
+      title="AI质检大屏"
+      subTitle="实时监控全平台服务质量与合规风险"
+      breadcrumb={{
+        items: [
+          { title: '首页', path: '/' },
+          { title: 'AI质检' },
+          { title: '质检大屏' },
+        ],
+      }}
+      extra={
         <Space size="large">
-          {/* 连接状态 */}
-          <div className="flex items-center gap-2">
-            {isConnected ? (
-              <Badge status="success" text={
-                <span className="text-green-600 font-medium">
-                  <WifiOutlined /> 实时连接
-                </span>
-              } />
-            ) : (
-              <Badge status="error" text={
-                <span className="text-red-600 font-medium">
-                  <DisconnectOutlined /> 连接断开
-                </span>
-              } />
-            )}
-            {isSubscribed && (
-              <Text className="text-xs text-gray-500">
-                已更新 {updateCount} 次
-              </Text>
-            )}
-          </div>
-
-          {/* 性能指标 */}
-          {performance?.calculationTime && (
-            <Tooltip title="数据计算耗时">
-              <Text className="text-xs text-gray-500">
-                计算: {performance.calculationTime}ms
-              </Text>
-            </Tooltip>
-          )}
-
-          {/* 最后更新时间 */}
-          <Text className="text-slate-500 font-medium">
-            最后更新: {lastUpdate ? new Date(lastUpdate).toLocaleTimeString() : '--'}
-          </Text>
-
-          {/* 刷新按钮 */}
+          <ConnectionStatus
+            connected={isConnected}
+            lastSync={lastUpdate ? new Date(lastUpdate).toLocaleTimeString() : undefined}
+          />
           <Button
             type="primary"
             icon={<ReloadOutlined />}
             onClick={isConnected ? refresh : refetch}
-            size="small"
+            loading={isLoading}
           >
             刷新数据
           </Button>
         </Space>
-      </div>
-
-      {/* 连接状态提示 */}
-      {!isConnected && (
-        <Alert
-          message="实时连接已断开"
-          description="正在使用缓存数据，部分功能可能受限。请检查网络连接或刷新页面。"
-          type="warning"
-          showIcon
-          closable
-        />
-      )}
-
-      {/* 核心指标卡片 */}
-      <Row gutter={[24, 24]}>
-        <Col span={6}>
-          <Card
-            bordered={false}
-            className="shadow-sm hover:shadow-md transition-shadow bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200"
-          >
-            <Statistic
-              title={<Text className="text-blue-700 font-bold">总会话数</Text>}
+      }
+    >
+      {/* 核心指标矩阵 */}
+      <SectionCard title="核心指标" icon={<DashboardOutlined />}>
+        <Row gutter={[16, 16]}>
+          <Col span={6}>
+            <MetricsCard
+              title="累计会话规模"
               value={metrics?.totalSessions || 0}
-              prefix={<MessageOutlined className="text-blue-500" />}
-              valueStyle={{ color: "#1e40af", fontWeight: 900 }}
-              suffix={
-                metrics?.comparison && (
-                  <GrowthIndicator 
-                    value={metrics.comparison.sessionsGrowth} 
-                    label="较昨日" 
-                  />
-                )
-              }
+              trend={metrics?.comparison?.sessionsGrowth}
+              icon={<MessageOutlined />}
+              iconColor="#0089FF"
+              glass
             />
-            {metrics?.todaySessions !== undefined && (
-              <div className="mt-2 text-xs text-blue-600">
-                今日: {metrics.todaySessions} 个
-              </div>
-            )}
-          </Card>
-        </Col>
-        
-        <Col span={6}>
-          <Card
-            bordered={false}
-            className="shadow-sm hover:shadow-md transition-shadow bg-gradient-to-br from-red-50 to-red-100 border-red-200"
-          >
-            <Statistic
-              title={<Text className="text-red-700 font-bold">高危流失会话</Text>}
+          </Col>
+          <Col span={6}>
+            <MetricsCard
+              title="高危流失拦截"
               value={metrics?.lossSessionCount || 0}
-              prefix={<AlertOutlined className="text-red-500" />}
-              valueStyle={{ color: "#dc2626", fontWeight: 900 }}
-              suffix={
-                metrics?.comparison && (
-                  <GrowthIndicator 
-                    value={metrics.comparison.lossGrowth} 
-                    label="较昨日" 
-                  />
-                )
-              }
+              trend={metrics?.comparison?.lossGrowth}
+              icon={<AlertOutlined />}
+              iconColor="#F5222D"
+              glass
             />
-          </Card>
-        </Col>
-        
-        <Col span={6}>
-          <Card
-            bordered={false}
-            className="shadow-sm hover:shadow-md transition-shadow bg-gradient-to-br from-green-50 to-green-100 border-green-200"
-          >
-            <Statistic
-              title={<Text className="text-green-700 font-bold">质检合格率</Text>}
-              value={metrics?.qualityPassRate || 0}
-              suffix="%"
-              prefix={<SafetyCertificateOutlined className="text-green-500" />}
-              valueStyle={{ color: "#059669", fontWeight: 900 }}
+          </Col>
+          <Col span={6}>
+            <MetricsCard
+              title="综合质检合格率"
+              value={formatPercent(metrics?.qualityPassRate || 0)}
+              trend={metrics?.comparison?.qualityGrowth}
+              icon={<SafetyCertificateOutlined />}
+              iconColor="#00B322"
+              glass
             />
-            <div className="mt-2">
-              <Progress 
-                percent={metrics?.qualityPassRate || 0} 
-                size="small" 
-                strokeColor="#10b981"
-                showInfo={false}
-              />
-            </div>
-            {metrics?.comparison && (
-              <GrowthIndicator 
-                value={metrics.comparison.qualityGrowth} 
-                label="较昨日" 
-              />
-            )}
-          </Card>
-        </Col>
-        
-        <Col span={6}>
-          <Card
-            bordered={false}
-            className="shadow-sm hover:shadow-md transition-shadow bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200"
-          >
-            <Statistic
-              title={<Text className="text-yellow-700 font-bold">敏感词拦截</Text>}
+          </Col>
+          <Col span={6}>
+            <MetricsCard
+              title="敏感词触发频率"
               value={metrics?.sensitiveHitCount || 0}
-              prefix={<BulbOutlined className="text-yellow-500" />}
-              valueStyle={{ color: "#b45309", fontWeight: 900 }}
+              icon={<ThunderboltOutlined />}
+              iconColor="#FF943E"
+              glass
             />
-          </Card>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      </SectionCard>
 
-      {/* 图表区域 */}
-      <Row gutter={[24, 24]} className="flex-1">
-        <Col span={12}>
-          <Card
-            title={<span className="text-slate-900 font-black">会话趋势（最近7天）</span>}
-            bordered={false}
-            className="h-full shadow-sm"
-            extra={
-              <Badge 
-                count={metrics?.trends?.length || 0} 
-                style={{ backgroundColor: '#52c41a' }}
-                title="数据点数量"
-              />
-            }
-          >
+      {/* 主视图区域 */}
+      <Row gutter={[16, 16]}>
+        <Col span={16}>
+          <SectionCard title="服务流量趋势" glass>
             {trendConfig ? (
               <Line {...trendConfig} />
             ) : (
-              <div className="flex items-center justify-center h-64 text-gray-500">
+              <div style={{
+                height: 300,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#999'
+              }}>
                 暂无趋势数据
               </div>
             )}
-          </Card>
+          </SectionCard>
         </Col>
-        
-        <Col span={12}>
-          <Card
-            title={<span className="text-slate-900 font-black">流失风险分布</span>}
-            bordered={false}
-            className="h-full shadow-sm"
-            extra={
-              <Text className="text-xs text-gray-500">
-                总计: {(metrics?.riskBuckets?.high || 0) + (metrics?.riskBuckets?.medium || 0) + (metrics?.riskBuckets?.low || 0)} 个
-              </Text>
-            }
-          >
+        <Col span={8}>
+          <SectionCard title="风险分布画像" glass>
             {riskPieConfig ? (
               <Pie {...riskPieConfig} />
             ) : (
-              <div className="flex flex-col gap-4 mt-4">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                  <Text className="text-slate-600 font-bold">
-                    <Badge status="error" text="高风险" />
-                  </Text>
-                  <Text className="text-slate-900 font-black">
-                    {metrics?.riskBuckets?.high || 0}
-                  </Text>
-                </div>
-                <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                  <Text className="text-slate-600 font-bold">
-                    <Badge status="warning" text="中等风险" />
-                  </Text>
-                  <Text className="text-slate-900 font-black">
-                    {metrics?.riskBuckets?.medium || 0}
-                  </Text>
-                </div>
-                <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                  <Text className="text-slate-600 font-bold">
-                    <Badge status="success" text="低风险" />
-                  </Text>
-                  <Text className="text-slate-900 font-black">
-                    {metrics?.riskBuckets?.low || 0}
-                  </Text>
-                </div>
+              <div style={{
+                height: 300,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#999'
+              }}>
+                暂无风险数据
               </div>
             )}
-          </Card>
+          </SectionCard>
         </Col>
       </Row>
 
-      {/* 实时统计和TOP问题 */}
-      <Row gutter={[24, 24]}>
-        <Col span={8}>
-          <Card
-            title={<span className="text-slate-900 font-black">实时统计</span>}
-            bordered={false}
-            className="shadow-sm"
-            extra={
-              <Badge 
-                status={isConnected ? "processing" : "default"} 
-                text={isConnected ? "实时" : "缓存"} 
-              />
-            }
-          >
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-slate-600 font-medium">本小时会话</span>
-                <span className="text-slate-900 font-black text-lg">
-                  {metrics?.realTimeStats?.currentHourSessions || 0}
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-slate-600 font-medium">在线坐席</span>
-                <span className="text-slate-900 font-black text-lg">
-                  {metrics?.realTimeStats?.onlineAgents || 0}
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-slate-600 font-medium">平均响应时间</span>
-                <span className="text-slate-900 font-black text-lg">
-                  {metrics?.realTimeStats?.avgResponseTime || 0}s
-                </span>
-              </div>
-            </div>
-          </Card>
-        </Col>
-        
-        <Col span={16}>
-          <Card
-            title={<span className="text-slate-900 font-black">TOP 高频问题</span>}
-            bordered={false}
-            className="shadow-sm"
-            extra={
-              <Text className="text-xs text-gray-500">
-                显示前 {Math.min(metrics?.topFaqs?.length || 0, 5)} 个
-              </Text>
-            }
-          >
-            <div className="space-y-3">
-              {metrics?.topFaqs?.slice(0, 5).map((faq, index) => (
-                <div
-                  key={index}
-                  className="flex justify-between items-center bg-slate-50 p-3 rounded border border-slate-100 hover:bg-slate-100 transition-colors"
+      {/* TOP 业务热点 */}
+      <SectionCard title="TOP 业务热点（实时聚合）" glass>
+        {metrics?.topFaqs && metrics.topFaqs.length > 0 ? (
+          <Row gutter={[16, 8]}>
+            {metrics.topFaqs.slice(0, 10).map((faq, index) => (
+              <Col span={12} key={index}>
+                <Card
+                  glass
+                  hoverable
+                  style={{
+                    height: 60,
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '8px 16px'
+                  }}
                 >
-                  <Text className="text-slate-900 font-medium truncate flex-1 mr-4">
-                    {index + 1}. {faq.question}
-                  </Text>
-                  <Badge 
-                    count={faq.count} 
-                    style={{ 
-                      backgroundColor: index < 3 ? '#1890ff' : '#52c41a',
-                      minWidth: '40px'
-                    }}
-                  />
-                </div>
-              )) || (
-                <Text className="text-slate-500 font-medium text-center block py-8">
-                  暂无高频问题数据
-                </Text>
-              )}
-            </div>
-          </Card>
-        </Col>
-      </Row>
-    </div>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%'
+                  }}>
+                    <div style={{ flex: 1, marginRight: 16 }}>
+                      <Space size="small">
+                        <Badge
+                          count={index + 1}
+                          style={{
+                            backgroundColor: index < 3 ? '#0089FF' : '#E4E7ED',
+                            color: index < 3 ? '#fff' : '#646A73',
+                            fontSize: 10,
+                            minWidth: 18,
+                            height: 18,
+                            lineHeight: '18px'
+                          }}
+                        />
+                        <Text
+                          ellipsis={{ tooltip: faq.question }}
+                          style={{
+                            fontSize: 12,
+                            color: '#333',
+                            maxWidth: 200
+                          }}
+                        >
+                          {faq.question}
+                        </Text>
+                      </Space>
+                    </div>
+                    <Badge
+                      count={formatNumber(faq.count)}
+                      overflowCount={999}
+                      style={{
+                        backgroundColor: index < 3 ? '#0089FF' : '#E4E7ED',
+                        color: index < 3 ? '#fff' : '#646A73',
+                        fontSize: 10
+                      }}
+                    />
+                  </div>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <div style={{
+            height: 200,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#999'
+          }}>
+            暂无热点数据
+          </div>
+        )}
+      </SectionCard>
+    </PageContainer>
   );
-}
+};
+
+export default ServiceDashboard;

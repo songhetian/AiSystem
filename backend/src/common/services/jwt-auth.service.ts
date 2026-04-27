@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../prisma/prisma.service';
 import { RedisService } from './redis.service';
@@ -25,10 +25,11 @@ export class JwtAuthService {
 
   async generateToken(payload: any, expiresIn?: string): Promise<string> {
     const expires = expiresIn || this.configService.get('JWT_EXPIRES', this.DEFAULT_TOKEN_EXPIRES);
-    const token = await this.jwtService.signAsync(payload, {
+    const options: JwtSignOptions = {
       secret: this.configService.get('JWT_SECRET', 'changeme'),
       expiresIn: expires,
-    });
+    };
+    const token = await this.jwtService.signAsync(payload, options);
     this.logger.log(`Token generated for user ${payload.sub}`);
     return token;
   }
@@ -43,7 +44,7 @@ export class JwtAuthService {
         secret: this.configService.get('JWT_SECRET', 'changeme'),
       });
     } catch (error) {
-      if (error.name === 'TokenExpiredError') {
+      if ((error as any).name === 'TokenExpiredError') {
         throw new UnauthorizedException('Token已过期，请重新登录');
       }
       throw new UnauthorizedException('Token无效，请重新登录');
@@ -55,7 +56,7 @@ export class JwtAuthService {
     try {
       payload = await this.verifyToken(oldToken);
     } catch (error) {
-      if (error.message.includes('过期')) {
+      if ((error as Error).message.includes('过期')) {
         payload = this.jwtService.decode(oldToken);
         if (!payload) throw new UnauthorizedException('Token无效');
       } else {
@@ -99,7 +100,7 @@ export class JwtAuthService {
         },
       });
     } catch (error) {
-      this.logger.error(`Failed to add token to blacklist: ${error.message}`);
+      this.logger.error(`Failed to add token to blacklist: ${(error as Error).message}`);
     }
   }
 
@@ -136,7 +137,7 @@ export class JwtAuthService {
         data: { username, ip_address: ipAddress, attempt_time: new Date(), is_success: 1 },
       });
     } catch (error) {
-      this.logger.error(`Failed to record login success: ${error.message}`);
+      this.logger.error(`Failed to record login success: ${(error as Error).message}`);
     }
   }
 

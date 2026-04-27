@@ -1,0 +1,83 @@
+/**
+ * FilterBar组件样式
+ */
+
+@import '@/styles/variables.less';
+@import '@/styles/mixins.less';
+
+.filterBar {
+  background: @bg-container;
+  border-radius: @radius-lg;
+  padding: @spacing-5;
+  box-shadow: @shadow-sm;
+  margin-bottom: @spacing-4;
+
+  // 毛玻璃效果
+  &.glass {
+    .glassmorphism();
+  }
+}
+
+.form {
+  width: 100%;
+
+  :global {
+    .ant-form-item {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.formItems {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: @spacing-4;
+  margin-bottom: @spacing-4;
+}
+
+.formItem {
+  margin-bottom: 0 !important;
+
+  :global {
+    .ant-form-item-label {
+      > label {
+        font-size: @font-size-sm;
+        color: @text-secondary;
+        font-weight: @font-weight-medium;
+      }
+    }
+
+    .ant-input,
+    .ant-select,
+    .ant-picker {
+      width: 100%;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: @spacing-4;
+  border-top: 1px solid @border-color-light;
+
+  :global {
+    .ant-space {
+      width: 100%;
+      justify-content: flex-end;
+    }
+  }
+}
+
+// 响应式布局
+@media (max-width: 1200px) {
+  .formItems {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .formItems {
+    grid-template-columns: 1fr;
+  }
+}

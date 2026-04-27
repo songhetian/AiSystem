@@ -293,7 +293,7 @@ const menuDefs: MenuDef[] = [
   {
     menu_name: "智能Prompt管理",
     menu_code: "service:quality-prompts",
-    route: "",
+    route: "/service/quality-prompts",
     sort: 35,
     type: 1,
   },
@@ -330,7 +330,7 @@ const menuDefs: MenuDef[] = [
   {
     menu_name: "系统日志",
     menu_code: "system:logs",
-    route: "",
+    route: "/system/logs",
     sort: 40,
     type: 1,
   },

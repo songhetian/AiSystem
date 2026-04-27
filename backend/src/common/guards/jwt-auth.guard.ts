@@ -78,14 +78,14 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
           this.logger.log(`Token自动刷新: 用户 ${payload.sub}`);
         } catch (error) {
           // Token刷新失败不影响当前请求
-          this.logger.warn(`Token自动刷新失败: ${error.message}`);
+          this.logger.warn(`Token自动刷新失败: ${(error as Error).message}`);
         }
       }
 
       return true;
     } catch (error) {
       // 7. 记录安全日志
-      this.logger.error(`Token验证失败: ${error.message} | ${request.method} ${request.url} | IP: ${request.ip}`);
+      this.logger.error(`Token验证失败: ${(error as Error).message} | ${request.method} ${request.url} | IP: ${request.ip}`);
       throw error;
     }
   }

@@ -1,0 +1,162 @@
+/**
+ * PageContainer组件样式
+ */
+
+@import '@/styles/variables.less';
+@import '@/styles/mixins.less';
+
+.pageContainer {
+  width: 100%;
+  min-height: 100%;
+  background: transparent;
+
+  // 毛玻璃效果
+  &.glass {
+    .pageHeader {
+      .glassmorphism();
+    }
+  }
+}
+
+.pageHeader {
+  background: @bg-container;
+  padding: @spacing-4 @spacing-6;
+  margin-bottom: @spacing-6;
+  border-radius: @radius-lg;
+  box-shadow: @shadow-sm;
+}
+
+.breadcrumb {
+  margin-bottom: @spacing-3;
+
+  :global {
+    .ant-breadcrumb {
+      font-size: @font-size-sm;
+
+      .ant-breadcrumb-link {
+        color: @text-secondary;
+        .transition(color);
+
+        a {
+          color: @text-secondary;
+
+          &:hover {
+            color: @brand-600;
+          }
+        }
+      }
+
+      .ant-breadcrumb-separator {
+        color: @text-tertiary;
+      }
+
+      li:last-child {
+        .ant-breadcrumb-link {
+          color: @text-primary;
+          font-weight: @font-weight-medium;
+        }
+      }
+    }
+  }
+}
+
+.headerContent {
+  .flex-between();
+  gap: @spacing-4;
+}
+
+.headerLeft {
+  .flex-start();
+  gap: @spacing-3;
+  flex: 1;
+  min-width: 0;
+}
+
+.backButton {
+  .flex-center();
+  width: 32px;
+  height: 32px;
+  border-radius: @radius-md;
+  background: @bg-hover;
+  color: @text-secondary;
+  cursor: pointer;
+  .transition(all);
+
+  &:hover {
+    background: @brand-100;
+    color: @brand-600;
+  }
+}
+
+.headerTitle {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: @font-size-3xl;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+  line-height: @line-height-tight;
+  margin: 0;
+  .text-ellipsis();
+}
+
+.subTitle {
+  font-size: @font-size-sm;
+  color: @text-secondary;
+  margin-top: @spacing-1;
+  line-height: @line-height-normal;
+}
+
+.headerExtra {
+  flex-shrink: 0;
+}
+
+.tabs {
+  margin-top: @spacing-4;
+  margin-left: -@spacing-6;
+  margin-right: -@spacing-6;
+  padding: 0 @spacing-6;
+  border-top: 1px solid @border-color-light;
+
+  :global {
+    .ant-tabs {
+      .ant-tabs-nav {
+        margin-bottom: 0;
+
+        &::before {
+          border-bottom: none;
+        }
+
+        .ant-tabs-tab {
+          padding: @spacing-3 0;
+          margin: 0 @spacing-6 0 0;
+          font-size: @font-size-base;
+          color: @text-secondary;
+          .transition(all);
+
+          &:hover {
+            color: @brand-600;
+          }
+
+          &.ant-tabs-tab-active {
+            .ant-tabs-tab-btn {
+              color: @brand-600;
+              font-weight: @font-weight-semibold;
+            }
+          }
+        }
+
+        .ant-tabs-ink-bar {
+          background: @brand-600;
+          height: 3px;
+        }
+      }
+    }
+  }
+}
+
+.pageContent {
+  padding: 0 @spacing-6 @spacing-6;
+}

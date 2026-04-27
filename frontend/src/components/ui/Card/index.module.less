@@ -1,0 +1,143 @@
+/**
+ * Card组件样式
+ */
+
+@import '@/styles/variables.less';
+@import '@/styles/mixins.less';
+
+.card {
+  background: @card-bg;
+  border-radius: @radius-lg;
+  .transition(all);
+  position: relative;
+  overflow: hidden;
+
+  // 毛玻璃效果
+  &.glass {
+    .glassmorphism();
+  }
+
+  // 阴影
+  &.shadow-sm {
+    box-shadow: @shadow-sm;
+  }
+
+  &.shadow-md {
+    box-shadow: @shadow-md;
+  }
+
+  &.shadow-lg {
+    box-shadow: @shadow-lg;
+  }
+
+  &.shadow-xl {
+    box-shadow: @shadow-xl;
+  }
+
+  &.shadow-2xl {
+    box-shadow: @shadow-2xl;
+  }
+
+  // 圆角
+  &.radius-sm {
+    border-radius: @radius-sm;
+  }
+
+  &.radius-base {
+    border-radius: @radius-base;
+  }
+
+  &.radius-md {
+    border-radius: @radius-md;
+  }
+
+  &.radius-lg {
+    border-radius: @radius-lg;
+  }
+
+  &.radius-xl {
+    border-radius: @radius-xl;
+  }
+
+  &.radius-2xl {
+    border-radius: @radius-2xl;
+  }
+
+  // 内边距
+  &.padding-sm {
+    .cardHeader {
+      padding: @card-padding-sm;
+    }
+    .cardBody {
+      padding: @card-padding-sm;
+    }
+  }
+
+  &.padding-base {
+    .cardHeader {
+      padding: @card-padding;
+    }
+    .cardBody {
+      padding: @card-padding;
+    }
+  }
+
+  &.padding-lg {
+    .cardHeader {
+      padding: @card-padding-lg;
+    }
+    .cardBody {
+      padding: @card-padding-lg;
+    }
+  }
+
+  &.padding-none {
+    .cardHeader {
+      padding: 0;
+    }
+    .cardBody {
+      padding: 0;
+    }
+  }
+
+  // 边框
+  &.bordered {
+    border: @border-width @border-style @border-color;
+  }
+
+  // 悬停效果
+  &.hoverable {
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: @shadow-xl;
+    }
+  }
+
+  // 可点击
+  &.clickable {
+    cursor: pointer;
+  }
+}
+
+.cardHeader {
+  .flex-between();
+  padding: @card-padding;
+  border-bottom: @border-width @border-style @border-color-light;
+}
+
+.cardTitle {
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+  line-height: @line-height-tight;
+}
+
+.cardExtra {
+  color: @text-secondary;
+  font-size: @font-size-sm;
+}
+
+.cardBody {
+  padding: @card-padding;
+  color: @text-primary;
+}

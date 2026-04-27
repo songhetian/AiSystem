@@ -1,0 +1,72 @@
+/**
+ * ContentWrapper组件样式
+ */
+
+@import '@/styles/variables.less';
+@import '@/styles/mixins.less';
+
+.contentWrapper {
+  background: @bg-container;
+  width: 100%;
+
+  // 毛玻璃效果
+  &.glass {
+    .glassmorphism();
+  }
+
+  // 内边距
+  &.padding-sm {
+    padding: @card-padding-sm;
+  }
+
+  &.padding-base {
+    padding: @card-padding;
+  }
+
+  &.padding-lg {
+    padding: @card-padding-lg;
+  }
+
+  // 边框
+  &.bordered {
+    border: @border-width @border-style @border-color;
+  }
+
+  // 圆角
+  &.radius-sm {
+    border-radius: @radius-sm;
+  }
+
+  &.radius-base {
+    border-radius: @radius-base;
+  }
+
+  &.radius-md {
+    border-radius: @radius-md;
+  }
+
+  &.radius-lg {
+    border-radius: @radius-lg;
+  }
+
+  &.radius-xl {
+    border-radius: @radius-xl;
+  }
+
+  // 阴影
+  &.shadow-sm {
+    box-shadow: @shadow-sm;
+  }
+
+  &.shadow-md {
+    box-shadow: @shadow-md;
+  }
+
+  &.shadow-lg {
+    box-shadow: @shadow-lg;
+  }
+
+  &.shadow-xl {
+    box-shadow: @shadow-xl;
+  }
+}

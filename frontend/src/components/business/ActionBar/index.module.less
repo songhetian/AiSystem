@@ -1,0 +1,47 @@
+/**
+ * ActionBar组件样式
+ */
+
+@import '@/styles/variables.less';
+@import '@/styles/mixins.less';
+
+.actionBar {
+  background: @bg-container;
+  border-radius: @radius-lg;
+  padding: @spacing-4 @spacing-5;
+  box-shadow: @shadow-sm;
+  margin-bottom: @spacing-4;
+  display: flex;
+  gap: @spacing-4;
+
+  // 毛玻璃效果
+  &.glass {
+    .glassmorphism();
+  }
+
+  // 对齐方式
+  &.align-left {
+    justify-content: flex-start;
+  }
+
+  &.align-right {
+    justify-content: flex-end;
+  }
+
+  &.align-space-between {
+    justify-content: space-between;
+  }
+}
+
+.extra {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  color: @text-secondary;
+  font-size: @font-size-sm;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+}

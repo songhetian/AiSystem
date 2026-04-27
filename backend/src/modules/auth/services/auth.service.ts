@@ -182,7 +182,7 @@ export class AuthService {
         accessToken: newToken,
       };
     } catch (error) {
-      throw new UnauthorizedException('Token刷新失败：' + error.message);
+      throw new UnauthorizedException('Token刷新失败：' + (error as Error).message);
     }
   }
 
