@@ -13,7 +13,7 @@ import { useQuery } from '@tanstack/react-query';
 import { attendanceApi } from '@/api/attendance';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
-import { formatDate, formatTime } from '@/utils/format';
+import { formatDate, formatTimeOnly } from '@/utils/format';
 
 /**
  * 考勤记录数据类型
@@ -94,14 +94,14 @@ const AttendanceRecordsPage: React.FC = () => {
       dataIndex: 'check_in_time',
       key: 'check_in_time',
       width: 100,
-      render: (time: string) => time ? formatTime(time) : '-',
+      render: (time: string) => time ? formatTimeOnly(time) : '-',
     },
     {
       title: '下班打卡',
       dataIndex: 'check_out_time',
       key: 'check_out_time',
       width: 100,
-      render: (time: string) => time ? formatTime(time) : '-',
+      render: (time: string) => time ? formatTimeOnly(time) : '-',
     },
     {
       title: '工作时长',

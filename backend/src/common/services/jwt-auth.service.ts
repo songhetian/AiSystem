@@ -27,7 +27,7 @@ export class JwtAuthService {
     const expires = expiresIn || this.configService.get('JWT_EXPIRES', this.DEFAULT_TOKEN_EXPIRES);
     const options: JwtSignOptions = {
       secret: this.configService.get('JWT_SECRET', 'changeme'),
-      expiresIn: expires,
+      expiresIn: expires as any,
     };
     const token = await this.jwtService.signAsync(payload, options);
     this.logger.log(`Token generated for user ${payload.sub}`);

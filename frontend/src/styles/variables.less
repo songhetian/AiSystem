@@ -3,19 +3,30 @@
  * 包含颜色、尺寸、阴影、字体等设计系统变量
  */
 
-// ==================== 毛玻璃效果 ====================
-@glass-bg: rgba(255, 255, 255, 0.7);
-@glass-bg-dark: rgba(30, 41, 59, 0.7);
-@glass-blur: blur(12px);
-@glass-border: 1px solid rgba(255, 255, 255, 0.3);
-@glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+// ==================== 现代 SaaS 色彩系统 ====================
+@primary-color: #0F172A;
+@brand-600: #0F172A;
 
-// ==================== 分层阴影 ====================
-@shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
-@shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
-@shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-@shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
-@shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+@text-primary: #0F172A;
+@text-secondary: #475569;
+@text-tertiary: #94A3B8;
+
+@bg-body: #FAFAFA;
+@bg-container: #FFFFFF;
+@border-color: #E2E8F0;
+@border-color-light: #F1F5F9;
+
+// ==================== 几何系统 ====================
+@radius-base: 6px;
+@radius-md: 6px;
+@radius-lg: 8px;
+
+// ==================== 彻底停用毛玻璃 ====================
+.glassmorphism() {
+  background: #FFFFFF !important;
+  backdrop-filter: none !important;
+  border: 1px solid @border-color !important;
+}
 
 // ==================== 主色调 - 石板色 + 海军蓝 ====================
 @primary-50: #f8fafc;

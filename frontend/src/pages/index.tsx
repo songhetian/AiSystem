@@ -44,7 +44,6 @@ export default function IndexPage() {
             trend="up"
             trendValue={5.2}
             trendText="较昨日"
-            glass
           />
         </Col>
         <Col span={6}>
@@ -53,7 +52,6 @@ export default function IndexPage() {
             value="健康"
             icon={<ThunderboltOutlined />}
             iconColor="success"
-            glass
           />
         </Col>
         <Col span={6}>
@@ -65,7 +63,6 @@ export default function IndexPage() {
             trend="up"
             trendValue={12.5}
             trendText="较昨日"
-            glass
           />
         </Col>
         <Col span={6}>
@@ -74,7 +71,6 @@ export default function IndexPage() {
             value="V1.2.0"
             icon={<DashboardOutlined />}
             iconColor="info"
-            glass
           />
         </Col>
       </Row>
@@ -89,9 +85,6 @@ export default function IndexPage() {
                 更多功能 <RightOutlined />
               </Button>
             }
-            glass
-            shadow="md"
-            radius="lg"
           >
             <Row gutter={[16, 16]}>
               <Col span={12}>
@@ -99,27 +92,27 @@ export default function IndexPage() {
                   <div
                     style={{
                       padding: '16px',
-                      background: 'rgba(100, 116, 139, 0.05)',
-                      borderRadius: '8px',
-                      border: '1px solid rgba(100, 116, 139, 0.1)',
+                      background: '#F8FAFC',
+                      borderRadius: '6px',
+                      border: '1px solid #E2E8F0',
                       cursor: 'pointer',
-                      transition: 'all 0.3s',
+                      transition: 'all 0.2s',
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(37, 99, 235, 0.05)';
-                      e.currentTarget.style.borderColor = 'rgba(37, 99, 235, 0.3)';
+                      e.currentTarget.style.borderColor = '#94A3B8';
+                      e.currentTarget.style.background = '#F1F5F9';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(100, 116, 139, 0.05)';
-                      e.currentTarget.style.borderColor = 'rgba(100, 116, 139, 0.1)';
+                      e.currentTarget.style.borderColor = '#E2E8F0';
+                      e.currentTarget.style.background = '#F8FAFC';
                     }}
                   >
                     <Space direction="vertical" size={4}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <MessageOutlined style={{ fontSize: '18px', color: '#2563eb' }} />
-                        <span style={{ fontWeight: 600, color: '#1e293b' }}>会话质检列表</span>
+                        <MessageOutlined style={{ fontSize: '18px', color: '#0F172A' }} />
+                        <span style={{ fontWeight: 600, color: '#0F172A' }}>会话质检列表</span>
                       </div>
-                      <div style={{ fontSize: '12px', color: '#64748b' }}>
+                      <div style={{ fontSize: '12px', color: '#64748B' }}>
                         查看并分析所有的在线客服会话记录
                       </div>
                     </Space>
@@ -131,27 +124,27 @@ export default function IndexPage() {
                   <div
                     style={{
                       padding: '16px',
-                      background: 'rgba(100, 116, 139, 0.05)',
-                      borderRadius: '8px',
-                      border: '1px solid rgba(100, 116, 139, 0.1)',
+                      background: '#F8FAFC',
+                      borderRadius: '6px',
+                      border: '1px solid #E2E8F0',
                       cursor: 'pointer',
-                      transition: 'all 0.3s',
+                      transition: 'all 0.2s',
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(37, 99, 235, 0.05)';
-                      e.currentTarget.style.borderColor = 'rgba(37, 99, 235, 0.3)';
+                      e.currentTarget.style.borderColor = '#94A3B8';
+                      e.currentTarget.style.background = '#F1F5F9';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(100, 116, 139, 0.05)';
-                      e.currentTarget.style.borderColor = 'rgba(100, 116, 139, 0.1)';
+                      e.currentTarget.style.borderColor = '#E2E8F0';
+                      e.currentTarget.style.background = '#F8FAFC';
                     }}
                   >
                     <Space direction="vertical" size={4}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <TeamOutlined style={{ fontSize: '18px', color: '#2563eb' }} />
-                        <span style={{ fontWeight: 600, color: '#1e293b' }}>系统成员管理</span>
+                        <TeamOutlined style={{ fontSize: '18px', color: '#0F172A' }} />
+                        <span style={{ fontWeight: 600, color: '#0F172A' }}>系统成员管理</span>
                       </div>
-                      <div style={{ fontSize: '12px', color: '#64748b' }}>
+                      <div style={{ fontSize: '12px', color: '#64748B' }}>
                         管理企业内部成员权限与角色配置
                       </div>
                     </Space>
@@ -164,32 +157,29 @@ export default function IndexPage() {
         <Col span={8}>
           <Card
             title="系统通知"
-            glass
-            shadow="md"
-            radius="lg"
           >
             <Space direction="vertical" size={12} style={{ width: '100%' }}>
               <div
                 style={{
                   padding: '12px 0',
-                  borderBottom: '1px solid rgba(100, 116, 139, 0.1)',
+                  borderBottom: '1px solid #F1F5F9',
                   fontSize: '13px',
                 }}
               >
                 <Badge status="processing" />
-                <span style={{ marginLeft: '8px', color: '#475569' }}>
+                <span style={{ marginLeft: '8px', color: '#334155' }}>
                   AI 质检引擎已升级至 V2.1 版本
                 </span>
               </div>
               <div
                 style={{
                   padding: '12px 0',
-                  borderBottom: '1px solid rgba(100, 116, 139, 0.1)',
+                  borderBottom: '1px solid #F1F5F9',
                   fontSize: '13px',
                 }}
               >
                 <Badge status="warning" />
-                <span style={{ marginLeft: '8px', color: '#475569' }}>
+                <span style={{ marginLeft: '8px', color: '#334155' }}>
                   有 3 条高危会话等待处理
                 </span>
               </div>
@@ -200,7 +190,7 @@ export default function IndexPage() {
                 }}
               >
                 <Badge status="default" />
-                <span style={{ marginLeft: '8px', color: '#475569' }}>
+                <span style={{ marginLeft: '8px', color: '#334155' }}>
                   系统例行维护完成
                 </span>
               </div>

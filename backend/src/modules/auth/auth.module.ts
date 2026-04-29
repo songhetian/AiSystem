@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { CommonModule } from "../../common/common.module";
+import { SystemModule } from "../system/system.module";
 import { AuthController } from "./controllers/auth.controller";
 import { CaptchaController } from "./controllers/captcha.controller";
 import { RegisterController } from "./controllers/register.controller";
@@ -15,6 +16,7 @@ import { ConfigService } from "@nestjs/config";
   imports: [
     PassportModule,
     CommonModule,
+    SystemModule,
     JwtModule.registerAsync({
       global: true,
       useFactory: async (configService: ConfigService) => ({

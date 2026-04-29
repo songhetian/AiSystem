@@ -1,85 +1,56 @@
 import { ThemeConfig } from 'antd';
 
 /**
- * 钉钉风格企业级主题配置
- * 对标钉钉 (DingTalk) 的视觉规范：极简、高密度、专业
+ * 极致简约设计系统
+ * 核心逻辑：去阴影、去渐变、纯净中性色、极致呼吸感
  */
 export const enterpriseThemeConfig: ThemeConfig = {
   token: {
-    // 品牌主色：钉钉蓝
-    colorPrimary: '#0089FF',
-    borderRadius: 4,
-    fontFamily: "'PingFang SC', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+    colorPrimary: '#0F172A', // 使用深石板色作为主色，比蓝色更具现代高级感
+    borderRadius: 6,
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
     
-    // 基础文字色
-    colorTextHeading: '#1F2329',
-    colorText: '#646A73',
-    colorTextSecondary: '#8F959E',
+    // 纯净色彩系统
+    colorTextHeading: '#0F172A',
+    colorText: '#334155',
+    colorTextSecondary: '#64748B',
     
-    // 背景与边框
+    // 纯白背景与极细边框
     colorBgContainer: '#FFFFFF',
-    colorBgLayout: '#F5F7FA',
-    colorBorder: '#DEE0E3',
-    colorBorderSecondary: '#EBEEF5',
+    colorBgLayout: '#FAFAFA',
+    colorBorder: '#E2E8F0',
+    colorBorderSecondary: '#F1F5F9',
     
-    // 状态色
-    colorSuccess: '#00B322',
-    colorWarning: '#FF943E',
-    colorError: '#F5222D',
-    
-    // 交互行为
-    controlHeight: 32, // 默认高度紧凑化
+    controlHeight: 38,
     fontSize: 14,
   },
   components: {
     Button: {
-      borderRadius: 4,
-      controlHeight: 32,
+      controlHeight: 38,
       fontWeight: 500,
-      boxShadow: 'none', // 去除按钮阴影
-      colorBorder: '#DEE0E3',
+      boxShadow: 'none',
+      algorithm: true, // 启用自动算法
     },
     Table: {
-      headerBg: '#F5F6F7',
-      headerColor: '#646A73',
+      headerBg: '#F8FAFC',
+      headerColor: '#475569',
       headerBorderRadius: 0,
-      rowHoverBg: 'rgba(0, 137, 255, 0.05)',
-      cellPaddingBlock: 8, // 紧凑行高
-      cellPaddingInline: 12,
+      cellPaddingBlock: 12,
+      rowHoverBg: '#F1F5F9',
     },
     Card: {
-      borderRadius: 4,
-      boxShadow: '0 1px 4px rgba(31, 35, 41, 0.08)',
-      paddingLG: 16, // 减小内边距
-    },
-    Modal: {
-      borderRadius: 6,
-      headerBg: '#FFFFFF',
-      titleFontSize: 16,
-      titleColor: '#1F2329',
+      borderRadius: 8,
+      boxShadow: 'none', // 彻底去掉卡片阴影
+      borderBg: '#E2E8F0',
     },
     Menu: {
-      itemBorderRadius: 4,
-      itemSelectedBg: 'rgba(0, 137, 255, 0.08)',
-      itemSelectedColor: '#0089FF',
-      subMenuItemBg: '#FFFFFF',
+      itemSelectedBg: '#F1F5F9',
+      itemSelectedColor: '#0F172A',
+      itemActiveBg: '#F1F5F9',
     },
     Input: {
-      activeBorderColor: '#0089FF',
-      hoverBorderColor: '#0089FF',
-      controlHeight: 32,
-    },
-    Select: {
-      controlHeight: 32,
-    },
-    Tabs: {
-      titleFontSize: 14,
-      horizontalMargin: '0 0 16px 0',
-    },
-    Segmented: {
-      itemSelectedBg: '#FFFFFF',
-      itemSelectedColor: '#0089FF',
-      trackBg: '#F0F2F5',
+      activeBorderColor: '#0F172A',
+      hoverBorderColor: '#0F172A',
     }
   }
 };

@@ -4,6 +4,7 @@ import { AuditLogService } from "../../../common/services/audit-log.service";
 import { RedisService } from "../../../common/services/redis.service";
 import { ConfigCacheService } from "../../../common/services/config-cache.service";
 import { JwtAuthService } from "../../../common/services/jwt-auth.service";
+import { LoginLogService } from "../../system/services/login-log.service";
 import { comparePassword } from "../../../common/utils/password.util";
 import { PrismaService } from "../../../prisma/prisma.service";
 import { Cache } from "../../../common/decorators/cache.decorator";
@@ -23,13 +24,14 @@ export class AuthService {
     private readonly auditLogService: AuditLogService,
     private readonly redisService: RedisService,
     private readonly configCacheService: ConfigCacheService,
+    private readonly loginLogService: LoginLogService,
   ) {}
 
   async login(dto: any, context: LoginContext = {}) {
     const username = dto.username;
 
-    // 1. 检查账号是否锁定（使用JwtAuthService）
-    const isLocked = await this.jwtAuthService.isAccountLocked(username);
+    // 1. 检查账号是否锁定（使用LoginLogService）
+    const isLocked = await this.loginLogService.isAccountLocked(username);
     if (isLocked) {
       const lockoutDuration = await this.configCacheService.getNumber("auth.lockout_duration", 900);
       throw new UnauthorizedException(
@@ -42,16 +44,12 @@ export class AuthService {
     });
 
     const handleFailure = async (message: string) => {
-      // 登录失败时，在设备信息字段末尾补充失败原因
-      const deviceWithReason = context.userAgent
-        ? `${context.userAgent} (失败原因：${message})`
-        : `未知设备 (失败原因：${message})`;
-
-      await this.auditLogService.logLogin({
+      // 使用新的LoginLogService记录登录失败
+      await this.loginLogService.recordLoginLog({
         user_id: user?.id,
         username,
         login_ip: context.ip,
-        user_agent: deviceWithReason,
+        user_agent: context.userAgent,
         login_status: 0,
         login_message: message,
         platform_id: user?.platform_id,
@@ -59,27 +57,13 @@ export class AuthService {
         shop_id: user?.shop_id,
       });
 
-      // 异常告警：用户不存在
-      if (!user) {
-        void this.auditLogService.alarmAdmins(
-          "登录账号不存在",
-          `账号 ${username} 尝试登录但系统中不存在`,
-        );
-      }
-
-      // 记录登录失败（使用JwtAuthService）
-      const failCount = await this.jwtAuthService.recordLoginFailure(username, context.ip);
+      // 记录登录失败次数（使用LoginLogService）
+      const failCount = await this.loginLogService.recordLoginFailure(username);
       const lockoutThreshold = await this.configCacheService.getNumber("auth.lockout_threshold", 5);
 
       if (failCount >= lockoutThreshold) {
         const lockoutDuration = await this.configCacheService.getNumber("auth.lockout_duration", 900);
-        await this.jwtAuthService.lockAccount(username, lockoutDuration);
-
-        // 账号锁定告警
-        void this.auditLogService.alarmAdmins(
-          "账号已锁定",
-          `账号 ${username} 因连续 ${lockoutThreshold} 次登录失败已被锁定 ${Math.ceil(lockoutDuration / 60)} 分钟`,
-        );
+        await this.loginLogService.lockAccount(username, lockoutDuration);
 
         throw new UnauthorizedException(
           `多次登录失败，账号已锁定 ${Math.ceil(lockoutDuration / 60)} 分钟`,
@@ -122,8 +106,8 @@ export class AuthService {
       return handleFailure("密码错误");
     }
 
-    // 登录成功，清除失败记录（使用JwtAuthService）
-    await this.jwtAuthService.recordLoginSuccess(username, context.ip);
+    // 登录成功，清除失败记录（使用LoginLogService）
+    await this.loginLogService.clearLoginFailures(username);
 
     // 生成JWT Token（使用JwtAuthService）
     const accessToken = await this.jwtAuthService.generateToken({
@@ -134,7 +118,8 @@ export class AuthService {
       shop_id: user.shop_id,
     });
 
-    await this.auditLogService.logLogin({
+    // 使用新的LoginLogService记录登录成功
+    await this.loginLogService.recordLoginLog({
       user_id: user.id,
       username: user.username,
       login_ip: context.ip,

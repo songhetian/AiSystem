@@ -44,6 +44,12 @@ import { PermissionTemplateService } from "./services/permission-template.servic
 import { PermissionCleanupService } from "./services/permission-cleanup.service";
 import { PermissionCleanupController } from "./controllers/permission-cleanup.controller";
 import { AIConfigController } from "./controllers/ai-config.controller";
+import { IdConverterService } from "./services/id-converter.service";
+import { LoginLogService } from "./services/login-log.service";
+import { PartitionService } from "./services/partition.service";
+import { LogCacheService } from "./services/log-cache.service";
+import { LogAlertService } from "./services/log-alert.service";
+import { LogBackupService } from "./services/log-backup.service";
 
 @Module({
   imports: [CommonModule],
@@ -93,7 +99,13 @@ import { AIConfigController } from "./controllers/ai-config.controller";
     SystemPermissionControlService,
     PermissionTemplateService,
     PermissionCleanupService,
+    IdConverterService,
+    LoginLogService,
+    PartitionService,
+    LogCacheService,
+    LogAlertService,
+    LogBackupService,
   ],
-  exports: [SystemMessagesService, DashboardService, ArchiveService],
+  exports: [SystemMessagesService, DashboardService, ArchiveService, IdConverterService, LoginLogService, PartitionService, LogCacheService, LogAlertService, LogBackupService],
 })
 export class SystemModule {}

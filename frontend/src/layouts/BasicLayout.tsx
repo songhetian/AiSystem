@@ -316,7 +316,10 @@ export default function BasicLayout() {
   return (
     <ConfigProvider
       locale={zhCN}
-      theme={enterpriseThemeConfig}
+      theme={{
+        ...enterpriseThemeConfig,
+        algorithm: algorithm, // 使用动态的暗色/亮色算法
+      }}
     >
       <div id="pro-layout-container" style={{ height: "100vh" }}>
         <RealtimeNotificationCenter lastEvent={lastMessageEvent} />
@@ -328,19 +331,15 @@ export default function BasicLayout() {
         />
 
         <ProLayout
-          title="雷犀 AI"
+          title="控制台"
           logo={
             <div style={{
               width: 32, height: 32,
-              background: '#0089FF',
+              background: '#0F172A',
               borderRadius: '6px',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 2px 8px rgba(0,137,255,0.2)',
-              position: 'relative'
             }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <text x="50%" y="65%" dominantBaseline="middle" textAnchor="middle" fontFamily="'Inter', sans-serif" fontWeight="900" fontSize="12" fill="white">AI</text>
-              </svg>
+              <span style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>AI</span>
             </div>
           }
           layout="mix"
@@ -352,7 +351,7 @@ export default function BasicLayout() {
           }}
           menuDataRender={() => menuTree}
           menuItemRender={(_item, dom) => (
-            <span style={{ display: 'block', width: '100%' }}>{dom}</span>
+            <span style={{ display: 'block', width: '100%', padding: '2px 0' }}>{dom}</span>
           )}
           menuProps={{
             onClick: ({ key }: { key: string }) => {
@@ -362,57 +361,52 @@ export default function BasicLayout() {
             },
           }}
           headerContentRender={() => (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginLeft: '16px' }}>
-              {/* 搜索触发器 - 钉钉紧凑风格 */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginLeft: '24px' }}>
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  background: '#F2F3F5',
+                  background: '#F8FAFC',
                   padding: '0 12px',
-                  borderRadius: '4px',
+                  borderRadius: '6px',
                   cursor: 'pointer',
-                  width: '240px',
-                  height: '32px',
-                  border: '1px solid transparent',
-                  transition: 'all 0.2s ease',
+                  width: '320px',
+                  height: '36px',
+                  border: '1px solid #E2E8F0',
+                  transition: 'all 0.2s',
                 }}
                 className="top-search-trigger"
                 onClick={() => setSearchVisible(true)}
               >
-                <SearchOutlined style={{ color: '#8F959E', marginRight: 8, fontSize: 14 }} />
-                <span style={{ fontSize: '13px', flex: 1, color: '#8F959E' }}>搜索功能或文档...</span>
+                <SearchOutlined style={{ color: '#94A3B8', marginRight: 10, fontSize: 14 }} />
+                <span style={{ fontSize: '13px', flex: 1, color: '#94A3B8' }}>快速全局搜索...</span>
                 <div style={{
                   fontSize: '10px',
-                  color: '#8F959E',
+                  color: '#94A3B8',
                   background: '#FFFFFF',
-                  padding: '0 4px',
-                  borderRadius: '3px',
-                  border: '1px solid #DEE0E3',
+                  padding: '1px 5px',
+                  borderRadius: '4px',
+                  border: '1px solid #E2E8F0',
                   fontWeight: 600,
-                  height: '18px',
-                  display: 'flex',
-                  alignItems: 'center',
                 }}>⌘K</div>
               </div>
             </div>
           )}
           actionsRender={() => [<RightContent key="right-content" />]}
           avatarProps={false}
-          siderWidth={220}
+          siderWidth={240} // 稍微加宽侧边栏，增加呼吸感
           token={{
             sider: {
               colorMenuBackground: "#FFFFFF",
-              colorTextMenu: "#1F2329",
-              colorTextMenuSelected: "#0089FF",
-              colorBgMenuItemSelected: "rgba(0, 137, 255, 0.08)",
-              colorTextMenuItemHover: "#0089FF",
+              colorTextMenu: "#475569",
+              colorTextMenuSelected: "#0F172A",
+              colorBgMenuItemSelected: "#F1F5F9",
             },
             header: {
               heightLayoutHeader: 56,
               colorBgHeader: "#FFFFFF",
-              colorHeaderTitle: "#1F2329",
-              colorTextRightActionsItem: "#646A73",
+              colorHeaderTitle: "#0F172A",
+              colorTextRightActionsItem: "#475569",
             },
           }}
         >
@@ -423,7 +417,7 @@ export default function BasicLayout() {
             }}
             style={{ padding: '0px' }}
           >
-            <div style={{ padding: '16px', background: '#F5F7FA', minHeight: 'calc(100vh - 56px)' }}>
+            <div style={{ padding: '24px', minHeight: 'calc(100vh - 56px)' }}>
               <ErrorBoundary key={location.pathname}>
                 <Outlet />
               </ErrorBoundary>
@@ -434,45 +428,37 @@ export default function BasicLayout() {
       </div>
 
       <style>{`
-        /* 侧边栏与头部边框 - 钉钉式细线 */
-        .ant-layout-sider {
-          border-right: 1px solid #DEE0E3 !important;
-        }
+        /* 极致简约布局覆盖 */
         .ant-pro-layout-header {
-          border-bottom: 1px solid #DEE0E3 !important;
+          border-bottom: 1px solid #F1F5F9 !important;
+          box-shadow: none !important;
         }
 
-        /* 菜单项高度与字重 */
-        .ant-menu-item, .ant-menu-submenu-title {
-          height: 40px !important;
-          line-height: 40px !important;
-          margin: 4px 8px !important;
-          width: calc(100% - 16px) !important;
+        .ant-layout-sider {
+          border-right: 1px solid #F1F5F9 !important;
         }
 
-        .ant-menu-title-content {
-          font-weight: 500 !important;
-          font-size: 14px !important;
+        .top-search-trigger {
+          background: #F8FAFC !important;
+          border: 1px solid #E2E8F0 !important;
+          border-radius: 6px !important;
+          transition: all 0.2s;
         }
 
         .top-search-trigger:hover {
-          background: #E8E9EB !important;
-          border-color: #DEE0E3 !important;
+          border-color: #94A3B8 !important;
         }
 
-        /* 全局卡片默认钉钉风格 */
-        .ant-card {
-          border-radius: 4px !important;
-          border: 1px solid #DEE0E3 !important;
-          box-shadow: 0 1px 4px rgba(31, 35, 41, 0.08) !important;
+        /* 移除所有额外动画 */
+        * {
+          animation: none !important;
+          transition: border-color 0.2s, background 0.2s, color 0.2s !important;
         }
 
-        /* 表格头颜色 */
         .ant-table-thead > tr > th {
-          background: #F5F6F7 !important;
-          font-size: 12px !important;
-          color: #8F959E !important;
           font-weight: 600 !important;
+          color: #475569 !important;
+          border-bottom: 1px solid #F1F5F9 !important;
         }
       `}</style>
     </ConfigProvider>

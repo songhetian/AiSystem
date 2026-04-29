@@ -12,22 +12,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-15T20:43:06.178Z"
+        "timestamp": "2026-04-08T19:29:42.467Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-15T20:44:06.178Z"
+        "timestamp": "2026-04-08T19:30:42.467Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-15T20:45:06.178Z"
+        "timestamp": "2026-04-08T19:31:42.467Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-15T20:46:06.178Z"
+        "timestamp": "2026-04-08T19:32:42.467Z"
       }
     ]
   },
@@ -45,32 +45,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-03-30T09:23:17.101Z"
+        "timestamp": "2026-04-16T02:53:00.227Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-03-30T09:24:17.101Z"
+        "timestamp": "2026-04-16T02:54:00.227Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-03-30T09:25:17.101Z"
+        "timestamp": "2026-04-16T02:55:00.227Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-03-30T09:26:17.101Z"
+        "timestamp": "2026-04-16T02:56:00.227Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-03-30T09:27:17.101Z"
+        "timestamp": "2026-04-16T02:57:00.227Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-03-30T09:28:17.101Z"
+        "timestamp": "2026-04-16T02:58:00.227Z"
       }
     ]
   },
@@ -88,27 +88,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-07T23:06:49.712Z"
+        "timestamp": "2026-04-14T06:32:44.015Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-07T23:07:49.712Z"
+        "timestamp": "2026-04-14T06:33:44.015Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-07T23:08:49.712Z"
+        "timestamp": "2026-04-14T06:34:44.015Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-07T23:09:49.712Z"
+        "timestamp": "2026-04-14T06:35:44.015Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-07T23:10:49.712Z"
+        "timestamp": "2026-04-14T06:36:44.015Z"
       }
     ]
   },
@@ -126,22 +126,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-21T20:44:10.350Z"
+        "timestamp": "2026-04-20T01:27:06.596Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-21T20:45:10.350Z"
+        "timestamp": "2026-04-20T01:28:06.596Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-21T20:46:10.350Z"
+        "timestamp": "2026-04-20T01:29:06.596Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-21T20:47:10.350Z"
+        "timestamp": "2026-04-20T01:30:06.596Z"
       }
     ]
   },
@@ -158,22 +158,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-19T02:01:05.437Z"
+        "timestamp": "2026-04-05T00:26:57.702Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-19T02:02:05.437Z"
+        "timestamp": "2026-04-05T00:27:57.702Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-19T02:03:05.437Z"
+        "timestamp": "2026-04-05T00:28:57.702Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-19T02:04:05.437Z"
+        "timestamp": "2026-04-05T00:29:57.702Z"
       }
     ]
   },
@@ -190,22 +190,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-11T19:05:14.995Z"
+        "timestamp": "2026-03-29T23:47:29.318Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-11T19:06:14.995Z"
+        "timestamp": "2026-03-29T23:48:29.318Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-11T19:07:14.995Z"
+        "timestamp": "2026-03-29T23:49:29.318Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-11T19:08:14.995Z"
+        "timestamp": "2026-03-29T23:50:29.318Z"
       }
     ]
   },
@@ -223,32 +223,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-17T06:05:55.692Z"
+        "timestamp": "2026-04-04T09:49:12.128Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-17T06:06:55.692Z"
+        "timestamp": "2026-04-04T09:50:12.128Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-17T06:07:55.692Z"
+        "timestamp": "2026-04-04T09:51:12.128Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-17T06:08:55.692Z"
+        "timestamp": "2026-04-04T09:52:12.128Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-17T06:09:55.692Z"
+        "timestamp": "2026-04-04T09:53:12.128Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-17T06:10:55.692Z"
+        "timestamp": "2026-04-04T09:54:12.128Z"
       }
     ]
   },
@@ -266,27 +266,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-03-29T23:02:43.242Z"
+        "timestamp": "2026-04-03T12:24:29.846Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-03-29T23:03:43.242Z"
+        "timestamp": "2026-04-03T12:25:29.846Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-03-29T23:04:43.242Z"
+        "timestamp": "2026-04-03T12:26:29.846Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-03-29T23:05:43.242Z"
+        "timestamp": "2026-04-03T12:27:29.846Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-03-29T23:06:43.242Z"
+        "timestamp": "2026-04-03T12:28:29.846Z"
       }
     ]
   },
@@ -304,22 +304,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-03-31T00:38:52.896Z"
+        "timestamp": "2026-04-25T04:21:30.866Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-03-31T00:39:52.896Z"
+        "timestamp": "2026-04-25T04:22:30.866Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-03-31T00:40:52.896Z"
+        "timestamp": "2026-04-25T04:23:30.866Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-03-31T00:41:52.896Z"
+        "timestamp": "2026-04-25T04:24:30.866Z"
       }
     ]
   },
@@ -336,22 +336,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-04T09:32:38.326Z"
+        "timestamp": "2026-04-19T05:36:34.426Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-04T09:33:38.326Z"
+        "timestamp": "2026-04-19T05:37:34.426Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-04T09:34:38.326Z"
+        "timestamp": "2026-04-19T05:38:34.426Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-04T09:35:38.326Z"
+        "timestamp": "2026-04-19T05:39:34.426Z"
       }
     ]
   },
@@ -368,22 +368,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-17T04:51:13.827Z"
+        "timestamp": "2026-03-29T04:18:34.908Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-17T04:52:13.827Z"
+        "timestamp": "2026-03-29T04:19:34.908Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-17T04:53:13.827Z"
+        "timestamp": "2026-03-29T04:20:34.908Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-17T04:54:13.827Z"
+        "timestamp": "2026-03-29T04:21:34.908Z"
       }
     ]
   },
@@ -401,32 +401,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-26T11:30:37.733Z"
+        "timestamp": "2026-04-23T20:25:39.739Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-26T11:31:37.733Z"
+        "timestamp": "2026-04-23T20:26:39.739Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-26T11:32:37.733Z"
+        "timestamp": "2026-04-23T20:27:39.739Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-26T11:33:37.733Z"
+        "timestamp": "2026-04-23T20:28:39.739Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-26T11:34:37.733Z"
+        "timestamp": "2026-04-23T20:29:39.739Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-26T11:35:37.733Z"
+        "timestamp": "2026-04-23T20:30:39.739Z"
       }
     ]
   },
@@ -444,27 +444,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-05T08:05:25.778Z"
+        "timestamp": "2026-04-04T04:27:26.982Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-05T08:06:25.778Z"
+        "timestamp": "2026-04-04T04:28:26.982Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-05T08:07:25.778Z"
+        "timestamp": "2026-04-04T04:29:26.982Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-05T08:08:25.778Z"
+        "timestamp": "2026-04-04T04:30:26.982Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-05T08:09:25.778Z"
+        "timestamp": "2026-04-04T04:31:26.982Z"
       }
     ]
   },
@@ -482,22 +482,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-07T02:47:55.368Z"
+        "timestamp": "2026-04-10T03:17:49.137Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-07T02:48:55.368Z"
+        "timestamp": "2026-04-10T03:18:49.137Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-07T02:49:55.368Z"
+        "timestamp": "2026-04-10T03:19:49.137Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-07T02:50:55.368Z"
+        "timestamp": "2026-04-10T03:20:49.137Z"
       }
     ]
   },
@@ -514,22 +514,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-21T10:34:52.837Z"
+        "timestamp": "2026-04-09T05:22:13.653Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-21T10:35:52.837Z"
+        "timestamp": "2026-04-09T05:23:13.653Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-21T10:36:52.837Z"
+        "timestamp": "2026-04-09T05:24:13.653Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-21T10:37:52.837Z"
+        "timestamp": "2026-04-09T05:25:13.653Z"
       }
     ]
   },
@@ -546,22 +546,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-26T06:40:50.825Z"
+        "timestamp": "2026-04-21T14:11:39.016Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-26T06:41:50.825Z"
+        "timestamp": "2026-04-21T14:12:39.016Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-26T06:42:50.825Z"
+        "timestamp": "2026-04-21T14:13:39.016Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-26T06:43:50.825Z"
+        "timestamp": "2026-04-21T14:14:39.016Z"
       }
     ]
   },
@@ -579,32 +579,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-18T01:03:25.849Z"
+        "timestamp": "2026-04-11T03:01:41.424Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-18T01:04:25.849Z"
+        "timestamp": "2026-04-11T03:02:41.424Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-18T01:05:25.849Z"
+        "timestamp": "2026-04-11T03:03:41.424Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-18T01:06:25.849Z"
+        "timestamp": "2026-04-11T03:04:41.424Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-18T01:07:25.849Z"
+        "timestamp": "2026-04-11T03:05:41.424Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-18T01:08:25.849Z"
+        "timestamp": "2026-04-11T03:06:41.424Z"
       }
     ]
   },
@@ -622,27 +622,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-07T18:28:23.875Z"
+        "timestamp": "2026-04-19T13:29:08.194Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-07T18:29:23.875Z"
+        "timestamp": "2026-04-19T13:30:08.194Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-07T18:30:23.875Z"
+        "timestamp": "2026-04-19T13:31:08.194Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-07T18:31:23.875Z"
+        "timestamp": "2026-04-19T13:32:08.194Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-07T18:32:23.875Z"
+        "timestamp": "2026-04-19T13:33:08.194Z"
       }
     ]
   },
@@ -660,22 +660,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-03T09:52:05.682Z"
+        "timestamp": "2026-04-16T05:48:29.612Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-03T09:53:05.682Z"
+        "timestamp": "2026-04-16T05:49:29.612Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-03T09:54:05.682Z"
+        "timestamp": "2026-04-16T05:50:29.612Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-03T09:55:05.682Z"
+        "timestamp": "2026-04-16T05:51:29.612Z"
       }
     ]
   },
@@ -692,22 +692,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-20T23:45:47.302Z"
+        "timestamp": "2026-04-02T03:00:59.550Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-20T23:46:47.302Z"
+        "timestamp": "2026-04-02T03:01:59.550Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-20T23:47:47.302Z"
+        "timestamp": "2026-04-02T03:02:59.550Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-20T23:48:47.302Z"
+        "timestamp": "2026-04-02T03:03:59.550Z"
       }
     ]
   },
@@ -724,22 +724,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-15T06:55:48.733Z"
+        "timestamp": "2026-04-04T07:09:19.373Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-15T06:56:48.733Z"
+        "timestamp": "2026-04-04T07:10:19.373Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-15T06:57:48.733Z"
+        "timestamp": "2026-04-04T07:11:19.373Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-15T06:58:48.733Z"
+        "timestamp": "2026-04-04T07:12:19.373Z"
       }
     ]
   },
@@ -757,32 +757,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-24T08:14:24.213Z"
+        "timestamp": "2026-04-17T22:40:01.588Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-24T08:15:24.213Z"
+        "timestamp": "2026-04-17T22:41:01.588Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-24T08:16:24.213Z"
+        "timestamp": "2026-04-17T22:42:01.588Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-24T08:17:24.213Z"
+        "timestamp": "2026-04-17T22:43:01.588Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-24T08:18:24.213Z"
+        "timestamp": "2026-04-17T22:44:01.588Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-24T08:19:24.213Z"
+        "timestamp": "2026-04-17T22:45:01.588Z"
       }
     ]
   },
@@ -800,27 +800,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-13T15:42:26.140Z"
+        "timestamp": "2026-04-09T07:55:56.624Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-13T15:43:26.140Z"
+        "timestamp": "2026-04-09T07:56:56.624Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-13T15:44:26.140Z"
+        "timestamp": "2026-04-09T07:57:56.624Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-13T15:45:26.140Z"
+        "timestamp": "2026-04-09T07:58:56.624Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-13T15:46:26.140Z"
+        "timestamp": "2026-04-09T07:59:56.624Z"
       }
     ]
   },
@@ -838,22 +838,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-25T16:26:46.973Z"
+        "timestamp": "2026-03-29T05:55:51.316Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-25T16:27:46.973Z"
+        "timestamp": "2026-03-29T05:56:51.316Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-25T16:28:46.973Z"
+        "timestamp": "2026-03-29T05:57:51.316Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-25T16:29:46.973Z"
+        "timestamp": "2026-03-29T05:58:51.316Z"
       }
     ]
   },
@@ -870,22 +870,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-19T03:38:13.790Z"
+        "timestamp": "2026-04-04T06:39:23.168Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-19T03:39:13.790Z"
+        "timestamp": "2026-04-04T06:40:23.168Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-19T03:40:13.790Z"
+        "timestamp": "2026-04-04T06:41:23.168Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-19T03:41:13.790Z"
+        "timestamp": "2026-04-04T06:42:23.168Z"
       }
     ]
   },
@@ -902,22 +902,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-25T15:45:32.318Z"
+        "timestamp": "2026-03-29T07:46:09.040Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-25T15:46:32.318Z"
+        "timestamp": "2026-03-29T07:47:09.040Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-25T15:47:32.318Z"
+        "timestamp": "2026-03-29T07:48:09.040Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-25T15:48:32.318Z"
+        "timestamp": "2026-03-29T07:49:09.040Z"
       }
     ]
   },
@@ -935,32 +935,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-14T04:19:17.505Z"
+        "timestamp": "2026-04-07T23:07:59.507Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-14T04:20:17.505Z"
+        "timestamp": "2026-04-07T23:08:59.507Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-14T04:21:17.505Z"
+        "timestamp": "2026-04-07T23:09:59.507Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-14T04:22:17.505Z"
+        "timestamp": "2026-04-07T23:10:59.507Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-14T04:23:17.505Z"
+        "timestamp": "2026-04-07T23:11:59.507Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-14T04:24:17.505Z"
+        "timestamp": "2026-04-07T23:12:59.507Z"
       }
     ]
   },
@@ -978,27 +978,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-14T17:15:50.515Z"
+        "timestamp": "2026-04-19T21:13:30.438Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-14T17:16:50.515Z"
+        "timestamp": "2026-04-19T21:14:30.438Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-14T17:17:50.515Z"
+        "timestamp": "2026-04-19T21:15:30.438Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-14T17:18:50.515Z"
+        "timestamp": "2026-04-19T21:16:30.438Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-14T17:19:50.515Z"
+        "timestamp": "2026-04-19T21:17:30.438Z"
       }
     ]
   },
@@ -1016,22 +1016,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-21T07:13:17.691Z"
+        "timestamp": "2026-04-24T05:16:49.263Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-21T07:14:17.691Z"
+        "timestamp": "2026-04-24T05:17:49.263Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-21T07:15:17.691Z"
+        "timestamp": "2026-04-24T05:18:49.263Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-21T07:16:17.691Z"
+        "timestamp": "2026-04-24T05:19:49.263Z"
       }
     ]
   },
@@ -1048,22 +1048,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-24T05:32:27.398Z"
+        "timestamp": "2026-04-17T07:09:03.225Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-24T05:33:27.398Z"
+        "timestamp": "2026-04-17T07:10:03.225Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-24T05:34:27.398Z"
+        "timestamp": "2026-04-17T07:11:03.225Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-24T05:35:27.398Z"
+        "timestamp": "2026-04-17T07:12:03.225Z"
       }
     ]
   },
@@ -1080,22 +1080,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-01T23:44:24.623Z"
+        "timestamp": "2026-04-24T07:01:43.840Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-01T23:45:24.623Z"
+        "timestamp": "2026-04-24T07:02:43.840Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-01T23:46:24.623Z"
+        "timestamp": "2026-04-24T07:03:43.840Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-01T23:47:24.623Z"
+        "timestamp": "2026-04-24T07:04:43.840Z"
       }
     ]
   },
@@ -1113,32 +1113,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-22T04:58:01.142Z"
+        "timestamp": "2026-04-07T18:33:54.657Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-22T04:59:01.142Z"
+        "timestamp": "2026-04-07T18:34:54.657Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-22T05:00:01.142Z"
+        "timestamp": "2026-04-07T18:35:54.657Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-22T05:01:01.142Z"
+        "timestamp": "2026-04-07T18:36:54.657Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-22T05:02:01.142Z"
+        "timestamp": "2026-04-07T18:37:54.657Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-22T05:03:01.142Z"
+        "timestamp": "2026-04-07T18:38:54.657Z"
       }
     ]
   },
@@ -1156,27 +1156,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-01T11:36:30.626Z"
+        "timestamp": "2026-04-16T17:54:10.949Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-01T11:37:30.626Z"
+        "timestamp": "2026-04-16T17:55:10.949Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-01T11:38:30.626Z"
+        "timestamp": "2026-04-16T17:56:10.949Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-01T11:39:30.626Z"
+        "timestamp": "2026-04-16T17:57:10.949Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-01T11:40:30.626Z"
+        "timestamp": "2026-04-16T17:58:10.949Z"
       }
     ]
   },
@@ -1194,22 +1194,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-01T12:31:32.494Z"
+        "timestamp": "2026-04-24T03:53:45.822Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-01T12:32:32.494Z"
+        "timestamp": "2026-04-24T03:54:45.822Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-01T12:33:32.494Z"
+        "timestamp": "2026-04-24T03:55:45.822Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-01T12:34:32.494Z"
+        "timestamp": "2026-04-24T03:56:45.822Z"
       }
     ]
   },
@@ -1226,22 +1226,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-15T08:50:15.494Z"
+        "timestamp": "2026-04-08T04:46:11.742Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-15T08:51:15.494Z"
+        "timestamp": "2026-04-08T04:47:11.742Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-15T08:52:15.494Z"
+        "timestamp": "2026-04-08T04:48:11.742Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-15T08:53:15.494Z"
+        "timestamp": "2026-04-08T04:49:11.742Z"
       }
     ]
   },
@@ -1258,22 +1258,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-24T11:42:08.464Z"
+        "timestamp": "2026-04-07T04:52:15.409Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-24T11:43:08.464Z"
+        "timestamp": "2026-04-07T04:53:15.409Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-24T11:44:08.464Z"
+        "timestamp": "2026-04-07T04:54:15.409Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-24T11:45:08.464Z"
+        "timestamp": "2026-04-07T04:55:15.409Z"
       }
     ]
   },
@@ -1291,32 +1291,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-12T22:36:04.945Z"
+        "timestamp": "2026-04-05T09:40:00.532Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-12T22:37:04.945Z"
+        "timestamp": "2026-04-05T09:41:00.532Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-12T22:38:04.945Z"
+        "timestamp": "2026-04-05T09:42:00.532Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-12T22:39:04.945Z"
+        "timestamp": "2026-04-05T09:43:00.532Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-12T22:40:04.945Z"
+        "timestamp": "2026-04-05T09:44:00.532Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-12T22:41:04.945Z"
+        "timestamp": "2026-04-05T09:45:00.532Z"
       }
     ]
   },
@@ -1334,27 +1334,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-04T03:18:49.994Z"
+        "timestamp": "2026-04-05T18:16:41.560Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-04T03:19:49.994Z"
+        "timestamp": "2026-04-05T18:17:41.560Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-04T03:20:49.994Z"
+        "timestamp": "2026-04-05T18:18:41.560Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-04T03:21:49.994Z"
+        "timestamp": "2026-04-05T18:19:41.560Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-04T03:22:49.994Z"
+        "timestamp": "2026-04-05T18:20:41.560Z"
       }
     ]
   },
@@ -1372,22 +1372,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-03-30T20:14:20.038Z"
+        "timestamp": "2026-04-27T03:56:48.334Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-03-30T20:15:20.038Z"
+        "timestamp": "2026-04-27T03:57:48.334Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-03-30T20:16:20.038Z"
+        "timestamp": "2026-04-27T03:58:48.334Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-03-30T20:17:20.038Z"
+        "timestamp": "2026-04-27T03:59:48.334Z"
       }
     ]
   },
@@ -1404,22 +1404,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-03T08:55:39.844Z"
+        "timestamp": "2026-04-04T14:32:20.878Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-03T08:56:39.844Z"
+        "timestamp": "2026-04-04T14:33:20.878Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-03T08:57:39.844Z"
+        "timestamp": "2026-04-04T14:34:20.878Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-03T08:58:39.844Z"
+        "timestamp": "2026-04-04T14:35:20.878Z"
       }
     ]
   },
@@ -1436,22 +1436,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-26T05:16:55.351Z"
+        "timestamp": "2026-04-07T22:35:01.095Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-26T05:17:55.351Z"
+        "timestamp": "2026-04-07T22:36:01.095Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-26T05:18:55.351Z"
+        "timestamp": "2026-04-07T22:37:01.095Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-26T05:19:55.351Z"
+        "timestamp": "2026-04-07T22:38:01.095Z"
       }
     ]
   },
@@ -1469,32 +1469,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-03-31T14:21:55.781Z"
+        "timestamp": "2026-04-26T20:12:12.456Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-03-31T14:22:55.781Z"
+        "timestamp": "2026-04-26T20:13:12.456Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-03-31T14:23:55.781Z"
+        "timestamp": "2026-04-26T20:14:12.456Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-03-31T14:24:55.781Z"
+        "timestamp": "2026-04-26T20:15:12.456Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-03-31T14:25:55.781Z"
+        "timestamp": "2026-04-26T20:16:12.456Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-03-31T14:26:55.781Z"
+        "timestamp": "2026-04-26T20:17:12.456Z"
       }
     ]
   },
@@ -1512,27 +1512,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-24T14:56:43.891Z"
+        "timestamp": "2026-04-11T23:02:58.969Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-24T14:57:43.891Z"
+        "timestamp": "2026-04-11T23:03:58.969Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-24T14:58:43.891Z"
+        "timestamp": "2026-04-11T23:04:58.969Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-24T14:59:43.891Z"
+        "timestamp": "2026-04-11T23:05:58.969Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-24T15:00:43.891Z"
+        "timestamp": "2026-04-11T23:06:58.969Z"
       }
     ]
   },
@@ -1550,22 +1550,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-26T01:19:17.958Z"
+        "timestamp": "2026-04-10T14:01:09.266Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-26T01:20:17.958Z"
+        "timestamp": "2026-04-10T14:02:09.266Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-26T01:21:17.958Z"
+        "timestamp": "2026-04-10T14:03:09.266Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-26T01:22:17.958Z"
+        "timestamp": "2026-04-10T14:04:09.266Z"
       }
     ]
   },
@@ -1582,22 +1582,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-03-31T23:30:14.436Z"
+        "timestamp": "2026-04-12T03:18:05.303Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-03-31T23:31:14.436Z"
+        "timestamp": "2026-04-12T03:19:05.303Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-03-31T23:32:14.436Z"
+        "timestamp": "2026-04-12T03:20:05.303Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-03-31T23:33:14.436Z"
+        "timestamp": "2026-04-12T03:21:05.303Z"
       }
     ]
   },
@@ -1614,22 +1614,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-26T10:04:38.439Z"
+        "timestamp": "2026-04-19T08:53:18.229Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-26T10:05:38.439Z"
+        "timestamp": "2026-04-19T08:54:18.229Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-26T10:06:38.439Z"
+        "timestamp": "2026-04-19T08:55:18.229Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-26T10:07:38.439Z"
+        "timestamp": "2026-04-19T08:56:18.229Z"
       }
     ]
   },
@@ -1647,32 +1647,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-22T11:06:53.487Z"
+        "timestamp": "2026-04-08T19:20:00.786Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-22T11:07:53.487Z"
+        "timestamp": "2026-04-08T19:21:00.786Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-22T11:08:53.487Z"
+        "timestamp": "2026-04-08T19:22:00.786Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-22T11:09:53.487Z"
+        "timestamp": "2026-04-08T19:23:00.786Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-22T11:10:53.487Z"
+        "timestamp": "2026-04-08T19:24:00.786Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-22T11:11:53.487Z"
+        "timestamp": "2026-04-08T19:25:00.786Z"
       }
     ]
   },
@@ -1690,27 +1690,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-03-29T23:07:13.711Z"
+        "timestamp": "2026-04-26T02:03:00.489Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-03-29T23:08:13.711Z"
+        "timestamp": "2026-04-26T02:04:00.489Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-03-29T23:09:13.711Z"
+        "timestamp": "2026-04-26T02:05:00.489Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-03-29T23:10:13.711Z"
+        "timestamp": "2026-04-26T02:06:00.489Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-03-29T23:11:13.711Z"
+        "timestamp": "2026-04-26T02:07:00.489Z"
       }
     ]
   },
@@ -1728,22 +1728,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-23T16:33:56.929Z"
+        "timestamp": "2026-04-19T17:40:06.531Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-23T16:34:56.929Z"
+        "timestamp": "2026-04-19T17:41:06.531Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-23T16:35:56.929Z"
+        "timestamp": "2026-04-19T17:42:06.531Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-23T16:36:56.929Z"
+        "timestamp": "2026-04-19T17:43:06.531Z"
       }
     ]
   },
@@ -1760,22 +1760,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-05T01:16:34.363Z"
+        "timestamp": "2026-04-14T08:05:13.504Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-05T01:17:34.363Z"
+        "timestamp": "2026-04-14T08:06:13.504Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-05T01:18:34.363Z"
+        "timestamp": "2026-04-14T08:07:13.504Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-05T01:19:34.363Z"
+        "timestamp": "2026-04-14T08:08:13.504Z"
       }
     ]
   },
@@ -1792,22 +1792,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-03-31T07:08:58.926Z"
+        "timestamp": "2026-04-15T03:31:02.237Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-03-31T07:09:58.926Z"
+        "timestamp": "2026-04-15T03:32:02.237Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-03-31T07:10:58.926Z"
+        "timestamp": "2026-04-15T03:33:02.237Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-03-31T07:11:58.926Z"
+        "timestamp": "2026-04-15T03:34:02.237Z"
       }
     ]
   },
@@ -1825,32 +1825,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-20T19:25:15.760Z"
+        "timestamp": "2026-04-22T13:09:47.295Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-20T19:26:15.760Z"
+        "timestamp": "2026-04-22T13:10:47.295Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-20T19:27:15.760Z"
+        "timestamp": "2026-04-22T13:11:47.295Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-20T19:28:15.760Z"
+        "timestamp": "2026-04-22T13:12:47.295Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-20T19:29:15.760Z"
+        "timestamp": "2026-04-22T13:13:47.295Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-20T19:30:15.760Z"
+        "timestamp": "2026-04-22T13:14:47.295Z"
       }
     ]
   },
@@ -1868,27 +1868,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-22T22:50:54.351Z"
+        "timestamp": "2026-04-24T13:11:20.394Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-22T22:51:54.351Z"
+        "timestamp": "2026-04-24T13:12:20.394Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-22T22:52:54.351Z"
+        "timestamp": "2026-04-24T13:13:20.394Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-22T22:53:54.351Z"
+        "timestamp": "2026-04-24T13:14:20.394Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-22T22:54:54.351Z"
+        "timestamp": "2026-04-24T13:15:20.394Z"
       }
     ]
   },
@@ -1906,22 +1906,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-04T21:07:10.380Z"
+        "timestamp": "2026-04-22T13:10:34.288Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-04T21:08:10.380Z"
+        "timestamp": "2026-04-22T13:11:34.288Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-04T21:09:10.380Z"
+        "timestamp": "2026-04-22T13:12:34.288Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-04T21:10:10.380Z"
+        "timestamp": "2026-04-22T13:13:34.288Z"
       }
     ]
   },
@@ -1938,22 +1938,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-06T06:47:41.399Z"
+        "timestamp": "2026-04-04T10:08:41.344Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-06T06:48:41.399Z"
+        "timestamp": "2026-04-04T10:09:41.344Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-06T06:49:41.399Z"
+        "timestamp": "2026-04-04T10:10:41.344Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-06T06:50:41.399Z"
+        "timestamp": "2026-04-04T10:11:41.344Z"
       }
     ]
   },
@@ -1970,22 +1970,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-13T14:35:00.376Z"
+        "timestamp": "2026-04-05T13:56:31.876Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-13T14:36:00.376Z"
+        "timestamp": "2026-04-05T13:57:31.876Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-13T14:37:00.376Z"
+        "timestamp": "2026-04-05T13:58:31.876Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-13T14:38:00.376Z"
+        "timestamp": "2026-04-05T13:59:31.876Z"
       }
     ]
   },
@@ -2003,32 +2003,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-14T14:30:40.383Z"
+        "timestamp": "2026-03-31T00:47:43.367Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-14T14:31:40.383Z"
+        "timestamp": "2026-03-31T00:48:43.367Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-14T14:32:40.383Z"
+        "timestamp": "2026-03-31T00:49:43.367Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-14T14:33:40.383Z"
+        "timestamp": "2026-03-31T00:50:43.367Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-14T14:34:40.383Z"
+        "timestamp": "2026-03-31T00:51:43.367Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-14T14:35:40.383Z"
+        "timestamp": "2026-03-31T00:52:43.367Z"
       }
     ]
   },
@@ -2046,27 +2046,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-03-28T23:41:37.824Z"
+        "timestamp": "2026-04-12T22:29:39.871Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-03-28T23:42:37.824Z"
+        "timestamp": "2026-04-12T22:30:39.871Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-03-28T23:43:37.824Z"
+        "timestamp": "2026-04-12T22:31:39.871Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-03-28T23:44:37.824Z"
+        "timestamp": "2026-04-12T22:32:39.871Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-03-28T23:45:37.824Z"
+        "timestamp": "2026-04-12T22:33:39.871Z"
       }
     ]
   },
@@ -2084,22 +2084,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-03-30T23:18:59.777Z"
+        "timestamp": "2026-04-03T01:50:09.061Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-03-30T23:19:59.777Z"
+        "timestamp": "2026-04-03T01:51:09.061Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-03-30T23:20:59.777Z"
+        "timestamp": "2026-04-03T01:52:09.061Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-03-30T23:21:59.777Z"
+        "timestamp": "2026-04-03T01:53:09.061Z"
       }
     ]
   },
@@ -2116,22 +2116,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-26T07:46:48.224Z"
+        "timestamp": "2026-04-09T05:34:46.662Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-26T07:47:48.224Z"
+        "timestamp": "2026-04-09T05:35:46.662Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-26T07:48:48.224Z"
+        "timestamp": "2026-04-09T05:36:46.662Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-26T07:49:48.224Z"
+        "timestamp": "2026-04-09T05:37:46.662Z"
       }
     ]
   },
@@ -2148,22 +2148,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-23T06:35:17.936Z"
+        "timestamp": "2026-04-08T18:35:01.934Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-23T06:36:17.936Z"
+        "timestamp": "2026-04-08T18:36:01.934Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-23T06:37:17.936Z"
+        "timestamp": "2026-04-08T18:37:01.934Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-23T06:38:17.936Z"
+        "timestamp": "2026-04-08T18:38:01.934Z"
       }
     ]
   },
@@ -2181,32 +2181,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-12T17:37:01.151Z"
+        "timestamp": "2026-04-05T13:43:35.500Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-12T17:38:01.151Z"
+        "timestamp": "2026-04-05T13:44:35.500Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-12T17:39:01.151Z"
+        "timestamp": "2026-04-05T13:45:35.500Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-12T17:40:01.151Z"
+        "timestamp": "2026-04-05T13:46:35.500Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-12T17:41:01.151Z"
+        "timestamp": "2026-04-05T13:47:35.500Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-12T17:42:01.151Z"
+        "timestamp": "2026-04-05T13:48:35.500Z"
       }
     ]
   },
@@ -2224,27 +2224,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-03-31T20:48:35.609Z"
+        "timestamp": "2026-04-23T18:45:15.147Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-03-31T20:49:35.609Z"
+        "timestamp": "2026-04-23T18:46:15.147Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-03-31T20:50:35.609Z"
+        "timestamp": "2026-04-23T18:47:15.147Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-03-31T20:51:35.609Z"
+        "timestamp": "2026-04-23T18:48:15.147Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-03-31T20:52:35.609Z"
+        "timestamp": "2026-04-23T18:49:15.147Z"
       }
     ]
   },
@@ -2262,22 +2262,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-19T16:15:00.444Z"
+        "timestamp": "2026-04-15T06:51:54.667Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-19T16:16:00.444Z"
+        "timestamp": "2026-04-15T06:52:54.667Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-19T16:17:00.444Z"
+        "timestamp": "2026-04-15T06:53:54.667Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-19T16:18:00.444Z"
+        "timestamp": "2026-04-15T06:54:54.667Z"
       }
     ]
   },
@@ -2294,22 +2294,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-03-30T10:52:54.910Z"
+        "timestamp": "2026-03-29T05:21:34.155Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-03-30T10:53:54.910Z"
+        "timestamp": "2026-03-29T05:22:34.155Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-03-30T10:54:54.910Z"
+        "timestamp": "2026-03-29T05:23:34.155Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-03-30T10:55:54.910Z"
+        "timestamp": "2026-03-29T05:24:34.155Z"
       }
     ]
   },
@@ -2326,22 +2326,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-04T15:40:29.646Z"
+        "timestamp": "2026-04-05T09:09:36.728Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-04T15:41:29.646Z"
+        "timestamp": "2026-04-05T09:10:36.728Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-04T15:42:29.646Z"
+        "timestamp": "2026-04-05T09:11:36.728Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-04T15:43:29.646Z"
+        "timestamp": "2026-04-05T09:12:36.728Z"
       }
     ]
   },
@@ -2359,32 +2359,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-23T17:41:36.815Z"
+        "timestamp": "2026-04-02T06:35:09.248Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-23T17:42:36.815Z"
+        "timestamp": "2026-04-02T06:36:09.248Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-23T17:43:36.815Z"
+        "timestamp": "2026-04-02T06:37:09.248Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-23T17:44:36.815Z"
+        "timestamp": "2026-04-02T06:38:09.248Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-23T17:45:36.815Z"
+        "timestamp": "2026-04-02T06:39:09.248Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-23T17:46:36.815Z"
+        "timestamp": "2026-04-02T06:40:09.248Z"
       }
     ]
   },
@@ -2402,27 +2402,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-03-29T19:29:15.218Z"
+        "timestamp": "2026-04-24T05:56:39.473Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-03-29T19:30:15.218Z"
+        "timestamp": "2026-04-24T05:57:39.473Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-03-29T19:31:15.218Z"
+        "timestamp": "2026-04-24T05:58:39.473Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-03-29T19:32:15.218Z"
+        "timestamp": "2026-04-24T05:59:39.473Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-03-29T19:33:15.218Z"
+        "timestamp": "2026-04-24T06:00:39.473Z"
       }
     ]
   },
@@ -2440,22 +2440,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-26T17:22:08.692Z"
+        "timestamp": "2026-04-07T08:34:40.067Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-26T17:23:08.692Z"
+        "timestamp": "2026-04-07T08:35:40.067Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-26T17:24:08.692Z"
+        "timestamp": "2026-04-07T08:36:40.067Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-26T17:25:08.692Z"
+        "timestamp": "2026-04-07T08:37:40.067Z"
       }
     ]
   },
@@ -2472,22 +2472,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-03-29T00:53:09.350Z"
+        "timestamp": "2026-04-08T13:25:03.984Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-03-29T00:54:09.350Z"
+        "timestamp": "2026-04-08T13:26:03.984Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-03-29T00:55:09.350Z"
+        "timestamp": "2026-04-08T13:27:03.984Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-03-29T00:56:09.350Z"
+        "timestamp": "2026-04-08T13:28:03.984Z"
       }
     ]
   },
@@ -2504,22 +2504,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-15T22:55:20.129Z"
+        "timestamp": "2026-04-26T01:46:07.606Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-15T22:56:20.129Z"
+        "timestamp": "2026-04-26T01:47:07.606Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-15T22:57:20.129Z"
+        "timestamp": "2026-04-26T01:48:07.606Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-15T22:58:20.129Z"
+        "timestamp": "2026-04-26T01:49:07.606Z"
       }
     ]
   },
@@ -2537,32 +2537,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-23T12:48:16.583Z"
+        "timestamp": "2026-04-20T07:09:01.518Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-23T12:49:16.583Z"
+        "timestamp": "2026-04-20T07:10:01.518Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-23T12:50:16.583Z"
+        "timestamp": "2026-04-20T07:11:01.518Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-23T12:51:16.583Z"
+        "timestamp": "2026-04-20T07:12:01.518Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-23T12:52:16.583Z"
+        "timestamp": "2026-04-20T07:13:01.518Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-23T12:53:16.583Z"
+        "timestamp": "2026-04-20T07:14:01.518Z"
       }
     ]
   },
@@ -2580,27 +2580,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-15T16:09:19.484Z"
+        "timestamp": "2026-04-21T06:56:43.116Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-15T16:10:19.484Z"
+        "timestamp": "2026-04-21T06:57:43.116Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-15T16:11:19.484Z"
+        "timestamp": "2026-04-21T06:58:43.116Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-15T16:12:19.484Z"
+        "timestamp": "2026-04-21T06:59:43.116Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-15T16:13:19.484Z"
+        "timestamp": "2026-04-21T07:00:43.116Z"
       }
     ]
   },
@@ -2618,22 +2618,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-13T18:21:32.076Z"
+        "timestamp": "2026-04-18T11:07:33.747Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-13T18:22:32.076Z"
+        "timestamp": "2026-04-18T11:08:33.747Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-13T18:23:32.076Z"
+        "timestamp": "2026-04-18T11:09:33.747Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-13T18:24:32.076Z"
+        "timestamp": "2026-04-18T11:10:33.747Z"
       }
     ]
   },
@@ -2650,22 +2650,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-03-30T04:26:55.471Z"
+        "timestamp": "2026-04-24T05:52:59.769Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-03-30T04:27:55.471Z"
+        "timestamp": "2026-04-24T05:53:59.769Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-03-30T04:28:55.471Z"
+        "timestamp": "2026-04-24T05:54:59.769Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-03-30T04:29:55.471Z"
+        "timestamp": "2026-04-24T05:55:59.769Z"
       }
     ]
   },
@@ -2682,22 +2682,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-03-29T09:39:46.285Z"
+        "timestamp": "2026-04-08T20:50:32.703Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-03-29T09:40:46.285Z"
+        "timestamp": "2026-04-08T20:51:32.703Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-03-29T09:41:46.285Z"
+        "timestamp": "2026-04-08T20:52:32.703Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-03-29T09:42:46.285Z"
+        "timestamp": "2026-04-08T20:53:32.703Z"
       }
     ]
   },
@@ -2715,32 +2715,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-05T00:55:31.332Z"
+        "timestamp": "2026-03-30T12:36:12.953Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-05T00:56:31.332Z"
+        "timestamp": "2026-03-30T12:37:12.953Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-05T00:57:31.332Z"
+        "timestamp": "2026-03-30T12:38:12.953Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-05T00:58:31.332Z"
+        "timestamp": "2026-03-30T12:39:12.953Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-05T00:59:31.332Z"
+        "timestamp": "2026-03-30T12:40:12.953Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-05T01:00:31.332Z"
+        "timestamp": "2026-03-30T12:41:12.953Z"
       }
     ]
   },
@@ -2758,27 +2758,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-03-30T18:00:21.556Z"
+        "timestamp": "2026-04-01T13:10:18.846Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-03-30T18:01:21.556Z"
+        "timestamp": "2026-04-01T13:11:18.846Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-03-30T18:02:21.556Z"
+        "timestamp": "2026-04-01T13:12:18.846Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-03-30T18:03:21.556Z"
+        "timestamp": "2026-04-01T13:13:18.846Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-03-30T18:04:21.556Z"
+        "timestamp": "2026-04-01T13:14:18.846Z"
       }
     ]
   },
@@ -2796,22 +2796,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-08T02:22:03.882Z"
+        "timestamp": "2026-04-23T04:07:53.989Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-08T02:23:03.882Z"
+        "timestamp": "2026-04-23T04:08:53.989Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-08T02:24:03.882Z"
+        "timestamp": "2026-04-23T04:09:53.989Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-08T02:25:03.882Z"
+        "timestamp": "2026-04-23T04:10:53.989Z"
       }
     ]
   },
@@ -2828,22 +2828,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-07T16:32:40.550Z"
+        "timestamp": "2026-04-18T00:28:46.428Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-07T16:33:40.550Z"
+        "timestamp": "2026-04-18T00:29:46.428Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-07T16:34:40.550Z"
+        "timestamp": "2026-04-18T00:30:46.428Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-07T16:35:40.550Z"
+        "timestamp": "2026-04-18T00:31:46.428Z"
       }
     ]
   },
@@ -2860,22 +2860,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-05T11:26:34.068Z"
+        "timestamp": "2026-04-07T05:51:19.969Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-05T11:27:34.068Z"
+        "timestamp": "2026-04-07T05:52:19.969Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-05T11:28:34.068Z"
+        "timestamp": "2026-04-07T05:53:19.969Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-05T11:29:34.068Z"
+        "timestamp": "2026-04-07T05:54:19.969Z"
       }
     ]
   },
@@ -2893,32 +2893,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-05T07:27:17.168Z"
+        "timestamp": "2026-04-18T04:51:09.163Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-05T07:28:17.168Z"
+        "timestamp": "2026-04-18T04:52:09.163Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-05T07:29:17.168Z"
+        "timestamp": "2026-04-18T04:53:09.163Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-05T07:30:17.168Z"
+        "timestamp": "2026-04-18T04:54:09.163Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-05T07:31:17.168Z"
+        "timestamp": "2026-04-18T04:55:09.163Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-05T07:32:17.168Z"
+        "timestamp": "2026-04-18T04:56:09.163Z"
       }
     ]
   },
@@ -2936,27 +2936,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-13T01:44:59.203Z"
+        "timestamp": "2026-04-06T00:21:51.291Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-13T01:45:59.203Z"
+        "timestamp": "2026-04-06T00:22:51.291Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-13T01:46:59.203Z"
+        "timestamp": "2026-04-06T00:23:51.291Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-13T01:47:59.203Z"
+        "timestamp": "2026-04-06T00:24:51.291Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-13T01:48:59.203Z"
+        "timestamp": "2026-04-06T00:25:51.291Z"
       }
     ]
   },
@@ -2974,22 +2974,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-06T15:52:18.319Z"
+        "timestamp": "2026-04-25T17:22:51.835Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-06T15:53:18.319Z"
+        "timestamp": "2026-04-25T17:23:51.835Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-06T15:54:18.319Z"
+        "timestamp": "2026-04-25T17:24:51.835Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-06T15:55:18.319Z"
+        "timestamp": "2026-04-25T17:25:51.835Z"
       }
     ]
   },
@@ -3006,22 +3006,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-14T00:15:01.598Z"
+        "timestamp": "2026-03-31T08:54:51.279Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-14T00:16:01.598Z"
+        "timestamp": "2026-03-31T08:55:51.279Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-14T00:17:01.598Z"
+        "timestamp": "2026-03-31T08:56:51.279Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-14T00:18:01.598Z"
+        "timestamp": "2026-03-31T08:57:51.279Z"
       }
     ]
   },
@@ -3038,22 +3038,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-17T02:53:23.158Z"
+        "timestamp": "2026-04-02T11:54:27.816Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-17T02:54:23.158Z"
+        "timestamp": "2026-04-02T11:55:27.816Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-17T02:55:23.158Z"
+        "timestamp": "2026-04-02T11:56:27.816Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-17T02:56:23.158Z"
+        "timestamp": "2026-04-02T11:57:27.816Z"
       }
     ]
   },
@@ -3071,32 +3071,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-02T00:17:19.401Z"
+        "timestamp": "2026-04-13T23:12:20.201Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-02T00:18:19.401Z"
+        "timestamp": "2026-04-13T23:13:20.201Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-02T00:19:19.401Z"
+        "timestamp": "2026-04-13T23:14:20.201Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-02T00:20:19.401Z"
+        "timestamp": "2026-04-13T23:15:20.201Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-02T00:21:19.401Z"
+        "timestamp": "2026-04-13T23:16:20.201Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-02T00:22:19.401Z"
+        "timestamp": "2026-04-13T23:17:20.201Z"
       }
     ]
   },
@@ -3114,27 +3114,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-14T10:33:36.544Z"
+        "timestamp": "2026-04-03T11:03:34.196Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-14T10:34:36.544Z"
+        "timestamp": "2026-04-03T11:04:34.196Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-14T10:35:36.544Z"
+        "timestamp": "2026-04-03T11:05:34.196Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-14T10:36:36.544Z"
+        "timestamp": "2026-04-03T11:06:34.196Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-14T10:37:36.544Z"
+        "timestamp": "2026-04-03T11:07:34.196Z"
       }
     ]
   },
@@ -3152,22 +3152,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-13T03:26:04.588Z"
+        "timestamp": "2026-04-27T08:17:14.534Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-13T03:27:04.588Z"
+        "timestamp": "2026-04-27T08:18:14.534Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-13T03:28:04.588Z"
+        "timestamp": "2026-04-27T08:19:14.534Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-13T03:29:04.588Z"
+        "timestamp": "2026-04-27T08:20:14.534Z"
       }
     ]
   },
@@ -3184,22 +3184,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-15T09:05:22.968Z"
+        "timestamp": "2026-04-18T19:12:50.403Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-15T09:06:22.968Z"
+        "timestamp": "2026-04-18T19:13:50.403Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-15T09:07:22.968Z"
+        "timestamp": "2026-04-18T19:14:50.403Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-15T09:08:22.968Z"
+        "timestamp": "2026-04-18T19:15:50.403Z"
       }
     ]
   },
@@ -3216,22 +3216,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-02T16:10:09.489Z"
+        "timestamp": "2026-04-14T16:01:06.208Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-02T16:11:09.489Z"
+        "timestamp": "2026-04-14T16:02:06.208Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-02T16:12:09.489Z"
+        "timestamp": "2026-04-14T16:03:06.208Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-02T16:13:09.489Z"
+        "timestamp": "2026-04-14T16:04:06.208Z"
       }
     ]
   },
@@ -3249,32 +3249,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-14T19:00:11.648Z"
+        "timestamp": "2026-04-01T22:03:23.010Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-14T19:01:11.648Z"
+        "timestamp": "2026-04-01T22:04:23.010Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-14T19:02:11.648Z"
+        "timestamp": "2026-04-01T22:05:23.010Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-14T19:03:11.648Z"
+        "timestamp": "2026-04-01T22:06:23.010Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-14T19:04:11.648Z"
+        "timestamp": "2026-04-01T22:07:23.010Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-14T19:05:11.648Z"
+        "timestamp": "2026-04-01T22:08:23.010Z"
       }
     ]
   },
@@ -3292,27 +3292,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-03-28T10:26:14.126Z"
+        "timestamp": "2026-03-31T14:45:13.754Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-03-28T10:27:14.126Z"
+        "timestamp": "2026-03-31T14:46:13.754Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-03-28T10:28:14.126Z"
+        "timestamp": "2026-03-31T14:47:13.754Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-03-28T10:29:14.126Z"
+        "timestamp": "2026-03-31T14:48:13.754Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-03-28T10:30:14.126Z"
+        "timestamp": "2026-03-31T14:49:13.754Z"
       }
     ]
   },
@@ -3330,22 +3330,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-17T14:30:00.860Z"
+        "timestamp": "2026-04-27T05:04:25.769Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-17T14:31:00.860Z"
+        "timestamp": "2026-04-27T05:05:25.769Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-17T14:32:00.860Z"
+        "timestamp": "2026-04-27T05:06:25.769Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-17T14:33:00.860Z"
+        "timestamp": "2026-04-27T05:07:25.769Z"
       }
     ]
   },
@@ -3362,22 +3362,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-26T05:49:54.275Z"
+        "timestamp": "2026-04-18T11:29:31.722Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-26T05:50:54.275Z"
+        "timestamp": "2026-04-18T11:30:31.722Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-26T05:51:54.275Z"
+        "timestamp": "2026-04-18T11:31:31.722Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-26T05:52:54.275Z"
+        "timestamp": "2026-04-18T11:32:31.722Z"
       }
     ]
   },
@@ -3394,22 +3394,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-12T05:01:23.350Z"
+        "timestamp": "2026-04-17T04:11:42.273Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-12T05:02:23.350Z"
+        "timestamp": "2026-04-17T04:12:42.273Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-12T05:03:23.350Z"
+        "timestamp": "2026-04-17T04:13:42.273Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-12T05:04:23.350Z"
+        "timestamp": "2026-04-17T04:14:42.273Z"
       }
     ]
   },
@@ -3427,32 +3427,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-03-29T06:31:16.886Z"
+        "timestamp": "2026-04-18T20:54:04.648Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-03-29T06:32:16.886Z"
+        "timestamp": "2026-04-18T20:55:04.648Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-03-29T06:33:16.886Z"
+        "timestamp": "2026-04-18T20:56:04.648Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-03-29T06:34:16.886Z"
+        "timestamp": "2026-04-18T20:57:04.648Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-03-29T06:35:16.886Z"
+        "timestamp": "2026-04-18T20:58:04.648Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-03-29T06:36:16.886Z"
+        "timestamp": "2026-04-18T20:59:04.648Z"
       }
     ]
   },
@@ -3470,27 +3470,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-03-31T23:34:06.930Z"
+        "timestamp": "2026-04-19T04:08:16.217Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-03-31T23:35:06.930Z"
+        "timestamp": "2026-04-19T04:09:16.217Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-03-31T23:36:06.930Z"
+        "timestamp": "2026-04-19T04:10:16.217Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-03-31T23:37:06.930Z"
+        "timestamp": "2026-04-19T04:11:16.217Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-03-31T23:38:06.930Z"
+        "timestamp": "2026-04-19T04:12:16.217Z"
       }
     ]
   },
@@ -3508,22 +3508,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-05T15:50:18.440Z"
+        "timestamp": "2026-04-04T18:18:29.495Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-05T15:51:18.440Z"
+        "timestamp": "2026-04-04T18:19:29.495Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-05T15:52:18.440Z"
+        "timestamp": "2026-04-04T18:20:29.495Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-05T15:53:18.440Z"
+        "timestamp": "2026-04-04T18:21:29.495Z"
       }
     ]
   },
@@ -3540,22 +3540,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-21T04:45:37.965Z"
+        "timestamp": "2026-04-16T15:17:11.688Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-21T04:46:37.965Z"
+        "timestamp": "2026-04-16T15:18:11.688Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-21T04:47:37.965Z"
+        "timestamp": "2026-04-16T15:19:11.688Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-21T04:48:37.965Z"
+        "timestamp": "2026-04-16T15:20:11.688Z"
       }
     ]
   },
@@ -3572,22 +3572,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-03-28T12:36:21.017Z"
+        "timestamp": "2026-04-11T07:44:18.472Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-03-28T12:37:21.017Z"
+        "timestamp": "2026-04-11T07:45:18.472Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-03-28T12:38:21.017Z"
+        "timestamp": "2026-04-11T07:46:18.472Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-03-28T12:39:21.017Z"
+        "timestamp": "2026-04-11T07:47:18.472Z"
       }
     ]
   },
@@ -3605,32 +3605,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-03-29T17:24:22.846Z"
+        "timestamp": "2026-04-12T10:53:09.304Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-03-29T17:25:22.846Z"
+        "timestamp": "2026-04-12T10:54:09.304Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-03-29T17:26:22.846Z"
+        "timestamp": "2026-04-12T10:55:09.304Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-03-29T17:27:22.846Z"
+        "timestamp": "2026-04-12T10:56:09.304Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-03-29T17:28:22.846Z"
+        "timestamp": "2026-04-12T10:57:09.304Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-03-29T17:29:22.846Z"
+        "timestamp": "2026-04-12T10:58:09.304Z"
       }
     ]
   },
@@ -3648,27 +3648,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-11T16:32:58.261Z"
+        "timestamp": "2026-03-29T18:07:47.545Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-11T16:33:58.261Z"
+        "timestamp": "2026-03-29T18:08:47.545Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-11T16:34:58.261Z"
+        "timestamp": "2026-03-29T18:09:47.545Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-11T16:35:58.261Z"
+        "timestamp": "2026-03-29T18:10:47.545Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-11T16:36:58.261Z"
+        "timestamp": "2026-03-29T18:11:47.545Z"
       }
     ]
   },
@@ -3686,22 +3686,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-04T22:34:24.020Z"
+        "timestamp": "2026-04-22T20:16:36.082Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-04T22:35:24.020Z"
+        "timestamp": "2026-04-22T20:17:36.082Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-04T22:36:24.020Z"
+        "timestamp": "2026-04-22T20:18:36.082Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-04T22:37:24.020Z"
+        "timestamp": "2026-04-22T20:19:36.082Z"
       }
     ]
   },
@@ -3718,22 +3718,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-24T08:24:31.727Z"
+        "timestamp": "2026-04-16T00:37:43.289Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-24T08:25:31.727Z"
+        "timestamp": "2026-04-16T00:38:43.289Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-24T08:26:31.727Z"
+        "timestamp": "2026-04-16T00:39:43.289Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-24T08:27:31.727Z"
+        "timestamp": "2026-04-16T00:40:43.289Z"
       }
     ]
   },
@@ -3750,22 +3750,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-12T03:24:12.493Z"
+        "timestamp": "2026-03-30T17:13:48.382Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-12T03:25:12.493Z"
+        "timestamp": "2026-03-30T17:14:48.382Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-12T03:26:12.493Z"
+        "timestamp": "2026-03-30T17:15:48.382Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-12T03:27:12.493Z"
+        "timestamp": "2026-03-30T17:16:48.382Z"
       }
     ]
   },
@@ -3783,32 +3783,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-21T03:11:46.305Z"
+        "timestamp": "2026-04-27T13:04:14.917Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-21T03:12:46.305Z"
+        "timestamp": "2026-04-27T13:05:14.917Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-21T03:13:46.305Z"
+        "timestamp": "2026-04-27T13:06:14.917Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-21T03:14:46.305Z"
+        "timestamp": "2026-04-27T13:07:14.917Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-21T03:15:46.305Z"
+        "timestamp": "2026-04-27T13:08:14.917Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-21T03:16:46.305Z"
+        "timestamp": "2026-04-27T13:09:14.917Z"
       }
     ]
   },
@@ -3826,27 +3826,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-03-30T21:38:30.383Z"
+        "timestamp": "2026-04-17T04:47:56.134Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-03-30T21:39:30.383Z"
+        "timestamp": "2026-04-17T04:48:56.134Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-03-30T21:40:30.383Z"
+        "timestamp": "2026-04-17T04:49:56.134Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-03-30T21:41:30.383Z"
+        "timestamp": "2026-04-17T04:50:56.134Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-03-30T21:42:30.383Z"
+        "timestamp": "2026-04-17T04:51:56.134Z"
       }
     ]
   },
@@ -3864,22 +3864,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-07T01:45:16.063Z"
+        "timestamp": "2026-04-05T21:13:42.773Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-07T01:46:16.063Z"
+        "timestamp": "2026-04-05T21:14:42.773Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-07T01:47:16.063Z"
+        "timestamp": "2026-04-05T21:15:42.773Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-07T01:48:16.063Z"
+        "timestamp": "2026-04-05T21:16:42.773Z"
       }
     ]
   },
@@ -3896,22 +3896,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-05T10:16:27.717Z"
+        "timestamp": "2026-04-01T06:32:14.709Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-05T10:17:27.717Z"
+        "timestamp": "2026-04-01T06:33:14.709Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-05T10:18:27.717Z"
+        "timestamp": "2026-04-01T06:34:14.709Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-05T10:19:27.717Z"
+        "timestamp": "2026-04-01T06:35:14.709Z"
       }
     ]
   },
@@ -3928,22 +3928,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-05T15:49:55.566Z"
+        "timestamp": "2026-04-16T21:32:26.552Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-05T15:50:55.566Z"
+        "timestamp": "2026-04-16T21:33:26.552Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-05T15:51:55.566Z"
+        "timestamp": "2026-04-16T21:34:26.552Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-05T15:52:55.566Z"
+        "timestamp": "2026-04-16T21:35:26.552Z"
       }
     ]
   },
@@ -3961,32 +3961,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-07T15:31:08.195Z"
+        "timestamp": "2026-04-22T08:39:38.168Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-07T15:32:08.195Z"
+        "timestamp": "2026-04-22T08:40:38.168Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-07T15:33:08.195Z"
+        "timestamp": "2026-04-22T08:41:38.168Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-07T15:34:08.195Z"
+        "timestamp": "2026-04-22T08:42:38.168Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-07T15:35:08.195Z"
+        "timestamp": "2026-04-22T08:43:38.168Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-07T15:36:08.195Z"
+        "timestamp": "2026-04-22T08:44:38.168Z"
       }
     ]
   },
@@ -4004,27 +4004,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-17T01:57:33.229Z"
+        "timestamp": "2026-04-06T21:35:30.179Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-17T01:58:33.229Z"
+        "timestamp": "2026-04-06T21:36:30.179Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-17T01:59:33.229Z"
+        "timestamp": "2026-04-06T21:37:30.179Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-17T02:00:33.229Z"
+        "timestamp": "2026-04-06T21:38:30.179Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-17T02:01:33.229Z"
+        "timestamp": "2026-04-06T21:39:30.179Z"
       }
     ]
   },
@@ -4042,22 +4042,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-09T07:18:05.005Z"
+        "timestamp": "2026-04-10T14:36:31.374Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-09T07:19:05.005Z"
+        "timestamp": "2026-04-10T14:37:31.374Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-09T07:20:05.005Z"
+        "timestamp": "2026-04-10T14:38:31.374Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-09T07:21:05.005Z"
+        "timestamp": "2026-04-10T14:39:31.374Z"
       }
     ]
   },
@@ -4074,22 +4074,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-07T13:34:03.074Z"
+        "timestamp": "2026-04-11T22:58:18.565Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-07T13:35:03.074Z"
+        "timestamp": "2026-04-11T22:59:18.565Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-07T13:36:03.074Z"
+        "timestamp": "2026-04-11T23:00:18.565Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-07T13:37:03.074Z"
+        "timestamp": "2026-04-11T23:01:18.565Z"
       }
     ]
   },
@@ -4106,22 +4106,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-19T08:30:32.644Z"
+        "timestamp": "2026-04-06T13:35:18.596Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-19T08:31:32.644Z"
+        "timestamp": "2026-04-06T13:36:18.596Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-19T08:32:32.644Z"
+        "timestamp": "2026-04-06T13:37:18.596Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-19T08:33:32.644Z"
+        "timestamp": "2026-04-06T13:38:18.596Z"
       }
     ]
   },
@@ -4139,32 +4139,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-25T04:29:52.553Z"
+        "timestamp": "2026-04-22T18:04:19.727Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-25T04:30:52.553Z"
+        "timestamp": "2026-04-22T18:05:19.727Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-25T04:31:52.553Z"
+        "timestamp": "2026-04-22T18:06:19.727Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-25T04:32:52.553Z"
+        "timestamp": "2026-04-22T18:07:19.727Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-25T04:33:52.553Z"
+        "timestamp": "2026-04-22T18:08:19.727Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-25T04:34:52.553Z"
+        "timestamp": "2026-04-22T18:09:19.727Z"
       }
     ]
   },
@@ -4182,27 +4182,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-24T14:41:02.296Z"
+        "timestamp": "2026-04-22T16:10:33.938Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-24T14:42:02.296Z"
+        "timestamp": "2026-04-22T16:11:33.938Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-24T14:43:02.296Z"
+        "timestamp": "2026-04-22T16:12:33.938Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-24T14:44:02.296Z"
+        "timestamp": "2026-04-22T16:13:33.938Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-24T14:45:02.296Z"
+        "timestamp": "2026-04-22T16:14:33.938Z"
       }
     ]
   },
@@ -4220,22 +4220,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-03-29T07:53:53.281Z"
+        "timestamp": "2026-04-24T19:16:18.013Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-03-29T07:54:53.281Z"
+        "timestamp": "2026-04-24T19:17:18.013Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-03-29T07:55:53.281Z"
+        "timestamp": "2026-04-24T19:18:18.013Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-03-29T07:56:53.281Z"
+        "timestamp": "2026-04-24T19:19:18.013Z"
       }
     ]
   },
@@ -4252,22 +4252,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-03-31T14:45:58.204Z"
+        "timestamp": "2026-04-06T04:05:22.965Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-03-31T14:46:58.204Z"
+        "timestamp": "2026-04-06T04:06:22.965Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-03-31T14:47:58.204Z"
+        "timestamp": "2026-04-06T04:07:22.965Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-03-31T14:48:58.204Z"
+        "timestamp": "2026-04-06T04:08:22.965Z"
       }
     ]
   },
@@ -4284,22 +4284,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-21T08:35:40.017Z"
+        "timestamp": "2026-04-01T03:30:34.071Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-21T08:36:40.017Z"
+        "timestamp": "2026-04-01T03:31:34.071Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-21T08:37:40.017Z"
+        "timestamp": "2026-04-01T03:32:34.071Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-21T08:38:40.017Z"
+        "timestamp": "2026-04-01T03:33:34.071Z"
       }
     ]
   },
@@ -4317,32 +4317,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-03-28T05:01:08.819Z"
+        "timestamp": "2026-04-25T14:30:09.130Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-03-28T05:02:08.819Z"
+        "timestamp": "2026-04-25T14:31:09.130Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-03-28T05:03:08.819Z"
+        "timestamp": "2026-04-25T14:32:09.130Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-03-28T05:04:08.819Z"
+        "timestamp": "2026-04-25T14:33:09.130Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-03-28T05:05:08.819Z"
+        "timestamp": "2026-04-25T14:34:09.130Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-03-28T05:06:08.819Z"
+        "timestamp": "2026-04-25T14:35:09.130Z"
       }
     ]
   },
@@ -4360,27 +4360,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-16T19:47:02.758Z"
+        "timestamp": "2026-04-25T20:50:47.978Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-16T19:48:02.758Z"
+        "timestamp": "2026-04-25T20:51:47.978Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-16T19:49:02.758Z"
+        "timestamp": "2026-04-25T20:52:47.978Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-16T19:50:02.758Z"
+        "timestamp": "2026-04-25T20:53:47.978Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-16T19:51:02.758Z"
+        "timestamp": "2026-04-25T20:54:47.978Z"
       }
     ]
   },
@@ -4398,22 +4398,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-16T04:16:10.456Z"
+        "timestamp": "2026-04-21T21:17:04.986Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-16T04:17:10.456Z"
+        "timestamp": "2026-04-21T21:18:04.986Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-16T04:18:10.456Z"
+        "timestamp": "2026-04-21T21:19:04.986Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-16T04:19:10.456Z"
+        "timestamp": "2026-04-21T21:20:04.986Z"
       }
     ]
   },
@@ -4430,22 +4430,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-12T09:39:43.572Z"
+        "timestamp": "2026-04-27T01:03:53.446Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-12T09:40:43.572Z"
+        "timestamp": "2026-04-27T01:04:53.446Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-12T09:41:43.572Z"
+        "timestamp": "2026-04-27T01:05:53.446Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-12T09:42:43.572Z"
+        "timestamp": "2026-04-27T01:06:53.446Z"
       }
     ]
   },
@@ -4462,22 +4462,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-22T00:56:47.059Z"
+        "timestamp": "2026-04-12T23:26:05.154Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-22T00:57:47.059Z"
+        "timestamp": "2026-04-12T23:27:05.154Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-22T00:58:47.059Z"
+        "timestamp": "2026-04-12T23:28:05.154Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-22T00:59:47.059Z"
+        "timestamp": "2026-04-12T23:29:05.154Z"
       }
     ]
   },
@@ -4495,32 +4495,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-23T01:59:03.780Z"
+        "timestamp": "2026-04-10T12:13:29.809Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-23T02:00:03.780Z"
+        "timestamp": "2026-04-10T12:14:29.809Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-23T02:01:03.780Z"
+        "timestamp": "2026-04-10T12:15:29.809Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-23T02:02:03.780Z"
+        "timestamp": "2026-04-10T12:16:29.809Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-23T02:03:03.780Z"
+        "timestamp": "2026-04-10T12:17:29.809Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-23T02:04:03.780Z"
+        "timestamp": "2026-04-10T12:18:29.809Z"
       }
     ]
   },
@@ -4538,27 +4538,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-20T12:43:53.717Z"
+        "timestamp": "2026-04-01T01:18:48.647Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-20T12:44:53.717Z"
+        "timestamp": "2026-04-01T01:19:48.647Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-20T12:45:53.717Z"
+        "timestamp": "2026-04-01T01:20:48.647Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-20T12:46:53.717Z"
+        "timestamp": "2026-04-01T01:21:48.647Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-20T12:47:53.717Z"
+        "timestamp": "2026-04-01T01:22:48.647Z"
       }
     ]
   },
@@ -4576,22 +4576,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-23T10:45:39.111Z"
+        "timestamp": "2026-04-25T00:37:40.160Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-23T10:46:39.111Z"
+        "timestamp": "2026-04-25T00:38:40.160Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-23T10:47:39.111Z"
+        "timestamp": "2026-04-25T00:39:40.160Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-23T10:48:39.111Z"
+        "timestamp": "2026-04-25T00:40:40.160Z"
       }
     ]
   },
@@ -4608,22 +4608,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-03-31T17:41:37.630Z"
+        "timestamp": "2026-04-17T18:06:47.362Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-03-31T17:42:37.630Z"
+        "timestamp": "2026-04-17T18:07:47.362Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-03-31T17:43:37.630Z"
+        "timestamp": "2026-04-17T18:08:47.362Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-03-31T17:44:37.630Z"
+        "timestamp": "2026-04-17T18:09:47.362Z"
       }
     ]
   },
@@ -4640,22 +4640,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-02T03:14:05.427Z"
+        "timestamp": "2026-04-12T12:31:00.318Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-02T03:15:05.427Z"
+        "timestamp": "2026-04-12T12:32:00.318Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-02T03:16:05.427Z"
+        "timestamp": "2026-04-12T12:33:00.318Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-02T03:17:05.427Z"
+        "timestamp": "2026-04-12T12:34:00.318Z"
       }
     ]
   },
@@ -4673,32 +4673,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-17T04:33:34.014Z"
+        "timestamp": "2026-04-08T18:36:40.920Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-17T04:34:34.014Z"
+        "timestamp": "2026-04-08T18:37:40.920Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-17T04:35:34.014Z"
+        "timestamp": "2026-04-08T18:38:40.920Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-17T04:36:34.014Z"
+        "timestamp": "2026-04-08T18:39:40.920Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-17T04:37:34.014Z"
+        "timestamp": "2026-04-08T18:40:40.920Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-17T04:38:34.014Z"
+        "timestamp": "2026-04-08T18:41:40.920Z"
       }
     ]
   },
@@ -4716,27 +4716,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-02T22:47:39.063Z"
+        "timestamp": "2026-03-31T07:41:52.102Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-02T22:48:39.063Z"
+        "timestamp": "2026-03-31T07:42:52.102Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-02T22:49:39.063Z"
+        "timestamp": "2026-03-31T07:43:52.102Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-02T22:50:39.063Z"
+        "timestamp": "2026-03-31T07:44:52.102Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-02T22:51:39.063Z"
+        "timestamp": "2026-03-31T07:45:52.102Z"
       }
     ]
   },
@@ -4754,22 +4754,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-09T10:26:33.287Z"
+        "timestamp": "2026-04-24T04:42:31.814Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-09T10:27:33.287Z"
+        "timestamp": "2026-04-24T04:43:31.814Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-09T10:28:33.287Z"
+        "timestamp": "2026-04-24T04:44:31.814Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-09T10:29:33.287Z"
+        "timestamp": "2026-04-24T04:45:31.814Z"
       }
     ]
   },
@@ -4786,22 +4786,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-06T04:23:30.060Z"
+        "timestamp": "2026-04-05T11:36:15.623Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-06T04:24:30.060Z"
+        "timestamp": "2026-04-05T11:37:15.623Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-06T04:25:30.060Z"
+        "timestamp": "2026-04-05T11:38:15.623Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-06T04:26:30.060Z"
+        "timestamp": "2026-04-05T11:39:15.623Z"
       }
     ]
   },
@@ -4818,22 +4818,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-04T16:05:25.103Z"
+        "timestamp": "2026-03-30T08:27:13.067Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-04T16:06:25.103Z"
+        "timestamp": "2026-03-30T08:28:13.067Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-04T16:07:25.103Z"
+        "timestamp": "2026-03-30T08:29:13.067Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-04T16:08:25.103Z"
+        "timestamp": "2026-03-30T08:30:13.067Z"
       }
     ]
   },
@@ -4851,32 +4851,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-03-28T04:48:53.496Z"
+        "timestamp": "2026-04-10T08:41:39.326Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-03-28T04:49:53.496Z"
+        "timestamp": "2026-04-10T08:42:39.326Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-03-28T04:50:53.496Z"
+        "timestamp": "2026-04-10T08:43:39.326Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-03-28T04:51:53.496Z"
+        "timestamp": "2026-04-10T08:44:39.326Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-03-28T04:52:53.496Z"
+        "timestamp": "2026-04-10T08:45:39.326Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-03-28T04:53:53.496Z"
+        "timestamp": "2026-04-10T08:46:39.326Z"
       }
     ]
   },
@@ -4894,27 +4894,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-03-30T03:30:40.157Z"
+        "timestamp": "2026-04-15T00:44:25.256Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-03-30T03:31:40.157Z"
+        "timestamp": "2026-04-15T00:45:25.256Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-03-30T03:32:40.157Z"
+        "timestamp": "2026-04-15T00:46:25.256Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-03-30T03:33:40.157Z"
+        "timestamp": "2026-04-15T00:47:25.256Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-03-30T03:34:40.157Z"
+        "timestamp": "2026-04-15T00:48:25.256Z"
       }
     ]
   },
@@ -4932,22 +4932,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-09T06:53:22.482Z"
+        "timestamp": "2026-04-16T07:09:09.370Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-09T06:54:22.482Z"
+        "timestamp": "2026-04-16T07:10:09.370Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-09T06:55:22.482Z"
+        "timestamp": "2026-04-16T07:11:09.370Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-09T06:56:22.482Z"
+        "timestamp": "2026-04-16T07:12:09.370Z"
       }
     ]
   },
@@ -4964,22 +4964,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-14T06:30:01.554Z"
+        "timestamp": "2026-04-08T12:16:55.589Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-14T06:31:01.554Z"
+        "timestamp": "2026-04-08T12:17:55.589Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-14T06:32:01.554Z"
+        "timestamp": "2026-04-08T12:18:55.589Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-14T06:33:01.554Z"
+        "timestamp": "2026-04-08T12:19:55.589Z"
       }
     ]
   },
@@ -4996,22 +4996,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-15T22:37:00.439Z"
+        "timestamp": "2026-04-12T04:35:23.652Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-15T22:38:00.439Z"
+        "timestamp": "2026-04-12T04:36:23.652Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-15T22:39:00.439Z"
+        "timestamp": "2026-04-12T04:37:23.652Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-15T22:40:00.439Z"
+        "timestamp": "2026-04-12T04:38:23.652Z"
       }
     ]
   },
@@ -5029,32 +5029,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-16T14:00:44.749Z"
+        "timestamp": "2026-04-18T18:47:53.416Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-16T14:01:44.749Z"
+        "timestamp": "2026-04-18T18:48:53.416Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-16T14:02:44.749Z"
+        "timestamp": "2026-04-18T18:49:53.416Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-16T14:03:44.749Z"
+        "timestamp": "2026-04-18T18:50:53.416Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-16T14:04:44.749Z"
+        "timestamp": "2026-04-18T18:51:53.416Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-16T14:05:44.749Z"
+        "timestamp": "2026-04-18T18:52:53.416Z"
       }
     ]
   },
@@ -5072,27 +5072,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-09T23:04:26.947Z"
+        "timestamp": "2026-03-30T05:14:28.756Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-09T23:05:26.947Z"
+        "timestamp": "2026-03-30T05:15:28.756Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-09T23:06:26.947Z"
+        "timestamp": "2026-03-30T05:16:28.756Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-09T23:07:26.947Z"
+        "timestamp": "2026-03-30T05:17:28.756Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-09T23:08:26.947Z"
+        "timestamp": "2026-03-30T05:18:28.756Z"
       }
     ]
   },
@@ -5110,22 +5110,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-02T15:17:38.610Z"
+        "timestamp": "2026-04-23T18:39:07.956Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-02T15:18:38.610Z"
+        "timestamp": "2026-04-23T18:40:07.956Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-02T15:19:38.610Z"
+        "timestamp": "2026-04-23T18:41:07.956Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-02T15:20:38.610Z"
+        "timestamp": "2026-04-23T18:42:07.956Z"
       }
     ]
   },
@@ -5142,22 +5142,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-24T20:44:20.634Z"
+        "timestamp": "2026-04-02T07:01:32.153Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-24T20:45:20.634Z"
+        "timestamp": "2026-04-02T07:02:32.153Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-24T20:46:20.634Z"
+        "timestamp": "2026-04-02T07:03:32.153Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-24T20:47:20.634Z"
+        "timestamp": "2026-04-02T07:04:32.153Z"
       }
     ]
   },
@@ -5174,22 +5174,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-06T14:02:47.933Z"
+        "timestamp": "2026-04-05T19:25:29.839Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-06T14:03:47.933Z"
+        "timestamp": "2026-04-05T19:26:29.839Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-06T14:04:47.933Z"
+        "timestamp": "2026-04-05T19:27:29.839Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-06T14:05:47.933Z"
+        "timestamp": "2026-04-05T19:28:29.839Z"
       }
     ]
   },
@@ -5207,32 +5207,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-04T17:58:50.495Z"
+        "timestamp": "2026-04-26T08:15:25.311Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-04T17:59:50.495Z"
+        "timestamp": "2026-04-26T08:16:25.311Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-04T18:00:50.495Z"
+        "timestamp": "2026-04-26T08:17:25.311Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-04T18:01:50.495Z"
+        "timestamp": "2026-04-26T08:18:25.311Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-04T18:02:50.495Z"
+        "timestamp": "2026-04-26T08:19:25.311Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-04T18:03:50.495Z"
+        "timestamp": "2026-04-26T08:20:25.311Z"
       }
     ]
   },
@@ -5250,27 +5250,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-26T15:21:46.924Z"
+        "timestamp": "2026-04-24T06:36:27.872Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-26T15:22:46.924Z"
+        "timestamp": "2026-04-24T06:37:27.872Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-26T15:23:46.924Z"
+        "timestamp": "2026-04-24T06:38:27.872Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-26T15:24:46.924Z"
+        "timestamp": "2026-04-24T06:39:27.872Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-26T15:25:46.924Z"
+        "timestamp": "2026-04-24T06:40:27.872Z"
       }
     ]
   },
@@ -5288,22 +5288,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-10T15:33:50.009Z"
+        "timestamp": "2026-04-27T04:20:39.984Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-10T15:34:50.009Z"
+        "timestamp": "2026-04-27T04:21:39.984Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-10T15:35:50.009Z"
+        "timestamp": "2026-04-27T04:22:39.984Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-10T15:36:50.009Z"
+        "timestamp": "2026-04-27T04:23:39.984Z"
       }
     ]
   },
@@ -5320,22 +5320,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-09T21:41:28.327Z"
+        "timestamp": "2026-04-10T14:59:03.353Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-09T21:42:28.327Z"
+        "timestamp": "2026-04-10T15:00:03.353Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-09T21:43:28.327Z"
+        "timestamp": "2026-04-10T15:01:03.353Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-09T21:44:28.327Z"
+        "timestamp": "2026-04-10T15:02:03.353Z"
       }
     ]
   },
@@ -5352,22 +5352,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-06T17:53:17.643Z"
+        "timestamp": "2026-04-01T09:38:43.423Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-06T17:54:17.643Z"
+        "timestamp": "2026-04-01T09:39:43.423Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-06T17:55:17.643Z"
+        "timestamp": "2026-04-01T09:40:43.423Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-06T17:56:17.643Z"
+        "timestamp": "2026-04-01T09:41:43.423Z"
       }
     ]
   },
@@ -5385,32 +5385,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-08T05:31:34.221Z"
+        "timestamp": "2026-04-07T02:31:20.340Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-08T05:32:34.221Z"
+        "timestamp": "2026-04-07T02:32:20.340Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-08T05:33:34.221Z"
+        "timestamp": "2026-04-07T02:33:20.340Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-08T05:34:34.221Z"
+        "timestamp": "2026-04-07T02:34:20.340Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-08T05:35:34.221Z"
+        "timestamp": "2026-04-07T02:35:20.340Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-08T05:36:34.221Z"
+        "timestamp": "2026-04-07T02:36:20.340Z"
       }
     ]
   },
@@ -5428,27 +5428,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-13T07:05:46.219Z"
+        "timestamp": "2026-04-17T19:23:12.652Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-13T07:06:46.219Z"
+        "timestamp": "2026-04-17T19:24:12.652Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-13T07:07:46.219Z"
+        "timestamp": "2026-04-17T19:25:12.652Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-13T07:08:46.219Z"
+        "timestamp": "2026-04-17T19:26:12.652Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-13T07:09:46.219Z"
+        "timestamp": "2026-04-17T19:27:12.652Z"
       }
     ]
   },
@@ -5466,22 +5466,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-16T19:20:52.806Z"
+        "timestamp": "2026-04-08T06:10:21.777Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-16T19:21:52.806Z"
+        "timestamp": "2026-04-08T06:11:21.777Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-16T19:22:52.806Z"
+        "timestamp": "2026-04-08T06:12:21.777Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-16T19:23:52.806Z"
+        "timestamp": "2026-04-08T06:13:21.777Z"
       }
     ]
   },
@@ -5498,22 +5498,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-03-31T19:34:27.310Z"
+        "timestamp": "2026-04-24T02:24:57.006Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-03-31T19:35:27.310Z"
+        "timestamp": "2026-04-24T02:25:57.006Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-03-31T19:36:27.310Z"
+        "timestamp": "2026-04-24T02:26:57.006Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-03-31T19:37:27.310Z"
+        "timestamp": "2026-04-24T02:27:57.006Z"
       }
     ]
   },
@@ -5530,22 +5530,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-25T23:12:41.817Z"
+        "timestamp": "2026-04-16T09:53:10.309Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-25T23:13:41.817Z"
+        "timestamp": "2026-04-16T09:54:10.309Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-25T23:14:41.817Z"
+        "timestamp": "2026-04-16T09:55:10.309Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-25T23:15:41.817Z"
+        "timestamp": "2026-04-16T09:56:10.309Z"
       }
     ]
   },
@@ -5563,32 +5563,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-01T20:55:45.111Z"
+        "timestamp": "2026-04-01T13:14:11.533Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-01T20:56:45.111Z"
+        "timestamp": "2026-04-01T13:15:11.533Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-01T20:57:45.111Z"
+        "timestamp": "2026-04-01T13:16:11.533Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-01T20:58:45.111Z"
+        "timestamp": "2026-04-01T13:17:11.533Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-01T20:59:45.111Z"
+        "timestamp": "2026-04-01T13:18:11.533Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-01T21:00:45.111Z"
+        "timestamp": "2026-04-01T13:19:11.533Z"
       }
     ]
   },
@@ -5606,27 +5606,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-20T21:46:57.175Z"
+        "timestamp": "2026-04-15T19:37:54.405Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-20T21:47:57.175Z"
+        "timestamp": "2026-04-15T19:38:54.405Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-20T21:48:57.175Z"
+        "timestamp": "2026-04-15T19:39:54.405Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-20T21:49:57.175Z"
+        "timestamp": "2026-04-15T19:40:54.405Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-20T21:50:57.175Z"
+        "timestamp": "2026-04-15T19:41:54.405Z"
       }
     ]
   },
@@ -5644,22 +5644,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-26T23:47:29.229Z"
+        "timestamp": "2026-04-21T14:45:26.713Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-26T23:48:29.229Z"
+        "timestamp": "2026-04-21T14:46:26.713Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-26T23:49:29.229Z"
+        "timestamp": "2026-04-21T14:47:26.713Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-26T23:50:29.229Z"
+        "timestamp": "2026-04-21T14:48:26.713Z"
       }
     ]
   },
@@ -5676,22 +5676,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-16T18:14:35.816Z"
+        "timestamp": "2026-03-31T20:06:41.421Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-16T18:15:35.816Z"
+        "timestamp": "2026-03-31T20:07:41.421Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-16T18:16:35.816Z"
+        "timestamp": "2026-03-31T20:08:41.421Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-16T18:17:35.816Z"
+        "timestamp": "2026-03-31T20:09:41.421Z"
       }
     ]
   },
@@ -5708,22 +5708,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-20T00:11:38.197Z"
+        "timestamp": "2026-04-11T20:37:37.667Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-20T00:12:38.197Z"
+        "timestamp": "2026-04-11T20:38:37.667Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-20T00:13:38.197Z"
+        "timestamp": "2026-04-11T20:39:37.667Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-20T00:14:38.197Z"
+        "timestamp": "2026-04-11T20:40:37.667Z"
       }
     ]
   },
@@ -5741,32 +5741,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-01T23:13:41.590Z"
+        "timestamp": "2026-04-09T01:56:45.923Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-01T23:14:41.590Z"
+        "timestamp": "2026-04-09T01:57:45.923Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-01T23:15:41.590Z"
+        "timestamp": "2026-04-09T01:58:45.923Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-01T23:16:41.590Z"
+        "timestamp": "2026-04-09T01:59:45.923Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-01T23:17:41.590Z"
+        "timestamp": "2026-04-09T02:00:45.923Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-01T23:18:41.590Z"
+        "timestamp": "2026-04-09T02:01:45.923Z"
       }
     ]
   },
@@ -5784,27 +5784,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-08T07:01:25.590Z"
+        "timestamp": "2026-04-01T10:21:12.805Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-08T07:02:25.590Z"
+        "timestamp": "2026-04-01T10:22:12.805Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-08T07:03:25.590Z"
+        "timestamp": "2026-04-01T10:23:12.805Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-08T07:04:25.590Z"
+        "timestamp": "2026-04-01T10:24:12.805Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-08T07:05:25.590Z"
+        "timestamp": "2026-04-01T10:25:12.805Z"
       }
     ]
   },
@@ -5822,22 +5822,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-23T17:44:36.917Z"
+        "timestamp": "2026-04-17T13:37:12.495Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-23T17:45:36.917Z"
+        "timestamp": "2026-04-17T13:38:12.495Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-23T17:46:36.917Z"
+        "timestamp": "2026-04-17T13:39:12.495Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-23T17:47:36.917Z"
+        "timestamp": "2026-04-17T13:40:12.495Z"
       }
     ]
   },
@@ -5854,22 +5854,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-21T13:18:25.314Z"
+        "timestamp": "2026-04-24T19:24:13.692Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-21T13:19:25.314Z"
+        "timestamp": "2026-04-24T19:25:13.692Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-21T13:20:25.314Z"
+        "timestamp": "2026-04-24T19:26:13.692Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-21T13:21:25.314Z"
+        "timestamp": "2026-04-24T19:27:13.692Z"
       }
     ]
   },
@@ -5886,22 +5886,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-16T02:01:40.406Z"
+        "timestamp": "2026-03-30T22:53:04.369Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-16T02:02:40.406Z"
+        "timestamp": "2026-03-30T22:54:04.369Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-16T02:03:40.406Z"
+        "timestamp": "2026-03-30T22:55:04.369Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-16T02:04:40.406Z"
+        "timestamp": "2026-03-30T22:56:04.369Z"
       }
     ]
   },
@@ -5919,32 +5919,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-03T02:07:20.961Z"
+        "timestamp": "2026-04-04T13:45:33.809Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-03T02:08:20.961Z"
+        "timestamp": "2026-04-04T13:46:33.809Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-03T02:09:20.961Z"
+        "timestamp": "2026-04-04T13:47:33.809Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-03T02:10:20.961Z"
+        "timestamp": "2026-04-04T13:48:33.809Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-03T02:11:20.961Z"
+        "timestamp": "2026-04-04T13:49:33.809Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-03T02:12:20.961Z"
+        "timestamp": "2026-04-04T13:50:33.809Z"
       }
     ]
   },
@@ -5962,27 +5962,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-01T11:37:28.982Z"
+        "timestamp": "2026-04-20T21:23:13.133Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-01T11:38:28.982Z"
+        "timestamp": "2026-04-20T21:24:13.133Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-01T11:39:28.982Z"
+        "timestamp": "2026-04-20T21:25:13.133Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-01T11:40:28.982Z"
+        "timestamp": "2026-04-20T21:26:13.133Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-01T11:41:28.982Z"
+        "timestamp": "2026-04-20T21:27:13.133Z"
       }
     ]
   },
@@ -6000,22 +6000,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-06T17:50:17.801Z"
+        "timestamp": "2026-04-10T21:41:30.444Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-06T17:51:17.801Z"
+        "timestamp": "2026-04-10T21:42:30.444Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-06T17:52:17.801Z"
+        "timestamp": "2026-04-10T21:43:30.444Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-06T17:53:17.801Z"
+        "timestamp": "2026-04-10T21:44:30.444Z"
       }
     ]
   },
@@ -6032,22 +6032,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-16T13:58:32.267Z"
+        "timestamp": "2026-03-29T15:08:35.174Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-16T13:59:32.267Z"
+        "timestamp": "2026-03-29T15:09:35.174Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-16T14:00:32.267Z"
+        "timestamp": "2026-03-29T15:10:35.174Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-16T14:01:32.267Z"
+        "timestamp": "2026-03-29T15:11:35.174Z"
       }
     ]
   },
@@ -6064,22 +6064,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-15T21:42:43.364Z"
+        "timestamp": "2026-04-15T01:06:51.845Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-15T21:43:43.364Z"
+        "timestamp": "2026-04-15T01:07:51.845Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-15T21:44:43.364Z"
+        "timestamp": "2026-04-15T01:08:51.845Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-15T21:45:43.364Z"
+        "timestamp": "2026-04-15T01:09:51.845Z"
       }
     ]
   },
@@ -6097,32 +6097,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-22T15:05:16.923Z"
+        "timestamp": "2026-04-27T20:32:24.499Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-22T15:06:16.923Z"
+        "timestamp": "2026-04-27T20:33:24.499Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-22T15:07:16.923Z"
+        "timestamp": "2026-04-27T20:34:24.499Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-22T15:08:16.923Z"
+        "timestamp": "2026-04-27T20:35:24.499Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-22T15:09:16.923Z"
+        "timestamp": "2026-04-27T20:36:24.499Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-22T15:10:16.923Z"
+        "timestamp": "2026-04-27T20:37:24.499Z"
       }
     ]
   },
@@ -6140,27 +6140,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-21T16:59:57.853Z"
+        "timestamp": "2026-04-03T05:20:27.619Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-21T17:00:57.853Z"
+        "timestamp": "2026-04-03T05:21:27.619Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-21T17:01:57.853Z"
+        "timestamp": "2026-04-03T05:22:27.619Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-21T17:02:57.853Z"
+        "timestamp": "2026-04-03T05:23:27.619Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-21T17:03:57.853Z"
+        "timestamp": "2026-04-03T05:24:27.619Z"
       }
     ]
   },
@@ -6178,22 +6178,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-03-31T16:10:10.228Z"
+        "timestamp": "2026-04-06T05:39:06.629Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-03-31T16:11:10.228Z"
+        "timestamp": "2026-04-06T05:40:06.629Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-03-31T16:12:10.228Z"
+        "timestamp": "2026-04-06T05:41:06.629Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-03-31T16:13:10.228Z"
+        "timestamp": "2026-04-06T05:42:06.629Z"
       }
     ]
   },
@@ -6210,22 +6210,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-03T10:35:37.001Z"
+        "timestamp": "2026-04-24T02:21:47.140Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-03T10:36:37.001Z"
+        "timestamp": "2026-04-24T02:22:47.140Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-03T10:37:37.001Z"
+        "timestamp": "2026-04-24T02:23:47.140Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-03T10:38:37.001Z"
+        "timestamp": "2026-04-24T02:24:47.140Z"
       }
     ]
   },
@@ -6242,22 +6242,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-06T19:33:57.847Z"
+        "timestamp": "2026-04-10T11:57:54.824Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-06T19:34:57.847Z"
+        "timestamp": "2026-04-10T11:58:54.824Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-06T19:35:57.847Z"
+        "timestamp": "2026-04-10T11:59:54.824Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-06T19:36:57.847Z"
+        "timestamp": "2026-04-10T12:00:54.824Z"
       }
     ]
   },
@@ -6275,32 +6275,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-05T19:46:53.320Z"
+        "timestamp": "2026-04-17T08:48:54.849Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-05T19:47:53.320Z"
+        "timestamp": "2026-04-17T08:49:54.849Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-05T19:48:53.320Z"
+        "timestamp": "2026-04-17T08:50:54.849Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-05T19:49:53.320Z"
+        "timestamp": "2026-04-17T08:51:54.849Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-05T19:50:53.320Z"
+        "timestamp": "2026-04-17T08:52:54.849Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-05T19:51:53.320Z"
+        "timestamp": "2026-04-17T08:53:54.849Z"
       }
     ]
   },
@@ -6318,27 +6318,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-24T06:16:20.072Z"
+        "timestamp": "2026-04-07T22:35:21.359Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-24T06:17:20.072Z"
+        "timestamp": "2026-04-07T22:36:21.359Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-24T06:18:20.072Z"
+        "timestamp": "2026-04-07T22:37:21.359Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-24T06:19:20.072Z"
+        "timestamp": "2026-04-07T22:38:21.359Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-24T06:20:20.072Z"
+        "timestamp": "2026-04-07T22:39:21.359Z"
       }
     ]
   },
@@ -6356,22 +6356,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-14T07:51:50.279Z"
+        "timestamp": "2026-04-15T06:55:53.189Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-14T07:52:50.279Z"
+        "timestamp": "2026-04-15T06:56:53.189Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-14T07:53:50.279Z"
+        "timestamp": "2026-04-15T06:57:53.189Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-14T07:54:50.279Z"
+        "timestamp": "2026-04-15T06:58:53.189Z"
       }
     ]
   },
@@ -6388,22 +6388,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-26T02:30:23.114Z"
+        "timestamp": "2026-04-19T13:53:59.817Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-26T02:31:23.114Z"
+        "timestamp": "2026-04-19T13:54:59.817Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-26T02:32:23.114Z"
+        "timestamp": "2026-04-19T13:55:59.817Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-26T02:33:23.114Z"
+        "timestamp": "2026-04-19T13:56:59.817Z"
       }
     ]
   },
@@ -6420,22 +6420,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-03-31T07:59:57.861Z"
+        "timestamp": "2026-04-09T21:31:52.919Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-03-31T08:00:57.861Z"
+        "timestamp": "2026-04-09T21:32:52.919Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-03-31T08:01:57.861Z"
+        "timestamp": "2026-04-09T21:33:52.919Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-03-31T08:02:57.861Z"
+        "timestamp": "2026-04-09T21:34:52.919Z"
       }
     ]
   },
@@ -6453,32 +6453,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-09T23:28:40.775Z"
+        "timestamp": "2026-04-10T14:59:55.098Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-09T23:29:40.775Z"
+        "timestamp": "2026-04-10T15:00:55.098Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-09T23:30:40.775Z"
+        "timestamp": "2026-04-10T15:01:55.098Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-09T23:31:40.775Z"
+        "timestamp": "2026-04-10T15:02:55.098Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-09T23:32:40.775Z"
+        "timestamp": "2026-04-10T15:03:55.098Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-09T23:33:40.775Z"
+        "timestamp": "2026-04-10T15:04:55.098Z"
       }
     ]
   },
@@ -6496,27 +6496,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-22T05:57:13.773Z"
+        "timestamp": "2026-04-19T23:14:32.268Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-22T05:58:13.773Z"
+        "timestamp": "2026-04-19T23:15:32.268Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-22T05:59:13.773Z"
+        "timestamp": "2026-04-19T23:16:32.268Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-22T06:00:13.773Z"
+        "timestamp": "2026-04-19T23:17:32.268Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-22T06:01:13.773Z"
+        "timestamp": "2026-04-19T23:18:32.268Z"
       }
     ]
   },
@@ -6534,22 +6534,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-02T03:32:26.898Z"
+        "timestamp": "2026-04-16T13:20:42.699Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-02T03:33:26.898Z"
+        "timestamp": "2026-04-16T13:21:42.699Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-02T03:34:26.898Z"
+        "timestamp": "2026-04-16T13:22:42.699Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-02T03:35:26.898Z"
+        "timestamp": "2026-04-16T13:23:42.699Z"
       }
     ]
   },
@@ -6566,22 +6566,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-05T12:18:49.854Z"
+        "timestamp": "2026-04-24T18:17:38.574Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-05T12:19:49.854Z"
+        "timestamp": "2026-04-24T18:18:38.574Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-05T12:20:49.854Z"
+        "timestamp": "2026-04-24T18:19:38.574Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-05T12:21:49.854Z"
+        "timestamp": "2026-04-24T18:20:38.574Z"
       }
     ]
   },
@@ -6598,22 +6598,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-08T06:37:21.522Z"
+        "timestamp": "2026-04-06T05:44:04.079Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-08T06:38:21.522Z"
+        "timestamp": "2026-04-06T05:45:04.079Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-08T06:39:21.522Z"
+        "timestamp": "2026-04-06T05:46:04.079Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-08T06:40:21.522Z"
+        "timestamp": "2026-04-06T05:47:04.079Z"
       }
     ]
   },
@@ -6631,32 +6631,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-08T15:58:26.738Z"
+        "timestamp": "2026-04-21T14:39:12.887Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-08T15:59:26.738Z"
+        "timestamp": "2026-04-21T14:40:12.887Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-08T16:00:26.738Z"
+        "timestamp": "2026-04-21T14:41:12.887Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-08T16:01:26.738Z"
+        "timestamp": "2026-04-21T14:42:12.887Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-08T16:02:26.738Z"
+        "timestamp": "2026-04-21T14:43:12.887Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-08T16:03:26.738Z"
+        "timestamp": "2026-04-21T14:44:12.887Z"
       }
     ]
   },
@@ -6674,27 +6674,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-26T22:54:49.386Z"
+        "timestamp": "2026-04-05T04:56:52.406Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-26T22:55:49.386Z"
+        "timestamp": "2026-04-05T04:57:52.406Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-26T22:56:49.386Z"
+        "timestamp": "2026-04-05T04:58:52.406Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-26T22:57:49.386Z"
+        "timestamp": "2026-04-05T04:59:52.406Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-26T22:58:49.386Z"
+        "timestamp": "2026-04-05T05:00:52.406Z"
       }
     ]
   },
@@ -6712,22 +6712,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-23T14:41:22.082Z"
+        "timestamp": "2026-04-19T19:19:42.178Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-23T14:42:22.082Z"
+        "timestamp": "2026-04-19T19:20:42.178Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-23T14:43:22.082Z"
+        "timestamp": "2026-04-19T19:21:42.178Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-23T14:44:22.082Z"
+        "timestamp": "2026-04-19T19:22:42.178Z"
       }
     ]
   },
@@ -6744,22 +6744,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-08T11:08:19.454Z"
+        "timestamp": "2026-04-19T10:23:31.601Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-08T11:09:19.454Z"
+        "timestamp": "2026-04-19T10:24:31.601Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-08T11:10:19.454Z"
+        "timestamp": "2026-04-19T10:25:31.601Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-08T11:11:19.454Z"
+        "timestamp": "2026-04-19T10:26:31.601Z"
       }
     ]
   },
@@ -6776,22 +6776,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-15T16:18:54.287Z"
+        "timestamp": "2026-04-18T05:25:03.972Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-15T16:19:54.287Z"
+        "timestamp": "2026-04-18T05:26:03.972Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-15T16:20:54.287Z"
+        "timestamp": "2026-04-18T05:27:03.972Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-15T16:21:54.287Z"
+        "timestamp": "2026-04-18T05:28:03.972Z"
       }
     ]
   },
@@ -6809,32 +6809,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-03-28T08:21:58.886Z"
+        "timestamp": "2026-04-16T04:22:50.258Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-03-28T08:22:58.886Z"
+        "timestamp": "2026-04-16T04:23:50.258Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-03-28T08:23:58.886Z"
+        "timestamp": "2026-04-16T04:24:50.258Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-03-28T08:24:58.886Z"
+        "timestamp": "2026-04-16T04:25:50.258Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-03-28T08:25:58.886Z"
+        "timestamp": "2026-04-16T04:26:50.258Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-03-28T08:26:58.886Z"
+        "timestamp": "2026-04-16T04:27:50.258Z"
       }
     ]
   },
@@ -6852,27 +6852,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-22T10:13:33.972Z"
+        "timestamp": "2026-04-16T19:47:36.652Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-22T10:14:33.972Z"
+        "timestamp": "2026-04-16T19:48:36.652Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-22T10:15:33.972Z"
+        "timestamp": "2026-04-16T19:49:36.652Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-22T10:16:33.972Z"
+        "timestamp": "2026-04-16T19:50:36.652Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-22T10:17:33.972Z"
+        "timestamp": "2026-04-16T19:51:36.652Z"
       }
     ]
   },
@@ -6890,22 +6890,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-09T04:14:40.715Z"
+        "timestamp": "2026-04-23T18:06:42.081Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-09T04:15:40.715Z"
+        "timestamp": "2026-04-23T18:07:42.081Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-09T04:16:40.715Z"
+        "timestamp": "2026-04-23T18:08:42.081Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-09T04:17:40.715Z"
+        "timestamp": "2026-04-23T18:09:42.081Z"
       }
     ]
   },
@@ -6922,22 +6922,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-21T19:35:26.817Z"
+        "timestamp": "2026-04-05T22:29:59.828Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-21T19:36:26.817Z"
+        "timestamp": "2026-04-05T22:30:59.828Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-21T19:37:26.817Z"
+        "timestamp": "2026-04-05T22:31:59.828Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-21T19:38:26.817Z"
+        "timestamp": "2026-04-05T22:32:59.828Z"
       }
     ]
   },
@@ -6954,22 +6954,22 @@
       {
         "role": "customer",
         "content": "请问这款耳机降噪效果怎么样？",
-        "timestamp": "2026-04-26T17:58:47.230Z"
+        "timestamp": "2026-03-31T04:15:18.600Z"
       },
       {
         "role": "agent",
         "content": "您好！这款耳机采用了最新的自适应降噪技术，能够过滤98%的环境噪音。",
-        "timestamp": "2026-04-26T17:59:47.230Z"
+        "timestamp": "2026-03-31T04:16:18.600Z"
       },
       {
         "role": "customer",
         "content": "那电池能撑多久？",
-        "timestamp": "2026-04-26T18:00:47.230Z"
+        "timestamp": "2026-03-31T04:17:18.600Z"
       },
       {
         "role": "agent",
         "content": "满电状态下开启降噪可使用30小时，支持快充哦。",
-        "timestamp": "2026-04-26T18:01:47.230Z"
+        "timestamp": "2026-03-31T04:18:18.600Z"
       }
     ]
   },
@@ -6987,32 +6987,32 @@
       {
         "role": "customer",
         "content": "都一个星期了，为什么还没发货？",
-        "timestamp": "2026-04-17T19:09:15.373Z"
+        "timestamp": "2026-04-05T05:52:02.233Z"
       },
       {
         "role": "agent",
         "content": "抱歉，由于订单量较大，仓库正在抓紧排单。",
-        "timestamp": "2026-04-17T19:10:15.373Z"
+        "timestamp": "2026-04-05T05:53:02.233Z"
       },
       {
         "role": "customer",
         "content": "别拿订单量说事，我看别人后买的都收到了！",
-        "timestamp": "2026-04-17T19:11:15.373Z"
+        "timestamp": "2026-04-05T05:54:02.233Z"
       },
       {
         "role": "agent",
         "content": "爱买不买，不行你就退款吧，没空跟你废话。",
-        "timestamp": "2026-04-17T19:12:15.373Z"
+        "timestamp": "2026-04-05T05:55:02.233Z"
       },
       {
         "role": "customer",
         "content": "你这是什么态度？我要投诉你！",
-        "timestamp": "2026-04-17T19:13:15.373Z"
+        "timestamp": "2026-04-05T05:56:02.233Z"
       },
       {
         "role": "agent",
         "content": "随便你，笨蛋。",
-        "timestamp": "2026-04-17T19:14:15.373Z"
+        "timestamp": "2026-04-05T05:57:02.233Z"
       }
     ]
   },
@@ -7030,27 +7030,27 @@
       {
         "role": "customer",
         "content": "我刚买完就降价了50元，能退差价吗？",
-        "timestamp": "2026-04-08T07:18:57.815Z"
+        "timestamp": "2026-04-27T02:31:07.140Z"
       },
       {
         "role": "agent",
         "content": "不好意思亲，活动已经结束了，无法补差价。",
-        "timestamp": "2026-04-08T07:19:57.815Z"
+        "timestamp": "2026-04-27T02:32:07.140Z"
       },
       {
         "role": "customer",
         "content": "可是我还没收到货呢，这样我只能拒签重买了。",
-        "timestamp": "2026-04-08T07:20:57.815Z"
+        "timestamp": "2026-04-27T02:33:07.140Z"
       },
       {
         "role": "agent",
         "content": "那您随意吧，我们也没办法。",
-        "timestamp": "2026-04-08T07:21:57.815Z"
+        "timestamp": "2026-04-27T02:34:07.140Z"
       },
       {
         "role": "customer",
         "content": "好吧，那我不想要了，申请退款了。",
-        "timestamp": "2026-04-08T07:22:57.815Z"
+        "timestamp": "2026-04-27T02:35:07.140Z"
       }
     ]
   },
@@ -7068,22 +7068,22 @@
       {
         "role": "customer",
         "content": "这个价格还能再少点吗？",
-        "timestamp": "2026-04-07T15:27:02.976Z"
+        "timestamp": "2026-04-21T19:43:37.492Z"
       },
       {
         "role": "agent",
         "content": "亲，加我微信吧，私下转账给你打8折，平台抽成太高了。",
-        "timestamp": "2026-04-07T15:28:02.976Z"
+        "timestamp": "2026-04-21T19:44:37.492Z"
       },
       {
         "role": "customer",
         "content": "好的，微信号是多少？",
-        "timestamp": "2026-04-07T15:29:02.976Z"
+        "timestamp": "2026-04-21T19:45:37.492Z"
       },
       {
         "role": "agent",
         "content": "xxxxx，加完备注一下。",
-        "timestamp": "2026-04-07T15:30:02.976Z"
+        "timestamp": "2026-04-21T19:46:37.492Z"
       }
     ]
   },
@@ -7100,22 +7100,22 @@
       {
         "role": "customer",
         "content": "收到的椅子腿有划痕，怎么办？",
-        "timestamp": "2026-04-01T23:13:55.764Z"
+        "timestamp": "2026-03-30T08:11:02.313Z"
       },
       {
         "role": "agent",
         "content": "非常抱歉！请拍照发给我，我们立即为您安排免费换货。",
-        "timestamp": "2026-04-01T23:14:55.764Z"
+        "timestamp": "2026-03-30T08:12:02.313Z"
       },
       {
         "role": "customer",
         "content": "麻烦快一点，急着搬家。",
-        "timestamp": "2026-04-01T23:15:55.764Z"
+        "timestamp": "2026-03-30T08:13:02.313Z"
       },
       {
         "role": "agent",
         "content": "没问题，今天下午就为您寄出新的。",
-        "timestamp": "2026-04-01T23:16:55.764Z"
+        "timestamp": "2026-03-30T08:14:02.313Z"
       }
     ]
   }

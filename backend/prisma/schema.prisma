@@ -124,8 +124,15 @@ model approval_template {
   updated_at      String   // 用于前端显示
   nodes           Json     // 流程节点定义
   form_fields     Json?    // [NEW] 自定义表单字段定义
+  workflow_config Json?    // 工作流配置JSON
+  creator_id      String?  // 创建人ID
+
+  // 关联关系
+  approval_instances approval_instances[]
 
   @@index([status, update_time])
+  @@index([type, status])
+  @@index([creator_id])
 }
 
 model approval_request {
@@ -785,6 +792,7 @@ model fin_expense_type {
   platform_id String
   dept_id     String?
   status      Int      @default(1)
+  creator_id  String?  // 创建人ID
   reimbursements fin_reimbursement[]
 
   @@unique([code, platform_id])
@@ -805,14 +813,17 @@ model fin_reimbursement {
   dept_id             String
   shop_id             String?
   approval_request_id String?
+  instance_id         String?  // 关联审批实例ID
   status              Int      @default(1) // 1:审批中, 2:待打款, 3:已打款, 4:已驳回, 5:已撤回
   paid_at             DateTime?
   pay_method          String?   // 银行转账, 支付宝, 微信, 现金
   remark              String?   @db.Text
 
   fin_expense_type    fin_expense_type @relation(fields: [expense_type_id], references: [id])
+  approval_instance   approval_instances? @relation("InstanceReimbursements", fields: [instance_id], references: [id])
 
   @@index([platform_id, dept_id, status])
+  @@index([instance_id])
 }
 
 model fin_purchase {
@@ -831,11 +842,15 @@ model fin_purchase {
   dept_id             String
   shop_id             String?
   approval_request_id String?
+  instance_id         String?  // 关联审批实例ID
   status              Int      @default(1) // 1:审批中, 2:待采购, 3:已完成, 4:已驳回, 5:已取消
   supplier_info       String?  @db.Text
   completed_at        DateTime?
 
+  approval_instance   approval_instances? @relation("InstancePurchases", fields: [instance_id], references: [id])
+
   @@index([platform_id, dept_id, status])
+  @@index([instance_id])
 }
 
 model fin_cash_record {
@@ -2234,3 +2249,117 @@ model sys_file {
   @@index([status])
   @@index([create_time])
 }
+
+// ==================== 日志告警表 ====================
+
+model sys_log_alert {
+  id            String   @id @default(cuid())
+  create_time   DateTime @default(now())
+  update_time   DateTime @updatedAt
+  is_deleted    Int      @default(0)
+  alert_type    String   @db.VarChar(100)  // 告警类型
+  alert_level   String   @db.VarChar(20)   // 告警级别: info, warning, error, critical
+  alert_title   String   @db.VarChar(200)  // 告警标题
+  alert_message String   @db.Text          // 告警消息
+  alert_details String?  @db.Text          // 告警详情(JSON格式)
+  user_id       String?  @db.VarChar(50)   // 关联用户ID
+  platform_id   String?  @db.VarChar(50)   // 关联平台ID
+  dept_id       String?  @db.VarChar(50)   // 关联部门ID
+  is_resolved   Int      @default(0)       // 是否已解决: 0-未解决, 1-已解决
+  resolved_time DateTime?                  // 解决时间
+  resolved_by   String?  @db.VarChar(50)   // 解决人ID
+
+  @@index([alert_type, create_time])
+  @@index([alert_level, is_resolved])
+  @@index([platform_id, dept_id])
+  @@index([user_id])
+  @@index([create_time])
+}
+
+// ==================== 审批系统增强表 ====================
+
+// 审批实例表 - 新的核心审批表
+model approval_instances {
+  id              String   @id @default(cuid())
+  create_time     DateTime @default(now())
+  update_time     DateTime @updatedAt
+  is_deleted      Int      @default(0)
+  template_id     String   @db.VarChar(30)
+  applicant_id    String   @db.VarChar(30)
+  title           String   @db.VarChar(200)
+  form_data       Json
+  current_node_id String?  @db.VarChar(50)
+  status          String   @default("pending") @db.VarChar(20) // pending/approved/rejected/cancelled
+  priority        Int      @default(1) // 1普通 2紧急 3特急
+  platform_id     String?  @db.VarChar(30)
+  department_id   String?  @db.VarChar(30)
+
+  // 关联关系
+  approval_records approval_records[]
+  reimbursements   fin_reimbursement[] @relation("InstanceReimbursements")
+  purchases        fin_purchase[]      @relation("InstancePurchases")
+  template         approval_template   @relation(fields: [template_id], references: [id])
+
+  @@index([template_id])
+  @@index([applicant_id])
+  @@index([status])
+  @@index([platform_id, department_id])
+  @@index([create_time])
+  @@index([status, priority, create_time])
+  @@index([applicant_id, status])
+  @@index([template_id, status])
+}
+
+// 审批记录表 - 记录每个审批节点的处理情况
+model approval_records {
+  id           String   @id @default(cuid())
+  create_time  DateTime @default(now())
+  instance_id  String   @db.VarChar(30)
+  node_id      String   @db.VarChar(50)
+  approver_id  String   @db.VarChar(30)
+  action       String   @db.VarChar(20) // approve/reject/transfer
+  comment      String?  @db.Text
+  attachments  Json?
+  process_time DateTime @default(now())
+
+  // 关联关系
+  instance     approval_instances @relation(fields: [instance_id], references: [id], onDelete: Cascade)
+
+  @@index([instance_id])
+  @@index([approver_id])
+  @@index([node_id])
+  @@index([process_time])
+  @@index([instance_id, process_time])
+  @@index([approver_id, action])
+}
+
+// 收支记录表 - 统一管理所有收支记录
+model financial_records {
+  id            String   @id @default(cuid())
+  create_time   DateTime @default(now())
+  update_time   DateTime @updatedAt
+  is_deleted    Int      @default(0)
+  type          String   @db.VarChar(20) // income/expense
+  amount        Decimal  @db.Decimal(10, 2)
+  source        String?  @db.VarChar(100)
+  category      String?  @db.VarChar(50)
+  description   String?  @db.Text
+  related_id    String?  @db.VarChar(30)
+  related_type  String?  @db.VarChar(20) // reimbursement/purchase/manual
+  platform_id   String?  @db.VarChar(30)
+  department_id String?  @db.VarChar(30)
+  operator_id   String   @db.VarChar(30)
+
+  @@index([type])
+  @@index([amount])
+  @@index([related_id, related_type])
+  @@index([platform_id, department_id])
+  @@index([create_time])
+  @@index([type, create_time])
+  @@index([platform_id, department_id, type])
+  @@index([related_type, create_time])
+}
+
+// 增强现有表的关联关系
+// 为 fin_reimbursement 添加与 approval_instances 的关联
+// 为 fin_purchase 添加与 approval_instances 的关联

@@ -3,6 +3,7 @@
  */
 
 export { useDebounce } from "./useDebounce";
+export { useThrottle, useSimpleThrottle } from "./useThrottle";
 export { useFormDraft } from "./useFormDraft";
 export { useAutoSave } from "./useAutoSave";
 export { useKeyboardShortcuts } from "./useKeyboardShortcuts";
@@ -14,3 +15,13 @@ export { useResponsive, useResponsiveColumns } from "./useResponsive";
 export { useGlobalPrompts } from "./useGlobalPrompts";
 export { useDepartmentPrompts } from "./useDepartmentPrompts";
 export { usePromptTemplates } from "./usePromptTemplates";
+
+// Performance Optimization Hooks (Task 16)
+export { useVirtualScroll, getVirtualScrollConfig, calculateVirtualScrollHeight } from "./useVirtualScroll";
+export {
+  useOperationLogQuery,
+  useLoginLogQuery,
+  useLogExport,
+  useInvalidateLogCache,
+  usePrefetchLogs
+} from "./useLogQuery";

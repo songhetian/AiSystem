@@ -1,46 +1,39 @@
-@import './styles/global.less';
+/**
+ * 全局样式重置 - 极致简约版
+ */
+@import './styles/variables.less';
 
-.leixi-page-container {
-  padding: 16px;
-  background-color: #f5f7fa;
+// 强制覆盖 Ant Design 的冗余样式
+:global {
+  // 1. 去掉所有不必要的投影，改用极细边框
+  .ant-card, .ant-layout-sider, .ant-pro-layout-header {
+    box-shadow: none !important;
+  }
+
+  // 2. 统一全局背景色
+  .ant-layout {
+    background-color: #FAFAFA !important;
+  }
+
+  // 3. 侧边栏与头部交界处优化
+  .ant-layout-sider {
+    border-right: 1px solid #F1F5F9 !important;
+  }
+
+  .ant-pro-layout-header {
+    border-bottom: 1px solid #F1F5F9 !important;
+  }
+
+  // 4. 菜单选中态 - 现代高亮块风格
+  .ant-menu-item-selected {
+    background-color: #F1F5F9 !important;
+    color: #0F172A !important;
+    font-weight: 600 !important;
+  }
+
+  // 5. 彻底移除所有循环动画
+  [class*='animate-'], [class*='pulse'], [class*='flow'] {
+    animation: none !important;
+    transition: none !important;
+  }
 }
-
-.leixi-text-main {
-  color: #0f172a !important; /* slate-900 */
-  font-weight: 700 !important;
-}
-
-.leixi-text-secondary {
-  color: #64748b !important; /* slate-500 */
-}
-
-.leixi-filter-height {
-  height: 44px !important;
-}
-
-.leixi-filter-border {
-  border: 1px solid #64748b !important;
-}
-
-/* 雷犀动态加载动画 */
-@keyframes leixi-pulse {
-  0% { opacity: 0.6; transform: scale(0.98); }
-  50% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0.6; transform: scale(0.98); }
-}
-
-.leixi-loading-pulse {
-  animation: leixi-pulse 1.5s infinite ease-in-out;
-}
-
-.leixi-shimmer {
-  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite linear;
-}
-
-@keyframes shimmer {
-  from { background-position: 200% 0; }
-  to { background-position: -200% 0; }
-}
-

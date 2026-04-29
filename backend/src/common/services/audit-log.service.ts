@@ -32,6 +32,7 @@ interface OperationLogPayload {
   platform_id?: string | null;
   dept_id?: string | null;
   shop_id?: string | null;
+  execution_time?: number; // 执行时间（毫秒）
 }
 
 function trimMessage(value?: string | null, max = 500) {
@@ -219,6 +220,7 @@ export class AuditLogService {
           platform_id: payload.platform_id ?? undefined,
           dept_id: payload.dept_id ?? undefined,
           shop_id: payload.shop_id ?? undefined,
+          execution_time: payload.execution_time ?? undefined,
         },
       });
       // 写入成功后，尝试同步 Redis 中的兜底缓存

@@ -12,6 +12,10 @@ const AvatarDropdown: React.FC = () => {
   const navigate = useNavigate();
   const { currentUser, setToken, setCurrentUser } = useGlobalStore();
 
+  // 蓝色背景下使用白色文字
+  const textColor = '#FFFFFF';
+  const secondaryTextColor = 'rgba(255, 255, 255, 0.8)';
+
   const onMenuClick: MenuProps['onClick'] = async ({ key }) => {
     if (key === 'logout') {
       // 使用auth工具类登出
@@ -55,6 +59,7 @@ const AvatarDropdown: React.FC = () => {
     <Dropdown
       menu={{ items: menuItems, onClick: onMenuClick }}
       placement="bottomRight"
+      align={{ offset: [0, 8] }}
       dropdownRender={(menu) => (
         <div style={{
           background: '#fff',
@@ -100,23 +105,23 @@ const AvatarDropdown: React.FC = () => {
       <div className="header-action-item" style={{
         display: 'flex', alignItems: 'center', gap: 8,
         padding: '0 10px', borderRadius: 8, height: 48, cursor: 'pointer',
-        color: '#fff',
+        transition: 'background 0.2s',
       }}>
         <Avatar
           size={32}
           src={currentUser.avatar}
           icon={!currentUser.avatar && <UserOutlined />}
           style={{
-            background: 'rgba(255,255,255,0.25)',
+            background: 'rgba(255,255,255,0.2)',
             border: '1.5px solid rgba(255,255,255,0.4)',
             flexShrink: 0,
           }}
         />
         <div style={{ lineHeight: 1 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: '#fff' }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: textColor }}>
             {displayName}
           </div>
-          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.65)', marginTop: 2 }}>
+          <div style={{ fontSize: 11, color: secondaryTextColor, marginTop: 2 }}>
             {roleLabel}
           </div>
         </div>
@@ -129,6 +134,10 @@ const AvatarDropdown: React.FC = () => {
 export const RightContent: React.FC = () => {
   const { isDark, toggleTheme } = useTheme();
   const { token } = useGlobalStore();
+
+  // 蓝色背景下使用白色图标
+  const iconColor = '#FFFFFF';
+  const dividerColor = 'rgba(255,255,255,0.2)';
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', height: '100%', gap: 4, paddingRight: 8 }}>
@@ -143,8 +152,8 @@ export const RightContent: React.FC = () => {
           style={{
             width: 40, height: 40, borderRadius: 8,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            cursor: 'pointer', color: '#fff', fontSize: 18,
-            transition: 'background 0.2s',
+            cursor: 'pointer', color: iconColor, fontSize: 18,
+            transition: 'all 0.2s',
           }}
         >
           {isDark ? <SunOutlined /> : <MoonOutlined />}
@@ -152,7 +161,7 @@ export const RightContent: React.FC = () => {
       </Tooltip>
 
       {/* 分隔线 */}
-      <div style={{ width: 1, height: 20, background: 'rgba(255,255,255,0.2)', margin: '0 4px' }} />
+      <div style={{ width: 1, height: 20, background: dividerColor, margin: '0 4px' }} />
 
       {/* 用户头像下拉 */}
       <AvatarDropdown />

@@ -49,6 +49,9 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
   const [keyword, setKeyword] = useState("");
   const [actionableOnly, setActionableOnly] = useState(false);
 
+  // 蓝色背景下使用白色图标
+  const iconColor = '#FFFFFF';
+
   const { data: stats } = useQuery<MessageStats>({
     queryKey: ["system-message-stats"],
     queryFn: systemApi.messageStats,
@@ -135,7 +138,7 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
           return right.priority - left.priority;
         }
 
-        return new Date(right.items[0]!.create_time).getTime() - 
+        return new Date(right.items[0]!.create_time).getTime() -
                new Date(left.items[0]!.create_time).getTime();
       });
   }, [unreadMessages]);
@@ -199,9 +202,9 @@ export function HeaderMessageHub({ enabled = true }: { enabled?: boolean }) {
           className={`header-action-item ${styles.trigger}`}
           aria-label="消息中心"
           onClick={() => setOpen(true)}
-          style={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff', borderRadius: 6 }}
+          style={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: iconColor, borderRadius: 8, transition: 'all 0.2s' }}
         >
-          <BellOutlined style={{ fontSize: 20 }} />
+          <BellOutlined style={{ fontSize: 18 }} />
         </div>
       </Badge>
 
