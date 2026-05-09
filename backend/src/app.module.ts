@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { ScheduleModule } from "@nestjs/schedule";
 import { BullModule } from "@nestjs/bullmq";
+import { EventEmitterModule } from "@nestjs/event-emitter";
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { CommonModule } from "./common/common.module";
 import { PrismaModule } from "./prisma/prisma.module";
@@ -27,6 +28,7 @@ import { PerformanceInterceptor } from "./common/interceptors/performance.interc
           : "../.env", // 开发环境使用根目录的 .env
     }),
     ScheduleModule.forRoot(),
+    EventEmitterModule.forRoot(),
     BullModule.forRoot({
       connection: {
         url: process.env.REDIS_URL || undefined,
@@ -61,3 +63,4 @@ import { PerformanceInterceptor } from "./common/interceptors/performance.interc
   ],
 })
 export class AppModule {}
+

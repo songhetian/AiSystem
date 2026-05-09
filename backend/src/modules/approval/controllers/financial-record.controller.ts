@@ -1,57 +1,57 @@
 import {
-  Body,
   Controller,
-  Delete,
   Get,
-  Param,
-  Patch,
   Post,
+  Put,
+  Delete,
+  Body,
+  Param,
   Query,
+  UseGuards,
   Res,
+  HttpStatus,
+  Logger,
 } from "@nestjs/common";
+import { Response } from "express";
 import {
   ApiTags,
   ApiOperation,
-  ApiBearerAuth,
   ApiResponse,
+  ApiBearerAuth,
+  ApiParam,
 } from "@nestjs/swagger";
-import {
-  CurrentUser,
-  type CurrentUserPayload,
-} from "../../../common/current-user.decorator";
+import { JwtAuthGuard } from "../../../common/guards/jwt-auth.guard";
+import { CurrentUser, CurrentUserPayload } from "../../../common/current-user.decorator";
 import { Permission } from "../../../common/permission.decorator";
-import { AntiShake } from "../../../common/decorators/antishake.decorator";
-import {
-  RateLimit,
-  RateLimitType,
-} from "../../../common/decorators/rate-limiter.decorator";
+import { RateLimit, RateLimitType } from "../../../common/decorators/rate-limiter.decorator";
 import { FinancialRecordService } from "../services/financial-record.service";
 import { CreateFinancialRecordDto } from "../dto/create-financial-record.dto";
 import { UpdateFinancialRecordDto } from "../dto/update-financial-record.dto";
 import { QueryFinancialRecordDto } from "../dto/query-financial-record.dto";
-import { Response } from "express";
 
-@ApiTags("收支记录管理")
+@ApiTags("财务收支记录")
 @ApiBearerAuth()
-@Controller("approval/financial-records")
+@UseGuards(JwtAuthGuard)
+@Controller("approval/financial")
 export class FinancialRecordController {
-  constructor(private readonly financialRecordService: FinancialRecordService) {}
+  private readonly logger = new Logger(FinancialRecordController.name);
 
-  @Post("income")
+  constructor(
+    private readonly financialRecordService: FinancialRecordService,
+  ) {}
+
+  @Post()
   @ApiOperation({
-    summary: "创建收入记录",
-    description: "手动创建收入记录",
+    summary: "创建财务记录",
+    description: "手动创建一条财务记录（通常为收入）",
   })
-  @ApiResponse({ status: 201, description: "收入记录创建成功" })
-  @ApiResponse({ status: 400, description: "请求参数错误" })
-  @Permission("approval:financial:income:create")
-  @AntiShake(1000)
-  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
+  @ApiResponse({ status: HttpStatus.CREATED, description: "创建成功" })
+  @Permission("approval:financial:create")
   createIncomeRecord(
     @CurrentUser() user: CurrentUserPayload,
     @Body() dto: CreateFinancialRecordDto,
   ) {
-    return this.financialRecordService.createIncomeRecord(dto, user.sub);
+    return this.financialRecordService.createIncomeRecord(dto, user.id!);
   }
 
   @Get()
@@ -63,7 +63,12 @@ export class FinancialRecordController {
   @Permission("approval:financial:list")
   @RateLimit({ type: RateLimitType.USER, limit: 30, window: 60 })
   findMany(@Query() query: QueryFinancialRecordDto) {
-    return this.financialRecordService.findMany(query);
+    const serviceQuery: any = {
+      ...query,
+      startDate: query.startDate ? new Date(query.startDate) : undefined,
+      endDate: query.endDate ? new Date(query.endDate) : undefined,
+    };
+    return this.financialRecordService.findMany(serviceQuery);
   }
 
   @Get("summary")
@@ -82,106 +87,68 @@ export class FinancialRecordController {
   ) {
     const start = startDate ? new Date(startDate) : undefined;
     const end = endDate ? new Date(endDate) : undefined;
-    return this.financialRecordService.getSummary(platformId, departmentId, start, end);
-  }
-
-  @Get("monthly")
-  @ApiOperation({
-    summary: "获取月度财务数据",
-    description: "获取按月统计的财务数据",
-  })
-  @ApiResponse({ status: 200, description: "成功返回月度财务数据" })
-  @Permission("approval:financial:monthly")
-  @RateLimit({ type: RateLimitType.USER, limit: 20, window: 60 })
-  getMonthlyData(
-    @Query("platformId") platformId?: string,
-    @Query("departmentId") departmentId?: string,
-    @Query("months") months?: number,
-  ) {
-    return this.financialRecordService.getMonthlyData(platformId, departmentId, months);
-  }
-
-  @Get("category-stats")
-  @ApiOperation({
-    summary: "获取分类统计",
-    description: "获取收入或支出的分类统计",
-  })
-  @ApiResponse({ status: 200, description: "成功返回分类统计" })
-  @Permission("approval:financial:stats")
-  @RateLimit({ type: RateLimitType.USER, limit: 20, window: 60 })
-  getCategoryStats(
-    @Query("type") type: "income" | "expense",
-    @Query("platformId") platformId?: string,
-    @Query("departmentId") departmentId?: string,
-  ) {
-    return this.financialRecordService.getCategoryStats(type, platformId, departmentId);
+    return this.financialRecordService.getSummary(
+      platformId,
+      departmentId,
+      start,
+      end,
+    );
   }
 
   @Get("export")
   @ApiOperation({
     summary: "导出收支记录",
-    description: "导出收支记录为Excel文件",
+    description: "导出收支记录列表到Excel文件",
   })
-  @ApiResponse({ status: 200, description: "成功导出收支记录" })
+  @ApiResponse({ status: 200, description: "成功返回Excel文件流" })
   @Permission("approval:financial:export")
-  @RateLimit({ type: RateLimitType.USER, limit: 5, window: 60 })
+  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
   async exportRecords(
     @Query() query: QueryFinancialRecordDto,
     @Res() res: Response,
   ) {
-    const buffer = await this.financialRecordService.exportRecords(query);
-    res.setHeader(
-      "Content-Type",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    );
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename=financial_records_${Date.now()}.xlsx`,
-    );
+    const serviceQuery: any = {
+      ...query,
+      startDate: query.startDate ? new Date(query.startDate) : undefined,
+      endDate: query.endDate ? new Date(query.endDate) : undefined,
+    };
+    const buffer = await this.financialRecordService.exportRecords(serviceQuery);
+    res.set({
+      "Content-Type":
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "Content-Disposition": "attachment; filename=financial-records.xlsx",
+      "Content-Length": buffer.length,
+    });
     res.end(buffer);
   }
 
   @Get(":id")
-  @ApiOperation({
-    summary: "获取收支记录详情",
-    description: "根据ID获取收支记录详细信息",
-  })
-  @ApiResponse({ status: 200, description: "成功返回收支记录详情" })
-  @ApiResponse({ status: 404, description: "收支记录不存在" })
+  @ApiOperation({ summary: "获取财务记录详情" })
+  @ApiParam({ name: "id", description: "记录ID" })
+  @ApiResponse({ status: 200, description: "获取成功" })
   @Permission("approval:financial:detail")
-  @RateLimit({ type: RateLimitType.USER, limit: 50, window: 60 })
   findById(@Param("id") id: string) {
     return this.financialRecordService.findById(id);
   }
 
-  @Patch(":id")
-  @ApiOperation({
-    summary: "更新收支记录",
-    description: "更新收支记录信息（仅手动创建的记录可修改）",
-  })
-  @ApiResponse({ status: 200, description: "收支记录更新成功" })
-  @ApiResponse({ status: 400, description: "只能修改手动创建的记录" })
+  @Put(":id")
+  @ApiOperation({ summary: "更新财务记录" })
+  @ApiParam({ name: "id", description: "记录ID" })
+  @ApiResponse({ status: 200, description: "更新成功" })
   @Permission("approval:financial:update")
-  @AntiShake(1000)
-  @RateLimit({ type: RateLimitType.USER, limit: 20, window: 60 })
   update(
-    @CurrentUser() user: CurrentUserPayload,
     @Param("id") id: string,
     @Body() dto: UpdateFinancialRecordDto,
+    @CurrentUser() user: CurrentUserPayload,
   ) {
-    return this.financialRecordService.update(id, dto, user.sub);
+    return this.financialRecordService.update(id, dto, user.id!);
   }
 
   @Delete(":id")
-  @ApiOperation({
-    summary: "删除收支记录",
-    description: "删除收支记录（仅手动创建的记录可删除）",
-  })
-  @ApiResponse({ status: 200, description: "收支记录删除成功" })
-  @ApiResponse({ status: 400, description: "只能删除手动创建的记录" })
+  @ApiOperation({ summary: "删除财务记录" })
+  @ApiParam({ name: "id", description: "记录ID" })
+  @ApiResponse({ status: 200, description: "删除成功" })
   @Permission("approval:financial:delete")
-  @AntiShake(1000)
-  @RateLimit({ type: RateLimitType.USER, limit: 10, window: 60 })
   delete(@Param("id") id: string) {
     return this.financialRecordService.delete(id);
   }

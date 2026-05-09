@@ -50,6 +50,8 @@ import { PartitionService } from "./services/partition.service";
 import { LogCacheService } from "./services/log-cache.service";
 import { LogAlertService } from "./services/log-alert.service";
 import { LogBackupService } from "./services/log-backup.service";
+import { MessageRuleService } from "./services/message-rule.service";
+import { MessageAutomationService } from "./services/message-automation.service";
 
 @Module({
   imports: [CommonModule],
@@ -81,6 +83,8 @@ import { LogBackupService } from "./services/log-backup.service";
     SystemMenusService,
     SystemLogsService,
     SystemMessagesService,
+    MessageRuleService,
+    MessageAutomationService,
     ExternalApiKeyService,
     SystemApisService,
     SystemButtonsService,
@@ -106,6 +110,18 @@ import { LogBackupService } from "./services/log-backup.service";
     LogAlertService,
     LogBackupService,
   ],
-  exports: [SystemMessagesService, DashboardService, ArchiveService, IdConverterService, LoginLogService, PartitionService, LogCacheService, LogAlertService, LogBackupService],
+  exports: [
+    SystemMessagesService,
+    MessageRuleService,
+    MessageAutomationService,
+    DashboardService,
+    ArchiveService,
+    IdConverterService,
+    LoginLogService,
+    PartitionService,
+    LogCacheService,
+    LogAlertService,
+    LogBackupService,
+  ],
 })
 export class SystemModule {}

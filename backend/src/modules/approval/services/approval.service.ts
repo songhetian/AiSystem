@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { randomUUID } from 'crypto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Cacheable } from '../../../common/decorators/cache.decorator';
 import { CacheEvict } from '../../../common/decorators/cache-evict.decorator';
 import { QueryOptimize } from '../../../common/decorators/query-optimize.decorator';
@@ -110,8 +111,10 @@ export class ApprovalService {
     private readonly messageService: MessageService,
     private readonly realtimeService: RealtimeService,
     private readonly systemMessageService: SystemMessagesService,
+    private readonly eventEmitter: EventEmitter2,
     @InjectQueue('approval-queue') private readonly approvalQueue: Queue,
   ) {}
+
 
   private readonly handlers = new Map<string, ApprovalHandler>();
 
@@ -393,23 +396,19 @@ export class ApprovalService {
         });
         await this.approvalQueue.add('biz-callback', { requestId: id, action: 'approved', operatorId: userId });
 
-        // --- [NEW] 发送审批通过通知 (PRD 2.5) ---
-        try {
-          await this.systemMessageService.sendFromTemplate({
-            templateName: '审批通过提醒',
-            recipientId: request.applicant_id,
-            variables: {
-              username: request.applicant_name,
-              requestId: request.request_no,
-            },
-            senderId: userId,
-          });
-        } catch (error) {
-          const errorMessage = error instanceof Error ? error.message : String(error);
-          this.logger.error(`Failed to send approval notification: ${errorMessage}`);
-        }
+        // --- [NEW] 触发审批通过通知 (PRD 2.5) ---
+        this.eventEmitter.emit('message.trigger', {
+          event: 'approval.approved',
+          variables: {
+            username: request.applicant_name,
+            requestId: request.request_no,
+          },
+          platformId: request.platform_id,
+          deptId: request.dept_id,
+        });
       }
     } else {
+
       // 仍停留在当前节点，但更新当前审批人为下一个待审批者
       await this.requestDelegate.update({
         where: { id },
@@ -487,26 +486,22 @@ export class ApprovalService {
 
     await this.approvalQueue.add('biz-callback', { requestId: id, action: 'rejected', operatorId: userId });
 
-    // --- [NEW] 发送审批驳回通知 (PRD 2.5) ---
-    try {
-      await this.systemMessageService.sendFromTemplate({
-        templateName: '审批通知', // 若无专用驳回模板，使用通用模板
-        recipientId: request.applicant_id,
-        variables: {
-          username: request.applicant_name,
-          requestId: request.request_no,
-          action: '驳回',
-          comment: dto.comment || '无原因',
-        },
-        senderId: userId,
-      });
-    } catch (error) {
-       const errorMessage = error instanceof Error ? error.message : String(error);
-       this.logger.error(`Failed to send rejection notification: ${errorMessage}`);
-    }
+    // --- [NEW] 触发审批驳回通知 (PRD 2.5) ---
+    this.eventEmitter.emit('message.trigger', {
+      event: 'approval.rejected',
+      variables: {
+        username: request.applicant_name,
+        requestId: request.request_no,
+        action: '驳回',
+        comment: dto.comment || '无原因',
+      },
+      platformId: request.platform_id,
+      deptId: request.dept_id,
+    });
 
     return this.mapRequest(updated);
   }
+
 
   // ✅ 优化：添加缓存清除
   @CacheEvict({

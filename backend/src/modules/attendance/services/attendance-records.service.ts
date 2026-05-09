@@ -6,6 +6,7 @@ import {
 } from "@nestjs/common";
 import { InjectQueue } from "@nestjs/bullmq";
 import { Queue } from "bullmq";
+import { EventEmitter2 } from "@nestjs/event-emitter";
 import { PrismaService } from "../../../prisma/prisma.service";
 import { ScopeService } from "../../../common/services/scope.service";
 import { RedisService } from "../../../common/services/redis.service";
@@ -29,8 +30,10 @@ export class AttendanceRecordsService {
     private readonly redisService: RedisService,
     private readonly businessLockService: BusinessLockService,
     private readonly paginationService: PaginationService,
+    private readonly eventEmitter: EventEmitter2,
     @InjectQueue("attendance-queue") private readonly attendanceQueue: Queue,
   ) {}
+
 
   async clockIn(
     userId: string,
@@ -323,7 +326,30 @@ export class AttendanceRecordsService {
         shift_name: rule.name,
       },
     });
+
+    // --- [NEW] 触发考勤异常通知 (PRD 2.5) ---
+    if (onStatus !== 1 || offStatus !== 1) {
+      const employee = await this.prisma.hr_employee.findUnique({
+        where: { id: record.employee_id },
+        select: { id: true, name: true, platform_id: true, department_id: true },
+      });
+
+      if (employee) {
+        this.eventEmitter.emit("message.trigger", {
+          event: "attendance.anomaly",
+          variables: {
+            username: employee.name,
+            date: record.attendance_date.toISOString().split("T")[0],
+            type: ex || "未知异常",
+          },
+          recipientIds: [employee.id],
+          platformId: employee.platform_id,
+          deptId: employee.department_id,
+        });
+      }
+    }
   }
+
 
   private calculateStatus(
     actual: Date | null,

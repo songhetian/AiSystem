@@ -2,6 +2,7 @@ import { Injectable, Logger, BadRequestException, NotFoundException } from '@nes
 import { PrismaService } from '../../../prisma/prisma.service';
 import { Cacheable } from '../../../common/decorators/cache.decorator';
 import { CacheEvict } from '../../../common/decorators/cache-evict.decorator';
+import { QueryFinancialRecordDto } from '../dto/query-financial-record.dto';
 
 export interface FinancialRecord {
   id: string;
@@ -35,22 +36,6 @@ export interface UpdateFinancialRecordDto {
   source?: string;
   category?: string;
   description?: string;
-}
-
-export interface QueryFinancialRecordDto {
-  type?: 'income' | 'expense';
-  category?: string;
-  relatedType?: 'reimbursement' | 'purchase' | 'manual';
-  platformId?: string;
-  departmentId?: string;
-  operatorId?: string;
-  startDate?: Date;
-  endDate?: Date;
-  minAmount?: number;
-  maxAmount?: number;
-  keyword?: string;
-  page?: number;
-  pageSize?: number;
 }
 
 export interface FinancialSummary {

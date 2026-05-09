@@ -59,7 +59,7 @@ export class ApprovalProcessController {
         },
       };
 
-      const result = await this.approvalProcessService.createProcess(userId, processConfig);
+      const result = await this.approvalProcessService.createProcess(userId, processConfig as any);
       return {
         code: 200,
         message: '创建成功',

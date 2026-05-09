@@ -1,16 +1,18 @@
-import { Tag, Typography } from "antd";
+import { Space, Typography } from "antd";
 import type { ProColumns } from "@ant-design/pro-components";
 import { EyeOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
+import { StatusTag } from '@/components/business';
+import { Button } from '@/components/ui';
 
 const { Text } = Typography;
 
 const METHOD_COLORS: Record<string, string> = {
-  POST: "blue",
-  DELETE: "red",
-  PUT: "orange",
-  GET: "green",
-  PATCH: "purple",
+  POST: "#2563eb",
+  DELETE: "#e11d48",
+  PUT: "#d97706",
+  GET: "#059669",
+  PATCH: "#7c3aed",
 };
 
 export const getOperationColumns = (
@@ -21,7 +23,7 @@ export const getOperationColumns = (
     dataIndex: "operation_module",
     width: 120,
     render: (t) => (
-      <Text className="font-black text-slate-900">{t || "未知模块"}</Text>
+      <Text style={{ fontWeight: 600, color: '#0f172a' }}>{t || "未知模块"}</Text>
     ),
   },
   {
@@ -29,18 +31,9 @@ export const getOperationColumns = (
     dataIndex: "operation_message",
     ellipsis: true,
     render: (t) => (
-      <Text className="font-bold text-slate-800">
+      <Text style={{ color: '#334155' }}>
         {t || "未获取到操作详情"}
       </Text>
-    ),
-  },
-  {
-    title: "接口",
-    dataIndex: "api_name",
-    width: 140,
-    ellipsis: true,
-    render: (t) => (
-      <Text className="font-bold text-slate-500 text-xs">{t || "-"}</Text>
     ),
   },
   {
@@ -48,56 +41,49 @@ export const getOperationColumns = (
     dataIndex: "request_method",
     width: 80,
     render: (m) => (
-      <Tag
-        color={METHOD_COLORS[m] || "default"}
-        className="font-black border-2"
-      >
+      <span style={{
+        padding: '2px 8px',
+        borderRadius: '4px',
+        fontSize: '12px',
+        fontWeight: 'bold',
+        color: '#fff',
+        backgroundColor: METHOD_COLORS[m as string] || '#64748b'
+      }}>
         {m}
-      </Tag>
+      </span>
     ),
   },
   {
     title: "操作人",
     dataIndex: "operator_name",
-    width: 100,
-    render: (t) => <Text className="font-bold text-slate-900">{t}</Text>,
-  },
-  {
-    title: "所属平台",
-    dataIndex: "platform_name",
-    width: 110,
-    render: (t) => <Text className="font-bold text-slate-600">{t || "-"}</Text>,
-  },
-  {
-    title: "所属部门",
-    dataIndex: "dept_name",
-    width: 110,
-    render: (t) => <Text className="text-slate-500">{t || "-"}</Text>,
+    width: 120,
+    render: (t) => <Text style={{ fontWeight: 500, color: '#0f172a' }}>{t}</Text>,
   },
   {
     title: "请求IP",
     dataIndex: "request_ip",
-    width: 130,
+    width: 140,
     render: (t) => (
-      <Text className="font-mono text-xs text-slate-600">{t || "-"}</Text>
+      <Text style={{ fontFamily: 'monospace', fontSize: '12px', color: '#64748b' }}>{t || "-"}</Text>
     ),
   },
   {
     title: "状态",
     dataIndex: "operation_status",
-    width: 80,
+    width: 100,
     render: (s) => (
-      <Tag color={s === 1 ? "success" : "error"} className="font-bold">
-        {s === 1 ? "成功" : "失败"}
-      </Tag>
+      <StatusTag
+        status={s === 1 ? "success" : "error"}
+        text={s === 1 ? "成功" : "失败"}
+      />
     ),
   },
   {
     title: "操作时间",
     dataIndex: "create_time",
-    width: 160,
+    width: 170,
     render: (t) => (
-      <Text className="text-slate-500 font-mono text-xs">
+      <Text style={{ color: '#64748b', fontSize: '12px' }}>
         {dayjs(t).format("YYYY-MM-DD HH:mm:ss")}
       </Text>
     ),
@@ -105,15 +91,17 @@ export const getOperationColumns = (
   {
     title: "操作",
     valueType: "option",
-    width: 70,
+    width: 80,
+    fixed: 'right',
     render: (_, record) => (
-      <a
+      <Button
+        type="link"
+        size="small"
+        icon={<EyeOutlined />}
         onClick={() => onDetail(record)}
-        className="font-black text-blue-600 flex items-center gap-1 hover:text-blue-800"
       >
-        <EyeOutlined />
         详情
-      </a>
+      </Button>
     ),
   },
 ];
@@ -124,21 +112,21 @@ export const getLoginColumns = (
   {
     title: "登录人",
     dataIndex: "operator_name",
-    width: 100,
-    render: (t) => <Text className="font-black text-slate-900">{t}</Text>,
+    width: 120,
+    render: (t) => <Text style={{ fontWeight: 600, color: '#0f172a' }}>{t}</Text>,
   },
   {
     title: "登录账号",
     dataIndex: "username",
-    width: 130,
-    render: (t) => <Text className="font-bold text-slate-700">{t}</Text>,
+    width: 140,
+    render: (t) => <Text style={{ color: '#334155' }}>{t}</Text>,
   },
   {
     title: "登录IP",
     dataIndex: "login_ip",
-    width: 130,
+    width: 140,
     render: (t) => (
-      <Text className="font-mono text-xs text-slate-600">
+      <Text style={{ fontFamily: 'monospace', fontSize: '12px', color: '#64748b' }}>
         {t || "IP获取失败"}
       </Text>
     ),
@@ -146,39 +134,28 @@ export const getLoginColumns = (
   {
     title: "状态",
     dataIndex: "login_status",
-    width: 80,
+    width: 100,
     render: (s) => (
-      <Tag color={s === 1 ? "success" : "error"} className="font-bold">
-        {s === 1 ? "成功" : "失败"}
-      </Tag>
+      <StatusTag
+        status={s === 1 ? "success" : "error"}
+        text={s === 1 ? "成功" : "失败"}
+      />
     ),
-  },
-  {
-    title: "结果描述",
-    dataIndex: "login_message",
-    ellipsis: true,
-    render: (t) => <Text className="text-slate-700 text-xs">{t || "-"}</Text>,
-  },
-  {
-    title: "所属平台",
-    dataIndex: "platform_name",
-    width: 110,
-    render: (t) => <Text className="font-bold text-slate-600">{t || "-"}</Text>,
   },
   {
     title: "设备信息",
     dataIndex: "user_agent",
     ellipsis: true,
     render: (t) => (
-      <Text className="text-slate-500 text-xs">{t || "未知设备"}</Text>
+      <Text style={{ color: '#64748b', fontSize: '12px' }}>{t || "未知设备"}</Text>
     ),
   },
   {
     title: "登录时间",
     dataIndex: "create_time",
-    width: 160,
+    width: 170,
     render: (t) => (
-      <Text className="text-slate-500 font-mono text-xs">
+      <Text style={{ color: '#64748b', fontSize: '12px' }}>
         {dayjs(t).format("YYYY-MM-DD HH:mm:ss")}
       </Text>
     ),
@@ -186,15 +163,18 @@ export const getLoginColumns = (
   {
     title: "操作",
     valueType: "option",
-    width: 70,
+    width: 80,
+    fixed: 'right',
     render: (_, record) => (
-      <a
+      <Button
+        type="link"
+        size="small"
+        icon={<EyeOutlined />}
         onClick={() => onDetail(record)}
-        className="font-black text-blue-600 flex items-center gap-1 hover:text-blue-800"
       >
-        <EyeOutlined />
         详情
-      </a>
+      </Button>
     ),
   },
 ];
+

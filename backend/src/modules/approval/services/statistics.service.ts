@@ -471,6 +471,18 @@ export class StatisticsService {
   }
 
   /**
+   * 获取财务汇总 (Alias for getFinancialStats)
+   */
+  async getFinancialSummary(
+    platformId?: string,
+    departmentId?: string,
+    startDate?: Date,
+    endDate?: Date,
+  ): Promise<FinancialStats> {
+    return this.getFinancialStats(platformId, departmentId, startDate, endDate);
+  }
+
+  /**
    * 获取仪表板统计
    */
   @Cacheable({

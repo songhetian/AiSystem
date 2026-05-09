@@ -353,7 +353,7 @@ export class ExpenseTypeService {
           creatorId,
         );
         result.success++;
-      } catch (error) {
+      } catch (error: any) {
         result.failed++;
         result.errors.push(`${item.code}: ${error.message}`);
       }

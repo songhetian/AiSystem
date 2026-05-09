@@ -1,5 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
+import { EventEmitter2 } from "@nestjs/event-emitter";
 import { PrismaService } from "../../../prisma/prisma.service";
 import { MessageService } from "../../../common/services/message.service";
 
@@ -10,7 +11,9 @@ export class ApiMonitorService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly messageService: MessageService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
+
 
   private get operationLogDelegate() {
     return this.prisma["sys_operation_log" as keyof typeof this.prisma] as any;
@@ -93,23 +96,19 @@ export class ApiMonitorService {
       },
     });
 
-    // 发送消息
-    for (const admin of admins) {
-      await this.messageService.send({
-        recipientId: admin.id,
-        title: "⚠️ 接口运行异常预警",
-        content: `检测到接口 [${api}] 调用异常。过去 10 分钟成功率：${rate.toFixed(2)}% (总计 ${stats.total} 次)。请及时检查系统日志。`,
-        messageType: "system_alert",
-        bizType: "api_monitor",
-        bizId: api,
-        payload: {
-          api,
-          successRate: rate,
-          totalCount: stats.total,
-          platform_id: stats.platform_id,
-          dept_id: stats.dept_id,
-        },
-      });
-    }
+    // --- [NEW] 触发接口异常通知 (PRD 2.5) ---
+    this.eventEmitter.emit("message.trigger", {
+      event: "interface.error",
+      variables: {
+        api,
+        rate: rate.toFixed(2),
+        total: stats.total,
+      },
+      platformId: stats.platform_id,
+      deptId: stats.dept_id,
+      bizId: api,
+      bizType: "api_monitor",
+    });
   }
 }
+

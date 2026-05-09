@@ -59,4 +59,28 @@ export const personnelApi = {
     request.get("/personnel/employees/import/template", {
       responseType: "blob",
     }),
+
+  // ✅ 学历管理 APIs
+  listEducationDict: () => request.get("/personnel/education/dict"),
+  saveEducationDict: (data: Record<string, unknown>) =>
+    request.post("/personnel/education/dict", data),
+  deleteEducationDict: (id: string) =>
+    request.delete(`/personnel/education/dict/${id}`),
+
+  listEmployeeEducation: (employeeId: string) =>
+    request.get(`/personnel/education/employee/${employeeId}`),
+  saveEmployeeEducation: (data: Record<string, unknown>) =>
+    request.post("/personnel/education/employee", data),
+  auditEducation: (id: string, status: string) =>
+    request.patch(`/personnel/education/employee/${id}/audit`, { status }),
+  deleteEmployeeEducation: (id: string) =>
+    request.delete(`/personnel/education/employee/${id}`),
+
+  // 获取所有员工学历记录（管理员用，备案审核页面）
+  listAllEmployeeEducation: () =>
+    request.get("/personnel/education/employee/all"),
+
+  // 员工履历
+  getEmployeeHistory: (employeeId: string) =>
+    request.get(`/personnel/employees/${employeeId}/history`),
 };

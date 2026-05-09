@@ -14,6 +14,7 @@ import { JwtAuthGuard } from "../../../common/guards/jwt-auth.guard";
 import { CurrentUser, CurrentUserPayload } from "../../../common/current-user.decorator";
 import { QuerySystemMessagesDto } from "../dto/query-system-messages.dto";
 import { SystemMessagesService } from "../services/system-messages.service";
+import { MessageRuleService } from "../services/message-rule.service";
 
 /**
  * 通知管理控制器 (工业级版本)
@@ -22,7 +23,10 @@ import { SystemMessagesService } from "../services/system-messages.service";
 @Controller("system/messages")
 @UseGuards(JwtAuthGuard)
 export class SystemMessagesController {
-  constructor(private readonly systemMessagesService: SystemMessagesService) {}
+  constructor(
+    private readonly systemMessagesService: SystemMessagesService,
+    private readonly messageRuleService: MessageRuleService,
+  ) {}
 
   // --- 个人消息操作 (Inbox/Favorite/Trash) ---
 
@@ -127,6 +131,43 @@ export class SystemMessagesController {
     });
   }
 
+  // ✅ 新增：手动发送消息 (PRD 2.2.2)
+  @Post("send-manual")
+  sendManual(@CurrentUser() user: CurrentUserPayload, @Body() data: any) {
+    if (!user.id) {
+      throw new BadRequestException('用户ID不能为空');
+    }
+    // data: { templateId, recipientIds: [], customContent?, variables: {} }
+    return this.systemMessagesService.sendManual(data, user.id);
+  }
+
+  // ✅ 新增：消息联动规则（PRD 2.5）
+  @Get("linkage-rules")
+  listLinkageRules() {
+    return this.messageRuleService.list();
+  }
+
+  @Post("linkage-rules")
+  saveLinkageRule(@Body() data: any) {
+    return this.messageRuleService.save(data);
+  }
+
+  @Patch("linkage-rules/:id/toggle")
+  toggleLinkageRule(@Param("id") id: string, @Body("enabled") enabled: boolean) {
+    return this.messageRuleService.toggle(id, enabled);
+  }
+
+  @Delete("linkage-rules/:id")
+  deleteLinkageRule(@Param("id") id: string) {
+    return this.messageRuleService.delete(id);
+  }
+
+  // --- 发送记录 (PRD 2.2.3) ---
+  @Get("logs")
+  listLogs(@Query() query: any) {
+    return this.systemMessagesService.listLogs(query);
+  }
+
   // ✅ 新增：消息设置（PRD 2.3.3）
   @Get("settings")
   getSettings(@CurrentUser() user: CurrentUserPayload) {
@@ -144,3 +185,4 @@ export class SystemMessagesController {
     return this.systemMessagesService.saveSettings(user.id, body);
   }
 }
+

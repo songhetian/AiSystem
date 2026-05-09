@@ -3,6 +3,7 @@ import { PrismaService } from '../../../prisma/prisma.service';
 import { WorkflowEngineService } from './workflow-engine.service';
 import { Cacheable } from '../../../common/decorators/cache.decorator';
 import { CacheEvict } from '../../../common/decorators/cache-evict.decorator';
+import { QueryReimbursementDto } from '../dto/query-reimbursement.dto';
 
 export interface Reimbursement {
   id: string;
@@ -42,21 +43,6 @@ export interface UpdateReimbursementDto {
   attachmentUrls?: string[];
   payMethod?: string;
   remark?: string;
-}
-
-export interface QueryReimbursementDto {
-  applicantId?: string;
-  expenseTypeId?: string;
-  status?: number;
-  platformId?: string;
-  deptId?: string;
-  startDate?: Date;
-  endDate?: Date;
-  minAmount?: number;
-  maxAmount?: number;
-  keyword?: string;
-  page?: number;
-  pageSize?: number;
 }
 
 export interface ReimbursementStats {
@@ -158,7 +144,7 @@ export class ReimbursementService {
       });
 
       this.logger.log(`Created reimbursement: ${reimbursement.id} with approval instance: ${approvalInstance.id}`);
-    } catch (error) {
+    } catch (error: any) {
       // 如果创建审批实例失败，删除报销记录
       await this.prisma.fin_reimbursement.delete({
         where: { id: reimbursement.id },

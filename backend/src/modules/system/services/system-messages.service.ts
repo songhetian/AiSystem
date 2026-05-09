@@ -204,7 +204,129 @@ export class SystemMessagesService {
     return msg;
   }
 
+  // ✅ 新增：手动发送消息 (PRD 2.2.2)
+  async sendManual(
+    data: {
+      templateId?: string;
+      templateName?: string;
+      recipientIds: string[];
+      customContent?: string;
+      variables?: Record<string, any>;
+      title?: string;
+    },
+    senderId: string,
+  ) {
+    let content = data.customContent || "";
+    let title = data.title || "系统通知";
+    let channels: DeliveryChannel[] = [DeliveryChannel.INTERNAL];
+    let tplType = "manual";
+
+    if (data.templateId || data.templateName) {
+      const template = await this.messageTemplateDelegate().findUnique({
+        where: data.templateId
+          ? { id: data.templateId }
+          : { name: data.templateName, status: 1 },
+      });
+
+      if (template) {
+        if (!content) {
+          content = this.templateEngine.render(
+            template.content,
+            data.variables || {},
+          );
+        }
+        title = template.name;
+        channels = template.channels.split(",") as DeliveryChannel[];
+        tplType = template.tpl_type;
+      }
+    }
+
+    // 1. 创建批次记录 (sys_message_log)
+    const log = await this.prisma.sys_message_log.create({
+      data: {
+        template_id: data.templateId,
+        template_name: title,
+        content,
+        channels: channels.join(","),
+        recipient_count: data.recipientIds.length,
+        sender_id: senderId,
+        biz_type: data.variables?.biz_type || "manual",
+        biz_id: data.variables?.biz_id,
+        is_deleted: 0,
+      },
+    });
+
+    let successCount = 0;
+    let failCount = 0;
+
+    const messages = await Promise.all(
+      data.recipientIds.map(async (recipientId) => {
+        try {
+          // 2. 落地数据库 (sys_message)
+          const msg = await this.messageDelegate.create({
+            data: {
+              recipient_id: recipientId,
+              title,
+              content,
+              message_type: tplType,
+              sender_id: senderId,
+              read_status: 0,
+              biz_type: "manual",
+            },
+          });
+
+          // 3. 多渠道分发
+          await this.deliveryAdapter.deliver({
+            recipientId,
+            title,
+            content,
+            channels,
+            payload: data.variables,
+          });
+
+          successCount++;
+          return msg;
+        } catch (error) {
+          failCount++;
+          return null;
+        }
+      }),
+    );
+
+    // 4. 更新批次状态
+    await this.prisma.sys_message_log.update({
+      where: { id: log.id },
+      data: { success_count: successCount, fail_count: failCount },
+    });
+
+    return { success: true, count: successCount, logId: log.id };
+  }
+
+  // --- 发送记录 (PRD 2.2.3) ---
+  async listLogs(query: any) {
+    const where: any = {
+      is_deleted: 0,
+      ...(query.keyword
+        ? {
+            OR: [
+              { template_name: { contains: query.keyword } },
+              { content: { contains: query.keyword } },
+            ],
+          }
+        : {}),
+    };
+
+    return this.prisma.sys_message_log.findMany({
+      where,
+      orderBy: { create_time: "desc" },
+      take: query.pageSize || 20,
+      skip: ((query.current || 1) - 1) * (query.pageSize || 20),
+    });
+  }
+
   // --- 模板管理 (PRD 2.1.3) ---
+
+
 
   async listTemplates(_query: any) {
     return this.messageTemplateDelegate().findMany({

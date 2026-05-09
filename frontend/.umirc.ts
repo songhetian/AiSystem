@@ -68,9 +68,11 @@ export default defineConfig({
         // 人事管理
         { path: '/org/departments', component: 'personnel/departments/index' },
         { path: '/org/employees', component: 'personnel/employees/index' },
+        { path: '/org/edu-dicts', component: 'personnel/education/index' },
         { path: '/personnel/departments', component: 'personnel/departments/index' },
         { path: '/personnel/employees', component: 'personnel/employees/index' },
         { path: '/personnel/positions', component: 'personnel/positions/index' },
+        { path: '/personnel/education', component: 'personnel/education/index' },
 
         // 考勤管理
         { path: '/attendance/records', component: 'attendance/records/index' },

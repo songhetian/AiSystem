@@ -3,6 +3,7 @@ import { PrismaService } from '../../../prisma/prisma.service';
 import { WorkflowEngineService } from './workflow-engine.service';
 import { Cacheable } from '../../../common/decorators/cache.decorator';
 import { CacheEvict } from '../../../common/decorators/cache-evict.decorator';
+import { QueryPurchaseDto } from '../dto/query-purchase.dto';
 
 export interface PurchaseItem {
   name: string;
@@ -50,20 +51,6 @@ export interface UpdatePurchaseDto {
   attachmentUrls?: string[];
   supplierInfo?: string;
   actualAmount?: number;
-}
-
-export interface QueryPurchaseDto {
-  applicantId?: string;
-  status?: number;
-  platformId?: string;
-  deptId?: string;
-  startDate?: Date;
-  endDate?: Date;
-  minAmount?: number;
-  maxAmount?: number;
-  keyword?: string;
-  page?: number;
-  pageSize?: number;
 }
 
 export interface PurchaseStats {
@@ -127,7 +114,7 @@ export class PurchaseService {
     const purchase = await this.prisma.fin_purchase.create({
       data: {
         purchase_no: purchaseNo,
-        items: dto.items,
+        items: dto.items as any,
         total_amount: totalAmount,
         reason: dto.reason,
         attachment_urls: dto.attachmentUrls || [],
@@ -165,7 +152,7 @@ export class PurchaseService {
       });
 
       this.logger.log(`Created purchase: ${purchase.id} with approval instance: ${approvalInstance.id}`);
-    } catch (error) {
+    } catch (error: any) {
       // 如果创建审批实例失败，删除采购记录
       await this.prisma.fin_purchase.delete({
         where: { id: purchase.id },
@@ -488,7 +475,7 @@ export class PurchaseService {
       try {
         await this.updateStatus(id, status, operatorId);
         result.success++;
-      } catch (error) {
+      } catch (error: any) {
         result.failed++;
         result.errors.push(`${id}: ${error.message}`);
       }

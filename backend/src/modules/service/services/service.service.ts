@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
+import { EventEmitter2 } from "@nestjs/event-emitter";
 import { BusinessLockService } from "../../../common/services/business-lock.service";
 import { RealtimeService } from "../../../common/services/realtime.service";
 import { ScopeService } from "../../../common/services/scope.service";
@@ -34,7 +35,9 @@ export class ServiceService {
     private readonly realtimeService: RealtimeService,
     private readonly qualityPromptService: QualityPromptService,
     private readonly qualityInspectionHelperService: QualityInspectionHelperService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
+
 
   // Delegate methods for type-safe table access
   private get sessionDelegate() {
@@ -419,10 +422,27 @@ export class ServiceService {
           },
         });
 
+        // --- [NEW] 触发质检不合格通知 (PRD 2.5) ---
+        if (analysis.quality_passed === 0) {
+          this.eventEmitter.emit("message.trigger", {
+            event: "service.quality_failed",
+            variables: {
+              sessionNo: analysis.session_no,
+              score: analysis.quality_score,
+              violations: suggestions.join("; "),
+            },
+            platformId: analysis.platform_id,
+            deptId: analysis.dept_id,
+            bizId: analysis.session_id,
+            bizType: "service_quality",
+          });
+        }
+
         return analysis;
       },
     );
   }
+
 
   async generateCaseDraft(
     userId: string,

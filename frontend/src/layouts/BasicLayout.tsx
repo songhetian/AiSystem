@@ -64,6 +64,7 @@ const ROUTE_DICTIONARY: Record<string, { name: string; group: string; subGroup?:
   "/org/positions": { name: "岗位管理", group: "基础设置" },
   "/system/roles": { name: "角色与权限", group: "基础设置" },
   "/org/edu-dicts": { name: "学历字典管理", group: "基础设置" },
+  "/personnel/education": { name: "学历管理", group: "员工信息管理" },
 
   // 员工信息管理
   "/system/users": { name: "系统用户", group: "员工信息管理" },
